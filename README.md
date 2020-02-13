@@ -10,7 +10,7 @@ Add your own name (do not add the names for others!) to the section below.
 
 | 📸 | Name | Email |
 |---|---|---|
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Your Name Here | Y.NameHere@student.tudelft.nl |
+| ![](https://osistud.tudelft.nl/osiris_student/DownloadPasfoto.do?state=789C73720E0EB1B235F04D4D01C29CCCBCF4D43CBFCCD4D272CF92D4A2C492FC225B5D175D0320D009482D2ACECF4BCCC94C04B2824B4A5352F34AD014191A4080B9B1A9B101189A01A1A10E54B5634A516AB12186C1C8B246C8B22832C6D864D28BF2530BB03B07A62420B1382DBF249F489786156566A586A5E60075E23716EC26906A906243822A70FB0BA602D57F006D088AB5) | Ethan Keller | E.keller@student.tudelft.nl |
 
 <!-- Instructions (remove once assignment has been completed -->
 <!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
