@@ -15,7 +15,7 @@ Add your own name (do not add the names for others!) to the section below.
 | ![](https://www.mupload.nl/img/eug90128ssv0.jpg) | Otte van Dam | O.M.D.vandam@student.tudelft.nl|
 | ![](https://www.mupload.nl/img/r10oz87.21.25.jpeg)|Ryo Iizuka|r.iizuka@student.tudelft.nl|
 | ![](https://www.mupload.nl/img/ephyjcq4f.net-resizeimage.jpg)|Leon Verhaegh| L.Verhaegh@student.tudelft.nl|
-| ![](https://www.mupload.nl/img/zoqxpz3jer7jh.jpg)|Hao Wang| H.Wang-26@student.tudelft.nl|
+| ![](https://www.mupload.nl/img/7i7jfo.jpg)|Hao Wang| H.Wang-26@student.tudelft.nl|
 
 <!-- Instructions (remove once assignment has been completed -->
 <!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
