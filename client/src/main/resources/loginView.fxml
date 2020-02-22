@@ -17,7 +17,6 @@
     <Label text="Password:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
     <TextField fx:id="username" promptText="Username" GridPane.columnIndex="2" GridPane.rowIndex="3" />
     <PasswordField fx:id="password" promptText="Password" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-    <Button fx:id="button1" text="Log in" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-<!--    <Button fx:id="button1" onAction="#loginButtonClicked" text="Log in" GridPane.columnIndex="2" GridPane.rowIndex="6" />-->
+    <Button fx:id="button1" onAction="#loginButtonClicked" text="Log in" GridPane.columnIndex="2" GridPane.rowIndex="6" />
     <Hyperlink fx:id="goToRegister" onAction="#goToRegisterClicked" text="Do not have an account? Register now!" underline="true" GridPane.columnIndex="2" GridPane.rowIndex="8" />
 </GridPane>
