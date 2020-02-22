@@ -5,7 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import nl.tudelft.oopp.demo.communication.ServerCommunication;
+import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
 
 public class RegisterViewController {
 
@@ -26,20 +26,19 @@ public class RegisterViewController {
      */
     public void registerClicked() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Login Status");
+        alert.setTitle("Register Status");
         alert.setHeaderText(null);
 
         String usernameTxt = username.getText();
         String passwordTxt = password.getText();
         String rePasswordTxt = rePassword.getText();
 
-        if(! passwordTxt.equals(rePasswordTxt)) {
+        if(!passwordTxt.equals(rePasswordTxt)) {
             pwd_error.textProperty().set("Password does not match, try again");
         }
         else{
-            alert.setContentText("Account created！");
-//            alert.setContentText(ServerCommunication.sendRegister(usernameTxt, passwordTxt));
-//            alert.showAndWait();
+            alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt));
+            alert.showAndWait();
         }
     }
 }
