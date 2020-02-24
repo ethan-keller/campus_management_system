@@ -24,7 +24,7 @@ public class LoginServerCommunication {
             return "Communication with server failed";
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode());
+            System.out.println("Status: " + response.statusCode() + response.body());
         }
         return response.body();
     }

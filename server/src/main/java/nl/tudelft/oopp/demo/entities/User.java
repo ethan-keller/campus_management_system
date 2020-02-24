@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
+import org.springframework.context.annotation.ComponentScan;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
