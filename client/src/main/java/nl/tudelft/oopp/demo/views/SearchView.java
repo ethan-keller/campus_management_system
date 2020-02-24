@@ -13,7 +13,7 @@ public class SearchView extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        URL xmlUrl = getClass().getResource("/SearchView");
+        URL xmlUrl = getClass().getResource("/SearchView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
 
