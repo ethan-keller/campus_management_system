@@ -13,7 +13,7 @@ public class UserHomePageView extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        URL xmlUrl = getClass().getResource("/UserHomePageView");
+        URL xmlUrl = getClass().getResource("/UserHomePageView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
 
