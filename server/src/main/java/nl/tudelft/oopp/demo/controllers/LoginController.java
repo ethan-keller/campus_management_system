@@ -11,7 +11,7 @@ public class LoginController {
     /**
      * GET Endpoint to retrieve a random quote.
      *
-     * @return randomly selected {@link Quote}.
+     * @return randomly selected.
      */
     @GetMapping("login")
     @ResponseBody
