@@ -5,7 +5,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class ServerCommunication {
+public class RegisterServerCommunication {
 
     private static HttpClient client = HttpClient.newBuilder().build();
 
@@ -14,8 +14,8 @@ public class ServerCommunication {
      * @return the body of a get request to the server.
      * @throws Exception if communication with the server fails.
      */
-    public static String getQuote() {
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/quote")).build();
+    public static String sendRegister(String username, String password) {
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/register")).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -28,5 +28,6 @@ public class ServerCommunication {
         }
         return response.body();
     }
+
 
 }
