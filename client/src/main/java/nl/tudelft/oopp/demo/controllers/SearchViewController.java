@@ -5,6 +5,9 @@ import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
 
 public class SearchViewController {
@@ -37,17 +40,30 @@ public class SearchViewController {
     @FXML
     private TextField SearchBar;
 
+    @FXML
+    private ImageView ImageToBeAdded;
+
+    @FXML
+    private Text BuildingToBeAdded;
+
+    @FXML
+    private Text RoomToBeAdded;
+
+    @FXML
+    private Text CapacityToBeAdded;
+
     public void SearchBarClicked() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Login Status");
         alert.setHeaderText(null);
         String usernameTxt = SearchBar.getText();
-        /////////
+        //////THIS REQUIRES SEARCH ALGORITHM
+        // TO BE ADDED WITH DATABASE GROUP
     }
 
     @FXML
     private void initialize() {
-//        DateChoiceBox.setItems(dateChoice);
+       //DateChoiceBox.setItems(dateChoice);
         TimeslotChoiceBox.setItems(timeChoice);
         BuildingChoiceBox.setItems(buildingChoice);
         CapacityChoiceBox.setItems(capacityChoice);
@@ -55,5 +71,16 @@ public class SearchViewController {
         FoodAvailableChoiceBox.setItems(foodChoice);
         //BuildingChoiceBox.setValue("mmm");
     }
+
+    public void setRoom(Image im, String buildingName, String roomName, String capacityNumber){
+        ImageToBeAdded.setImage(im);
+        BuildingToBeAdded.setText(buildingName);
+        RoomToBeAdded.setText(roomName);
+        CapacityToBeAdded.setText(capacityNumber);
+
+    }
+
+
+
 
 }
