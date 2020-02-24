@@ -10,12 +10,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.sql.SQLException;
+
 
 @Configuration
 @EnableJpaRepositories
 @PropertySource("application-dev.properties")
 @EnableTransactionManagement
-public class H2Config {
+public class DBConfig {
 
     @Autowired
     private Environment environment;
@@ -24,7 +26,7 @@ public class H2Config {
      * Set up the connection to the database.
      */
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource() throws SQLException {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getProperty("jdbc.driverClassName"));
         dataSource.setUrl(environment.getProperty("jdbc.url"));
