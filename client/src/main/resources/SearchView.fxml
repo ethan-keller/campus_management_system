@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.SearchViewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.SearchViewController">
    <SplitPane dividerPositions="0.25" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0ebaf8" height="1000.0" stroke="#0ebaf8" strokeType="INSIDE" width="1000.0" />
          <ChoiceBox fx:id="TimeslotChoiceBox" layoutY="130.0" minWidth="0.0" prefWidth="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-         <ChoiceBox fx:id="DateChoiceBox" layoutY="81.0" prefWidth="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
          <ChoiceBox fx:id="BuildingChoiceBox" layoutY="181.0" prefWidth="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
          <ChoiceBox fx:id="CapacityChoiceBox" layoutY="232.0" prefWidth="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
          <ChoiceBox fx:id="RoleChoiceBox" layoutY="284.0" prefWidth="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
@@ -50,6 +53,7 @@
                <Font size="15.0" />
             </font>
          </Text>
+         <DatePicker layoutY="82.0" prefHeight="25.0" prefWidth="147.0" />
       </AnchorPane>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <Text fill="#0ebaf8" layoutX="74.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search" wrappingWidth="128.26171112060547" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="20.0">
