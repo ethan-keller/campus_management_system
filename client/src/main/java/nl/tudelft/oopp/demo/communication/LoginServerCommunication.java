@@ -15,7 +15,8 @@ public class LoginServerCommunication {
      * @throws Exception if communication with the server fails.
      */
     public static String sendLogin(String username, String password) {
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/login")).build();
+        String params = "?username=" + username + "&password=" + password;
+        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/login"+params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -24,7 +25,7 @@ public class LoginServerCommunication {
             return "Communication with server failed";
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode());
+            System.out.println("Status: " + response.statusCode() + response.body());
         }
         return response.body();
     }

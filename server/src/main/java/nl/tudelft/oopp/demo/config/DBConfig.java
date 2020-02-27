@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.config;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -14,7 +15,7 @@ import java.sql.SQLException;
 
 
 @Configuration
-@EnableJpaRepositories
+@EnableJpaRepositories("nl.tudelft.oopp.demo.repositories")
 @PropertySource("application-dev.properties")
 @EnableTransactionManagement
 public class DBConfig {
@@ -26,7 +27,7 @@ public class DBConfig {
      * Set up the connection to the database.
      */
     @Bean
-    public DataSource dataSource() throws SQLException {
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getProperty("jdbc.driverClassName"));
         dataSource.setUrl(environment.getProperty("jdbc.url"));
@@ -35,4 +36,5 @@ public class DBConfig {
 
         return dataSource;
     }
+
 }
