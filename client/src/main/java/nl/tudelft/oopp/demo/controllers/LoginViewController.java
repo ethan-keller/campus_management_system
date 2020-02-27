@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
 import javafx.event.ActionEvent;
 import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
+import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import nl.tudelft.oopp.demo.views.RegisterView;
 import java.io.IOException;
 import java.net.URL;
@@ -29,14 +30,11 @@ public class LoginViewController {
     /**
      * Handles clicking the login button.
      */
-    public void loginButtonClicked() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Login Status");
-        alert.setHeaderText(null);
-        String usernameTxt = username.getText();
-        String passwordTxt = password.getText();
-        alert.setContentText(LoginServerCommunication.sendLogin(usernameTxt, passwordTxt));
-        alert.showAndWait();
+    public void loginButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        AdminManageRoomView amrv = new AdminManageRoomView();
+        amrv.start(stage);
     }
 
     /**
