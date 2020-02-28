@@ -12,8 +12,8 @@ public class Room {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "building")
     private int building;
@@ -30,26 +30,30 @@ public class Room {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "type")
+    private String type;
+
     public Room() {
     }
 
 
-    public Room(int id, String username, int building, Boolean teacher_only, int capacity, String photos, String description) {
+    public Room(int id, String name, int building, boolean teacher_only, int capacity, String photos, String description, String type) {
         this.id = id;
-        this.username = username;
+        this.name = name;
         this.building = building;
         this.teacher_only = teacher_only;
         this.capacity = capacity;
         this.photos = photos;
         this.description = description;
+        this.type = type;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
     public int getBuilding(){
@@ -71,6 +75,8 @@ public class Room {
     public String getDescription(){
         return description;
     }
+
+    public String getType() {return type;}
 
     @Override
     public boolean equals(Object o) {

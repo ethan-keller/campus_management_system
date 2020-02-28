@@ -30,7 +30,7 @@ public class RegisterController {
         String encryptedPassword = EncryptionManager.encrypt(password, secretKey);
 
         if(userRepo.getUser(username) == null){
-            userRepo.insertUser(username, encryptedPassword, "student");
+            userRepo.insertUser(username, encryptedPassword, 2);
             return "nice";
         }
         return "This username already exists!";

@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO user (username, password, type) VALUES (:username, :password, :type)", nativeQuery = true)
-    public void insertUser(@Param("username") String userName, @Param("password") String password, @Param("type") String type);
+    public void insertUser(@Param("username") String userName, @Param("password") String password, @Param("type") int type);
 
     @Modifying
     @Transactional
@@ -37,6 +37,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE user SET type = :type WHERE username = :username", nativeQuery = true)
-    public void updateType(@Param("username") String username, @Param("type") String type);
+    public void updateType(@Param("username") String username, @Param("type") int type);
 
 }

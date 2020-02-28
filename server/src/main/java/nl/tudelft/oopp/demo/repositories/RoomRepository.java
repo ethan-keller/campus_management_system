@@ -21,8 +21,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO room (id, name, building, teacher_only, capacity, photos, description) VALUES (:id, :name, :building, :teacher_only, :capacity, :photos, :description)")
-    public void insertRoom(@Param("id") int id, @Param("name") String name, @Param("building") int building, @Param("teacher_only") boolean teacher_only, @Param("capacity") int capacity, @Param("photos") String photos, @Param("description") String description);
+    @Query(value = "INSERT INTO room (id, name, building, teacher_only, capacity, photos, description, type) VALUES (:id, :name, :building, :teacher_only, :capacity, :photos, :description, :type)", nativeQuery = true)
+    public void insertRoom(@Param("id") int id, @Param("name") String name, @Param("building") int building, @Param("teacher_only") boolean teacher_only, @Param("capacity") int capacity, @Param("photos") String photos, @Param("description") String description, @Param("type") String type);
 
     @Modifying
     @Transactional
@@ -31,8 +31,13 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Modifying
     @Transactional
+    @Query(value = "UPDATE room SET type = :type WHERE id = :id", nativeQuery = true)
+    public void updateType(@Param("id") int id, @Param("type") String type);
+
+    @Modifying
+    @Transactional
     @Query(value = "UPDATE room SET teacher_only = :teacher_only WHERE id = :id", nativeQuery = true)
-    public void updateTeacherOnly(@Param("id") int id, @Param("teacherOnly") boolean teacher_only);
+    public void updateTeacherOnly(@Param("id") int id, @Param("teacher_only") boolean teacher_only);
 
     @Modifying
     @Transactional
