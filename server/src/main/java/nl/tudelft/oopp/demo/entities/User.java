@@ -19,13 +19,13 @@ public class User {
     private String password;
 
     @Column(name = "type")
-    private String type;
+    private int type;
 
     public User() {
     }
 
 
-    public User(String username, String password, String type) {
+    public User(String username, String password, int type) {
         this.username = username;
         this.password = password;
         this.type = type;
@@ -39,7 +39,7 @@ public class User {
         return password;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 

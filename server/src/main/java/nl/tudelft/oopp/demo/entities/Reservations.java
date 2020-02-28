@@ -4,11 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
 
 @Entity
 @Table(name = "reservation")
-public class Reservation {
+public class Reservations {
     @Id
     @Column(name = "id")
     private int id;
@@ -20,7 +19,7 @@ public class Reservation {
     private int room;
 
     @Column(name = "date")
-    private Date date;
+    private String date;
 
     @Column(name = "starting_time")
     private String starting_time;
@@ -28,11 +27,10 @@ public class Reservation {
     @Column(name = "ending_time")
     private String ending_time;
 
-    public Reservation() {
+    public Reservations() {
     }
 
-
-    public Reservation(int id, String username, int room, Date date, String starting_time, String ending_time) {
+    public Reservations(int id, String username, String date, String starting_time, String ending_time) {
         this.id = id;
         this.username = username;
         this.room = room;
@@ -54,7 +52,7 @@ public class Reservation {
         return room;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -75,7 +73,7 @@ public class Reservation {
             return false;
         }
 
-        Reservation reservation = (Reservation) o;
+        Reservations reservation = (Reservations) o;
 
         return this.getId() == (reservation.getId());
     }

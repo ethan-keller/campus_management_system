@@ -34,9 +34,9 @@ public class LoginController {
 
         String encryptedPassword = EncryptionManager.encrypt(password, secretKey);
 
-        if(userRepo.findUsersByUsername(username).size() == 0){
+        if(userRepo.getUser(username) == null){
             return "Wrong credentials";
-        } else if (!userRepo.findUsersByUsername(username).get(0).getPassword().equals(encryptedPassword)){
+        } else if (!userRepo.getUser(username).getPassword().equals(encryptedPassword)){
             return "Wrong credentials";
         }
         return "Login granted!";

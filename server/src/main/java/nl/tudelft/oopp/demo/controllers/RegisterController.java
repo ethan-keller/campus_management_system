@@ -29,8 +29,8 @@ public class RegisterController {
 
         String encryptedPassword = EncryptionManager.encrypt(password, secretKey);
 
-        if(userRepo.findUsersByUsername(username).isEmpty()){
-            userRepo.insertNewUser(username, encryptedPassword);
+        if(userRepo.getUser(username) == null){
+            userRepo.insertUser(username, encryptedPassword, 2);
             return "nice";
         }
         return "This username already exists!";
