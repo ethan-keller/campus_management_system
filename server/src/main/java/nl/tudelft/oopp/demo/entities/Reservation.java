@@ -17,7 +17,7 @@ public class Reservation {
     private String username;
 
     @Column(name = "room")
-    private String room;
+    private int room;
 
     @Column(name = "date")
     private Date date;
@@ -32,9 +32,10 @@ public class Reservation {
     }
 
 
-    public Reservation(int id, String username, Date date, int starting_time, int ending_time) {
+    public Reservation(int id, String username, int room, Date date, int starting_time, int ending_time) {
         this.id = id;
         this.username = username;
+        this.room = room;
         this.date = date;
         this.starting_time = starting_time;
         this.ending_time = ending_time;
@@ -47,6 +48,10 @@ public class Reservation {
 
     public String getUsername() {
         return username;
+    }
+
+    public int getRoom(){
+        return room;
     }
 
     public Date getDate() {
