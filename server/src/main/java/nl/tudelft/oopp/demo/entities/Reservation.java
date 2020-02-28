@@ -23,16 +23,16 @@ public class Reservation {
     private Date date;
 
     @Column(name = "starting_time")
-    private int starting_time;
+    private String starting_time;
 
     @Column(name = "ending_time")
-    private int ending_time;
+    private String ending_time;
 
     public Reservation() {
     }
 
 
-    public Reservation(int id, String username, int room, Date date, int starting_time, int ending_time) {
+    public Reservation(int id, String username, int room, Date date, String starting_time, String ending_time) {
         this.id = id;
         this.username = username;
         this.room = room;
@@ -58,11 +58,11 @@ public class Reservation {
         return date;
     }
 
-    public int getStarting_time() {
+    public String getStarting_time() {
         return starting_time;
     }
 
-    public int getEnding_time() {
+    public String getEnding_time() {
         return ending_time;
     }
 
