@@ -1,7 +1,11 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.item.Room;
@@ -10,13 +14,16 @@ public class RoomEditDialogController {
     @FXML
     private TextField roomNameField;
     @FXML
-    private TextField roomBuildingField;
+    private ChoiceBox roomBuildingField;
     @FXML
-    private TextField roomTypeField;
+    private ChoiceBox roomTypeField;
     @FXML
     private TextField roomCapacityField;
     @FXML
     private TextField roomFacilityField;
+
+    @FXML
+    private Label testLabel;
 
 
     private Stage dialogStage;
@@ -37,7 +44,9 @@ public class RoomEditDialogController {
      * @param dialogStage
      */
     public void setDialogStage(Stage dialogStage) {
+
         this.dialogStage = dialogStage;
+
     }
 
     /**
@@ -49,10 +58,16 @@ public class RoomEditDialogController {
         this.room = room;
 
         roomNameField.setText(room.getRoomName());
-        roomBuildingField.setText(room.getRoomBuilding());
-        roomTypeField.setText(room.getRoomType());
+//        roomBuildingField.setText(room.getRoomBuilding());
+//        roomTypeField.setText(room.getRoomType());
         roomCapacityField.setText(Integer.toString(room.getRoomCapacity()));
         roomFacilityField.setText(room.getRoomFacility());
+        /**
+         * Testing if the choiceBox string is accessible using some command
+         */
+        ObservableList<String> availableChoices = FXCollections.observableArrayList("EEMCS", "Aula");
+        roomBuildingField.setItems(availableChoices);
+        testLabel.setText(roomBuildingField.getAccessibleText());
     }
 
     /**
@@ -71,8 +86,8 @@ public class RoomEditDialogController {
     private void okClicked() {
         if (isInputValid()) {
             room.setRoomName(roomNameField.getText());
-            room.setRoomBuilding(roomBuildingField.getText());
-            room.setRoomType(roomTypeField.getText());
+            room.setRoomBuilding(roomBuildingField.getAccessibleText());
+            room.setRoomType(roomTypeField.getAccessibleText());
             room.setRoomCapacity(Integer.parseInt(roomCapacityField.getText()));
             room.setRoomFacility(roomFacilityField.getText());
 
@@ -86,7 +101,9 @@ public class RoomEditDialogController {
      */
     @FXML
     private void cancelClicked() {
+
         dialogStage.close();
+
     }
 
     /**
@@ -100,12 +117,12 @@ public class RoomEditDialogController {
         if (roomNameField.getText() == null || roomNameField.getText().length() == 0) {
             errorMessage += "No valid room name!\n";
         }
-        if (roomBuildingField.getText() == null || roomBuildingField.getText().length() == 0) {
-            errorMessage += "No valid building name!\n";
-        }
-        if (roomTypeField.getText() == null || roomTypeField.getText().length() == 0) {
-            errorMessage += "No valid room type!\n";
-        }
+//        if (roomBuildingField.getText() == null || roomBuildingField.getText().length() == 0) {
+//            errorMessage += "No valid building name!\n";
+//        }
+//        if (roomTypeField.getText() == null || roomTypeField.getText().length() == 0) {
+//            errorMessage += "No valid room type!\n";
+//        }
 
         if (roomCapacityField.getText() == null || roomCapacityField.getText().length() == 0) {
             errorMessage += "No valid capacity!\n";
