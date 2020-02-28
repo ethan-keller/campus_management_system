@@ -110,7 +110,6 @@ public class RoomEditDialogController {
         if (roomCapacityField.getText() == null || roomCapacityField.getText().length() == 0) {
             errorMessage += "No valid capacity!\n";
         } else {
-            // try to parse the postal code into an int.
             try {
                 Integer.parseInt(roomCapacityField.getText());
             } catch (NumberFormatException e) {
