@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.AdminHomePageController">
+    <AnchorPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Rectangle fx:id="ManageUserAccounts" arcHeight="5.0" arcWidth="5.0" fill="#0ebaf8" height="150.0" layoutX="225.0" layoutY="125.0" stroke="#1fb7ff" strokeType="INSIDE" width="150.0" />
+        <Rectangle fx:id="ManageBooking" arcHeight="5.0" arcWidth="5.0" fill="#0ebaf8" height="150.0" layoutX="395.0" layoutY="125.0" stroke="#1fb7ff" strokeType="INSIDE" width="150.0" />
+        <Text fx:id="TextManageUserAccounts" fill="WHITE" layoutX="225.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage User Accounts" textAlignment="CENTER" wrappingWidth="150.0">
+            <font>
+                <Font size="33.0" />
+            </font>
+        </Text>
+        <Text fx:id="TextManageBooking" fill="WHITE" layoutX="395.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Booking" textAlignment="CENTER" wrappingWidth="149.99999156548347">
+            <font>
+                <Font name="Arial" size="33.0" />
+            </font>
+        </Text>
+      <Rectangle fx:id="AddNewRooms" arcHeight="5.0" arcWidth="5.0" fill="#0ebaf8" height="150.0" layoutX="55.0" layoutY="124.0" stroke="#0ebaf8" strokeType="INSIDE" width="150.0" />
+      <Text fx:id="TextAddNewRooms" fill="WHITE" layoutX="55.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Rooms" textAlignment="CENTER" wrappingWidth="150.0">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Text>
+      <Text fill="#0ebaf8" layoutX="145.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Home Page" underline="true">
+         <font>
+            <Font size="38.0" />
+         </font>
+      </Text>
+    </AnchorPane>
+</AnchorPane>
