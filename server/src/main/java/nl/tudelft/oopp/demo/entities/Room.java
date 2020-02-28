@@ -27,21 +27,21 @@ public class Room {
     @Column(name = "photos")
     private String photos;
 
-    @Column(name = "describtion")
-    private String describtion;
+    @Column(name = "description")
+    private String description;
 
     public Room() {
     }
 
 
-    public Room(int id, String username, int building, Boolean teacher_only, int capacity, String photos, String describtion) {
+    public Room(int id, String username, int building, Boolean teacher_only, int capacity, String photos, String description) {
         this.id = id;
         this.username = username;
         this.building = building;
         this.teacher_only = teacher_only;
         this.capacity = capacity;
         this.photos = photos;
-        this.describtion = describtion;
+        this.description = description;
     }
 
     public int getId() {
@@ -68,8 +68,8 @@ public class Room {
         return photos;
     }
 
-    public String getDescribtion(){
-        return describtion;
+    public String getDescription(){
+        return description;
     }
 
     @Override
