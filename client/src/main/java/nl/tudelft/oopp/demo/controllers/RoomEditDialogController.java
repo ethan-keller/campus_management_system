@@ -7,23 +7,20 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.item.Room;
 
+import java.awt.event.ActionEvent;
+
 public class RoomEditDialogController {
 
-    ObservableList<String> availableChoices = FXCollections.observableArrayList("EEMCS", "Aula");
     @FXML
     private TextField roomNameField;
     @FXML
-    private ComboBox roomBuildingField;
+    private ChoiceBox roomBuildingField;
     @FXML
     private ChoiceBox roomTypeField;
     @FXML
     private TextField roomCapacityField;
     @FXML
     private TextField roomFacilityField;
-
-    @FXML
-    public Label testLabel;
-
 
     private Stage dialogStage;
     private Room room;
@@ -35,10 +32,7 @@ public class RoomEditDialogController {
      */
     @FXML
     private void initialize() {
-        /**
-         * Testing if the choiceBox string is accessible using some command
-         */
-        roomTypeField.setItems(availableChoices);
+
     }
 
     /**
@@ -61,8 +55,8 @@ public class RoomEditDialogController {
         this.room = room;
 
         roomNameField.setText(room.getRoomName());
-//        roomBuildingField.setText(room.getRoomBuilding());
-//        roomTypeField.setText(room.getRoomType());
+        roomBuildingField.getValue().toString();
+        roomTypeField.getValue().toString();
         roomCapacityField.setText(Integer.toString(room.getRoomCapacity()));
         roomFacilityField.setText(room.getRoomFacility());
 
@@ -80,13 +74,20 @@ public class RoomEditDialogController {
 
 
     /**
-     * Called when the user clicks cancel.
+     * Called when the user clicks ok.
      */
     @FXML
-    private void cancelClicked() {
+    private void okClicked() {
+        if (isInputValid()) {
+            room.setRoomName(roomNameField.getText());
+            room.setRoomBuilding(roomBuildingField.getAccessibleText());
+            room.setRoomType(roomTypeField.getAccessibleText());
+            room.setRoomCapacity(Integer.parseInt(roomCapacityField.getText()));
+            room.setRoomFacility(roomFacilityField.getText());
 
-        dialogStage.close();
-
+            okClicked = true;
+            dialogStage.close();
+        }
     }
 
     /**
@@ -133,28 +134,12 @@ public class RoomEditDialogController {
         }
     }
 
-
     /**
-     * Called when the user clicks ok.
+     * Called when the user clicks cancel.
      */
-    @FXML
-    private void okClicked() {
-        if (isInputValid()) {
-            room.setRoomName(roomNameField.getText());
-            room.setRoomBuilding(roomBuildingField.getAccessibleText());
-            room.setRoomType(roomTypeField.getAccessibleText());
-            room.setRoomCapacity(Integer.parseInt(roomCapacityField.getText()));
-            room.setRoomFacility(roomFacilityField.getText());
-
-            testLabel.setText(roomTypeField.getValue().toString());
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText(roomTypeField.getValue().toString());
-            alert.showAndWait();
-
-            okClicked = true;
-            dialogStage.close();
-        }
+    public void cancelClicked() {
+        dialogStage.close();
+       
     }
 
 }
