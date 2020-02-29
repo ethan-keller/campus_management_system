@@ -66,7 +66,6 @@ public class RoomEditDialogController {
      * @return
      */
     public boolean isOkClicked() {
-
         return okClicked;
     }
 
@@ -106,13 +105,12 @@ public class RoomEditDialogController {
         if (roomNameField.getText() == null || roomNameField.getText().length() == 0) {
             errorMessage += "No valid room name!\n";
         }
-//        if (roomBuildingField.getText() == null || roomBuildingField.getText().length() == 0) {
-//            errorMessage += "No valid building name!\n";
-//        }
-//        if (roomTypeField.getText() == null || roomTypeField.getText().length() == 0) {
-//            errorMessage += "No valid room type!\n";
-//        }
-
+        if (roomBuildingField.getItems() == null) {
+            errorMessage += "You must choose a building!\n";
+        }
+        if (roomTypeField.getItems() == null) {
+            errorMessage += "You must choose a type!\n";
+        }
         if (roomCapacityField.getText() == null || roomCapacityField.getText().length() == 0) {
             errorMessage += "No valid capacity!\n";
         } else {
@@ -136,28 +134,6 @@ public class RoomEditDialogController {
             alert.showAndWait();
 
             return false;
-        }
-    }
-
-
-    /**
-     * Called when the user clicks ok.
-     */
-    @FXML
-    private void okClicked() {
-        if (isInputValid()) {
-            room.setRoomName(roomNameField.getText());
-            room.setRoomBuilding(roomBuildingField.getAccessibleText());
-            room.setRoomType(roomTypeField.getAccessibleText());
-            room.setRoomCapacity(Integer.parseInt(roomCapacityField.getText()));
-            room.setRoomFacility(roomFacilityField.getText());
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText(roomTypeField.getValue().toString());
-            alert.showAndWait();
-
-            okClicked = true;
-            dialogStage.close();
         }
     }
 

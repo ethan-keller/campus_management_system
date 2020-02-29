@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import javafx.scene.control.cell.ChoiceBoxListCell?>
 <AnchorPane prefHeight="291.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.RoomEditDialogController">
 <children>
     <GridPane layoutX="9.0" layoutY="28.0" prefHeight="200.0" prefWidth="461.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
@@ -38,7 +39,7 @@
             <ChoiceBox fx:id="roomTypeField" prefHeight="25.0" prefWidth="315.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Add Images" GridPane.rowIndex="5" />
             <Button mnemonicParsing="false" text="Upload" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <ComboBox fx:id="roomBuildingField" prefHeight="25.0" prefWidth="303.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="roomBuildingField" prefHeight="25.0" prefWidth="303.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         </children>
     </GridPane>
     <ButtonBar layoutX="176.0" layoutY="233.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
