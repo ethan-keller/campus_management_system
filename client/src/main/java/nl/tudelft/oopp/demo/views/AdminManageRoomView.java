@@ -5,6 +5,7 @@ import java.net.URL;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.stage.Modality;
+import nl.tudelft.oopp.demo.controllers.RoomEditDialogController;
 import nl.tudelft.oopp.demo.entities.Room;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
