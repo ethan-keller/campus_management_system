@@ -21,11 +21,9 @@ public class AdminManageRoomCommunication {
         return response.body();
     }
 
-//    public static String getRoom(int roomId) {
-//
-//    }
-//
-//    public static String getRoomList() {
-//
-//    }
+    public static String getRooms() {
+        HttpResponse<String> response = null;
+        return response.body();
+    }
+
 }

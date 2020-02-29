@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,6 +9,8 @@ import javafx.scene.control.*;
 import nl.tudelft.oopp.demo.communication.AdminManageRoomCommunication;
 import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import nl.tudelft.oopp.demo.entities.Room;
+
+import java.util.concurrent.Callable;
 
 public class AdminManageRoomViewController {
     @FXML
@@ -26,10 +29,10 @@ public class AdminManageRoomViewController {
     private Label roomName;
 
     @FXML
-    private ChoiceBox<String> roomBuilding;
+    private Label roomBuilding;
 
     @FXML
-    private ChoiceBox<String> roomType;
+    private Label roomType;
 
     @FXML
     private Label roomCapacity;
@@ -48,7 +51,7 @@ public class AdminManageRoomViewController {
     @FXML
     private void initialize() {
         // Initialize the room table with the three columns.
-//        roomIdColumn.setCellValueFactory(cellData -> cellData.getValue().roomIdProperty());
+        roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().roomIdProperty().getValue().toString()));
         roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().roomNameProperty());
         roomBuildingColumn.setCellValueFactory(cellData -> cellData.getValue().roomBuildingProperty());
         // Clear room details.
@@ -70,14 +73,14 @@ public class AdminManageRoomViewController {
     private void showRoomDetails(Room room) {
         if(room != null) {
             roomName.setText(room.getRoomName());
-//            roomBuilding.setItems(room.getRoomBuilding());
-//            roomType.setItems(room.getRoomType());
+            roomBuilding.setText(room.getRoomBuilding());
+            roomType.setText(room.getRoomType());
             roomCapacity.setText(""+room.getRoomCapacity());
             roomFacility.setText(room.getRoomFacility());
         } else {
             roomName.setText("");
-//            roomBuilding.setItems("");
-//            roomType.setItems("");
+            roomBuilding.setText("");
+            roomType.setText("");
             roomCapacity.setText("");
             roomFacility.setText("");
         }

@@ -3,16 +3,15 @@ package nl.tudelft.oopp.demo.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.entities.Room;
 
 public class RoomEditDialogController {
+
     ObservableList<String> availableBuildings = FXCollections.observableArrayList("Library","EEMCS", "Aula");
     ObservableList<String> availableType = FXCollections.observableArrayList("Project Room", "Lecture Room");
+
     @FXML
     private TextField roomNameField;
     @FXML
@@ -67,6 +66,7 @@ public class RoomEditDialogController {
      * @return
      */
     public boolean isOkClicked() {
+
         return okClicked;
     }
 
@@ -138,4 +138,27 @@ public class RoomEditDialogController {
             return false;
         }
     }
+
+
+    /**
+     * Called when the user clicks ok.
+     */
+    @FXML
+    private void okClicked() {
+        if (isInputValid()) {
+            room.setRoomName(roomNameField.getText());
+            room.setRoomBuilding(roomBuildingField.getAccessibleText());
+            room.setRoomType(roomTypeField.getAccessibleText());
+            room.setRoomCapacity(Integer.parseInt(roomCapacityField.getText()));
+            room.setRoomFacility(roomFacilityField.getText());
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText(roomTypeField.getValue().toString());
+            alert.showAndWait();
+
+            okClicked = true;
+            dialogStage.close();
+        }
+    }
+
 }
