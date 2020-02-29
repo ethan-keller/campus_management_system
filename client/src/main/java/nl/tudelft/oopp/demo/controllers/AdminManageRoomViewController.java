@@ -1,15 +1,16 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import javafx.event.ActionEvent;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.MainApp;
+import nl.tudelft.oopp.demo.communication.AdminManageRoomCommunication;
 import nl.tudelft.oopp.demo.views.AdminManageRoomView;
-import nl.tudelft.oopp.demo.item.Room;
-import java.io.IOException;
+import nl.tudelft.oopp.demo.entities.Room;
+
+import java.util.concurrent.Callable;
 
 public class AdminManageRoomViewController {
     @FXML
@@ -39,16 +40,9 @@ public class AdminManageRoomViewController {
     @FXML
     private Label roomFacility;
 
-    private AdminManageRoomView adminManageRoomView = new AdminManageRoomView();
+    private AdminManageRoomView adminManageRoomView;
 
     public AdminManageRoomViewController() {
-    }
-
-    public void setAdminManageRoomView(AdminManageRoomView adminManageRoomView) {
-        this.adminManageRoomView = adminManageRoomView;
-
-        // Add observable list data to the table
-        roomTable.setItems(adminManageRoomView.getRoomData());
     }
 
     /**
@@ -56,12 +50,22 @@ public class AdminManageRoomViewController {
      */
     @FXML
     private void initialize() {
-        roomIdColumn.setCellValueFactory(cellData -> cellData.getValue().roomIdProperty());
+        // Initialize the room table with the three columns.
+        roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().roomIdProperty().getValue().toString()));
         roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().roomNameProperty());
         roomBuildingColumn.setCellValueFactory(cellData -> cellData.getValue().roomBuildingProperty());
+        // Clear room details.
         showRoomDetails(null);
+        // Listen for selection changes and show the room details when changed.
         roomTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showRoomDetails(newValue));
     }
+
+    public void setAdminManageRoomView(AdminManageRoomView adminManageRoomView) {
+        this.adminManageRoomView = adminManageRoomView;
+        // Add observable list data to the table
+        roomTable.setItems(adminManageRoomView.getRoomData());
+    }
+    // ????????????????????????????????????
 
     /**
      * Show the rooms in the right side details.
@@ -87,8 +91,12 @@ public class AdminManageRoomViewController {
      */
     @FXML
     private void deleteClicked() {
+        Room selectedRoom = roomTable.getSelectionModel().getSelectedItem();
         int selectedIndex = roomTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Delete room");
+            alert.setContentText(AdminManageRoomCommunication.deleteRoom(selectedRoom.getRoomId()));
             roomTable.getItems().remove(selectedIndex);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -96,7 +104,6 @@ public class AdminManageRoomViewController {
             alert.setTitle("No Selection");
             alert.setHeaderText("No Room Selected");
             alert.setContentText("Please select a room in the table.");
-
             alert.showAndWait();
         }
     }
@@ -109,7 +116,9 @@ public class AdminManageRoomViewController {
         Room tempRoom = new Room();
         boolean okClicked = adminManageRoomView.showRoomEditDialog(tempRoom);
         if(okClicked){
-            adminManageRoomView.getRoomData().add(tempRoom);
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("New room");
+            alert.setContentText(AdminManageRoomCommunication.createRoom(tempRoom));
         }
     }
 
@@ -123,6 +132,9 @@ public class AdminManageRoomViewController {
         if (selectedRoom != null) {
             boolean okClicked = adminManageRoomView.showRoomEditDialog(selectedRoom);
             if (okClicked) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Edit room");
+                alert.setContentText(AdminManageRoomCommunication.editRoom(selectedRoom));
                 showRoomDetails(selectedRoom);
             }
         } else {
@@ -131,8 +143,7 @@ public class AdminManageRoomViewController {
             alert.initOwner(adminManageRoomView.getPrimaryStage());
             alert.setTitle("No Selection");
             alert.setHeaderText("No Person Selected");
-            alert.setContentText("Please select a person in the table.");
-
+            alert.setContentText("Please select a room in the table.");
             alert.showAndWait();
         }
     }
