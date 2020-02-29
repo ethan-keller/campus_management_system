@@ -139,7 +139,7 @@ public class RoomEditDialogController {
      */
     public void cancelClicked() {
         dialogStage.close();
-       
+
     }
 
 }
