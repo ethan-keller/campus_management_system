@@ -5,6 +5,7 @@ import java.net.URL;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.stage.Modality;
+import nl.tudelft.oopp.demo.communication.AdminManageRoomCommunication;
 import nl.tudelft.oopp.demo.controllers.RoomEditDialogController;
 import nl.tudelft.oopp.demo.entities.Room;
 import javafx.collections.ObservableList;
@@ -16,10 +17,6 @@ import javafx.stage.Stage;
 public class AdminManageRoomView extends Application{
 
     private Stage primaryStage;
-    private ObservableList<Room> roomData = FXCollections.observableArrayList();
-    public ObservableList<Room> getRoomData() {
-        return roomData;
-    }
 
     public AdminManageRoomView(){}
 

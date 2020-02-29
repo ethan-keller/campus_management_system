@@ -9,8 +9,8 @@ import javafx.scene.control.*;
 import nl.tudelft.oopp.demo.communication.AdminManageRoomCommunication;
 import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import nl.tudelft.oopp.demo.entities.Room;
-
-import java.util.concurrent.Callable;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class AdminManageRoomViewController {
     @FXML
@@ -46,6 +46,26 @@ public class AdminManageRoomViewController {
     }
 
     /**
+     * Convert server response into an ObservableList of rooms.
+     */
+    public ObservableList<Room> getRoomData() throws JSONException {
+        ObservableList<Room> roomData = FXCollections.observableArrayList();
+        JSONArray jsonArrayRooms= new JSONArray(AdminManageRoomCommunication.getRooms());
+//        List<Room> rooms = new ArrayList<Room>();
+        for(int i=0; i<jsonArrayRooms.length(); i++){
+            Room r = new Room();
+            r.setRoomId(jsonArrayRooms.getJSONObject(i).getInt("id") );
+            r.setRoomName(jsonArrayRooms.getJSONObject(i).getString("name") );
+            r.setRoomBuilding(jsonArrayRooms.getJSONObject(i).getInt("building") );
+            r.setRoomType(jsonArrayRooms.getJSONObject(i).getString("type") );
+            r.setRoomCapacity(jsonArrayRooms.getJSONObject(i).getInt("capacity") );
+            r.setRoomFacility(jsonArrayRooms.getJSONObject(i).getString("description") );
+            roomData.add(r);
+        }
+        return roomData;
+    }
+
+    /**
      * Show all the rooms in the left side table.
      */
     @FXML
@@ -53,19 +73,18 @@ public class AdminManageRoomViewController {
         // Initialize the room table with the three columns.
         roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().roomIdProperty().getValue().toString()));
         roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().roomNameProperty());
-        roomBuildingColumn.setCellValueFactory(cellData -> cellData.getValue().roomBuildingProperty());
+        roomBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().roomBuildingProperty().getValue().toString()));
         // Clear room details.
         showRoomDetails(null);
         // Listen for selection changes and show the room details when changed.
         roomTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showRoomDetails(newValue));
     }
 
-    public void setAdminManageRoomView(AdminManageRoomView adminManageRoomView) {
+    public void setAdminManageRoomView(AdminManageRoomView adminManageRoomView) throws JSONException {
         this.adminManageRoomView = adminManageRoomView;
         // Add observable list data to the table
-        roomTable.setItems(adminManageRoomView.getRoomData());
+        roomTable.setItems(getRoomData());
     }
-    // ????????????????????????????????????
 
     /**
      * Show the rooms in the right side details.
@@ -73,7 +92,7 @@ public class AdminManageRoomViewController {
     private void showRoomDetails(Room room) {
         if(room != null) {
             roomName.setText(room.getRoomName());
-            roomBuilding.setText(room.getRoomBuilding());
+            roomBuilding.setText(""+room.getRoomBuilding());
             roomType.setText(room.getRoomType());
             roomCapacity.setText(""+room.getRoomCapacity());
             roomFacility.setText(room.getRoomFacility());
@@ -119,6 +138,7 @@ public class AdminManageRoomViewController {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("New room");
             alert.setContentText(AdminManageRoomCommunication.createRoom(tempRoom));
+            showRoomDetails(tempRoom);
         }
     }
 

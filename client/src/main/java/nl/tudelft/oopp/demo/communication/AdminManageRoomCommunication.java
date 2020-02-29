@@ -26,4 +26,9 @@ public class AdminManageRoomCommunication {
         return response.body();
     }
 
+    public static String getBuildings() {
+        HttpResponse<String> response = null;
+        return response.body();
+    }
+
 }
