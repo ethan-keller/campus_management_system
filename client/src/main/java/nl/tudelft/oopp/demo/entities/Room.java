@@ -1,14 +1,12 @@
-package nl.tudelft.oopp.demo.item;
+package nl.tudelft.oopp.demo.entities;
 
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Room {
-    private final StringProperty roomId;
+    private final IntegerProperty roomId;
     private final StringProperty roomName;
     private final StringProperty roomBuilding;
     private final StringProperty roomType;
@@ -16,30 +14,28 @@ public class Room {
     private final StringProperty roomFacility;
 
     public Room() {
-        this(null, null, null, null, 0,null);
+        this(000000, null, null);
     }
 
     /**
      * Constructor with some initial data.
      */
-    public Room(String roomId, String roomName, String roomBuilding, String roomType, int roomCapacity, String roomFacility) {
-        this.roomId = new SimpleStringProperty(roomId);
+    public Room(int roomId, String roomName, String roomBuilding) {
+        this.roomId = new SimpleIntegerProperty(roomId);
         this.roomName = new SimpleStringProperty(roomName);
         this.roomBuilding = new SimpleStringProperty(roomBuilding);
-        this.roomType = new SimpleStringProperty(roomType);
-        this.roomCapacity = new SimpleIntegerProperty(roomCapacity);
-        this.roomFacility = new SimpleStringProperty(roomFacility);
+        this.roomType = new SimpleStringProperty("roomType");
+        this.roomCapacity = new SimpleIntegerProperty(0);
+        this.roomFacility = new SimpleStringProperty("roomFacility");
     }
 
-    public String getRoomId() {
+    public int getRoomId() {
         return roomId.get();
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId.set(roomId);
-    }
+    public void setRoomId(int roomId) { this.roomId.set(roomId); }
 
-    public StringProperty roomIdProperty() {
+    public IntegerProperty roomIdProperty() {
         return roomId;
     }
 
@@ -102,4 +98,26 @@ public class Room {
     public StringProperty roomFacilityProperty() {
         return roomFacility;
     }
+
+//    public static Room readRoom(String roomInfo) {
+//        ObjectMapper mapper = new ObjectMaper();
+//        String jsonInString = roomInfo;
+//        Room room = null;
+//        try {
+//            System.out.println(roomInfo);
+//            room = mapper.readValue(jsonInString, Room.class);
+//        } catch (com.fasterxml.jackson.core.JsonProcessingException e){
+//            e.printStackTrace();
+//        } catch (JsonParseException e) {
+//
+//        }
+//    }
+//
+//    public static Room[] readRooms(String[] rooms) {
+//
+//    }
+//
+//    public String toString() {
+//        return this.roomName;
+//    }
 }

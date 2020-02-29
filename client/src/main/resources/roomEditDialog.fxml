@@ -42,8 +42,8 @@
     </GridPane>
     <ButtonBar layoutX="176.0" layoutY="233.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
         <buttons>
-            <Button mnemonicParsing="false" onAction="#okClicked" text="OK" />
-            <Button mnemonicParsing="false" onAction="#cancelClicked" text="Cancel" />
+            <Button mnemonicParsing="false" onAction="#handleOkClicked" text="OK" />
+            <Button mnemonicParsing="false" onAction="#handleCancelClicked" text="Cancel" />
         </buttons>
     </ButtonBar>
       <Label fx:id="testLabel" layoutX="77.0" layoutY="239.0" text="Label" />

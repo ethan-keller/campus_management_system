@@ -4,12 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
-import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import nl.tudelft.oopp.demo.controllers.RoomEditDialogController;
-import nl.tudelft.oopp.demo.controllers.AdminManageRoomViewController;
-import nl.tudelft.oopp.demo.item.Room;
+import nl.tudelft.oopp.demo.entities.Room;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,9 +21,10 @@ public class AdminManageRoomView extends Application{
         return roomData;
     }
 
+    public AdminManageRoomView(){}
+
     @Override
     public void start(Stage primaryStage) throws IOException {
-        roomData.add(new Room ("123456", "einstein", "Pulse", "Project room", 5, "TV"));
         this.primaryStage = primaryStage;
         showAdminManageRoomView();
     }
@@ -40,11 +38,6 @@ public class AdminManageRoomView extends Application{
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            //System.out.println(root.lookup("#roomIdColumn"));
-            //TableView<Room> tableView = (TableView<Room>)root.lookup("#roomTable");
-            //ObservableList<Room> rooms = FXCollections.observableArrayList();
-            //rooms.add(new Room ("123456", "einstein", "Pulse", "Project room", 5, "TV"));
-            //tableView.setItems(rooms);
             primaryStage.setScene(scene);
             primaryStage.show();
 
@@ -72,15 +65,15 @@ public class AdminManageRoomView extends Application{
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Edit Room");
-            //dialogStage.initModality(Modality.WINDOW_MODAL);
-            //dialogStage.initOwner(primaryStage);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(root);
             dialogStage.setScene(scene);
 
             // Set the room into the controller.
-            //RoomEditDialogController controller = loader.getController();
-            //controller.setDialogStage(dialogStage);
-            //controller.setRoom(room);
+            RoomEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setRoom(room);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
@@ -95,7 +88,7 @@ public class AdminManageRoomView extends Application{
     public Stage getPrimaryStage() {
         return primaryStage;
     }
-    public AdminManageRoomView(){}
+
 
     public static void main(String[] args) {
         launch(args);

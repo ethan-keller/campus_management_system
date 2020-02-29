@@ -8,9 +8,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.item.Room;
+import nl.tudelft.oopp.demo.entities.Room;
 
 public class RoomEditDialogController {
+    ObservableList<String> availableBuildings = FXCollections.observableArrayList("Library","EEMCS", "Aula");
+    ObservableList<String> availableType = FXCollections.observableArrayList("Project Room", "Lecture Room");
     @FXML
     private TextField roomNameField;
     @FXML
@@ -22,10 +24,6 @@ public class RoomEditDialogController {
     @FXML
     private TextField roomFacilityField;
 
-    @FXML
-    private Label testLabel;
-
-
     private Stage dialogStage;
     private Room room;
     private boolean okClicked = false;
@@ -36,6 +34,8 @@ public class RoomEditDialogController {
      */
     @FXML
     private void initialize() {
+        roomBuildingField.setItems(availableBuildings);
+        roomTypeField.setItems(availableType);
     }
 
     /**
@@ -44,30 +44,21 @@ public class RoomEditDialogController {
      * @param dialogStage
      */
     public void setDialogStage(Stage dialogStage) {
-
         this.dialogStage = dialogStage;
-
     }
 
     /**
-     * Sets the person to be edited in the dialog.
+     * Sets the room to be edited in the dialog.
      *
      * @param room
      */
     public void setRoom(Room room) {
         this.room = room;
-
         roomNameField.setText(room.getRoomName());
-//        roomBuildingField.setText(room.getRoomBuilding());
-//        roomTypeField.setText(room.getRoomType());
+        roomBuildingField.setItems(availableBuildings);
+        roomTypeField.setItems(availableType);
         roomCapacityField.setText(Integer.toString(room.getRoomCapacity()));
         roomFacilityField.setText(room.getRoomFacility());
-        /**
-         * Testing if the choiceBox string is accessible using some command
-         */
-        ObservableList<String> availableChoices = FXCollections.observableArrayList("EEMCS", "Aula");
-        roomBuildingField.setItems(availableChoices);
-        testLabel.setText(roomBuildingField.getAccessibleText());
     }
 
     /**
@@ -83,7 +74,7 @@ public class RoomEditDialogController {
      * Called when the user clicks ok.
      */
     @FXML
-    private void okClicked() {
+    private void handleOkClicked() {
         if (isInputValid()) {
             room.setRoomName(roomNameField.getText());
             room.setRoomBuilding(roomBuildingField.getAccessibleText());
@@ -100,10 +91,8 @@ public class RoomEditDialogController {
      * Called when the user clicks cancel.
      */
     @FXML
-    private void cancelClicked() {
-
+    private void handleCancelClicked() {
         dialogStage.close();
-
     }
 
     /**
@@ -149,5 +138,4 @@ public class RoomEditDialogController {
             return false;
         }
     }
-
 }
