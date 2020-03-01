@@ -1,10 +1,13 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class RoomController {
@@ -49,22 +52,24 @@ public class RoomController {
 
     @GetMapping("getRoom")
     @ResponseBody
-    public void getRoom(@RequestParam int id){
+    public Room getRoom(@RequestParam int id){
         try {
-            roomRepo.getRoom(id);
+            return roomRepo.getRoom(id);
         } catch (Exception e){
             e.printStackTrace();
         }
+        return null;
     }
 
     @GetMapping("getAllRooms")
     @ResponseBody
-    public void getAllRooms(){
+    public List<Room> getAllRooms(){
         try {
-            roomRepo.getAllRooms();
+            return roomRepo.getAllRooms();
         } catch (Exception e){
             e.printStackTrace();
         }
+        return null;
     }
 
 }
