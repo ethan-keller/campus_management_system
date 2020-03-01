@@ -16,7 +16,7 @@ public class RoomController {
     @ResponseBody
     public void createRoom(@RequestParam String name, @RequestParam int building, @RequestParam boolean teacher_only, @RequestParam int capacity, @RequestParam String photos, @RequestParam String description, @RequestParam String type){
         try{
-            roomRepo.insertRoom(1, name, building, teacher_only, capacity, photos, description, type);
+            roomRepo.insertRoom(name, building, teacher_only, capacity, photos, description, type);
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -21,8 +21,8 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO reservations (id, username, room, date, starting_time, ending_time) VALUES (:id, :username, :room, :date, :starting_time, :ending_time)", nativeQuery = true)
-    public void insertReservation(@Param("id") int id, @Param("username") String username, @Param("room") int room, @Param("date") String date, @Param("starting_time") String starting_time, @Param("ending_time") String ending_time);
+    @Query(value = "INSERT INTO reservations (username, room, date, starting_time, ending_time) VALUES (:username, :room, :date, :starting_time, :ending_time)", nativeQuery = true)
+    public void insertReservation(@Param("username") String username, @Param("room") int room, @Param("date") String date, @Param("starting_time") String starting_time, @Param("ending_time") String ending_time);
 
     @Modifying
     @Transactional
