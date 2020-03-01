@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.SearchViewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.SearchViewController">
    <SplitPane dividerPositions="0.25" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0ebaf8" height="1000.0" stroke="#0ebaf8" strokeType="INSIDE" width="1000.0" />
@@ -15,7 +19,7 @@
          <ChoiceBox fx:id="CapacityChoiceBox" layoutY="232.0" prefWidth="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
          <ChoiceBox fx:id="RoleChoiceBox" layoutY="284.0" prefWidth="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
          <ChoiceBox fx:id="FoodAvailableChoiceBox" layoutY="334.0" prefWidth="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-         <Text fill="WHITE" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filters;" textAlignment="CENTER" wrappingWidth="147.20000624656683" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <Text fill="WHITE" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filters:" textAlignment="CENTER" wrappingWidth="147.20000624656683" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <font>
                <Font name="Calibri Light" size="24.0" />
             </font>
@@ -64,21 +68,6 @@
                <Font size="23.0" />
             </font></Text>
          <ImageView fx:id="ImageToBeAdded" fitHeight="140.0" fitWidth="140.0" layoutX="20.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" />
-         <Text layoutX="177.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Building:" wrappingWidth="195.57028198242188" AnchorPane.leftAnchor="170.0">
-            <font>
-               <Font size="16.0" />
-            </font>
-         </Text>
-         <Text layoutX="170.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room:" AnchorPane.leftAnchor="170.0">
-            <font>
-               <Font size="16.0" />
-            </font>
-         </Text>
-         <Text layoutX="205.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Capacity:" AnchorPane.leftAnchor="170.0">
-            <font>
-               <Font size="16.0" />
-            </font>
-         </Text>
          <Text fx:id="BuildingToBeAdded" layoutX="241.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" AnchorPane.leftAnchor="245.0">
             <font>
                <Font size="16.0" />
