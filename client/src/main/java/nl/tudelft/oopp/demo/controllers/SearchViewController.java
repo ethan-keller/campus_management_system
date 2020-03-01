@@ -3,21 +3,20 @@ package nl.tudelft.oopp.demo.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
 
 public class SearchViewController {
 
-    ObservableList<String> buildingChoice = FXCollections.observableArrayList("EEMCS", "Drebbelweg", "Aula", "Library", "Fellowship");
-//    ObservableList<String> dateChoice = FXCollections.observableArrayList("Today", "Tomorrow", "Day After");
-    ObservableList<String> timeChoice = FXCollections.observableArrayList("9:00 - 12:00", "13:00 - 17:00", "17:00 - 20:00");
-    ObservableList<String> capacityChoice = FXCollections.observableArrayList("4 people", "6 people", "8 people", "10 people");
-    ObservableList<String> roleChoice = FXCollections.observableArrayList("Lecturer Only", "All");
-    ObservableList<String> foodChoice = FXCollections.observableArrayList("Cafeteria", "CoffeeStar");
 
     @FXML
     private DatePicker DateChoiceBox;
@@ -52,6 +51,12 @@ public class SearchViewController {
     @FXML
     private Text CapacityToBeAdded;
 
+    @FXML
+    private Button BookingHistoryButton;
+
+    @FXML
+    private Button CancelBookingButton;
+
     public void SearchBarClicked() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Login Status");
@@ -61,16 +66,6 @@ public class SearchViewController {
         // TO BE ADDED WITH DATABASE GROUP
     }
 
-    @FXML
-    private void getRoom() {
-       //DateChoiceBox.setItems(dateChoice);
-        TimeslotChoiceBox.setItems(timeChoice);
-        BuildingChoiceBox.setItems(buildingChoice);
-        CapacityChoiceBox.setItems(capacityChoice);
-        RoleChoiceBox.setItems(roleChoice);
-        FoodAvailableChoiceBox.setItems(foodChoice);
-        //BuildingChoiceBox.setValue("mmm");
-    }
 
     public void setRoom(Image im, String buildingName, String roomName, String capacityNumber){
         ImageToBeAdded.setImage(im);
@@ -126,6 +121,28 @@ public class SearchViewController {
 
     public void initializeFoodAvailable(){
         FoodAvailableChoiceBox.getItems().add("No Food Available");
+    }
+
+    @FXML
+    private void handleButtonAction (ActionEvent event) throws Exception {
+        Stage stage=null;
+        Parent root=null;
+
+        if(event.getSource()==ImageToBeAdded){
+            stage = (Stage) ImageToBeAdded.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("RoomView.fxml"));
+        }
+        if(event.getSource()==CancelBookingButton){
+            stage = (Stage) CancelBookingButton.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("CancelBookingView.fxml"));
+        }
+        if(event.getSource()==BookingHistoryButton){
+            stage = (Stage)  BookingHistoryButton.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("BookingHistoryView.fxml"));
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 
