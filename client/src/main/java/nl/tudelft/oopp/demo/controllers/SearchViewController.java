@@ -62,7 +62,7 @@ public class SearchViewController {
     }
 
     @FXML
-    private void initialize() {
+    private void getRoom() {
        //DateChoiceBox.setItems(dateChoice);
         TimeslotChoiceBox.setItems(timeChoice);
         BuildingChoiceBox.setItems(buildingChoice);
@@ -79,6 +79,57 @@ public class SearchViewController {
         CapacityToBeAdded.setText(capacityNumber);
 
     }
+
+    public void initializeTimeSlot() {
+        TimeslotChoiceBox.getItems().add("0:00 - 1:00");
+        TimeslotChoiceBox.getItems().add("1:00 - 2:00");
+        TimeslotChoiceBox.getItems().add("2:00 - 3:00");
+        TimeslotChoiceBox.getItems().add("3:00 - 4:00");
+        TimeslotChoiceBox.getItems().add("4:00 - 5:00");
+        TimeslotChoiceBox.getItems().add("5:00 - 6:00");
+        TimeslotChoiceBox.getItems().add("6:00 - 7:00");
+        TimeslotChoiceBox.getItems().add("7:00 - 8:00");
+        TimeslotChoiceBox.getItems().add("8:00 - 9:00");
+        TimeslotChoiceBox.getItems().add("9:00 - 10:00");
+        TimeslotChoiceBox.getItems().add("10:00 - 11:00");
+        TimeslotChoiceBox.getItems().add("11:00 - 12:00");
+        TimeslotChoiceBox.getItems().add("12:00 - 13:00");
+        TimeslotChoiceBox.getItems().add("13:00 - 14:00");
+        TimeslotChoiceBox.getItems().add("14:00 - 15:00");
+        TimeslotChoiceBox.getItems().add("15:00 - 16:00");
+        TimeslotChoiceBox.getItems().add("16:00 - 17:00");
+        TimeslotChoiceBox.getItems().add("17:00 - 18:00");
+        TimeslotChoiceBox.getItems().add("18:00 - 19:00");
+        TimeslotChoiceBox.getItems().add("19:00 - 20:00");
+        TimeslotChoiceBox.getItems().add("20:00 - 21:00");
+        TimeslotChoiceBox.getItems().add("21:00 - 22:00");
+        TimeslotChoiceBox.getItems().add("22:00 - 23:00");
+        TimeslotChoiceBox.getItems().add("23:00 - 00:00");
+    }
+
+    public void initializeBuilding(){
+        BuildingChoiceBox.getItems().add("EWI");
+        BuildingChoiceBox.getItems().add("Drebbelweg");
+    }
+
+    public void initializeCapacity(){
+        CapacityChoiceBox.getItems().add("1 - 10");
+        CapacityChoiceBox.getItems().add("10 - 30");
+        CapacityChoiceBox.getItems().add("30 - 100");
+        CapacityChoiceBox.getItems().add("100 - ");
+    }
+
+    public void initializeRole(){
+        RoleChoiceBox.getItems().add("Teachers only");
+        RoleChoiceBox.getItems().add("Students only");
+    }
+
+    public void initializeFoodAvailable(){
+        FoodAvailableChoiceBox.getItems().add("No Food Available");
+    }
+
+
+
 
 
 
