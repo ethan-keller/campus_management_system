@@ -5,30 +5,32 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
 <GridPane alignment="center" hgap="20" prefHeight="800.0" prefWidth="1200.0" vgap="20" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.LoginViewController">
-    <Label text="TU Delft Room Reservation System" textFill="#0ebaf8" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="2">
+    <Label text="TU Delft Room Reservation System" textFill="#0ebaf8" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="2">
       <font>
          <Font name="Calibri Bold" size="25.0" />
       </font></Label>
     <Label text="Username:" GridPane.columnIndex="3" GridPane.rowIndex="4" />
     <Label text="Password:" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-    <TextField fx:id="username" promptText="Username" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-    <PasswordField fx:id="password" promptText="Password" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-    <Button fx:id="button1" onAction="#loginButtonClicked" text="Log in" GridPane.columnIndex="4" GridPane.rowIndex="7" />
-    <Hyperlink fx:id="goToRegister" onAction="#goToRegisterClicked" text="Do not have an account? Register now!" underline="true" GridPane.columnIndex="4" GridPane.rowIndex="9" />
-   <ImageView fitHeight="54.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
-      <image>
-         <Image url="@../../../../../../Desktop/TU%20DELFT/Non-Academic/tu%20delft%20logo.jpg" />
-      </image>
-   </ImageView>
+    <TextField fx:id="username" prefHeight="25.0" prefWidth="225.0" promptText="Username" GridPane.columnIndex="8" GridPane.rowIndex="4" />
+    <PasswordField fx:id="password" promptText="Password" GridPane.columnIndex="8" GridPane.rowIndex="5" />
+    <Button fx:id="button1" onAction="#loginButtonClicked" text="Log in" GridPane.columnIndex="8" GridPane.rowIndex="7" />
+    <Hyperlink fx:id="goToRegister" onAction="#goToRegisterClicked" text="Do not have an account? Register now!" underline="true" GridPane.columnIndex="8" GridPane.rowIndex="9" />
    <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />
