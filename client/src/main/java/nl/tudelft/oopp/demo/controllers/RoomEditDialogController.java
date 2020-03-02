@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.AdminManageRoomCommunication;
-import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,9 +29,6 @@ public class RoomEditDialogController {
     private Stage dialogStage;
     private Room room;
     private boolean okClicked = false;
-
-    public RoomEditDialogController() throws JSONException {
-    }
 
     public static ObservableList<String> getBuildingList() throws JSONException {
         ObservableList<String> availableBuildings = FXCollections.observableArrayList();
@@ -154,6 +150,4 @@ public class RoomEditDialogController {
         }
     }
 
-    public void setBuilding(Building building) {
-    }
 }
