@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" fx:controller="RoomView" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<right>
+    <VBox prefHeight="245.0" prefWidth="144.0" BorderPane.alignment="CENTER">
+        <children>
+            <Label text="Date" textFill="#0ebaf8">
+                <font>
+                    <Font name="Calibri Bold" size="15.0" />
+                </font></Label>
+            <DatePicker />
+            <Label text="Timeslot" textFill="#0ebaf8">
+                <font>
+                    <Font name="Calibri Bold" size="15.0" />
+                </font></Label>
+            <ChoiceBox prefWidth="150.0">
+                <!--               <items>-->
+                <!--                  <FXCollections>-->
+                <!--                     <String fx:value = "9:00-10:00"/>-->
+                <!--                     <String fx:value = "9:00-10:00"/>-->
+                <!--                  </FXCollections>-->
+                <!--               </items>-->
+            </ChoiceBox>
+            <Label text="Food" textFill="#0ebaf8">
+                <font>
+                    <Font name="Calibri Bold" size="15.0" />
+                </font></Label>
+            <ChoiceBox prefWidth="150.0" />
+            <Button alignment="CENTER" mnemonicParsing="false" text="Reserve Now!" textFill="#0ebaf8">
+                <VBox.margin>
+                    <Insets top="10.0" />
+                </VBox.margin>
+                <font>
+                    <Font name="Calibri Bold" size="15.0" />
+                </font></Button>
+        </children>
+        <padding>
+            <Insets right="30.0" />
+        </padding>
+    </VBox>
+</right>
+<center>
+    <GridPane prefHeight="245.0" prefWidth="365.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="94.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="268.0" minWidth="10.0" prefWidth="262.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="142.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+        <children>
+            <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="171.0" text="Room Name" GridPane.columnSpan="2">
+                <font>
+                    <Font size="25.0" />
+                </font></Label>
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="29.0" prefWidth="114.0" text="Building:" textAlignment="RIGHT" GridPane.rowIndex="1" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="113.0" text="Capaticy:" textAlignment="RIGHT" GridPane.rowIndex="2" />
+            <Label alignment="TOP_RIGHT" prefHeight="39.0" prefWidth="94.0" text="Facilities:" GridPane.rowIndex="3" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Builidng info" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets left="5.0" />
+                </GridPane.margin>
+            </Text>
+            <Text layoutX="109.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Capacity info" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets left="5.0" />
+                </GridPane.margin>
+            </Text>
+            <Text layoutX="109.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Facilities info" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <GridPane.margin>
+                    <Insets left="5.0" />
+                </GridPane.margin>
+            </Text>
+        </children>
+        <BorderPane.margin>
+            <Insets left="50.0" right="50.0" />
+        </BorderPane.margin>
+    </GridPane>
+</center>
+<bottom>
+    <HBox prefHeight="67.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <children>
+            <Label text="Available Timeslot:">
+                <HBox.margin>
+                    <Insets left="20.0" />
+                </HBox.margin></Label>
+        </children>
+    </HBox>
+</bottom>
+<top>
+    <ImageView fitHeight="150.0" fitWidth="464.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+        <BorderPane.margin>
+            <Insets top="5.0" />
+        </BorderPane.margin>
+    </ImageView>
+</top>
+</BorderPane>
