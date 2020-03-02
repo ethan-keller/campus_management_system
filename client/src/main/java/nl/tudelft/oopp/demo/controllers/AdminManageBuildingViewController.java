@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 import nl.tudelft.oopp.demo.communication.AdminManageBuildingCommunication;
 import nl.tudelft.oopp.demo.communication.AdminManageRoomCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
 import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -38,11 +38,9 @@
             <ChoiceBox fx:id="roomTypeField" prefHeight="25.0" prefWidth="315.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Add Images" GridPane.rowIndex="5" />
             <Button mnemonicParsing="false" text="Upload" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-<<<<<<< HEAD
+
             <ChoiceBox fx:id="roomBuildingField" prefHeight="25.0" prefWidth="301.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-=======
-            <ChoiceBox fx:id="roomBuildingField" prefHeight="25.0" prefWidth="303.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
->>>>>>> ec71fd8a59f2cbe9f612100dd014478c3ec55af6
+
         </children>
     </GridPane>
     <ButtonBar layoutX="176.0" layoutY="233.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
