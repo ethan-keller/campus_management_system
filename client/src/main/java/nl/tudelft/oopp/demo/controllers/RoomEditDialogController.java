@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.entities.Room;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,26 +13,33 @@ import org.json.JSONException;
 public class RoomEditDialogController {
 
     ObservableList<String> availableBuildings = FXCollections.observableArrayList(RoomEditDialogController.getBuildingList());
-    ObservableList<String> availableType = FXCollections.observableArrayList("Project Room", "Lecture Room");
+    ObservableList<String> teacher_only = FXCollections.observableArrayList("Yes", "No");
 
     @FXML
     private TextField roomNameField;
     @FXML
     private ChoiceBox roomBuildingField;
     @FXML
-    private ChoiceBox roomTypeField;
+    private ChoiceBox roomTeacher_onlyField;
     @FXML
     private TextField roomCapacityField;
     @FXML
-    private TextField roomFacilityField;
+    private TextField roomTypeField;
+    @FXML
+    private TextField roomDescriptionField;
+    @FXML
+    private TextField roomPhotoField;
 
     private Stage dialogStage;
     private Room room;
     private boolean okClicked = false;
 
+    public RoomEditDialogController() throws JSONException {
+    }
+
     public static ObservableList<String> getBuildingList() throws JSONException {
         ObservableList<String> availableBuildings = FXCollections.observableArrayList();
-        JSONArray jsonArrayBuildings = new JSONArray(AdminManageRoomCommunication.getBuildings());
+        JSONArray jsonArrayBuildings = new JSONArray(AdminManageServerCommunication.getAllBuildings());
         for(int i=0; i<jsonArrayBuildings.length(); i++){
             String b = jsonArrayBuildings.getJSONObject(i).getString("name");
             availableBuildings.add(b);
@@ -46,7 +54,7 @@ public class RoomEditDialogController {
     @FXML
     private void initialize() {
         roomBuildingField.setItems(availableBuildings);
-        roomTypeField.setItems(availableType);
+        roomTeacher_onlyField.setItems(teacher_only);
     }
 
     /**
@@ -67,9 +75,11 @@ public class RoomEditDialogController {
         this.room = room;
         roomNameField.setText(room.getRoomName());
         roomBuildingField.setItems(availableBuildings);
-        roomTypeField.setItems(availableType);
+        roomTeacher_onlyField.setItems(teacher_only);
         roomCapacityField.setText(Integer.toString(room.getRoomCapacity()));
-        roomFacilityField.setText(room.getRoomFacility());
+        roomTypeField.setText(room.getRoomType());
+        roomDescriptionField.setText(room.getRoomDescription());
+        roomPhotoField.setText(room.getRoomPhoto());
     }
 
     /**
@@ -89,9 +99,11 @@ public class RoomEditDialogController {
         if (isInputValid()) {
             room.setRoomName(roomNameField.getText());
 //            room.setRoomBuilding(roomBuildingField.getAccessibleText());
-            room.setRoomType(roomTypeField.getAccessibleText());
+            room.setTeacher_only(Boolean.parseBoolean(roomTeacher_onlyField.getAccessibleText())); //??????????
             room.setRoomCapacity(Integer.parseInt(roomCapacityField.getText()));
-            room.setRoomFacility(roomFacilityField.getText());
+            room.setRoomType(roomTypeField.getText());
+            room.setRoomDescription(roomDescriptionField.getText());
+            room.setRoomPhoto(roomPhotoField.getText());
 
             okClicked = true;
             dialogStage.close();
@@ -120,7 +132,10 @@ public class RoomEditDialogController {
         if (roomBuildingField.getItems() == null) {
             errorMessage += "You must choose a building!\n";
         }
-        if (roomTypeField.getItems() == null) {
+        if (roomTeacher_onlyField.getItems() == null) {
+            errorMessage += "You must choose if teacher only!\n";
+        }
+        if (roomTypeField.getText() == null) {
             errorMessage += "You must choose a type!\n";
         }
         if (roomCapacityField.getText() == null || roomCapacityField.getText().length() == 0) {

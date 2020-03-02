@@ -9,8 +9,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.views.AdminManageRoomView;
+import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -33,31 +34,13 @@ public class AdminManageBuildingViewController {
     @FXML
     private Label buildingRoomCount;
 
-    private AdminManageBuildingView adminManagebuildingView;
+    private AdminManageBuildingView adminManageBuildingView;
 
     public AdminManageBuildingViewController() {
     }
 
     /**
-     * Convert server response into an ObservableList of rooms.
-     */
-    public ObservableList<Building> getBuildingData() throws JSONException {
-        ObservableList<Building> buildingData = FXCollections.observableArrayList();
-        JSONArray jsonArrayBuildings= new JSONArray(AdminManageRoomCommunication.getBuildings());
-//        List<Room> rooms = new ArrayList<Room>();
-        for(int i=0; i<jsonArrayBuildings.length(); i++){
-            Building b = new Building();
-            b.setBuildingId(jsonArrayBuildings.getJSONObject(i).getInt("id") );
-            b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name") );
-            b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getInt("building") );
-            b.setBuildingRoomCount(jsonArrayBuildings.getJSONObject(i).getInt("building") );
-            buildingData.add(b);
-        }
-        return buildingData;
-    }
-
-    /**
-     * Show all the rooms in the left side table.
+     * Show all the buildings in the left side table.
      */
     @FXML
     private void initialize() {
@@ -70,10 +53,10 @@ public class AdminManageBuildingViewController {
         buildingTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showBuildingDetails(newValue));
     }
 
-    public void setAdminManageBuildingView(AdminManageRoomView adminManageRoomView) throws JSONException {
-        this.adminManageBuildingView = adminManageRoomView;
+    public void setAdminManageBuildingView(AdminManageBuildingView adminManageBuildingView) throws JSONException {
+        this.adminManageBuildingView = adminManageBuildingView;
         // Add observable list data to the table
-        buildingTable.setItems(getBuildingData());
+        buildingTable.setItems(Building.getBuildingData());
     }
 
     /**
@@ -99,9 +82,10 @@ public class AdminManageBuildingViewController {
         Building selectedBuilding = buildingTable.getSelectionModel().getSelectedItem();
         int selectedIndex = buildingTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Delete building");
-            alert.setContentText(AdminManageBuildingCommunication.deleteBuilding(selectedBuilding.getBuildingId()));
+            AdminManageServerCommunication.deleteBuilding(selectedBuilding.getBuildingId());
+//            Alert alert = new Alert(AlertType.INFORMATION);
+//            alert.setTitle("Delete building");
+//            alert.setContentText(AdminManageServerCommunication.deleteBuilding(selectedBuilding.getBuildingId()));
             buildingTable.getItems().remove(selectedIndex);
         } else {
             Alert alert = new Alert(AlertType.WARNING);
@@ -121,9 +105,10 @@ public class AdminManageBuildingViewController {
         Building tempBuilding = new Building();
         boolean okClicked = adminManageBuildingView.showBuildingEditDialog(tempBuilding);
         if(okClicked){
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("New building");
-            alert.setContentText(AdminManageBuildingCommunication.createBuilding(tempBuilding));
+            AdminManageServerCommunication.createBuilding(tempBuilding.getBuildingName(), tempBuilding.getBuildingRoom_count(), tempBuilding.getBuildingAddress());
+//            Alert alert = new Alert(AlertType.INFORMATION);
+//            alert.setTitle("New building");
+//            alert.setContentText(AdminManageServerCommunication.createBuilding(tempBuilding.getBuildingName(), tempBuilding.getBuildingRoom_count(), tempBuilding.getBuildingAddress()));
             showBuildingDetails(tempBuilding);
         }
     }
@@ -136,11 +121,12 @@ public class AdminManageBuildingViewController {
     private void editBuildingClicked() {
         Building selectedBuilding = buildingTable.getSelectionModel().getSelectedItem();
         if (selectedBuilding != null) {
-            boolean okClicked = adminManageRoomView.showBuildingEditDialog(selectedBuilding);
+            boolean okClicked = adminManageBuildingView.showBuildingEditDialog(selectedBuilding);
             if (okClicked) {
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Edit building");
-                alert.setContentText(AdminManageBuildingCommunication.editBuilding(selectedBuilding));
+                AdminManageServerCommunication.updateBuilding(selectedBuilding.getBuildingId(), selectedBuilding.getBuildingName(), selectedBuilding.getBuildingRoom_count(), selectedBuilding.getBuildingAddress());
+//                Alert alert = new Alert(AlertType.INFORMATION);
+//                alert.setTitle("Edit building");
+//                alert.setContentText(AdminManageServerCommunication.updateBuilding(selectedBuilding.getBuildingId(), selectedBuilding.getBuildingName(), selectedBuilding.getBuildingRoom_count(), selectedBuilding.getBuildingAddress()));
                 showBuildingDetails(selectedBuilding);
             }
         } else {

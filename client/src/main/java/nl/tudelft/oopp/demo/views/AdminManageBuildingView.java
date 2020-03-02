@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.controllers.BuildingEditDialogController;
 import nl.tudelft.oopp.demo.controllers.RoomEditDialogController;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -76,7 +77,7 @@ public class AdminManageBuildingView extends Application{
             dialogStage.setScene(scene);
 
             // Set the room into the controller.
-            RoomEditDialogController controller = loader.getController();
+            BuildingEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setBuilding(building);
 
