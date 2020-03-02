@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.10050251256281408" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.10050251256281408" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.AdminHomePageController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" SplitPane.resizableWithParent="false">
          <children>
@@ -20,6 +20,11 @@
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
             <Button fx:id="addRoom" layoutX="40.0" layoutY="138.0" mnemonicParsing="false" onAction="#addRoomClicked" prefHeight="75.0" prefWidth="85.0" text="ADD a new Room" textAlignment="CENTER" textFill="#3d0565" wrapText="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="addBuilding" layoutX="151.0" layoutY="138.0" mnemonicParsing="false" onAction="#addBuildingClicked" prefHeight="75.0" prefWidth="85.0" text="ADD a new Building" textAlignment="CENTER" textFill="#3d0565" wrapText="true">
                <font>
                   <Font size="14.0" />
                </font>
