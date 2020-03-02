@@ -1,9 +1,11 @@
 package nl.tudelft.oopp.demo.communication;
 
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 
 public class LoginServerCommunication {
 
@@ -15,8 +17,10 @@ public class LoginServerCommunication {
      * @throws Exception if communication with the server fails.
      */
     public static String sendLogin(String username, String password) {
-        String params = "?username=" + username + "&password=" + password;
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/login"+params)).build();
+        String params = "username=" + username + "&password=" + password;
+        params = URLEncoder.encode(params, StandardCharsets.UTF_8);
+
+        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/login?"+params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
