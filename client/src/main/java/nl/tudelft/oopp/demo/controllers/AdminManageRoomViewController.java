@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.*;
-import nl.tudelft.oopp.demo.communication.AdminManageRoomCommunication;
+import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import nl.tudelft.oopp.demo.entities.Room;
 import org.json.JSONArray;
@@ -50,7 +50,7 @@ public class AdminManageRoomViewController {
      */
     public ObservableList<Room> getRoomData() throws JSONException {
         ObservableList<Room> roomData = FXCollections.observableArrayList();
-        JSONArray jsonArrayRooms= new JSONArray(AdminManageRoomCommunication.getRooms());
+        JSONArray jsonArrayRooms= new JSONArray(AdminManageServerCommunication.getAllRooms());
 //        List<Room> rooms = new ArrayList<Room>();
         for(int i=0; i<jsonArrayRooms.length(); i++){
             Room r = new Room();
@@ -115,7 +115,7 @@ public class AdminManageRoomViewController {
         if (selectedIndex >= 0) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Delete room");
-            alert.setContentText(AdminManageRoomCommunication.deleteRoom(selectedRoom.getRoomId()));
+            alert.setContentText(AdminManageServerCommunication.deleteRoom(selectedRoom.getRoomId()));
             roomTable.getItems().remove(selectedIndex);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -137,7 +137,7 @@ public class AdminManageRoomViewController {
         if(okClicked){
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("New room");
-            alert.setContentText(AdminManageRoomCommunication.createRoom(tempRoom));
+            alert.setContentText(AdminManageServerCommunication.createRoom(tempRoom));
             showRoomDetails(tempRoom);
         }
     }
@@ -154,7 +154,7 @@ public class AdminManageRoomViewController {
             if (okClicked) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Edit room");
-                alert.setContentText(AdminManageRoomCommunication.editRoom(selectedRoom));
+                alert.setContentText(AdminManageServerCommunication.updateRoom(selectedRoom));
                 showRoomDetails(selectedRoom);
             }
         } else {

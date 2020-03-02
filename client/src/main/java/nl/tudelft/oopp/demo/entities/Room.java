@@ -6,27 +6,26 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Room {
-    private final IntegerProperty roomId;
-    private final StringProperty roomName;
-    private final IntegerProperty roomBuilding;
-    private final StringProperty roomType;
-    private final IntegerProperty roomCapacity;
-    private final StringProperty roomFacility;
+    private IntegerProperty roomId;
+    private StringProperty roomName;
+    private IntegerProperty roomBuilding;
+    private StringProperty roomType;
+    private IntegerProperty roomCapacity;
+    private StringProperty roomFacility;
 
     public Room() {
-        this(000000, null, 000000);
     }
 
     /**
      * Constructor with some initial data.
      */
-    public Room(int roomId, String roomName, int roomBuilding) {
+    public Room(int roomId, String roomName, int roomBuilding, String roomType, int roomCapacity, String roomFacility) {
         this.roomId = new SimpleIntegerProperty(roomId);
         this.roomName = new SimpleStringProperty(roomName);
         this.roomBuilding = new SimpleIntegerProperty(roomBuilding);
-        this.roomType = new SimpleStringProperty("roomType");
-        this.roomCapacity = new SimpleIntegerProperty(0);
-        this.roomFacility = new SimpleStringProperty("roomFacility");
+        this.roomType = new SimpleStringProperty(roomType);
+        this.roomCapacity = new SimpleIntegerProperty(roomCapacity);
+        this.roomFacility = new SimpleStringProperty(roomFacility);
     }
 
     public int getRoomId() {

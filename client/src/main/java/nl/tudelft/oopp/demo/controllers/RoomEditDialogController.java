@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.AdminManageRoomCommunication;
 import nl.tudelft.oopp.demo.entities.Room;
 import org.json.JSONArray;
 import org.json.JSONException;
