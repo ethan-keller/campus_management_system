@@ -19,7 +19,11 @@ public class LoginView extends Application {
         URL xmlUrl = getClass().getResource("/loginView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
-        primaryStage.setScene(new Scene(root));
+
+        Scene oldScene = primaryStage.getScene();
+        primaryStage.setScene(oldScene == null
+                ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
+                : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
         primaryStage.show();
     }
 
