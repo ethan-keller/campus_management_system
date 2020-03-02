@@ -1,33 +1,31 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.views.AdminManageRoomView;
+import nl.tudelft.oopp.demo.views.LoginView;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 public class AdminHomePageController {
 
-    @FXML
-    private Rectangle AddNewRooms;
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-    @FXML
-    private Rectangle ManageBooking;
+        LoginView lv = new LoginView();
+        lv.start(stage);
+    }
 
-    @FXML
-    private Rectangle ManageUserAccounts;
+    public void addRoomClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-    @FXML
-    private Text TextManageBooking;
-
-    @FXML
-    private Text TextAddNewRooms;
-
-    @FXML
-    private Text TextManageUserAccounts;
-
-
-
-
+        AdminManageRoomView adm = new AdminManageRoomView();
+        adm.start(stage);
+    }
 
 }

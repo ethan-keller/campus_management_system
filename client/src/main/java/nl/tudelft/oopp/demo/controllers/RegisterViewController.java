@@ -1,11 +1,16 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
+import nl.tudelft.oopp.demo.views.LoginView;
+import java.io.IOException;
 
 public class RegisterViewController {
 
@@ -40,5 +45,12 @@ public class RegisterViewController {
             alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt));
             alert.showAndWait();
         }
+    }
+
+    public void backClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+
+        LoginView lv = new LoginView();
+        lv.start(stage);
     }
 }

@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.config;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -10,12 +11,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.sql.SQLException;
+
 
 @Configuration
-@EnableJpaRepositories
+@EnableJpaRepositories("nl.tudelft.oopp.demo.repositories")
 @PropertySource("application-dev.properties")
 @EnableTransactionManagement
-public class H2Config {
+public class DBConfig {
 
     @Autowired
     private Environment environment;
@@ -33,4 +36,5 @@ public class H2Config {
 
         return dataSource;
     }
+
 }
