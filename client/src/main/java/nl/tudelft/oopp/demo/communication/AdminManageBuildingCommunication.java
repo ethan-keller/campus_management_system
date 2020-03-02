@@ -1,27 +1,23 @@
 package nl.tudelft.oopp.demo.communication;
 
+import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 
 import java.net.http.HttpResponse;
 
-public class AdminManageRoomCommunication {
+public class AdminManageBuildingCommunication {
 
-    public static String createRoom(Room room) {
+    public static String createBuilding(Building building) {
         HttpResponse<String> response = null;
         return response.body();
     }
 
-    public static String editRoom(Room room) {
+    public static String editBuilding(Building building) {
         HttpResponse<String> response = null;
         return response.body();
     }
 
-    public static String deleteRoom(int roomId) {
-        HttpResponse<String> response = null;
-        return response.body();
-    }
-
-    public static String getRooms() {
+    public static String deleteBuilding(int buildingId) {
         HttpResponse<String> response = null;
         return response.body();
     }

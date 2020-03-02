@@ -8,22 +8,22 @@ import javafx.beans.property.StringProperty;
 public class Room {
     private final IntegerProperty roomId;
     private final StringProperty roomName;
-    private final StringProperty roomBuilding;
+    private final IntegerProperty roomBuilding;
     private final StringProperty roomType;
     private final IntegerProperty roomCapacity;
     private final StringProperty roomFacility;
 
     public Room() {
-        this(000000, null, null);
+        this(000000, null, 000000);
     }
 
     /**
      * Constructor with some initial data.
      */
-    public Room(int roomId, String roomName, String roomBuilding) {
+    public Room(int roomId, String roomName, int roomBuilding) {
         this.roomId = new SimpleIntegerProperty(roomId);
         this.roomName = new SimpleStringProperty(roomName);
-        this.roomBuilding = new SimpleStringProperty(roomBuilding);
+        this.roomBuilding = new SimpleIntegerProperty(roomBuilding);
         this.roomType = new SimpleStringProperty("roomType");
         this.roomCapacity = new SimpleIntegerProperty(0);
         this.roomFacility = new SimpleStringProperty("roomFacility");
@@ -51,15 +51,15 @@ public class Room {
         return roomName;
     }
 
-    public String getRoomBuilding() {
+    public int getRoomBuilding() {
         return roomBuilding.get();
     }
 
-    public void setRoomBuilding(String roomBuilding) {
+    public void setRoomBuilding(int roomBuilding) {
         this.roomBuilding.set(roomBuilding);
     }
 
-    public StringProperty roomBuildingProperty() {
+    public IntegerProperty roomBuildingProperty() {
         return roomBuilding;
     }
 
@@ -99,25 +99,4 @@ public class Room {
         return roomFacility;
     }
 
-//    public static Room readRoom(String roomInfo) {
-//        ObjectMapper mapper = new ObjectMaper();
-//        String jsonInString = roomInfo;
-//        Room room = null;
-//        try {
-//            System.out.println(roomInfo);
-//            room = mapper.readValue(jsonInString, Room.class);
-//        } catch (com.fasterxml.jackson.core.JsonProcessingException e){
-//            e.printStackTrace();
-//        } catch (JsonParseException e) {
-//
-//        }
-//    }
-//
-//    public static Room[] readRooms(String[] rooms) {
-//
-//    }
-//
-//    public String toString() {
-//        return this.roomName;
-//    }
 }

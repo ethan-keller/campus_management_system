@@ -30,10 +30,10 @@ public class Reservations {
     public Reservations() {
     }
 
-
     public Reservations(int id, String username, String date, String starting_time, String ending_time) {
         this.id = id;
         this.username = username;
+        this.room = room;
         this.date = date;
         this.starting_time = starting_time;
         this.ending_time = ending_time;
@@ -46,6 +46,10 @@ public class Reservations {
 
     public String getUsername() {
         return username;
+    }
+
+    public int getRoom(){
+        return room;
     }
 
     public String getDate() {

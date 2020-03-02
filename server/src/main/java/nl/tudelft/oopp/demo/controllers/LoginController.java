@@ -39,7 +39,7 @@ public class LoginController {
         } else if (!userRepo.getUser(username).getPassword().equals(encryptedPassword)){
             return "Wrong credentials";
         }
-        return "Login granted!";
+        return "Login granted";
     }
 
 }

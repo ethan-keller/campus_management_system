@@ -5,11 +5,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.AdminManageRoomCommunication;
 import nl.tudelft.oopp.demo.entities.Room;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class RoomEditDialogController {
 
-    ObservableList<String> availableBuildings = FXCollections.observableArrayList("Library","EEMCS", "Aula");
+    ObservableList<String> availableBuildings = FXCollections.observableArrayList(RoomEditDialogController.getBuildingList());
     ObservableList<String> availableType = FXCollections.observableArrayList("Project Room", "Lecture Room");
 
     @FXML
@@ -26,6 +29,16 @@ public class RoomEditDialogController {
     private Stage dialogStage;
     private Room room;
     private boolean okClicked = false;
+
+    public static ObservableList<String> getBuildingList() throws JSONException {
+        ObservableList<String> availableBuildings = FXCollections.observableArrayList();
+        JSONArray jsonArrayBuildings = new JSONArray(AdminManageRoomCommunication.getBuildings());
+        for(int i=0; i<jsonArrayBuildings.length(); i++){
+            String b = jsonArrayBuildings.getJSONObject(i).getString("name");
+            availableBuildings.add(b);
+        }
+        return availableBuildings;
+    }
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -76,7 +89,7 @@ public class RoomEditDialogController {
     private void handleOkClicked() {
         if (isInputValid()) {
             room.setRoomName(roomNameField.getText());
-            room.setRoomBuilding(roomBuildingField.getAccessibleText());
+//            room.setRoomBuilding(roomBuildingField.getAccessibleText());
             room.setRoomType(roomTypeField.getAccessibleText());
             room.setRoomCapacity(Integer.parseInt(roomCapacityField.getText()));
             room.setRoomFacility(roomFacilityField.getText());
