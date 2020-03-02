@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
 import javafx.event.ActionEvent;
 import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
+import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import nl.tudelft.oopp.demo.views.RegisterView;
 import java.io.IOException;
@@ -26,15 +27,14 @@ public class LoginViewController {
     @FXML
     private Hyperlink goToRegister;
 
-
     /**
      * Handles clicking the login button.
      */
     public void loginButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        AdminManageRoomView amrv = new AdminManageRoomView();
-        amrv.start(stage);
+        AdminHomePageView adh = new AdminHomePageView();
+        adh.start(stage);
     }
 
     /**
