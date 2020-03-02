@@ -24,13 +24,19 @@ public class Building {
         return buildingId;
     }
 
+    public void setBuildingId(int buildingId) { this.buildingId.set(buildingId); }
+
     public String getBuildingName() {
         return buildingName;
     }
 
+    public void setBuildingName(String buildingName) { this.buildingName.set(buildingName); }
+
     public int getBuildingRoom_count() {
         return buildingRoom_count;
     }
+
+    public void setBuildingRoom_count(String buildingRoom_count) { this.buildingRoom_count.set(buildingRoom_count); }
 
     public String getBuildingAddress() {
         return buildingAddress;

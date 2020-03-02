@@ -162,7 +162,7 @@ public class AdminManageRoomViewController {
             Alert alert = new Alert(AlertType.WARNING);
             alert.initOwner(adminManageRoomView.getPrimaryStage());
             alert.setTitle("No Selection");
-            alert.setHeaderText("No Person Selected");
+            alert.setHeaderText("No Room Selected");
             alert.setContentText("Please select a room in the table.");
             alert.showAndWait();
         }

@@ -99,25 +99,4 @@ public class Room {
         return roomFacility;
     }
 
-//    public static Room readRoom(String roomInfo) {
-//        ObjectMapper mapper = new ObjectMaper();
-//        String jsonInString = roomInfo;
-//        Room room = null;
-//        try {
-//            System.out.println(roomInfo);
-//            room = mapper.readValue(jsonInString, Room.class);
-//        } catch (com.fasterxml.jackson.core.JsonProcessingException e){
-//            e.printStackTrace();
-//        } catch (JsonParseException e) {
-//
-//        }
-//    }
-//
-//    public static Room[] readRooms(String[] rooms) {
-//
-//    }
-//
-//    public String toString() {
-//        return this.roomName;
-//    }
 }
