@@ -33,13 +33,18 @@ public class LoginController {
     public String getUser(@RequestParam String username, @RequestParam String password){
 
         String encryptedPassword = EncryptionManager.encrypt(password, secretKey);
-
-        if(userRepo.getUser(username) == null){
-            return "Wrong credentials";
-        } else if (!userRepo.getUser(username).getPassword().equals(encryptedPassword)){
-            return "Wrong credentials";
+        User user = userRepo.getUser(username);
+        if(user == null){
+            return "not_found";
+        } else if (!user.getPassword().equals(encryptedPassword)) {
+            return "wrong_password";
+        } else if(user.getType() == 0){
+            return "admin";
+        } else if(user.getType() == 1){
+            return "teacher";
+        } else if(user.getType() == 2){
+            return "student";
         }
-        return "Login granted";
+        return "error";
     }
-
 }
