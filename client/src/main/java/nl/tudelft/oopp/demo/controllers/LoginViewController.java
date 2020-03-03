@@ -8,12 +8,11 @@ import javafx.scene.control.PasswordField;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
-
-import java.io.IOException;
-
+import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.views.RegisterView;
 
 import java.awt.TextField;
+import java.io.IOException;
 
 import nl.tudelft.oopp.demo.views.SearchView;
 
@@ -37,6 +36,8 @@ public class LoginViewController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         if (LoginServerCommunication.sendLogin(username.getText(), password.getText()).equals("Login granted")) {
+            CurrentUserManager current_user = new CurrentUserManager(username.getText(), 2);
+
             SearchView sv = new SearchView();
             sv.start(stage);
         } else {
