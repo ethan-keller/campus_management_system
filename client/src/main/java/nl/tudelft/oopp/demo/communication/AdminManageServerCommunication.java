@@ -12,9 +12,9 @@ public class AdminManageServerCommunication {
 
     private static HttpClient client = HttpClient.newBuilder().build();
 
-    public static void createRoom(String name, int building, boolean teacher_only, int capacity, String photos, String description, String type) {
+    public static void createRoom(String name, int building, boolean teacher_only, int capacity, String photos, String description, String type) throws UnsupportedEncodingException {
         String params = "name="+name+"&building="+building+"&teacher_only="+teacher_only+"&capacity="+capacity+"&photos="+photos+"&description="+description+"&type="+type;
-        params = URLEncoder.encode(params, StandardCharsets.UTF_8);
+        params = URLEncoder.encode(params, StandardCharsets.UTF_8.toString());
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createRoom?"+params)).build();
         HttpResponse<String> response = null;
