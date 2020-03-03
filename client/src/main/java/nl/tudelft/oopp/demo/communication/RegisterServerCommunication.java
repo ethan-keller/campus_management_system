@@ -11,12 +11,13 @@ public class RegisterServerCommunication {
 
     /**
      * Retrieves a quote from the server.
+     *
      * @return the body of a get request to the server.
      * @throws Exception if communication with the server fails.
      */
     public static String sendRegister(String username, String password) {
-        String params = "?username="+username+"&password="+password;
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/register"+params)).build();
+        String params = "?username=" + username + "&password=" + password;
+        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/register" + params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());

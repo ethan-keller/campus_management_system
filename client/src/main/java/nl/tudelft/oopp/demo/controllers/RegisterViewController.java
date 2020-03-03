@@ -39,17 +39,16 @@ public class RegisterViewController {
         String passwordTxt = password.getText();
         String rePasswordTxt = rePassword.getText();
 
-        if(!passwordTxt.equals(rePasswordTxt)) {
+        if (!passwordTxt.equals(rePasswordTxt)) {
             pwd_error.textProperty().set("Password does not match, try again");
-        }
-        else{
+        } else {
             alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt));
             alert.showAndWait();
         }
     }
 
     public void backClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         LoginView lv = new LoginView();
         lv.start(stage);

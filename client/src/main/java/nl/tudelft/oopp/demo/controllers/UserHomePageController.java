@@ -19,7 +19,7 @@ public class UserHomePageController {
     private Rectangle BookingHistory;
 
     public void setBookANewRoomClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         SearchView sv = new SearchView();
         sv.start(stage);

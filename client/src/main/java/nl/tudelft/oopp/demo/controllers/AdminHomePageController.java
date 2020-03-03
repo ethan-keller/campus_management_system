@@ -4,8 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-import java.awt.*;
-
 public class AdminHomePageController {
 
     @FXML

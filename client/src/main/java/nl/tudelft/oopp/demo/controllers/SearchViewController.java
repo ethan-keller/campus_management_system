@@ -1,8 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
 
 public class SearchViewController {
 
@@ -67,7 +63,7 @@ public class SearchViewController {
     }
 
 
-    public void setRoom(Image im, String buildingName, String roomName, String capacityNumber){
+    public void setRoom(Image im, String buildingName, String roomName, String capacityNumber) {
         ImageToBeAdded.setImage(im);
         BuildingToBeAdded.setText(buildingName);
         RoomToBeAdded.setText(roomName);
@@ -102,53 +98,48 @@ public class SearchViewController {
         TimeslotChoiceBox.getItems().add("23:00 - 00:00");
     }
 
-    public void initializeBuilding(){
+    public void initializeBuilding() {
         BuildingChoiceBox.getItems().add("EWI");
         BuildingChoiceBox.getItems().add("Drebbelweg");
     }
 
-    public void initializeCapacity(){
+    public void initializeCapacity() {
         CapacityChoiceBox.getItems().add("1 - 10");
         CapacityChoiceBox.getItems().add("10 - 30");
         CapacityChoiceBox.getItems().add("30 - 100");
         CapacityChoiceBox.getItems().add("100 - ");
     }
 
-    public void initializeRole(){
+    public void initializeRole() {
         RoleChoiceBox.getItems().add("Teachers only");
         RoleChoiceBox.getItems().add("Students only");
     }
 
-    public void initializeFoodAvailable(){
+    public void initializeFoodAvailable() {
         FoodAvailableChoiceBox.getItems().add("No Food Available");
     }
 
     @FXML
-    private void handleButtonAction (ActionEvent event) throws Exception {
-        Stage stage=null;
-        Parent root=null;
+    private void handleButtonAction(ActionEvent event) throws Exception {
+        Stage stage = null;
+        Parent root = null;
 
-        if(event.getSource()==ImageToBeAdded){
+        if (event.getSource() == ImageToBeAdded) {
             stage = (Stage) ImageToBeAdded.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("RoomView.fxml"));
         }
-        if(event.getSource()==CancelBookingButton){
+        if (event.getSource() == CancelBookingButton) {
             stage = (Stage) CancelBookingButton.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("CancelBookingView.fxml"));
         }
-        if(event.getSource()==BookingHistoryButton){
-            stage = (Stage)  BookingHistoryButton.getScene().getWindow();
+        if (event.getSource() == BookingHistoryButton) {
+            stage = (Stage) BookingHistoryButton.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("BookingHistoryView.fxml"));
         }
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
-
-
-
-
-
 
 
 }
