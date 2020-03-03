@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.communication;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -16,9 +17,10 @@ public class RegisterServerCommunication {
      * @return the body of a get request to the server.
      * @throws Exception if communication with the server fails.
      */
-    public static String sendRegister(String username, String password) {
+    public static String sendRegister(String username, String password) throws UnsupportedEncodingException {
         String params = "username="+username+"&password="+password;
-        params = URLEncoder.encode(params, StandardCharsets.UTF_8);
+        params = GeneralMethods.encodeCommunication(params);
+
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/register?"+params)).build();
         HttpResponse<String> response = null;

@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import nl.tudelft.oopp.demo.encryption.CommunicationMethods;
 import nl.tudelft.oopp.demo.encryption.EncryptionManager;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Controller
@@ -21,7 +23,10 @@ public class UserController {
 
     @PostMapping("createUser")
     @ResponseBody
-    public void createUser(@RequestParam String username, @RequestParam String password, @RequestParam int type){
+    public void createUser(@RequestParam String username, @RequestParam String password, @RequestParam int type) throws UnsupportedEncodingException {
+        username = CommunicationMethods.decodeCommunication(username);
+        password = CommunicationMethods.decodeCommunication(password);
+
         try{
             String encrypted_pass = EncryptionManager.encrypt(password, secretKey);
             userRepo.insertUser(username, encrypted_pass, type);
@@ -32,7 +37,9 @@ public class UserController {
 
     @PostMapping("updateUser")
     @ResponseBody
-    public void updateUser(@RequestParam String username, @RequestParam String password, @RequestParam int type){
+    public void updateUser(@RequestParam String username, @RequestParam String password, @RequestParam int type) throws UnsupportedEncodingException {
+        username = CommunicationMethods.decodeCommunication(username);
+        password = CommunicationMethods.decodeCommunication(password);
         try{
             String encrypted_pass = EncryptionManager.encrypt(password, secretKey);
             userRepo.updatePassword(username, encrypted_pass);
@@ -44,7 +51,8 @@ public class UserController {
 
     @PostMapping("deleteUser")
     @ResponseBody
-    public void deleteUser(@RequestParam String username){
+    public void deleteUser(@RequestParam String username) throws UnsupportedEncodingException {
+        username = CommunicationMethods.decodeCommunication(username);
         try{
             userRepo.deleteUser(username);
         } catch (Exception e){
@@ -54,7 +62,8 @@ public class UserController {
 
     @GetMapping("getUser")
     @ResponseBody
-    public User getUser(@RequestParam String username){
+    public User getUser(@RequestParam String username) throws UnsupportedEncodingException {
+        username = CommunicationMethods.decodeCommunication(username);
         try {
             return userRepo.getUser(username);
         } catch (Exception e){
