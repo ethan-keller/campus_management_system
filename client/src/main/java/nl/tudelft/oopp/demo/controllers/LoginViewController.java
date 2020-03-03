@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
 import javafx.event.ActionEvent;
 import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
+import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.views.RegisterView;
 import nl.tudelft.oopp.demo.views.SearchView;
 import nl.tudelft.oopp.demo.views.UserHomePageView;
@@ -36,6 +37,7 @@ public class LoginViewController {
         Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 
         if(LoginServerCommunication.sendLogin(username.getText(), password.getText()).equals("Login granted")){
+            CurrentUserManager current_user = new CurrentUserManager(username.getText(), 2);
             SearchView sv = new SearchView();
             sv.start(stage);
         } else {
