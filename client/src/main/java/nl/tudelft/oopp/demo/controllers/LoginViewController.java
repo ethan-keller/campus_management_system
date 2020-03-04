@@ -6,12 +6,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.event.ActionEvent;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.views.RegisterView;
 
-import java.awt.TextField;
+
 import java.io.IOException;
 
 import nl.tudelft.oopp.demo.views.SearchView;
