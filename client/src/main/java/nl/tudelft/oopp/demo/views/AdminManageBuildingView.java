@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.controllers.BuildingEditDialogController;
 import nl.tudelft.oopp.demo.controllers.RoomEditDialogController;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -33,9 +34,18 @@ public class AdminManageBuildingView extends Application{
             URL xmlUrl = getClass().getResource("/adminManageRoomView.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
+
+            /**
+             * Making sure that the page doesn't resize when we switch between scenes
+             */
+            Scene oldScene = primaryStage.getScene();
+            primaryStage.setScene(oldScene == null
+                    ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
+                    : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
             primaryStage.show();
+//            Scene scene = new Scene(root);
+//            primaryStage.setScene(scene);
+//            primaryStage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -67,7 +77,7 @@ public class AdminManageBuildingView extends Application{
             dialogStage.setScene(scene);
 
             // Set the room into the controller.
-            RoomEditDialogController controller = loader.getController();
+            BuildingEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setBuilding(building);
 
