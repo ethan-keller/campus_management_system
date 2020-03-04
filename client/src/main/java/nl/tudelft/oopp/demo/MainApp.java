@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo;
 
+import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import nl.tudelft.oopp.demo.views.BookingHistoryView;
 import nl.tudelft.oopp.demo.views.LoginView;

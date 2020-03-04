@@ -14,27 +14,25 @@ import java.io.IOException;
 
 public class AdminHomePageController {
 
-    public AdminHomePageView adminHomePageView;
-
     public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        LoginView lv = new LoginView();
-        lv.start(stage);
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
     }
 
     public void addRoomClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        AdminManageRoomView adm = new AdminManageRoomView();
-        adm.start(stage);
+        AdminManageRoomView adminManageRoomView = new AdminManageRoomView();
+        adminManageRoomView.start(stage);
     }
 
     public void addBuildingClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage)  ((Node) event.getSource()).getScene().getWindow();
 
-        AdminManageBuildingView adbv = new AdminManageBuildingView();
-        adbv.start(stage);
+        AdminManageBuildingView adminManageBuildingView = new AdminManageBuildingView();
+        adminManageBuildingView.start(stage);
     }
 
 }
