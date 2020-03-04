@@ -49,13 +49,19 @@ public class AdminManageRoomViewController {
      */
     @FXML
     private void initialize() {
+
         // Initialize the room table with the three columns.
+
         roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().roomIdProperty().getValue().toString()));
         roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().roomNameProperty());
         roomBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().roomBuildingProperty().getValue().toString()));
+
         // Clear room details.
+        
         showRoomDetails(null);
+
         // Listen for selection changes and show the room details when changed.
+
         roomTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showRoomDetails(newValue));
     }
 

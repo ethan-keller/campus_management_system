@@ -8,9 +8,24 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * The admin server class creates methods that communicates between the CRUD operations and the server.
+ */
 public class AdminManageServerCommunication {
 
     private static HttpClient client = HttpClient.newBuilder().build();
+
+    /**
+     * Creating a new room from admin side.
+     * @param name
+     * @param building
+     * @param teacher_only
+     * @param capacity
+     * @param photos
+     * @param description
+     * @param type
+     * @throws UnsupportedEncodingException
+     */
 
     public static void createRoom(String name, int building, boolean teacher_only, int capacity, String photos, String description, String type) throws UnsupportedEncodingException {
         String params = "name="+name+"&building="+building+"&teacher_only="+teacher_only+"&capacity="+capacity+"&photos="+photos+"&description="+description+"&type="+type;
@@ -29,6 +44,19 @@ public class AdminManageServerCommunication {
         }
     }
 
+    /**
+     * Updating the room created (once the room is selected from the view before).
+     * @param id
+     * @param name
+     * @param building
+     * @param teacher_only
+     * @param capacity
+     * @param photos
+     * @param description
+     * @param type
+     * @throws UnsupportedEncodingException
+     */
+
     public static void updateRoom(int id, String name, int building, boolean teacher_only, int capacity, String photos, String description, String type) throws UnsupportedEncodingException {
         String params = "id="+id+"&name="+name+"&building="+building+"&teacher_only="+teacher_only+"&capacity="+capacity+"&photos="+photos+"&description="+description+"&type="+type;
         params = GeneralMethods.encodeCommunication(params);
@@ -45,6 +73,11 @@ public class AdminManageServerCommunication {
         }
     }
 
+    /**
+     * Selecting the room that is selected.
+     * @param id
+     * @throws UnsupportedEncodingException
+     */
     public static void deleteRoom(int id) throws UnsupportedEncodingException {
         String params = "id="+id;
         params = GeneralMethods.encodeCommunication(params);
@@ -78,6 +111,10 @@ public class AdminManageServerCommunication {
         return response.body();
     }
 
+    /**
+     * To get all the rooms.
+     * @return
+     */
     public static String getAllRooms() {
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getAllRooms")).build();
         HttpResponse<String> response = null;
@@ -91,6 +128,11 @@ public class AdminManageServerCommunication {
         }
         return response.body();
     }
+
+    /**
+     * To get all the buildings.
+     * @return
+     */
 
     public static String getAllBuildings() {
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getAllBuildings")).build();
