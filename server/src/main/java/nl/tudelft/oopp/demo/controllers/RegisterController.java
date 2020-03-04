@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import nl.tudelft.oopp.demo.encryption.CommunicationMethods;
 import nl.tudelft.oopp.demo.encryption.EncryptionManager;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.UnsupportedEncodingException;
 
 @Controller
 public class RegisterController {
@@ -25,7 +28,9 @@ public class RegisterController {
      */
     @PostMapping("register")
     @ResponseBody
-    public String register(@RequestParam String username, @RequestParam String password){
+    public String register(@RequestParam String username, @RequestParam String password) throws UnsupportedEncodingException {
+        username = CommunicationMethods.decodeCommunication(username);
+        password = CommunicationMethods.decodeCommunication(password);
 
         String encryptedPassword = EncryptionManager.encrypt(password, secretKey);
 

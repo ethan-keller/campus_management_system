@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
 import nl.tudelft.oopp.demo.views.LoginView;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 public class RegisterViewController {
 
@@ -29,7 +30,7 @@ public class RegisterViewController {
     /**
      * Handles clicking the button.
      */
-    public void registerClicked() {
+    public void registerClicked() throws UnsupportedEncodingException {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Register Status");
         alert.setHeaderText(null);

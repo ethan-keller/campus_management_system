@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import nl.tudelft.oopp.demo.encryption.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
 import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
@@ -7,6 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -17,7 +24,9 @@ public class BuildingController {
 
     @PostMapping("createBuilding")
     @ResponseBody
-    public void createBuilding(@RequestParam String name, @RequestParam int room_count, @RequestParam String address){
+    public void createBuilding(@RequestParam String name, @RequestParam int room_count, @RequestParam String address) throws UnsupportedEncodingException {
+        name = CommunicationMethods.decodeCommunication(name);
+        address = CommunicationMethods.decodeCommunication(address);
         try{
             buildingRepo.insertBuilding(name, room_count, address);
         } catch (Exception e){
@@ -27,7 +36,10 @@ public class BuildingController {
 
     @PostMapping("updateBuilding")
     @ResponseBody
-    public void updateBuilding(@RequestParam int id, @RequestParam String name, @RequestParam int room_count, @RequestParam String address){
+    public void updateBuilding(@RequestParam int id, @RequestParam String name, @RequestParam int room_count, @RequestParam String address) throws UnsupportedEncodingException {
+        name = CommunicationMethods.decodeCommunication(name);
+        address = CommunicationMethods.decodeCommunication(address);
+
         try{
             buildingRepo.updateAddress(id, address);
             buildingRepo.updateName(id, name);

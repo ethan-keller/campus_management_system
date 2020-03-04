@@ -11,11 +11,9 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.views.RegisterView;
-
-
-import java.io.IOException;
-
 import nl.tudelft.oopp.demo.views.SearchView;
+import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import java.io.IOException;
 
 
 public class LoginViewController {
@@ -35,10 +33,17 @@ public class LoginViewController {
     public void loginButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        if (LoginServerCommunication.sendLogin(username.getText(), password.getText()).equals("Login granted")) {
+        String login_response = LoginServerCommunication.sendLogin(username.getText(), password.getText());
+        if(login_response.equals("admin")){
+            CurrentUserManager current_user = new CurrentUserManager(username.getText(), 0);
+            AdminHomePageView av = new AdminHomePageView();
+            av.start(stage);
+        } else if(login_response.equals("student")){
             CurrentUserManager current_user = new CurrentUserManager(username.getText(), 2);
-
-
+            SearchView sv = new SearchView();
+            sv.start(stage);
+        } else if (login_response.equals("teacher")){
+            CurrentUserManager current_user = new CurrentUserManager(username.getText(), 1);
             SearchView sv = new SearchView();
             sv.start(stage);
         } else {

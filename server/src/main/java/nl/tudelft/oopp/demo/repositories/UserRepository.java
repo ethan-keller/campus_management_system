@@ -16,27 +16,27 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT * FROM user", nativeQuery = true)
     public List<User> getAllUsers();
 
-    @Query(value = "SELECT * FROM user u WHERE u.username = :username", nativeQuery = true)
+    @Query(value = "SELECT * FROM user u WHERE u.username = LOWER(:username)", nativeQuery = true)
     public User getUser(@Param("username") String username);
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO user (username, password, type) VALUES (:username, :password, :type)", nativeQuery = true)
+    @Query(value = "INSERT INTO user (username, password, type) VALUES (LOWER(:username), :password, :type)", nativeQuery = true)
     public void insertUser(@Param("username") String userName, @Param("password") String password, @Param("type") int type);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM user WHERE username = :username", nativeQuery = true)
+    @Query(value = "DELETE FROM user WHERE username = LOWER(:username)", nativeQuery = true)
     public void deleteUser(@Param("username") String username);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE user SET password = :password WHERE username = :username", nativeQuery = true)
+    @Query(value = "UPDATE user SET password = :password WHERE username = LOWER(:username)", nativeQuery = true)
     public void updatePassword(@Param("username") String username, @Param("password") String password);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE user SET type = :type WHERE username = :username", nativeQuery = true)
+    @Query(value = "UPDATE user SET type = :type WHERE username = LOWER(:username)", nativeQuery = true)
     public void updateType(@Param("username") String username, @Param("type") int type);
 
 }
