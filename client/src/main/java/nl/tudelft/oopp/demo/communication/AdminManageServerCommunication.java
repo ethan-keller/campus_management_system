@@ -31,7 +31,7 @@ public class AdminManageServerCommunication {
 
     public static void updateRoom(int id, String name, int building, boolean teacher_only, int capacity, String photos, String description, String type) throws UnsupportedEncodingException {
         String params = "id="+id+"&name="+name+"&building="+building+"&teacher_only="+teacher_only+"&capacity="+capacity+"&photos="+photos+"&description="+description+"&type="+type;
-                params = GeneralMethods.encodeCommunication(params);
+        params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateRoom?"+params)).build();
         HttpResponse<String> response = null;
@@ -47,7 +47,7 @@ public class AdminManageServerCommunication {
 
     public static void deleteRoom(int id) throws UnsupportedEncodingException {
         String params = "id="+id;
-        GeneralMethods.encodeCommunication(params);
+        params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/deleteRoom?"+params)).build();
         HttpResponse<String> response = null;
@@ -63,7 +63,7 @@ public class AdminManageServerCommunication {
 
     public static String getRoom(int id) throws UnsupportedEncodingException {
         String params = "id="+id;
-        GeneralMethods.encodeCommunication(params);
+        params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getRoom?"+params)).build();
         HttpResponse<String> response = null;
@@ -189,7 +189,7 @@ public class AdminManageServerCommunication {
 
     public static String getUser(String username){
         String params = "username="+username;
-
+        
 
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getUser?"+params)).build();
         HttpResponse<String> response = null;
@@ -206,7 +206,7 @@ public class AdminManageServerCommunication {
 
     public static void deleteUser(String username) throws UnsupportedEncodingException {
         String params = "username="+username;
-                params = GeneralMethods.encodeCommunication(params);
+        params = GeneralMethods.encodeCommunication(params);
 
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/deleteUser?"+params)).build();
@@ -223,7 +223,7 @@ public class AdminManageServerCommunication {
 
     public static void updateUser(String username, String password, int type) throws UnsupportedEncodingException {
         String params = "username="+username+"&password="+password+"&type="+type;
-                params = GeneralMethods.encodeCommunication(params);
+        params = GeneralMethods.encodeCommunication(params);
 
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateUser?"+params)).build();
@@ -240,7 +240,7 @@ public class AdminManageServerCommunication {
 
     public static void createUser(String username, String password, int type) throws UnsupportedEncodingException {
         String params = "username="+username+"&password="+password+"&type="+type;
-                params = GeneralMethods.encodeCommunication(params);
+        params = GeneralMethods.encodeCommunication(params);
 
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createUser?"+params)).build();
@@ -257,7 +257,7 @@ public class AdminManageServerCommunication {
 
     public static void createReservation(String username, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
         String params = "username="+username+"&room="+room+"&date="+date+"&starting_time="+starting_time+"ending_time="+ending_time;
-                params = GeneralMethods.encodeCommunication(params);
+        params = GeneralMethods.encodeCommunication(params);
 
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createReservation?"+params)).build();
@@ -274,7 +274,7 @@ public class AdminManageServerCommunication {
 
     public static void updateReservation(int id, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
         String params = "id="+id+"&room="+room+"&date="+date+"&starting_time="+starting_time+"ending_time="+ending_time;
-                params = GeneralMethods.encodeCommunication(params);
+        params = GeneralMethods.encodeCommunication(params);
 
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateReservation?"+params)).build();
@@ -291,7 +291,7 @@ public class AdminManageServerCommunication {
 
     public static void deleteReservation(int id) throws UnsupportedEncodingException {
         String params = "id="+id;
-                params = GeneralMethods.encodeCommunication(params);
+        params = GeneralMethods.encodeCommunication(params);
 
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/deleteReservation?"+params)).build();
@@ -308,7 +308,7 @@ public class AdminManageServerCommunication {
 
     public static String getReservation(int id) throws UnsupportedEncodingException {
         String params = "id="+id;
-                params = GeneralMethods.encodeCommunication(params);
+        params = GeneralMethods.encodeCommunication(params);
 
 
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getReservation?"+params)).build();
