@@ -6,19 +6,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 import org.json.JSONArray;
 import org.json.JSONException;
 
 public class RoomEditDialogController {
 
-    ObservableList<String> availableBuildings = FXCollections.observableArrayList(RoomEditDialogController.getBuildingList());
+    ObservableList<Building> availableBuildings = FXCollections.observableArrayList(Building.getBuildingData());
     ObservableList<String> teacher_only = FXCollections.observableArrayList("Yes", "No");
 
     @FXML
     private TextField roomNameField;
     @FXML
-    private ChoiceBox roomBuildingField;
+    private ChoiceBox<Building> roomBuildingField;
     @FXML
     private ChoiceBox roomTeacher_onlyField;
     @FXML
@@ -35,16 +36,6 @@ public class RoomEditDialogController {
     private boolean okClicked = false;
 
     public RoomEditDialogController() throws JSONException {
-    }
-
-    public static ObservableList<String> getBuildingList() throws JSONException {
-        ObservableList<String> availableBuildings = FXCollections.observableArrayList();
-        JSONArray jsonArrayBuildings = new JSONArray(AdminManageServerCommunication.getAllBuildings());
-        for(int i=0; i<jsonArrayBuildings.length(); i++){
-            String b = jsonArrayBuildings.getJSONObject(i).getString("name");
-            availableBuildings.add(b);
-        }
-        return availableBuildings;
     }
 
     /**
@@ -99,7 +90,7 @@ public class RoomEditDialogController {
         if (isInputValid()) {
             room.setRoomName(roomNameField.getText());
 //            room.setRoomBuilding(roomBuildingField.getAccessibleText());
-            room.setTeacher_only(Boolean.parseBoolean(roomTeacher_onlyField.getAccessibleText())); //??????????
+            room.setTeacher_only(roomTeacher_onlyField.getAccessibleText().equals("Yes"));
             room.setRoomCapacity(Integer.parseInt(roomCapacityField.getText()));
             room.setRoomType(roomTypeField.getText());
             room.setRoomDescription(roomDescriptionField.getText());

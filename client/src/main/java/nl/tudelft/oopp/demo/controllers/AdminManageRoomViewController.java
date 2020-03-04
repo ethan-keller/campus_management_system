@@ -1,15 +1,12 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.*;
 import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import nl.tudelft.oopp.demo.entities.Room;
-import org.json.JSONArray;
 import org.json.JSONException;
 
 public class AdminManageRoomViewController {
@@ -116,8 +113,8 @@ public class AdminManageRoomViewController {
         Room tempRoom = new Room();
         boolean okClicked = adminManageRoomView.showRoomEditDialog(tempRoom);
         if(okClicked){
-            AdminManageServerCommunication.createRoom(tempRoom.getRoomName(), tempRoom.getRoomBuilding(),
-                    tempRoom.getTeacher_only(), tempRoom.getRoomCapacity(), tempRoom.getRoomPhoto(), tempRoom.getRoomDescription(), tempRoom.getRoomType());
+            AdminManageServerCommunication.createRoom(tempRoom.getRoomName(), tempRoom.getRoomBuilding(), tempRoom.getTeacher_only(),
+                    tempRoom.getRoomCapacity(), tempRoom.getRoomPhoto(), tempRoom.getRoomDescription(), tempRoom.getRoomType());
 //            Alert alert = new Alert(AlertType.INFORMATION);
 //            alert.setTitle("New room");
 //            alert.setContentText(AdminManageServerCommunication.createRoom(tempRoom));
