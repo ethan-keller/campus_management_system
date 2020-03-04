@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.google.gson.Gson;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +12,7 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.BookingHistoryCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.SearchView;
 
 import java.io.IOException;
@@ -30,15 +32,21 @@ public class BookingHistoryController {
          * these objects and groups them.
          * It adds the items to the viewList.
          */
-        ObservableList<String> buildings = FXCollections.observableArrayList();
+        ObservableList<String> rooms = FXCollections.observableArrayList();
         String regex = "\\{([^}]+)\\}";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(BookingHistoryCommunication.getAllBuidings());
+        Matcher matcher = pattern.matcher(BookingHistoryCommunication.getAllReservations());
 
         while (matcher.find()) {
-            buildings.add(matcher.group());
+            rooms.add(matcher.group());
         }
-        listRooms.setItems(buildings);
+        listRooms.setItems(rooms);
+
+
+        //Test code to check if the database has any sort of reservations present in itself at all.
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setContentText(rooms.toString());
+//        alert.showAndWait();
 
 
 //        buildings.add(BookingHistoryCommunication.getAllBuidings());
@@ -56,9 +64,9 @@ public class BookingHistoryController {
      */
     public void testButtonClicked() {
         Gson gson = new Gson();
-        Building building = gson.fromJson(listRooms.getSelectionModel().getSelectedItems().get(0).toString(), Building.class);
+        Room rooms = gson.fromJson(listRooms.getSelectionModel().getSelectedItems().get(0).toString(), Room.class);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(building.toString());
+        alert.setContentText(rooms.toString());
         alert.showAndWait();
     }
 
@@ -68,7 +76,7 @@ public class BookingHistoryController {
         SearchView sv = new SearchView();
         sv.start(stage);
 
-//
+
 //        int id = 1;
 //        BookingHistoryCommunication.getReservations(id);
     }

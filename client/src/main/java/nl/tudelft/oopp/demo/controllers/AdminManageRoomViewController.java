@@ -57,7 +57,7 @@ public class AdminManageRoomViewController {
         roomBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().roomBuildingProperty().getValue().toString()));
 
         // Clear room details.
-        
+
         showRoomDetails(null);
 
         // Listen for selection changes and show the room details when changed.
