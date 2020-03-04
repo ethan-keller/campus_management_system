@@ -9,6 +9,8 @@ import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import nl.tudelft.oopp.demo.entities.Room;
 import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
+
 public class AdminManageRoomViewController {
     @FXML
     private TableView<Room> roomTable;
@@ -86,7 +88,7 @@ public class AdminManageRoomViewController {
      * Delete a room.
      */
     @FXML
-    private void deleteClicked() {
+    private void deleteClicked() throws UnsupportedEncodingException {
         Room selectedRoom = roomTable.getSelectionModel().getSelectedItem();
         int selectedIndex = roomTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
@@ -109,7 +111,7 @@ public class AdminManageRoomViewController {
      * Handles clicking the create new button.
      */
     @FXML
-    private void createNewRoomClicked() {
+    private void createNewRoomClicked() throws UnsupportedEncodingException {
         Room tempRoom = new Room();
         boolean okClicked = adminManageRoomView.showRoomEditDialog(tempRoom);
         if(okClicked){
@@ -127,7 +129,7 @@ public class AdminManageRoomViewController {
      * details for the selected room.
      */
     @FXML
-    private void editRoomClicked() {
+    private void editRoomClicked() throws UnsupportedEncodingException {
         Room selectedRoom = roomTable.getSelectionModel().getSelectedItem();
         if (selectedRoom != null) {
             boolean okClicked = adminManageRoomView.showRoomEditDialog(selectedRoom);

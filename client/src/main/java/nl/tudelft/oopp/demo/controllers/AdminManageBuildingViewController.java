@@ -14,6 +14,8 @@ import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
+
 public class AdminManageBuildingViewController {
     @FXML
     private TableView<Building> buildingTable;
@@ -77,7 +79,7 @@ public class AdminManageBuildingViewController {
      * Delete a building.
      */
     @FXML
-    private void deleteBuildingClicked() {
+    private void deleteBuildingClicked() throws UnsupportedEncodingException {
         Building selectedBuilding = buildingTable.getSelectionModel().getSelectedItem();
         int selectedIndex = buildingTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
@@ -100,7 +102,7 @@ public class AdminManageBuildingViewController {
      * Handles clicking the create new button.
      */
     @FXML
-    private void createNewBuildingClicked() {
+    private void createNewBuildingClicked() throws UnsupportedEncodingException {
         Building tempBuilding = new Building();
         boolean okClicked = adminManageBuildingView.showBuildingEditDialog(tempBuilding);
         if(okClicked){
@@ -117,7 +119,7 @@ public class AdminManageBuildingViewController {
      * details for the selected building.
      */
     @FXML
-    private void editBuildingClicked() {
+    private void editBuildingClicked() throws UnsupportedEncodingException {
         Building selectedBuilding = buildingTable.getSelectionModel().getSelectedItem();
         if (selectedBuilding != null) {
             boolean okClicked = adminManageBuildingView.showBuildingEditDialog(selectedBuilding);
