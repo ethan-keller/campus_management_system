@@ -29,7 +29,6 @@ public class LoginViewController {
     @FXML
     private Hyperlink goToRegister;
 
-
     /**
      * Handles clicking the login button.
      */
@@ -38,6 +37,7 @@ public class LoginViewController {
 
         if (LoginServerCommunication.sendLogin(username.getText(), password.getText()).equals("Login granted")) {
             CurrentUserManager current_user = new CurrentUserManager(username.getText(), 2);
+
 
             SearchView sv = new SearchView();
             sv.start(stage);

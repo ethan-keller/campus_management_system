@@ -4,8 +4,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -25,11 +23,6 @@
     <PasswordField fx:id="rePassword" promptText="Repeat password" GridPane.columnIndex="3" GridPane.rowIndex="5" />
     <Button fx:id="buttonRegister" onAction="#registerClicked" text="Register" GridPane.columnIndex="3" GridPane.rowIndex="8" />
    <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#backClicked" text="Back" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-   <ImageView fitHeight="50.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
-      <image>
-         <Image url="@../../../../../../Desktop/TU%20DELFT/Non-Academic/tu%20delft%20logo.jpg" />
-      </image>
-   </ImageView>
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints />

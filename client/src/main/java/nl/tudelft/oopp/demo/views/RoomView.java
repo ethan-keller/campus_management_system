@@ -8,22 +8,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class AdminHomePageView extends Application {
+public class RoomView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        URL xmlUrl = getClass().getResource("/AdminHomePageView.fxml");
+        URL xmlUrl = getClass().getResource("/roomView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
 
-        /**
-         * Making sure that the page doesn't resize when we switch between scenes
-         */
-        Scene oldScene = primaryStage.getScene();
-        primaryStage.setScene(oldScene == null
-                ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
-                : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
