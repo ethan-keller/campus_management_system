@@ -16,6 +16,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+/**
+ *
+ */
 @Controller
 public class BuildingController {
 
