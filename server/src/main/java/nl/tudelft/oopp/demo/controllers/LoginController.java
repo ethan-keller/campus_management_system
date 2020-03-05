@@ -26,9 +26,11 @@ public class LoginController {
     private String secretKey;
 
     /**
-     * GET Endpoint to retrieve a random quote.
-     *
-     * @return randomly selected {@link User}.
+     * Authenticates the user and retrieves the user type.
+     * @param username The user-provided username.
+     * @param password The unencrypted user-provided password
+     * @return Returns the user types when successful (admin, teacher, student). /n Returns "not_found" when username doesn't exist. /n Returns "wrong_password" when the password doesn't match.
+     * @throws UnsupportedEncodingException
      */
     @PostMapping("login")
     @ResponseBody
