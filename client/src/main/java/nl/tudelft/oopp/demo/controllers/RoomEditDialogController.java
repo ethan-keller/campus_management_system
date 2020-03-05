@@ -89,7 +89,7 @@ public class RoomEditDialogController {
     private void handleOkClicked() {
         if (isInputValid()) {
             room.setRoomName(roomNameField.getText());
-//            room.setRoomBuilding(roomBuildingField.getAccessibleText());
+            room.setRoomBuilding(roomBuildingField.getValue().getBuildingId());
             room.setTeacher_only(roomTeacher_onlyField.getAccessibleText().equals("Yes"));
             room.setRoomCapacity(Integer.parseInt(roomCapacityField.getText()));
             room.setRoomType(roomTypeField.getText());
