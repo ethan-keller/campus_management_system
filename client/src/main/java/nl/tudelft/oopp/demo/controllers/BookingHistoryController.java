@@ -9,6 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.communication.BookingHistoryCommunication;
@@ -23,9 +26,27 @@ import java.util.regex.Pattern;
 public class BookingHistoryController {
 
     @FXML
-    private ListView listRooms;
+    private TableView<Room> listRooms;
+    @FXML
+    private TableColumn<Room,String> id;
+    @FXML
+    private TableColumn<Room,String> name;
+    @FXML
+    private TableColumn<Room,String> building;
+    @FXML
+    private TableColumn<Room,String> teacher;
+    @FXML
+    private TableColumn<Room,String> capacity;
+
+    ObservableList<Room> rooms = FXCollections.observableArrayList();
 
     public void initialize() {
+
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        building.setCellValueFactory(new PropertyValueFactory<>("building"));
+        teacher.setCellValueFactory(new PropertyValueFactory<>("teacher"));
+        capacity.setCellValueFactory(new PropertyValueFactory<>("capacity"));
 
         /**
          * The regex string seperates all the building objects into multiple tuples. The pattern matcher
@@ -41,7 +62,7 @@ public class BookingHistoryController {
         while (matcher.find()) {
             rooms.add(matcher.group());
         }
-        listRooms.setItems(rooms.sorted());
+//        listRooms.setItems(rooms.sorted());
 
 
         //Test code to check if the database has any sort of reservations present in itself at all.
