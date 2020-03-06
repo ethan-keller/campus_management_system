@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
@@ -20,6 +21,8 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.SearchView;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,7 +31,7 @@ public class BookingHistoryController {
     @FXML
     private TableView<Room> listRooms;
     @FXML
-    private TableColumn<Room,String> id;
+    private TableColumn<Room,Integer> id;
     @FXML
     private TableColumn<Room,String> name;
     @FXML
@@ -40,28 +43,24 @@ public class BookingHistoryController {
 
     ObservableList<Room> rooms = FXCollections.observableArrayList();
 
-    public void initialize() {
-
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        building.setCellValueFactory(new PropertyValueFactory<>("building"));
-        teacher.setCellValueFactory(new PropertyValueFactory<>("teacher"));
-        capacity.setCellValueFactory(new PropertyValueFactory<>("capacity"));
-
-        /**
-         * The regex string seperates all the building objects into multiple tuples. The pattern matcher
-         * recognizes the similar pattern of the different building objects. The matcher.find() finds all
-         * these objects and groups them.
-         * It adds the items to the viewList.
-         */
-        ObservableList<String> rooms = FXCollections.observableArrayList();
-        String regex = "\\{([^}]+)\\}";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(AdminManageServerCommunication.getAllReservations());
-
-        while (matcher.find()) {
-            rooms.add(matcher.group());
-        }
+//    public void initialize() {
+//
+//
+//
+//        /**
+//         * The regex string seperates all the building objects into multiple tuples. The pattern matcher
+//         * recognizes the similar pattern of the different building objects. The matcher.find() finds all
+//         * these objects and groups them.
+//         * It adds the items to the viewList.
+//         */
+//        ObservableList<String> rooms = FXCollections.observableArrayList();
+//        String regex = "\\{([^}]+)\\}";
+//        Pattern pattern = Pattern.compile(regex);
+//        Matcher matcher = pattern.matcher(AdminManageServerCommunication.getAllReservations());
+//
+//        while (matcher.find()) {
+//            rooms.add(matcher.group());
+//        }
 //        listRooms.setItems(rooms.sorted());
 
 
@@ -77,7 +76,7 @@ public class BookingHistoryController {
 //        Building building = (Building) arrary.get(0);
 //        buildings.add(building.toString());
 //        listRooms.setItems(buildings);
-    }
+//    }
 
     /**
      * Get the selected item
@@ -105,6 +104,21 @@ public class BookingHistoryController {
 //        BookingHistoryCommunication.getReservations(id);
     }
 
+    ObservableList<Room> observableList = Room.getRoomData();
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     *
+     *
+     */
+//    @Override
+    public void initialize(){//URL location, ResourceBundle resources) {
+        id.setCellValueFactory(new PropertyValueFactory<>("RoomId"));
+        name.setCellValueFactory(new PropertyValueFactory<>("RoomName"));
+        building.setCellValueFactory(new PropertyValueFactory<>("RoomBuilding"));
+        teacher.setCellValueFactory(new PropertyValueFactory<>("Teacher_only"));
+        capacity.setCellValueFactory(new PropertyValueFactory<>("RoomCapacity"));
 
-
+        listRooms.setItems(observableList);
+    }
 }

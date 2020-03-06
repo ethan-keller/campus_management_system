@@ -154,7 +154,7 @@ public class SearchViewController {
         }
         if (event.getSource() == BookingHistoryButton) {
             stage = (Stage) BookingHistoryButton.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("BookingHistoryView.fxml"));
+            root = FXMLLoader.load(getClass().getResource("bookingHistory.fxml"));
         }
         Scene scene = new Scene(root);
         stage.setScene(scene);

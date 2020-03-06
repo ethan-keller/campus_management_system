@@ -22,6 +22,7 @@ public class Room {
 
     /**
      * Constructor with some initial data.
+     * Simple string property is used because it provides data binding.
      */
     public Room(int roomId, String roomName, int roomBuilding, boolean roomTeacher_only, int roomCapacity, String roomPhoto, String roomDescription, String roomType) {
         this.roomId = new SimpleIntegerProperty(roomId);
@@ -147,7 +148,7 @@ public class Room {
      */
     public static ObservableList<Room> getRoomData() throws JSONException {
         ObservableList<Room> roomData = FXCollections.observableArrayList();
-        JSONArray jsonArrayRooms= new JSONArray(AdminManageServerCommunication.getAllRooms());
+        JSONArray jsonArrayRooms= new JSONArray(AdminManageServerCommunication.getAllReservations());
         for(int i=0; i<jsonArrayRooms.length(); i++){
             Room r = new Room();
             r.setRoomId(jsonArrayRooms.getJSONObject(i).getInt("id") );
