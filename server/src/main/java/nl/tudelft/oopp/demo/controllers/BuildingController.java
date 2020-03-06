@@ -25,6 +25,7 @@ public class BuildingController {
 
     /**
      * Adds a building to the database.
+     *
      * @param name The name of the building.
      * @param room_count The amount of of rooms inside the building.
      * @param address The address of the building. //TODO format of address!!
@@ -43,7 +44,8 @@ public class BuildingController {
     }
 
     /**
-     * Changes the existing building with the provided ID in the database with the provides parameters
+     * Changes the existing building with the provided ID in the database with the provides parameters.
+     *
      * @param id The building ID, this is the building that is going to get changed.
      * @param name The new name of the building
      * @param room_count the new room count of the building
@@ -67,6 +69,7 @@ public class BuildingController {
 
     /**
      * Deletes the building from the database.
+     *
      * @param id The ID of the building you delete.
      */
     @PostMapping("deleteBuilding")
@@ -81,6 +84,7 @@ public class BuildingController {
 
     /**
      * Returns the database entry of the building.
+     *
      * @param id The ID of the building you requested info of.
      * @return //TODO figure out the exact way it's returned.
      */
@@ -96,8 +100,9 @@ public class BuildingController {
     }
 
     /**
-     * Returns all the buildings
-     * @return //TODO figure out the exact way it's returned.
+     * Returns all the buildings.
+     *
+     * @return Returns a List of //TODO figure out the exact way it's returned.
      */
     @GetMapping("getAllBuildings")
     @ResponseBody

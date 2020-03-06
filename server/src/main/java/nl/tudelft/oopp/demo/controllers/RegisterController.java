@@ -24,6 +24,7 @@ public class RegisterController {
     /**
      * Puts a new user into the database. /n
      * UserType will be student.
+     *
      * @param username User-provided username (must be unique from existing ones).
      * @param password User-provided password.
      * @return Returns "nice" if everything works. /n Returns "This username already exists!" if the username was already taken.
