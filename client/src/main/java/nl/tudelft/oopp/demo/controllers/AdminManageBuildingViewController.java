@@ -14,6 +14,7 @@ import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
+import nl.tudelft.oopp.demo.views.EditBuildingDialogView;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class AdminManageBuildingViewController {
     @FXML
     private Label buildingRoomCount;
 
-//    private AdminManageBuildingView adminManageBuildingView;
+
 
     public AdminManageBuildingViewController() {
     }
@@ -48,6 +49,9 @@ public class AdminManageBuildingViewController {
      */
     @FXML
     private void initialize() {
+
+
+
         // Initialize the room table with the three columns.
         buildingIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().buildingIdProperty().getValue().toString()));
         buildingNameColumn.setCellValueFactory(cellData -> cellData.getValue().buildingNameProperty());
@@ -57,11 +61,6 @@ public class AdminManageBuildingViewController {
         buildingTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showBuildingDetails(newValue));
     }
 
-    public void setAdminManageBuildingView(AdminManageBuildingView adminManageBuildingView) throws JSONException {
-        this.adminManageBuildingView = adminManageBuildingView;
-        // Add observable list data to the table
-        buildingTable.setItems(Building.getBuildingData());
-    }
 
     /**
      * Show the buildings in the right side details.
@@ -93,7 +92,7 @@ public class AdminManageBuildingViewController {
             buildingTable.getItems().remove(selectedIndex);
         } else {
             Alert alert = new Alert(AlertType.WARNING);
-            alert.initOwner(adminManageBuildingView.getPrimaryStage());
+            //alert.initOwner(adminManageBuildingView.getPrimaryStage());
             alert.setTitle("No Selection");
             alert.setHeaderText("No Building Selected");
             alert.setContentText("Please select a building in the table.");
@@ -105,16 +104,15 @@ public class AdminManageBuildingViewController {
      * Handles clicking the create new button.
      */
     @FXML
-    private void createNewBuildingClicked() throws UnsupportedEncodingException {
+    private void createNewBuildingClicked(ActionEvent event) throws IOException {
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
         Building tempBuilding = new Building();
-        boolean okClicked = adminManageBuildingView.showBuildingEditDialog(tempBuilding);
-        if(okClicked){
-            AdminManageServerCommunication.createBuilding(tempBuilding.getBuildingName(), tempBuilding.getBuildingRoom_count(), tempBuilding.getBuildingAddress());
-//            Alert alert = new Alert(AlertType.INFORMATION);
-//            alert.setTitle("New building");
-//            alert.setContentText(AdminManageServerCommunication.createBuilding(tempBuilding.getBuildingName(), tempBuilding.getBuildingRoom_count(), tempBuilding.getBuildingAddress()));
-            showBuildingDetails(tempBuilding);
-        }
+        EditBuildingDialogView ebdv = new EditBuildingDialogView();
+        BuildingEditDialogController.edit = false;
+        ebdv.start(stage);
+
     }
 
     /**
@@ -123,10 +121,11 @@ public class AdminManageBuildingViewController {
      */
     @FXML
     private void editBuildingClicked() throws UnsupportedEncodingException {
+        BuildingEditDialogController.edit = true;
         Building selectedBuilding = buildingTable.getSelectionModel().getSelectedItem();
         if (selectedBuilding != null) {
-            boolean okClicked = adminManageBuildingView.showBuildingEditDialog(selectedBuilding);
-            if (okClicked) {
+            //boolean okClicked = adminManageBuildingView.showBuildingEditDialog(selectedBuilding);
+            if (true) {
                 AdminManageServerCommunication.updateBuilding(selectedBuilding.getBuildingId(), selectedBuilding.getBuildingName(), selectedBuilding.getBuildingRoom_count(), selectedBuilding.getBuildingAddress());
 //                Alert alert = new Alert(AlertType.INFORMATION);
 //                alert.setTitle("Edit building");
@@ -136,7 +135,7 @@ public class AdminManageBuildingViewController {
         } else {
             // Nothing selected.
             Alert alert = new Alert(AlertType.WARNING);
-            alert.initOwner(adminManageBuildingView.getPrimaryStage());
+            //alert.initOwner(adminManageBuildingView.getPrimaryStage());
             alert.setTitle("No Selection");
             alert.setHeaderText("No Building Selected");
             alert.setContentText("Please select a room in the table.");

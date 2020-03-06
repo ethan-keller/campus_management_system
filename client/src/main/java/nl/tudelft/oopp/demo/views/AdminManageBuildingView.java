@@ -22,13 +22,6 @@ public class AdminManageBuildingView extends Application{
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        this.primaryStage = primaryStage;
-        showAdminManageBuildingView();
-    }
-    /**
-     * Shows the room overview.
-     */
-    public void showAdminManageBuildingView() {
         try {
             FXMLLoader loader = new FXMLLoader();
             URL xmlUrl = getClass().getResource("/adminManageBuildingView.fxml");
@@ -52,6 +45,7 @@ public class AdminManageBuildingView extends Application{
         }
     }
 
+
     /**
      * Opens a dialog to edit details for the specified room. If the user
      * clicks OK, the changes are saved into the provided room object and true
@@ -60,7 +54,7 @@ public class AdminManageBuildingView extends Application{
      * @param building the builiding  object to be edited
      * @return true if the user clicked OK, false otherwise.
      */
-    public  boolean showBuildingEditDialog(Building building) {
+    public boolean showBuildingEditDialog(Building building) {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
@@ -94,6 +88,7 @@ public class AdminManageBuildingView extends Application{
     public Stage getPrimaryStage() {
         return primaryStage;
     }
+
 
 
     public static void main(String[] args) {
