@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.views.BookingHistoryView;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RegisterView;
 
 import java.io.IOException;
@@ -72,6 +73,13 @@ public class SearchViewController {
 
         BookingHistoryView bookingHistoryView = new BookingHistoryView();
         bookingHistoryView.start(stage);
+    }
+
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
     }
 
 
