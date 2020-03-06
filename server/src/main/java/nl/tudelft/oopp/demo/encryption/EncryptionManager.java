@@ -13,6 +13,11 @@ public class EncryptionManager {
     private static SecretKeySpec secretKey;
     private static byte[] key;
 
+    /**
+     * //TODO
+     *
+     * @param myKey //TODO
+     */
     public static void setKey(String myKey)
     {
         MessageDigest sha = null;
@@ -31,6 +36,13 @@ public class EncryptionManager {
         }
     }
 
+    /**
+     *
+     *
+     * @param strToEncrypt
+     * @param secret
+     * @return
+     */
     public static String encrypt(String strToEncrypt, String secret)
     {
         try
