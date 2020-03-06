@@ -24,7 +24,14 @@ public class Building {
     public Building() {
     }
 
-
+    /**
+     * Constructor.
+     *
+     * @param id int
+     * @param name String
+     * @param room_count int
+     * @param address String //TODO exact format
+     */
     public Building(int id, String name, int room_count, String address) {
         this.id = id;
         this.name = name;
@@ -32,22 +39,48 @@ public class Building {
         this.address = address;
     }
 
+    /**
+     * Retrieves ID of the building from the database.
+     *
+     * @return Returns the int ID.
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Retrieves the name of the building from the database.
+     *
+     * @return Returns the String name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Retrieves the room count of the building from the database.
+     *
+     * @return Returns the int value room_count.
+     */
     public int getRoom_count() {
         return room_count;
     }
 
+    /**
+     * Retrieves the address of the building from the database.
+     *
+     * @return Returns the String address formatted like: "".//TODO address format
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * Equals
+     *
+     * @param o An Object to be compared to "this".
+     * @return True if o is the same object, false otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
