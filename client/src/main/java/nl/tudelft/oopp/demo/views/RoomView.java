@@ -18,7 +18,8 @@ public class RoomView extends Application {
         Parent root = loader.load();
 
         primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(false);
+        primaryStage.setMinHeight(400);
+        primaryStage.setMinWidth(710);
         primaryStage.show();
     }
 

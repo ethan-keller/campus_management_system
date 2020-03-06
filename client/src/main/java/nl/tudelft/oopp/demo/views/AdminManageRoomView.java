@@ -18,7 +18,7 @@ public class AdminManageRoomView extends Application{
     public AdminManageRoomView(){}
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         showAdminManageRoomView();
     }
@@ -33,7 +33,8 @@ public class AdminManageRoomView extends Application{
             Parent root = loader.load();
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.setResizable(false);
+            primaryStage.setMinHeight(400);
+            primaryStage.setMinWidth(710);
             primaryStage.show();
 
         } catch (IOException e) {
@@ -71,7 +72,7 @@ public class AdminManageRoomView extends Application{
             controller.setRoom(room);
 
             // Show the dialog and wait until the user closes it
-            dialogStage.setResizable(false);
+
             dialogStage.showAndWait();
 
             return true;

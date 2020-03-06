@@ -21,7 +21,7 @@ public class AdminManageBuildingView extends Application{
     public AdminManageBuildingView(){}
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage)  {
         this.primaryStage = primaryStage;
         showAdminManageBuildingView();
     }
@@ -42,7 +42,8 @@ public class AdminManageBuildingView extends Application{
             primaryStage.setScene(oldScene == null
                     ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                     : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
-            primaryStage.setResizable(false);
+            primaryStage.setMinHeight(400);
+            primaryStage.setMinWidth(710);
             primaryStage.show();
 //            Scene scene = new Scene(root);
 //            primaryStage.setScene(scene);
@@ -83,7 +84,7 @@ public class AdminManageBuildingView extends Application{
             controller.setBuilding(building);
 
             // Show the dialog and wait until the user closes it
-            dialogStage.setResizable(false);
+
             dialogStage.showAndWait();
 
             return true;
