@@ -38,7 +38,7 @@ public class AdminManageBuildingViewController {
     @FXML
     private Label buildingRoomCount;
 
-    private AdminManageBuildingView adminManageBuildingView;
+//    private AdminManageBuildingView adminManageBuildingView;
 
     public AdminManageBuildingViewController() {
     }
