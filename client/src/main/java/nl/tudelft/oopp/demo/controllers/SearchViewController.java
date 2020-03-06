@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -10,6 +11,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.views.BookingHistoryView;
+import nl.tudelft.oopp.demo.views.RegisterView;
+
+import java.io.IOException;
 
 public class SearchViewController {
 
@@ -60,6 +65,13 @@ public class SearchViewController {
         String usernameTxt = SearchBar.getText();
         //////THIS REQUIRES SEARCH ALGORITHM
         // TO BE ADDED WITH DATABASE GROUP
+    }
+
+    public void BookingHistoryButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        BookingHistoryView bookingHistoryView = new BookingHistoryView();
+        bookingHistoryView.start(stage);
     }
 
 
