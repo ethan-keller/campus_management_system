@@ -31,7 +31,7 @@ public class AdminManageBuildingView extends Application{
     public void showAdminManageBuildingView() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            URL xmlUrl = getClass().getResource("/adminManageRoomView.fxml");
+            URL xmlUrl = getClass().getResource("/adminManageBuildingView.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
 
@@ -71,15 +71,15 @@ public class AdminManageBuildingView extends Application{
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Edit Building");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
+//            dialogStage.initModality(Modality.WINDOW_MODAL);
+//            dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(root);
             dialogStage.setScene(scene);
 
             // Set the room into the controller.
-            BuildingEditDialogController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-            controller.setBuilding(building);
+//            BuildingEditDialogController controller = loader.getController();
+//            controller.setDialogStage(dialogStage);
+//            controller.setBuilding(building);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();

@@ -14,9 +14,6 @@ import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
-import nl.tudelft.oopp.demo.views.AdminManageRoomView;
-import nl.tudelft.oopp.demo.views.LoginView;
-import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
