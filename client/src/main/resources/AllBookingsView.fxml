@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane minHeight="240.0" minWidth="240.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AllBookingsView">
+   <children>
+      <SplitPane dividerPositions="0.27" layoutX="96.0" layoutY="78.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0ebaf8" height="71.0" layoutX="153.0" layoutY="17.0" stroke="#0ebaf8" strokeType="INSIDE" width="292.0" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="153.39999999999998" />
+                  <Text fill="WHITE" layoutX="190.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All Bookings" textAlignment="CENTER">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="BackButton" layoutX="531.0" layoutY="25.0" mnemonicParsing="false" text="Back" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TreeTableView fx:id="Table" layoutX="7.0" layoutY="14.0" prefHeight="288.0" prefWidth="598.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TreeTableColumn fx:id="Date" minWidth="40.0" prefWidth="120.0" text="Date" />
+                      <TreeTableColumn fx:id="User" minWidth="40.0" prefWidth="120.0" text="User" />
+                        <TreeTableColumn fx:id="Timeslot" minWidth="40.0" prefWidth="120.0" text="Timeslot" />
+                        <TreeTableColumn fx:id="Building" minWidth="40.0" prefWidth="120.0" text="Building" />
+                        <TreeTableColumn minWidth="40.0" prefWidth="120.0" text="Room" />
+                    </columns>
+                  </TreeTableView>
+               </children></AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
