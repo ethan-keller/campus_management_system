@@ -19,7 +19,7 @@
     <Label text="Password:" GridPane.columnIndex="3" GridPane.rowIndex="5" />
     <TextField fx:id="username" prefHeight="25.0" prefWidth="225.0" promptText="Username" GridPane.columnIndex="8" GridPane.rowIndex="4" />
     <PasswordField fx:id="password" promptText="Password" GridPane.columnIndex="8" GridPane.rowIndex="5" />
-    <Button fx:id="button1" onAction="#loginButtonClicked" text="Log in" GridPane.columnIndex="8" GridPane.rowIndex="7" />
+    <Button fx:id="button1" defaultButton="true" onAction="#loginButtonClicked" text="Log in" GridPane.columnIndex="8" GridPane.rowIndex="7" />
     <Hyperlink fx:id="goToRegister" onAction="#goToRegisterClicked" text="Do not have an account? Register now!" underline="true" GridPane.columnIndex="8" GridPane.rowIndex="9" />
    <columnConstraints>
       <ColumnConstraints />

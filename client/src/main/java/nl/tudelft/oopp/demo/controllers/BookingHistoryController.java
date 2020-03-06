@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.communication.BookingHistoryCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -35,12 +36,12 @@ public class BookingHistoryController {
         ObservableList<String> rooms = FXCollections.observableArrayList();
         String regex = "\\{([^}]+)\\}";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(BookingHistoryCommunication.getAllReservations());
+        Matcher matcher = pattern.matcher(AdminManageServerCommunication.getAllReservations());
 
         while (matcher.find()) {
             rooms.add(matcher.group());
         }
-        listRooms.setItems(rooms);
+        listRooms.setItems(rooms.sorted());
 
 
         //Test code to check if the database has any sort of reservations present in itself at all.
@@ -65,9 +66,11 @@ public class BookingHistoryController {
     public void testButtonClicked() {
         Gson gson = new Gson();
         Room rooms = gson.fromJson(listRooms.getSelectionModel().getSelectedItems().get(0).toString(), Room.class);
+//        Object rooms = new Object();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(rooms.toString());
         alert.showAndWait();
+//        listRooms.setItems(Room.getRoomData().sorted());
     }
 
     public void backButtonClicked(ActionEvent event) throws IOException {

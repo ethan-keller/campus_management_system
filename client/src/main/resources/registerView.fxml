@@ -21,7 +21,7 @@
     <TextField fx:id="username" promptText="Username" GridPane.columnIndex="3" GridPane.rowIndex="3" />
     <PasswordField fx:id="password" promptText="Password" GridPane.columnIndex="3" GridPane.rowIndex="4" />
     <PasswordField fx:id="rePassword" promptText="Repeat password" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-    <Button fx:id="buttonRegister" onAction="#registerClicked" text="Register" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+    <Button fx:id="buttonRegister" defaultButton="true" onAction="#registerClicked" text="Register" GridPane.columnIndex="3" GridPane.rowIndex="8" />
    <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#backClicked" text="Back" GridPane.columnIndex="2" GridPane.rowIndex="8" />
    <columnConstraints>
       <ColumnConstraints />
