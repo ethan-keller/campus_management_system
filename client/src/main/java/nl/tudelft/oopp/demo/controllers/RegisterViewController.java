@@ -25,7 +25,13 @@ public class RegisterViewController {
     private PasswordField rePassword;
 
     @FXML
-    private Label pwd_error;
+    private Label passwordLabel;
+
+    @FXML
+    private Label rePasswordLabel;
+
+    @FXML
+    private Label usernameLabel;
 
     /**
      * Handles clicking the button.
@@ -39,9 +45,23 @@ public class RegisterViewController {
         String passwordTxt = password.getText();
         String rePasswordTxt = rePassword.getText();
 
-        if (!passwordTxt.equals(rePasswordTxt)) {
-            pwd_error.textProperty().set("Password does not match, try again");
-        } else {
+        if(username.getText().trim().isEmpty()) {
+            usernameLabel.setText("This field cannot be left empty !");
+            usernameLabel.setStyle("-fx-text-fill: red");
+        }
+        if(password.getText().trim().isEmpty()) {
+            passwordLabel.setText("This field cannot be left empty !");
+            passwordLabel.setStyle("-fx-text-fill: red");
+        }
+        if(password.getText().length() < 8) {
+            passwordLabel.setText("The password needs to have atleast 8 characters !");
+            passwordLabel.setStyle("-fx-text-fill: red");
+        }
+        if(!passwordTxt.equals(rePasswordTxt)) {
+            rePasswordLabel.setText("The password needs to be the same !");
+            rePasswordLabel.setStyle("-fx-text-fill: red");
+        }
+        else {
             alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt));
             alert.showAndWait();
         }

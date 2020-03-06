@@ -17,18 +17,22 @@
     <Label text="Username:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
     <Label text="Password:" GridPane.columnIndex="2" GridPane.rowIndex="5" />
     <Label text="Repeat Password:" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-    <Label fx:id="pwd_error" text="" GridPane.columnIndex="3" GridPane.rowIndex="7" />
     <TextField fx:id="username" promptText="Username" GridPane.columnIndex="3" GridPane.rowIndex="3" />
     <PasswordField fx:id="password" promptText="Password" GridPane.columnIndex="3" GridPane.rowIndex="5" />
     <PasswordField fx:id="rePassword" promptText="Repeat password" GridPane.columnIndex="3" GridPane.rowIndex="7" />
     <Button fx:id="buttonRegister" defaultButton="true" onAction="#registerClicked" text="Register" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="9" />
    <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#backClicked" text="Back" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-   <Label fx:id="passwordLabel" text="Make sure the password is 8 characters long and has 1 numeric value." textFill="#5a5a5a" GridPane.columnIndex="3" GridPane.rowIndex="6">
+   <Label fx:id="passwordLabel" text="Make sure the password is 8 characters long and has 1 numeric value." textFill="#000000" GridPane.columnIndex="3" GridPane.rowIndex="6">
       <font>
          <Font size="10.0" />
       </font>
    </Label>
-   <Label fx:id="rePasswordLabel" prefHeight="17.0" prefWidth="371.0" text="Repeat the password entered above." textFill="#5a5a5a" GridPane.columnIndex="3" GridPane.rowIndex="8">
+   <Label fx:id="rePasswordLabel" prefHeight="17.0" prefWidth="371.0" text="Repeat the password entered above." textFill="#000000" GridPane.columnIndex="3" GridPane.rowIndex="8">
+      <font>
+         <Font size="10.0" />
+      </font>
+   </Label>
+   <Label fx:id="usernameLabel" prefHeight="17.0" prefWidth="369.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
       <font>
          <Font size="10.0" />
       </font>
