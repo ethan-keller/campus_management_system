@@ -14,9 +14,9 @@ public class EncryptionManager {
     private static byte[] key;
 
     /**
-     * //TODO
+     * Configures myKey to a SecretKeySpec and set's secretKey to that.
      *
-     * @param myKey //TODO
+     * @param myKey The unconfigured key you want to use.
      */
     public static void setKey(String myKey)
     {
@@ -37,11 +37,11 @@ public class EncryptionManager {
     }
 
     /**
+     * Encrypts a string using the provided secret key
      *
-     *
-     * @param strToEncrypt
-     * @param secret
-     * @return
+     * @param strToEncrypt The String you want to encrypt
+     * @param secret The encryption-key
+     * @return Returns the encrypted String.
      */
     public static String encrypt(String strToEncrypt, String secret)
     {
@@ -59,6 +59,13 @@ public class EncryptionManager {
         return null;
     }
 
+    /**
+     * Decrypts a encrypted String.
+     *
+     * @param strToDecrypt The String you want to decrypt.
+     * @param secret The key used to encrypt.
+     * @return The original String before encryption.
+     */
     public static String decrypt(String strToDecrypt, String secret)
     {
         try
