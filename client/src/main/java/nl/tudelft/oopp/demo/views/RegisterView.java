@@ -10,6 +10,11 @@ import javafx.stage.Stage;
 
 public class RegisterView extends Application{
 
+    /**
+     * Used in the controller class to stop the user from resizing the screen.
+     */
+    public static Stage stage;
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -21,6 +26,7 @@ public class RegisterView extends Application{
         primaryStage.setScene(oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

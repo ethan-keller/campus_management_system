@@ -33,6 +33,7 @@ public class AdminManageRoomView extends Application{
             Parent root = loader.load();
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
+            primaryStage.setResizable(false);
             primaryStage.show();
 
         } catch (IOException e) {
@@ -70,6 +71,7 @@ public class AdminManageRoomView extends Application{
             controller.setRoom(room);
 
             // Show the dialog and wait until the user closes it
+            dialogStage.setResizable(false);
             dialogStage.showAndWait();
 
             return true;
