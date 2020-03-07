@@ -18,6 +18,10 @@ public class Building {
     private StringProperty buildingAddress;
 
     public Building() {
+        this.buildingId = new SimpleIntegerProperty(-1);
+        this.buildingName = new SimpleStringProperty(null);
+        this.buildingRoom_count = new SimpleIntegerProperty(-1);
+        this.buildingAddress = new SimpleStringProperty(null);
     }
 
     public Building(int buildingId, String buildingName, int buildingRoom_count, String buildingAddress) {
@@ -27,8 +31,8 @@ public class Building {
         this.buildingAddress = new SimpleStringProperty(buildingAddress);
     }
 
-    public int getBuildingId() {
-        return buildingId.get();
+    public IntegerProperty getBuildingId() {
+        return buildingId;
     }
 
     public void setBuildingId(int buildingId) { this.buildingId.set(buildingId); }
@@ -39,20 +43,16 @@ public class Building {
 
 
 
-    public String getBuildingName() {
-        return buildingName.get();
+    public StringProperty getBuildingName() {
+        return buildingName;
     }
 
     public void setBuildingName(String buildingName) { this.buildingName.set(buildingName); }
 
-    public StringProperty buildingNameProperty() {
-        return buildingName;
-    }
 
 
-
-    public int getBuildingRoom_count() {
-        return buildingRoom_count.get();
+    public IntegerProperty getBuildingRoom_count() {
+        return buildingRoom_count;
     }
 
     public void setBuildingRoom_count(int buildingRoom_count) { this.buildingRoom_count.set(buildingRoom_count); }
@@ -63,8 +63,8 @@ public class Building {
 
 
 
-    public String getBuildingAddress() {
-        return buildingAddress.get();
+    public StringProperty getBuildingAddress() {
+        return buildingAddress;
     }
 
     public void setBuildingAddress(String buildingAddress) { this.buildingAddress.set(buildingAddress); }
@@ -78,9 +78,10 @@ public class Building {
      */
     public static ObservableList<Building> getBuildingData() throws JSONException {
         ObservableList<Building> buildingData = FXCollections.observableArrayList();
-        JSONArray jsonArrayBuildings= new JSONArray(AdminManageServerCommunication.getAllBuildings());
+        JSONArray jsonArrayBuildings = new JSONArray(AdminManageServerCommunication.getAllBuildings());
         for(int i=0; i<jsonArrayBuildings.length(); i++){
             Building b = new Building();
+            b.setBuildingId(2);
             b.setBuildingId(jsonArrayBuildings.getJSONObject(i).getInt("id") );
             b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name") );
             b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getString("address") );
