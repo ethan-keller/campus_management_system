@@ -55,7 +55,7 @@ public class RoomEditDialogController {
 
             if (room == null) return;
             roomNameField.setText(room.getRoomName().get());
-            roomBuildingComboBox.getSelectionModel().select(ol.stream().filter(x -> x.getBuildingId() == room.getRoomBuilding().get()).collect(Collectors.toList()).get(0));
+            roomBuildingComboBox.getSelectionModel().select(ol.stream().filter(x -> x.getBuildingId().get() == room.getRoomBuilding().get()).collect(Collectors.toList()).get(0));
             if (room.getTeacher_only().get()) radioButtonYes.setSelected(true);
             else radioButtonNo.setSelected(true);
             roomCapacityField.setText(String.valueOf(room.getRoomCapacity().get()));
@@ -71,7 +71,7 @@ public class RoomEditDialogController {
             @Override
             public String toString(Building object) {
                 if (object == null) return "";
-                else return object.getBuildingName();
+                else return object.getBuildingName().get();
             }
 
             @Override
@@ -94,8 +94,7 @@ public class RoomEditDialogController {
         if (isInputValid()) {
             emptyRoom();
             room.setRoomName(this.roomNameField.getText());
-            room.setRoomBuilding(this.roomBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId());
-            System.out.println(this.roomBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId());
+            room.setRoomBuilding(this.roomBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
             room.setTeacher_only(this.radioButtonYes.isSelected() ? true : false);
             room.setRoomCapacity(Integer.parseInt(this.roomCapacityField.getText()));
             room.setRoomType(this.roomTypeField.getText());

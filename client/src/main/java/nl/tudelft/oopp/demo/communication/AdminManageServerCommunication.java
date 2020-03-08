@@ -32,7 +32,6 @@ public class AdminManageServerCommunication {
     public static void updateRoom(int id, String name, int building, boolean teacher_only, int capacity, String photos, String description, String type) throws UnsupportedEncodingException {
         String params = "id="+id+"&name="+name+"&building="+building+"&teacher_only="+teacher_only+"&capacity="+capacity+"&photos="+photos+"&description="+description+"&type="+type;
         params = GeneralMethods.encodeCommunication(params);
-        System.out.println(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateRoom?"+params)).build();
         HttpResponse<String> response = null;
