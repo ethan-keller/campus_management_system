@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.google.gson.Gson;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,13 +25,13 @@ import java.util.regex.Pattern;
 public class BookingHistoryController {
 
     @FXML
-    private TableView<Reservation> listRooms;
+    private TableView<Reservation> listReservations;
     @FXML
-    private TableColumn<Reservation,Integer> id;
+    private TableColumn<Reservation,String> id;
     @FXML
     private TableColumn<Reservation,String> username;
     @FXML
-    private  TableColumn<Reservation, Integer> room;
+    private  TableColumn<Reservation,String> room;
     @FXML
     private TableColumn<Reservation,String> date;
     @FXML
@@ -38,73 +39,65 @@ public class BookingHistoryController {
     @FXML
     private TableColumn<Reservation,String> ending_time;
 
+    public static Reservation currentSelectedReservation;
 
+    public BookingHistoryController() {}
 
     public void initialize() {
+        try {
 
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        username.setCellValueFactory(new PropertyValueFactory<>("username"));
-        room.setCellValueFactory(new PropertyValueFactory<>("room"));
-        date.setCellValueFactory(new PropertyValueFactory<>("date"));
-        starting_time.setCellValueFactory(new PropertyValueFactory<>("starting_time"));
-        ending_time.setCellValueFactory(new PropertyValueFactory<>("ending_time"));
-        /**
-         * The regex string seperates all the building objects into multiple tuples. The pattern matcher
-         * recognizes the similar pattern of the different building objects. The matcher.find() finds all
-         * these objects and groups them.
-         * It adds the items to the viewList.
-         */
-        ObservableList<Reservation> reservations = Reservation.getReservation();
-        listRooms.setItems(reservations);
-        //ObservableList<String> rooms = FXCollections.observableArrayList();
-//        String regex = "\\{([^}]+)\\}";
-//        Pattern pattern = Pattern.compile(regex);
-//        Matcher matcher = pattern.matcher(AdminManageServerCommunication.getAllReservations().);
+            //Initializing all the columns created in the table view to inhibit the data passed down through the server.
+
+            id.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getId().get())));
+            username.setCellValueFactory(cell -> cell.getValue().getUsername());
+            room.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getRoom().get())));
+            date.setCellValueFactory(cell -> cell.getValue().getDate());
+            starting_time.setCellValueFactory(cell -> cell.getValue().getStarting_time());
+            ending_time.setCellValueFactory(cell -> cell.getValue().getEnding_time());
+
+            //Adding the Observable List Data to the tableView created.
+            listReservations.setItems(Reservation.getReservation());
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+//    public void refresh() {
+//        initialize();
+//    }
+
+//    public Reservation getSelectedReservation() {
 //
-//        while (matcher.find()) {
-//            reservations.add(matcher.group());
+//        if(listReservations.getSelectionModel().getSelectedIndex() >= 0) {
+//            return listReservations.getSelectionModel().getSelectedItem();
 //        }
-//        listRooms.setItems(rooms.);
+//        else {
+//            return null;
+//        }
+//    }
+//
+//    public int getSelectedIndex() {
+//        return listReservations.getSelectionModel().getSelectedIndex();
+//    }
+//
+//    @FXML
+//    public void deleteButtonClicked(ActionEvent event) {
+//        Reservation selectedReservation = getSelectedReservation();
+//        int selectedIndex = getSelectedIndex();
+//        try {
+//            if(selectedIndex >= 0 ){
+//
+//            }
+//        }
+//    }
 
-
-        //Test code to check if the database has any sort of reservations present in itself at all.
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setContentText(rooms.toString());
-//        alert.showAndWait();
-
-
-//        buildings.add(BookingHistoryCommunication.getAllBuidings());
-//        JSONArray arrary = new JSONArray(BookingHistoryCommunication.getAllBuidings());
-//        //Building building = gson.fromJson(BookingHistoryCommunication.getAllBuidings(), Building.class);
-//        Building building = (Building) arrary.get(0);
-//        buildings.add(building.toString());
-//        listRooms.setItems(buildings);
-    }
-
-    /**
-     * Get the selected item
-     * Parse it into a building
-     * toString() to display it as a string.
-     */
-    public void testButtonClicked() {
-        Gson gson = new Gson();
-        Room rooms = gson.fromJson(listRooms.getSelectionModel().getSelectedItems().get(0).toString(), Room.class);
-//        Object rooms = new Object();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(rooms.toString());
-        alert.showAndWait();
-//        listRooms.setItems(Room.getRoomData().sorted());
-    }
-
+    @FXML
     public void backButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         SearchView sv = new SearchView();
         sv.start(stage);
-
-
-//        int id = 1;
-//        BookingHistoryCommunication.getReservations(id);
     }
 
 }
