@@ -1,67 +1,70 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.google.gson.Gson;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
-import nl.tudelft.oopp.demo.communication.BookingHistoryCommunication;
-import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.SearchView;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.PipedReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BookingHistoryController {
 
     @FXML
-    private TableView<Room> listRooms;
+    private TableView<Reservation> listRooms;
     @FXML
-    private TableColumn<Room,Integer> id;
+    private TableColumn<Reservation,Integer> id;
     @FXML
-    private TableColumn<Room,String> name;
+    private TableColumn<Reservation,String> username;
     @FXML
-    private TableColumn<Room,String> building;
+    private  TableColumn<Reservation, Integer> room;
     @FXML
-    private TableColumn<Room,String> teacher;
+    private TableColumn<Reservation,String> date;
     @FXML
-    private TableColumn<Room,String> capacity;
+    private TableColumn<Reservation,String> starting_time;
+    @FXML
+    private TableColumn<Reservation,String> ending_time;
 
-    ObservableList<Room> rooms = FXCollections.observableArrayList();
 
-//    public void initialize() {
-//
-//
-//
-//        /**
-//         * The regex string seperates all the building objects into multiple tuples. The pattern matcher
-//         * recognizes the similar pattern of the different building objects. The matcher.find() finds all
-//         * these objects and groups them.
-//         * It adds the items to the viewList.
-//         */
-//        ObservableList<String> rooms = FXCollections.observableArrayList();
+
+    public void initialize() {
+
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        username.setCellValueFactory(new PropertyValueFactory<>("username"));
+        room.setCellValueFactory(new PropertyValueFactory<>("room"));
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        starting_time.setCellValueFactory(new PropertyValueFactory<>("starting_time"));
+        ending_time.setCellValueFactory(new PropertyValueFactory<>("ending_time"));
+        /**
+         * The regex string seperates all the building objects into multiple tuples. The pattern matcher
+         * recognizes the similar pattern of the different building objects. The matcher.find() finds all
+         * these objects and groups them.
+         * It adds the items to the viewList.
+         */
+        ObservableList<Reservation> reservations = Reservation.getReservation();
+        listRooms.setItems(reservations);
+        //ObservableList<String> rooms = FXCollections.observableArrayList();
 //        String regex = "\\{([^}]+)\\}";
 //        Pattern pattern = Pattern.compile(regex);
-//        Matcher matcher = pattern.matcher(AdminManageServerCommunication.getAllReservations());
+//        Matcher matcher = pattern.matcher(AdminManageServerCommunication.getAllReservations().);
 //
 //        while (matcher.find()) {
-//            rooms.add(matcher.group());
+//            reservations.add(matcher.group());
 //        }
-//        listRooms.setItems(rooms.sorted());
+//        listRooms.setItems(rooms.);
 
 
         //Test code to check if the database has any sort of reservations present in itself at all.
@@ -76,7 +79,7 @@ public class BookingHistoryController {
 //        Building building = (Building) arrary.get(0);
 //        buildings.add(building.toString());
 //        listRooms.setItems(buildings);
-//    }
+    }
 
     /**
      * Get the selected item
@@ -104,21 +107,4 @@ public class BookingHistoryController {
 //        BookingHistoryCommunication.getReservations(id);
     }
 
-    ObservableList<Room> observableList = Room.getRoomData();
-    /**
-     * Called to initialize a controller after its root element has been
-     * completely processed.
-     *
-     *
-     */
-//    @Override
-    public void initialize(){//URL location, ResourceBundle resources) {
-        id.setCellValueFactory(new PropertyValueFactory<>("RoomId"));
-        name.setCellValueFactory(new PropertyValueFactory<>("RoomName"));
-        building.setCellValueFactory(new PropertyValueFactory<>("RoomBuilding"));
-        teacher.setCellValueFactory(new PropertyValueFactory<>("Teacher_only"));
-        capacity.setCellValueFactory(new PropertyValueFactory<>("RoomCapacity"));
-
-        listRooms.setItems(observableList);
-    }
 }

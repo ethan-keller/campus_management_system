@@ -38,7 +38,7 @@ public class Reservation {
         return id.get();
     }
     public void setId(int id) {
-        this.id.set(id);
+        this.id = new SimpleIntegerProperty(id);
     }
 
 
@@ -46,7 +46,7 @@ public class Reservation {
         return username.get();
     }
     public void setUsername(String username) {
-        this.username.set(username);
+        this.username = new SimpleStringProperty(username);
     }
 
 
@@ -54,7 +54,7 @@ public class Reservation {
         return room.get();
     }
     public void setRoom(int room) {
-        this.room.set(room);
+        this.room = new SimpleIntegerProperty(room);
     }
 
 
@@ -62,23 +62,21 @@ public class Reservation {
         return date.get();
     }
     public void setDate(String date) {
-        this.date.set(date);
+        this.date = new SimpleStringProperty(date);
     }
 
 
     public String getStarting_time() {
         return starting_time.get();
     }
-    public void setStarting_time(String starting_time) {
-        this.starting_time.set(starting_time);
-    }
+    public void setStarting_time(String starting_time) {this.starting_time = new SimpleStringProperty(starting_time); }
 
 
     public String getEnding_time() {
         return ending_time.get();
     }
     public void setEnding_time(String ending_time) {
-        this.ending_time.set(ending_time);
+        this.ending_time = new SimpleStringProperty(ending_time);
     }
 
 

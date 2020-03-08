@@ -19,6 +19,7 @@
               <columns>
                 <TableColumn fx:id="id" prefWidth="75.0" text="id" />
                 <TableColumn fx:id="name" prefWidth="75.0" text="room" />
+                  <TableColumn fx:id="room" prefWidth="75.0" text="room" />
                   <TableColumn fx:id="building" prefWidth="75.0" text="building" />
                   <TableColumn fx:id="teacher" prefWidth="75.0" text="teacher" />
                   <TableColumn fx:id="capacity" prefWidth="75.0" text="capacity" />
