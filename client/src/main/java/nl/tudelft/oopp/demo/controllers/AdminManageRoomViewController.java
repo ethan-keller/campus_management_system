@@ -100,8 +100,8 @@ public class AdminManageRoomViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-                // TODO: Check that room deletion was succesful before displaying alert
-                AdminManageServerCommunication.deleteBuilding(selectedRoom.getRoomId().getValue());
+                // TODO: Check that room deletion was successful before displaying alert
+                AdminManageServerCommunication.deleteRoom(selectedRoom.getRoomId().getValue());
                 refresh();
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Delete room");
@@ -133,13 +133,14 @@ public class AdminManageRoomViewController {
             view.start(stage);
             Room tempRoom = RoomEditDialogController.room;
             if (tempRoom == null) return;
-            // TODO: Check that room creation was succesful before displaying alert
+            // TODO: Check that room creation was successful before displaying alert
             AdminManageServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacher_only().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
             refresh();
 
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("New room");
             alert.setContentText("Added new room!");
+            alert.showAndWait();
         } catch (Exception e) {
             System.out.println("room creation exception");
             e.printStackTrace();
@@ -164,7 +165,8 @@ public class AdminManageRoomViewController {
                 Room tempRoom = RoomEditDialogController.room;
 
                 if (tempRoom == null) return;
-                // TODO: Check that building edit was succesful before displaying alert
+                // TODO: Check that building edit was successful before displaying alert
+                System.out.println(tempRoom.getRoomBuilding().get());
                 AdminManageServerCommunication.updateRoom(selectedRoom.getRoomId().get(), tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacher_only().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
                 refresh();
 

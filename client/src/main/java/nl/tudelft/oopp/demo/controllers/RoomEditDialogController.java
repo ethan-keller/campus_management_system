@@ -1,22 +1,15 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
-import org.json.JSONArray;
-import org.json.JSONException;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class RoomEditDialogController {
@@ -25,23 +18,18 @@ public class RoomEditDialogController {
     private TextField roomNameField;
     @FXML
     private ComboBox<Building> roomBuildingComboBox;
-
     @FXML
     private ToggleGroup teacher_only;
-
     @FXML
     private RadioButton radioButtonYes;
-
     @FXML
     private RadioButton radioButtonNo;
-
     @FXML
     private TextField roomCapacityField;
     @FXML
     private TextField roomTypeField;
     @FXML
     private TextField roomDescriptionField;
-
     @FXML
     private Button uploadRoomPhoto;
 
@@ -63,25 +51,9 @@ public class RoomEditDialogController {
             Room room = AdminManageRoomViewController.currentSelectedRoom;
             ObservableList<Building> ol = Building.getBuildingData();
             roomBuildingComboBox.setItems(ol);
-
-            StringConverter<Building> converter = new StringConverter<Building>() {
-                @Override
-                public String toString(Building object) {
-                    if (object == null) return "";
-                    else return object.getBuildingName();
-                }
-
-                @Override
-                public Building fromString(String id) {
-                    return ol.stream().filter(x -> String.valueOf(x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
-                }
-            };
-
-            roomBuildingComboBox.setConverter(converter);
-
+            this.setRoomBuildingComboBoxConverter(ol);
 
             if (room == null) return;
-
             roomNameField.setText(room.getRoomName().get());
             roomBuildingComboBox.getSelectionModel().select(ol.stream().filter(x -> x.getBuildingId() == room.getRoomBuilding().get()).collect(Collectors.toList()).get(0));
             if (room.getTeacher_only().get()) radioButtonYes.setSelected(true);
@@ -94,10 +66,25 @@ public class RoomEditDialogController {
         }
     }
 
+    public void setRoomBuildingComboBoxConverter(ObservableList<Building> ol){
+        StringConverter<Building> converter = new StringConverter<Building>() {
+            @Override
+            public String toString(Building object) {
+                if (object == null) return "";
+                else return object.getBuildingName();
+            }
+
+            @Override
+            public Building fromString(String id) {
+                return ol.stream().filter(x -> String.valueOf(x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
+            }
+        };
+        roomBuildingComboBox.setConverter(converter);
+    }
+
     private static void emptyRoom(){
         room = new Room();
     }
-
 
     /**
      * Called when the user clicks ok.
@@ -108,6 +95,7 @@ public class RoomEditDialogController {
             emptyRoom();
             room.setRoomName(this.roomNameField.getText());
             room.setRoomBuilding(this.roomBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId());
+            System.out.println(this.roomBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId());
             room.setTeacher_only(this.radioButtonYes.isSelected() ? true : false);
             room.setRoomCapacity(Integer.parseInt(this.roomCapacityField.getText()));
             room.setRoomType(this.roomTypeField.getText());
