@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
@@ -86,10 +86,10 @@ public class AdminManageBuildingViewController {
         Building selectedBuilding = buildingTable.getSelectionModel().getSelectedItem();
         int selectedIndex = buildingTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
-            AdminManageServerCommunication.deleteBuilding(selectedBuilding.getBuildingId());
+            BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId());
 //            Alert alert = new Alert(AlertType.INFORMATION);
 //            alert.setTitle("Delete building");
-//            alert.setContentText(AdminManageServerCommunication.deleteBuilding(selectedBuilding.getBuildingId()));
+//            alert.setContentText(BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId()));
             buildingTable.getItems().remove(selectedIndex);
         } else {
             Alert alert = new Alert(AlertType.WARNING);
@@ -109,10 +109,10 @@ public class AdminManageBuildingViewController {
         Building tempBuilding = new Building();
         boolean okClicked = adminManageBuildingView.showBuildingEditDialog(tempBuilding);
         if(okClicked){
-            AdminManageServerCommunication.createBuilding(tempBuilding.getBuildingName(), tempBuilding.getBuildingRoom_count(), tempBuilding.getBuildingAddress());
+            BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName(), tempBuilding.getBuildingRoom_count(), tempBuilding.getBuildingAddress());
 //            Alert alert = new Alert(AlertType.INFORMATION);
 //            alert.setTitle("New building");
-//            alert.setContentText(AdminManageServerCommunication.createBuilding(tempBuilding.getBuildingName(), tempBuilding.getBuildingRoom_count(), tempBuilding.getBuildingAddress()));
+//            alert.setContentText(BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName(), tempBuilding.getBuildingRoom_count(), tempBuilding.getBuildingAddress()));
             showBuildingDetails(tempBuilding);
         }
     }
@@ -127,10 +127,10 @@ public class AdminManageBuildingViewController {
         if (selectedBuilding != null) {
             boolean okClicked = adminManageBuildingView.showBuildingEditDialog(selectedBuilding);
             if (okClicked) {
-                AdminManageServerCommunication.updateBuilding(selectedBuilding.getBuildingId(), selectedBuilding.getBuildingName(), selectedBuilding.getBuildingRoom_count(), selectedBuilding.getBuildingAddress());
+                BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId(), selectedBuilding.getBuildingName(), selectedBuilding.getBuildingRoom_count(), selectedBuilding.getBuildingAddress());
 //                Alert alert = new Alert(AlertType.INFORMATION);
 //                alert.setTitle("Edit building");
-//                alert.setContentText(AdminManageServerCommunication.updateBuilding(selectedBuilding.getBuildingId(), selectedBuilding.getBuildingName(), selectedBuilding.getBuildingRoom_count(), selectedBuilding.getBuildingAddress()));
+//                alert.setContentText(BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId(), selectedBuilding.getBuildingName(), selectedBuilding.getBuildingRoom_count(), selectedBuilding.getBuildingAddress()));
                 showBuildingDetails(selectedBuilding);
             }
         } else {

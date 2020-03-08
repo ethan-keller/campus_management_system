@@ -7,7 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -97,10 +97,10 @@ public class AdminManageRoomViewController {
         Room selectedRoom = roomTable.getSelectionModel().getSelectedItem();
         int selectedIndex = roomTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
-            AdminManageServerCommunication.deleteRoom(selectedRoom.getRoomId());
+            RoomServerCommunication.deleteRoom(selectedRoom.getRoomId());
 //            Alert alert = new Alert(AlertType.INFORMATION);
 //            alert.setTitle("Delete room");
-//            alert.setContentText(AdminManageServerCommunication.deleteRoom(selectedRoom.getRoomId()));
+//            alert.setContentText(RoomServerCommunication.deleteRoom(selectedRoom.getRoomId()));
             roomTable.getItems().remove(selectedIndex);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -120,11 +120,11 @@ public class AdminManageRoomViewController {
         Room tempRoom = new Room();
         boolean okClicked = adminManageRoomView.showRoomEditDialog(tempRoom);
         if(okClicked){
-            AdminManageServerCommunication.createRoom(tempRoom.getRoomName(), tempRoom.getRoomBuilding(), tempRoom.getTeacher_only(),
+            RoomServerCommunication.createRoom(tempRoom.getRoomName(), tempRoom.getRoomBuilding(), tempRoom.getTeacher_only(),
                     tempRoom.getRoomCapacity(), tempRoom.getRoomPhoto(), tempRoom.getRoomDescription(), tempRoom.getRoomType());
 //            Alert alert = new Alert(AlertType.INFORMATION);
 //            alert.setTitle("New room");
-//            alert.setContentText(AdminManageServerCommunication.createRoom(tempRoom));
+//            alert.setContentText(RoomServerCommunication.createRoom(tempRoom));
             showRoomDetails(tempRoom);
         }
     }
@@ -139,11 +139,11 @@ public class AdminManageRoomViewController {
         if (selectedRoom != null) {
             boolean okClicked = adminManageRoomView.showRoomEditDialog(selectedRoom);
             if (okClicked) {
-                AdminManageServerCommunication.updateRoom(selectedRoom.getRoomId(), selectedRoom.getRoomName(), selectedRoom.getRoomBuilding(),
+                RoomServerCommunication.updateRoom(selectedRoom.getRoomId(), selectedRoom.getRoomName(), selectedRoom.getRoomBuilding(),
                         selectedRoom.getTeacher_only(), selectedRoom.getRoomCapacity(), selectedRoom.getRoomPhoto(), selectedRoom.getRoomDescription(), selectedRoom.getRoomType());
 //                Alert alert = new Alert(AlertType.INFORMATION);
 //                alert.setTitle("Edit room");
-//                alert.setContentText(AdminManageServerCommunication.updateRoom(selectedRoom));
+//                alert.setContentText(RoomServerCommunication.updateRoom(selectedRoom));
 //                showRoomDetails(selectedRoom);
             }
         } else {
