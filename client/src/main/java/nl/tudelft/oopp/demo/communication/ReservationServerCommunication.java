@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 public class ReservationServerCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
 
-    public static void createReservation(String username, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
+    public static boolean createReservation(String username, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
         String params = "username="+username+"&room="+room+"&date="+date+"&starting_time="+starting_time+"ending_time="+ending_time;
         params = GeneralMethods.encodeCommunication(params);
 
@@ -20,13 +20,16 @@ public class ReservationServerCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode() + response.body());
+            return false;
         }
+        return true;
     }
 
-    public static void updateReservation(int id, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
+    public static boolean updateReservation(int id, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
         String params = "id="+id+"&room="+room+"&date="+date+"&starting_time="+starting_time+"ending_time="+ending_time;
         params = GeneralMethods.encodeCommunication(params);
 
@@ -36,13 +39,16 @@ public class ReservationServerCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode() + response.body());
+            return false;
         }
+        return true;
     }
 
-    public static void deleteReservation(int id) throws UnsupportedEncodingException {
+    public static boolean deleteReservation(int id) throws UnsupportedEncodingException {
         String params = "id="+id;
         params = GeneralMethods.encodeCommunication(params);
 
@@ -53,10 +59,13 @@ public class ReservationServerCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode() + response.body());
+            return false;
         }
+        return true;
     }
 
     public static String getReservation(int id) throws UnsupportedEncodingException {

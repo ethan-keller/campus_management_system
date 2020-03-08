@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 public class RoomServerCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
 
-    public static void createRoom(String name, int building, boolean teacher_only, int capacity, String photos, String description, String type) throws UnsupportedEncodingException {
+    public static boolean createRoom(String name, int building, boolean teacher_only, int capacity, String photos, String description, String type) throws UnsupportedEncodingException {
         String params = "name="+name+"&building="+building+"&teacher_only="+teacher_only+"&capacity="+capacity+"&photos="+photos+"&description="+description+"&type="+type;
         params = GeneralMethods.encodeCommunication(params);
 
@@ -20,13 +20,16 @@ public class RoomServerCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode() + response.body());
+            return false;
         }
+        return true;
     }
 
-    public static void updateRoom(int id, String name, int building, boolean teacher_only, int capacity, String photos, String description, String type) throws UnsupportedEncodingException {
+    public static boolean updateRoom(int id, String name, int building, boolean teacher_only, int capacity, String photos, String description, String type) throws UnsupportedEncodingException {
         String params = "id="+id+"&name="+name+"&building="+building+"&teacher_only="+teacher_only+"&capacity="+capacity+"&photos="+photos+"&description="+description+"&type="+type;
         params = GeneralMethods.encodeCommunication(params);
 
@@ -36,13 +39,16 @@ public class RoomServerCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode() + response.body());
+            return false;
         }
+        return true;
     }
 
-    public static void deleteRoom(int id) throws UnsupportedEncodingException {
+    public static boolean deleteRoom(int id) throws UnsupportedEncodingException {
         String params = "id="+id;
         params = GeneralMethods.encodeCommunication(params);
 
@@ -52,10 +58,13 @@ public class RoomServerCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode() + response.body());
+            return false;
         }
+        return true;
     }
 
     public static String getRoom(int id) throws UnsupportedEncodingException {

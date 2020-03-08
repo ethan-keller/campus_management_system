@@ -39,7 +39,7 @@ public class UserServerCommunication {
         return response.body();
     }
 
-    public static void deleteUser(String username) throws UnsupportedEncodingException {
+    public static boolean deleteUser(String username) throws UnsupportedEncodingException {
         String params = "username="+username;
         params = GeneralMethods.encodeCommunication(params);
 
@@ -49,13 +49,16 @@ public class UserServerCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode() + response.body());
+            return false;
         }
+        return true;
     }
 
-    public static void updateUser(String username, String password, int type) throws UnsupportedEncodingException {
+    public static boolean updateUser(String username, String password, int type) throws UnsupportedEncodingException {
         String params = "username="+username+"&password="+password+"&type="+type;
         params = GeneralMethods.encodeCommunication(params);
 
@@ -65,13 +68,16 @@ public class UserServerCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode() + response.body());
+            return false;
         }
+        return true;
     }
 
-    public static void createUser(String username, String password, int type) throws UnsupportedEncodingException {
+    public static boolean createUser(String username, String password, int type) throws UnsupportedEncodingException {
         String params = "username="+username+"&password="+password+"&type="+type;
         params = GeneralMethods.encodeCommunication(params);
 
@@ -82,9 +88,12 @@ public class UserServerCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode() + response.body());
+            return false;
         }
+        return true;
     }
 }

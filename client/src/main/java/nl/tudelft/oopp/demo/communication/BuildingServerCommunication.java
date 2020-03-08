@@ -41,7 +41,7 @@ public class BuildingServerCommunication {
         return response.body();
     }
 
-    public static void createBuilding(String name, int room_count, String address) throws UnsupportedEncodingException {
+    public static boolean createBuilding(String name, int room_count, String address) throws UnsupportedEncodingException {
         String params = "name="+name+"&room_count="+room_count+"&address="+address;
         params = GeneralMethods.encodeCommunication(params);
 
@@ -51,13 +51,16 @@ public class BuildingServerCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode() + response.body());
+            return false;
         }
+        return true;
     }
 
-    public static void deleteBuilding(int id) throws UnsupportedEncodingException {
+    public static boolean deleteBuilding(int id) throws UnsupportedEncodingException {
         String params = "id="+id;
         params = GeneralMethods.encodeCommunication(params);
 
@@ -68,16 +71,18 @@ public class BuildingServerCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode() + response.body());
+            return false;
         }
+        return true;
     }
 
-    public static void updateBuilding(int id, String name, int room_count, String address) throws UnsupportedEncodingException {
+    public static boolean updateBuilding(int id, String name, int room_count, String address) throws UnsupportedEncodingException {
         String params = "id="+id+"&name="+name+"&room_count="+room_count+"&address="+address;
         params = GeneralMethods.encodeCommunication(params);
-
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateBuilding?"+params)).build();
         HttpResponse<String> response = null;
@@ -85,9 +90,12 @@ public class BuildingServerCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode() + response.body());
+            return false;
         }
+        return true;
     }
 }
