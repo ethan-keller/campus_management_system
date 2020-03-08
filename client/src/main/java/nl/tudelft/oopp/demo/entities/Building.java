@@ -18,7 +18,12 @@ public class Building {
     private StringProperty buildingAddress;
 
     public Building() {
+        this.buildingId = new SimpleIntegerProperty(-1);
+        this.buildingName = new SimpleStringProperty(null);
+        this.buildingRoom_count = new SimpleIntegerProperty(-1);
+        this.buildingAddress = new SimpleStringProperty(null);
     }
+
 
     public Building(int buildingId, String buildingName, int buildingRoom_count, String buildingAddress) {
         this.buildingId = new SimpleIntegerProperty(buildingId);
