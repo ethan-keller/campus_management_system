@@ -19,6 +19,12 @@ public class Reservation {
     private StringProperty ending_time;
 
     public Reservation() {
+        this.id = new SimpleIntegerProperty(-1);
+        this.username = new SimpleStringProperty(null);
+        this.room = new SimpleIntegerProperty(-1);
+        this.date = new SimpleStringProperty(null);
+        this.starting_time = new SimpleStringProperty(null);
+        this.ending_time = new SimpleStringProperty(null);
     }
     /**
      * Constructor with some initial data.
@@ -34,52 +40,54 @@ public class Reservation {
 
     }
 
-    public int getId() {
-        return id.get();
+    public IntegerProperty getId() {
+        return id;
     }
     public void setId(int id) {
-        this.id = new SimpleIntegerProperty(id);
+        this.id.set(id);
     }
 
 
-    public String getUsername() {
-        return username.get();
+    public StringProperty getUsername() {
+        return username;
     }
     public void setUsername(String username) {
-        this.username = new SimpleStringProperty(username);
+        this.username.set(username);
     }
 
 
-    public int getRoom() {
-        return room.get();
+    public IntegerProperty getRoom() {
+        return room;
     }
     public void setRoom(int room) {
-        this.room = new SimpleIntegerProperty(room);
+        this.room.set(room);
     }
 
 
-    public String getDate() {
-        return date.get();
+    public StringProperty getDate() {
+        return date;
     }
-    public void setDate(String date) {
-        this.date = new SimpleStringProperty(date);
+    public void setDate(String date) {this.date.set(date); }
+
+
+    public StringProperty getStarting_time() {
+        return starting_time;
     }
+    public void setStarting_time(String starting_time) {this.starting_time.set(starting_time); }
 
 
-    public String getStarting_time() {
-        return starting_time.get();
-    }
-    public void setStarting_time(String starting_time) {this.starting_time = new SimpleStringProperty(starting_time); }
-
-
-    public String getEnding_time() {
-        return ending_time.get();
+    public StringProperty getEnding_time() {
+        return ending_time;
     }
     public void setEnding_time(String ending_time) {
-        this.ending_time = new SimpleStringProperty(ending_time);
+        this.ending_time.set(ending_time);
     }
 
-
+    /**
+     * Convert the server sent code into an Observable List of Reservation.
+     * @return Observable List of Reservations.
+     * @throws JSONException
+     */
     public static ObservableList<Reservation> getReservation() throws JSONException {
         ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
         JSONArray jsonArrayReservation= new JSONArray(AdminManageServerCommunication.getAllReservations());
