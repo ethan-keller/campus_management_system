@@ -33,8 +33,8 @@ public class LoginController {
     @PostMapping("login")
     @ResponseBody
     public String getUser(@RequestParam String username, @RequestParam String password) throws UnsupportedEncodingException {
-        username = CommunicationMethods.decodeCommunication(username);
-        password = CommunicationMethods.decodeCommunication(password);
+//        username = CommunicationMethods.decodeCommunication(username);
+//        password = CommunicationMethods.decodeCommunication(password);
 
         String encryptedPassword = EncryptionManager.encrypt(password, secretKey);
         User user = userRepo.getUser(username);
