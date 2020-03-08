@@ -10,6 +10,8 @@ import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
+
 public class Reservation {
     private IntegerProperty id;
     private StringProperty username;
@@ -26,6 +28,7 @@ public class Reservation {
         this.starting_time = new SimpleStringProperty(null);
         this.ending_time = new SimpleStringProperty(null);
     }
+
     /**
      * Constructor with some initial data.
      * Simple string property is used because it provides data binding.
@@ -88,9 +91,9 @@ public class Reservation {
      * @return Observable List of Reservations.
      * @throws JSONException
      */
-    public static ObservableList<Reservation> getReservation() throws JSONException {
+    public static ObservableList<Reservation> getReservation() throws JSONException, UnsupportedEncodingException {
         ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
-        JSONArray jsonArrayReservation= new JSONArray(AdminManageServerCommunication.getAllReservations());
+        JSONArray jsonArrayReservation= new JSONArray(AdminManageServerCommunication.getReservation(1));
         for(int i=0; i<jsonArrayReservation.length(); i++) {
             Reservation r = new Reservation();
             r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));

@@ -14,7 +14,7 @@
             </children></AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="264.0" prefWidth="598.0">
             <children>
-            <TableView fx:id="listReservations" layoutX="6.0" layoutY="8.0" prefHeight="342.0" prefWidth="587.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="6.0">
+            <TableView fx:id="listReservations" layoutX="6.0" layoutY="8.0" prefHeight="342.0" prefWidth="587.0" AnchorPane.leftAnchor="6.0">
               <columns>
                 <TableColumn fx:id="id" prefWidth="96.0" text="ReservationId" />
                 <TableColumn fx:id="username" prefWidth="86.0" text="Username" />
