@@ -17,22 +17,26 @@ public class BookingHistoryView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        URL xmlUrl = getClass().getResource("/bookingHistory.fxml");
-        loader.setLocation(xmlUrl);
-        Parent root = loader.load();
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            URL xmlUrl = getClass().getResource("/bookingHistory.fxml");
+            loader.setLocation(xmlUrl);
+            Parent root = loader.load();
 
-        /**
-         * Making sure that the scene doesn't resize
-         */
-        Scene oldScene = primaryStage.getScene();
-        primaryStage.setScene(oldScene == null
+            /**
+            * Making sure that the scene doesn't resize
+            */
+            Scene oldScene = primaryStage.getScene();
+            primaryStage.setScene(oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
-        primaryStage.setMinHeight(400);
-        primaryStage.setMinWidth(710);
-        primaryStage.show();
-
+            primaryStage.setMinHeight(400);
+            primaryStage.setMinWidth(710);
+            primaryStage.show();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) { launch(args);}
