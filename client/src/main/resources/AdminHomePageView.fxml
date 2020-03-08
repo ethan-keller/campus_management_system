@@ -29,6 +29,11 @@
                   <Font size="14.0" />
                </font>
             </Button>
+            <Button fx:id="manageUser" layoutX="257.0" layoutY="140.0" mnemonicParsing="false" onAction="#manageUserClicked" prefHeight="75.0" prefWidth="85.0" text="Manage User" textAlignment="CENTER" textFill="#3d0565" wrapText="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children></AnchorPane>
   </items>
 </SplitPane>
