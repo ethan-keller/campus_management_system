@@ -148,7 +148,7 @@ public class Room {
      */
     public static ObservableList<Room> getRoomData() throws JSONException {
         ObservableList<Room> roomData = FXCollections.observableArrayList();
-        JSONArray jsonArrayRooms= new JSONArray(AdminManageServerCommunication.getAllReservations());
+        JSONArray jsonArrayRooms= new JSONArray(AdminManageServerCommunication.getAllRooms());
         for(int i=0; i<jsonArrayRooms.length(); i++){
             Room r = new Room();
             r.setRoomId(jsonArrayRooms.getJSONObject(i).getInt("id") );
