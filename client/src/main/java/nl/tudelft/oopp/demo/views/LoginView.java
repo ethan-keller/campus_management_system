@@ -23,11 +23,12 @@ public class LoginView extends Application {
         Scene oldScene = primaryStage.getScene();
         Scene newScene = oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
-                : new Scene(root, oldScene.getWidth(), oldScene.getHeight());
 
+                : new Scene(root, oldScene.getWidth(), oldScene.getHeight());
         primaryStage.setMinHeight(390);
         primaryStage.setMinWidth(710);
         primaryStage.setScene(newScene);
+
         primaryStage.show();
     }
 
