@@ -1,20 +1,12 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Room;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 public class BuildingEditDialogController {
 
@@ -26,6 +18,7 @@ public class BuildingEditDialogController {
     private TextField buildingRoom_countField;
 
     public static Building building;
+
     private Stage dialogStage;
 
     /**
@@ -35,18 +28,15 @@ public class BuildingEditDialogController {
     @FXML
     private void initialize() {
         Building building = AdminManageBuildingViewController.currentSelectedBuilding;
-        if(building == null) return;
+        if (building == null) return;
         buildingNameField.setText(building.getBuildingName().get());
         buildingAddressField.setText(building.getBuildingAddress().get());
         buildingRoom_countField.setText(String.valueOf(building.getBuildingRoom_count().get()));
     }
 
-
-    private static void emptyBuilding(){
+    private static void emptyBuilding() {
         building = new Building();
     }
-
-
 
     /**
      * Called when the user clicks ok.
@@ -96,8 +86,7 @@ public class BuildingEditDialogController {
                 errorMessage += "No valid room count (must be an integer)!\n";
             }
         }
-
-        if (errorMessage.length() == 0) {
+        if (errorMessage.equals("")) {
             return true;
         } else {
             // Show the error message.
@@ -105,7 +94,6 @@ public class BuildingEditDialogController {
             alert.setTitle("Invalid Fields");
             alert.setHeaderText("Please correct invalid fields");
             alert.setContentText(errorMessage);
-
             alert.showAndWait();
 
             return false;

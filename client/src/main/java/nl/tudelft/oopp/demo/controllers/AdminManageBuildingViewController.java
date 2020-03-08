@@ -1,26 +1,21 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
-import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
 import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
-import org.json.JSONException;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 public class AdminManageBuildingViewController {
+
     @FXML
     private TableView<Building> buildingTable;
 
@@ -31,13 +26,11 @@ public class AdminManageBuildingViewController {
     private TableColumn<Building, String> buildingNameColumn;
 
     @FXML
-    private Label buildingName;
+    private TableColumn<Building, String> buildingRoomCountColumn;
 
     @FXML
-    private Label buildingAddress;
+    private TableColumn<Building, String> buildingAddressColumn;
 
-    @FXML
-    private Label buildingRoomCount;
 
     public static Building currentSelectedBuilding;
 
@@ -50,51 +43,35 @@ public class AdminManageBuildingViewController {
     @FXML
     private void initialize() {
         try {
-            // Initialize the room table with the three columns.
-            buildingIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().buildingIdProperty().get())));
+            // Initialize the room table with the four columns.
+            buildingIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingId().get())));
             buildingNameColumn.setCellValueFactory(cell -> cell.getValue().getBuildingName());
-            // Clear room details.
-            showBuildingDetails(null);
-            // Listen for selection changes and show the room details when changed.
-            buildingTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showBuildingDetails(newValue));
+            buildingRoomCountColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingRoom_count().get())));
+            buildingAddressColumn.setCellValueFactory(cell -> cell.getValue().getBuildingAddress());
+
             // Add observable list data to the table
             buildingTable.setItems(Building.getBuildingData());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void refresh(){
+    public void refresh() {
         initialize();
     }
 
-    public Building getSelectedBuilding(){
-        if(buildingTable.getSelectionModel().getSelectedIndex() >= 0){
+    public Building getSelectedBuilding() {
+        if (buildingTable.getSelectionModel().getSelectedIndex() >= 0) {
             return buildingTable.getSelectionModel().getSelectedItem();
         } else {
             return null;
         }
     }
 
-    public int getSelectedIndex(){
+    public int getSelectedIndex() {
         return buildingTable.getSelectionModel().getSelectedIndex();
     }
 
-
-    /**
-     * Show the buildings in the right side details.
-     */
-    private void showBuildingDetails(Building building) {
-        if(building != null) {
-            buildingName.setText(building.getBuildingName().get());
-            buildingAddress.setText(building.getBuildingAddress().get());
-            buildingRoomCount.setText(String.valueOf(building.getBuildingRoom_count().get()));
-        } else {
-            buildingName.setText("");
-            buildingAddress.setText("");
-            buildingRoomCount.setText("");
-        }
-    }
 
     /**
      * Delete a building.
@@ -105,6 +82,7 @@ public class AdminManageBuildingViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
+                // TODO: Check that building deletion was succesful before displaying alert
                 AdminManageServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
                 refresh();
                 Alert alert = new Alert(AlertType.INFORMATION);
@@ -118,7 +96,8 @@ public class AdminManageBuildingViewController {
                 alert.setContentText("Please select a building in the table.");
                 alert.showAndWait();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
+            System.out.println("delete building exception");
             e.printStackTrace();
         }
     }
@@ -135,15 +114,16 @@ public class AdminManageBuildingViewController {
             BuildingEditDialogView view = new BuildingEditDialogView();
             view.start(stage);
             Building tempBuilding = BuildingEditDialogController.building;
-            if(tempBuilding == null) return;
+            if (tempBuilding == null) return;
+            // TODO: Check that building creation was succesful before displaying alert
             AdminManageServerCommunication.createBuilding(tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoom_count().get(), tempBuilding.getBuildingAddress().get());
             refresh();
-            showBuildingDetails(tempBuilding);
 
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("New building");
             alert.setContentText("Added new building!");
-        } catch(Exception e){
+        } catch (Exception e) {
+            System.out.println("building creation exception");
             e.printStackTrace();
         }
     }
@@ -153,11 +133,11 @@ public class AdminManageBuildingViewController {
      * details for the selected building.
      */
     @FXML
-    private void editBuildingClicked(ActionEvent event) throws UnsupportedEncodingException {
+    private void editBuildingClicked(ActionEvent event) {
         Building selectedBuilding = getSelectedBuilding();
         int selectedIndex = getSelectedIndex();
         try {
-            if(selectedIndex >= 0) {
+            if (selectedIndex >= 0) {
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentSelectedBuilding = selectedBuilding;
 
@@ -165,10 +145,10 @@ public class AdminManageBuildingViewController {
                 view.start(stage);
                 Building tempBuilding = BuildingEditDialogController.building;
 
-                if(tempBuilding == null) return;
+                if (tempBuilding == null) return;
+                // TODO: Check that building edit was succesful before displaying alert
                 AdminManageServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(), tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoom_count().get(), tempBuilding.getBuildingAddress().get());
                 refresh();
-                showBuildingDetails(tempBuilding);
 
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Edit building");
@@ -180,7 +160,8 @@ public class AdminManageBuildingViewController {
                 alert.setContentText("Please select a building in the table.");
                 alert.showAndWait();
             }
-        } catch(Exception e){
+        } catch (Exception e) {
+            System.out.println("building edit exception");
             e.printStackTrace();
         }
     }

@@ -26,6 +26,7 @@ public class BuildingEditDialogView extends Application {
             dialogStage.setTitle("Edit Building");
             Scene scene = new Scene(root);
             dialogStage.setScene(scene);
+            dialogStage.setResizable(false);
 
             // Set the dialog stage properties
             dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -39,7 +40,7 @@ public class BuildingEditDialogView extends Application {
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
     }
 }

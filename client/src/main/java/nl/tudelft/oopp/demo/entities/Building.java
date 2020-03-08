@@ -37,9 +37,6 @@ public class Building {
 
     public void setBuildingId(int buildingId) { this.buildingId.set(buildingId); }
 
-    public IntegerProperty buildingIdProperty() {
-        return buildingId;
-    }
 
 
 
@@ -57,9 +54,6 @@ public class Building {
 
     public void setBuildingRoom_count(int buildingRoom_count) { this.buildingRoom_count.set(buildingRoom_count); }
 
-    public IntegerProperty buildingRoom_countProperty() {
-        return buildingRoom_count;
-    }
 
 
 
@@ -69,9 +63,6 @@ public class Building {
 
     public void setBuildingAddress(String buildingAddress) { this.buildingAddress.set(buildingAddress); }
 
-    public StringProperty buildingAddressProperty() {
-        return buildingAddress;
-    }
 
     /**
      * Convert server response into an ObservableList of rooms.
