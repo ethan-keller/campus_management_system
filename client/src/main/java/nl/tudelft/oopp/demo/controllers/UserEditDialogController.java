@@ -33,7 +33,7 @@ public class UserEditDialogController {
         User user = AdminManageUserViewController.currentSelectedUser;
         if (user == null) return;
         usernameField.setText(user.getUsername().get());
-        userPasswordField.setText(user.getUserPassword().get());
+//        userPasswordField.setText(user.getUserPassword().get());
         if (user.getUserType().get() == 0) {
             userTypeAdmin.setSelected(true);
         } if (user.getUserType().get() == 1) {
@@ -54,14 +54,20 @@ public class UserEditDialogController {
     private void handleOkClicked(ActionEvent event) {
         if (isInputValid()) {
             emptyUser();
+            user.setUsername(usernameField.getText());
+
             if (userTypeAdmin.isSelected()) {
                 user.setUserType(0);
             } if (userTypeTeacher.isSelected()) {
                 user.setUserType(1);
-            } else {
+            } if (userTypeStudent.isSelected()) {
                 user.setUserType(2);
             }
-            user.setUserPassword(userPasswordField.getText());
+
+            if (!userPasswordField.getText().equals("")) {
+                user.setUserPassword(userPasswordField.getText());
+            }
+
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
         }
