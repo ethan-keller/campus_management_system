@@ -35,7 +35,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("updateUser")
+    @PostMapping("updateUser1")
     @ResponseBody
     public void updateUser(@RequestParam String username, @RequestParam String password, @RequestParam int type) throws UnsupportedEncodingException {
         username = CommunicationMethods.decodeCommunication(username);
@@ -43,6 +43,17 @@ public class UserController {
         try{
             String encrypted_pass = EncryptionManager.encrypt(password, secretKey);
             userRepo.updatePassword(username, encrypted_pass);
+            userRepo.updateType(username, type);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("updateUser2")
+    @ResponseBody
+    public void updateUser(@RequestParam String username, @RequestParam int type) throws UnsupportedEncodingException {
+        username = CommunicationMethods.decodeCommunication(username);
+        try{
             userRepo.updateType(username, type);
         } catch (Exception e){
             e.printStackTrace();
