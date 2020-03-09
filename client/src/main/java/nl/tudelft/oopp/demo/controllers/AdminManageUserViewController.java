@@ -108,12 +108,13 @@ public class AdminManageUserViewController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             currentSelectedUser = null;
+            UserEditDialogController.edit = false;
             UserEditDialogView view = new UserEditDialogView();
             view.start(stage);
             User tempUser = UserEditDialogController.user;
             if (tempUser == null) return;
             // TODO: Check that user creation was succesful before displaying alert
-            AdminManageServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
+            else AdminManageServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
             refresh();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -138,13 +139,16 @@ public class AdminManageUserViewController {
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentSelectedUser = selectedUser;
 
+                UserEditDialogController.edit = true;
                 UserEditDialogView view = new UserEditDialogView();
                 view.start(stage);
                 User tempUser = UserEditDialogController.user;
 
                 if (tempUser == null) return;
                 // TODO: Check that building edit was succesful before displaying alert
-                AdminManageServerCommunication.updateUser(selectedUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
+                if(tempUser.getUserPassword().get() == null) {
+                    AdminManageServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserType().get());
+                } else AdminManageServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
                 refresh();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

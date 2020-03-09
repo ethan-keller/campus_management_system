@@ -20,6 +20,8 @@ public class UserEditDialogController {
     @FXML
     private PasswordField userPasswordField;
 
+    public static boolean edit;
+
     public static User user;
 
     private Stage dialogStage;
@@ -55,7 +57,6 @@ public class UserEditDialogController {
         if (isInputValid()) {
             emptyUser();
             user.setUsername(usernameField.getText());
-
             if (userTypeAdmin.isSelected()) {
                 user.setUserType(0);
             } if (userTypeTeacher.isSelected()) {
@@ -91,12 +92,18 @@ public class UserEditDialogController {
     private boolean isInputValid() {
         String errorMessage = "";
 
-        if ((userTypeAdmin.isSelected() || userTypeTeacher.isSelected() || userTypeStudent.isSelected()) == false) {
-            errorMessage += "No valid user type!\n";
+        if (!edit) {
+            if (usernameField.getText().equals("")) {
+                errorMessage += "No valid username!\n";
+            }
+            if ((userTypeAdmin.isSelected() || userTypeTeacher.isSelected() || userTypeStudent.isSelected()) == false) {
+                errorMessage += "No valid user type!\n";
+            }
+            if (userPasswordField.getText().equals("")) {
+                errorMessage += "No valid password!\n";
+            }
         }
-        if (userPasswordField.getText().equals("")) {
-            errorMessage += "No valid password!\n";
-        }
+
         if (errorMessage.equals("")) {
             return true;
         } else {
