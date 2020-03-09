@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import nl.tudelft.oopp.demo.encryption.CommunicationMethods;
 import nl.tudelft.oopp.demo.encryption.EncryptionManager;
+import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +89,17 @@ public class UserController {
     public List<User> getAllUsers(){
         try {
             return userRepo.getAllUsers();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @GetMapping("getUserReservations")
+    @ResponseBody
+    public List<Reservations> getUserReservations(@RequestParam String username){
+        try{
+            return userRepo.getUserReservations(username);
         } catch (Exception e){
             e.printStackTrace();
         }
