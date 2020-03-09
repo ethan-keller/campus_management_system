@@ -39,7 +39,6 @@ public class BookingHistoryController {
     @FXML
     private TableColumn<Reservation,String> ending_time;
 
-    public static Reservation currentSelectedReservation;
 
     public BookingHistoryController() {}
 
@@ -62,35 +61,6 @@ public class BookingHistoryController {
             e.printStackTrace();
         }
     }
-
-//    public void refresh() {
-//        initialize();
-//    }
-
-//    public Reservation getSelectedReservation() {
-//
-//        if(listReservations.getSelectionModel().getSelectedIndex() >= 0) {
-//            return listReservations.getSelectionModel().getSelectedItem();
-//        }
-//        else {
-//            return null;
-//        }
-//    }
-//
-//    public int getSelectedIndex() {
-//        return listReservations.getSelectionModel().getSelectedIndex();
-//    }
-//
-//    @FXML
-//    public void deleteButtonClicked(ActionEvent event) {
-//        Reservation selectedReservation = getSelectedReservation();
-//        int selectedIndex = getSelectedIndex();
-//        try {
-//            if(selectedIndex >= 0 ){
-//
-//            }
-//        }
-//    }
 
     @FXML
     public void backButtonClicked(ActionEvent event) throws IOException {

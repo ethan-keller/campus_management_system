@@ -82,7 +82,7 @@ public class AdminManageBuildingViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-                // TODO: Check that building deletion was succesful before displaying alert
+                // TODO: Check that building deletion was successful before displaying alert
                 AdminManageServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
                 refresh();
                 Alert alert = new Alert(AlertType.INFORMATION);
