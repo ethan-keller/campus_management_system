@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import nl.tudelft.oopp.demo.controllers.RoomEditDialogController;
 
 import java.net.URL;
 
@@ -26,6 +28,7 @@ public class RoomEditDialogView extends Application {
             Scene scene = new Scene(root);
             dialogStage.setScene(scene);
             dialogStage.setResizable(false);
+            dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> RoomEditDialogController.room = null);
 
             // Set the dialog stage properties
             dialogStage.initModality(Modality.WINDOW_MODAL);
