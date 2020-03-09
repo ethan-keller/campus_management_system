@@ -93,7 +93,7 @@ public class Reservation {
      */
     public static ObservableList<Reservation> getReservation() throws JSONException, UnsupportedEncodingException {
         ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
-        JSONArray jsonArrayReservation= new JSONArray(AdminManageServerCommunication.getReservation(1));
+        JSONArray jsonArrayReservation= new JSONArray(AdminManageServerCommunication.getAllReservations());
         for(int i=0; i<jsonArrayReservation.length(); i++) {
             Reservation r = new Reservation();
             r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));
