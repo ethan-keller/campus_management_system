@@ -38,10 +38,10 @@ public class RoomController {
         photos = CommunicationMethods.decodeCommunication(photos);
         description = CommunicationMethods.decodeCommunication(description);
         type = CommunicationMethods.decodeCommunication(type);
-
         try{
             roomRepo.updateCapacity(id, capacity);
             roomRepo.updateDescription(id, description);
+            roomRepo.updateBuilding(id, building);
             roomRepo.updateName(id, name);
             roomRepo.updatePhotos(id, photos);
             roomRepo.updateTeacherOnly(id, teacher_only);

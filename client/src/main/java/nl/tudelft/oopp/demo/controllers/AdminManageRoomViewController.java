@@ -11,12 +11,14 @@ import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.views.RoomEditDialogView;
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class AdminManageRoomViewController {
+
     @FXML
     private TableView<Room> roomTable;
 
@@ -30,21 +32,22 @@ public class AdminManageRoomViewController {
     private TableColumn<Room, String> roomBuildingColumn;
 
     @FXML
-    private Label roomName;
+    private TableColumn<Room, String> roomOnlyTeachersColumn;
 
     @FXML
-    private Label roomBuilding;
+    private TableColumn<Room, String> roomCapacityBuilding;
 
     @FXML
-    private Label roomType;
+    private TableColumn<Room, String> roomPhotoColumn;
 
     @FXML
-    private Label roomCapacity;
+    private TableColumn<Room, String> roomDescriptionColumn;
 
     @FXML
-    private Label roomFacility;
+    private TableColumn<Room, String> roomTypeColumn;
 
-    private AdminManageRoomView adminManageRoomView;
+
+    public static Room currentSelectedRoom;
 
     public AdminManageRoomViewController() {
     }
@@ -54,61 +57,66 @@ public class AdminManageRoomViewController {
      */
     @FXML
     private void initialize() {
-        // Initialize the room table with the three columns.
-        roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().roomIdProperty().getValue().toString()));
-        roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().roomNameProperty());
-        roomBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().roomBuildingProperty().getValue().toString()));
-        // Clear room details.
-        showRoomDetails(null);
-        // Listen for selection changes and show the room details when changed.
-        roomTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showRoomDetails(newValue));
-    }
+        try {
+            // Initialize the room table with the eight columns.
+            roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoomId().get())));
+            roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().getRoomName());
+            roomBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoomBuilding().get())));
+            roomOnlyTeachersColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getTeacher_only().get() ? "yes" : "no"));
+            roomCapacityBuilding.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getRoomCapacity().get())));
+            roomPhotoColumn.setCellValueFactory(cell -> cell.getValue().getRoomPhoto());
+            roomDescriptionColumn.setCellValueFactory(cell -> cell.getValue().getRoomDescription());
+            roomTypeColumn.setCellValueFactory(cell -> cell.getValue().getRoomType());
 
-    public void setAdminManageRoomView(AdminManageRoomView adminManageRoomView) throws JSONException {
-        this.adminManageRoomView = adminManageRoomView;
-        // Add observable list data to the table
-        roomTable.setItems(Room.getRoomData());
-    }
-
-    /**
-     * Show the rooms in the right side details.
-     */
-    private void showRoomDetails(Room room) {
-        if(room != null) {
-            roomName.setText(room.getRoomName());
-            roomBuilding.setText(""+room.getRoomBuilding());
-            roomType.setText(room.getRoomType());
-            roomCapacity.setText(""+room.getRoomCapacity());
-            roomFacility.setText(room.getRoomDescription());
-        } else {
-            roomName.setText("");
-            roomBuilding.setText("");
-            roomType.setText("");
-            roomCapacity.setText("");
-            roomFacility.setText("");
+            roomTable.setItems(Room.getRoomData());
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
+
+    public void refresh() {
+        initialize();
+    }
+
+    public Room getSelectedRoom() {
+        if (roomTable.getSelectionModel().getSelectedIndex() >= 0) {
+            return roomTable.getSelectionModel().getSelectedItem();
+        } else {
+            return null;
+        }
+    }
+
+    public int getSelectedIndex() {
+        return roomTable.getSelectionModel().getSelectedIndex();
+    }
+
 
     /**
      * Delete a room.
      */
     @FXML
-    private void deleteClicked() throws UnsupportedEncodingException {
-        Room selectedRoom = roomTable.getSelectionModel().getSelectedItem();
-        int selectedIndex = roomTable.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            RoomServerCommunication.deleteRoom(selectedRoom.getRoomId());
-//            Alert alert = new Alert(AlertType.INFORMATION);
-//            alert.setTitle("Delete room");
-//            alert.setContentText(RoomServerCommunication.deleteRoom(selectedRoom.getRoomId()));
-            roomTable.getItems().remove(selectedIndex);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.initOwner(adminManageRoomView.getPrimaryStage());
-            alert.setTitle("No Selection");
-            alert.setHeaderText("No Room Selected");
-            alert.setContentText("Please select a room in the table.");
-            alert.showAndWait();
+    private void deleteRoomClicked(ActionEvent event) {
+        Room selectedRoom = getSelectedRoom();
+        int selectedIndex = getSelectedIndex();
+        try {
+            if (selectedIndex >= 0) {
+                // TODO: Check that room deletion was successful before displaying alert
+                RoomServerCommunication.deleteRoom(selectedRoom.getRoomId().getValue());
+                refresh();
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Delete room");
+                alert.setContentText("Room deleted!");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("No Selection");
+                alert.setHeaderText("No room Selected");
+                alert.setContentText("Please select a room in the table.");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            System.out.println("delete room exception");
+            e.printStackTrace();
         }
     }
 
@@ -116,16 +124,26 @@ public class AdminManageRoomViewController {
      * Handles clicking the create new button.
      */
     @FXML
-    private void createNewRoomClicked() throws UnsupportedEncodingException {
-        Room tempRoom = new Room();
-        boolean okClicked = adminManageRoomView.showRoomEditDialog(tempRoom);
-        if(okClicked){
-            RoomServerCommunication.createRoom(tempRoom.getRoomName(), tempRoom.getRoomBuilding(), tempRoom.getTeacher_only(),
-                    tempRoom.getRoomCapacity(), tempRoom.getRoomPhoto(), tempRoom.getRoomDescription(), tempRoom.getRoomType());
-//            Alert alert = new Alert(AlertType.INFORMATION);
-//            alert.setTitle("New room");
-//            alert.setContentText(RoomServerCommunication.createRoom(tempRoom));
-            showRoomDetails(tempRoom);
+    private void createNewRoomClicked(ActionEvent event) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            currentSelectedRoom = null;
+            RoomEditDialogView view = new RoomEditDialogView();
+            view.start(stage);
+            Room tempRoom = RoomEditDialogController.room;
+            if (tempRoom == null) return;
+            // TODO: Check that room creation was successful before displaying alert
+            RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacher_only().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
+            refresh();
+
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("New room");
+            alert.setContentText("Added new room!");
+            alert.showAndWait();
+        } catch (Exception e) {
+            System.out.println("room creation exception");
+            e.printStackTrace();
         }
     }
 
@@ -134,28 +152,40 @@ public class AdminManageRoomViewController {
      * details for the selected room.
      */
     @FXML
-    private void editRoomClicked() throws UnsupportedEncodingException {
-        Room selectedRoom = roomTable.getSelectionModel().getSelectedItem();
-        if (selectedRoom != null) {
-            boolean okClicked = adminManageRoomView.showRoomEditDialog(selectedRoom);
-            if (okClicked) {
-                RoomServerCommunication.updateRoom(selectedRoom.getRoomId(), selectedRoom.getRoomName(), selectedRoom.getRoomBuilding(),
-                        selectedRoom.getTeacher_only(), selectedRoom.getRoomCapacity(), selectedRoom.getRoomPhoto(), selectedRoom.getRoomDescription(), selectedRoom.getRoomType());
-//                Alert alert = new Alert(AlertType.INFORMATION);
-//                alert.setTitle("Edit room");
-//                alert.setContentText(RoomServerCommunication.updateRoom(selectedRoom));
-//                showRoomDetails(selectedRoom);
+    private void editRoomClicked(ActionEvent event) {
+        Room selectedRoom = getSelectedRoom();
+        int selectedIndex = getSelectedIndex();
+        try {
+            if (selectedIndex >= 0) {
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentSelectedRoom = selectedRoom;
+
+                RoomEditDialogView view = new RoomEditDialogView();
+                view.start(stage);
+                Room tempRoom = RoomEditDialogController.room;
+
+                if (tempRoom == null) return;
+                // TODO: Check that building edit was successful before displaying alert
+                System.out.println(tempRoom.getRoomBuilding().get());
+                RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(), tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacher_only().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
+                refresh();
+
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Edit room");
+                alert.setContentText("edited room!");
+            } else {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("No Selection");
+                alert.setHeaderText("No Room Selected");
+                alert.setContentText("Please select a room in the table.");
+                alert.showAndWait();
             }
-        } else {
-            // Nothing selected.
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.initOwner(adminManageRoomView.getPrimaryStage());
-            alert.setTitle("No Selection");
-            alert.setHeaderText("No Room Selected");
-            alert.setContentText("Please select a room in the table.");
-            alert.showAndWait();
+        } catch (Exception e) {
+            System.out.println("room edit exception");
+            e.printStackTrace();
         }
     }
+
 
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
@@ -164,4 +194,5 @@ public class AdminManageRoomViewController {
         AdminHomePageView ahpv = new AdminHomePageView();
         ahpv.start(stage);
     }
+
 }
