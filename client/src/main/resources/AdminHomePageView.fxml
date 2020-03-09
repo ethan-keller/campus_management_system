@@ -37,7 +37,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="250.0" text="Users" textAlignment="CENTER">
+            <Button fx:id="manageUser" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#manageUserClicked" prefWidth="250.0" text="Users" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </VBox.margin>

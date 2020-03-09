@@ -3,8 +3,6 @@ package nl.tudelft.oopp.demo.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.views.*;
 
@@ -38,6 +36,13 @@ public class AdminHomePageController {
 
         AdminManageReservationView adminManageReservationView = new AdminManageReservationView();
         adminManageReservationView.start(stage);
+    }
+
+    public void manageUserClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage)  ((Node) event.getSource()).getScene().getWindow();
+
+        AdminManageUserView amuv = new AdminManageUserView();
+        amuv.start(stage);
     }
 
 }

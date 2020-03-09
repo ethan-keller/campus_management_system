@@ -7,19 +7,18 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import nl.tudelft.oopp.demo.controllers.BuildingEditDialogController;
+import nl.tudelft.oopp.demo.controllers.RoomEditDialogController;
 
-import java.io.IOException;
 import java.net.URL;
 
-public class BuildingEditDialogView extends Application {
+public class RoomEditDialogView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            URL xmlUrl = getClass().getResource("/buildingEditDialog.fxml");
+            URL xmlUrl = getClass().getResource("/roomEditDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
 
@@ -29,10 +28,9 @@ public class BuildingEditDialogView extends Application {
             Scene scene = new Scene(root);
             dialogStage.setScene(scene);
             dialogStage.setResizable(false);
-            dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> BuildingEditDialogController.building = null);
+            dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> RoomEditDialogController.room = null);
 
             // Set the dialog stage properties
-            // When the dialog box pops up, the admin can't click the page that is behind the dialog box.
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
 
@@ -44,7 +42,7 @@ public class BuildingEditDialogView extends Application {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         launch(args);
     }
 }

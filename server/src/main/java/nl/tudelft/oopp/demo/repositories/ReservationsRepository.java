@@ -43,4 +43,14 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
     @Transactional
     @Query(value = "UPDATE reservations SET ending_time = :ending_time WHERE id = :id", nativeQuery = true)
     public void updateEndingTime(@Param("id") int id, @Param("ending_time") String ending_time);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE reservations SET username = :username WHERE id = :id", nativeQuery = true)
+    public void updateUsername(@Param("id") int id, @Param("username") String username);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE reservations SET room = :room WHERE id = :id", nativeQuery = true)
+    public void updateRoom(@Param("id") int id, @Param("room") int room);
 }
