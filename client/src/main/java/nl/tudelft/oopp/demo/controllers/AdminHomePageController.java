@@ -6,10 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.views.AdminHomePageView;
-import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
-import nl.tudelft.oopp.demo.views.AdminManageRoomView;
-import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.*;
+
 import java.io.IOException;
 
 public class AdminHomePageController {
@@ -33,6 +31,13 @@ public class AdminHomePageController {
 
         AdminManageBuildingView adminManageBuildingView = new AdminManageBuildingView();
         adminManageBuildingView.start(stage);
+    }
+
+    public void addReservationClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        AdminManageReservationView adminManageReservationView = new AdminManageReservationView();
+        adminManageReservationView.start(stage);
     }
 
 }

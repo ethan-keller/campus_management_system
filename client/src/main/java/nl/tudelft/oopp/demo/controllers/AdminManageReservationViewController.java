@@ -1,15 +1,17 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
 
-import java.awt.event.ActionEvent;
+
 import java.io.UnsupportedEncodingException;
 
 
@@ -106,15 +108,18 @@ public class AdminManageReservationViewController {
     /**
      * Handles clicking the create new button.
      */
-    @FXML
-    private void NewReservationClicked(ActionEvent event) {
-        try {
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            currentSelectedReservation = null;
-            ReservationEditDialogView view = new ReservationEditDialogView();
-            view.start(stage);
-
-        }
-    }
+//    @FXML
+//    private void NewReservationClicked(ActionEvent event) {
+//        try {
+//            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//
+//            currentSelectedReservation = null;
+//            ReservationEditDialogView view = new ReservationEditDialogView();
+//            view.start(stage);
+//
+//        }
+//    }
+    public void NewReservationClicked() {}
+    public void EditReservationClicked() {}
+    public void BackButtonClicked() {}
 }
