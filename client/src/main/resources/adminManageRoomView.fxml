@@ -3,129 +3,73 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.AdminManageRoomViewController">
-   <children>
-      <SplitPane dividerPositions="0.27462437395659434" prefHeight="400.0" prefWidth="600.0" snapToPixel="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="263.0">
-               <children>
-                  <TableView fx:id="roomTable" prefHeight="798.0" prefWidth="387.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <columns>
-                      <TableColumn fx:id="roomIdColumn" prefWidth="75.0" text="Room ID" />
-                      <TableColumn fx:id="roomNameColumn" prefWidth="75.0" text="Name" />
-                        <TableColumn fx:id="roomBuildingColumn" prefWidth="75.0" text="Building" />
-                    </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                  </TableView>
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="798.0" prefWidth="768.0">
-               <children>
-                  <Label prefHeight="32.0" prefWidth="149.0" text="Room Details" textFill="#0ebaf8" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="636.0" AnchorPane.topAnchor="50.0">
-                     <font>
-                        <Font name="Calibri Bold" size="24.0" />
-                     </font></Label>
-                  <GridPane layoutY="106.0" prefHeight="406.0" prefWidth="566.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="219.0" AnchorPane.topAnchor="106.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="272.678955078125" minWidth="10.0" prefWidth="132.6082763671875" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="455.50811767578125" minWidth="10.0" prefWidth="433.3917236328125" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Name:">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label text="Building:" GridPane.rowIndex="1">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label text="Type:" GridPane.rowIndex="2">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="roomName" text="Label" GridPane.columnIndex="1">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="roomBuilding" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="roomType" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label text="Capacity:" GridPane.rowIndex="3">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="roomCapacity" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label text="Facility:" GridPane.rowIndex="4">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="roomFacility" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                     </children>
-                  </GridPane>
-                  <HBox layoutX="413.0" layoutY="707.0" prefHeight="35.0" prefWidth="434.0">
-                     <children>
-                        <Button mnemonicParsing="false" onAction="#createNewRoomClicked" prefHeight="35.0" prefWidth="93.0" text="New" textFill="#0ebaf8">
-                           <HBox.margin>
-                              <Insets right="20.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" onAction="#editRoomClicked" prefHeight="35.0" prefWidth="95.0" text="Edit" textFill="#0ebaf8">
-                           <HBox.margin>
-                              <Insets right="20.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" onAction="#deleteClicked" prefHeight="35.0" prefWidth="87.0" text="Delete" textFill="#0ebaf8">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets right="20.0" />
-                           </HBox.margin></Button>
-                        <Button layoutX="230.0" layoutY="10.0" mnemonicParsing="false" onAction="#backClicked" prefHeight="35.0" prefWidth="87.0" text="Back" textFill="#0ebaf8">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children></AnchorPane>
-        </items>
-      </SplitPane>
-   </children>
-</AnchorPane>
+<BorderPane prefHeight="564.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.AdminManageRoomViewController">
+    <bottom>
+        <HBox alignment="CENTER" prefHeight="78.0" prefWidth="911.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#createNewRoomClicked" prefHeight="35.0" prefWidth="93.0" text="New" textFill="#0ebaf8">
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#editRoomClicked" prefHeight="35.0" prefWidth="95.0" text="Edit" textFill="#0ebaf8">
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#deleteRoomClicked" prefHeight="35.0" prefWidth="87.0" text="Delete" textFill="#0ebaf8">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                </Button>
+                <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#backClicked" onMouseClicked="#backClicked" prefHeight="35.0" prefWidth="93.0" text="Back" textFill="#0ebaf8">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </HBox>
+    </bottom>
+    <center>
+        <TableView fx:id="roomTable" prefHeight="500.0" prefWidth="900.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="roomIdColumn" maxWidth="50.0" minWidth="30.0" prefWidth="40.0" text="ID" />
+                <TableColumn fx:id="roomNameColumn" maxWidth="100.0" minWidth="80.0" prefWidth="90.0" text="Name" />
+                <TableColumn fx:id="roomBuildingColumn" maxWidth="90.0" minWidth="70.0" prefWidth="70.0" text="Building" />
+                <TableColumn fx:id="roomOnlyTeachersColumn" maxWidth="100.0" minWidth="90.0" prefWidth="90.0" text="Only teachers" />
+            <TableColumn fx:id="roomCapacityBuilding" maxWidth="100.0" minWidth="80.0" text="Capacity" />
+            <TableColumn fx:id="roomPhotoColumn" maxWidth="230.0" minWidth="150.0" prefWidth="100.0" text="Photo URL" />
+            <TableColumn fx:id="roomTypeColumn" maxWidth="180.0" minWidth="149.0" prefWidth="150.0" text="Type" />
+            <TableColumn fx:id="roomDescriptionColumn" minWidth="150.0" prefWidth="150.0" text="Description" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+    </center>
+    <top>
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="54.0" prefWidth="150.0" text="Rooms" textAlignment="CENTER" textFill="#0ebaf8" BorderPane.alignment="CENTER">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+    </top>
+</BorderPane>

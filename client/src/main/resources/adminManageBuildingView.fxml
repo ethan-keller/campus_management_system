@@ -51,7 +51,7 @@
    <center>
       <TableView fx:id="buildingTable" prefHeight="500.0" prefWidth="900.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="buildingIdColumn" maxWidth="350.0" minWidth="100.0" prefWidth="-1.0" text="ID" />
+          <TableColumn fx:id="buildingIdColumn" minWidth="100.0" prefWidth="-1.0" text="ID" />
           <TableColumn fx:id="buildingNameColumn" minWidth="200.0" prefWidth="279.1999816894531" text="Name" />
             <TableColumn fx:id="buildingRoomCountColumn" minWidth="90.0" prefWidth="170.4000244140625" text="Room count" />
             <TableColumn fx:id="buildingAddressColumn" minWidth="200.0" prefWidth="329.59991455078125" text="Address" />
