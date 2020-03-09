@@ -55,7 +55,7 @@ public class BookingHistoryController {
             ending_time.setCellValueFactory(cell -> cell.getValue().getEnding_time());
 
             //Adding the Observable List Data to the tableView created.
-            listReservations.setItems(Reservation.getReservation());
+            listReservations.setItems(Reservation.getUserReservation());
         }
         catch(Exception e) {
             e.printStackTrace();

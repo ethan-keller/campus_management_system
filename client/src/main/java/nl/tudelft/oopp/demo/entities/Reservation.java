@@ -6,7 +6,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import net.minidev.json.parser.JSONParser;
 import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -106,6 +108,28 @@ public class Reservation {
         }
         return reservationList;
     }
+
+    /**
+     * Convert the server sent code into an Observable List of Reservation for the particular user!!
+     * @return Observable List of Reservations.
+     * @throws JSONException
+     */
+    public static ObservableList<Reservation> getUserReservation() throws JSONException, UnsupportedEncodingException {
+        ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
+        JSONArray jsonArrayReservation= new JSONArray(AdminManageServerCommunication.getUserReservations(CurrentUserManager.getUsername()));
+        for(int i=0; i<jsonArrayReservation.length(); i++) {
+            Reservation r = new Reservation();
+            r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));
+            r.setUsername(jsonArrayReservation.getJSONObject(i).getString("username"));
+            r.setDate(jsonArrayReservation.getJSONObject(i).getString("date"));
+            r.setRoom(jsonArrayReservation.getJSONObject(i).getInt("room"));
+            r.setStarting_time(jsonArrayReservation.getJSONObject(i).getString("starting_time"));
+            r.setEnding_time(jsonArrayReservation.getJSONObject(i).getString("ending_time"));
+            reservationList.add(r);
+        }
+        return reservationList;
+    }
+
 }
 
 
