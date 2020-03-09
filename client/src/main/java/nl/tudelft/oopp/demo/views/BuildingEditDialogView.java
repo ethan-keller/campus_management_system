@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import nl.tudelft.oopp.demo.controllers.BuildingEditDialogController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,6 +29,7 @@ public class BuildingEditDialogView extends Application {
             Scene scene = new Scene(root);
             dialogStage.setScene(scene);
             dialogStage.setResizable(false);
+            dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> BuildingEditDialogController.building = null);
 
             // Set the dialog stage properties
             dialogStage.initModality(Modality.WINDOW_MODAL);
