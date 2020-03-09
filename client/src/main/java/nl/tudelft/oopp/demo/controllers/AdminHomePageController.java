@@ -33,7 +33,7 @@ public class AdminHomePageController {
         adminManageBuildingView.start(stage);
     }
 
-    public void addReservationClicked(ActionEvent event) throws IOException {
+    public void addReservationClicked(ActionEvent event){
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         AdminManageReservationView adminManageReservationView = new AdminManageReservationView();
