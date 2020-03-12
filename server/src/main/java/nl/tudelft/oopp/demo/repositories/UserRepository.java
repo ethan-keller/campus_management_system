@@ -40,7 +40,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "UPDATE user SET type = :type WHERE username = LOWER(:username)", nativeQuery = true)
     public void updateType(@Param("username") String username, @Param("type") int type);
 
-    @Query(value = "SELECT * FROM reservations WHERE username = LOWER(:username)", nativeQuery = true)
-    public List<Reservations> getUserReservations(@Param("username") String username);
 
 }

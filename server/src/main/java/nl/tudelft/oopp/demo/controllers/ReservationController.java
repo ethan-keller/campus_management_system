@@ -79,4 +79,16 @@ public class ReservationController {
         return null;
     }
 
+    @GetMapping("getUserReservations")
+    @ResponseBody
+    public List<Reservations> getUserReservations(@RequestParam String username){
+        try{
+            return reservationsRepo.getUserReservations(username);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }
