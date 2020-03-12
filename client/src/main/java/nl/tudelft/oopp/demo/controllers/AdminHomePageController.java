@@ -31,11 +31,11 @@ public class AdminHomePageController {
         adminManageBuildingView.start(stage);
     }
 
-    public void addReservationClicked(ActionEvent event){
+    public void addReservationClicked(ActionEvent event) throws IOException{
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        AdminManageReservationView adminManageReservationView = new AdminManageReservationView();
-        adminManageReservationView.start(stage);
+        AdminManageReservationView amrv = new AdminManageReservationView();
+        amrv.start(stage);
     }
 
     public void manageUserClicked(ActionEvent event) throws IOException {

@@ -115,7 +115,7 @@ public class AdminManageBuildingViewController {
             view.start(stage);
             Building tempBuilding = BuildingEditDialogController.building;
             if (tempBuilding == null) return;
-            // TODO: Check that building creation was succesful before displaying alert
+            // TODO: Check that building creation was successful before displaying alert
             AdminManageServerCommunication.createBuilding(tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoom_count().get(), tempBuilding.getBuildingAddress().get());
             refresh();
 

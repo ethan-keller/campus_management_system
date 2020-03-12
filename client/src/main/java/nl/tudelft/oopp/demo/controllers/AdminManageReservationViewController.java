@@ -10,15 +10,18 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
 
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 
 public class AdminManageReservationViewController {
 
     @FXML
-    private TableView<Reservation> listReservation;
+    private TableView<Reservation> listReservations;
     @FXML
     private TableColumn<Reservation,String> id;
     @FXML
@@ -50,29 +53,39 @@ public class AdminManageReservationViewController {
             ending_time.setCellValueFactory(cell -> cell.getValue().getEnding_time());
 
             //Adding the Observable List Data to the tableView created.
-            listReservation.setItems(Reservation.getReservation());
+            listReservations.setItems(Reservation.getReservation());
         }
         catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
-        public void refresh() {
+    /**
+     * Used to initialize the view everytime something new is created, edited or deleted.
+     */
+    public void refresh() {
         initialize();
     }
 
+    /**
+     * This method selects a particular reservation from the table.
+     * @return Returns the selected reservation.
+     */
     public Reservation getSelectedReservation() {
 
-        if(listReservation.getSelectionModel().getSelectedIndex() >= 0) {
-            return listReservation.getSelectionModel().getSelectedItem();
+        if(listReservations.getSelectionModel().getSelectedIndex() >= 0) {
+            return listReservations.getSelectionModel().getSelectedItem();
         }
         else {
             return null;
         }
     }
 
+    /**
+     * @return the index of the selected reservation.
+     */
     public int getSelectedIndex() {
-        return listReservation.getSelectionModel().getSelectedIndex();
+        return listReservations.getSelectionModel().getSelectedIndex();
     }
 
     /**
@@ -108,18 +121,83 @@ public class AdminManageReservationViewController {
     /**
      * Handles clicking the create new button.
      */
-//    @FXML
-//    private void NewReservationClicked(ActionEvent event) {
-//        try {
-//            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//
-//            currentSelectedReservation = null;
-//            ReservationEditDialogView view = new ReservationEditDialogView();
-//            view.start(stage);
-//
-//        }
-//    }
-    public void NewReservationClicked() {}
-    public void EditReservationClicked() {}
-    public void BackButtonClicked() {}
+    @FXML
+    private void NewReservationClicked(ActionEvent event) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            currentSelectedReservation = null;
+            ReservationEditDialogView view = new ReservationEditDialogView();
+            view.start(stage);
+            Reservation tempReservation = ReservationEditDialogController.reservation;
+            if(tempReservation == null)
+                return;
+            //TODO: Checking if the reservation creating was successful before displaying the alert.
+            AdminManageServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getStarting_time().get());
+            refresh();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("New Reservation");
+            alert.setContentText("New Reservation created!");
+
+        }
+        catch (Exception e) {
+            System.out.println("Reservation creation exception");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Handles the clicking of Edit button.
+     * @param event
+     */
+    @FXML
+    public void EditReservationClicked(ActionEvent event) {
+        Reservation selectedReservation = getSelectedReservation();
+        int selectedIndex = getSelectedIndex();
+        try {
+            if(selectedIndex >= 0) {
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentSelectedReservation = selectedReservation;
+
+                ReservationEditDialogView view = new ReservationEditDialogView();
+                view.start(stage);
+                Reservation tempResevation = ReservationEditDialogController.reservation;
+
+                if(tempResevation == null)
+                    return;
+                //TODO: Making sure that the reservation is created properly, before displaying the alert box.
+                AdminManageServerCommunication.updateReservation(selectedReservation.getId().get(), tempResevation.getRoom().get(), tempResevation.getDate().get(), tempResevation.getStarting_time().get(), tempResevation.getEnding_time().get());
+                refresh();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Edit Reservation");
+                alert.setContentText("Edited Reservation!");
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("No selection");
+                alert.setHeaderText("No Reservation Selected!");
+                alert.setContentText("Please select a reservation from the table.");
+                alert.showAndWait();
+            }
+        }
+        catch (Exception e) {
+            System.out.println("building edit exception");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This will redirect the adminManageReservation view back to the home page for the admin to have for options to choose from.
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    private void BackButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        AdminHomePageView ahpv = new AdminHomePageView();
+        ahpv.start(stage);
+    }
 }
