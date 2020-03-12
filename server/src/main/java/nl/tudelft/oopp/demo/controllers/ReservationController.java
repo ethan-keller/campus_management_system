@@ -1,6 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import nl.tudelft.oopp.demo.encryption.CommunicationMethods;
+import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
