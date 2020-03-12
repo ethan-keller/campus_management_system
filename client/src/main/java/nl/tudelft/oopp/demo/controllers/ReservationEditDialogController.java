@@ -1,24 +1,35 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.views.AdminManageReservationView;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.stream.Collectors;
 
 
 public class ReservationEditDialogController {
 
     @FXML
-    private TextField username;
+    private ComboBox<User> username;
     @FXML
-    private TextField room;
+    private ComboBox<Room> room;
     @FXML
-    private TextField date;
+    private DatePicker date;
     @FXML
     private TextField starting_time;
     @FXML
@@ -28,6 +39,10 @@ public class ReservationEditDialogController {
 
     public static Stage dialogStage;
 
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    public ReservationEditDialogController() {}
+
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
@@ -35,13 +50,86 @@ public class ReservationEditDialogController {
     @FXML
     private void initialize() {
         Reservation reservation = AdminManageReservationViewController.currentSelectedReservation;
+        date.setConverter(new StringConverter<LocalDate>() {
+            @Override
+            public String toString(LocalDate dateSelected) {
+                if(dateSelected != null) {
+                    return formatter.format(dateSelected);
+                }
+                return null;
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if(string != null && !string.trim().isEmpty()) {
+                    return LocalDate.parse(string, formatter);
+                }
+                return null;
+            }
+        });
+
+        date.setOnAction(event -> {
+
+        });
+
+        //Initializing the observable list for the users available!!
+        //The admin can make a mistake in writing the name of the user.
+        ObservableList<User> oL = User.getUserData();
+        username.setItems(oL);
+        this.setUserComboBoxConverter(oL);
+
+        //Initializing the observable list for the rooms available!!
+        ObservableList<Room> ol = Room.getRoomData();
+        room.setItems(ol);
+        this.setRoomComboBoxConverter(ol);
+
+        //If there are no reservation in the table.
         if(reservation == null)
             return;
-        username.setText(reservation.getUsername().get());
-        room.setText(String.valueOf(reservation.getRoom().get()));
-        date.setText(reservation.getDate().get());
+
+        username.getSelectionModel().select(oL.stream().filter(x -> x.getUsername().get().equals(reservation.getUsername().get())).collect(Collectors.toList()).get(0));
+
+        room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get() == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
+
+        //date.setText(reservation.getDate().get());
         starting_time.setText(reservation.getStarting_time().get());
         ending_time.setText(reservation.getEnding_time().get());
+    }
+
+    public void setRoomComboBoxConverter(ObservableList<Room> ol) {
+        StringConverter<Room> converter = new StringConverter<Room>() {
+            @Override
+            public String toString(Room object) {
+                if(object == null)
+                    return "";
+                else
+                    return object.getRoomName().get();
+            }
+
+            @Override
+            public Room fromString(String id) {
+                return ol.stream().filter(x -> String.valueOf(x.getRoomId()).equals(id)).collect(Collectors.toList()).get(0);
+            }
+        };
+        room.setConverter(converter);
+    }
+
+    public void setUserComboBoxConverter(ObservableList<User> oL) {
+        StringConverter<User> converter = new StringConverter<User>() {
+            @Override
+            public String toString(User object) {
+                if(object == null)
+                    return "";
+                else
+                    return object.getUsername().get();
+            }
+
+            @Override
+            public User fromString(String id) {
+                return oL.stream().filter(x -> String.valueOf(x.getUsername()).equals(id)).collect(Collectors.toList()).get(0);
+            }
+        };
+        username.setConverter(converter);
     }
 
     public static void emptyReservation() {reservation = new Reservation();}
@@ -53,11 +141,12 @@ public class ReservationEditDialogController {
      */
     @FXML
     public void OKClicked(ActionEvent event) {
+        LocalDate dateSelected = date.getValue();
         if(isInputValid()) {
             emptyReservation();
-            reservation.setUsername(username.getText());
-            reservation.setRoom(Integer.parseInt(room.getText()));
-            reservation.setDate(date.getText());
+            reservation.setUsername(username.getSelectionModel().getSelectedItem().getUsername().get());
+            reservation.setRoom(room.getSelectionModel().getSelectedItem().getRoomId().get());
+            reservation.setDate(dateSelected.toString());
             reservation.setEnding_time(starting_time.getText());
             reservation.setEnding_time(ending_time.getText());
 
@@ -84,13 +173,13 @@ public class ReservationEditDialogController {
     private boolean isInputValid() {
         String errorMessage = "";
 
-        if(username.getText().equals("")) {
+        if(username.getSelectionModel().getSelectedIndex() <= 0) {
             errorMessage += "No valid username provided!\n";
         }
-        if(room.getText().equals("")) {
+        if(room.getSelectionModel().getSelectedIndex() <= 0) {
             errorMessage += "No valid Room provided! \n";
         }
-        if(date.getText().equals("")) {
+        if(date.getValue().equals("")) {
             errorMessage += "No date provided!\n";
         }
         if(starting_time.getText().equals("")) {
@@ -99,14 +188,16 @@ public class ReservationEditDialogController {
         if(ending_time.getText().equals("")) {
             errorMessage += "No ending Time provided!\n";
         }
-        else {
-            try {
-                Integer.parseInt(room.getText());
-            }
-            catch (NumberFormatException e) {
-                errorMessage += "No valid room id provided!\n";
-            }
-        }
+//        else {
+//            try {
+//                Integer.parseInt(room.getText());
+//            }
+//            catch (NumberFormatException e) {
+//                errorMessage += "No valid room id provided!\n";
+//            }
+//        }
+
+
         if (errorMessage.equals("")) {
             return true;
         } else {
