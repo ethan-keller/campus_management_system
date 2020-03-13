@@ -12,10 +12,6 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.RoomView;
 
 
-
-
-import java.io.IOException;
-
 public class SearchViewController {
 
 
