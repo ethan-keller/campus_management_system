@@ -23,7 +23,7 @@ public class Hashing {
             res = new String(hash);
 
             StringBuilder sb = new StringBuilder();
-            for(int i=0; i< hash.length ;i++)
+            for(int i=0; i< hash.length ;i++) //changes bytes to a String
             {
                 sb.append(Integer.toString((hash[i] & 0xff) + 0x100, 16).substring(1));
             }
