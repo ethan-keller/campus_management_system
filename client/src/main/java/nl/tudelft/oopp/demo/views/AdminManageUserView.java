@@ -4,25 +4,20 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.controllers.BuildingEditDialogController;
-import nl.tudelft.oopp.demo.controllers.RoomEditDialogController;
-import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Room;
 
 import java.io.IOException;
 import java.net.URL;
 
-public class AdminManageBuildingView extends Application{
+public class AdminManageUserView extends Application{
 
-    public AdminManageBuildingView(){}
+    public AdminManageUserView(){}
 
     @Override
     public void start(Stage primaryStage) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader();
-            URL xmlUrl = getClass().getResource("/adminManageBuildingView.fxml");
+            URL xmlUrl = getClass().getResource("/adminManageUserView.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
 

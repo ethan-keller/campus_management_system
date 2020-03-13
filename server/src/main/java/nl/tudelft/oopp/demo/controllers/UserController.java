@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import nl.tudelft.oopp.demo.encryption.CommunicationMethods;
 import nl.tudelft.oopp.demo.encryption.EncryptionManager;
+import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,12 +66,17 @@ public class UserController {
         }
     }
 
-    /**
-     * Deletes the database entry with the provided username.
-     *
-     * @param username The username of the to be deleted user.
-     * @throws UnsupportedEncodingException
-     */
+    @PostMapping("updateUser2")
+    @ResponseBody
+    public void updateUser(@RequestParam String username, @RequestParam int type) throws UnsupportedEncodingException {
+        username = CommunicationMethods.decodeCommunication(username);
+        try{
+            userRepo.updateType(username, type);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     @PostMapping("deleteUser")
     @ResponseBody
     public void deleteUser(@RequestParam String username) throws UnsupportedEncodingException {
@@ -111,6 +117,17 @@ public class UserController {
     public List<User> getAllUsers(){
         try {
             return userRepo.getAllUsers();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @GetMapping("getUserReservations")
+    @ResponseBody
+    public List<Reservations> getUserReservations(@RequestParam String username){
+        try{
+            return userRepo.getUserReservations(username);
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -1,17 +1,12 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Room;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 public class BuildingEditDialogController {
 
@@ -22,9 +17,9 @@ public class BuildingEditDialogController {
     @FXML
     private TextField buildingRoom_countField;
 
+    public static Building building;
+
     private Stage dialogStage;
-    private Building building;
-    private boolean okClicked = false;
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -32,49 +27,28 @@ public class BuildingEditDialogController {
      */
     @FXML
     private void initialize() {
+        Building building = AdminManageBuildingViewController.currentSelectedBuilding;
+        if (building == null) return;
+        buildingNameField.setText(building.getBuildingName().get());
+        buildingAddressField.setText(building.getBuildingAddress().get());
+        buildingRoom_countField.setText(String.valueOf(building.getBuildingRoom_count().get()));
     }
 
-    /**
-     * Sets the stage of this dialog.
-     *
-     * @param dialogStage
-     */
-    public void setDialogStage(Stage dialogStage) {
-        this.dialogStage = dialogStage;
-    }
-
-    /**
-     * Sets the builidng to be edited in the dialog.
-     *
-     * @param building
-     */
-    public void setBuilding(Building building) {
-        this.building = building;
-        buildingNameField.setText(building.getBuildingName());
-        buildingAddressField.setText(building.getBuildingAddress());
-        buildingRoom_countField.setText(Integer.toString(building.getBuildingRoom_count()));
-    }
-
-    /**
-     * Returns true if the user clicked OK, false otherwise.
-     *
-     * @return
-     */
-    public boolean isOkClicked() {
-        return okClicked;
+    private static void emptyBuilding() {
+        building = new Building();
     }
 
     /**
      * Called when the user clicks ok.
      */
     @FXML
-    private void handleOkClicked() {
+    private void handleOkClicked(ActionEvent event) {
         if (isInputValid()) {
+            emptyBuilding();
             building.setBuildingName(buildingNameField.getText());
-            building.setBuildingAddress(buildingAddressField.getAccessibleText());
             building.setBuildingRoom_count(Integer.parseInt(buildingRoom_countField.getText()));
-
-            okClicked = true;
+            building.setBuildingAddress(buildingAddressField.getText());
+            this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
         }
     }
@@ -83,7 +57,9 @@ public class BuildingEditDialogController {
      * Called when the user clicks cancel.
      */
     @FXML
-    private void handleCancelClicked() {
+    private void handleCancelClicked(ActionEvent event) {
+        building = null;
+        this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         dialogStage.close();
     }
 
@@ -95,13 +71,13 @@ public class BuildingEditDialogController {
     private boolean isInputValid() {
         String errorMessage = "";
 
-        if (buildingNameField.getText() == null || buildingNameField.getText().length() == 0) {
+        if (buildingNameField.getText().equals("")) {
             errorMessage += "No valid building name!\n";
         }
-        if (buildingAddressField.getText() == null || buildingAddressField.getText().length() == 0) {
+        if (buildingAddressField.getText().equals("")) {
             errorMessage += "No valid building address!\n";
         }
-        if (buildingRoom_countField.getText() == null || buildingRoom_countField.getText().length() == 0) {
+        if (buildingRoom_countField.getText().equals("")) {
             errorMessage += "No valid capacity!\n";
         } else {
             try {
@@ -110,21 +86,19 @@ public class BuildingEditDialogController {
                 errorMessage += "No valid room count (must be an integer)!\n";
             }
         }
-
-        if (errorMessage.length() == 0) {
+        if (errorMessage.equals("")) {
             return true;
         } else {
             // Show the error message.
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initOwner(dialogStage);
             alert.setTitle("Invalid Fields");
             alert.setHeaderText("Please correct invalid fields");
             alert.setContentText(errorMessage);
-
             alert.showAndWait();
 
             return false;
         }
+        
     }
 
 }

@@ -40,7 +40,7 @@ public class RegisterController {
 
         if(userRepo.getUser(username) == null){
             userRepo.insertUser(username, encryptedPassword, 2);
-            return "nice";
+            return "Your account is created";
         }
         return "This username already exists!";
     }
