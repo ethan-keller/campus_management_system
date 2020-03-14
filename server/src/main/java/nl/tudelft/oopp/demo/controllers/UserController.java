@@ -95,13 +95,6 @@ public class UserController {
         return null;
     }
 
-<<<<<<< HEAD
-    @PostMapping("getUser")
-    @ResponseBody
-    public boolean test(){
-        System.out.println(userRepo.getUser("admin"));
-        return true;
-=======
     @GetMapping("getUserReservations")
     @ResponseBody
     public List<Reservations> getUserReservations(@RequestParam String username){
@@ -111,7 +104,7 @@ public class UserController {
             e.printStackTrace();
         }
         return null;
->>>>>>> develop
+
     }
 
 }
