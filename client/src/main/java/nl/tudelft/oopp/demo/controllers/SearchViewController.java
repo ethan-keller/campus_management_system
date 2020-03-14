@@ -27,6 +27,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URL;
 
 
 public class SearchViewController {
@@ -138,7 +139,7 @@ public class SearchViewController {
             Text room_description = new Text();
 
             // loading image from URL + setting size & properties
-            Image img = new Image(new FileInputStream("C:\\Users\\ethan\\Desktop\\placeholder.png"));
+            Image img = new Image("images/placeholder.png");
             image.setImage(img);
             image.setPreserveRatio(true);
             image.setPickOnBounds(true);
