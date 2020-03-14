@@ -28,6 +28,7 @@ public class Reservations {
     public Reservations() {
     }
 
+<<<<<<< HEAD
     /**
      * Builder
      *
@@ -38,6 +39,9 @@ public class Reservations {
      * @param ending_time String formatted like "". //TODO time format
      */
     public Reservations(int id, String username, String date, String starting_time, String ending_time) {
+=======
+    public Reservations(int id, String username, int room, String date, String starting_time, String ending_time) {
+>>>>>>> origin/testing
         this.id = id;
         this.username = username;
         this.room = room;
