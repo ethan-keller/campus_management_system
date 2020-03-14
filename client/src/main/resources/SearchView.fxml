@@ -4,11 +4,11 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -43,12 +43,28 @@
                      </Text>
 
                      <ChoiceBox fx:id="TimeslotChoiceBox" minWidth="0.0" prefHeight="32.8" prefWidth="171.2" />
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Role">
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Teachers only">
                         <font>
                            <Font size="15.0" />
                         </font>
                      </Text>
-                     <ChoiceBox fx:id="RoleChoiceBox" prefHeight="31.2" prefWidth="177.6" />
+                     <HBox alignment="CENTER" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" prefWidth="172.0">
+                        <children>
+                           <RadioButton fx:id="yesCheckBox" mnemonicParsing="false" text="yes" textFill="WHITE">
+                              <HBox.margin>
+                                 <Insets left="10.0" right="10.0" />
+                              </HBox.margin>
+                              <toggleGroup>
+                                 <ToggleGroup fx:id="teacher_only" />
+                              </toggleGroup>
+                           </RadioButton>
+                           <RadioButton fx:id="noCheckBox" mnemonicParsing="false" text="no" textFill="WHITE" toggleGroup="$teacher_only">
+                              <HBox.margin>
+                                 <Insets left="10.0" right="10.0" />
+                              </HBox.margin>
+                           </RadioButton>
+                        </children>
+                     </HBox>
                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Food">
                         <font>
                            <Font size="15.0" />
@@ -96,138 +112,15 @@
                               <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                            </HBox.margin>
                         </Text>
-                        <TextField fx:id="textfield" maxWidth="394.0" prefHeight="26.0" prefWidth="394.0" style="-fx-translate-y: 10;">
+                        <TextField fx:id="searchBar" maxWidth="394.0" prefHeight="26.0" prefWidth="394.0" style="-fx-translate-y: 10;">
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                         </TextField>
                      </HBox>
-                     <ScrollPane layoutY="87.0" AnchorPane.bottomAnchor="0.1999999999999318" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="87.0">
+                     <ScrollPane fx:id="scrollPane" layoutY="68.0" prefHeight="470.0" prefWidth="687.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="68.0">
                         <content>
-                           <VBox prefWidth="688.0">
-                              <children>
-                                 <HBox prefHeight="145.0" prefWidth="688.0" VBox.vgrow="ALWAYS">
-                                    <children>
-                                       <ImageView fitHeight="204.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
-                                          <HBox.margin>
-                                             <Insets bottom="10.0" left="10.0" right="5.0" top="10.0" />
-                                          </HBox.margin>
-                                          <image>
-                                             <Image url="images/placeholder.png" />
-                                          </image>
-                                       </ImageView>
-                                       <VBox prefHeight="378.0" prefWidth="354.0">
-                                          <children>
-                                             <Text fill="#0ebaf8" strokeType="OUTSIDE" strokeWidth="0.0" text="ROOM TITLE" wrappingWidth="197.22030639648438">
-                                                <font>
-                                                   <Font name="System Bold" size="18.0" />
-                                                </font>
-                                                <VBox.margin>
-                                                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                                </VBox.margin>
-                                             </Text>
-                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Capacity: 8" wrappingWidth="197.22030639648438">
-                                                <font>
-                                                   <Font size="14.0" />
-                                                </font>
-                                                <VBox.margin>
-                                                   <Insets bottom="5.0" left="10.0" />
-                                                </VBox.margin>
-                                             </Text>
-                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description: This room is a blablabla room with 400 windows and its very blablabla" wrappingWidth="306.8202819824219">
-                                                <font>
-                                                   <Font size="14.0" />
-                                                </font>
-                                                <VBox.margin>
-                                                   <Insets left="10.0" />
-                                                </VBox.margin>
-                                             </Text>
-                                          </children>
-                                       </VBox>
-                                    </children>
-                                 </HBox>
-                                 <HBox prefHeight="145.0" prefWidth="688.0" VBox.vgrow="ALWAYS">
-                                    <children>
-                                       <ImageView fitHeight="204.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
-                                          <HBox.margin>
-                                             <Insets bottom="10.0" left="10.0" right="5.0" top="10.0" />
-                                          </HBox.margin>
-                                          <image>
-                                             <Image url="images/placeholder.png" />
-                                          </image>
-                                       </ImageView>
-                                       <VBox prefHeight="378.0" prefWidth="354.0">
-                                          <children>
-                                             <Text fill="#0ebaf8" strokeType="OUTSIDE" strokeWidth="0.0" text="ROOM TITLE" wrappingWidth="197.22030639648438">
-                                                <font>
-                                                   <Font name="System Bold" size="18.0" />
-                                                </font>
-                                                <VBox.margin>
-                                                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                                </VBox.margin>
-                                             </Text>
-                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Capacity: 8" wrappingWidth="197.22030639648438">
-                                                <font>
-                                                   <Font size="14.0" />
-                                                </font>
-                                                <VBox.margin>
-                                                   <Insets bottom="5.0" left="10.0" />
-                                                </VBox.margin>
-                                             </Text>
-                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description: This room is a blablabla room with 400 windows and its very blablabla" wrappingWidth="306.8202819824219">
-                                                <font>
-                                                   <Font size="14.0" />
-                                                </font>
-                                                <VBox.margin>
-                                                   <Insets left="10.0" />
-                                                </VBox.margin>
-                                             </Text>
-                                          </children>
-                                       </VBox>
-                                    </children>
-                                 </HBox>
-                                 <HBox prefHeight="145.0" prefWidth="688.0">
-                                    <children>
-                                       <ImageView fitHeight="204.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
-                                          <image>
-                                             <Image url="images/placeholder.png" />
-                                          </image>
-                                          <HBox.margin>
-                                             <Insets bottom="10.0" left="10.0" right="5.0" top="10.0" />
-                                          </HBox.margin>
-                                       </ImageView>
-                                       <VBox prefHeight="378.0" prefWidth="354.0">
-                                          <children>
-                                             <Text fill="#0ebaf8" strokeType="OUTSIDE" strokeWidth="0.0" text="ROOM TITLE" wrappingWidth="197.22030639648438">
-                                                <font>
-                                                   <Font name="System Bold" size="18.0" />
-                                                </font>
-                                                <VBox.margin>
-                                                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                                </VBox.margin>
-                                             </Text>
-                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Capacity: 8" wrappingWidth="197.22030639648438">
-                                                <font>
-                                                   <Font size="14.0" />
-                                                </font>
-                                                <VBox.margin>
-                                                   <Insets bottom="5.0" left="10.0" />
-                                                </VBox.margin>
-                                             </Text>
-                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description: This room is a blablabla room with 400 windows and its very blablabla" wrappingWidth="306.8202819824219">
-                                                <font>
-                                                   <Font size="14.0" />
-                                                </font>
-                                                <VBox.margin>
-                                                   <Insets left="10.0" />
-                                                </VBox.margin>
-                                             </Text>
-                                          </children>
-                                       </VBox>
-                                    </children>
-                                 </HBox>
-                              </children>
-                           </VBox>
+                           <VBox fx:id="cardHolder" prefWidth="688.0" />
                         </content>
                      </ScrollPane>
                   </children>
