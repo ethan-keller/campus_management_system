@@ -57,6 +57,6 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
     @Query(value = "SELECT * FROM reservations WHERE starting_time = :starting_time AND ending_time = :ending_time", nativeQuery = true)
     public Reservations getReservationByStarting_timeAndEnding_time(@Param("starting_time") String starting_time, @Param("ending_time") String ending_time);
 
-    @Query(value = "SELECT * FROM reservations WHERE id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM reservations WHERE starting_time = :starting_time", nativeQuery = true)
     public Reservations getReservationByStarting_time(@Param("starting_time") String starting_time);
 }
