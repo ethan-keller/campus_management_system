@@ -83,4 +83,11 @@ public class UserController {
         return null;
     }
 
+    @PostMapping("getUser")
+    @ResponseBody
+    public boolean test(){
+        System.out.println(userRepo.getUser("admin"));
+        return true;
+    }
+
 }
