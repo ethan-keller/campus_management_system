@@ -15,8 +15,7 @@ class UserControllerTest {
 
     @Test
     void createUser() throws UnsupportedEncodingException {
-        userCont.createUser("TestIt", "TestIt", 0);
-        System.out.println(userCont.getUser("TestIt"));
+        userCont.getAllUsers();
     }
 
     @Test
