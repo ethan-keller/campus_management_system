@@ -327,7 +327,7 @@ public class AdminManageServerCommunication {
     }
 
     public static void createReservation(String username, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
-        String params = "username="+username+"&room="+room+"&date="+date+"&starting_time="+starting_time+"ending_time="+ending_time;
+        String params = "username="+username+"&room="+room+"&date="+date+"&starting_time="+starting_time+"&ending_time="+ending_time;
         params = GeneralMethods.encodeCommunication(params);
 
 
@@ -335,6 +335,7 @@ public class AdminManageServerCommunication {
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("FAILED:" + response);
         } catch (Exception e) {
             e.printStackTrace();
         }
