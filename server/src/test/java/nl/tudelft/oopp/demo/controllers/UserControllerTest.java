@@ -19,6 +19,8 @@ class UserControllerTest {
         userCont.createUser("4Testing", "4Testing", 0);
         User us1 = new User("4Testing", "4Testing", 0);
         User us2 = userCont.getUser("4Testing");
+        System.out.println(us1);
+        System.out.println(us2);
         assertEquals(us1, us2);
     }
 
