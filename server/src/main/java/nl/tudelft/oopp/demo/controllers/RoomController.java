@@ -1,10 +1,9 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import nl.tudelft.oopp.demo.encryption.CommunicationMethods;
+import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,10 +37,10 @@ public class RoomController {
         photos = CommunicationMethods.decodeCommunication(photos);
         description = CommunicationMethods.decodeCommunication(description);
         type = CommunicationMethods.decodeCommunication(type);
-
         try{
             roomRepo.updateCapacity(id, capacity);
             roomRepo.updateDescription(id, description);
+            roomRepo.updateBuilding(id, building);
             roomRepo.updateName(id, name);
             roomRepo.updatePhotos(id, photos);
             roomRepo.updateTeacherOnly(id, teacher_only);

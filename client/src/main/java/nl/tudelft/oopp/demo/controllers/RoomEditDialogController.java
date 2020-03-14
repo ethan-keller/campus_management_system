@@ -1,27 +1,29 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
-import org.json.JSONArray;
-import org.json.JSONException;
+
+import java.util.stream.Collectors;
 
 public class RoomEditDialogController {
-
-    ObservableList<Building> availableBuildings = FXCollections.observableArrayList(Building.getBuildingData());
-    ObservableList<String> teacher_only = FXCollections.observableArrayList("Yes", "No");
 
     @FXML
     private TextField roomNameField;
     @FXML
-    private ChoiceBox<Building> roomBuildingField;
+    private ComboBox<Building> roomBuildingComboBox;
     @FXML
-    private ChoiceBox roomTeacher_onlyField;
+    private ToggleGroup teacher_only;
+    @FXML
+    private RadioButton radioButtonYes;
+    @FXML
+    private RadioButton radioButtonNo;
     @FXML
     private TextField roomCapacityField;
     @FXML
@@ -29,13 +31,14 @@ public class RoomEditDialogController {
     @FXML
     private TextField roomDescriptionField;
     @FXML
-    private TextField roomPhotoField;
+    private Button uploadRoomPhoto;
+
+    public static Room room;
 
     private Stage dialogStage;
-    private Room room;
-    private boolean okClicked = false;
 
-    public RoomEditDialogController() throws JSONException {
+
+    public RoomEditDialogController() {
     }
 
     /**
@@ -44,68 +47,73 @@ public class RoomEditDialogController {
      */
     @FXML
     private void initialize() {
-        roomBuildingField.setItems(availableBuildings);
-        roomTeacher_onlyField.setItems(teacher_only);
+        try {
+            Room room = AdminManageRoomViewController.currentSelectedRoom;
+            ObservableList<Building> ol = Building.getBuildingData();
+            roomBuildingComboBox.setItems(ol);
+            this.setRoomBuildingComboBoxConverter(ol);
+
+            if (room == null) return;
+            roomNameField.setText(room.getRoomName().get());
+            roomBuildingComboBox.getSelectionModel().select(ol.stream().filter(x -> x.getBuildingId().get() == room.getRoomBuilding().get()).collect(Collectors.toList()).get(0));
+            if (room.getTeacher_only().get()) radioButtonYes.setSelected(true);
+            else radioButtonNo.setSelected(true);
+            roomCapacityField.setText(String.valueOf(room.getRoomCapacity().get()));
+            roomTypeField.setText(room.getRoomType().get());
+            roomDescriptionField.setText(room.getRoomDescription().get());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Sets the stage of this dialog.
-     *
-     * @param dialogStage
-     */
-    public void setDialogStage(Stage dialogStage) {
-        this.dialogStage = dialogStage;
+    public void setRoomBuildingComboBoxConverter(ObservableList<Building> ol){
+        StringConverter<Building> converter = new StringConverter<Building>() {
+            @Override
+            public String toString(Building object) {
+                if (object == null) return "";
+                else return object.getBuildingName().get();
+            }
+
+            @Override
+            public Building fromString(String id) {
+                return ol.stream().filter(x -> String.valueOf(x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
+            }
+        };
+        roomBuildingComboBox.setConverter(converter);
     }
 
-    /**
-     * Sets the room to be edited in the dialog.
-     *
-     * @param room
-     */
-    public void setRoom(Room room) {
-        this.room = room;
-        roomNameField.setText(room.getRoomName());
-        roomBuildingField.setItems(availableBuildings);
-        roomTeacher_onlyField.setItems(teacher_only);
-        roomCapacityField.setText(Integer.toString(room.getRoomCapacity()));
-        roomTypeField.setText(room.getRoomType());
-        roomDescriptionField.setText(room.getRoomDescription());
-        roomPhotoField.setText(room.getRoomPhoto());
-    }
-
-    /**
-     * Returns true if the user clicked OK, false otherwise.
-     *
-     * @return
-     */
-    public boolean isOkClicked() {
-        return okClicked;
+    private static void emptyRoom(){
+        room = new Room();
     }
 
     /**
      * Called when the user clicks ok.
      */
     @FXML
-    private void handleOkClicked() {
+    private void handleOkClicked(ActionEvent event) {
         if (isInputValid()) {
-            room.setRoomName(roomNameField.getText());
-            room.setRoomBuilding(roomBuildingField.getValue().getBuildingId());
-            room.setTeacher_only(roomTeacher_onlyField.getAccessibleText().equals("Yes"));
-            room.setRoomCapacity(Integer.parseInt(roomCapacityField.getText()));
-            room.setRoomType(roomTypeField.getText());
-            room.setRoomDescription(roomDescriptionField.getText());
-            room.setRoomPhoto(roomPhotoField.getText());
+            emptyRoom();
+            room.setRoomName(this.roomNameField.getText());
+            room.setRoomBuilding(this.roomBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
+            room.setTeacher_only(this.radioButtonYes.isSelected() ? true : false);
+            room.setRoomCapacity(Integer.parseInt(this.roomCapacityField.getText()));
+            room.setRoomType(this.roomTypeField.getText());
+            room.setRoomDescription(this.roomDescriptionField.getText());
+            room.setRoomPhoto("test.jpg");
 
-            okClicked = true;
+            this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
         }
     }
+
 
     /**
      * Called when the user clicks cancel.
      */
     @FXML
-    private void handleCancelClicked() {
+    private void handleCancelClicked(ActionEvent event) {
+        room = null;
+        this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         dialogStage.close();
     }
 
@@ -117,42 +125,45 @@ public class RoomEditDialogController {
     private boolean isInputValid() {
         String errorMessage = "";
 
-        if (roomNameField.getText() == null || roomNameField.getText().length() == 0) {
+        if (roomNameField.getText().equals("")) {
             errorMessage += "No valid room name!\n";
         }
-        if (roomBuildingField.getItems() == null) {
-            errorMessage += "You must choose a building!\n";
+        if (roomBuildingComboBox.getSelectionModel().getSelectedIndex() < 0) {
+            errorMessage += "No valid building selected!\n";
         }
-        if (roomTeacher_onlyField.getItems() == null) {
-            errorMessage += "You must choose if teacher only!\n";
+        if (!radioButtonYes.isSelected() && !radioButtonNo.isSelected()) {
+            errorMessage += "No teacher only button selected!\n";
         }
-        if (roomTypeField.getText() == null) {
-            errorMessage += "You must choose a type!\n";
-        }
-        if (roomCapacityField.getText() == null || roomCapacityField.getText().length() == 0) {
+        if(roomCapacityField.getText().equals("")){
             errorMessage += "No valid capacity!\n";
         } else {
             try {
                 Integer.parseInt(roomCapacityField.getText());
             } catch (NumberFormatException e) {
-                errorMessage += "No valid capacity (must be an integer)!\n";
+                errorMessage += "No valid room count (must be an integer)!\n";
             }
         }
+        if(roomTypeField.getText().equals("")){
+          errorMessage += "No valid room type!\n";
+        }
+        if(roomDescriptionField.getText().equals("")){
+            errorMessage += "No valid room description!\n";
+        }
 
-        if (errorMessage.length() == 0) {
+        if (errorMessage.equals("")) {
             return true;
         } else {
             // Show the error message.
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initOwner(dialogStage);
             alert.setTitle("Invalid Fields");
             alert.setHeaderText("Please correct invalid fields");
             alert.setContentText(errorMessage);
-
             alert.showAndWait();
 
             return false;
         }
     }
 
+    public void uploadImage(ActionEvent event) {
+    }
 }
