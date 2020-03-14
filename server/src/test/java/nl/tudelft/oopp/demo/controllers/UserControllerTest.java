@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserControllerTest {
 
-    @Autowired
     private UserController userCont;
 
     @Test
     void createUser() throws UnsupportedEncodingException {
-        userCont.getAllUsers();
+        userCont = new UserController();
+        userCont.createUser("4Testing", "4Testing", 0);
+        User us1 = new User("4Testing", "4Testing", 0);
+        User us2 = userCont.getUser("4Testing");
+        assertEquals(us1, us2);
     }
 
     @Test
