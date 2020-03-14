@@ -20,6 +20,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import jdk.jfr.Event;
+import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.SearchView;
 
@@ -41,27 +43,43 @@ public class RoomViewController implements Initializable {
     public VBox reservationVbox;
     public VBox roomDetailsVbox;
 
+    private static Room currentRoom;
+    public static int currentRoomId;
     public static Stage thisStage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            currentRoom = Room.getRoomById(currentRoomId);
+            ObservableList<String> TimeslotList = FXCollections.observableArrayList();
+            ObservableList<String> FoodList = FXCollections.observableArrayList();
 
-        ObservableList<String> TimeslotList = FXCollections.observableArrayList();
-        ObservableList<String> FoodList = FXCollections.observableArrayList();
+            changeWidthConstraints(thisStage.getWidth());
 
-        thisStage.widthProperty().addListener((obs, oldVal, newVal) -> {
-            changeWidthConstraints(newVal);
-        });
+            thisStage.widthProperty().addListener((obs, oldVal, newVal) -> {
+                changeWidthConstraints(newVal);
+            });
 
-        TimeslotList.addAll("8:00 - 9:00","10:00 - 11:00","11:00 - 12:00",
-                "12:00 - 13:00","13:00 - 14:00","14:00 - 15:00","15:00 - 16:00",
-                "16:00 - 17:00","17:00 - 18:00","18:00 - 19:00","19:00 - 20:00",
-                "20:00 - 21:00","21:00 - 22:00","23:00 - 24:00");
-        FoodList.addAll("Ham Sandwich", "Cheese Sandwich", "Pasta");
+            TimeslotList.addAll("8:00 - 9:00", "10:00 - 11:00", "11:00 - 12:00",
+                    "12:00 - 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00",
+                    "16:00 - 17:00", "17:00 - 18:00", "18:00 - 19:00", "19:00 - 20:00",
+                    "20:00 - 21:00", "21:00 - 22:00", "23:00 - 24:00");
+            FoodList.addAll("Ham Sandwich", "Cheese Sandwich", "Pasta");
 
-        timeslot.setItems(TimeslotList);
-        food_choice.setItems(FoodList);
+            timeslot.setItems(TimeslotList);
+            food_choice.setItems(FoodList);
 
+            name.setText("Name: " + currentRoom.getRoomName().get());
+            capacity.setText("Capacity: " + currentRoom.getRoomCapacity().get());
+            building.setText("Building: " + Building.getBuildingById(currentRoom.getRoomBuilding().get()).getBuildingName().get());
+            teacher_only.setText("Teachers only: " + (currentRoom.getTeacher_only().get() ? "yes" : "no"));
+            type.setText("Type: " + currentRoom.getRoomType().get());
+            description.setText("Description:\n" + currentRoom.getRoomDescription().get());
+            // TODO: change to room's image
+            image.setImage(new Image("images/placeholder.png"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void changeWidthConstraints(Number newWidth){

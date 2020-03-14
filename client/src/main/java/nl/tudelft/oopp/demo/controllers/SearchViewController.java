@@ -153,7 +153,7 @@ public class SearchViewController {
 
             //
             roomId.setText(String.valueOf(r.getRoomId().get()));
-            roomId.setWrappingWidth(0);
+            roomId.setVisible(false);
 
 
             // setting title and text margin (+ properties)
@@ -161,19 +161,19 @@ public class SearchViewController {
             room_title.setWrappingWidth(200);
             room_title.setFont(Font.font("System", FontWeight.BOLD, 18));
             room_title.setStyle("-fx-fill: #0ebaf8;");
-            room_info.setMargin(room_title, new Insets(10, 10, 10, 10));
+            room_info.setMargin(room_title, new Insets(10, 10, 10, 15));
 
             // setting capacity and text margin (+ properties)
             room_capacity.setText("Capacity: " + r.getRoomCapacity().get());
             room_capacity.setWrappingWidth(200);
             room_capacity.setFont(Font.font("System", 14));
-            room_info.setMargin(room_capacity, new Insets(0, 0, 5, 10));
+            room_info.setMargin(room_capacity, new Insets(0, 0, 5, 15));
 
             // setting description and text margin (+ properties)
             room_description.setText("Description: " + r.getRoomDescription().get());
             room_description.setWrappingWidth(310);
             room_description.setFont(Font.font("System", 14));
-            room_info.setMargin(room_description, new Insets(0, 0, 0, 10));
+            room_info.setMargin(room_description, new Insets(0, 0, 0, 15));
 
             // setting 'text box' size
             room_info.setPrefSize(354, 378);
@@ -209,7 +209,9 @@ public class SearchViewController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         HBox selectedCard = (HBox) event.getSource();
-        System.out.println(selectedCard.getChildren().get(1));
+        VBox cardInfo = (VBox) selectedCard.getChildren().get(1);
+        int roomId = Integer.parseInt(((Text) cardInfo.getChildren().get(0)).getText());
+        RoomViewController.currentRoomId = roomId;
 
         RoomView rv = new RoomView();
         //Node target = (Node) event.getTarget();

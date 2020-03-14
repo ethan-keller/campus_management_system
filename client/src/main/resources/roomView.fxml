@@ -15,58 +15,63 @@
 
 <BorderPane minHeight="300.0" prefHeight="507.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.RoomViewController">
    <left>
-      <VBox fx:id="roomDetailsVbox" alignment="CENTER_LEFT" prefWidth="188.0" spacing="20.0" style="-fx-background-color: #0ebaf8;">
+      <AnchorPane>
          <children>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Room details">
-               <font>
-                  <Font name="System Bold" size="19.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="15.0" />
-               </VBox.margin>
-            </Text>
-            <Text fx:id="name" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="name: NAME">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="15.0" />
-               </VBox.margin>
-            </Text>
-            <Text fx:id="capacity" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="capacity: CAPACITY">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="15.0" />
-               </VBox.margin>
-            </Text>
-            <Text fx:id="building" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="building: NAME">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="15.0" />
-               </VBox.margin>
-            </Text>
-            <Text fx:id="teacher_only" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="teachers only: YES/NO">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="15.0" />
-               </VBox.margin>
-            </Text>
-            <Text fx:id="type" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="type: TYPE">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="15.0" />
-               </VBox.margin>
-            </Text>
+            <VBox fx:id="roomDetailsVbox" prefWidth="188.0" spacing="20.0" style="-fx-background-color: #0ebaf8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Room details">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="15.0" top="50.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="name" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="name: NAME">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="15.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="capacity" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="capacity: CAPACITY">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="15.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="building" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="building: NAME">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="15.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="teacher_only" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="teachers only: YES/NO">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="15.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="type" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="type: TYPE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="15.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+            <Button layoutX="15.0" layoutY="465.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="26.0" prefWidth="87.0" style="-fx-background-color: #1473d2;" text="Back" textFill="WHITE" AnchorPane.bottomAnchor="15.79999999999999" AnchorPane.leftAnchor="15.0" />
          </children>
-      </VBox>
+      </AnchorPane>
    </left>
    <center>
       <AnchorPane prefHeight="507.0" prefWidth="699.0" BorderPane.alignment="CENTER">
@@ -104,7 +109,6 @@
                         <Button fx:id="bookBikesButton" mnemonicParsing="false" text="Book bikes" />
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="26.0" prefWidth="87.0" text="Back" />
                </children>
             </VBox>
          </children>
