@@ -1,7 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import nl.tudelft.oopp.demo.encryption.CommunicationMethods;
-import nl.tudelft.oopp.demo.encryption.EncryptionManager;
+import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
+import nl.tudelft.oopp.demo.encode_hash.Hashing;
 import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
@@ -29,7 +29,7 @@ public class UserController {
         password = CommunicationMethods.decodeCommunication(password);
 
         try{
-            String encrypted_pass = EncryptionManager.encrypt(password, secretKey);
+            String encrypted_pass = Hashing.hashIt(password);
             userRepo.insertUser(username, encrypted_pass, type);
         } catch (Exception e){
             e.printStackTrace();
@@ -42,7 +42,7 @@ public class UserController {
         username = CommunicationMethods.decodeCommunication(username);
         password = CommunicationMethods.decodeCommunication(password);
         try{
-            String encrypted_pass = EncryptionManager.encrypt(password, secretKey);
+            String encrypted_pass = Hashing.hashIt(password);
             userRepo.updatePassword(username, encrypted_pass);
             userRepo.updateType(username, type);
         } catch (Exception e){

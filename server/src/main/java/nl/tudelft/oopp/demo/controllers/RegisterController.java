@@ -1,7 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import nl.tudelft.oopp.demo.encryption.CommunicationMethods;
-import nl.tudelft.oopp.demo.encryption.EncryptionManager;
+import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
+import nl.tudelft.oopp.demo.encode_hash.Hashing;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +32,7 @@ public class RegisterController {
         username = CommunicationMethods.decodeCommunication(username);
         password = CommunicationMethods.decodeCommunication(password);
 
-        String encryptedPassword = EncryptionManager.encrypt(password, secretKey);
+        String encryptedPassword = Hashing.hashIt(password);
 
         if(userRepo.getUser(username) == null){
             userRepo.insertUser(username, encryptedPassword, 2);
