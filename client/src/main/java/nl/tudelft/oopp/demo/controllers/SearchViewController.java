@@ -13,6 +13,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -27,6 +28,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 
 
@@ -137,6 +139,7 @@ public class SearchViewController {
             Text room_title = new Text();
             Text room_capacity = new Text();
             Text room_description = new Text();
+            Text roomId = new Text();
 
             // loading image from URL + setting size & properties
             Image img = new Image("images/placeholder.png");
@@ -147,6 +150,11 @@ public class SearchViewController {
 
             // adding image margin
             newCard.setMargin(image, new Insets(10, 5, 10, 10));
+
+            //
+            roomId.setText(String.valueOf(r.getRoomId().get()));
+            roomId.setWrappingWidth(0);
+
 
             // setting title and text margin (+ properties)
             room_title.setText(r.getRoomName().get());
@@ -171,6 +179,7 @@ public class SearchViewController {
             room_info.setPrefSize(354, 378);
 
             // adding components to their corresponding parent
+            room_info.getChildren().add(roomId);
             room_info.getChildren().add(room_title);
             room_info.getChildren().add(room_capacity);
             room_info.getChildren().add(room_description);
@@ -181,11 +190,31 @@ public class SearchViewController {
             newCard.setPrefWidth(688);
             newCard.setPrefHeight(145);
 
+            newCard.setOnMouseClicked(event -> {
+                try {
+                    cardClicked(event);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
             return newCard;
         } catch (Exception e){
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void cardClicked(MouseEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        HBox selectedCard = (HBox) event.getSource();
+        System.out.println(selectedCard.getChildren().get(1));
+
+        RoomView rv = new RoomView();
+        //Node target = (Node) event.getTarget();
+
+        rv.start(stage);
     }
 
     public Room getSelectedRoom() {
