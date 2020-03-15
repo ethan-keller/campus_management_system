@@ -20,6 +20,7 @@ class RegisterControllerTest {
 
     @Test
     void register() throws UnsupportedEncodingException {
+        userCont.deleteUser("registertest");
         assertEquals("Your account is created", registerCont.register("registertest", "password"));
         assertEquals("This username already exists!", registerCont.register("registertest", "password"));
 
