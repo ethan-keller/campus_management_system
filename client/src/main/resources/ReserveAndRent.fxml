@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane minHeight="300.0" prefHeight="507.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.ReserveAndRentController">
+    <left>
+        <AnchorPane>
+            <children>
+                <VBox fx:id="roomDetailsVbox" prefWidth="188.0" spacing="20.0" style="-fx-background-color: #0ebaf8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bike Information">
+                            <font>
+                                <Font name="System Bold" size="19.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets left="20.0" top="50.0" />
+                            </VBox.margin>
+                        </Text>
+                        <Text fx:id="name" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Commuter">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets left="20.0" />
+                            </VBox.margin>
+                        </Text>
+                        <Text fx:id="capacity" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Available Bikes: ">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets left="20.0" />
+                            </VBox.margin>
+                        </Text>
+                        <Text fx:id="building" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily rate: €4.50">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets left="20.0" />
+                            </VBox.margin>
+                        </Text>
+                    </children>
+                </VBox>
+                <Button layoutX="15.0" layoutY="465.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="26.0" prefWidth="87.0" style="-fx-background-color: #1473d2;" text="Back" textFill="WHITE" AnchorPane.bottomAnchor="15.79999999999999" AnchorPane.leftAnchor="15.0" />
+            </children>
+        </AnchorPane>
+    </left>
+    <center>
+        <AnchorPane prefHeight="507.0" prefWidth="699.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox prefHeight="507.0" prefWidth="503.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <ImageView fx:id="image" fitHeight="403.0" fitWidth="503.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@nl/tudelft/oopp/demo/views/images/bike.png" />
+                            </image>
+                        </ImageView>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Text fill="#0ebaf8" strokeType="OUTSIDE" strokeWidth="0.0" text="Date">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="date" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text fill="#0ebaf8" strokeType="OUTSIDE" strokeWidth="0.0" text="Time">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text fx:id="startingTime" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="  -   " />
+                              <Text fx:id="endingTime" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                    </children>
+                </VBox>
+                <VBox fx:id="reservationVbox" alignment="TOP_CENTER" layoutX="519.0" prefHeight="507.0" prefWidth="209.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Text fill="#0ebaf8" strokeType="OUTSIDE" strokeWidth="0.0" text="Make a reservation">
+                            <font>
+                                <Font name="System Bold" size="19.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets top="80.0" />
+                            </VBox.margin>
+                        </Text>
+                        <VBox alignment="CENTER" />
+                        <HBox alignment="CENTER" spacing="30.0">
+                            <children>
+                                <HBox />
+                                <HBox />
+                            </children>
+                        </HBox>
+                        <VBox alignment="CENTER">
+                            <children>
+                                <StackPane prefHeight="16.0" prefWidth="210.0" />
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <children>
+                                <HBox alignment="CENTER" spacing="9.0">
+                                    <children>
+                                        <Spinner fx:id="spinner">
+                                            <valueFactory>
+                                                <SpinnerValueFactory.IntegerSpinnerValueFactory max="100" min="1" />
+                                            </valueFactory>
+                                        </Spinner>
+                                    </children>
+                                </HBox>
+                                <Text fx:id="BikesUnselectedError" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select the the number of Bikes" />
+                            </children>
+                        </VBox>
+                        <Button fx:id="reserveBike" mnemonicParsing="false" onAction="#reserveNowClicked" prefHeight="34.0" prefWidth="105.0" style="-fx-background-color: #0ebaf8; -fx-background-radius: 17;" text="Reserve Now!!" textFill="WHITE" />
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

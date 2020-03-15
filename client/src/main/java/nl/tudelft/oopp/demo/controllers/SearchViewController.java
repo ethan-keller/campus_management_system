@@ -21,8 +21,11 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.RentBikesView;
 import nl.tudelft.oopp.demo.views.RoomView;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -363,5 +366,12 @@ public class SearchViewController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    @FXML
+    private void RentABikeClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        RentBikesView rbv = new RentBikesView();
+        rbv.start(stage);
     }
 }
