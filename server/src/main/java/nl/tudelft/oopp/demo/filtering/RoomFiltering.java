@@ -12,8 +12,6 @@ public class RoomFiltering {
 
     public static List<Room> filterRooms(ReservationsRepository reservationsRepo, List<Room> rooms, int building, boolean teacher_only, int capacity){
 
-        List<Reservations> reservations = reservationsRepo.getAllReservations();
-
         if(rooms == null){
             return null;
         }
@@ -21,26 +19,21 @@ public class RoomFiltering {
         for(int i = 0; i != rooms.size(); i++){
             if(rooms.get(i).getBuilding() != building){
                 rooms.remove(rooms.get(i));
+                i--;
             }
         }
 
         for(int j = 0; j != rooms.size(); j++){
             if(rooms.get(j).isTeacher_only() != teacher_only){
                 rooms.remove(rooms.get(j));
+                j--;
             }
         }
 
         for(int k = 0; k != rooms.size(); k++){
             if(rooms.get(k).getCapacity() <= capacity){
                 rooms.remove(rooms.get(k));
-            }
-        }
-
-        for(int l = 0; l != rooms.size(); l++) {
-            for (int q = 0; q != reservations.size(); q++) {
-                if(rooms.get(l).getId() == reservations.get(q).getRoom()){
-
-                }
+                k--;
             }
         }
 
