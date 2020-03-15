@@ -19,6 +19,12 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query(value = "SELECT * FROM room WHERE id = :id", nativeQuery = true)
     public Room getRoom(@Param("id") int id);
 
+
+    @Query(value = "SELECT * FROM room WHERE name = :name", nativeQuery = true)
+    public List<Room> getRoomByName(@Param("name") String name);
+    //TODO not sure if room.* works
+    @Query(value = "SELECT room.* FROM room, (SELECT * FROM building WHERE building.name = :name As roombuilding)WHERE roombuilding.id = room.building", nativeQuery = true)
+    public List<Room> getRoomByBuildingName(@Param("name") String name);
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO room (name, building, teacher_only, capacity, photos, description, type) VALUES (:name, :building, :teacher_only, :capacity, :photos, :description, :type)", nativeQuery = true)
