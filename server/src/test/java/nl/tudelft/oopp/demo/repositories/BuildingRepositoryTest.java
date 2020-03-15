@@ -23,5 +23,11 @@ class BuildingRepositoryTest {
 
         buildingRepo.updateName(id, "5testing");
         buildingRepo.updateRoomCount(id, 25);
+        buildingRepo.updateAddress(id, "5TestingStreet 34");
+
+        Building b2 = new Building(id, "5testing", 25, "5TestingStreet 34");
+        assertEquals(b2, buildingRepo.getBuilding(id));
+        buildingRepo.deleteBuilding(id);
+
     }
 }
