@@ -123,7 +123,7 @@ public class AdminUserHistoryViewController {
             Reservation tempReservation = BookingEditDialogController.reservation;
             if (tempReservation == null) return;
             // TODO: Check that reservation creation was successful before displaying alert
-            AdminManageServerCommunication.createReservation(AdminManageUserViewController.currentSelectedUser.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getEnding_time().get());
+            AdminManageServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getEnding_time().get());
             refresh();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

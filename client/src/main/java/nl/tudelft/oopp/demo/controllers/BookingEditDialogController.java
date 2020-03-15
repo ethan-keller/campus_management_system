@@ -38,8 +38,6 @@ public class BookingEditDialogController {
 
     public ObservableList<Room> olr;
 
-    public ObservableList<String> time;
-
     public static Reservation reservation;
 
     private Stage dialogStage;
@@ -105,7 +103,7 @@ public class BookingEditDialogController {
 
     public void buildingSelected() {
         if(!bookingBuildingComboBox.getValue().equals(null)){
-            olr.filtered(olr -> olr.getRoomBuilding().equals(bookingBuildingComboBox.getValue().getBuildingId().get()));
+            olr = olr.filtered(olr -> olr.getRoomBuilding().equals(bookingBuildingComboBox.getValue().getBuildingId().get()));
         }
     }
 
