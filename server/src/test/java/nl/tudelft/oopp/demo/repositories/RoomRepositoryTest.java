@@ -15,13 +15,11 @@ class RoomRepositoryTest {
 
     @Test
     void testAllMethods() {
-        int id2 = roomRepo.getRoomByName("EthanRoom").getId();
-
-        roomRepo.insertRoom("4testing", 24, false, 35, "/photos/test", "Very nice room!", "Study room");
+        roomRepo.insertRoom("4testing", 34, false, 35, "/photos/test", "Very nice room!", "Study room");
         int id = roomRepo.getRoomByName("4testing").getId();
         Room r1 = new Room(id, "4testing", 24, false, 35, "/photos/test", "Very nice room!", "Study room");
         assertEquals(r1, roomRepo.getRoom(id));
-        roomRepo.updateBuilding(id, 240);
+        roomRepo.updateBuilding(id, 23);
         roomRepo.updateDescription(id, "Just a room");
         roomRepo.updateCapacity(id, 36);
         roomRepo.updateName(id, "5testing");
@@ -30,6 +28,8 @@ class RoomRepositoryTest {
         roomRepo.updateType(id, "Test room");
         Room r2 = new Room(id, "5testing", 240, true, 36, "/photos/test2", "Just a room", "Test room");
         assertEquals(r2, roomRepo.getRoom(id));
+        int id3 = roomRepo.getRoomByName("5testing").getId();
+        roomRepo.deleteRoom(id3);
 
 
     }

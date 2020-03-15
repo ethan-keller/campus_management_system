@@ -10,7 +10,7 @@ import java.io.UnsupportedEncodingException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+
 class UserControllerTest {
 
     private UserController userCont;
