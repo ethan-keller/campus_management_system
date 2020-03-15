@@ -57,18 +57,14 @@ public class BookingEditDialogController {
             olb = Building.getBuildingData();
             bookingBuildingComboBox.setItems(olb);
             this.setBookingBuildingComboBoxConverter(olb);
+            bookingBuildingComboBox.setOnAction(e -> buildingSelected());
 
-            if(bookingBuildingComboBox.getValue().equals(null)){
-                olr = Room.getRoomData();
-            } else {
-                olr = Room.getSelectedBuildingRoom(bookingBuildingComboBox.getValue().getBuildingId().get());
-            }
+            olr = Room.getRoomData();
             bookingRoomComboBox.setItems(olr);
             this.setBookingRoomComboBoxConverter(olr);
 
-            time.addAll("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00");
-            bookingStarting_time.setItems(time);
-            bookingEnding_time.setItems(time);
+            bookingStarting_time.getItems().addAll("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00");
+            bookingEnding_time.getItems().addAll("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00");
 
         } catch (Exception e){
             e.printStackTrace();
@@ -105,6 +101,12 @@ public class BookingEditDialogController {
             }
         };
         bookingRoomComboBox.setConverter(converter);
+    }
+
+    public void buildingSelected() {
+        if(!bookingBuildingComboBox.getValue().equals(null)){
+            olr = Room.getSelectedBuildingRoom(bookingBuildingComboBox.getValue().getBuildingId().get());
+        }
     }
 
     private static void emptyReservation(){
