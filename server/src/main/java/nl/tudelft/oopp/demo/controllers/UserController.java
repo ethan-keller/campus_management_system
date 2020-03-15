@@ -22,6 +22,14 @@ public class UserController {
     @Value("${encryption.secretKey}")
     private String secretKey;
 
+    /**
+     * Creates a user entry in the database.
+     *
+     * @param username The user-provided username.
+     * @param password The unencrypted user-provided password.
+     * @param type The user type //TODO figure out what numbers corespond to what type
+     * @throws UnsupportedEncodingException
+     */
     @PostMapping("createUser")
     @ResponseBody
     public void createUser(@RequestParam String username, @RequestParam String password, @RequestParam int type) throws UnsupportedEncodingException {
@@ -36,7 +44,15 @@ public class UserController {
         }
     }
 
-    @PostMapping("updateUser1")
+    /**
+     * Replaces the database entry at the provided username to the new data.
+     * //TODO, what gets updated??
+     * @param username
+     * @param password
+     * @param type
+     * @throws UnsupportedEncodingException
+     */
+    @PostMapping("updateUser")
     @ResponseBody
     public void updateUser(@RequestParam String username, @RequestParam String password, @RequestParam int type) throws UnsupportedEncodingException {
         username = CommunicationMethods.decodeCommunication(username);
@@ -72,6 +88,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Retrieves the user-info from the database.
+     *
+     * @param username The username of the user woes info is to be retrieved.
+     * @return //TODO figure out format
+     * @throws UnsupportedEncodingException
+     */
     @GetMapping("getUser")
     @ResponseBody
     public User getUser(@RequestParam String username) throws UnsupportedEncodingException {
@@ -84,6 +107,11 @@ public class UserController {
         return null;
     }
 
+    /**
+     * Retrieves the info of all the users in the database.
+     *
+     * @return A List of User //TODO figure out format
+     */
     @GetMapping("getAllUsers")
     @ResponseBody
     public List<User> getAllUsers(){
