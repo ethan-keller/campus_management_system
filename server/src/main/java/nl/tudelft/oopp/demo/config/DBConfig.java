@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 @Configuration
 @EnableJpaRepositories("nl.tudelft.oopp.demo.repositories")
-@PropertySource("application-dev.properties")
+@PropertySource("classpath:application-dev.properties")
 @EnableTransactionManagement
 public class DBConfig {
 

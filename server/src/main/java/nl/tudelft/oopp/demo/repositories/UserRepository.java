@@ -43,4 +43,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT * FROM reservations WHERE username = LOWER(:username)", nativeQuery = true)
     public List<Reservations> getUserReservations(@Param("username") String username);
 
+    @Query(value = "SELECT * FROM user u WHERE u.username = LOWER(:username)", nativeQuery = true)
+    public User getUserByType(@Param("username") String username);
+
 }
