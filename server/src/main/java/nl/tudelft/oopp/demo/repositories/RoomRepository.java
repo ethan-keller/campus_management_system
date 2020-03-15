@@ -56,7 +56,16 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Modifying
     @Transactional
+    @Query(value = "UPDATE room SET building = :building WHERE id = :id", nativeQuery = true)
+    public void updateBuilding(@Param("id") int id, @Param("building") int building);
+
+    @Modifying
+    @Transactional
     @Query(value = "DELETE FROM room WHERE id = :id", nativeQuery = true)
     public void deleteRoom(@Param("id") int id);
+
+    @Query(value = "SELECT * FROM room WHERE name = :name", nativeQuery = true)
+    public Room getRoomByName(@Param("name") String name);
+
 
 }

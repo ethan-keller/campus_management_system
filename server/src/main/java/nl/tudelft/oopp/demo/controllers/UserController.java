@@ -1,7 +1,8 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import nl.tudelft.oopp.demo.encryption.CommunicationMethods;
-import nl.tudelft.oopp.demo.encryption.EncryptionManager;
+import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
+import nl.tudelft.oopp.demo.encode_hash.Hashing;
+import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,21 +29,32 @@ public class UserController {
         password = CommunicationMethods.decodeCommunication(password);
 
         try{
-            String encrypted_pass = EncryptionManager.encrypt(password, secretKey);
+            String encrypted_pass = Hashing.hashIt(password);
             userRepo.insertUser(username, encrypted_pass, type);
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    @PostMapping("updateUser")
+    @PostMapping("updateUser1")
     @ResponseBody
     public void updateUser(@RequestParam String username, @RequestParam String password, @RequestParam int type) throws UnsupportedEncodingException {
         username = CommunicationMethods.decodeCommunication(username);
         password = CommunicationMethods.decodeCommunication(password);
         try{
-            String encrypted_pass = EncryptionManager.encrypt(password, secretKey);
+            String encrypted_pass = Hashing.hashIt(password);
             userRepo.updatePassword(username, encrypted_pass);
+            userRepo.updateType(username, type);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("updateUser2")
+    @ResponseBody
+    public void updateUser(@RequestParam String username, @RequestParam int type) throws UnsupportedEncodingException {
+        username = CommunicationMethods.decodeCommunication(username);
+        try{
             userRepo.updateType(username, type);
         } catch (Exception e){
             e.printStackTrace();
@@ -81,6 +93,18 @@ public class UserController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @GetMapping("getUserReservations")
+    @ResponseBody
+    public List<Reservations> getUserReservations(@RequestParam String username){
+        try{
+            return userRepo.getUserReservations(username);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
 }
