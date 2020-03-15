@@ -66,6 +66,17 @@ public class BuildingController {
         return null;
     }
 
+    @GetMapping("getBuildingByName")
+    @ResponseBody
+    public Building getBuildingByName(@RequestParam String name){
+        try {
+            return buildingRepo.getBuildingByName(name);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @GetMapping("getAllBuildings")
     @ResponseBody
     public List<Building> getAllBuildings(){

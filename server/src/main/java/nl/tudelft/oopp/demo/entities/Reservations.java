@@ -27,7 +27,7 @@ public class Reservations {
 
     public Reservations() {
     }
-    
+
     /**
      * Builder
      *
