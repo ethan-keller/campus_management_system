@@ -135,4 +135,22 @@ public class Room {
         return roomData;
     }
 
+    public static ObservableList<Room> getSelectedBuildingRoom(int buildingId) throws JSONException {
+        ObservableList<Room> roomData = FXCollections.observableArrayList();
+        JSONArray jsonArrayRooms = new JSONArray(AdminManageServerCommunication.getAllRooms());
+        for (int i = 0; i < jsonArrayRooms.length(); i++) {
+            Room r = new Room();
+            r.setRoomId(jsonArrayRooms.getJSONObject(i).getInt("id"));
+            r.setRoomName(jsonArrayRooms.getJSONObject(i).getString("name"));
+            r.setRoomBuilding(jsonArrayRooms.getJSONObject(i).getInt("building"));
+            r.setTeacher_only(jsonArrayRooms.getJSONObject(i).getBoolean("teacher_only"));
+            r.setRoomCapacity(jsonArrayRooms.getJSONObject(i).getInt("capacity"));
+            r.setRoomPhoto(jsonArrayRooms.getJSONObject(i).getString("photos"));
+            r.setRoomDescription(jsonArrayRooms.getJSONObject(i).getString("description"));
+            r.setRoomType(jsonArrayRooms.getJSONObject(i).getString("type"));
+            roomData.add(r);
+        }
+        return roomData;
+    }
+
 }

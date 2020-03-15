@@ -146,7 +146,7 @@ public class AdminManageBuildingViewController {
                 Building tempBuilding = BuildingEditDialogController.building;
 
                 if (tempBuilding == null) return;
-                // TODO: Check that building edit was succesful before displaying alert
+                // TODO: Check that building edit was successful before displaying alert
                 AdminManageServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(), tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoom_count().get(), tempBuilding.getBuildingAddress().get());
                 refresh();
 
