@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
@@ -22,27 +22,20 @@
          <BorderPane layoutX="134.0" layoutY="114.0" prefHeight="398.4" prefWidth="598.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <left>
                <AnchorPane prefHeight="398.0" prefWidth="171.0" style="-fx-background-color: #0ebaf8;" BorderPane.alignment="CENTER">
-                  <VBox layoutX="23.0" layoutY="68.0" prefHeight="519.2" prefWidth="171.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox layoutX="23.0" layoutY="68.0" prefHeight="519.2" prefWidth="171.2" spacing="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Date" wrappingWidth="34.861328125">
                         <font>
                            <Font size="15.0" />
                         </font>
                      </Text>
-                     <DatePicker prefHeight="31.0" prefWidth="171.2" />
+                     <DatePicker fx:id="datePicker" prefHeight="31.0" prefWidth="171.2" />
                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Building">
                         <font>
                            <Font size="15.0" />
                         </font>
                      </Text>
-                     <ChoiceBox fx:id="BuildingChoiceBox" prefHeight="31.2" prefWidth="171.2" />
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Timeslot">
-                        <font>
-                           <Font size="15.0" />
-                        </font>
-                     </Text>
-
-                     <ChoiceBox fx:id="TimeslotChoiceBox" minWidth="0.0" prefHeight="32.8" prefWidth="171.2" />
+                     <ComboBox fx:id="BuildingComboBox" prefHeight="31.2" prefWidth="171.2" />
                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Teachers only">
                         <font>
                            <Font size="15.0" />
@@ -50,7 +43,7 @@
                      </Text>
                      <HBox alignment="CENTER" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" prefWidth="172.0">
                         <children>
-                           <RadioButton fx:id="yesCheckBox" mnemonicParsing="false" text="yes" textFill="WHITE">
+                           <RadioButton fx:id="yesCheckBoxTeacherOnly" mnemonicParsing="false" text="yes" textFill="WHITE">
                               <HBox.margin>
                                  <Insets left="10.0" right="10.0" />
                               </HBox.margin>
@@ -58,38 +51,54 @@
                                  <ToggleGroup fx:id="teacher_only" />
                               </toggleGroup>
                            </RadioButton>
-                           <RadioButton fx:id="noCheckBox" mnemonicParsing="false" text="no" textFill="WHITE" toggleGroup="$teacher_only">
+                           <RadioButton fx:id="noCheckBoxTeacherOnly" mnemonicParsing="false" text="no" textFill="WHITE" toggleGroup="$teacher_only">
                               <HBox.margin>
                                  <Insets left="10.0" right="10.0" />
                               </HBox.margin>
                            </RadioButton>
                         </children>
                      </HBox>
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Food">
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Food available">
                         <font>
                            <Font size="15.0" />
                         </font>
                      </Text>
-                     <ChoiceBox fx:id="FoodAvailableChoiceBox" prefHeight="31.2" prefWidth="178.4" />
+                     <HBox alignment="CENTER" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" prefWidth="172.0">
+                        <children>
+                           <RadioButton fx:id="yesCheckBoxFood" mnemonicParsing="false" text="yes" textFill="WHITE">
+                              <HBox.margin>
+                                 <Insets left="10.0" right="10.0" />
+                              </HBox.margin>
+                              <toggleGroup>
+                                 <ToggleGroup fx:id="food" />
+                              </toggleGroup>
+                           </RadioButton>
+                           <RadioButton fx:id="noCheckBoxFood" mnemonicParsing="false" text="no" textFill="WHITE" toggleGroup="$food">
+                              <HBox.margin>
+                                 <Insets left="10.0" right="10.0" />
+                              </HBox.margin>
+                           </RadioButton>
+                        </children>
+                     </HBox>
                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Capacity">
                         <font>
                            <Font size="15.0" />
                         </font>
                      </Text>
-                     <ChoiceBox fx:id="CapacityChoiceBox" prefHeight="31.2" prefWidth="178.4" />
+                     <ComboBox fx:id="CapacityComboBox" prefHeight="31.2" prefWidth="178.4" />
                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Bikes Available">
                         <font>
                            <Font size="15.0" />
                         </font>
                      </Text>
-                     <ChoiceBox fx:id="BikesAvailable" prefHeight="31.2" prefWidth="178.4" />
+                     <ComboBox fx:id="BikesAvailable" prefHeight="31.2" prefWidth="178.4" />
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-                        <Button fx:id="CancelBookingButton" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="64.0" text="Cancel Booking">
+                        <Button fx:id="BookingHistoryButton" layoutX="93.0" layoutY="8.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="64.0" text="Booking History">
                            <font>
                               <Font size="7.0" />
                            </font>
                         </Button>
-                        <Button fx:id="BookingHistoryButton" layoutX="93.0" layoutY="8.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="64.0" text="Booking History">
+                        <Button fx:id="clearFilters" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" onAction="#clearFiltersClicked" prefHeight="52.0" prefWidth="64.0" text="Clear filters">
                            <font>
                               <Font size="7.0" />
                            </font>
