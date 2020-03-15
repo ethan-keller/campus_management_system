@@ -21,6 +21,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.views.RegisterView;
+import nl.tudelft.oopp.demo.views.RentBikesView;
 import nl.tudelft.oopp.demo.views.RoomView;
 
 import javax.imageio.ImageIO;
@@ -81,6 +83,9 @@ public class SearchViewController {
 
     @FXML
     private Button BookingHistoryButton;
+
+    @FXML
+    private Button RentBikes;
 
     @FXML
     private TextField searchBar;
@@ -264,6 +269,14 @@ public class SearchViewController {
             e.printStackTrace();
         }
 
+
+    }
+
+    public void RentBikesClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        RentBikesView rv = new RentBikesView();
+        rv.start(stage);
 
     }
 
