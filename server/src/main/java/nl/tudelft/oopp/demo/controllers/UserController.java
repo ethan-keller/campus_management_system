@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping("createUser")
     @ResponseBody
-    public boolean createUser(@RequestParam String username, @RequestParam String password, @RequestParam int type) throws UnsupportedEncodingException {
+    public void createUser(@RequestParam String username, @RequestParam String password, @RequestParam int type) throws UnsupportedEncodingException {
         username = CommunicationMethods.decodeCommunication(username);
         password = CommunicationMethods.decodeCommunication(password);
 
@@ -33,14 +33,12 @@ public class UserController {
             userRepo.insertUser(username, encrypted_pass, type);
         } catch (Exception e){
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     @PostMapping("updateUser1")
     @ResponseBody
-    public boolean updateUser(@RequestParam String username, @RequestParam String password, @RequestParam int type) throws UnsupportedEncodingException {
+    public void updateUser(@RequestParam String username, @RequestParam String password, @RequestParam int type) throws UnsupportedEncodingException {
         username = CommunicationMethods.decodeCommunication(username);
         password = CommunicationMethods.decodeCommunication(password);
         try{
@@ -49,35 +47,29 @@ public class UserController {
             userRepo.updateType(username, type);
         } catch (Exception e){
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     @PostMapping("updateUser2")
     @ResponseBody
-    public boolean updateUser(@RequestParam String username, @RequestParam int type) throws UnsupportedEncodingException {
+    public void updateUser(@RequestParam String username, @RequestParam int type) throws UnsupportedEncodingException {
         username = CommunicationMethods.decodeCommunication(username);
         try{
             userRepo.updateType(username, type);
         } catch (Exception e){
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     @PostMapping("deleteUser")
     @ResponseBody
-    public boolean deleteUser(@RequestParam String username) throws UnsupportedEncodingException {
+    public void deleteUser(@RequestParam String username) throws UnsupportedEncodingException {
         username = CommunicationMethods.decodeCommunication(username);
         try{
             userRepo.deleteUser(username);
         } catch (Exception e){
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     @GetMapping("getUser")
