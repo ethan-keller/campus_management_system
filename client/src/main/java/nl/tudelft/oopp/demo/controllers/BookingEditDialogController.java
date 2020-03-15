@@ -105,7 +105,7 @@ public class BookingEditDialogController {
 
     public void buildingSelected() {
         if(!bookingBuildingComboBox.getValue().equals(null)){
-            olr = Room.getSelectedBuildingRoom(bookingBuildingComboBox.getValue().getBuildingId().get());
+            olr.filtered(olr -> olr.getRoomBuilding().equals(bookingBuildingComboBox.getValue().getBuildingId().get()));
         }
     }
 
@@ -120,6 +120,7 @@ public class BookingEditDialogController {
     private void handleOkClicked(ActionEvent event) {
         if (isInputValid()) {
             emptyReservation();
+            reservation.setUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             reservation.setRoom(this.bookingRoomComboBox.getSelectionModel().getSelectedItem().getRoomId().get());
             reservation.setDate(this.bookingDate.getValue().toString());
             reservation.setStarting_time(this.bookingStarting_time.getValue());

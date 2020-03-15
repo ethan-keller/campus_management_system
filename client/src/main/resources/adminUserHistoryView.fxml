@@ -60,12 +60,12 @@
    <top>
       <HBox alignment="CENTER" prefHeight="59.0" prefWidth="911.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="54.0" prefWidth="314.0" text="Booking  History User:" textAlignment="CENTER" textFill="#0ebaf8">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="54.0" prefWidth="314.0" text="Booking  History    User:" textAlignment="CENTER" textFill="#0ebaf8">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="309.0" layoutY="13.0" prefHeight="54.0" prefWidth="242.0" textAlignment="CENTER" textFill="#0ebaf8">
+            <Label fx:id="usernameLabel" contentDisplay="CENTER" layoutX="309.0" layoutY="13.0" prefHeight="54.0" prefWidth="155.0" textFill="#0ebaf8">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>

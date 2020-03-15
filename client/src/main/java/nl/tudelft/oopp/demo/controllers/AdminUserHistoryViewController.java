@@ -127,11 +127,11 @@ public class AdminUserHistoryViewController {
             refresh();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("New room");
-            alert.setContentText("Added new room!");
+            alert.setTitle("New reservation");
+            alert.setContentText("Added new reservation!");
             alert.showAndWait();
         } catch (Exception e) {
-            System.out.println("room creation exception");
+            System.out.println("reservation creation exception");
             e.printStackTrace();
         }
     }
