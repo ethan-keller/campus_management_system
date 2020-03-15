@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RoomFiltering {
 
-    public static List<Room> filterRooms(ReservationsRepository reservationsRepo, List<Room> rooms, int building, boolean teacher_only, int capacity){
+    public static List<Room> filterRooms(List<Room> rooms, int building, boolean teacher_only, int capacity){
 
         if(rooms == null){
             return null;

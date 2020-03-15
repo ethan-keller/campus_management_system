@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.filtering;
 
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
+import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoomFilteringTest {
 
     @Autowired
-    private ReservationsRepository reservationsRepo;
+    private RoomRepository roomRepo;
 
     @Test
     void filterRooms() {
@@ -38,7 +39,14 @@ class RoomFilteringTest {
 
 
 
-        rooms = RoomFiltering.filterRooms(reservationsRepo, rooms, 23, false, 20);
+        rooms = RoomFiltering.filterRooms(rooms, 23, false, 20);
         assertEquals(rooms2, rooms);
+    }
+
+    @Test
+    void filterRooms2(){
+        List<Room> rooms = roomRepo.getAllRooms();
+        rooms = RoomFiltering.filterRooms(rooms, 11, true, 1);
+        assertEquals(3, rooms.size());
     }
 }
