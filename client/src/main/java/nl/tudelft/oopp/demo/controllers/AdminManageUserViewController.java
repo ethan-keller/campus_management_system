@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.UserEditDialogView;
 
 import java.io.IOException;
@@ -175,11 +176,11 @@ public class AdminManageUserViewController {
         ahpv.start(stage);
     }
 
-//    @FXML
-//    private void historyClicked(ActionEvent event) throws IOException {
-//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//
-//        bookingHistoryView bhv = new bookingHistoryView();
-//        bhv.start(stage);
-//    }
+    @FXML
+    private void historyClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        AdminUserHistoryView auhv = new AdminUserHistoryView();
+        auhv.start(stage);
+    }
 }
