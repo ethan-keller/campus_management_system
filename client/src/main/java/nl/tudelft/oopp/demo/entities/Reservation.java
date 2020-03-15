@@ -17,6 +17,7 @@ import java.io.UnsupportedEncodingException;
 public class Reservation {
     private IntegerProperty id;
     private StringProperty username;
+    //Room means the room-id of the particular room.
     private IntegerProperty room;
     private StringProperty date;
     private StringProperty starting_time;

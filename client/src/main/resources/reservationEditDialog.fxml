@@ -58,11 +58,11 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="starting_time" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="ending_time" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ComboBox fx:id="room" prefHeight="25.0" prefWidth="251.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ComboBox fx:id="username" prefHeight="25.0" prefWidth="258.0" GridPane.columnIndex="1" />
-            <DatePicker fx:id="date" prefHeight="25.0" prefWidth="258.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <DatePicker fx:id="date" prefHeight="25.0" prefWidth="256.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="starting_time" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
    </children>

@@ -40,6 +40,7 @@ public class LoginViewController {
             av.start(stage);
         } else if(login_response.equals("student")){
             CurrentUserManager current_user = new CurrentUserManager(username.getText(), 2);
+            //current_user.setUsername(username.getText());
             SearchView sv = new SearchView();
             sv.start(stage);
         } else if (login_response.equals("teacher")){

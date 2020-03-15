@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
 import java.io.IOException;
@@ -68,6 +69,14 @@ public class BookingHistoryController {
 
         SearchView sv = new SearchView();
         sv.start(stage);
+    }
+
+    @FXML
+    public void signOutClicked(ActionEvent event) throws Exception {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        LoginView lv = new LoginView();
+        lv.start(stage);
     }
 
 }

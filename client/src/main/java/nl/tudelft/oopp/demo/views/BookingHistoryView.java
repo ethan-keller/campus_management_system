@@ -31,7 +31,7 @@ public class BookingHistoryView extends Application {
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
             primaryStage.setMinHeight(400);
-            primaryStage.setMinWidth(710);
+            primaryStage.setMinWidth(800);
             primaryStage.show();
         }
         catch(Exception e) {
