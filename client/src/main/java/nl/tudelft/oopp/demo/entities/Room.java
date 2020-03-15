@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Room {
     private IntegerProperty roomId;
@@ -133,6 +134,25 @@ public class Room {
             roomData.add(r);
         }
         return roomData;
+    }
+
+    public static Room getRoomById(int id){
+        try {
+            JSONObject jsonObject = new JSONObject(AdminManageServerCommunication.getRoom(id));
+            Room r = new Room();
+            r.setRoomId(jsonObject.getInt("id"));
+            r.setRoomName(jsonObject.getString("name"));
+            r.setRoomBuilding(jsonObject.getInt("building"));
+            r.setTeacher_only(jsonObject.getBoolean("teacher_only"));
+            r.setRoomCapacity(jsonObject.getInt("capacity"));
+            r.setRoomPhoto(jsonObject.getString("photos"));
+            r.setRoomDescription(jsonObject.getString("description"));
+            r.setRoomType(jsonObject.getString("type"));
+            return r;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

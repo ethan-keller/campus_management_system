@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Building {
 
@@ -81,6 +82,21 @@ public class Building {
             buildingData.add(b);
         }
         return buildingData;
+    }
+
+    public static Building getBuildingById(int id) {
+        try {
+            JSONObject jsonObject = new JSONObject(AdminManageServerCommunication.getBuilding(id));
+            Building b = new Building();
+            b.setBuildingId(jsonObject.getInt("id"));
+            b.setBuildingName(jsonObject.getString("name"));
+            b.setBuildingAddress(jsonObject.getString("address"));
+            b.setBuildingRoom_count(jsonObject.getInt("room_count"));
+            return b;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
