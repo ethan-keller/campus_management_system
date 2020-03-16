@@ -2,11 +2,9 @@ package nl.tudelft.oopp.demo.communication;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 
 /**
  * The admin server class creates methods that communicates between the CRUD operations and the server.
@@ -346,7 +344,7 @@ public class AdminManageServerCommunication {
     }
 
     public static void updateReservation(int id, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
-        String params = "id="+id+"&room="+room+"&date="+date+"&starting_time="+starting_time+"ending_time="+ending_time;
+        String params = "id="+id+"&room="+room+"&date="+date+"&starting_time="+starting_time+"&ending_time="+ending_time;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateReservation?"+params)).build();

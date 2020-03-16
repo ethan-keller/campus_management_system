@@ -44,4 +44,7 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
     @Query(value = "UPDATE building SET address = :address WHERE id = :id", nativeQuery = true)
     public void updateAddress(@Param("id") int id, @Param("address") String address);
 
+    @Query(value = "SELECT * FROM building WHERE name = :name", nativeQuery = true)
+    public Building getBuildingByName(@Param("name") String name);
+
 }

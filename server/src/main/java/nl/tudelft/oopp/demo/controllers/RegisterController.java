@@ -1,7 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import nl.tudelft.oopp.demo.encryption.CommunicationMethods;
-import nl.tudelft.oopp.demo.encryption.EncryptionManager;
+import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
+import nl.tudelft.oopp.demo.encode_hash.Hashing;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,9 +22,13 @@ public class RegisterController {
     private String secretKey;
 
     /**
-     * GET Endpoint to retrieve a random quote.
+     * Puts a new user into the database. /n
+     * UserType will be student.
      *
-     * @return randomly selected.
+     * @param username User-provided username (must be unique from existing ones).
+     * @param password User-provided password.
+     * @return Returns "nice" if everything works. /n Returns "This username already exists!" if the username was already taken.
+     * @throws UnsupportedEncodingException
      */
     @PostMapping("register")
     @ResponseBody
@@ -32,7 +36,7 @@ public class RegisterController {
         username = CommunicationMethods.decodeCommunication(username);
         password = CommunicationMethods.decodeCommunication(password);
 
-        String encryptedPassword = EncryptionManager.encrypt(password, secretKey);
+        String encryptedPassword = Hashing.hashIt(password);
 
         if(userRepo.getUser(username) == null){
             userRepo.insertUser(username, encryptedPassword, 2);
