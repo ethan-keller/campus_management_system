@@ -4,10 +4,15 @@ import com.mindfusion.scheduling.Calendar;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
+import nl.tudelft.oopp.demo.views.SearchView;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -33,5 +38,12 @@ public class CalendarPaneController implements Initializable {
                 node.setContent(c);
             }
         });
+    }
+
+    public void BackButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        SearchView searchView = new SearchView();
+        searchView.start(stage);
     }
 }

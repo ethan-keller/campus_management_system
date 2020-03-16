@@ -9,7 +9,9 @@ import com.mindfusion.scheduling.TimetableSettings;
 public class CustomCalendar extends Calendar {
 
     public CustomCalendar() {
+
         this.beginInit();
+
         TimetableSettings settings = this.getTimetableSettings();
         settings.getDates().clear();
         for (int i = 0; i < 7; i++)
@@ -20,6 +22,7 @@ public class CustomCalendar extends Calendar {
         settings.setShowCurrentTime(true);
         settings.setSelectWholeDayOnHeaderClick(true);
         settings.setShowNavigationButtons(true);
+
         this.endInit();
 
         this.setCurrentView(CalendarView.Timetable);
