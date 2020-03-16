@@ -1,20 +1,17 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import nl.tudelft.oopp.demo.encryption.CommunicationMethods;
+import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
-import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
+
 
 @Controller
 public class BuildingController {
@@ -22,6 +19,14 @@ public class BuildingController {
     @Autowired
     private BuildingRepository buildingRepo;
 
+    /**
+     * Adds a building to the database.
+     *
+     * @param name The name of the building.
+     * @param room_count The amount of of rooms inside the building.
+     * @param address The address of the building. //TODO format of address!!
+     * @throws UnsupportedEncodingException
+     */
     @PostMapping("createBuilding")
     @ResponseBody
     public void createBuilding(@RequestParam String name, @RequestParam int room_count, @RequestParam String address) throws UnsupportedEncodingException {
@@ -34,6 +39,15 @@ public class BuildingController {
         }
     }
 
+    /**
+     * Changes the existing building with the provided ID in the database with the provides parameters.
+     *
+     * @param id The building ID, this is the building that is going to get changed.
+     * @param name The new name of the building
+     * @param room_count the new room count of the building
+     * @param address the new address of the building //TODO add address format
+     * @throws UnsupportedEncodingException
+     */
     @PostMapping("updateBuilding")
     @ResponseBody
     public void updateBuilding(@RequestParam int id, @RequestParam String name, @RequestParam int room_count, @RequestParam String address) throws UnsupportedEncodingException {
@@ -49,6 +63,11 @@ public class BuildingController {
         }
     }
 
+    /**
+     * Deletes the building from the database.
+     *
+     * @param id The ID of the building you delete.
+     */
     @PostMapping("deleteBuilding")
     @ResponseBody
     public void deleteBuilding(@RequestParam int id){
@@ -59,6 +78,12 @@ public class BuildingController {
         }
     }
 
+    /**
+     * Returns the database entry of the building.
+     *
+     * @param id The ID of the building you requested info of.
+     * @return //TODO figure out the exact way it's returned.
+     */
     @GetMapping("getBuilding")
     @ResponseBody
     public Building getBuilding(@RequestParam int id){
@@ -70,6 +95,22 @@ public class BuildingController {
         return null;
     }
 
+    @GetMapping("getBuildingByName")
+    @ResponseBody
+    public Building getBuildingByName(@RequestParam String name){
+        try {
+            return buildingRepo.getBuildingByName(name);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Returns all the buildings.
+     *
+     * @return Returns a List of //TODO figure out the exact way it's returned.
+     */
     @GetMapping("getAllBuildings")
     @ResponseBody
     public List<Building> getAllBuildings(){

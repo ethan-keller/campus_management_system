@@ -2,11 +2,9 @@ package nl.tudelft.oopp.demo.communication;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 
 public class LoginServerCommunication {
 
@@ -22,7 +20,7 @@ public class LoginServerCommunication {
         String params = "username=" + username + "&password=" + password;
         params = GeneralMethods.encodeCommunication(params);
 
-
+        
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/login?"+params)).build();
         HttpResponse<String> response = null;
         try {
@@ -36,6 +34,4 @@ public class LoginServerCommunication {
         }
         return response.body();
     }
-
-
 }
