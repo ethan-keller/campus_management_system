@@ -2,11 +2,9 @@ package nl.tudelft.oopp.demo.communication;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 
 public class AdminManageServerCommunication {
 
@@ -285,7 +283,7 @@ public class AdminManageServerCommunication {
     }
 
     public static void createReservation(String username, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
-        String params = "username="+username+"&room="+room+"&date="+date+"&starting_time="+starting_time+"ending_time="+ending_time;
+        String params = "username="+username+"&room="+room+"&date="+date+"&starting_time="+starting_time+"&ending_time="+ending_time;
         params = GeneralMethods.encodeCommunication(params);
 
 

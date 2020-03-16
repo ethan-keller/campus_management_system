@@ -13,8 +13,7 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class BookingEditDialogController {
@@ -55,7 +54,9 @@ public class BookingEditDialogController {
             olb = Building.getBuildingData();
             bookingBuildingComboBox.setItems(olb);
             this.setBookingBuildingComboBoxConverter(olb);
-            bookingBuildingComboBox.setOnAction(e -> buildingSelected());
+            bookingBuildingComboBox.valueProperty().addListener(((observable, oldValue, newValue) -> {
+                buildingSelected(newValue);
+            }));
 
             olr = Room.getRoomData();
             bookingRoomComboBox.setItems(olr);
@@ -101,9 +102,16 @@ public class BookingEditDialogController {
         bookingRoomComboBox.setConverter(converter);
     }
 
-    public void buildingSelected() {
-        if(!bookingBuildingComboBox.getValue().equals(null)){
-            olr = olr.filtered(olr -> olr.getRoomBuilding().equals(bookingBuildingComboBox.getValue().getBuildingId().get()));
+    public void buildingSelected(Building newBuilding) {
+        if(bookingBuildingComboBox.getValue() != null){
+            olr = Room.getRoomData();
+            List<Room> filteredRooms = olr.stream().filter(x -> x.getRoomBuilding().get() == newBuilding.getBuildingId().get()).collect(Collectors.toList());
+            olr.clear();
+            bookingRoomComboBox.setItems(olr);
+            for(Room r: filteredRooms){
+                olr.add(r);
+            }
+            bookingRoomComboBox.setItems(olr);
         }
     }
 

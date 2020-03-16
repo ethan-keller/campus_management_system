@@ -5,7 +5,10 @@ import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -73,6 +76,17 @@ public class ReservationController {
     public List<Reservations> getAllReservations(){
         try {
             return reservationsRepo.getAllReservations();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @GetMapping("getUserReservations")
+    @ResponseBody
+    public List<Reservations> getUserReservations(@RequestParam String username){
+        try{
+            return reservationsRepo.getUserReservations(username);
         } catch (Exception e){
             e.printStackTrace();
         }
