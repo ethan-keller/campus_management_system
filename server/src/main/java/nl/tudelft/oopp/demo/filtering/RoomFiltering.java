@@ -16,6 +16,10 @@ public class RoomFiltering {
             return null;
         }
 
+        if(rooms.size() == 0){
+            return rooms;
+        }
+
         for(int i = 0; i != rooms.size(); i++){
             if(rooms.get(i).getBuilding() != building){
                 rooms.remove(rooms.get(i));
@@ -37,6 +41,63 @@ public class RoomFiltering {
             }
         }
 
+
+        return rooms;
+    }
+
+    public static List<Room> filterRoomByBuilding( List<Room> rooms, int building){
+        if(rooms == null){
+            return null;
+        }
+
+        if(rooms.size() == 0){
+            return rooms;
+        }
+
+        for(int i = 0; i != rooms.size(); i++){
+            if(rooms.get(i).getBuilding() != building){
+                rooms.remove(rooms.get(i));
+                i--;
+            }
+        }
+
+        return rooms;
+    }
+
+    public static List<Room> filterRoomByTeacher_only( List<Room> rooms, boolean teacher_only){
+        if(rooms == null){
+            return null;
+        }
+
+        if(rooms.size() == 0){
+            return rooms;
+        }
+
+        for(int j = 0; j != rooms.size(); j++){
+            if(rooms.get(j).isTeacher_only() != teacher_only){
+                rooms.remove(rooms.get(j));
+                j--;
+            }
+        }
+
+        return rooms;
+    }
+
+    public static List<Room> filterRoomByCapacity(List<Room> rooms, int capMax, int capMin){
+        if(rooms == null){
+            return null;
+        }
+
+        if(rooms.size() == 0){
+            return rooms;
+        }
+
+        for(int i = 0; i != rooms.size(); i++){
+            if(rooms.get(i).getCapacity() > capMax || rooms.get(i).getCapacity() < capMin){
+                rooms.remove(rooms.get(i));
+                i--;
+            }
+        }
 
         return rooms;
     }
