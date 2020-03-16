@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="290.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CalenderAppointmentDialog">
+<AnchorPane prefHeight="290.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.CalenderAppointmentDialogController">
    <children>
-      <GridPane layoutX="75.0" layoutY="50.0" prefHeight="158.0" prefWidth="338.0">
+      <GridPane layoutX="75.0" layoutY="61.0" prefHeight="163.0" prefWidth="338.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="153.0" minWidth="10.0" prefWidth="114.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="204.0" minWidth="10.0" prefWidth="204.0" />
@@ -55,19 +55,19 @@
             </Label>
          </children>
       </GridPane>
-      <Label layoutX="153.0" layoutY="21.0" prefHeight="27.0" prefWidth="163.0" text="Add Appointment" textFill="#0ebaf8">
+      <Label layoutX="129.0" layoutY="8.0" prefHeight="35.0" prefWidth="231.0" text="Add Appointment" textFill="#0ebaf8">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Button fx:id="confirm" layoutX="134.0" layoutY="222.0" mnemonicParsing="false" onAction="#confirmClicked" text="Confirm">
+      <Button fx:id="confirm" layoutX="129.0" layoutY="237.0" mnemonicParsing="false" onAction="#confirmClicked" text="Confirm">
          <font>
-            <Font size="16.0" />
+            <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="cancel" layoutX="256.0" layoutY="222.0" mnemonicParsing="false" onAction="#cancelClicked" text="Cancel">
+      <Button fx:id="cancel" layoutX="255.0" layoutY="237.0" mnemonicParsing="false" onAction="#cancelClicked" text="Cancel">
          <font>
-            <Font size="16.0" />
+            <Font size="14.0" />
          </font>
       </Button>
    </children>

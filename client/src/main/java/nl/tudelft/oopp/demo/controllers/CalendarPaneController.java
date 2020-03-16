@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
+import nl.tudelft.oopp.demo.views.CalenderAppointmentDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
@@ -42,12 +43,39 @@ public class CalendarPaneController implements Initializable {
         });
     }
 
-    public void addAppointmentClicked() {}
+    /**
+     * This button opens a dialog box to get the details of an appointment like date, time and description and adds it to
+     * the calender.
+     * @param event
+     */
+    public void addAppointmentClicked(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        CalenderAppointmentDialogView calenderAppointmentDialogView = new CalenderAppointmentDialogView();
+        calenderAppointmentDialogView.start(stage);
+    }
+    //To be implemented.
     public void cancelAppointmentClicked() {}
     public void cancelReservationClicked() {}
-    public void addReservationClicked() {}
 
+    /**
+     * For a user to book a room, the user needs to go to search view and select the room to book.
+     * @param event
+     * @throws IOException
+     */
+    public void addReservationClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
+        SearchView searchView = new SearchView();
+        searchView.start(stage);
+
+    }
+
+    /**
+     * Upon clicking this button, the user would be signed out and redirected to the login page.
+     * @param event
+     * @throws IOException
+     */
     public void signOutClicked(javafx.event.ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

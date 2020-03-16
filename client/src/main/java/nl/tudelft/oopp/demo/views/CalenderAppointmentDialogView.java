@@ -18,7 +18,7 @@ public class CalenderAppointmentDialogView extends Application {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            URL xmlUrl = getClass().getResource("calenderAppointmentDialog.fxml");
+            URL xmlUrl = getClass().getResource("/calenderAppointmentDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
 
