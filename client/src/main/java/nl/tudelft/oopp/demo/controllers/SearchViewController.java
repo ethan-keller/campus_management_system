@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -21,6 +22,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.views.CalendarPaneView;
 import nl.tudelft.oopp.demo.views.RoomView;
 
 import java.net.URL;
@@ -61,6 +63,8 @@ public class SearchViewController implements Initializable {
     private TextField searchBar;
     @FXML
     private ComboBox<String> BikesAvailable;
+    @FXML
+    private AnchorPane pane;
 
     private ObservableList<String> capacityList;
     private ObservableList<Building> buildingList;
@@ -80,6 +84,8 @@ public class SearchViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            pane = new AnchorPane();
+
             // assign lists to the initialized ObservableLists
             capacityList = FXCollections.observableArrayList();
             buildingList = Building.getBuildingData();
@@ -364,4 +370,13 @@ public class SearchViewController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    public void bookingHistoryClicked(ActionEvent event) throws Exception {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        CalendarPaneView cpv = new CalendarPaneView();
+        cpv.start(stage);
+    }
+
+
 }
