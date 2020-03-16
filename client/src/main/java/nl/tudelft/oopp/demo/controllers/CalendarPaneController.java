@@ -8,10 +8,11 @@ import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
+import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,6 +26,7 @@ public class CalendarPaneController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         SwingNode node = new SwingNode();
         configureNode(node);
+        // This adds the node created which is basically the calender into the anchor pane.
         pane.getChildren().add(node);
     }
 
@@ -40,7 +42,21 @@ public class CalendarPaneController implements Initializable {
         });
     }
 
-    public void BackButtonClicked(ActionEvent event) throws IOException {
+    public void addAppointmentClicked() {}
+    public void cancelAppointmentClicked() {}
+    public void cancelReservationClicked() {}
+    public void addReservationClicked() {}
+
+
+    public void signOutClicked(javafx.event.ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
+    }
+
+
+    public void BackButtonClicked(javafx.event.ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         SearchView searchView = new SearchView();
