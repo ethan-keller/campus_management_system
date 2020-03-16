@@ -58,7 +58,7 @@
             </font>
          </Text>
          <DatePicker layoutY="74.0" prefHeight="25.0" prefWidth="160.0" />
-         <Button fx:id="CancelBookingButton" layoutX="6.0" layoutY="396.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="73.0" text="Cancel Booking" textAlignment="CENTER" wrapText="true" />
+         <Button fx:id="CancelBookingButton" layoutX="6.0" layoutY="396.0" mnemonicParsing="false" onAction="#cancelBookingClicked" prefHeight="48.0" prefWidth="73.0" text="Cancel Booking" textAlignment="CENTER" wrapText="true" />
          <Button fx:id="BookingHistoryButton" layoutX="84.0" layoutY="396.0" mnemonicParsing="false" onAction="#BookingHistoryButtonClicked" prefHeight="48.0" prefWidth="73.0" text="Booking History" textAlignment="CENTER" wrapText="true" />
       </AnchorPane>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="396.0">

@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.views.BookingHistoryView;
+import nl.tudelft.oopp.demo.views.CancelBookingView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RegisterView;
 
@@ -53,11 +54,6 @@ public class SearchViewController {
     @FXML
     private Text CapacityToBeAdded;
 
-    @FXML
-    private Button BookingHistoryButton;
-
-    @FXML
-    private Button CancelBookingButton;
 
     public void SearchBarClicked() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -80,6 +76,13 @@ public class SearchViewController {
 
         LoginView loginView = new LoginView();
         loginView.start(stage);
+    }
+
+    public void cancelBookingClicked(ActionEvent event) throws Exception {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        CancelBookingView cancelBookingView = new CancelBookingView();
+        cancelBookingView.start(stage);
     }
 
 
@@ -138,28 +141,5 @@ public class SearchViewController {
     public void initializeFoodAvailable() {
         FoodAvailableChoiceBox.getItems().add("No Food Available");
     }
-
-    @FXML
-    private void handleButtonAction(ActionEvent event) throws Exception {
-        Stage stage = null;
-        Parent root = null;
-
-        if (event.getSource() == ImageToBeAdded) {
-            stage = (Stage) ImageToBeAdded.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("RoomView.fxml"));
-        }
-        if (event.getSource() == CancelBookingButton) {
-            stage = (Stage) CancelBookingButton.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("CancelBookingView.fxml"));
-        }
-        if (event.getSource() == BookingHistoryButton) {
-            stage = (Stage) BookingHistoryButton.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("bookingHistory.fxml"));
-        }
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
 
 }
