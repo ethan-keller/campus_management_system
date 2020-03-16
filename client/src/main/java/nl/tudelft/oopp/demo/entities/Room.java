@@ -138,7 +138,7 @@ public class Room {
 
     public static Room getRoomById(int id){
         try {
-            JSONObject jsonObject = new JSONObject(AdminManageServerCommunication.getRoom(id));
+            JSONObject jsonObject = new JSONObject(RoomServerCommunication.getRoom(id));
             Room r = new Room();
             r.setRoomId(jsonObject.getInt("id"));
             r.setRoomName(jsonObject.getString("name"));

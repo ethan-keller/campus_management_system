@@ -86,7 +86,7 @@ public class Building {
 
     public static Building getBuildingById(int id) {
         try {
-            JSONObject jsonObject = new JSONObject(AdminManageServerCommunication.getBuilding(id));
+            JSONObject jsonObject = new JSONObject(BuildingServerCommunication.getBuilding(id));
             Building b = new Building();
             b.setBuildingId(jsonObject.getInt("id"));
             b.setBuildingName(jsonObject.getString("name"));
