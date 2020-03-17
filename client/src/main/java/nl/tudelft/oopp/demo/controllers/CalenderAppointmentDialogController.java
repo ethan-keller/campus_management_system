@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import com.mindfusion.common.DateTime;
+import com.mindfusion.scheduling.Calendar;
+import com.mindfusion.scheduling.model.Appointment;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -10,6 +13,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class CalenderAppointmentDialogController {
+
+    @FXML
+    private TextField header;
 
     @FXML
     private DatePicker date_appointment;
@@ -23,7 +29,7 @@ public class CalenderAppointmentDialogController {
     @FXML
     private TextArea description;
 
-    public static String appointment;
+    public static Calendar appointment;
     public static Stage dialogStage;
 
     @FXML
@@ -47,11 +53,11 @@ public class CalenderAppointmentDialogController {
         if(ending_time.getText().equals("")) {
             errorMessage += "No ending Time provided!\n";
         }
-        if(description.getText().equals("")) {
-            errorMessage += "No description provided!\n";
+        if(header.getText().equals("")) {
+            errorMessage += "No header provided!\n";
         }
 
-        // If any of the fields is left blank, return true.
+        // If any of the fields is left blank (except for description field), return true.
         if (errorMessage.equals("")) {
             return true;
         } else {
@@ -81,5 +87,40 @@ public class CalenderAppointmentDialogController {
      * @param
      */
     @FXML
-    public void confirmClicked() {}
+    public void confirmClicked(ActionEvent event) {
+
+        if(isInputValid()){
+            Appointment app = new Appointment();
+            app.setHeaderText(header.getText());
+            app.setDescriptionText(description.getText());
+
+            String date = date_appointment.getValue().toString();
+            String[] dateSplit = date.split("-");
+            int year = Integer.parseInt(dateSplit[0]);
+            int month = Integer.parseInt(dateSplit[1]);
+            int day = Integer.parseInt(dateSplit[2]);
+
+            String start = starting_time.getText();
+            String[] startSplit = start.split(":");
+            int startHour = Integer.parseInt(startSplit[0]);
+            int startMin = Integer.parseInt(startSplit[1]);
+            int startSec = Integer.parseInt(startSplit[2]);
+
+            app.setStartTime(new DateTime(year, month, day, startHour, startMin, startSec));
+
+            String end = ending_time.getText();
+            String[] endSplit = end.split(":");
+            int endHour = Integer.parseInt(endSplit[0]);
+            int endMin = Integer.parseInt(endSplit[1]);
+            int endSec = Integer.parseInt(endSplit[2]);
+
+            app.setEndTime(new DateTime(year, month, day, endHour, endMin, endSec));
+
+            appointment.getSchedule().getItems().add(app);
+
+            this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            dialogStage.close();
+        }
+
+    }
 }

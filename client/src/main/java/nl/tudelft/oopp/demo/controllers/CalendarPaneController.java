@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.mindfusion.scheduling.Calendar;
+import com.mindfusion.scheduling.CalendarView;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -57,6 +58,14 @@ public class CalendarPaneController implements Initializable {
     //To be implemented.
     public void cancelAppointmentClicked() {}
     public void cancelReservationClicked() {}
+    public void weeklyViewClicked() {
+        Calendar c = new CustomCalendar();
+        c.setCurrentView(CalendarView.WeekRange);
+    }
+    public void monthlyViewClicked() {
+        Calendar c = new CustomCalendar();
+        c.setCurrentView(CalendarView.SingleMonth);
+    }
 
     /**
      * For a user to book a room, the user needs to go to search view and select the room to book.
@@ -83,7 +92,11 @@ public class CalendarPaneController implements Initializable {
         loginView.start(stage);
     }
 
-
+    /**
+     * This button sends the user back to the search view page.
+     * @param event
+     * @throws IOException
+     */
     public void BackButtonClicked(javafx.event.ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

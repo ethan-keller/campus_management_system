@@ -22,6 +22,7 @@ public class CustomCalendar extends Calendar {
         settings.setShowCurrentTime(true);
         settings.setSelectWholeDayOnHeaderClick(true);
         settings.setShowNavigationButtons(true);
+        //settings.setShowDayHeader(true);
 
         this.endInit();
 
