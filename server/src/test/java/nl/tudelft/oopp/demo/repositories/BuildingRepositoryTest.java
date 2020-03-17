@@ -28,6 +28,5 @@ class BuildingRepositoryTest {
         Building b2 = new Building(id, "5testing", 25, "5TestingStreet 34");
         assertEquals(b2, buildingRepo.getBuilding(id));
         buildingRepo.deleteBuilding(id);
-
     }
 }

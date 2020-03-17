@@ -30,7 +30,5 @@ class RoomRepositoryTest {
         assertEquals(r2, roomRepo.getRoom(id));
         int id3 = roomRepo.getRoomByName("5testing").getId();
         roomRepo.deleteRoom(id3);
-
-
     }
 }

@@ -3,9 +3,10 @@ package nl.tudelft.oopp.demo.entities;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Room {
     private IntegerProperty roomId;
@@ -119,8 +120,8 @@ public class Room {
      */
     public static ObservableList<Room> getRoomData() throws JSONException {
         ObservableList<Room> roomData = FXCollections.observableArrayList();
-        JSONArray jsonArrayRooms = new JSONArray(AdminManageServerCommunication.getAllRooms());
-        for (int i = 0; i < jsonArrayRooms.length(); i++) {
+        JSONArray jsonArrayRooms= new JSONArray(RoomServerCommunication.getAllRooms());
+        for(int i=0; i<jsonArrayRooms.length(); i++){
             Room r = new Room();
             r.setRoomId(jsonArrayRooms.getJSONObject(i).getInt("id"));
             r.setRoomName(jsonArrayRooms.getJSONObject(i).getString("name"));
@@ -133,6 +134,25 @@ public class Room {
             roomData.add(r);
         }
         return roomData;
+    }
+
+    public static Room getRoomById(int id){
+        try {
+            JSONObject jsonObject = new JSONObject(RoomServerCommunication.getRoom(id));
+            Room r = new Room();
+            r.setRoomId(jsonObject.getInt("id"));
+            r.setRoomName(jsonObject.getString("name"));
+            r.setRoomBuilding(jsonObject.getInt("building"));
+            r.setTeacher_only(jsonObject.getBoolean("teacher_only"));
+            r.setRoomCapacity(jsonObject.getInt("capacity"));
+            r.setRoomPhoto(jsonObject.getString("photos"));
+            r.setRoomDescription(jsonObject.getString("description"));
+            r.setRoomType(jsonObject.getString("type"));
+            return r;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
