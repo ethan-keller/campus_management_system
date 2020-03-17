@@ -123,19 +123,16 @@ public class UserController {
         return null;
     }
 
-<<<<<<< HEAD
-=======
-    @GetMapping("getUserReservations")
-    @ResponseBody
-    public List<Reservations> getUserReservations(@RequestParam String username){
-        try{
-            return userRepo.getUserReservations(username);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
-
-    }
->>>>>>> develop
+//    @GetMapping("getUserReservations")
+//    @ResponseBody
+//    public List<Reservations> getUserReservations(@RequestParam String username){
+//        try{
+//            return userRepo.getUserReservations(username);
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return null;
+//
+//    }
 
 }
