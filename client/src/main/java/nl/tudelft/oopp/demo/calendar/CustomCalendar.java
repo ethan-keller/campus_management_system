@@ -4,6 +4,7 @@ import com.mindfusion.common.DateTime;
 import com.mindfusion.common.Duration;
 import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.CalendarView;
+import com.mindfusion.scheduling.ThemeType;
 import com.mindfusion.scheduling.TimetableSettings;
 
 public class CustomCalendar extends Calendar {
@@ -26,6 +27,7 @@ public class CustomCalendar extends Calendar {
 
         this.endInit();
 
+        this.setTheme(ThemeType.Lila);
         this.setCurrentView(CalendarView.Timetable);
     }
 
