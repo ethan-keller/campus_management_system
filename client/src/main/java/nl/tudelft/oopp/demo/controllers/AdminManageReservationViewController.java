@@ -39,15 +39,18 @@ public class AdminManageReservationViewController {
 
     public AdminManageReservationViewController() {}
 
+    /**
+     * To show all the bookings in the table.
+     */
     @FXML
     private void initialize() {
         try {
 
             //Initializing all the columns created in the table view to inhibit the data passed down through the server.
 
-            id.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getId().get())));
+            id.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getId().get())));
             username.setCellValueFactory(cell -> cell.getValue().getUsername());
-            room.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getRoom().get())));
+            room.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoom().get())));
             date.setCellValueFactory(cell -> cell.getValue().getDate());
             starting_time.setCellValueFactory(cell -> cell.getValue().getStarting_time());
             ending_time.setCellValueFactory(cell -> cell.getValue().getEnding_time());
@@ -139,7 +142,7 @@ public class AdminManageReservationViewController {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("New Reservation");
             alert.setContentText("New Reservation created!");
-
+            alert.showAndWait();
         }
         catch (Exception e) {
             System.out.println("Reservation creation exception");

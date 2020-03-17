@@ -32,9 +32,9 @@ public class ReservationEditDialogController {
     @FXML
     private DatePicker date;
     @FXML
-    private TextField starting_time;
+    private ComboBox<String> starting_time;
     @FXML
-    private TextField ending_time;
+    private ComboBox<String> ending_time;
 
     public static Reservation reservation;
 
@@ -88,13 +88,14 @@ public class ReservationEditDialogController {
         if(reservation == null)
             return;
 
-        username.getSelectionModel().select(oL.stream().filter(x -> x.getUsername().get().equals(reservation.getUsername().get())).collect(Collectors.toList()).get(0));
+        //username.getSelectionModel().select(oL.stream().filter(x -> x.getUsername().get().equals(reservation.getUsername().get())).collect(Collectors.toList()).get(0));
 
-        room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get() == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
+        //room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get() == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
 
         //date.setText(reservation.getDate().get());
-        starting_time.setText(reservation.getStarting_time().get());
-        ending_time.setText(reservation.getEnding_time().get());
+        starting_time.getItems().addAll("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00");
+        ending_time.getItems().addAll("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00");
+
     }
 
     public void setRoomComboBoxConverter(ObservableList<Room> ol) {
@@ -148,8 +149,8 @@ public class ReservationEditDialogController {
             reservation.setUsername(username.getSelectionModel().getSelectedItem().getUsername().get());
             reservation.setRoom(room.getSelectionModel().getSelectedItem().getRoomId().get());
             reservation.setDate(dateSelected.toString());
-            reservation.setEnding_time(starting_time.getText());
-            reservation.setEnding_time(ending_time.getText());
+            reservation.setEnding_time(starting_time.getValue());
+            reservation.setEnding_time(ending_time.getValue());
 
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
@@ -183,22 +184,14 @@ public class ReservationEditDialogController {
         if(date.getValue().equals("")) {
             errorMessage += "No date provided!\n";
         }
-        if(starting_time.getText().equals("")) {
+        if(starting_time.getValue().equals("")) {
             errorMessage += "No starting Time provided!\n";
         }
-        if(ending_time.getText().equals("")) {
+        if(ending_time.getValue().equals("")) {
             errorMessage += "No ending Time provided!\n";
         }
-//        else {
-//            try {
-//                Integer.parseInt(room.getText());
-//            }
-//            catch (NumberFormatException e) {
-//                errorMessage += "No valid room id provided!\n";
-//            }
-//        }
 
-
+        // If all the fields are valid, then true is returned.
         if (errorMessage.equals("")) {
             return true;
         } else {
