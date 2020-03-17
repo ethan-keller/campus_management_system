@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
+import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.views.RegisterView;
 import nl.tudelft.oopp.demo.views.SearchView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
@@ -26,6 +27,8 @@ public class LoginViewController {
 
     @FXML
     private Hyperlink goToRegister;
+
+    public static User currentUser;
 
     /**
      * Handles clicking the login button.
