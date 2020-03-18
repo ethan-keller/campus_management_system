@@ -16,33 +16,33 @@
             <Button fx:id="BackButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#BackButtonClicked" text="Back" />
             <Label layoutX="4.0" layoutY="56.0" prefHeight="17.0" prefWidth="100.0" text="Add to calender:" />
             <Label layoutX="4.0" layoutY="249.0" text="Reservations:" />
-            <Button fx:id="addReservation" layoutX="5.0" layoutY="272.0" mnemonicParsing="false" onAction="#addReservationClicked" prefHeight="36.0" prefWidth="99.0" text="Add Reservation">
+            <Button fx:id="addReservation" layoutX="5.0" layoutY="272.0" mnemonicParsing="false" onAction="#addReservationClicked" prefHeight="36.0" prefWidth="99.0" text="Add reservation">
                <font>
                   <Font size="9.0" />
                </font>
             </Button>
-            <Button fx:id="addAppointment" layoutX="4.0" layoutY="79.0" mnemonicParsing="false" onAction="#addAppointmentClicked" prefHeight="36.0" prefWidth="99.0" text="Add Appointment" textAlignment="CENTER">
+            <Button fx:id="addAppointment" layoutX="4.0" layoutY="79.0" mnemonicParsing="false" onAction="#addAppointmentClicked" prefHeight="36.0" prefWidth="99.0" text="Add item" textAlignment="CENTER">
                <font>
                   <Font size="9.0" />
                </font>
             </Button>
-            <Button fx:id="cancelAppointment" layoutX="4.0" layoutY="121.0" mnemonicParsing="false" onAction="#cancelAppointmentClicked" prefHeight="36.0" prefWidth="99.0" text="Cancel Appointment">
+            <Button fx:id="cancelAppointment" layoutX="4.0" layoutY="121.0" mnemonicParsing="false" onAction="#cancelAppointmentClicked" prefHeight="36.0" prefWidth="99.0" text="Remove item">
                <font>
                   <Font size="9.0" />
                </font>
             </Button>
-            <Button fx:id="cancelReservation" layoutX="5.0" layoutY="314.0" mnemonicParsing="false" onAction="#cancelReservationClicked" prefHeight="36.0" prefWidth="99.0" text="Cancel Reservation">
+            <Button fx:id="cancelReservation" layoutX="5.0" layoutY="314.0" mnemonicParsing="false" onAction="#cancelReservationClicked" prefHeight="36.0" prefWidth="99.0" text="Cancel reservation">
                <font>
                   <Font size="9.0" />
                </font>
             </Button>
-            <Button fx:id="signOut" layoutX="4.0" layoutY="362.0" mnemonicParsing="false" onAction="#signOutClicked" prefHeight="30.0" prefWidth="70.0" text="Sign Out" />
-            <Button fx:id="weeklyView" layoutX="4.0" layoutY="164.0" mnemonicParsing="false" onAction="#weeklyViewClicked" prefHeight="36.0" prefWidth="99.0" text="Weekly View" textAlignment="CENTER">
+            <Button fx:id="signOut" layoutX="4.0" layoutY="362.0" mnemonicParsing="false" onAction="#signOutClicked" prefHeight="30.0" prefWidth="70.0" text="Sign out" />
+            <Button fx:id="weeklyView" layoutX="4.0" layoutY="164.0" mnemonicParsing="false" onAction="#weeklyViewClicked" prefHeight="36.0" prefWidth="99.0" text="Weekly view" textAlignment="CENTER">
                <font>
                   <Font size="9.5" />
                </font>
             </Button>
-            <Button fx:id="monthlyView" layoutX="4.0" layoutY="205.0" mnemonicParsing="false" onAction="#monthlyViewClicked" prefHeight="36.0" prefWidth="99.0" text="Monthly View">
+            <Button fx:id="monthlyView" layoutX="4.0" layoutY="205.0" mnemonicParsing="false" onAction="#monthlyViewClicked" prefHeight="36.0" prefWidth="99.0" text="Monthly view">
                <font>
                   <Font size="9.5" />
                </font>

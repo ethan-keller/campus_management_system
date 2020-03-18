@@ -371,11 +371,16 @@ public class SearchViewController implements Initializable {
         }
     }
 
-    public void bookingHistoryClicked(ActionEvent event) throws Exception {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        CalendarPaneView cpv = new CalendarPaneView();
-        cpv.start(stage);
+    @FXML
+    private void bookingHistoryClicked(ActionEvent event) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            CalendarPaneController.thisStage = stage;
+            CalendarPaneView cpv = new CalendarPaneView();
+            cpv.start(stage);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

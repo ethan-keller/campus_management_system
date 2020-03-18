@@ -22,8 +22,10 @@ public class CustomCalendar extends Calendar {
         settings.setShowCurrentTime(true);
         settings.setSelectWholeDayOnHeaderClick(true);
         settings.setShowNavigationButtons(true);
-        //settings.setShowDayHeader(true);
-
+        settings.setScrollStep(7);
+        this.setAllowInplaceEdit(false);
+        this.setAllowAutoScroll(true);
+        this.setAllowDrag(false);
         this.endInit();
 
         this.setCurrentView(CalendarView.Timetable);
