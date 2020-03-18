@@ -61,6 +61,8 @@ public class BookingEditDialogController {
     @FXML
     private void initialize() {
         try {
+
+            // Initialize and add listener to the building combobox
             olb = Building.getBuildingData();
             bookingBuildingComboBox.setItems(olb);
             this.setBookingBuildingComboBoxConverter(olb);
@@ -68,12 +70,15 @@ public class BookingEditDialogController {
                 buildingSelected(newValue);
             }));
 
+            // Initialize the room combobox
             olr = Room.getRoomData();
             bookingRoomComboBox.setItems(olr);
             this.setBookingRoomComboBoxConverter(olr);
 
+            // Configure the string converters and custom properties (like disabling some dates in the datePicker)
             configureDatePicker();
 
+            // Initialize and add listener to the staring time combobox
             sTime = FXCollections.observableArrayList("08:00:00","09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00",
                     "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00");
             bookingStarting_time.setItems(sTime);
@@ -118,12 +123,19 @@ public class BookingEditDialogController {
         bookingRoomComboBox.setConverter(converter);
     }
 
+    /**
+     * Called when a building is selected
+     * The room combobox only shows the rooms of the selected building
+     */
     public void buildingSelected(Building newBuilding) {
         if(bookingBuildingComboBox.getValue() != null){
+            //Get all the rooms
             olr = Room.getRoomData();
+            //Create a list of rooms only belongs to the selected building
             List<Room> filteredRooms = olr.stream().filter(x -> x.getRoomBuilding().get() == newBuilding.getBuildingId().get()).collect(Collectors.toList());
             olr.clear();
             bookingRoomComboBox.setItems(olr);
+            //Add the filtered rooms to the observable list
             for(Room r: filteredRooms){
                 olr.add(r);
             }
@@ -131,11 +143,19 @@ public class BookingEditDialogController {
         }
     }
 
+    /**
+     * Called when a starting time is selected
+     * Initialize the ending time combobox
+     * The earliest time in the ending box should be one hour later than starting time
+     */
     public void starting_timeSelected(String newSt) {
+        //Initialize the ending time combobox with all time slot
         eTime = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00",
                 "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00", "24:00:00");
+        //Check if a starting time is selected
         if(bookingStarting_time.getValue() != null) {
             int indexSt = sTime.indexOf(bookingStarting_time.getValue());
+            //Remove the time slot <= the selected starting time plus one hour.
             eTime.remove(0, indexSt);
             bookingEnding_time.setItems(eTime);
         }
@@ -195,7 +215,9 @@ public class BookingEditDialogController {
         return null;
     }
 
-
+    /**
+     * Create a new reservation when called
+     */
     private static void emptyReservation(){
         reservation = new Reservation();
     }
@@ -205,6 +227,7 @@ public class BookingEditDialogController {
      */
     @FXML
     private void handleOkClicked(ActionEvent event) {
+        // Check the validity of user input
         if (isInputValid()) {
             emptyReservation();
             reservation.setUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
@@ -242,9 +265,12 @@ public class BookingEditDialogController {
         if (bookingDate.getValue() == null) {
             errorMessage += "No valid date selected!\n";
         }
-
-        /////// Starting time and ending time to be implemented...
-
+        if (bookingStarting_time.getValue() == null) {
+            errorMessage += "No valid starting time selected!\n";
+        }
+        if (bookingEnding_time.getValue() == null) {
+            errorMessage += "No valid ending time selected!\n";
+        }
         if (errorMessage.equals("")) {
             return true;
         } else {

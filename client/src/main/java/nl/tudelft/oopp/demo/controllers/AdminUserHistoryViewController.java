@@ -51,8 +51,9 @@ public class AdminUserHistoryViewController {
     @FXML
     private void initialize() {
         try {
+            // Initialize the title of the table
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
-            // Initialize the booking table with the eight columns.
+            // Initialize the booking table with the five columns.
             bookingIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getId().get())));
             bookingRoomColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoom().get())));
             bookingDateColumn.setCellValueFactory(cell -> cell.getValue().getDate());
@@ -64,10 +65,16 @@ public class AdminUserHistoryViewController {
         }
     }
 
+    /**
+     * refresh the table when called
+     */
     public void refresh() {
         initialize();
     }
 
+    /**
+     * Called when admin clicks a reservation.
+     */
     public Reservation getSelectedReservation() {
         if (bookingTable.getSelectionModel().getSelectedIndex() >= 0) {
             return bookingTable.getSelectionModel().getSelectedItem();
@@ -81,7 +88,7 @@ public class AdminUserHistoryViewController {
     }
 
     /**
-     * Delete a room.
+     * Delete a reservation.
      */
     @FXML
     private void deleteBookingClicked(ActionEvent event) {
