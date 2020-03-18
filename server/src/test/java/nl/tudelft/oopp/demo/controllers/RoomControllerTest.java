@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.repositories.BuildingRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +20,30 @@ class RoomControllerTest {
     @Autowired
     private RoomRepository roomRepo;
 
+    @Autowired
+    private BuildingRepository buildingRepo;
+
     @Test
     void testAllMethods() throws UnsupportedEncodingException {
-        roomCont.createRoom("4testing", 33, true, 30, "url", "very nice", "testingRoom");
+        buildingRepo.insertBuilding("4testing", 24, "4TestingStreet 34");
+        int buildingId = buildingRepo.getBuildingByName("4testing").getId();
+
+        buildingRepo.insertBuilding("5testing", 24, "4TestingStreet 34");
+        int buildingId2 = buildingRepo.getBuildingByName("4testing").getId();
+
+        roomCont.createRoom("4testing", buildingId, true, 30, "url", "very nice", "testingRoom");
         int id = roomRepo.getRoomByName("4testing").getId();
 
-        Room r1 = new Room(id, "4testing", 33, true, 30, "url", "very nice", "testingRoom");
+        Room r1 = new Room(id, "4testing", buildingId, true, 30, "url", "very nice", "testingRoom");
         assertEquals(r1, roomCont.getRoom(id));
 
-        roomCont.updateRoom(id, "5testing", 11, false, 25, "url2", "not nice", "testingRoom2");
-        Room r2 = new Room(id, "5testing", 11, false, 25, "url2", "not nice", "testingRoom2");
+        roomCont.updateRoom(id, "5testing", buildingId2, false, 25, "url2", "not nice", "testingRoom2");
+        Room r2 = new Room(id, "5testing", buildingId2, false, 25, "url2", "not nice", "testingRoom2");
         assertEquals(r2, roomCont.getRoom(id));
 
         roomCont.deleteRoom(id);
+        buildingRepo.deleteBuilding(buildingId);
+        buildingRepo.deleteBuilding(buildingId2);
 
     }
 }
