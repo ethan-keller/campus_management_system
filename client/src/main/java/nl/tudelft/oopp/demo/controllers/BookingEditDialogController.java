@@ -91,6 +91,10 @@ public class BookingEditDialogController {
         }
     }
 
+    /**
+     * Set the building combobox converter
+     * @param olb
+     */
     public void setBookingBuildingComboBoxConverter(ObservableList<Building> olb){
         StringConverter<Building> converter = new StringConverter<Building>() {
             @Override
@@ -107,7 +111,11 @@ public class BookingEditDialogController {
         bookingBuildingComboBox.setConverter(converter);
     }
 
-    public void setBookingRoomComboBoxConverter(ObservableList<Room> olb){
+    /**
+     * Set the room combobox converter
+     * @param olr
+     */
+    public void setBookingRoomComboBoxConverter(ObservableList<Room> olr){
         StringConverter<Room> converter = new StringConverter<Room>() {
             @Override
             public String toString(Room object) {
@@ -230,12 +238,13 @@ public class BookingEditDialogController {
         // Check the validity of user input
         if (isInputValid()) {
             emptyReservation();
+            // Set the user input to the reservation
             reservation.setUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             reservation.setRoom(this.bookingRoomComboBox.getSelectionModel().getSelectedItem().getRoomId().get());
             reservation.setDate(this.bookingDate.getValue().toString());
             reservation.setStarting_time(this.bookingStarting_time.getValue());
             reservation.setEnding_time(this.bookingEnding_time.getValue());
-
+            // Close the dialog window
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
         }
@@ -247,6 +256,7 @@ public class BookingEditDialogController {
     @FXML
     private void handleCancelClicked(ActionEvent event) {
         reservation = null;
+        // Close the dialog window
         this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         dialogStage.close();
     }
