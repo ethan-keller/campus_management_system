@@ -41,22 +41,22 @@
          <children>
             <ButtonBar prefHeight="100.0" prefWidth="604.0">
                <buttons>
-                  <Button mnemonicParsing="false" onAction="#NewReservationClicked" prefHeight="35.0" prefWidth="93.0" text="New" textAlignment="CENTER" textFill="#0ebaf8">
+                  <Button fx:id="newReservation" mnemonicParsing="false" onAction="#NewReservationClicked" prefHeight="35.0" prefWidth="93.0" text="New" textAlignment="CENTER" textFill="#0ebaf8">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#EditReservationClicked" prefHeight="39.0" prefWidth="95.0" text="Edit" textFill="#0ebaf8">
+                  <Button fx:id="editReservation" mnemonicParsing="false" onAction="#EditReservationClicked" prefHeight="39.0" prefWidth="95.0" text="Edit" textFill="#0ebaf8">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#DeleteReservationClicked" prefHeight="39.0" prefWidth="99.0" text="Delete" textFill="#0ebaf8">
+                  <Button fx:id="deleteReservation" mnemonicParsing="false" onAction="#DeleteReservationClicked" prefHeight="39.0" prefWidth="99.0" text="Delete" textFill="#0ebaf8">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#BackButtonClicked" prefHeight="39.0" prefWidth="86.0" text="Back" textFill="#0ebaf8">
+                  <Button fx:id="backReservation" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#BackButtonClicked" prefHeight="39.0" prefWidth="86.0" text="Back" textFill="#0ebaf8">
                      <font>
                         <Font size="18.0" />
                      </font>
