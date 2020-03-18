@@ -136,7 +136,7 @@ public class AdminManageReservationViewController {
             if(tempReservation == null)
                 return;
             //TODO: Checking if the reservation creating was successful before displaying the alert.
-            AdminManageServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getStarting_time().get());
+            AdminManageServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getEnding_time().get());
             refresh();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -186,7 +186,7 @@ public class AdminManageReservationViewController {
             }
         }
         catch (Exception e) {
-            System.out.println("building edit exception");
+            System.out.println("Reservation edit exception");
             e.printStackTrace();
         }
     }

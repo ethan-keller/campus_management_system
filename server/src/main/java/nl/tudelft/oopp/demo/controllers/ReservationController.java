@@ -55,13 +55,12 @@ public class ReservationController {
      */
     @PostMapping("updateReservation")
     @ResponseBody
-    public void updateReservation(@RequestParam int id, @RequestParam String username, @RequestParam int room, @RequestParam String date, @RequestParam String starting_time, @RequestParam String ending_time) throws UnsupportedEncodingException {
+    public void updateReservation(@RequestParam int id, @RequestParam int room, @RequestParam String date, @RequestParam String starting_time, @RequestParam String ending_time) throws UnsupportedEncodingException {
         date = CommunicationMethods.decodeCommunication(date);
         starting_time = CommunicationMethods.decodeCommunication(starting_time);
         ending_time = CommunicationMethods.decodeCommunication(ending_time);
         try{
             reservationsRepo.updateDate(id, date);
-            reservationsRepo.updateUsername(id, username);
             reservationsRepo.updateRoom(id, room);
             reservationsRepo.updateStartingTime(id, starting_time);
             reservationsRepo.updateEndingTime(id, ending_time);

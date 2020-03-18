@@ -334,7 +334,6 @@ public class AdminManageServerCommunication {
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("FAILED:" + response);
         } catch (Exception e) {
             e.printStackTrace();
         }
