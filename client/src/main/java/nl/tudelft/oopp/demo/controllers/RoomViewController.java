@@ -224,6 +224,9 @@ public class RoomViewController implements Initializable {
             timeSlotSlider.setShowTickLabels(true);
             timeSlotSlider.setShowTickMarks(true);
             timeSlotSlider.setMajorTickUnit(120);
+            timeSlotSlider.setMinorTickCount(4);
+
+            timeSlotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
 
             // get and set the StringConverter to show hh:mm format
             StringConverter<Number> converter = getRangeSliderConverter();
@@ -257,11 +260,12 @@ public class RoomViewController implements Initializable {
             timeSlotSlider.lowValueProperty().addListener((observable, oldValue, newValue) ->
                     startTime.setText(converter.toString(newValue)));
 
-            // listeners that make sure the user can only select intervals of 1 hour
+            // listeners that make sure the user can only select intervals of 30 minutes
             timeSlotSlider.lowValueProperty().addListener((observable, oldValue, newValue) ->
-                    timeSlotSlider.setLowValue((newValue.intValue() / 60) * 60));
+                    timeSlotSlider.setLowValue((newValue.intValue() / 30) * 30));
             timeSlotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
-                    timeSlotSlider.setHighValue((newValue.intValue() / 60) * 60));
+                    timeSlotSlider.setHighValue((newValue.intValue() / 30) * 30));
+            System.out.println(timeSlotSlider.lookup(".axis-tick-mark"));
         } catch (Exception e){
             e.printStackTrace();
         }

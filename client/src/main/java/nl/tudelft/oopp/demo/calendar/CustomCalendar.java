@@ -28,7 +28,12 @@ public class CustomCalendar extends Calendar {
         this.setAllowDrag(false);
         this.endInit();
 
+        insertUserReservations();
+
         this.setCurrentView(CalendarView.Timetable);
+    }
+
+    private void insertUserReservations() {
     }
 
 }
