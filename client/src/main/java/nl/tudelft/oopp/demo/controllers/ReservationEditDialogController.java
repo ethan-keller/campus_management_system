@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,16 +13,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
-import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 import org.controlsfx.control.RangeSlider;
 
-
 import java.time.DayOfWeek;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
@@ -61,7 +56,6 @@ public class ReservationEditDialogController {
      * after the fxml file has been loaded.
      */
     @FXML
-<<<<<<< HEAD
     private void initialize() {
         Reservation reservation = AdminManageReservationViewController.currentSelectedReservation;
         date.setConverter(getDateConverter());
