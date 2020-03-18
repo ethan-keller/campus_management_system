@@ -6,8 +6,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -24,7 +27,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BookingHistoryController {
-
+    /**
+     * These are the FXML elements that inject some functionality into the application.
+     */
     @FXML
     private TableView<Reservation> listReservations;
     @FXML
@@ -40,9 +45,13 @@ public class BookingHistoryController {
     @FXML
     private TableColumn<Reservation,String> ending_time;
 
-
     public BookingHistoryController() {}
 
+    /**
+     * Method that is called before the view is functionable to the user.
+     * This method initializes all nodes and components of view.
+     * JavaFX Standard.
+     */
     public void initialize() {
         try {
 
@@ -63,6 +72,12 @@ public class BookingHistoryController {
         }
     }
 
+    /**
+     * Handles the onclick of backButton.
+     * Redirects the user back to the searchView.
+     * @param event
+     * @throws IOException
+     */
     @FXML
     public void backButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -71,6 +86,12 @@ public class BookingHistoryController {
         sv.start(stage);
     }
 
+    /**
+     * Handles the onclick of signOut Button.
+     * Redirects the user back to the loginView.
+     * @param event
+     * @throws IOException
+     */
     @FXML
     public void signOutClicked(ActionEvent event) throws Exception {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

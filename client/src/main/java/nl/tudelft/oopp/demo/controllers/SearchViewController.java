@@ -44,7 +44,9 @@ import java.util.stream.Collectors;
  * Controller class for SearchView (JavaFX)
  */
 public class SearchViewController implements Initializable {
-
+    /**
+     * These are the FXML elements that inject some functionality into the application.
+     */
     @FXML
     private DatePicker datePicker;
     @FXML
@@ -73,15 +75,24 @@ public class SearchViewController implements Initializable {
     @FXML
     private ComboBox<String> BikesAvailable;
 
-
+    // Declaring the observable list for buildings, capacity and bikes to be inserted into the comboBox
+    // This is necessary due to the format of inserting items into a comboBox.
     private ObservableList<String> capacityList;
     private ObservableList<Building> buildingList;
     private ObservableList<String> bikeList;
 
+    /**
+     * Default construct of searchView class.
+     */
     public SearchViewController() {
     }
 
-
+    /**
+     * Handles the bookingHistory Button onclick.
+     * Redirects the user to the booking history page.
+     * @param event
+     * @throws IOException
+     */
     public void BookingHistoryButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -89,6 +100,12 @@ public class SearchViewController implements Initializable {
         bookingHistoryView.start(stage);
     }
 
+    /**
+     * Handles the onclick of signOut Button.
+     * Redirects the user back to the login page.
+     * @param event
+     * @throws IOException
+     */
     public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -96,6 +113,12 @@ public class SearchViewController implements Initializable {
         loginView.start(stage);
     }
 
+    /**
+     * Handles the onclick of cancelBooking Button.
+     * Redirects the user to the cancelBooking page.
+     * @param event
+     * @throws Exception
+     */
     public void cancelBookingClicked(ActionEvent event) throws Exception {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

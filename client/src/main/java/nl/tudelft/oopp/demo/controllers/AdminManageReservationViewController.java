@@ -19,7 +19,9 @@ import java.io.UnsupportedEncodingException;
 
 
 public class AdminManageReservationViewController {
-
+    /**
+     * These are the FXML elements that inject some functionality into the application.
+     */
     @FXML
     private TableView<Reservation> listReservations;
     @FXML
@@ -37,6 +39,9 @@ public class AdminManageReservationViewController {
 
     public static Reservation currentSelectedReservation;
 
+    /**
+     * Default constructor of the class.
+     */
     public AdminManageReservationViewController() {}
 
     /**
