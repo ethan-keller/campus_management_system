@@ -95,7 +95,7 @@ public class AdminManageReservationViewController {
      * Delete a building.
      */
     @FXML
-    private void DeleteReservationClicked(ActionEvent event) {
+    public void DeleteReservationClicked(ActionEvent event) {
         Reservation selectedReservation = getSelectedReservation();
         int selectedIndex = getSelectedIndex();
         try {
@@ -125,7 +125,7 @@ public class AdminManageReservationViewController {
      * Handles clicking the create new button.
      */
     @FXML
-    private void NewReservationClicked(ActionEvent event) {
+    public void NewReservationClicked(ActionEvent event) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -133,6 +133,7 @@ public class AdminManageReservationViewController {
             ReservationEditDialogView view = new ReservationEditDialogView();
             view.start(stage);
             Reservation tempReservation = ReservationEditDialogController.reservation;
+
             if(tempReservation == null)
                 return;
             //TODO: Checking if the reservation creating was successful before displaying the alert.

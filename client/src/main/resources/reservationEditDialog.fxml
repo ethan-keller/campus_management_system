@@ -31,8 +31,8 @@
          <children>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <buttons>
-                <Button mnemonicParsing="false" onAction="#OKClicked" text="OK" />
-                  <Button mnemonicParsing="false" onAction="#CancelClicked" text="Cancel" />
+                <Button fx:id="okButton" mnemonicParsing="false" onAction="#OKClicked" text="OK" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#CancelClicked" text="Cancel" />
                </buttons>
             </ButtonBar>
             <Label prefHeight="17.0" prefWidth="148.0" text="Reservation username:">
@@ -59,9 +59,9 @@
             </Label>
             <ComboBox fx:id="room" prefHeight="25.0" prefWidth="251.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ComboBox fx:id="username" prefHeight="25.0" prefWidth="258.0" GridPane.columnIndex="1" />
-            <DatePicker fx:id="date" prefHeight="25.0" prefWidth="256.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <ComboBox fx:id="starting_time" prefHeight="25.0" prefWidth="254.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <ComboBox fx:id="ending_time" prefHeight="25.0" prefWidth="255.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ComboBox fx:id="starting_time" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ComboBox fx:id="ending_time" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <DatePicker fx:id="date" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>

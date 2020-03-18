@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,12 +12,14 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.views.AdminManageReservationView;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -49,52 +52,56 @@ public class ReservationEditDialogController {
      * after the fxml file has been loaded.
      */
     @FXML
-    private void initialize() {
-        Reservation reservation = AdminManageReservationViewController.currentSelectedReservation;
-        date.setConverter(new StringConverter<LocalDate>() {
-            @Override
-            public String toString(LocalDate dateSelected) {
-                if(dateSelected != null) {
-                    return formatter.format(dateSelected);
+    public void initialize() {
+        try {
+
+            date.setConverter(new StringConverter<LocalDate>() {
+                @Override
+                public String toString(LocalDate dateSelected) {
+                    if(dateSelected != null) {
+                        return formatter.format(dateSelected);
+                    }
+                    return null;
                 }
-                return null;
-            }
 
-            @Override
-            public LocalDate fromString(String string) {
-                if(string != null && !string.trim().isEmpty()) {
-                    return LocalDate.parse(string, formatter);
+                @Override
+                public LocalDate fromString(String string) {
+                    if(string != null && !string.trim().isEmpty()) {
+                        return LocalDate.parse(string, formatter);
+                    }
+                    return null;
                 }
-                return null;
-            }
-        });
+            });
 
-        date.setOnAction(event -> {
+            date.setOnAction(event -> {
 
-        });
+            });
 
-        //Initializing the observable list for the users available!!
-        //The admin can make a mistake in writing the name of the user.
-        ObservableList<User> oL = User.getUserData();
-        username.setItems(oL);
-        this.setUserComboBoxConverter(oL);
+            //Initializing the observable list for the users available!!
+            //The admin can make a mistake in writing the name of the user.
+            ObservableList<User> oL = User.getUserData();
+            username.setItems(oL);
+            this.setUserComboBoxConverter(oL);
 
-        //Initializing the observable list for the rooms available!!
-        ObservableList<Room> ol = Room.getRoomData();
-        room.setItems(ol);
-        this.setRoomComboBoxConverter(ol);
+            //Initializing the observable list for the rooms available!!
+            ObservableList<Room> ol = Room.getRoomData();
+            room.setItems(ol);
+            this.setRoomComboBoxConverter(ol);
 
-        //If there are no reservation in the table.
-        if(reservation == null)
-            return;
+            //If there are no reservation in the table.
+            if(reservation == null)
+                return;
+            
+            username.getSelectionModel().select(oL.stream().filter(x -> x.getUsername().get().equals(reservation.getUsername().get())).collect(Collectors.toList()).get(0));
+            room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get() == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
 
-        //username.getSelectionModel().select(oL.stream().filter(x -> x.getUsername().get().equals(reservation.getUsername().get())).collect(Collectors.toList()).get(0));
+            starting_time.getItems().addAll("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00");
+            ending_time.getItems().addAll("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00");
 
-        //room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get() == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
-
-        //date.setText(reservation.getDate().get());
-        starting_time.getItems().addAll("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00");
-        ending_time.getItems().addAll("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -142,15 +149,15 @@ public class ReservationEditDialogController {
      * @param event
      */
     @FXML
-    public void OKClicked(ActionEvent event) {
-        LocalDate dateSelected = date.getValue();
+    public void OKClicked(ActionEvent event) throws UnsupportedEncodingException {
+        //LocalDate dateSelected = date.getValue();
         if(isInputValid()) {
             emptyReservation();
             reservation.setUsername(username.getSelectionModel().getSelectedItem().getUsername().get());
             reservation.setRoom(room.getSelectionModel().getSelectedItem().getRoomId().get());
-            reservation.setDate(dateSelected.toString());
-            reservation.setEnding_time(starting_time.getValue());
-            reservation.setEnding_time(ending_time.getValue());
+            reservation.setDate(date.getValue().toString());
+            reservation.setEnding_time(starting_time.getSelectionModel().getSelectedItem());
+            reservation.setEnding_time(ending_time.getSelectionModel().getSelectedItem());
 
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
@@ -205,6 +212,4 @@ public class ReservationEditDialogController {
             return false;
         }
     }
-
-
 }
