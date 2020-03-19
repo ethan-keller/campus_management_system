@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.BookingEditDialogView;
@@ -90,7 +90,7 @@ public class AdminUserHistoryViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that reservation deletion was successful before displaying alert
-                AdminManageServerCommunication.deleteReservation(selectedReservation.getId().getValue());
+                ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
                 refresh();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Delete reservation");
@@ -123,7 +123,7 @@ public class AdminUserHistoryViewController {
             Reservation tempReservation = BookingEditDialogController.reservation;
             if (tempReservation == null) return;
             // TODO: Check that reservation creation was successful before displaying alert
-            AdminManageServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getEnding_time().get());
+            ReservationServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getEnding_time().get());
             refresh();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

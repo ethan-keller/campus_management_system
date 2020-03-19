@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.controllers.AdminManageUserViewController;
 import org.json.JSONArray;
@@ -95,7 +95,7 @@ public class Reservation {
      */
     public static ObservableList<Reservation> getReservation() throws JSONException, UnsupportedEncodingException {
         ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
-        JSONArray jsonArrayReservation= new JSONArray(AdminManageServerCommunication.getAllReservations());
+        JSONArray jsonArrayReservation= new JSONArray(ReservationServerCommunication.getAllReservations());
         for(int i=0; i<jsonArrayReservation.length(); i++) {
             Reservation r = new Reservation();
             r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));

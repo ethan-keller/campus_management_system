@@ -8,7 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
@@ -106,7 +106,7 @@ public class AdminManageReservationViewController {
         try {
             if(selectedIndex >= 0 ){
                 //TODO: Check that Reservation deletion was successful before displaying alert message.
-                AdminManageServerCommunication.deleteReservation(selectedReservation.getId().getValue());
+                ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
                 refresh();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Delete Reservation");
@@ -142,7 +142,7 @@ public class AdminManageReservationViewController {
             if(tempReservation == null)
                 return;
             //TODO: Checking if the reservation creating was successful before displaying the alert.
-            AdminManageServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getEnding_time().get());
+            ReservationServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getEnding_time().get());
             refresh();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -176,7 +176,7 @@ public class AdminManageReservationViewController {
                 if(tempResevation == null)
                     return;
                 //TODO: Making sure that the reservation is created properly, before displaying the alert box.
-                AdminManageServerCommunication.updateReservation(selectedReservation.getId().get(), tempResevation.getRoom().get(), tempResevation.getDate().get(), tempResevation.getStarting_time().get(), tempResevation.getEnding_time().get());
+                ReservationServerCommunication.updateReservation(selectedReservation.getId().get(), tempResevation.getRoom().get(), tempResevation.getDate().get(), tempResevation.getStarting_time().get(), tempResevation.getEnding_time().get());
                 refresh();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
