@@ -1,13 +1,14 @@
 package nl.tudelft.oopp.demo.views;
 
-import java.io.IOException;
-import java.net.URL;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.controllers.RoomViewController;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class RoomView extends Application {
 
@@ -19,7 +20,6 @@ public class RoomView extends Application {
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
 
-        primaryStage.setScene(new Scene(root));
         primaryStage.setMinHeight(400);
         primaryStage.setMinWidth(710);
         Scene oldScene = primaryStage.getScene();
