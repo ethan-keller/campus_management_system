@@ -46,9 +46,9 @@ class ReservationControllerTest {
         roomRepo.insertRoom("5testing", id3, false, 35, "/photos/test", "Very nice room i think", "Study room");
         int roomId2 = roomRepo.getRoomByName("4testing").getId();
 
-        reservationCont.createReservation("4testing", roomId, "2020-09-09", "12:00:00", "14:00:00");
+        reservationCont.createReservation("6testing", roomId, "2020-09-09", "12:00:00", "14:00:00");
         int id = reservationRepo.getReservationByRoomAndDateAndStarting_time(roomId, "2020-09-09", "12:00:00").getId();
-        Reservations r1 = new Reservations(id, "4testing", roomId, "2020-09-09", "12:00:00", "14:00:00");
+        Reservations r1 = new Reservations(id, "6testing", roomId, "2020-09-09", "12:00:00", "14:00:00");
         assertEquals(r1, reservationCont.getReservation(id));
 
         reservationCont.updateReservation(id, "6testing", roomId2, "2020-09-10", "13:00:00", "15:00:00");

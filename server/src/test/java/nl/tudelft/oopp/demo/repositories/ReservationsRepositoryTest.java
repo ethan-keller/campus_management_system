@@ -52,5 +52,6 @@ class ReservationsRepositoryTest {
 
         userRepo.deleteUser("4testing");
         reservationsRepo.deleteReservation(id);
+        buildingRepo.deleteBuilding(id3);
     }
 }
