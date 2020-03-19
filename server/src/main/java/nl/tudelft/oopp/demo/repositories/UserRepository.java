@@ -39,7 +39,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "UPDATE user SET type = :type WHERE username = LOWER(:username)", nativeQuery = true)
     public void updateType(@Param("username") String username, @Param("type") int type);
 
-    @Query(value = "SELECT * FROM user u WHERE u.username = LOWER(:username)", nativeQuery = true)
-    public User getUserByType(@Param("username") String username);
+//    @Query(value = "SELECT * FROM user u WHERE u.username = LOWER(:username)", nativeQuery = true)
+//    public User getUserByType(@Param("username") String username);
 
 }
