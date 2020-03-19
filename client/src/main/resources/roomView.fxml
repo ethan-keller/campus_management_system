@@ -1,109 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <AnchorPane prefHeight="200.0" prefWidth="596.0" style="-fx-background-color: #0ebaf8;" BorderPane.alignment="CENTER">
+<BorderPane minHeight="300.0" prefHeight="507.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.RoomViewController">
+   <left>
+      <AnchorPane>
          <children>
-            <ImageView fx:id="RoomImage" fitHeight="172.0" fitWidth="546.0" layoutX="42.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="14.0">
-               <image>
-                  <Image url="@../../../../../edison.jpg" />
-               </image>
-            </ImageView>
+            <VBox fx:id="roomDetailsVbox" prefWidth="188.0" spacing="20.0" style="-fx-background-color: #0ebaf8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Room details">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="20.0" top="50.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="name" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="name: NAME">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="capacity" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="capacity: CAPACITY">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="building" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="building: NAME">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="teacher_only" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="teachers only: YES/NO">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="type" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="type: TYPE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+            <Button layoutX="15.0" layoutY="465.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="26.0" prefWidth="87.0" style="-fx-background-color: #1473d2;" text="Back" textFill="WHITE" AnchorPane.bottomAnchor="15.79999999999999" AnchorPane.leftAnchor="15.0" />
          </children>
       </AnchorPane>
-   </top>
-   <right>
-      <VBox prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER">
-         <children>
-            <AnchorPane prefHeight="45.0" prefWidth="300.0" style="-fx-background-color: #0ebaf8;">
-               <children>
-                  <Text fill="WHITE" layoutX="5.0" layoutY="27.423828125" strokeType="OUTSIDE" strokeWidth="0.0" text="Date" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="8.0">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <DatePicker fx:id="Datepicker" prefHeight="26.0" prefWidth="175.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="5.0" prefWidth="200.0" />
-            <AnchorPane prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #0ebaf8;">
-               <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Timeslot" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="8.0">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <ChoiceBox fx:id="TimeslotChoiceBox" layoutX="120.0" layoutY="10.0" prefHeight="26.0" prefWidth="173.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="5.0" prefWidth="200.0" />
-            <AnchorPane prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #0ebaf8;">
-               <children>
-                  <Text fill="WHITE" layoutX="50.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Food " AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="8.0">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <ChoiceBox fx:id="FoodChoiceBox" layoutX="96.0" layoutY="2.0" prefHeight="26.0" prefWidth="173.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0" />
-               </children></AnchorPane>
-            <AnchorPane prefHeight="5.0" prefWidth="200.0" />
-            <AnchorPane prefHeight="53.0" prefWidth="300.0" style="-fx-background-color: #0ebaf8;">
-               <children>
-                  <Button fx:id="ReserveButton" layoutX="72.0" layoutY="3.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="156.0" style="-fx-background-color: #0ebaf8; -fx-font-size: 18; -fx-border-color: white;" text="Reserve Now" textFill="WHITE" textOverrun="WORD_ELLIPSIS" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="72.0" AnchorPane.rightAnchor="72.0" AnchorPane.topAnchor="3.0">
-                     <font>
-                        <Font size="33.0" />
-                     </font>
-                  </Button>
-               </children></AnchorPane>
-         </children>
-      </VBox>
-   </right>
+   </left>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="208.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="507.0" prefWidth="699.0" BorderPane.alignment="CENTER">
          <children>
-            <SplitPane orientation="VERTICAL" prefHeight="200.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <VBox prefHeight="507.0" prefWidth="503.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ImageView fx:id="image" fitHeight="403.0" fitWidth="503.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/placeholder.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="description" strokeType="OUTSIDE" strokeWidth="0.0" text="Description: blablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablabla" wrappingWidth="362.3304443359375">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="30.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox fx:id="reservationVbox" alignment="TOP_CENTER" layoutX="519.0" prefHeight="507.0" prefWidth="209.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Make a reservation">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="80.0" />
+                     </VBox.margin>
+                  </Text>
+                  <VBox alignment="CENTER">
                      <children>
-                        <AnchorPane layoutX="58.0" layoutY="30.0" prefHeight="60.0" prefWidth="298.0" AnchorPane.bottomAnchor="138.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <DatePicker fx:id="datePicker" />
+                        <Text fx:id="dateError" fill="#ed0d0d" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select a date" />
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER" spacing="30.0">
+                     <children>
+                        <HBox>
                            <children>
-                              <Text fx:id="RoomName" layoutX="26.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-scale-x: 1.1;" text="Edison" AnchorPane.leftAnchor="15.0">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="from ">
                                  <font>
-                                    <Font size="42.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
+                              <Text fx:id="startTime" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00" />
                            </children>
-                        </AnchorPane>
-                        <AnchorPane layoutX="49.0" layoutY="60.0" prefHeight="138.0" prefWidth="298.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+                        </HBox>
+                        <HBox>
                            <children>
-                              <VBox layoutX="106.0" layoutY="-46.0" prefHeight="138.4" prefWidth="298.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" />
-                                    <Text fx:id="RoomBuilding" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 10;" text="Building:  Library" wrappingWidth="265.03437423706055" />
-                                    <Text fx:id="RoomCapacity" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 10;" text="Capacity:  8" wrappingWidth="285.18309593200684" />
-                                    <Text fx:id="RoomFacilities" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 10;" text="Facilities:  Whiteboard, 6 seats" wrappingWidth="285.1830654144287" />
-                                    <Text fx:id="RoomBikes" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 10;" text="Bikes available:  5" wrappingWidth="285.9830837249756" />
-                                    <Text fx:id="RoomAvailability" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 10;" text="Availability:  Teachers only" />
-                                 </children>
-                              </VBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="until ">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="endTime" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00" />
                            </children>
-                        </AnchorPane>
+                        </HBox>
                      </children>
-                  </AnchorPane>
-              </items>
-            </SplitPane>
+                  </HBox>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <ComboBox fx:id="food_choice" prefWidth="150.0" promptText="Food choice" />
+                        <Text fx:id="foodError" fill="#ed0d0d" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select a food option" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <HBox alignment="CENTER" spacing="9.0">
+                           <children>
+                              <Button fx:id="bookButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#bookClicked" text="Book this room" />
+                              <Button fx:id="bookBikesButton" mnemonicParsing="false" text="Book bikes" />
+                           </children>
+                        </HBox>
+                        <Text fx:id="teacherOnlyError" fill="#ed0d0d" strokeType="OUTSIDE" strokeWidth="0.0" text="Only teachers can book this room" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </center>

@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.communication.UserServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -55,7 +55,7 @@ public class User {
      */
     public static ObservableList<User> getUserData() throws JSONException {
         ObservableList<User> userData = FXCollections.observableArrayList();
-        JSONArray jsonArrayUsers = new JSONArray(AdminManageServerCommunication.getAllUsers());
+        JSONArray jsonArrayUsers = new JSONArray(UserServerCommunication.getAllUsers());
         for(int i=0; i<jsonArrayUsers.length(); i++){
             User u = new User();
             u.setUsername(jsonArrayUsers.getJSONObject(i).getString("username") );
