@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,7 +71,7 @@ public class Building {
      */
     public static ObservableList<Building> getBuildingData() throws JSONException {
         ObservableList<Building> buildingData = FXCollections.observableArrayList();
-        JSONArray jsonArrayBuildings = new JSONArray(AdminManageServerCommunication.getAllBuildings());
+        JSONArray jsonArrayBuildings= new JSONArray(BuildingServerCommunication.getAllBuildings());
         for(int i=0; i<jsonArrayBuildings.length(); i++){
             Building b = new Building();
             b.setBuildingId(2);
@@ -86,7 +86,7 @@ public class Building {
 
     public static Building getBuildingById(int id) {
         try {
-            JSONObject jsonObject = new JSONObject(AdminManageServerCommunication.getBuilding(id));
+            JSONObject jsonObject = new JSONObject(BuildingServerCommunication.getBuilding(id));
             Building b = new Building();
             b.setBuildingId(jsonObject.getInt("id"));
             b.setBuildingName(jsonObject.getString("name"));

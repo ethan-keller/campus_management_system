@@ -2,11 +2,9 @@ package nl.tudelft.oopp.demo.communication;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 
 public class LoginServerCommunication {
 
@@ -39,6 +37,4 @@ public class LoginServerCommunication {
         }
         return response.body();
     }
-
-
 }

@@ -7,7 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -102,7 +102,7 @@ public class AdminManageRoomViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that room deletion was successful before displaying alert
-                AdminManageServerCommunication.deleteRoom(selectedRoom.getRoomId().getValue());
+                RoomServerCommunication.deleteRoom(selectedRoom.getRoomId().getValue());
                 refresh();
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Delete room");
@@ -135,7 +135,7 @@ public class AdminManageRoomViewController {
             Room tempRoom = RoomEditDialogController.room;
             if (tempRoom == null) return;
             // TODO: Check that room creation was successful before displaying alert
-            AdminManageServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacher_only().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
+            RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacher_only().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
             refresh();
 
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -168,7 +168,7 @@ public class AdminManageRoomViewController {
                 if (tempRoom == null) return;
                 // TODO: Check that building edit was successful before displaying alert
                 System.out.println(tempRoom.getRoomBuilding().get());
-                AdminManageServerCommunication.updateRoom(selectedRoom.getRoomId().get(), tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacher_only().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
+                RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(), tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacher_only().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
                 refresh();
 
                 Alert alert = new Alert(AlertType.INFORMATION);
