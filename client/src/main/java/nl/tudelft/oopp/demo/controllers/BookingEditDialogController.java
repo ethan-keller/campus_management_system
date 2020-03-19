@@ -105,7 +105,7 @@ public class BookingEditDialogController {
 
             @Override
             public Building fromString(String id) {
-                return olb.stream().filter(x -> String.valueOf(x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
+                return olb.stream().filter(x -> String.valueOf(x.getBuildingId()) == id).collect(Collectors.toList()).get(0);
             }
         };
         bookingBuildingComboBox.setConverter(converter);
@@ -125,7 +125,7 @@ public class BookingEditDialogController {
 
             @Override
             public Room fromString(String id) {
-                return olr.stream().filter(x -> String.valueOf(x.getRoomId()).equals(id)).collect(Collectors.toList()).get(0);
+                return olr.stream().filter(x -> String.valueOf(x.getRoomId()) == id).collect(Collectors.toList()).get(0);
             }
         };
         bookingRoomComboBox.setConverter(converter);
@@ -142,7 +142,6 @@ public class BookingEditDialogController {
             //Create a list of rooms only belongs to the selected building
             List<Room> filteredRooms = olr.stream().filter(x -> x.getRoomBuilding().get() == newBuilding.getBuildingId().get()).collect(Collectors.toList());
             olr.clear();
-            bookingRoomComboBox.setItems(olr);
             //Add the filtered rooms to the observable list
             for(Room r: filteredRooms){
                 olr.add(r);
