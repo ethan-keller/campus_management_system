@@ -1,14 +1,13 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 @Controller
 public class ReservationController {
@@ -24,18 +23,21 @@ public class ReservationController {
      * @param date  The day the reservation starts //TODO date format
      * @param starting_time The starting time of the reservation //TODO time format
      * @param ending_time The ending time of the reservation //TODO time format
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("createReservation")
     @ResponseBody
-    public void createReservation(@RequestParam String username, @RequestParam int room, @RequestParam String date, @RequestParam String starting_time, @RequestParam String ending_time) throws UnsupportedEncodingException {
+    public void createReservation(@RequestParam String username, @RequestParam int room, @RequestParam String date,
+                                  @RequestParam String starting_time, @RequestParam String ending_time) throws UnsupportedEncodingException {
+
         username = CommunicationMethods.decodeCommunication(username);
         date = CommunicationMethods.decodeCommunication(date);
         starting_time = CommunicationMethods.decodeCommunication(starting_time);
         ending_time = CommunicationMethods.decodeCommunication(ending_time);
-        try{
+
+        try {
             reservationsRepo.insertReservation(username, room, date, starting_time, ending_time);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -48,21 +50,24 @@ public class ReservationController {
      * @param date The new value for date. //TODO date-format
      * @param starting_time The new value for starting_time. //TODO time-format
      * @param ending_time The new value for ending_time. //TODO time-format
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("updateReservation")
     @ResponseBody
-    public void updateReservation(@RequestParam int id, @RequestParam String username, @RequestParam int room, @RequestParam String date, @RequestParam String starting_time, @RequestParam String ending_time) throws UnsupportedEncodingException {
+    public void updateReservation(@RequestParam int id, @RequestParam String username, @RequestParam int room,
+                                  @RequestParam String date, @RequestParam String starting_time, @RequestParam String ending_time) throws UnsupportedEncodingException {
+
         date = CommunicationMethods.decodeCommunication(date);
         starting_time = CommunicationMethods.decodeCommunication(starting_time);
         ending_time = CommunicationMethods.decodeCommunication(ending_time);
-        try{
+
+        try {
             reservationsRepo.updateDate(id, date);
             reservationsRepo.updateUsername(id, username);
             reservationsRepo.updateRoom(id, room);
             reservationsRepo.updateStartingTime(id, starting_time);
             reservationsRepo.updateEndingTime(id, ending_time);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -74,10 +79,10 @@ public class ReservationController {
      */
     @PostMapping("deleteReservation")
     @ResponseBody
-    public void deleteReservation(@RequestParam int id){
+    public void deleteReservation(@RequestParam int id) {
         try{
             reservationsRepo.deleteReservation(id);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -86,14 +91,14 @@ public class ReservationController {
      * Retrieves the reservation with the provided ID from the database.
      *
      * @param id The ID of the to be retrieved reservation.
-     * @return //TODO Format of retrieved data
+     * @return a Reservations object in Json format.
      */
     @GetMapping("getReservation")
     @ResponseBody
-    public Reservations getReservation(@RequestParam int id){
+    public Reservations getReservation(@RequestParam int id) {
         try {
             return reservationsRepo.getReservation(id);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -102,14 +107,14 @@ public class ReservationController {
     /**
      * Retrieves all the reservations.
      *
-     * @return //TODO format of retrieved data
+     * @return a list of Reservations object in Json format.
      */
     @GetMapping("getAllReservations")
     @ResponseBody
-    public List<Reservations> getAllReservations(){
+    public List<Reservations> getAllReservations() {
         try {
             return reservationsRepo.getAllReservations();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -118,14 +123,14 @@ public class ReservationController {
     /**
      * Retrieves the reservations of the selected user.
      * @param username the username of the selected user.
-     * @return
+     * @return a list of Reservations object in Json format.
      */
     @GetMapping("getUserReservations")
     @ResponseBody
     public List<Reservations> getUserReservations(@RequestParam String username){
-        try{
+        try {
             return reservationsRepo.getUserReservations(username);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
