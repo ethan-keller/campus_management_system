@@ -28,11 +28,6 @@
    <top>
       <HBox alignment="CENTER" prefWidth="1067.0" spacing="10.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="25.0" prefWidth="60.0" text="Back" textAlignment="CENTER">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Button>
             <Label alignment="CENTER" pickOnBounds="false" prefHeight="56.0" prefWidth="564.0" text="Booking History" textFill="#0ebaf8">
                <HBox.margin>
                   <Insets left="50.0" right="50.0" />
@@ -41,12 +36,29 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="signOut" mnemonicParsing="false" onAction="#signOutClicked" prefHeight="25.0" prefWidth="76.0" text="Sign Out" textAlignment="CENTER">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Button>
          </children>
       </HBox>
    </top>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="66.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="35.0" prefWidth="99.0" text="Back" textAlignment="CENTER">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="signOut" mnemonicParsing="false" onAction="#signOutClicked" prefHeight="35.0" prefWidth="99.0" text="Sign Out" textAlignment="CENTER">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>
