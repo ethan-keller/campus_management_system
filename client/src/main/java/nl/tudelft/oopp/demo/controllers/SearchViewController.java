@@ -137,9 +137,13 @@ public class SearchViewController implements Initializable {
                 roomList = GeneralMethods.filterRoomByBuilding(roomList, building);
             }
 
-            teacher_only = yesCheckBoxTeacherOnly.isSelected();
-            if(teacher_only){
-                roomList = GeneralMethods.filterRoomByTeacher_only(roomList, teacher_only);
+
+            if(yesCheckBoxTeacherOnly.isSelected()){
+                roomList = GeneralMethods.filterRoomByTeacher_only(roomList, true);
+            }
+
+            if(noCheckBoxTeacherOnly.isSelected()){
+                roomList = GeneralMethods.filterRoomByTeacher_only(roomList, false);
             }
 
             if(CapacityComboBox.getValue() != null){
