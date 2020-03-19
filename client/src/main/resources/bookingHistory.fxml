@@ -26,11 +26,11 @@
       </TableView>
    </center>
    <top>
-      <HBox prefWidth="900.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefWidth="1067.0" spacing="10.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="25.0" prefWidth="60.0" text="Back">
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="25.0" prefWidth="60.0" text="Back" textAlignment="CENTER">
                <HBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets />
                </HBox.margin>
             </Button>
             <Label alignment="CENTER" pickOnBounds="false" prefHeight="56.0" prefWidth="564.0" text="Booking History" textFill="#0ebaf8">
@@ -41,9 +41,9 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="signOut" mnemonicParsing="false" onAction="#signOutClicked" prefHeight="25.0" prefWidth="76.0" text="Sign Out">
+            <Button fx:id="signOut" mnemonicParsing="false" onAction="#signOutClicked" prefHeight="25.0" prefWidth="76.0" text="Sign Out" textAlignment="CENTER">
                <HBox.margin>
-                  <Insets right="10.0" top="10.0" />
+                  <Insets />
                </HBox.margin>
             </Button>
          </children>

@@ -24,7 +24,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-
+/**
+ * This controller class is invokes on the onclick of the newReservationButton/ editReservationButton
+ * in the AdminManageReservationViewController class.
+ * This controller class displays a dialog box for the admin to create/update reservations.
+ */
 public class ReservationEditDialogController {
 
     @FXML
@@ -48,6 +52,9 @@ public class ReservationEditDialogController {
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    /**
+     * Default constructor of the ReservationEditDialogController class.
+     */
     public ReservationEditDialogController() {
     }
 
@@ -61,6 +68,8 @@ public class ReservationEditDialogController {
         date.setConverter(getDateConverter());
         ObservableList<User> oL = User.getUserData();
         ObservableList<Room> ol = Room.getRoomData();
+
+        //This method sets up the slider which determines the time of reservation in the dialog view.
         configureRangeSlider();
         date.setDayCellFactory(getDayCellFactory());
 
@@ -87,6 +96,7 @@ public class ReservationEditDialogController {
         }
 
     }
+
 
     private Callback<DatePicker, DateCell> getDayCellFactory() {
         try {
@@ -202,6 +212,7 @@ public class ReservationEditDialogController {
 
                 @Override
                 public LocalDate fromString(String string) {
+                    // The date is formatted in yyyy-MM-dd format from the datePicker.
                     if (string != null && !string.trim().isEmpty()) {
                         return LocalDate.parse(string, formatter);
                     }

@@ -35,7 +35,9 @@ import java.util.concurrent.TimeUnit;
  * Controller class for the Room view (JavaFX)
  */
 public class RoomViewController implements Initializable {
-
+    /**
+     * These are the FXML elements that inject some functionality into the application.
+     */
     @FXML
     private Text name;
     @FXML
