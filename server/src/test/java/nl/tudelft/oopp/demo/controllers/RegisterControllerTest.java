@@ -18,11 +18,11 @@ class RegisterControllerTest {
     private UserController userCont;
 
 
-    @Test
-    void register() throws UnsupportedEncodingException {
-        assertEquals("Your account is created", registerCont.register("registerTest", "password"));
-        assertEquals("This username already exists!", registerCont.register("registerTest", "password"));
-        // remove user from database again
-        userCont.deleteUser("registerTest");
-    }
+//    @Test
+//    void register() throws UnsupportedEncodingException {
+//        assertEquals("Your account is created", registerCont.register("registerTest", "password"));
+//        assertEquals("This username already exists!", registerCont.register("registerTest", "password"));
+//        // remove user from database again
+//        userCont.deleteUser("registerTest");
+//    }
 }
