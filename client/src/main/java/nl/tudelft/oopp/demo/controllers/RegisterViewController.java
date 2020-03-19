@@ -14,6 +14,7 @@ import nl.tudelft.oopp.demo.views.RegisterView;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterViewController {
@@ -48,7 +49,9 @@ public class RegisterViewController {
         String passwordTxt = password.getText();
         String rePasswordTxt = rePassword.getText();
 
-        Pattern UpperCasePattern = Pattern.compile("[A-Z ]");
+        Pattern UpperCasePattern = Pattern.compile("[A-Z]");
+        Pattern characters = Pattern.compile("[!@#$%^&*`~<,>./?:;'{|+=_-]");
+        Pattern space = Pattern.compile(" ");
 
         /**
          *Checks whether the password username field is left empty or not.
@@ -83,6 +86,22 @@ public class RegisterViewController {
         }
         else if(!UpperCasePattern.matcher(passwordTxt).find()) {
             passwordLabel.setText("The password needs to have atleast 1 Upper Case letter !");
+            passwordLabel.setStyle("-fx-text-fill: red");
+        }
+        else if(space.matcher(usernameTxt).find()) {
+            usernameLabel.setText("The username is not allowed to have any spaces !");
+            usernameLabel.setStyle("-fx-text-fill: red");
+        }
+        else if(space.matcher(passwordTxt).find()) {
+            passwordLabel.setText("The username is not allowed to have any spaces !");
+            passwordLabel.setStyle("-fx-text-fill: red");
+        }
+        else if(characters.matcher(usernameTxt).find()) {
+            usernameLabel.setText("The username is not allowed to have any punctuations !");
+            usernameLabel.setStyle("-fx-text-fill: red");
+        }
+        else if(characters.matcher(passwordTxt).find()) {
+            passwordLabel.setText("The password is not allowed to have any punctuations !");
             passwordLabel.setStyle("-fx-text-fill: red");
         }
         /**
