@@ -99,4 +99,21 @@ public class ReservationServerCommunication {
         }
         return response.body();
     }
+
+    public static String getUserReservations(String username) throws UnsupportedEncodingException {
+        String params = "username=" + username;
+        params = GeneralMethods.encodeCommunication(params);
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getUserReservations?" + params)).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode() + response.body());
+        }
+        return response.body();
+    }
+
 }
