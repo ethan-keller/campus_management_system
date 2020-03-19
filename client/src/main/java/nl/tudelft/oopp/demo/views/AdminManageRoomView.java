@@ -1,19 +1,18 @@
 package nl.tudelft.oopp.demo.views;
 
-import java.io.IOException;
-import java.net.URL;
 import javafx.application.Application;
-import javafx.stage.Modality;
-import nl.tudelft.oopp.demo.controllers.RoomEditDialogController;
-import nl.tudelft.oopp.demo.entities.Room;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class AdminManageRoomView extends Application{
+import java.io.IOException;
+import java.net.URL;
 
-    public AdminManageRoomView(){}
+public class AdminManageRoomView extends Application {
+
+    public AdminManageRoomView(){
+    }
 
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();

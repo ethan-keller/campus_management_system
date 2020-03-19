@@ -32,23 +32,26 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) { this.username.set(username); }
-
-
+    public void setUsername(String username) {
+        this.username.set(username);
+    }
 
     public StringProperty getUserPassword() {
         return userPassword;
     }
 
-    public void setUserPassword(String userPassword) { this.userPassword.set(userPassword); }
-
+    public void setUserPassword(String userPassword) {
+        this.userPassword.set(userPassword);
+    }
 
 
     public IntegerProperty getUserType() {
         return userType;
     }
 
-    public void setUserType(int userType) { this.userType.set(userType); }
+    public void setUserType(int userType) {
+        this.userType.set(userType);
+    }
 
     /**
      * Convert server response into an ObservableList of rooms.
@@ -56,11 +59,11 @@ public class User {
     public static ObservableList<User> getUserData() throws JSONException {
         ObservableList<User> userData = FXCollections.observableArrayList();
         JSONArray jsonArrayUsers = new JSONArray(UserServerCommunication.getAllUsers());
-        for(int i=0; i<jsonArrayUsers.length(); i++){
+        for (int i = 0; i < jsonArrayUsers.length(); i++) {
             User u = new User();
-            u.setUsername(jsonArrayUsers.getJSONObject(i).getString("username") );
-            u.setUserPassword(jsonArrayUsers.getJSONObject(i).getString("password") );
-            u.setUserType(jsonArrayUsers.getJSONObject(i).getInt("type") );
+            u.setUsername(jsonArrayUsers.getJSONObject(i).getString("username"));
+            u.setUserPassword(jsonArrayUsers.getJSONObject(i).getString("password"));
+            u.setUserType(jsonArrayUsers.getJSONObject(i).getInt("type"));
             userData.add(u);
         }
         return userData;
