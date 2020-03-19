@@ -8,9 +8,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
+
 
 import java.io.IOException;
 
@@ -103,7 +105,7 @@ public class CancelBookingController {
         try {
             if(selectedIndex >= 0 ){
                 //TODO: Check that Reservation deletion was successful before displaying alert message.
-                AdminManageServerCommunication.deleteReservation(selectedReservation.getId().getValue());
+                ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
                 refresh();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Cancel Reservation");
