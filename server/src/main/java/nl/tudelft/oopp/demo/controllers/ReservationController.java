@@ -115,4 +115,21 @@ public class ReservationController {
         return null;
     }
 
+    /**
+     * Retrieves the reservations of the selected user.
+     * @param username the username of the selected user.
+     * @return
+     */
+    @GetMapping("getUserReservations")
+    @ResponseBody
+    public List<Reservations> getUserReservations(@RequestParam String username){
+        try{
+            return reservationsRepo.getUserReservations(username);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }
