@@ -124,11 +124,54 @@ public class SearchViewController implements Initializable {
         } catch (Exception e) {
         e.printStackTrace();
         }
+
+        //if a new filter is applied or an filter is removed filter again and load the cards again
+        BuildingComboBox.setOnAction(event -> {
+            try {
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        CapacityComboBox.setOnAction(event -> {
+            try {
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+
+        yesCheckBoxTeacherOnly.setOnAction(event -> {
+            try {
+                yesCheckBoxTeacherOnly.setSelected(true);
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        noCheckBoxTeacherOnly.setOnAction(event -> {
+            try {
+                yesCheckBoxTeacherOnly.setSelected(false);
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        searchBar.setOnKeyReleased(event -> {
+            try {
+                searchbarChanges();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void loadCards(){
-            //remove all the cards there are and load all rooms back in the roomlist to filter again
-            cardHolder.getChildren().clear();
+            //load all rooms back in the roomlist to filter again
             roomList = Room.getRoomData();
 
             //Check if there are any filters selected and if so filter the roomlist
@@ -174,51 +217,32 @@ public class SearchViewController implements Initializable {
 
                 roomList = GeneralMethods.filterRoomByCapacity(roomList, capMax, capMin);
             }
+            String searchBarInput = searchBar.getText();
+            List<Room> roomsToShow = GeneralMethods.filterBySearch(roomList, searchBarInput);
+
             //Load the cards that need to be shown
-            getCardsShown(roomList);
-
-            //if a new filter is applied or an filter is removed filter again and load the cards again
-            BuildingComboBox.setOnAction(event -> {
-                try {
-                    loadCards();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-        CapacityComboBox.setOnAction(event -> {
-            try {
-                loadCards();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
-
-        yesCheckBoxTeacherOnly.setOnAction(event -> {
-            try {
-                yesCheckBoxTeacherOnly.setSelected(true);
-                loadCards();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
-        noCheckBoxTeacherOnly.setOnAction(event -> {
-            try {
-                yesCheckBoxTeacherOnly.setSelected(false);
-                loadCards();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+            getCardsShown(roomsToShow);
 
     }
 
     public void getCardsShown(List<Room> roomList){
+        //Removes cards that are now in the view
+        cardHolder.getChildren().clear();
+
         // create a 'card' showing some information of the room, for every room
         for (Room r : roomList) {
             cardHolder.getChildren().add(createRoomCard(r));
+        }
+    }
+
+    public void searchbarChanges(){
+        String searchBarInput = searchBar.getText();
+        if(searchBarInput== ""){
+            loadCards();
+        }else {
+            List<Room> roomsToShow = GeneralMethods.filterBySearch(roomList, searchBarInput);
+            //Load the cards that need to be shown
+            getCardsShown(roomsToShow);
         }
     }
 

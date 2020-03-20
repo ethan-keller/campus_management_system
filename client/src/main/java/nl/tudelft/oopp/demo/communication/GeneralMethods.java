@@ -10,6 +10,7 @@ import nl.tudelft.oopp.demo.entities.Room;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GeneralMethods {
@@ -90,5 +91,21 @@ public class GeneralMethods {
         }
 
         return rooms;
+    }
+
+    public static List<Room> filterBySearch(ObservableList<Room> rooms, String input){
+        List<Room> res = new ArrayList<Room>();
+        for(int j = 0; j != rooms.size(); j++){
+            res.add(rooms.get(j));
+        }
+        input = input.toLowerCase();
+        for(int i = 0; i != res.size(); i++){
+            String name = res.get(i).getRoomName().toString().toLowerCase();
+            if(!name.contains(input)){
+                res.remove(res.get(i));
+                i--;
+            }
+        }
+        return res;
     }
 }
