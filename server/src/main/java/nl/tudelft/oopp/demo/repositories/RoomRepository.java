@@ -19,10 +19,10 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query(value = "SELECT * FROM room WHERE id = :id", nativeQuery = true)
     public Room getRoom(@Param("id") int id);
 
-    @Query(value = "SELECT room.* FROM room INNER JOIN building on room.building = building.id where building.name Like %:name%", nativeQuery = true)
+    @Query(value = "SELECT room.* FROM room INNER JOIN building on room.building = building.id where building.name LIKE %:name%", nativeQuery = true)
     public List<Room> getRoomByPartialBuildingName(@Param("name") String name);
 
-    @Query(value = "SELECT * FROM room WHERE name = %:name%", nativeQuery = true)
+    @Query(value = "SELECT * FROM room WHERE name LIKE %:name%", nativeQuery = true)
     public Room getRoomByPartialName(@Param("name") String name);
 
     @Modifying
