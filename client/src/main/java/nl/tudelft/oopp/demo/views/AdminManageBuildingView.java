@@ -4,19 +4,15 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.controllers.BuildingEditDialogController;
-import nl.tudelft.oopp.demo.controllers.RoomEditDialogController;
-import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Room;
 
 import java.io.IOException;
 import java.net.URL;
 
-public class AdminManageBuildingView extends Application{
+public class AdminManageBuildingView extends Application {
 
-    public AdminManageBuildingView(){}
+    public AdminManageBuildingView(){
+    }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -26,7 +22,7 @@ public class AdminManageBuildingView extends Application{
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
 
-            /**
+            /*
              * Making sure that the page doesn't resize when we switch between scenes
              */
             Scene oldScene = primaryStage.getScene();

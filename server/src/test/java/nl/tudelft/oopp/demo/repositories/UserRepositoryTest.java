@@ -3,41 +3,29 @@ package nl.tudelft.oopp.demo.repositories;
 import nl.tudelft.oopp.demo.entities.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
+@SpringBootTest
 class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepo;
 
     @Test
-    void getAllUsers() {
+    void testAllMethods() {
+        User us1 = new User("6testing", "4testing", 2);
+        userRepo.insertUser("6testing", "4testing", 2);
+        assertTrue(userRepo.getUser("6testing").equals(us1));
 
+        userRepo.updatePassword("6testing", "5testing");
+        User us2 = new User("6testing", "5testing", 2);
+        assertEquals(us2, userRepo.getUser("6testing"));
+
+        userRepo.deleteUser("6testing");
     }
 
-    @Test
-    void getUser() {
-
-    }
-
-    @Test
-    void insertUser() {
-
-    }
-
-    @Test
-    void deleteUser() {
-    }
-
-    @Test
-    void updatePassword() {
-    }
-
-    @Test
-    void updateType() {
-    }
 }

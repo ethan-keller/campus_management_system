@@ -3,15 +3,16 @@ package nl.tudelft.oopp.demo.entities;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Room {
     private IntegerProperty roomId;
     private StringProperty roomName;
     private IntegerProperty roomBuilding;
-    private BooleanProperty roomTeacher_only;
+    private BooleanProperty roomTeacherOnly;
     private IntegerProperty roomCapacity;
     private StringProperty roomPhoto;
     private StringProperty roomDescription;
@@ -21,7 +22,7 @@ public class Room {
         this.roomId = new SimpleIntegerProperty(-1);
         this.roomName = new SimpleStringProperty(null);
         this.roomBuilding = new SimpleIntegerProperty(-1);
-        this.roomTeacher_only = new SimpleBooleanProperty(false);
+        this.roomTeacherOnly = new SimpleBooleanProperty(false);
         this.roomCapacity = new SimpleIntegerProperty(-1);
         this.roomPhoto = new SimpleStringProperty(null);
         this.roomDescription = new SimpleStringProperty(null);
@@ -31,11 +32,14 @@ public class Room {
     /**
      * Constructor with some initial data.
      */
-    public Room(int roomId, String roomName, int roomBuilding, boolean roomTeacher_only, int roomCapacity, String roomPhoto, String roomDescription, String roomType) {
+    public Room(int roomId, String roomName,
+                int roomBuilding, boolean roomTeacherOnly,
+                int roomCapacity, String roomPhoto,
+                String roomDescription, String roomType) {
         this.roomId = new SimpleIntegerProperty(roomId);
         this.roomName = new SimpleStringProperty(roomName);
         this.roomBuilding = new SimpleIntegerProperty(roomBuilding);
-        this.roomTeacher_only = new SimpleBooleanProperty(roomTeacher_only);
+        this.roomTeacherOnly = new SimpleBooleanProperty(roomTeacherOnly);
         this.roomCapacity = new SimpleIntegerProperty(roomCapacity);
         this.roomPhoto = new SimpleStringProperty(roomPhoto);
         this.roomDescription = new SimpleStringProperty(roomDescription);
@@ -61,11 +65,11 @@ public class Room {
 
 
     public BooleanProperty getTeacher_only() {
-        return roomTeacher_only;
+        return roomTeacherOnly;
     }
 
-    public void setTeacher_only(boolean roomTeacher_only) {
-        this.roomTeacher_only.set(roomTeacher_only);
+    public void setTeacher_only(boolean roomTeacherOnly) {
+        this.roomTeacherOnly.set(roomTeacherOnly);
     }
 
 
@@ -119,7 +123,7 @@ public class Room {
      */
     public static ObservableList<Room> getRoomData() throws JSONException {
         ObservableList<Room> roomData = FXCollections.observableArrayList();
-        JSONArray jsonArrayRooms = new JSONArray(AdminManageServerCommunication.getAllRooms());
+        JSONArray jsonArrayRooms = new JSONArray(RoomServerCommunication.getAllRooms());
         for (int i = 0; i < jsonArrayRooms.length(); i++) {
             Room r = new Room();
             r.setRoomId(jsonArrayRooms.getJSONObject(i).getInt("id"));
@@ -133,6 +137,25 @@ public class Room {
             roomData.add(r);
         }
         return roomData;
+    }
+
+    public static Room getRoomById(int id) {
+        try {
+            JSONObject jsonObject = new JSONObject(RoomServerCommunication.getRoom(id));
+            Room r = new Room();
+            r.setRoomId(jsonObject.getInt("id"));
+            r.setRoomName(jsonObject.getString("name"));
+            r.setRoomBuilding(jsonObject.getInt("building"));
+            r.setTeacher_only(jsonObject.getBoolean("teacher_only"));
+            r.setRoomCapacity(jsonObject.getInt("capacity"));
+            r.setRoomPhoto(jsonObject.getString("photos"));
+            r.setRoomDescription(jsonObject.getString("description"));
+            r.setRoomType(jsonObject.getString("type"));
+            return r;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

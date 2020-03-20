@@ -22,9 +22,13 @@ public class RegisterController {
     private String secretKey;
 
     /**
-     * GET Endpoint to retrieve a random quote.
+     * Puts a new user into the database. /n
+     * UserType will be student.
      *
-     * @return randomly selected.
+     * @param username User-provided username (must be unique from existing ones).
+     * @param password User-provided password.
+     * @return Returns "nice" if everything works. /n Returns "This username already exists!" if the username was already taken.
+     * @throws UnsupportedEncodingException
      */
     @PostMapping("register")
     @ResponseBody
