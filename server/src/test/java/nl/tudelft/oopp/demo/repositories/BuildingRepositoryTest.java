@@ -15,17 +15,19 @@ class BuildingRepositoryTest {
 
     @Test
     void testAllMethods() {
-        buildingRepo.insertBuilding("4testing", 24, "4TestingStreet 34");
+        buildingRepo.insertBuilding("4testing", 24, "4TestingStreet 34", 4, 5);
         int id = buildingRepo.getBuildingByName("4testing").getId();
 
-        Building b1 = new Building(id, "4testing", 24, "4TestingStreet 34");
+        Building b1 = new Building(id, "4testing", 24, "4TestingStreet 34", 4, 5);
         assertEquals(b1, buildingRepo.getBuilding(id));
 
         buildingRepo.updateName(id, "5testing");
         buildingRepo.updateRoomCount(id, 25);
         buildingRepo.updateAddress(id, "5TestingStreet 34");
+        buildingRepo.updateAvailableBikes(id, 5);
+        buildingRepo.updateMaxBikes(id, 6);
 
-        Building b2 = new Building(id, "5testing", 25, "5TestingStreet 34");
+        Building b2 = new Building(id, "5testing", 25, "5TestingStreet 34", 5, 6);
         assertEquals(b2, buildingRepo.getBuilding(id));
         buildingRepo.deleteBuilding(id);
     }

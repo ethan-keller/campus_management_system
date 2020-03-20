@@ -118,8 +118,7 @@ public class BuildingController {
     @ResponseBody
     public List<Building> getAllBuildings(){
         try {
-            List<Building> test = buildingRepo.getAllBuildings();
-            return test;
+            return buildingRepo.getAllBuildings();
         } catch (Exception e){
             e.printStackTrace();
         }

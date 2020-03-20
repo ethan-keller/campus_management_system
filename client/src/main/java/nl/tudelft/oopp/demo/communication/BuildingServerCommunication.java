@@ -21,7 +21,6 @@ public class BuildingServerCommunication {
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode() + response.body());
         }
-        String test = response.body();
         return response.body();
     }
 
