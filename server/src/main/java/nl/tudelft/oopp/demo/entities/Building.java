@@ -74,7 +74,7 @@ public class Building {
     }
 
     /**
-     * Equals
+     * Equals.
      *
      * @param o An Object to be compared to "this".
      * @return True if o is the same object, false otherwise.

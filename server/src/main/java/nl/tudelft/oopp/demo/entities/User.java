@@ -1,11 +1,12 @@
 package nl.tudelft.oopp.demo.entities;
 
-import org.springframework.context.annotation.ComponentScan;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.springframework.context.annotation.ComponentScan;
 
 
 @Entity
@@ -65,7 +66,7 @@ public class User {
     }
 
     /**
-     * equals
+     * Equals.
      *
      * @param o The Object to compare to.
      * @return True if Object and "this" are the same, false otherwise

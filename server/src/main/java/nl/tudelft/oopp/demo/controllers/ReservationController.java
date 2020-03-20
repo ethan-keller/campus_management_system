@@ -58,8 +58,8 @@ public class ReservationController {
     @ResponseBody
     public void updateReservation(@RequestParam int id, @RequestParam String username,
                                   @RequestParam int room, @RequestParam String date,
-                                  @RequestParam String startingTime, @RequestParam String endingTime)
-                                    throws UnsupportedEncodingException {
+                                  @RequestParam String startingTime,
+                                  @RequestParam String endingTime) throws UnsupportedEncodingException {
 
         date = CommunicationMethods.decodeCommunication(date);
         startingTime = CommunicationMethods.decodeCommunication(startingTime);

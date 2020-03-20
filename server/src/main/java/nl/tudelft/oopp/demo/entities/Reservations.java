@@ -29,7 +29,7 @@ public class Reservations {
     }
 
     /**
-     * Builder
+     * Builder.
      *
      * @param id            int
      * @param username      String
@@ -37,7 +37,9 @@ public class Reservations {
      * @param startingTime String formatted like "". //TODO time format
      * @param endingTime   String formatted like "". //TODO time format
      */
-    public Reservations(int id, String username, int room, String date, String startingTime, String endingTime) {
+    public Reservations(int id, String username, int room, String date,
+                        String startingTime, String endingTime) {
+
         this.id = id;
         this.username = username;
         this.room = room;
@@ -102,7 +104,7 @@ public class Reservations {
     }
 
     /**
-     * equals
+     * equals.
      *
      * @param o The Object to compare to.
      * @return True if Object and "this" are the same, false otherwise
