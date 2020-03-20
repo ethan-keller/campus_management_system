@@ -29,8 +29,8 @@ public class LoginController {
      * @param username The user-provided username.
      * @param password The unencrypted user-provided password
      * @return Returns the user types when successful (admin, teacher, student).
-     * Returns "not_found" when username doesn't exist.
-     * Returns "wrong_password" when the password doesn't match.
+     *      Returns "not_found" when username doesn't exist.
+     *      Returns "wrong_password" when the password doesn't match.
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("login")

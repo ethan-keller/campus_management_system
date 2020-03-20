@@ -60,9 +60,10 @@ public class UserController {
                            @RequestParam int type) throws UnsupportedEncodingException {
         username = CommunicationMethods.decodeCommunication(username);
         password = CommunicationMethods.decodeCommunication(password);
+
         try {
-            String encrypted_pass = Hashing.hashIt(password);
-            userRepo.updatePassword(username, encrypted_pass);
+            String encryptedPass = Hashing.hashIt(password);
+            userRepo.updatePassword(username, encryptedPass);
             userRepo.updateType(username, type);
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,8 +80,11 @@ public class UserController {
      */
     @PostMapping("updateUser2")
     @ResponseBody
-    public void updateUser(@RequestParam String username, @RequestParam int type) throws UnsupportedEncodingException {
+    public void updateUser(@RequestParam String username,
+                           @RequestParam int type) throws UnsupportedEncodingException {
+
         username = CommunicationMethods.decodeCommunication(username);
+
         try {
             userRepo.updateType(username, type);
         } catch (Exception e) {
@@ -88,6 +92,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Removes a user from the database and all depending other entries.
+     *
+     * @param username A String containing the username.
+     * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
+     */
     @PostMapping("deleteUser")
     @ResponseBody
     public void deleteUser(@RequestParam String username) throws UnsupportedEncodingException {

@@ -50,7 +50,8 @@ public class BuildingController {
     @PostMapping("updateBuilding")
     @ResponseBody
     public void updateBuilding(@RequestParam int id, @RequestParam String name,
-                               @RequestParam int roomCount, @RequestParam String address) throws UnsupportedEncodingException {
+                               @RequestParam int roomCount, @RequestParam String address)
+                                throws UnsupportedEncodingException {
 
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);

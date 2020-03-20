@@ -50,15 +50,16 @@ public class ReservationController {
      * @param id           The reservation being updated.
      * @param room         The new value for room.
      * @param date         The new value for date. //TODO date-format
-     * @param startingTime The new value for starting_time. //TODO time-format
-     * @param endingTime   The new value for ending_time. //TODO time-format
+     * @param startingTime The new value for startingTime. //TODO time-format
+     * @param endingTime   The new value for endingTime. //TODO time-format
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("updateReservation")
     @ResponseBody
     public void updateReservation(@RequestParam int id, @RequestParam String username,
-                                  @RequestParam int room, @RequestParam String date, @RequestParam String startingTime,
-                                  @RequestParam String endingTime) throws UnsupportedEncodingException {
+                                  @RequestParam int room, @RequestParam String date,
+                                  @RequestParam String startingTime, @RequestParam String endingTime)
+                                    throws UnsupportedEncodingException {
 
         date = CommunicationMethods.decodeCommunication(date);
         startingTime = CommunicationMethods.decodeCommunication(startingTime);

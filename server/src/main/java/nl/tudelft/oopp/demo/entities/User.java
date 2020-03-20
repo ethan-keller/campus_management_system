@@ -1,12 +1,12 @@
 package nl.tudelft.oopp.demo.entities;
 
 import org.springframework.context.annotation.ComponentScan;
-
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
+
 
 @Entity
 @Table(name = "user")
@@ -29,7 +29,7 @@ public class User {
      *
      * @param username String
      * @param password String (unencrypted)
-     * @param type     int, 0 = admin, 1 = teacher, 2 = student //TODO check if correct
+     * @param type     int, 0 = admin, 1 = teacher, 2 = student
      */
     public User(String username, String password, int type) {
         this.username = username;

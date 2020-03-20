@@ -13,8 +13,8 @@ public class Building {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "room_count")
-    private int room_count;
+    @Column(name = "roomCount")
+    private int roomCount;
 
     @Column(name = "address")
     private String address;
@@ -27,13 +27,13 @@ public class Building {
      *
      * @param id         int
      * @param name       String
-     * @param room_count int
+     * @param roomCount int
      * @param address    String //TODO exact format
      */
-    public Building(int id, String name, int room_count, String address) {
+    public Building(int id, String name, int roomCount, String address) {
         this.id = id;
         this.name = name;
-        this.room_count = room_count;
+        this.roomCount = roomCount;
         this.address = address;
     }
 
@@ -58,10 +58,10 @@ public class Building {
     /**
      * Retrieves the room count of the building from the database.
      *
-     * @return Returns the int value room_count.
+     * @return Returns the int value roomCount.
      */
     public int getRoom_count() {
-        return room_count;
+        return roomCount;
     }
 
     /**

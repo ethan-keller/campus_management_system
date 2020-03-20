@@ -33,13 +33,16 @@ public class RoomController {
      */
     @PostMapping("createRoom")
     @ResponseBody
-    public void createRoom(@RequestParam String name, @RequestParam int building, @RequestParam boolean teacherOnly,
-                           @RequestParam int capacity, @RequestParam String photos, @RequestParam String description,
+    public void createRoom(@RequestParam String name, @RequestParam int building,
+                           @RequestParam boolean teacherOnly, @RequestParam int capacity,
+                           @RequestParam String photos, @RequestParam String description,
                            @RequestParam String type) throws UnsupportedEncodingException {
+
         name = CommunicationMethods.decodeCommunication(name);
         photos = CommunicationMethods.decodeCommunication(photos);
         description = CommunicationMethods.decodeCommunication(description);
         type = CommunicationMethods.decodeCommunication(type);
+
         try {
             roomRepo.insertRoom(name, building, teacherOnly, capacity, photos, description, type);
         } catch (Exception e) {
@@ -65,7 +68,8 @@ public class RoomController {
     public void updateRoom(@RequestParam int id, @RequestParam String name,
                            @RequestParam int building, @RequestParam boolean teacherOnly,
                            @RequestParam int capacity, @RequestParam String photos,
-                           @RequestParam String description, @RequestParam String type) throws UnsupportedEncodingException {
+                           @RequestParam String description, @RequestParam String type)
+                            throws UnsupportedEncodingException {
 
         name = CommunicationMethods.decodeCommunication(name);
         photos = CommunicationMethods.decodeCommunication(photos);
