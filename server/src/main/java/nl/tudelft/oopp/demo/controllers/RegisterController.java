@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.UnsupportedEncodingException;
+
 import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
 import nl.tudelft.oopp.demo.encode_hash.Hashing;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
@@ -39,7 +40,7 @@ public class RegisterController {
 
         String encryptedPassword = Hashing.hashIt(password);
 
-        if(userRepo.getUser(username) == null) {
+        if (userRepo.getUser(username) == null) {
             userRepo.insertUser(username, encryptedPassword, 2);
             return "Your account is created";
         }

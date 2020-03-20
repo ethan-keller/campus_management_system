@@ -25,10 +25,10 @@ public class Building {
     /**
      * Constructor.
      *
-     * @param id int
-     * @param name String
+     * @param id         int
+     * @param name       String
      * @param room_count int
-     * @param address String //TODO exact format
+     * @param address    String //TODO exact format
      */
     public Building(int id, String name, int room_count, String address) {
         this.id = id;

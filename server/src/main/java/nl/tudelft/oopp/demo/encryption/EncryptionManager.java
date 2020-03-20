@@ -17,8 +17,7 @@ public class EncryptionManager {
      *
      * @param myKey The unconfigured key you want to use.
      */
-    public static void setKey(String myKey)
-    {
+    public static void setKey(String myKey) {
         MessageDigest sha = null;
         try {
             key = myKey.getBytes("UTF-8");
@@ -26,11 +25,9 @@ public class EncryptionManager {
             key = sha.digest(key);
             key = Arrays.copyOf(key, 16);
             secretKey = new SecretKeySpec(key, "AES");
-        }
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-        }
-        catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
@@ -39,20 +36,16 @@ public class EncryptionManager {
      * Encrypts a string using the provided secret key
      *
      * @param strToEncrypt The String you want to encrypt
-     * @param secret The encryption-key
+     * @param secret       The encryption-key
      * @return Returns the encrypted String.
      */
-    public static String encrypt(String strToEncrypt, String secret)
-    {
-        try
-        {
+    public static String encrypt(String strToEncrypt, String secret) {
+        try {
             setKey(secret);
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("Error while encrypting: " + e.toString());
         }
         return null;
@@ -62,7 +55,7 @@ public class EncryptionManager {
      * Decrypts a encrypted String.
      *
      * @param strToDecrypt The String you want to decrypt.
-     * @param secret The key used to encrypt.
+     * @param secret       The key used to encrypt.
      * @return The original String before encryption.
      */
     public static String decrypt(String strToDecrypt, String secret) {
@@ -71,8 +64,7 @@ public class EncryptionManager {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Error while decrypting: " + e.toString());
         }
         return null;

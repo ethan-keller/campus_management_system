@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+
 import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
@@ -19,9 +20,9 @@ public class BuildingController {
     /**
      * Adds a building to the database.
      *
-     * @param name The name of the building.
+     * @param name      The name of the building.
      * @param roomCount The amount of of rooms inside the building.
-     * @param address The address of the building. //TODO format of address!!
+     * @param address   The address of the building. //TODO format of address!!
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("createBuilding")
@@ -40,16 +41,17 @@ public class BuildingController {
     /**
      * Changes the existing building with the provided ID in the database with the provides parameters.
      *
-     * @param id The building ID, this is the building that is going to get changed.
-     * @param name The new name of the building
+     * @param id        The building ID, this is the building that is going to get changed.
+     * @param name      The new name of the building
      * @param roomCount the new room count of the building
-     * @param address the new address of the building //TODO add address format
+     * @param address   the new address of the building //TODO add address format
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding
      */
     @PostMapping("updateBuilding")
     @ResponseBody
-    public void updateBuilding(@RequestParam int id, @RequestParam String name, @RequestParam int roomCount,
-                               @RequestParam String address) throws UnsupportedEncodingException {
+    public void updateBuilding(@RequestParam int id, @RequestParam String name,
+                               @RequestParam int roomCount, @RequestParam String address) throws UnsupportedEncodingException {
+
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);
 
@@ -69,7 +71,7 @@ public class BuildingController {
      */
     @PostMapping("deleteBuilding")
     @ResponseBody
-    public void deleteBuilding(@RequestParam int id){
+    public void deleteBuilding(@RequestParam int id) {
         try {
             buildingRepo.deleteBuilding(id);
         } catch (Exception e) {
@@ -85,7 +87,7 @@ public class BuildingController {
      */
     @GetMapping("getBuilding")
     @ResponseBody
-    public Building getBuilding(@RequestParam int id){
+    public Building getBuilding(@RequestParam int id) {
         try {
             return buildingRepo.getBuilding(id);
         } catch (Exception e) {
@@ -95,14 +97,14 @@ public class BuildingController {
     }
 
     /**
-     * Returns the building with the provided name
+     * Returns the building with the provided name.
      *
      * @param name The name of the building you're trying to find.
-     * @return A Building in Json
+     * @return A Building in Json.
      */
     @GetMapping("getBuildingByName")
     @ResponseBody
-    public Building getBuildingByName(@RequestParam String name){
+    public Building getBuildingByName(@RequestParam String name) {
         try {
             return buildingRepo.getBuildingByName(name);
         } catch (Exception e) {

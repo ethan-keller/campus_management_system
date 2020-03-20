@@ -31,11 +31,11 @@ public class Reservations {
     /**
      * Builder
      *
-     * @param id int
-     * @param username String
-     * @param date String formatted like "". //TODO address format
+     * @param id            int
+     * @param username      String
+     * @param date          String formatted like "". //TODO address format
      * @param starting_time String formatted like "". //TODO time format
-     * @param ending_time String formatted like "". //TODO time format
+     * @param ending_time   String formatted like "". //TODO time format
      */
     public Reservations(int id, String username, int room, String date, String starting_time, String ending_time) {
         this.id = id;
@@ -70,7 +70,7 @@ public class Reservations {
      *
      * @return Returns the int room.
      */
-    public int getRoom(){
+    public int getRoom() {
         return room;
     }
 

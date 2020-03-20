@@ -37,14 +37,14 @@ public class Room {
     /**
      * Builder
      *
-     * @param id int
-     * @param name String
-     * @param building int
+     * @param id           int
+     * @param name         String
+     * @param building     int
      * @param teacher_only boolean
-     * @param capacity int
-     * @param photos String containing a URL/filepath
-     * @param description String
-     * @param type String (e.g. lecture hall)
+     * @param capacity     int
+     * @param photos       String containing a URL/filepath
+     * @param description  String
+     * @param type         String (e.g. lecture hall)
      */
     public Room(int id, String name, int building, boolean teacher_only, int capacity, String photos, String description, String type) {
         this.id = id;
@@ -80,7 +80,7 @@ public class Room {
      *
      * @return Returns the int building.
      */
-    public int getBuilding(){
+    public int getBuilding() {
         return building;
     }
 
@@ -98,7 +98,7 @@ public class Room {
      *
      * @return Returns the int capacity.
      */
-    public int getCapacity(){
+    public int getCapacity() {
         return capacity;
     }
 
@@ -107,7 +107,7 @@ public class Room {
      *
      * @return Returns the String photos.
      */
-    public String getPhotos(){
+    public String getPhotos() {
         return photos;
     }
 
@@ -116,7 +116,7 @@ public class Room {
      *
      * @return Returns the String description.
      */
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 

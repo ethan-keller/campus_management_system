@@ -63,7 +63,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Transactional
     @Query(value = "DELETE FROM room WHERE id = :id", nativeQuery = true)
     public void deleteRoom(@Param("id") int id);
-    
+
     @Query(value = "SELECT * FROM room WHERE building = :BuildingId", nativeQuery = true)
     public Room getRoomByBuilding(@Param("BuildingId") int BuildingId);
 
