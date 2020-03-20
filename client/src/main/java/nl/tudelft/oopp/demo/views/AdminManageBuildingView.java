@@ -4,41 +4,40 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.controllers.BuildingEditDialogController;
-import nl.tudelft.oopp.demo.controllers.RoomEditDialogController;
-import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Room;
 
 import java.io.IOException;
 import java.net.URL;
 
-public class AdminManageBuildingView extends Application{
+public class AdminManageBuildingView extends Application {
 
-    public AdminManageBuildingView(){}
+    public AdminManageBuildingView(){
+    }
 
-    @Override
     public void start(Stage primaryStage) throws IOException {
+
         try {
             FXMLLoader loader = new FXMLLoader();
             URL xmlUrl = getClass().getResource("/adminManageBuildingView.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
 
-            /**
+            /*
              * Making sure that the page doesn't resize when we switch between scenes
              */
             Scene oldScene = primaryStage.getScene();
             primaryStage.setScene(oldScene == null
                     ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                     : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
+            primaryStage.setMinHeight(400);
+            primaryStage.setMinWidth(710);
             primaryStage.show();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     public static void main(String[] args) {
         launch(args);

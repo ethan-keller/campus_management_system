@@ -4,10 +4,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.AdminManageServerCommunication;
+import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
@@ -82,8 +84,9 @@ public class AdminManageBuildingViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
+
                 // TODO: Check that building deletion was succesful before displaying alert
-                AdminManageServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
+                BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
                 refresh();
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Delete building");
@@ -115,8 +118,9 @@ public class AdminManageBuildingViewController {
             view.start(stage);
             Building tempBuilding = BuildingEditDialogController.building;
             if (tempBuilding == null) return;
+
             // TODO: Check that building creation was succesful before displaying alert
-            AdminManageServerCommunication.createBuilding(tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoom_count().get(), tempBuilding.getBuildingAddress().get());
+            BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoom_count().get(), tempBuilding.getBuildingAddress().get());
             refresh();
 
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -146,8 +150,9 @@ public class AdminManageBuildingViewController {
                 Building tempBuilding = BuildingEditDialogController.building;
 
                 if (tempBuilding == null) return;
-                // TODO: Check that building edit was succesful before displaying alert
-                AdminManageServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(), tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoom_count().get(), tempBuilding.getBuildingAddress().get());
+
+                // TODO: Check that building edit was successful before displaying alert
+                BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(), tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoom_count().get(), tempBuilding.getBuildingAddress().get());
                 refresh();
 
                 Alert alert = new Alert(AlertType.INFORMATION);

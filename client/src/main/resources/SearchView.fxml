@@ -129,6 +129,11 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                         </TextField>
+                        <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#signOutButtonClicked" text="Sign Out">
+                           <HBox.margin>
+                              <Insets left="10.0" top="20.0" />
+                           </HBox.margin>
+                        </Button>
                      </HBox>
                      <ScrollPane fx:id="scrollPane" layoutY="68.0" prefHeight="470.0" prefWidth="687.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="68.0">
                         <content>

@@ -28,7 +28,10 @@ public class RoomEditDialogView extends Application {
             Scene scene = new Scene(root);
             dialogStage.setScene(scene);
             dialogStage.setResizable(false);
-            dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> RoomEditDialogController.room = null);
+            dialogStage.getScene().getWindow().addEventFilter(
+                    WindowEvent.WINDOW_CLOSE_REQUEST,
+                    event -> RoomEditDialogController.room = null
+            );
 
             // Set the dialog stage properties
             dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -42,7 +45,7 @@ public class RoomEditDialogView extends Application {
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
     }
 }
