@@ -10,6 +10,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.RoomView;
 import java.io.IOException;
 import java.net.URL;
@@ -40,6 +42,8 @@ public class ReserveAndRentController implements Initializable {
     public static String startTime;
     public static String endTime;
     public static String RoomFood;
+    private static Room currentRoom;
+    public static int currentRoomId;
 
 
     /**
@@ -65,7 +69,7 @@ public class ReserveAndRentController implements Initializable {
         startingTime.setText(startTime);
         endingTime.setText(endTime);
         food.setText(RoomFood);
-
+        currentRoom = Room.getRoomById(currentRoomId);
 
     }
 
@@ -74,19 +78,16 @@ public class ReserveAndRentController implements Initializable {
      */
     @FXML
     private void reserveNowClicked(ActionEvent event) {
-        int selectedBike = spinner.getValue();
-        Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "+selectedBike+" bikes"+"?" , ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
-        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+        ReservationConfirmationViewController.room = currentRoom;
+        ReservationConfirmationViewController.date = RoomDate;
+        ReservationConfirmationViewController.startTime = startTime;
+        ReservationConfirmationViewController.endTime = endTime;
+        ReservationConfirmationViewController.bikes=spinner.getValue();
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.isEmpty()){
-        }
-        else if(result.get() == ButtonType.OK){
-            //Return values to the server
-        }
-        else if(result.get()==ButtonType.CANCEL){
-        }
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        ReservationConfirmationView rcv = new ReservationConfirmationView();
+        rcv.start(stage);
     }
 
 

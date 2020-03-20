@@ -383,6 +383,8 @@ public class SearchViewController implements Initializable {
 
             // set the currentRoomID such that the RoomView controller knows which room to show information from
             RoomViewController.currentRoomId = roomId;
+            ReserveAndRentController.currentRoomId=roomId;
+            RentBikesController.currentRoomId=roomId;
 
             // load RoomView
             RoomView rv = new RoomView();

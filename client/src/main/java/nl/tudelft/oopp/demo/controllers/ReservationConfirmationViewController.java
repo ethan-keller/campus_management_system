@@ -24,6 +24,7 @@ public class ReservationConfirmationViewController implements Initializable {
     public static String date;
     public static String startTime;
     public static String endTime;
+    public static int bikes = 0;
 
     // confirmation state
     public static boolean confirmed = false;
@@ -39,9 +40,16 @@ public class ReservationConfirmationViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // TODO: add food choice into confirmation text
-        confirmationText.setText("You (" + CurrentUserManager.getUsername() + ") would like to book the " + room.getRoomName().get() + " on " +
-                date + " from " + startTime + " until " + endTime + ". Would you like to confirm that?");
-    };
+        if (bikes == 0) {
+            confirmationText.setText("You (" + CurrentUserManager.getUsername() + ") would like to book the " + room.getRoomName().get() + " on " +
+                    date + " from " + startTime + " until " + endTime + ". Would you like to confirm that?");
+        } else {
+            confirmationText.setText("You (" + CurrentUserManager.getUsername() + ") would like to book the " + room.getRoomName().get() + " on " +
+                    date + " from " + startTime + " until " + endTime + " and " + bikes + " bikes. Would you like to confirm that?");
+        }
+    }
+
+    ;
 
     @FXML
     private void confirmClicked(ActionEvent event) {

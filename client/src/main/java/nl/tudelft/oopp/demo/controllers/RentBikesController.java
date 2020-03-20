@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,6 +17,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.SearchView;
 
 import java.io.IOException;
@@ -43,6 +46,8 @@ public class RentBikesController implements Initializable {
     private Text BuildingError;
     @FXML
     private Spinner<Integer> spinner;
+    private static Room currentRoom;
+    public static int currentRoomId;
 
     /**
      * deal with the button clicking action
@@ -74,6 +79,13 @@ public class RentBikesController implements Initializable {
         BuildingError.setVisible(false);
 
         configureDatePicker();
+
+        currentRoom = Room.getRoomById(currentRoomId);
+
+
+        //Building b = Building.getBuildingById(currentRoom.getRoomBuilding().get());
+
+        //capacity.setText("Available bikes: "+b.getBuildingBike_count());
 
     }
 

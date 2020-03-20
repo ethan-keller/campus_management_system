@@ -97,7 +97,7 @@
                 </VBox>
                 <VBox fx:id="reservationVbox" alignment="TOP_CENTER" layoutX="519.0" prefHeight="507.0" prefWidth="209.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <Text fill="#0ebaf8" strokeType="OUTSIDE" strokeWidth="0.0" text="Make a reservation">
+                        <Text fill="#0ebaf8" strokeType="OUTSIDE" strokeWidth="0.0" text="Reserve a bike">
                             <font>
                                 <Font name="System Bold" size="19.0" />
                             </font>
@@ -128,7 +128,7 @@
                                         </Spinner>
                                     </children>
                                 </HBox>
-                                <Text fx:id="BikesUnselectedError" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select the the number of Bikes" />
+                                <Text fx:id="BikesUnselectedError" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select the number of Bikes" />
                             </children>
                         </VBox>
                         <Button fx:id="reserveBike" mnemonicParsing="false" onAction="#reserveNowClicked" prefHeight="34.0" prefWidth="105.0" style="-fx-background-color: #0ebaf8; -fx-background-radius: 17;" text="Reserve Now!!" textFill="WHITE" />

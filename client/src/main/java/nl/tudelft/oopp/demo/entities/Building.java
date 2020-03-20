@@ -66,6 +66,7 @@ public class Building {
     public void setBuildingAddress(String buildingAddress) { this.buildingAddress.set(buildingAddress); }
 
 
+
     /**
      * Convert server response into an ObservableList of rooms.
      */

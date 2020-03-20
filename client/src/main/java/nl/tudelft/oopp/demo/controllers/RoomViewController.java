@@ -19,12 +19,10 @@ import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.views.RentBikesView;
-import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
-import nl.tudelft.oopp.demo.views.ReserveAndRentView;
-import nl.tudelft.oopp.demo.views.SearchView;
+import nl.tudelft.oopp.demo.views.*;
 import org.controlsfx.control.RangeSlider;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -462,47 +460,24 @@ public class RoomViewController implements Initializable {
         return false;
     }
 
-    public void BookBikeClicked(ActionEvent event){
-        try {
-            // TODO: add food selection
-            String selectedDate;
-            String selectedStartTime;
-            String selectedEndTime;
-            String selectedFood;
-
-            // input is valid, assign corresponding values
-            if (isInputValid()) {
-                selectedDate = getDatePickerConverter().toString(datePicker.getValue());
-                selectedStartTime = getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
-                selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
-                selectedFood=food_choice.getValue();
-
-                // if user confirms booking, reservations is sent to server
-                if (confirmBooking(selectedDate, selectedStartTime, selectedEndTime)) {
-                    //set values in variables of ReserveAndRentController
-                    ReserveAndRentController.RoomDate= selectedDate;
-                    ReserveAndRentController.startTime= selectedStartTime;
-                    ReserveAndRentController.endTime= selectedEndTime;
-                    ReserveAndRentController.RoomFood=selectedFood;
-
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-                    ReserveAndRentView rarv = new ReserveAndRentView();
-                    rarv.start(stage);
+    public void BookBikeClicked(ActionEvent event) throws IOException {
 
 
-                }
-            } else {
-                // create error Alert
-                Alert alert = GeneralMethods.createAlert("fields incomplete", "Please fill in all the fields", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.ERROR);
-                alert.showAndWait();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            // create error Alert
-            Alert alert = GeneralMethods.createAlert("Something went wrong", "Sorry, something went wrong on our end. We're fixing it now!", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.ERROR);
-            alert.showAndWait();
-        }
+        String selectedDate = getDatePickerConverter().toString(datePicker.getValue());
+        String selectedStartTime = getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
+        String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
+        String selectedFood=food_choice.getValue();
+
+        ReserveAndRentController.RoomDate= selectedDate;
+        ReserveAndRentController.startTime= selectedStartTime;
+        ReserveAndRentController.endTime= selectedEndTime;
+        ReserveAndRentController.RoomFood=selectedFood;
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        ReserveAndRentView rarv = new ReserveAndRentView();
+        rarv.start(stage);
+
     }
 
 
