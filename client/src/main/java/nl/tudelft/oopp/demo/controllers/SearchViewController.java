@@ -21,9 +21,11 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.RoomView;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpRequest;
@@ -31,6 +33,7 @@ import java.net.http.HttpResponse;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -170,7 +173,7 @@ public class SearchViewController implements Initializable {
         });
     }
 
-    public void loadCards(){
+    public void loadCards() throws UnsupportedEncodingException {
             //load all rooms back in the roomlist to filter again
             roomList = Room.getRoomData();
 
@@ -217,8 +220,46 @@ public class SearchViewController implements Initializable {
 
                 roomList = GeneralMethods.filterRoomByCapacity(roomList, capMax, capMin);
             }
-            String searchBarInput = searchBar.getText();
-            List<Room> roomsToShow = GeneralMethods.filterBySearch(roomList, searchBarInput);
+
+            if(datePicker.getValue() != null) {
+                ObservableList<Reservation> reservations = Reservation.getReservation();
+                List<Integer> roomsWithDate = new ArrayList<Integer>();
+                String date = datePicker.getValue().toString();
+                for(int i = 0; i != reservations.size(); i++){
+                    if(!reservations.get(i).getDate().getValue().equals(date)){
+                        reservations.remove(i);
+                    }else{
+                        if(!roomsWithDate.contains(reservations.get(i).getRoom().getValue())){
+                            roomsWithDate.add(reservations.get(i).getRoom().getValue());
+                        }
+                    }
+                }
+//                List<Room> roomToShowTemp = new ArrayList<Room>();
+//                for(int j = 0; j != roomsWithDate.size(); j++){
+//                    roomListTemp.add(roomsToShow.get(roomsWithDate.get(j)))
+//                }
+                int totalHoursAvailable;
+                for(int q = 0; q != roomsWithDate.size(); q++){
+                    totalHoursAvailable = 16;
+                    for(int z = 0; z != reservations.size(); q++){
+                        if(reservations.get(z).getRoom().getValue() == roomsWithDate.get(q)){
+                            int starting = Integer.parseInt(reservations.get(z).getStarting_time().getValue().substring(0 , 1));
+                            int ending = Integer.parseInt(reservations.get(z).getEnding_time().getValue().substring(0 , 1));
+                            totalHoursAvailable = totalHoursAvailable + starting - ending;
+                        }
+                    }
+                    if(totalHoursAvailable == 0){
+                        for(int y = 0; y != roomList.size(); y++){
+                            if(roomList.get(y).getRoomId().getValue() == roomsWithDate.get(q)){
+                                roomList.remove(y);
+                            }
+                        }
+                    }
+                }
+            }
+
+        String searchBarInput = searchBar.getText();
+        List<Room> roomsToShow = GeneralMethods.filterBySearch(roomList, searchBarInput);
 
             //Load the cards that need to be shown
             getCardsShown(roomsToShow);
@@ -235,7 +276,7 @@ public class SearchViewController implements Initializable {
         }
     }
 
-    public void searchbarChanges(){
+    public void searchbarChanges() throws UnsupportedEncodingException {
         String searchBarInput = searchBar.getText();
         if(searchBarInput== ""){
             loadCards();
