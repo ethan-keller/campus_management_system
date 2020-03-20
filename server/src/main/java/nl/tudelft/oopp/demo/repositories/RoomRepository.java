@@ -18,9 +18,12 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Query(value = "SELECT * FROM room WHERE id = :id", nativeQuery = true)
     public Room getRoom(@Param("id") int id);
-    
-    @Query(value = "SELECT room.id, room.building, room.teacher_only, room.capacity, room.photos, room.description, room.type FROM room, (SELECT * FROM building WHERE building.name = :name) As roombuilding WHERE roombuilding.id = room.building", nativeQuery = true)
-    public List<Room> getRoomByBuildingName(@Param("name") String name);
+
+    @Query(value = "SELECT room.* FROM room INNER JOIN building on room.building = building.id where building.name Like %:name%", nativeQuery = true)
+    public List<Room> getRoomByPartialBuildingName(@Param("name") String name);
+
+    @Query(value = "SELECT * FROM room WHERE name = %:name%", nativeQuery = true)
+    public Room getRoomByPartialName(@Param("name") String name);
 
     @Modifying
     @Transactional
@@ -66,7 +69,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Transactional
     @Query(value = "DELETE FROM room WHERE id = :id", nativeQuery = true)
     public void deleteRoom(@Param("id") int id);
-    
+
     @Query(value = "SELECT * FROM room WHERE building = :BuildingId", nativeQuery = true)
     public Room getRoomByBuilding(@Param("BuildingId") int BuildingId);
 
