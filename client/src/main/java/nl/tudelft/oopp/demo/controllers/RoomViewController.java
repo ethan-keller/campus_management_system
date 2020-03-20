@@ -53,7 +53,7 @@ public class RoomViewController implements Initializable {
     @FXML
     private Text description;
     @FXML
-    private ComboBox food_choice;
+    private ComboBox<String> food_choice;
     @FXML
     private Button bookButton;
     @FXML
@@ -466,12 +466,14 @@ public class RoomViewController implements Initializable {
             String selectedDate;
             String selectedStartTime;
             String selectedEndTime;
+            String selectedFood;
 
             // input is valid, assign corresponding values
             if (isInputValid()) {
                 selectedDate = getDatePickerConverter().toString(datePicker.getValue());
                 selectedStartTime = getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
                 selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
+                selectedFood=food_choice.getValue();
 
                 // if user confirms booking, reservations is sent to server
                 if (confirmBooking(selectedDate, selectedStartTime, selectedEndTime)) {
@@ -479,6 +481,7 @@ public class RoomViewController implements Initializable {
                     ReserveAndRentController.RoomDate= selectedDate;
                     ReserveAndRentController.startTime= selectedStartTime;
                     ReserveAndRentController.endTime= selectedEndTime;
+                    ReserveAndRentController.RoomFood=selectedFood;
 
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

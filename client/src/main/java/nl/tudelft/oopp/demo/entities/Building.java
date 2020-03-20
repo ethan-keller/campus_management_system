@@ -99,4 +99,10 @@ public class Building {
         return null;
     }
 
+    public String toString(){
+        return getBuildingName().get();
+    }
+
+
+
 }

@@ -44,14 +44,6 @@
                                 <Insets left="20.0" />
                             </VBox.margin>
                         </Text>
-                        <Text fx:id="building" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily rate: €4.50">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets left="20.0" />
-                            </VBox.margin>
-                        </Text>
                     </children>
                 </VBox>
                 <Button layoutX="15.0" layoutY="465.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="26.0" prefWidth="87.0" style="-fx-background-color: #1473d2;" text="Back" textFill="WHITE" AnchorPane.bottomAnchor="15.79999999999999" AnchorPane.leftAnchor="15.0" />
@@ -70,6 +62,11 @@
                         </ImageView>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
+                        <Text fill="#0ebaf8" strokeType="OUTSIDE" strokeWidth="0.0" text="Room Reservation">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Text>
                         <Text fill="#0ebaf8" strokeType="OUTSIDE" strokeWidth="0.0" text="Date">
                            <font>
                               <Font size="14.0" />
@@ -81,13 +78,19 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="13.0" prefWidth="503.0">
                            <children>
                               <Text fx:id="startingTime" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="  -   " />
                               <Text fx:id="endingTime" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                            </children>
                         </HBox>
+                        <Text fill="#0ebaf8" strokeType="OUTSIDE" strokeWidth="0.0" text="Food">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="food" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                      </children>
                   </VBox>
                     </children>

@@ -46,14 +46,6 @@
                                 <Insets left="20.0" />
                             </VBox.margin>
                         </Text>
-                        <Text fx:id="building" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily rate: €4.50">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets left="20.0" />
-                            </VBox.margin>
-                        </Text>
                     </children>
                 </VBox>
                 <Button layoutX="15.0" layoutY="465.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="26.0" prefWidth="87.0" style="-fx-background-color: #1473d2;" text="Back" textFill="WHITE" AnchorPane.bottomAnchor="15.79999999999999" AnchorPane.leftAnchor="15.0" />
@@ -100,7 +92,6 @@
                         <StackPane prefHeight="16.0" prefWidth="210.0">
                            <children>
                                       <Text fx:id="BuildingError" fill="#ed0d0d" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select Building" />
-                              <Text fx:id="BuildingError1" fill="#ed0d0d" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select Building" />
                            </children>
                         </StackPane>
                             </children>

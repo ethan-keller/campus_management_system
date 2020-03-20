@@ -1,24 +1,20 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Spinner;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.views.RentBikesView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
 import java.io.IOException;
@@ -26,38 +22,31 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class RentBikesController implements Initializable {
-    @FXML
-    private VBox roomDetailsVbox;
     @FXML
     private Text name;
     @FXML
     private Text capacity;
     @FXML
-    private Text building;
-    @FXML
     private ImageView image;
-    @FXML
-    private VBox reservationVbox;
     @FXML
     private DatePicker datePicker;
     @FXML
     private Text dateError;
     @FXML
-    private Text startTime;
-    @FXML
-    private Text endTime;
-    @FXML
-    private ComboBox<StringProperty> ComboBuilding;
+    private ComboBox<String> ComboBuilding;
     @FXML
     private Text BuildingError;
     @FXML
     private Spinner<Integer> spinner;
-    @FXML
-    private Text BikesUnselectedError;
 
+    /**
+     * deal with the button clicking action
+     */
     @FXML
     private void backButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -66,16 +55,18 @@ public class RentBikesController implements Initializable {
         sv.start(stage);
     }
 
+    /**
+     *Sets default values to populate the options
+     */
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources){
         ObservableList<Building> buildingList = Building.getBuildingData();
 
-        ObservableList<StringProperty> bList;
+        ObservableList<String> bList;
         bList = FXCollections.observableArrayList();
-        for(int i = 0; i<buildingList.size(); i++){
-            Building b = buildingList.get(i);
-            bList.add(b.getBuildingName());
+        for (Building b : buildingList) {
+            bList.add(b.toString());
         }
         ComboBuilding.setItems(bList);
 
@@ -86,31 +77,71 @@ public class RentBikesController implements Initializable {
 
     }
 
+    /**
+     * Checks whether if all the fields were filled in
+     */
     public int isInputValid(){
-        if(datePicker.getValue()==null){
+        if(datePicker.getValue()==null&&ComboBuilding.getSelectionModel().getSelectedItem() == null){
             return 1;
         }
-        if(ComboBuilding.getSelectionModel().getSelectedItem() == null){
+        else if(ComboBuilding.getSelectionModel().getSelectedItem() == null){
             return 2;
         }
-        else{
+        else if(datePicker.getValue()==null){
             return 3;
         }
-    }
-
-    @FXML
-    private void reserveNowClicked(ActionEvent event) throws IOException {
-        if(isInputValid()==1){
-            dateError.setVisible(true);
-        }
-        if(isInputValid()==2){
-            BuildingError.setVisible(true);
-        }
         else{
-            System.out.println("ferfe");
+            return 4;
         }
     }
 
+    /**
+     * Deals with reserve now button clicks
+     */
+    @FXML
+    private void reserveNowClicked(ActionEvent event) {
+
+            if(isInputValid()==1){
+                dateError.setVisible(true);
+                BuildingError.setVisible(true);
+            }
+            if(isInputValid()==2){
+                BuildingError.setVisible(true);
+            }
+            if(isInputValid()==3){
+                dateError.setVisible(true);
+            }
+            if(isInputValid()==4){
+
+                String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
+                int selectedBike = spinner.getValue();
+                String selectedBuilding = ComboBuilding.getValue();
+
+                Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "+selectedBike+" bikes" +
+                        " from "+selectedBuilding+" on "+selectedDate+"?" , ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+                assert alert != null;
+                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.isEmpty()){
+                }
+                else if(result.get() == ButtonType.OK){
+                    //Return values to the server
+                }
+                else if(result.get()==ButtonType.CANCEL){
+                }
+            }
+        }
+
+
+
+    /**
+     * Create cellFactory for the datePicker that disables all days before today and weekend days.
+     * It also marks them red to make sure the user understands why they are disabled.
+     *
+     * @return a CallBack object used to set the dayCellFactory for the datePicker in {@link #configureDatePicker()}
+     */
     private Callback<DatePicker, DateCell> getDayCellFactory() {
         try {
             final Callback<DatePicker, DateCell> dayCellFactory = new Callback<>() {
@@ -140,6 +171,10 @@ public class RentBikesController implements Initializable {
         return null;
     }
 
+    /**
+     * Methods that sets the dayCellFactory made in {@link #getDayCellFactory()}
+     * and the StringConverter made in {@link #getDatePickerConverter()}
+     */
     private void configureDatePicker() {
         try {
             // factory to create cell of DatePicker
@@ -155,12 +190,17 @@ public class RentBikesController implements Initializable {
         }
     }
 
+    /**
+     * Creates a StringConverter that converts the selected value to a usable Date (in String format).
+     *
+     * @return a StringConverter object
+     */
     private StringConverter<LocalDate> getDatePickerConverter() {
         try {
-            return new StringConverter<LocalDate>() {
+            return new StringConverter<>() {
                 // set the wanted pattern (format)
-                String pattern = "yyyy-MM-dd";
-                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+                final String pattern = "yyyy-MM-dd";
+                final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
 
                 {
                     // set placeholder text for the datePicker

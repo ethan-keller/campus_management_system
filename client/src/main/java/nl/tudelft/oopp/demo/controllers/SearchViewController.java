@@ -367,6 +367,10 @@ public class SearchViewController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Deals with Rent a Bike button clicks
+     */
     @FXML
     private void RentABikeClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
