@@ -7,31 +7,27 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import nl.tudelft.oopp.demo.controllers.RoomEditDialogController;
+import nl.tudelft.oopp.demo.controllers.BookingEditDialogController;
 
 import java.net.URL;
 
-public class RoomEditDialogView extends Application {
-
+public class BookingEditDialogView extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            URL xmlUrl = getClass().getResource("/roomEditDialog.fxml");
+            URL xmlUrl = getClass().getResource("/bookingEditDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Building");
+            dialogStage.setTitle("Edit Reservation");
             Scene scene = new Scene(root);
             dialogStage.setScene(scene);
             dialogStage.setResizable(false);
-            dialogStage.getScene().getWindow().addEventFilter(
-                    WindowEvent.WINDOW_CLOSE_REQUEST,
-                    event -> RoomEditDialogController.room = null
-            );
+            dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> BookingEditDialogController.reservation = null);
 
             // Set the dialog stage properties
             dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -45,7 +41,7 @@ public class RoomEditDialogView extends Application {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         launch(args);
     }
 }

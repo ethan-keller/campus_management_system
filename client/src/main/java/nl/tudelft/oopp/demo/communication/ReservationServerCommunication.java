@@ -10,7 +10,7 @@ public class ReservationServerCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
 
     public static boolean createReservation(String username, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
-        String params = "username="+username+"&room="+room+"&date="+date+"&starting_time="+starting_time+"ending_time="+ending_time;
+        String params = "username="+username+"&room="+room+"&date="+date+"&starting_time="+starting_time+"&ending_time="+ending_time;
         params = GeneralMethods.encodeCommunication(params);
 
 
@@ -30,7 +30,7 @@ public class ReservationServerCommunication {
     }
 
     public static boolean updateReservation(int id, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
-        String params = "id="+id+"&room="+room+"&date="+date+"&starting_time="+starting_time+"ending_time="+ending_time;
+        String params = "id="+id+"&room="+room+"&date="+date+"&starting_time="+starting_time+"&ending_time="+ending_time;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateReservation?"+params)).build();
@@ -99,4 +99,21 @@ public class ReservationServerCommunication {
         }
         return response.body();
     }
+
+    public static String getUserReservations(String username) throws UnsupportedEncodingException {
+        String params = "username=" + username;
+        params = GeneralMethods.encodeCommunication(params);
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getUserReservations?" + params)).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode() + response.body());
+        }
+        return response.body();
+    }
+
 }

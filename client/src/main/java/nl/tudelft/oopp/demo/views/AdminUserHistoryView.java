@@ -9,12 +9,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class RegisterView extends Application {
+public class AdminUserHistoryView extends Application {
+    public AdminUserHistoryView(){}
 
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        URL xmlUrl = getClass().getResource("/registerView.fxml");
+        URL xmlUrl = getClass().getResource("/adminUserHistoryView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
 
@@ -25,9 +26,8 @@ public class RegisterView extends Application {
         primaryStage.show();
     }
 
+
     public static void main(String[] args) {
         launch(args);
     }
-
 }
-
