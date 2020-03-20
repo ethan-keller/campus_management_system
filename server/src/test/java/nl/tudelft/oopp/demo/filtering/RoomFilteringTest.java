@@ -42,11 +42,4 @@ class RoomFilteringTest {
         rooms = RoomFiltering.filterRooms(rooms, 23, false, 20);
         assertEquals(rooms2, rooms);
     }
-
-//    @Test
-//    void filterRooms2(){
-//        List<Room> rooms = roomRepo.getAllRooms();
-//        rooms = RoomFiltering.filterRooms(rooms, 11, true, 1);
-//        assertEquals(3, rooms.size());
-//    }
 }
