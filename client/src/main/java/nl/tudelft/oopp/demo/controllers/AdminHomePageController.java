@@ -4,36 +4,38 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.views.AdminHomePageView;
-import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
-import nl.tudelft.oopp.demo.views.AdminManageRoomView;
-import nl.tudelft.oopp.demo.views.AdminManageUserView;
-import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.*;
+
 import java.io.IOException;
 
 public class AdminHomePageController {
 
-    public AdminHomePageView adminHomePageView;
-
     public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        LoginView lv = new LoginView();
-        lv.start(stage);
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
     }
 
     public void addRoomClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        AdminManageRoomView adm = new AdminManageRoomView();
-        adm.start(stage);
+        AdminManageRoomView adminManageRoomView = new AdminManageRoomView();
+        adminManageRoomView.start(stage);
     }
 
     public void addBuildingClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage)  ((Node) event.getSource()).getScene().getWindow();
 
-        AdminManageBuildingView adbv = new AdminManageBuildingView();
-        adbv.start(stage);
+        AdminManageBuildingView adminManageBuildingView = new AdminManageBuildingView();
+        adminManageBuildingView.start(stage);
+    }
+
+    public void addReservationClicked(ActionEvent event) throws IOException{
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        AdminManageReservationView amrv = new AdminManageReservationView();
+        amrv.start(stage);
     }
 
     public void manageUserClicked(ActionEvent event) throws IOException {

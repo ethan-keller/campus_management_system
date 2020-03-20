@@ -84,6 +84,7 @@ public class AdminManageBuildingViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
+
                 // TODO: Check that building deletion was succesful before displaying alert
                 BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
                 refresh();
@@ -117,6 +118,7 @@ public class AdminManageBuildingViewController {
             view.start(stage);
             Building tempBuilding = BuildingEditDialogController.building;
             if (tempBuilding == null) return;
+
             // TODO: Check that building creation was succesful before displaying alert
             BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoom_count().get(), tempBuilding.getBuildingAddress().get());
             refresh();
@@ -148,7 +150,8 @@ public class AdminManageBuildingViewController {
                 Building tempBuilding = BuildingEditDialogController.building;
 
                 if (tempBuilding == null) return;
-                // TODO: Check that building edit was succesful before displaying alert
+
+                // TODO: Check that building edit was successful before displaying alert
                 BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(), tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoom_count().get(), tempBuilding.getBuildingAddress().get());
                 refresh();
 
