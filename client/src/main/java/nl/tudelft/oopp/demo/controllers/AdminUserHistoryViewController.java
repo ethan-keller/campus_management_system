@@ -51,8 +51,9 @@ public class AdminUserHistoryViewController {
     @FXML
     private void initialize() {
         try {
+            // Initialize the title of the table
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
-            // Initialize the booking table with the eight columns.
+            // Initialize the booking table with the five columns.
             bookingIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getId().get())));
             bookingRoomColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoom().get())));
             bookingDateColumn.setCellValueFactory(cell -> cell.getValue().getDate());
@@ -64,10 +65,16 @@ public class AdminUserHistoryViewController {
         }
     }
 
+    /**
+     * refresh the table when called
+     */
     public void refresh() {
         initialize();
     }
 
+    /**
+     * Called when admin clicks a reservation.
+     */
     public Reservation getSelectedReservation() {
         if (bookingTable.getSelectionModel().getSelectedIndex() >= 0) {
             return bookingTable.getSelectionModel().getSelectedItem();
@@ -81,7 +88,7 @@ public class AdminUserHistoryViewController {
     }
 
     /**
-     * Delete a room.
+     * Delete a reservation.
      */
     @FXML
     private void deleteBookingClicked(ActionEvent event) {
@@ -92,11 +99,13 @@ public class AdminUserHistoryViewController {
                 // TODO: Check that reservation deletion was successful before displaying alert
                 ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
                 refresh();
+                // An alert pop up when a reservation deleted successfully
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Delete reservation");
                 alert.setContentText("Reservation deleted!");
                 alert.showAndWait();
             } else {
+                // An alert pop up when no reservation selected
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("No Selection");
                 alert.setHeaderText("No reservation Selected");
@@ -111,21 +120,23 @@ public class AdminUserHistoryViewController {
 
     /**
      * Handles clicking the create new button.
+     * Opens a dialog to creat a new reservation.
      */
     @FXML
     private void createNewBookingClicked(ActionEvent event) {
         try {
+            // Booking edit dialog pop up.
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
             currentSelectedReservation = null;
             BookingEditDialogView view = new BookingEditDialogView();
             view.start(stage);
+            // Get the reservation from the pop up dialog.
             Reservation tempReservation = BookingEditDialogController.reservation;
             if (tempReservation == null) return;
             // TODO: Check that reservation creation was successful before displaying alert
             ReservationServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getEnding_time().get());
             refresh();
-
+            // An alert pop up when a new reservation created.
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("New reservation");
             alert.setContentText("Added new reservation!");
@@ -136,6 +147,9 @@ public class AdminUserHistoryViewController {
         }
     }
 
+    /**
+     * Handles clicking the back button, redirect to the user view.
+     */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -2,8 +2,6 @@ package nl.tudelft.oopp.demo.controllers;
 
 import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
 import nl.tudelft.oopp.demo.encode_hash.Hashing;
-import nl.tudelft.oopp.demo.entities.Reservations;
-import nl.tudelft.oopp.demo.encryption.EncryptionManager;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
