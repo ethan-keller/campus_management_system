@@ -13,6 +13,7 @@ import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.views.RegisterView;
 import nl.tudelft.oopp.demo.views.SearchView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
+
 import java.io.IOException;
 
 
@@ -34,15 +35,15 @@ public class LoginViewController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         String login_response = LoginServerCommunication.sendLogin(username.getText(), password.getText());
-        if(login_response.equals("admin")){
+        if (login_response.equals("admin")) {
             CurrentUserManager current_user = new CurrentUserManager(username.getText(), 0);
             AdminHomePageView av = new AdminHomePageView();
             av.start(stage);
-        } else if(login_response.equals("student")){
+        } else if (login_response.equals("student")) {
             CurrentUserManager current_user = new CurrentUserManager(username.getText(), 2);
             SearchView sv = new SearchView();
             sv.start(stage);
-        } else if (login_response.equals("teacher")){
+        } else if (login_response.equals("teacher")) {
             CurrentUserManager current_user = new CurrentUserManager(username.getText(), 1);
             SearchView sv = new SearchView();
             sv.start(stage);

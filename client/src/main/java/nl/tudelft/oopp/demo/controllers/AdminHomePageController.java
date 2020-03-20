@@ -9,6 +9,7 @@ import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
 import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.LoginView;
+
 import java.io.IOException;
 
 public class AdminHomePageController {
@@ -30,14 +31,14 @@ public class AdminHomePageController {
     }
 
     public void addBuildingClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage)  ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         AdminManageBuildingView adbv = new AdminManageBuildingView();
         adbv.start(stage);
     }
 
     public void manageUserClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage)  ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         AdminManageUserView amuv = new AdminManageUserView();
         amuv.start(stage);

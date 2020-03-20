@@ -152,7 +152,7 @@ public class RoomViewController implements Initializable {
             image.setFitWidth((newWidth.doubleValue() - 188) / 1.41550696);
             reservationVbox.setPrefWidth((newWidth.doubleValue() - 188) / 3.3969);
             timeSlotSlider.setMaxWidth((newWidth.doubleValue() - 188) / 5);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -171,7 +171,7 @@ public class RoomViewController implements Initializable {
             StringConverter<LocalDate> converter = getDatePickerConverter();
             // set the converter
             datePicker.setConverter(converter);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -205,7 +205,7 @@ public class RoomViewController implements Initializable {
                 }
             };
             return dayCellFactory;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -238,7 +238,7 @@ public class RoomViewController implements Initializable {
 
             // inject the RangeSlider in the JavaFX layout
             reservationVbox.getChildren().add(2, timeSlotSlider);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -262,7 +262,7 @@ public class RoomViewController implements Initializable {
                     timeSlotSlider.setLowValue((newValue.intValue() / 60) * 60));
             timeSlotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeSlotSlider.setHighValue((newValue.intValue() / 60) * 60));
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -304,7 +304,7 @@ public class RoomViewController implements Initializable {
                     }
                 }
             };
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -333,7 +333,7 @@ public class RoomViewController implements Initializable {
                     return null;
                 }
             };
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -418,7 +418,7 @@ public class RoomViewController implements Initializable {
             rcv.start(thisStage);
             // return true if confirmed, false otherwise
             return ReservationConfirmationViewController.confirmed;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
@@ -452,7 +452,7 @@ public class RoomViewController implements Initializable {
             // check if errors were triggered
             if (errors) return false;
             else return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;

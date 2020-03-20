@@ -44,7 +44,7 @@ public class AdminManageUserViewController {
         try {
             // Initialize the room table with the four columns.
             usernameColumn.setCellValueFactory(cell -> cell.getValue().getUsername());
-            List<String> availableUserType = Arrays.asList("Admin","Teacher","Student");
+            List<String> availableUserType = Arrays.asList("Admin", "Teacher", "Student");
             userTypeColumn.setCellValueFactory(cell -> new SimpleStringProperty(availableUserType.get(cell.getValue().getUserType().get())));
             userPasswordColumn.setCellValueFactory(cell -> cell.getValue().getUserPassword());
             // Add observable list data to the table
@@ -113,8 +113,9 @@ public class AdminManageUserViewController {
             view.start(stage);
             User tempUser = UserEditDialogController.user;
             if (tempUser == null) return;
-            // TODO: Check that user creation was succesful before displaying alert
-            else UserServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
+                // TODO: Check that user creation was succesful before displaying alert
+            else
+                UserServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
             refresh();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -145,9 +146,10 @@ public class AdminManageUserViewController {
                 User tempUser = UserEditDialogController.user;
 
                 if (tempUser == null) return;
-                if(tempUser.getUserPassword().get() == null) {
+                if (tempUser.getUserPassword().get() == null) {
                     UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
-                } else UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
+                } else
+                    UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
                 refresh();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

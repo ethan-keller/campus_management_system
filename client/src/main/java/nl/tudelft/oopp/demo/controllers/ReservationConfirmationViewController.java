@@ -41,7 +41,9 @@ public class ReservationConfirmationViewController implements Initializable {
         // TODO: add food choice into confirmation text
         confirmationText.setText("You (" + CurrentUserManager.getUsername() + ") would like to book the " + room.getRoomName().get() + " on " +
                 date + " from " + startTime + " until " + endTime + ". Would you like to confirm that?");
-    };
+    }
+
+    ;
 
     @FXML
     private void confirmClicked(ActionEvent event) {

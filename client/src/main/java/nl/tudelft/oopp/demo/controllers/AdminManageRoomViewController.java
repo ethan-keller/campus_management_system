@@ -69,7 +69,7 @@ public class AdminManageRoomViewController {
             roomTypeColumn.setCellValueFactory(cell -> cell.getValue().getRoomType());
 
             roomTable.setItems(Room.getRoomData());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

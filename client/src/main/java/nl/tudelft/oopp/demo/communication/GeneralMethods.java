@@ -16,7 +16,7 @@ public class GeneralMethods {
         return params;
     }
 
-    public static Alert createAlert(String title, String content, Window owner, Alert.AlertType type){
+    public static Alert createAlert(String title, String content, Window owner, Alert.AlertType type) {
         try {
             Alert alert = new Alert(type);
             alert.setTitle(title);
@@ -24,7 +24,7 @@ public class GeneralMethods {
             alert.initOwner(owner);
             alert.initModality(Modality.WINDOW_MODAL);
             return alert;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

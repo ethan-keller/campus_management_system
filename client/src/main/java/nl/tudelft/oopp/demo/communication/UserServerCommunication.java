@@ -41,10 +41,10 @@ public class UserServerCommunication {
     }
 
     public static boolean deleteUser(String username) throws UnsupportedEncodingException {
-        String params = "username="+username;
+        String params = "username=" + username;
         params = GeneralMethods.encodeCommunication(params);
 
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/deleteUser?"+params)).build();
+        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/deleteUser?" + params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -60,10 +60,10 @@ public class UserServerCommunication {
     }
 
     public static boolean updateUser(String username, String password, int type) throws UnsupportedEncodingException {
-        String params = "username="+username+"&password="+password+"&type="+type;
+        String params = "username=" + username + "&password=" + password + "&type=" + type;
         params = GeneralMethods.encodeCommunication(params);
 
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateUser?"+params)).build();
+        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateUser?" + params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -79,11 +79,11 @@ public class UserServerCommunication {
     }
 
     public static boolean createUser(String username, String password, int type) throws UnsupportedEncodingException {
-        String params = "username="+username+"&password="+password+"&type="+type;
+        String params = "username=" + username + "&password=" + password + "&type=" + type;
         params = GeneralMethods.encodeCommunication(params);
 
 
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createUser?"+params)).build();
+        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createUser?" + params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());

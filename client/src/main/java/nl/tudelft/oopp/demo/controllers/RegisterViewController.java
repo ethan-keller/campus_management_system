@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
 import nl.tudelft.oopp.demo.views.LoginView;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 

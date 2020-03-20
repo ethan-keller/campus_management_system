@@ -98,7 +98,7 @@ public class BuildingEditDialogController {
 
             return false;
         }
-        
+
     }
 
 }

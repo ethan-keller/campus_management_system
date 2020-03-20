@@ -11,7 +11,7 @@ import java.net.URL;
 
 public class AdminManageBuildingView extends Application {
 
-    public AdminManageBuildingView(){
+    public AdminManageBuildingView() {
     }
 
     @Override

@@ -61,12 +61,12 @@ public class RoomEditDialogController {
             roomCapacityField.setText(String.valueOf(room.getRoomCapacity().get()));
             roomTypeField.setText(room.getRoomType().get());
             roomDescriptionField.setText(room.getRoomDescription().get());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setRoomBuildingComboBoxConverter(ObservableList<Building> ol){
+    public void setRoomBuildingComboBoxConverter(ObservableList<Building> ol) {
         StringConverter<Building> converter = new StringConverter<Building>() {
             @Override
             public String toString(Building object) {
@@ -82,7 +82,7 @@ public class RoomEditDialogController {
         roomBuildingComboBox.setConverter(converter);
     }
 
-    private static void emptyRoom(){
+    private static void emptyRoom() {
         room = new Room();
     }
 
@@ -134,7 +134,7 @@ public class RoomEditDialogController {
         if (!radioButtonYes.isSelected() && !radioButtonNo.isSelected()) {
             errorMessage += "No teacher only button selected!\n";
         }
-        if(roomCapacityField.getText().equals("")){
+        if (roomCapacityField.getText().equals("")) {
             errorMessage += "No valid capacity!\n";
         } else {
             try {
@@ -143,10 +143,10 @@ public class RoomEditDialogController {
                 errorMessage += "No valid room count (must be an integer)!\n";
             }
         }
-        if(roomTypeField.getText().equals("")){
-          errorMessage += "No valid room type!\n";
+        if (roomTypeField.getText().equals("")) {
+            errorMessage += "No valid room type!\n";
         }
-        if(roomDescriptionField.getText().equals("")){
+        if (roomDescriptionField.getText().equals("")) {
             errorMessage += "No valid room description!\n";
         }
 

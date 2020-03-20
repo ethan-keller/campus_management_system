@@ -20,8 +20,8 @@ public class LoginServerCommunication {
         String params = "username=" + username + "&password=" + password;
         params = GeneralMethods.encodeCommunication(params);
 
-        
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/login?"+params)).build();
+
+        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/login?" + params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());

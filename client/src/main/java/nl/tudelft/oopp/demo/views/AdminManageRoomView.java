@@ -11,7 +11,7 @@ import java.net.URL;
 
 public class AdminManageRoomView extends Application {
 
-    public AdminManageRoomView(){
+    public AdminManageRoomView() {
     }
 
     @Override
