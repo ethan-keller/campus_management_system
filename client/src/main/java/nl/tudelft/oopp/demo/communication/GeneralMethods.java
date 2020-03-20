@@ -100,7 +100,7 @@ public class GeneralMethods {
         }
         input = input.toLowerCase();
         for(int i = 0; i != res.size(); i++){
-            String name = res.get(i).getRoomName().toString().toLowerCase();
+            String name = res.get(i).getRoomName().getValue().toLowerCase();
             if(!name.contains(input)){
                 res.remove(res.get(i));
                 i--;
