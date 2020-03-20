@@ -226,6 +226,7 @@ public class RoomViewController implements Initializable {
             timeSlotSlider.setMajorTickUnit(120);
             timeSlotSlider.setMinorTickCount(4);
 
+            configureCSS();
             timeSlotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
 
             // get and set the StringConverter to show hh:mm format
@@ -244,6 +245,10 @@ public class RoomViewController implements Initializable {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void configureCSS() {
+
     }
 
     /**
