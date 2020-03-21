@@ -42,7 +42,7 @@
                </font>
             </Button>
 
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="180.0" text="Reservations" textAlignment="CENTER">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="180.0" onAction="#addReservationClicked" text="Reservations" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </VBox.margin>
