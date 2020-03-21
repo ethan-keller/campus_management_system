@@ -74,7 +74,6 @@ public class Building {
         JSONArray jsonArrayBuildings= new JSONArray(BuildingServerCommunication.getAllBuildings());
         for(int i=0; i<jsonArrayBuildings.length(); i++){
             Building b = new Building();
-            b.setBuildingId(2);
             b.setBuildingId(jsonArrayBuildings.getJSONObject(i).getInt("id") );
             b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name") );
             b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getString("address") );

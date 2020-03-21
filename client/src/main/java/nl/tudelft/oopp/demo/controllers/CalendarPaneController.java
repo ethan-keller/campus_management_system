@@ -16,6 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
+import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.CalenderAppointmentDialogView;
@@ -44,17 +46,39 @@ public class CalendarPaneController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        SwingNode node = new SwingNode();
-        configureNode(node);
-        // This adds the node created which is basically the calender into the anchor pane.
-        pane.getChildren().add(node);
-        CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS).execute(() -> {
-            calendar.setScrollPosition(new Point(0, 16));
-        });
         try {
+            SwingNode node = new SwingNode();
+            configureNode(node);
+            // This adds the node created which is basically the calender into the anchor pane.
+            pane.getChildren().add(node);
+            CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS).execute(() -> {
+                calendar.setScrollPosition(new Point(0, 16));
+            });
             addReservationsToCalendar();
-        } catch (UnsupportedEncodingException e) {
+            addItemsToCalendar();
+        } catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    private void addItemsToCalendar() {
+        List<nl.tudelft.oopp.demo.entities.Item> allItems = nl.tudelft.oopp.demo.entities.Item.getAllItems();
+        List<nl.tudelft.oopp.demo.entities.Item> userSpecificItems = allItems.stream().filter(x -> x.getUser().get().equals(CurrentUserManager.getUsername())).collect(Collectors.toList());
+        for(nl.tudelft.oopp.demo.entities.Item i: userSpecificItems){
+            Appointment app = new Appointment();
+            app.setHeaderText(i.getTitle().get());
+            String[] date = i.getDate().get().split("-");
+            String[] startTime = i.getStarting_time().get().split(":");
+            String[] endTime = i.getEnding_time().get().split(":");
+            app.setStartTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1]), Integer.parseInt(startTime[2])));
+            app.setEndTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1]), Integer.parseInt(endTime[2])));
+            app.setDescriptionText(i.getDescription().get());
+            app.setLocked(true);
+            app.setAllowMove(false);
+            Style color = new Style();
+            color.setFillColor(Color.ORANGE);
+            app.setStyle(color);
+            calendar.getSchedule().getItems().add(app);
         }
     }
 
@@ -104,14 +128,25 @@ public class CalendarPaneController implements Initializable {
      * @param event
      */
     public void addAppointmentClicked(ActionEvent event) {
-        thisStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        try {
+            thisStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        CalenderAppointmentDialogView calenderAppointmentDialogView = new CalenderAppointmentDialogView();
-        calenderAppointmentDialogView.start(thisStage);
-        if(CalenderAppointmentDialogController.appointment == null){
-            GeneralMethods.createAlert("Error", "Sorry, something has gone wrong. We are on it now!", thisStage, Alert.AlertType.ERROR);
-        } else {
-            this.calendar.getSchedule().getItems().add(CalenderAppointmentDialogController.appointment);
+            CalenderAppointmentDialogView calenderAppointmentDialogView = new CalenderAppointmentDialogView();
+            calenderAppointmentDialogView.start(thisStage);
+            if (CalenderAppointmentDialogController.appointment == null) {
+                GeneralMethods.createAlert("Error", "Sorry, something has gone wrong. We are on it now!", thisStage, Alert.AlertType.ERROR);
+            } else {
+                Appointment app = CalenderAppointmentDialogController.appointment;
+                String date = app.getStartTime().getYear()+"-"+app.getStartTime().getMonth()+"-"+app.getStartTime().getDay();
+                String startTime = app.getStartTime().getHour()+":"+app.getStartTime().getMinute()+":00";
+                String endTime= app.getEndTime().getHour()+":"+app.getEndTime().getMinute()+":00";
+                System.out.println(startTime);
+                System.out.println(date);
+                this.calendar.getSchedule().getItems().add(app);
+                ItemServerCommunication.createItem(CurrentUserManager.getUsername(), app.getHeaderText(), date, startTime, endTime, app.getDescriptionText());
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
