@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Window;
+import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 
 import java.io.UnsupportedEncodingException;
@@ -101,7 +102,18 @@ public class GeneralMethods {
         return rooms;
     }
 
-    public static List<Room> filterBySearch(ObservableList<Room> rooms, String input){
+    public static List<Room> filterBySearch(ObservableList<Room> rooms, String input, List<Building> buildings){
+        List<Room> roomsFilteredByRoom = filterRoomsBySearch(rooms, input);
+        List<Room> roomsFilteredByBuilding = filterBuildingsBySearch(rooms, input, buildings);
+        for(int i = 0; i  != roomsFilteredByRoom.size(); i++){
+            if(!roomsFilteredByBuilding.contains(roomsFilteredByRoom.get(i))){
+                roomsFilteredByBuilding.add(roomsFilteredByRoom.get(i));
+            }
+        }
+        return roomsFilteredByBuilding;
+    }
+
+    public static List<Room> filterRoomsBySearch(ObservableList<Room> rooms, String input){
         List<Room> res = new ArrayList<Room>();
         for(int j = 0; j != rooms.size(); j++){
             res.add(rooms.get(j));
@@ -112,6 +124,23 @@ public class GeneralMethods {
             if(!name.contains(input)){
                 res.remove(res.get(i));
                 i--;
+            }
+        }
+        return res;
+    }
+
+    public static List<Room> filterBuildingsBySearch(ObservableList<Room> rooms, String input, List<Building> buildings){
+        List<Room> res = new ArrayList<Room>();
+        List<Integer> buildingIds = new ArrayList<Integer>();
+        input = input.toLowerCase();
+        for(int i = 0; i != buildings.size(); i++){
+            if(buildings.get(i).getBuildingName().getValue().toLowerCase().contains(input)){
+                buildingIds.add(buildings.get(i).getBuildingId().getValue());
+            }
+        }
+        for(int j = 0; j != rooms.size(); j++){
+            if(buildingIds.contains(rooms.get(j).getRoomBuilding().getValue())){
+                res.add(rooms.get(j));
             }
         }
         return res;

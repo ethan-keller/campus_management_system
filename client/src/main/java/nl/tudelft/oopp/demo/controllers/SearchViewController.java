@@ -83,7 +83,10 @@ public class SearchViewController implements Initializable {
     @FXML
     private ComboBox<String> BikesAvailable;
 
-    ObservableList<Room> roomList;
+    private List<Building> buildings;
+    private ObservableList<Room> roomList;
+    private ObservableList<Room> rooms;
+
 
 
     // Declaring the observable list for buildings, capacity and bikes to be inserted into the comboBox
@@ -177,8 +180,9 @@ public class SearchViewController implements Initializable {
             BuildingComboBox.setItems(buildingList);
             BikesAvailable.setItems(bikeList);
 
-            // get all rooms from server
-            roomList = Room.getRoomData();
+            // get all rooms and buildings from server
+            rooms = Room.getRoomData();
+            buildings = Building.getBuildingData();
 
             loadCards();
 
@@ -235,7 +239,7 @@ public class SearchViewController implements Initializable {
 
     public void loadCards() throws UnsupportedEncodingException {
             //load all rooms back in the roomlist to filter again
-            roomList = Room.getRoomData();
+            roomList = rooms;
 
             //Check if there are any filters selected and if so filter the roomlist
             if(BuildingComboBox.getValue() != null){
@@ -294,10 +298,7 @@ public class SearchViewController implements Initializable {
                         }
                     }
                 }
-//                List<Room> roomToShowTemp = new ArrayList<Room>();
-//                for(int j = 0; j != roomsWithDate.size(); j++){
-//                    roomListTemp.add(roomsToShow.get(roomsWithDate.get(j)))
-//                }
+
                 int totalHoursAvailable;
                 for(int q = 0; q != roomsWithDate.size(); q++){
                     totalHoursAvailable = 16;
@@ -319,7 +320,10 @@ public class SearchViewController implements Initializable {
             }
 
         String searchBarInput = searchBar.getText();
-        List<Room> roomsToShow = GeneralMethods.filterBySearch(roomList, searchBarInput);
+        List<Room> roomsToShow = roomList;
+        if(searchBarInput != "") {
+            roomsToShow = GeneralMethods.filterBySearch(roomList, searchBarInput, buildings);
+        }
 
             //Load the cards that need to be shown
             getCardsShown(roomsToShow);
@@ -341,7 +345,7 @@ public class SearchViewController implements Initializable {
         if(searchBarInput== ""){
             loadCards();
         }else {
-            List<Room> roomsToShow = GeneralMethods.filterBySearch(roomList, searchBarInput);
+            List<Room> roomsToShow = GeneralMethods.filterBySearch(roomList, searchBarInput, buildings);
             //Load the cards that need to be shown
             getCardsShown(roomsToShow);
         }
