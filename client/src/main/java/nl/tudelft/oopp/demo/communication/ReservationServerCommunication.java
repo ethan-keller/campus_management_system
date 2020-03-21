@@ -99,7 +99,6 @@ public class ReservationServerCommunication {
         }
         return response.body();
     }
-
     public static String getUserReservations(String username) throws UnsupportedEncodingException {
         String params = "username=" + username;
         params = GeneralMethods.encodeCommunication(params);

@@ -4,6 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -17,6 +21,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.views.BookingHistoryView;
+import nl.tudelft.oopp.demo.views.CancelBookingView;
+import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.RegisterView;
+
+import java.io.IOException;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
@@ -42,7 +52,9 @@ import java.util.stream.Collectors;
  * Controller class for SearchView (JavaFX)
  */
 public class SearchViewController implements Initializable {
-
+    /**
+     * These are the FXML elements that inject some functionality into the application.
+     */
     @FXML
     private DatePicker datePicker;
     @FXML
@@ -62,6 +74,7 @@ public class SearchViewController implements Initializable {
     @FXML
     private ComboBox<String> CapacityComboBox;
     @FXML
+
     private Button clearFilters;
     @FXML
     private Button BookingHistoryButton;
@@ -72,6 +85,9 @@ public class SearchViewController implements Initializable {
 
     ObservableList<Room> roomList;
 
+
+    // Declaring the observable list for buildings, capacity and bikes to be inserted into the comboBox
+    // This is necessary due to the format of inserting items into a comboBox.
     private ObservableList<String> capacityList;
     private ObservableList<Building> buildingList;
     private ObservableList<String> bikeList;
@@ -81,8 +97,51 @@ public class SearchViewController implements Initializable {
     private int capMin;
     private int capMax;
 
+    /**
+     * Default construct of searchView class.
+     */
     public SearchViewController() {
     }
+
+    /**
+     * Handles the bookingHistory Button onclick.
+     * Redirects the user to the booking history page.
+     * @param event
+     * @throws IOException
+     */
+    public void BookingHistoryButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        BookingHistoryView bookingHistoryView = new BookingHistoryView();
+        bookingHistoryView.start(stage);
+    }
+
+    /**
+     * Handles the onclick of signOut Button.
+     * Redirects the user back to the login page.
+     * @param event
+     * @throws IOException
+     */
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
+    }
+
+    /**
+     * Handles the onclick of cancelBooking Button.
+     * Redirects the user to the cancelBooking page.
+     * @param event
+     * @throws Exception
+     */
+    public void cancelBookingClicked(ActionEvent event) throws Exception {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        CancelBookingView cancelBookingView = new CancelBookingView();
+        cancelBookingView.start(stage);
+    }
+
 
     /**
      * Method that gets called before everything (mostly to initialize nodes etc.)
@@ -99,6 +158,7 @@ public class SearchViewController implements Initializable {
             capacityList = FXCollections.observableArrayList();
             buildingList = Building.getBuildingData();
             bikeList = FXCollections.observableArrayList();
+
 
             // the comboBox only shows 6 rows (more => scroll)
             BuildingComboBox.setVisibleRowCount(6);

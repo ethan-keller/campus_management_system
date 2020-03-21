@@ -10,7 +10,7 @@ public class CommunicationMethods {
      *
      * @param input The encoded input
      * @return Returns the decoded input
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     public static String decodeCommunication(String input) throws UnsupportedEncodingException {
         String res = URLDecoder.decode(input, StandardCharsets.UTF_8.toString());
