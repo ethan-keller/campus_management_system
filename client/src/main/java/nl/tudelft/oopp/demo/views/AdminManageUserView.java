@@ -9,9 +9,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class AdminManageUserView extends Application{
+public class AdminManageUserView extends Application {
 
-    public AdminManageUserView(){}
+    public AdminManageUserView() {
+    }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -21,7 +22,7 @@ public class AdminManageUserView extends Application{
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
 
-            /**
+            /*
              * Making sure that the page doesn't resize when we switch between scenes
              */
             Scene oldScene = primaryStage.getScene();

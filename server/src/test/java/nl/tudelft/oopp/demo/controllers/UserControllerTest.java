@@ -1,16 +1,13 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import nl.tudelft.oopp.demo.entities.User;
-import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-
 
 import java.io.UnsupportedEncodingException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest
@@ -20,29 +17,21 @@ class UserControllerTest {
     private UserController userCont;
 
     @Test
-    void createUser() throws UnsupportedEncodingException {
-
+    void testAllMethods() throws UnsupportedEncodingException {
         userCont.createUser("4testing", "4testing", 0);
         User us1 = new User("4testing", "4testing", 0);
         User us2 = userCont.getUser("4testing");
-        System.out.println(us1);
-        System.out.println(us2);
         assertEquals(us1, us2);
-    }
 
-    @Test
-    void updateUser() {
-    }
+        userCont.updateUser("4testing", 1);
+        User us3 = new User("4testing", "4testing", 1);
+        assertEquals(us3, userCont.getUser("4testing"));
 
-    @Test
-    void deleteUser() {
-    }
+        userCont.updateUser("4testing", "5testing", 2);
+        User us4 = new User("4testing", "5testing", 2);
+        assertEquals(us4, userCont.getUser("4testing"));
 
-    @Test
-    void getUser() {
-    }
 
-    @Test
-    void getAllUsers() {
+        userCont.deleteUser("4testing");
     }
 }

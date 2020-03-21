@@ -9,18 +9,15 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.AdminHomePageController">
    <children>
-      <AnchorPane maxHeight="306.0" minHeight="99.0" prefHeight="263.0" prefWidth="1280.0" AnchorPane.bottomAnchor="536.8" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+      <VBox alignment="CENTER" focusTraversable="true" layoutX="327.0" layoutY="234.0" prefHeight="393.0" prefWidth="583.0" AnchorPane.bottomAnchor="173.0" AnchorPane.leftAnchor="327.0" AnchorPane.rightAnchor="326.0" AnchorPane.topAnchor="200.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="308.0" minHeight="99.0" prefHeight="263.0" prefWidth="1280.0" text="Admin management" textFill="#0fbdf7" AnchorPane.bottomAnchor="5.6843418860808015E-14" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="438.0" minHeight="74.0" prefHeight="244.0" prefWidth="1280.0" text="Admin management" textFill="#0fbdf7">
                <font>
-                  <Font name="System Bold" size="48.0" />
+                  <Font name="Calibri Bold" size="25.0" />
                </font>
             </Label>
-         </children>
-      </AnchorPane>
-      <VBox alignment="CENTER" focusTraversable="true" layoutX="327.0" layoutY="234.0" prefHeight="393.0" prefWidth="587.0" AnchorPane.bottomAnchor="173.0" AnchorPane.leftAnchor="327.0" AnchorPane.rightAnchor="326.0" AnchorPane.topAnchor="234.0">
-         <children>
-            <Button fx:id="addBuilding" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addBuildingClicked" prefWidth="250.0" text="Buildings" textAlignment="CENTER">
+            <Button fx:id="addBuilding" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addBuildingClicked" prefWidth="180.0" text="Buildings" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </VBox.margin>
@@ -28,7 +25,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-          <Button fx:id="addRoom" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addRoomClicked" prefWidth="250.0" text="Rooms" textAlignment="CENTER">
+          <Button fx:id="addRoom" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addRoomClicked" prefWidth="180.0" text="Rooms" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </VBox.margin>
@@ -36,7 +33,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="manageUser" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#manageUserClicked" prefWidth="250.0" text="Users" textAlignment="CENTER">
+            <Button fx:id="manageUser" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#manageUserClicked" prefWidth="180.0" text="Users" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </VBox.margin>
@@ -44,7 +41,8 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="250.0" text="Reservations" textAlignment="CENTER">
+
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="180.0" onAction="#addReservationClicked" text="Reservations" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </VBox.margin>
@@ -52,7 +50,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="signOutButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#signOutButtonClicked" prefHeight="26.0" prefWidth="150.0" text="Sign out" textAlignment="CENTER">
+            <Button fx:id="signOutButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#signOutButtonClicked" prefHeight="26.0" prefWidth="120.0" text="Sign out" textAlignment="CENTER">
                <VBox.margin>
                   <Insets top="100.0" />
                </VBox.margin>

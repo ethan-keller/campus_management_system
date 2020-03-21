@@ -14,14 +14,19 @@ class RegisterControllerTest {
     @Autowired
     private RegisterController registerCont;
 
-    @Autowired UserController userCont;
+    @Autowired
+    private UserController userCont;
 
 
     @Test
     void register() throws UnsupportedEncodingException {
-        // remove user from database before testing
-        userCont.deleteUser("registerTest");
-        assertEquals("Your account is created", registerCont.register("registerTest", "password"));
-        assertEquals("This username already exists!", registerCont.register("registerTest", "password"));
+        userCont.deleteUser("registertest");
+        assertEquals("Your account is created", registerCont.register("registertest", "password"));
+        assertEquals("This username already exists!", registerCont.register("registertest", "password"));
+
+        userCont.deleteUser("registertest");
+
+
+
     }
 }
