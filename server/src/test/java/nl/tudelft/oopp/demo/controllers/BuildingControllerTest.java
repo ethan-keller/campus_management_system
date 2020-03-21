@@ -15,6 +15,11 @@ class BuildingControllerTest {
     @Autowired
     private BuildingController buildingCont;
 
+    /**
+     * Test all methods of the building controller.
+     * Makes a building, then updates it, tests if it's equal and then deletes it.
+     * @throws UnsupportedEncodingException
+     */
     @Test
     void testAllMethods() throws UnsupportedEncodingException {
       buildingCont.createBuilding("buildingcontrollertest", 20, "teststreet");

@@ -292,6 +292,7 @@ public class SearchViewController implements Initializable {
                 for(int i = 0; i != reservations.size(); i++){
                     if(!reservations.get(i).getDate().getValue().equals(date)){
                         reservations.remove(i);
+                        i--;
                     }else{
                         if(!roomsWithDate.contains(reservations.get(i).getRoom().getValue())){
                             roomsWithDate.add(reservations.get(i).getRoom().getValue());
@@ -303,9 +304,12 @@ public class SearchViewController implements Initializable {
                 for(int q = 0; q != roomsWithDate.size(); q++){
                     totalHoursAvailable = 16;
                     for(int z = 0; z != reservations.size(); q++){
-                        if(reservations.get(z).getRoom().getValue() == roomsWithDate.get(q)){
+                        if(reservations.get(q).getRoom().getValue() == roomsWithDate.get(z)){
                             int starting = Integer.parseInt(reservations.get(z).getStarting_time().getValue().substring(0 , 1));
                             int ending = Integer.parseInt(reservations.get(z).getEnding_time().getValue().substring(0 , 1));
+                            if(ending == 0){
+                                ending = 24;
+                            }
                             totalHoursAvailable = totalHoursAvailable + starting - ending;
                         }
                     }
