@@ -71,4 +71,15 @@ public class ItemController {
             return false;
         }
     }
+
+    @GetMapping("currentId")
+    @ResponseBody
+    public int getCurrentId(){
+        try{
+            return itemRepo.getCurrentId();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }

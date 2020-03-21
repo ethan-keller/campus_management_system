@@ -78,4 +78,18 @@ public class ItemServerCommunication {
         }
         return true;
     }
+
+    public static String getCurrentId(){
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/currentId")).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode() + response.body());
+        }
+        return response.body();
+    }
 }

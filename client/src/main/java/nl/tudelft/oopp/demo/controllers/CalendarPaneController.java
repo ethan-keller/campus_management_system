@@ -5,7 +5,6 @@ import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.CalendarView;
 import com.mindfusion.scheduling.model.Appointment;
 import com.mindfusion.scheduling.model.Item;
-import com.mindfusion.scheduling.model.Style;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +16,9 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
+import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
+import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.CalenderAppointmentDialogView;
@@ -42,8 +43,6 @@ public class CalendarPaneController implements Initializable {
     private Calendar calendar;
     public static Stage thisStage;
 
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -56,7 +55,7 @@ public class CalendarPaneController implements Initializable {
             });
             addReservationsToCalendar();
             addItemsToCalendar();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -64,7 +63,7 @@ public class CalendarPaneController implements Initializable {
     private void addItemsToCalendar() {
         List<nl.tudelft.oopp.demo.entities.Item> allItems = nl.tudelft.oopp.demo.entities.Item.getAllItems();
         List<nl.tudelft.oopp.demo.entities.Item> userSpecificItems = allItems.stream().filter(x -> x.getUser().get().equals(CurrentUserManager.getUsername())).collect(Collectors.toList());
-        for(nl.tudelft.oopp.demo.entities.Item i: userSpecificItems){
+        for (nl.tudelft.oopp.demo.entities.Item i : userSpecificItems) {
             Appointment app = new Appointment();
             app.setHeaderText(i.getTitle().get());
             String[] date = i.getDate().get().split("-");
@@ -75,9 +74,8 @@ public class CalendarPaneController implements Initializable {
             app.setDescriptionText(i.getDescription().get());
             app.setLocked(true);
             app.setAllowMove(false);
-            Style color = new Style();
-            color.setFillColor(Color.ORANGE);
-            app.setStyle(color);
+            app.setId(String.valueOf(i.getId().get()));
+            app.getStyle().setFillColor(Color.ORANGE);
             calendar.getSchedule().getItems().add(app);
         }
     }
@@ -85,20 +83,21 @@ public class CalendarPaneController implements Initializable {
     private void addReservationsToCalendar() throws UnsupportedEncodingException {
         List<Reservation> allReservations = Reservation.getUserReservation().stream().collect(Collectors.toList());
         List<Room> allRooms = Room.getRoomData().stream().collect(Collectors.toList());
-        for (Reservation r: allReservations){
+        List<Building> allBuildings = Building.getBuildingData().stream().collect(Collectors.toList());
+        for (Reservation r : allReservations) {
             Appointment app = new Appointment();
-            String roomName = allRooms.stream().filter(x -> x.getRoomId().get() == r.getRoom().get()).collect(Collectors.toList()).get(0).getRoomName().get();
+            Room room = allRooms.stream().filter(x -> x.getRoomId().get() == r.getRoom().get()).collect(Collectors.toList()).get(0);
+            Building building = allBuildings.stream().filter(x -> x.getBuildingId().get() == room.getRoomBuilding().get()).collect(Collectors.toList()).get(0);
             app.setHeaderText("Reservation");
             String[] date = r.getDate().get().split("-");
             String[] startTime = r.getStarting_time().get().split(":");
             String[] endTime = r.getEnding_time().get().split(":");
 
-            app.setDescriptionText(roomName + "\n" + startTime[0] + ":" + startTime[1] + " - " + endTime[0] + ":" + endTime[1]);
+            app.setDescriptionText(room.getRoomName().get() + "\n" + building.getBuildingName().get() + "\n" + startTime[0] + ":" + startTime[1] + " - " + endTime[0] + ":" + endTime[1]);
             app.setLocked(true);
             app.setAllowMove(false);
-            Style color = new Style();
-            color.setFillColor(Color.CYAN);
-            app.setStyle(color);
+            app.setId(String.valueOf(r.getId().get()));
+            app.getStyle().setFillColor(Color.CYAN);
             app.setStartTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1]), Integer.parseInt(startTime[2])));
             app.setEndTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1]), Integer.parseInt(endTime[2])));
             calendar.getSchedule().getItems().add(app);
@@ -137,29 +136,50 @@ public class CalendarPaneController implements Initializable {
                 GeneralMethods.createAlert("Error", "Sorry, something has gone wrong. We are on it now!", thisStage, Alert.AlertType.ERROR);
             } else {
                 Appointment app = CalenderAppointmentDialogController.appointment;
-                String date = app.getStartTime().getYear()+"-"+app.getStartTime().getMonth()+"-"+app.getStartTime().getDay();
-                String startTime = app.getStartTime().getHour()+":"+app.getStartTime().getMinute()+":00";
-                String endTime= app.getEndTime().getHour()+":"+app.getEndTime().getMinute()+":00";
-                System.out.println(startTime);
-                System.out.println(date);
-                this.calendar.getSchedule().getItems().add(app);
+                String date = app.getStartTime().getYear() + "-" + app.getStartTime().getMonth() + "-" + app.getStartTime().getDay();
+                String startTime = app.getStartTime().getHour() + ":" + app.getStartTime().getMinute() + ":00";
+                String endTime = app.getEndTime().getHour() + ":" + app.getEndTime().getMinute() + ":00";
                 ItemServerCommunication.createItem(CurrentUserManager.getUsername(), app.getHeaderText(), date, startTime, endTime, app.getDescriptionText());
+                System.out.println(ItemServerCommunication.getCurrentId());
+                app.setId(ItemServerCommunication.getCurrentId());
+                calendar.getSchedule().getItems().add(app);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     //To be implemented.
     public void cancelAppointmentClicked() {
-        Item[] items = calendar.getItemSelection().getItems();
-        for(Item x: items){
-            calendar.getSchedule().getItems().remove(x);
+        try {
+            Item[] items = calendar.getItemSelection().getItems();
+            for (Item x : items) {
+                if (x.getStyle().getFillColor().equals(Color.ORANGE)) {
+                    ItemServerCommunication.deleteItem(Integer.parseInt(x.getId()));
+                    calendar.getSchedule().getItems().remove(x);
+                    Alert alert = GeneralMethods.createAlert("Deletion confirmation", "Your item has succesfully been deleted from your schedule", thisStage, Alert.AlertType.INFORMATION);
+                    alert.showAndWait();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        GeneralMethods.createAlert("Cancel confirmation", "Your item has succesfully been deleted from your schedule", thisStage, Alert.AlertType.CONFIRMATION);
     }
 
     public void cancelReservationClicked() {
+        try {
+            Item[] items = calendar.getItemSelection().getItems();
+            for(Item x: items){
+                if(x.getStyle().getFillColor().equals(Color.CYAN)){
+                    ReservationServerCommunication.deleteReservation(Integer.parseInt(x.getId()));
+                    calendar.getSchedule().getItems().remove(x);
+                    Alert alert = GeneralMethods.createAlert("Cancel confirmation", "Your reservation has succesfully been canceled", thisStage, Alert.AlertType.INFORMATION);
+                    alert.showAndWait();
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void weeklyViewClicked() {
@@ -168,20 +188,6 @@ public class CalendarPaneController implements Initializable {
 
     public void monthlyViewClicked() {
         calendar.setCurrentView(CalendarView.SingleMonth);
-    }
-
-    /**
-     * For a user to book a room, the user needs to go to search view and select the room to book.
-     *
-     * @param event
-     * @throws IOException
-     */
-    public void addReservationClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        SearchView searchView = new SearchView();
-        searchView.start(stage);
-
     }
 
     /**
@@ -209,4 +215,5 @@ public class CalendarPaneController implements Initializable {
         SearchView searchView = new SearchView();
         searchView.start(stage);
     }
+
 }

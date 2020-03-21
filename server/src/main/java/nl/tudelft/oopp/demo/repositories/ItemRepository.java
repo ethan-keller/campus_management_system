@@ -28,4 +28,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Transactional
     @Query(value = "DELETE FROM calendar_items WHERE id = :id", nativeQuery = true)
     public void deleteItem(@Param("id") int id);
+
+    @Query(value = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'OOPP38' AND TABLE_NAME = 'calendar_items'", nativeQuery = true)
+    public int getCurrentId();
 }
