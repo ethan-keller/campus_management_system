@@ -2,10 +2,13 @@ package nl.tudelft.oopp.demo.controllers;
 
 import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.model.Appointment;
+import com.mindfusion.scheduling.model.Style;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -13,6 +16,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.controlsfx.control.RangeSlider;
 
+import java.awt.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -265,8 +269,13 @@ public class CalenderAppointmentDialogController {
 
             app.setEndTime(new DateTime(year, month, day, Integer.parseInt(endSplit[0]), Integer.parseInt(endSplit[1]), 0));
 
-            appointment = app;
             app.setLocked(true);
+            app.setAllowMove(false);
+            Style color = new Style();
+            color.setFillColor(Color.ORANGE);
+            app.setStyle(color);
+
+            appointment = app;
 
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();

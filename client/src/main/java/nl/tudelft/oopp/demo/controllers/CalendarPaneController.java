@@ -1,8 +1,11 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.CalendarView;
+import com.mindfusion.scheduling.model.Appointment;
 import com.mindfusion.scheduling.model.Item;
+import com.mindfusion.scheduling.model.Style;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.CalenderAppointmentDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
@@ -20,10 +25,13 @@ import nl.tudelft.oopp.demo.views.SearchView;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class CalendarPaneController implements Initializable {
 
@@ -43,11 +51,34 @@ public class CalendarPaneController implements Initializable {
         CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS).execute(() -> {
             calendar.setScrollPosition(new Point(0, 16));
         });
-        addReservationsToCalendar();
+        try {
+            addReservationsToCalendar();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void addReservationsToCalendar() {
-        
+    private void addReservationsToCalendar() throws UnsupportedEncodingException {
+        List<Reservation> allReservations = Reservation.getUserReservation().stream().collect(Collectors.toList());
+        List<Room> allRooms = Room.getRoomData().stream().collect(Collectors.toList());
+        for (Reservation r: allReservations){
+            Appointment app = new Appointment();
+            String roomName = allRooms.stream().filter(x -> x.getRoomId().get() == r.getRoom().get()).collect(Collectors.toList()).get(0).getRoomName().get();
+            app.setHeaderText("Reservation");
+            String[] date = r.getDate().get().split("-");
+            String[] startTime = r.getStarting_time().get().split(":");
+            String[] endTime = r.getEnding_time().get().split(":");
+
+            app.setDescriptionText(roomName + "\n" + startTime[0] + ":" + startTime[1] + " - " + endTime[0] + ":" + endTime[1]);
+            app.setLocked(true);
+            app.setAllowMove(false);
+            Style color = new Style();
+            color.setFillColor(Color.CYAN);
+            app.setStyle(color);
+            app.setStartTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1]), Integer.parseInt(startTime[2])));
+            app.setEndTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1]), Integer.parseInt(endTime[2])));
+            calendar.getSchedule().getItems().add(app);
+        }
     }
 
     private void configureNode(SwingNode node) {
