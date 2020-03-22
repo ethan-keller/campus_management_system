@@ -32,7 +32,7 @@ public class Item {
         this.description = new SimpleStringProperty(description);
     }
 
-    public Item(){
+    public Item() {
         this.id = new SimpleIntegerProperty(-1);
         this.user = new SimpleStringProperty(null);
         this.title = new SimpleStringProperty(null);
@@ -123,7 +123,7 @@ public class Item {
                 itemData.add(item);
             }
             return itemData;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -141,7 +141,29 @@ public class Item {
             item.setEnding_time(jsonObject.getString("ending_time"));
             item.setDescription(jsonObject.getString("description"));
             return item;
-        } catch (Exception e){
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ObservableList<Item> getUserItems(String user) {
+        try {
+            ObservableList<Item> itemData = FXCollections.observableArrayList();
+            JSONArray array = new JSONArray(ItemServerCommunication.getUserItems(user));
+            for (int i = 0; i < array.length(); i++) {
+                Item item = new Item();
+                item.setId(array.getJSONObject(i).getInt("id"));
+                item.setUser(array.getJSONObject(i).getString("user"));
+                item.setTitle(array.getJSONObject(i).getString("title"));
+                item.setDate(array.getJSONObject(i).getString("date"));
+                item.setStarting_time(array.getJSONObject(i).getString("starting_time"));
+                item.setEnding_time(array.getJSONObject(i).getString("ending_time"));
+                item.setDescription(array.getJSONObject(i).getString("description"));
+                itemData.add(item);
+            }
+            return itemData;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

@@ -31,4 +31,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Query(value = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'OOPP38' AND TABLE_NAME = 'calendar_items'", nativeQuery = true)
     public int getCurrentId();
+
+    @Query(value = "SELECT * FROM calendar_items WHERE user = :user", nativeQuery = true)
+    public List<Item> getUserItems(@Param("user") String user);
 }

@@ -18,6 +18,11 @@ public class ItemController {
     @Autowired
     private ItemRepository itemRepo;
 
+    /**
+     * Endpoint to get item by id from database
+     * @param id id of item to get
+     * @return Item
+     */
     @GetMapping("getItem")
     @ResponseBody
     public Item getItem(@RequestParam int id){
@@ -26,10 +31,14 @@ public class ItemController {
             return itemRepo.getItem(id);
         } catch (Exception e){
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
+    /**
+     * Endpoint to get all items from database
+     * @return List of items
+     */
     @GetMapping("getAllItems")
     @ResponseBody
     public List<Item> getAllItems(){
@@ -37,10 +46,20 @@ public class ItemController {
             return itemRepo.getAllItems();
         } catch (Exception e){
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
+    /**
+     * Endpoint to create new item in the database
+     * @param user user who the item belongs to
+     * @param title title of the item
+     * @param date date of the item
+     * @param starting_time starting_time of the item
+     * @param ending_time ending_time of the item
+     * @param description description of the item
+     * @return true if success, false otherwise
+     */
     @PostMapping("createItem")
     @ResponseBody
     public boolean createItem(@RequestParam String user, @RequestParam String title, @RequestParam String date, @RequestParam String starting_time, @RequestParam String ending_time, @RequestParam String description){
@@ -59,6 +78,11 @@ public class ItemController {
         }
     }
 
+    /**
+     * Endpoint to delete item from database
+     * @param id id of item to delete
+     * @return true if success, false otherwise
+     */
     @PostMapping("deleteItem")
     @ResponseBody
     public boolean deleteItem(@RequestParam int id){
@@ -68,10 +92,14 @@ public class ItemController {
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
+    /**
+     * Endpoint to get id of last inserted item in the database
+     * @return id of last inserted item
+     */
     @GetMapping("currentId")
     @ResponseBody
     public int getCurrentId(){
@@ -81,5 +109,21 @@ public class ItemController {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    /**
+     * Enpoint to get all the items of a particular user from the database
+     * @param user user to get items from
+     * @return List of items
+     */
+    @GetMapping("getUserItems")
+    @ResponseBody
+    public List<Item> getUserItems(String user){
+        try {
+            return itemRepo.getUserItems(user);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

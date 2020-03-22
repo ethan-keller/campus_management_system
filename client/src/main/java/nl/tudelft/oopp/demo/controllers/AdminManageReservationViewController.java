@@ -13,9 +13,7 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
 
-
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 
 public class AdminManageReservationViewController {
@@ -63,7 +61,7 @@ public class AdminManageReservationViewController {
             //Adding the Observable List Data to the tableView created.
             listReservations.setItems(Reservation.getReservation());
         }
-        catch (UnsupportedEncodingException e) {
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

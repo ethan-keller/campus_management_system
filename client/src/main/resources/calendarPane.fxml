@@ -17,8 +17,8 @@
             <Button fx:id="BackButton" layoutX="11.0" layoutY="10.0" mnemonicParsing="false" onAction="#BackButtonClicked" text="Back" />
             <VBox alignment="CENTER" layoutX="4.0" layoutY="69.0" spacing="10.0" AnchorPane.bottomAnchor="69.39999999999998" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.799999999999997" AnchorPane.topAnchor="69.0">
                <children>
-                  <Button fx:id="addAppointment" mnemonicParsing="false" onAction="#addAppointmentClicked" prefHeight="36.0" prefWidth="99.0" text="Add item" textAlignment="CENTER" />
-                  <Button fx:id="cancelAppointment" mnemonicParsing="false" onAction="#cancelAppointmentClicked" prefHeight="36.0" prefWidth="99.0" text="Remove item" />
+                  <Button fx:id="addItem" mnemonicParsing="false" onAction="#addItemClicked" prefHeight="36.0" prefWidth="99.0" text="Add item" textAlignment="CENTER" />
+                  <Button fx:id="cancelItem" mnemonicParsing="false" onAction="#cancelItemClicked" prefHeight="36.0" prefWidth="99.0" text="Remove item" />
                   <Button fx:id="cancelReservation" mnemonicParsing="false" onAction="#cancelReservationClicked" prefHeight="36.0" prefWidth="99.0" text="Cancel reservation">
                      <VBox.margin>
                         <Insets bottom="20.0" top="20.0" />

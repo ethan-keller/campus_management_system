@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="383.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.CalenderAppointmentDialogController">
+<AnchorPane prefHeight="383.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.CalenderItemDialogController">
    <children>
       <GridPane fx:id="gridPane" alignment="CENTER" layoutX="66.0" layoutY="75.0" prefHeight="214.0" prefWidth="338.0">
         <columnConstraints>
@@ -28,7 +28,7 @@
           <RowConstraints maxHeight="63.59998168945313" minHeight="10.0" prefHeight="61.199987792968756" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="header" promptText="Title of your appointment" GridPane.columnIndex="1" />
+            <TextField fx:id="header" promptText="Title of your item" GridPane.columnIndex="1" />
             <DatePicker fx:id="date" prefHeight="25.0" prefWidth="203.0" promptText="Select a date" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label prefHeight="17.0" prefWidth="41.0" text="Date" GridPane.rowIndex="1">
                <font>
@@ -63,7 +63,7 @@
             </HBox>
          </children>
       </GridPane>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="120.0" layoutY="17.0" prefHeight="35.0" prefWidth="231.0" text="Add Appointment" textFill="#0ebaf8">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="120.0" layoutY="17.0" prefHeight="35.0" prefWidth="231.0" text="Add Item" textFill="#0ebaf8">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>

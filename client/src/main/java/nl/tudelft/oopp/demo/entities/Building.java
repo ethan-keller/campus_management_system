@@ -8,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Building {
@@ -37,50 +36,58 @@ public class Building {
         return buildingId;
     }
 
-    public void setBuildingId(int buildingId) { this.buildingId.set(buildingId); }
-
-
+    public void setBuildingId(int buildingId) {
+        this.buildingId.set(buildingId);
+    }
 
 
     public StringProperty getBuildingName() {
         return buildingName;
     }
 
-    public void setBuildingName(String buildingName) { this.buildingName.set(buildingName); }
-
+    public void setBuildingName(String buildingName) {
+        this.buildingName.set(buildingName);
+    }
 
 
     public IntegerProperty getBuildingRoom_count() {
         return buildingRoom_count;
     }
 
-    public void setBuildingRoom_count(int buildingRoom_count) { this.buildingRoom_count.set(buildingRoom_count); }
-
-
+    public void setBuildingRoom_count(int buildingRoom_count) {
+        this.buildingRoom_count.set(buildingRoom_count);
+    }
 
 
     public StringProperty getBuildingAddress() {
         return buildingAddress;
     }
 
-    public void setBuildingAddress(String buildingAddress) { this.buildingAddress.set(buildingAddress); }
+    public void setBuildingAddress(String buildingAddress) {
+        this.buildingAddress.set(buildingAddress);
+    }
 
 
     /**
      * Convert server response into an ObservableList of rooms.
      */
-    public static ObservableList<Building> getBuildingData() throws JSONException {
-        ObservableList<Building> buildingData = FXCollections.observableArrayList();
-        JSONArray jsonArrayBuildings= new JSONArray(BuildingServerCommunication.getAllBuildings());
-        for(int i=0; i<jsonArrayBuildings.length(); i++){
-            Building b = new Building();
-            b.setBuildingId(jsonArrayBuildings.getJSONObject(i).getInt("id") );
-            b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name") );
-            b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getString("address") );
-            b.setBuildingRoom_count(jsonArrayBuildings.getJSONObject(i).getInt("room_count") );
-            buildingData.add(b);
+    public static ObservableList<Building> getBuildingData() {
+        try {
+            ObservableList<Building> buildingData = FXCollections.observableArrayList();
+            JSONArray jsonArrayBuildings = new JSONArray(BuildingServerCommunication.getAllBuildings());
+            for (int i = 0; i < jsonArrayBuildings.length(); i++) {
+                Building b = new Building();
+                b.setBuildingId(jsonArrayBuildings.getJSONObject(i).getInt("id"));
+                b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name"));
+                b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getString("address"));
+                b.setBuildingRoom_count(jsonArrayBuildings.getJSONObject(i).getInt("room_count"));
+                buildingData.add(b);
+            }
+            return buildingData;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return buildingData;
+        return null;
     }
 
     public static Building getBuildingById(int id) {
@@ -92,7 +99,7 @@ public class Building {
             b.setBuildingAddress(jsonObject.getString("address"));
             b.setBuildingRoom_count(jsonObject.getInt("room_count"));
             return b;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

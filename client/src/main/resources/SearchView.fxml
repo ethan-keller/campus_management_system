@@ -104,10 +104,7 @@
                            </font>
                         </Button>
                      </AnchorPane>
-                     <AnchorPane prefHeight="187.0" prefWidth="171.0">
-                        <children>
-                           <Button fx:id="cancelBooking" layoutX="93.0" layoutY="26.0" mnemonicParsing="false" onAction="#cancelBookingClicked" prefHeight="44.0" prefWidth="62.0" text="Cancel Booking" textAlignment="CENTER" wrapText="true" />
-                        </children></AnchorPane>
+                     <AnchorPane prefHeight="187.0" prefWidth="171.0" />
                      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
                   </VBox>
                </AnchorPane>
