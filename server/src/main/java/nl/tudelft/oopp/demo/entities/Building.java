@@ -19,22 +19,32 @@ public class Building {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "available_bikes")
+    private Integer available_bikes;
+
+    @Column(name = "max_bikes")
+    private Integer max_bikes;
+
     public Building() {
     }
 
     /**
-     * Constructor.
+     * Constructor with optional fields available_bikes and max_bikes
      *
      * @param id int
      * @param name String
      * @param room_count int
-     * @param address String //TODO exact format
+     * @param address String
+     * @param available_bikes int
+     * @param max_bikes int  //TODO exact format
      */
-    public Building(int id, String name, int room_count, String address) {
+    public Building(int id, String name, int room_count, String address, int available_bikes, int max_bikes) {
         this.id = id;
         this.name = name;
         this.room_count = room_count;
         this.address = address;
+        this.available_bikes = available_bikes;
+        this.max_bikes = max_bikes;
     }
 
     /**
@@ -72,6 +82,25 @@ public class Building {
     public String getAddress() {
         return address;
     }
+
+    /**
+     * Retrieves the available bikes for this building from the database.
+     *
+     * @return Returns the int value available_bikes
+     */
+    public int getAvailableBikes() {
+        return available_bikes;
+    }
+
+    /**
+     * Retrieves the maximum amount of bikes for this building from the database.
+     *
+     * @return Returns the int value max_bikes
+     */
+    public int getMaxBikes() {
+        return max_bikes;
+    }
+
 
     /**
      * Equals

@@ -17,20 +17,25 @@ public class Building {
     private StringProperty buildingName;
     private IntegerProperty buildingRoom_count;
     private StringProperty buildingAddress;
+    private IntegerProperty buildingAvailable_bikes;
+    private IntegerProperty buildingMax_bikes;
 
     public Building() {
         this.buildingId = new SimpleIntegerProperty(-1);
         this.buildingName = new SimpleStringProperty(null);
         this.buildingRoom_count = new SimpleIntegerProperty(-1);
         this.buildingAddress = new SimpleStringProperty(null);
+        this.buildingAvailable_bikes = new SimpleIntegerProperty(-1);
+        this.buildingMax_bikes = new SimpleIntegerProperty(-1);
     }
 
-
-    public Building(int buildingId, String buildingName, int buildingRoom_count, String buildingAddress) {
+    public Building(int buildingId, String buildingName, int buildingRoom_count, String buildingAddress, int buildingAvailable_bikes, int buildingMax_bikes) {
         this.buildingId = new SimpleIntegerProperty(buildingId);
         this.buildingName = new SimpleStringProperty(buildingName);
         this.buildingRoom_count = new SimpleIntegerProperty(buildingRoom_count);
         this.buildingAddress = new SimpleStringProperty(buildingAddress);
+        this.buildingAvailable_bikes = new SimpleIntegerProperty(buildingAvailable_bikes);
+        this.buildingMax_bikes = new SimpleIntegerProperty(buildingMax_bikes);
     }
 
     public IntegerProperty getBuildingId() {
@@ -66,6 +71,24 @@ public class Building {
     public void setBuildingAddress(String buildingAddress) { this.buildingAddress.set(buildingAddress); }
 
 
+    public IntegerProperty getBuildingAvailable_bikes() {
+        return buildingAvailable_bikes;
+    }
+
+    public void setBuildingAvailable_bikes(int buildingAvailable_bikes) {
+        this.buildingAvailable_bikes.set(buildingAvailable_bikes);
+    }
+
+
+
+    public IntegerProperty getBuildingMax_bikes() {
+        return buildingMax_bikes;
+    }
+
+    public void setBuildingMax_bikes(int buildingMax_bikes) {
+        this.buildingMax_bikes.set(buildingMax_bikes);
+    }
+
 
     /**
      * Convert server response into an ObservableList of rooms.
@@ -80,6 +103,8 @@ public class Building {
             b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name") );
             b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getString("address") );
             b.setBuildingRoom_count(jsonArrayBuildings.getJSONObject(i).getInt("room_count") );
+            b.setBuildingAvailable_bikes(jsonArrayBuildings.getJSONObject(i).getInt("availableBikes") );
+            b.setBuildingMax_bikes(jsonArrayBuildings.getJSONObject(i).getInt("maxBikes") );
             buildingData.add(b);
         }
         return buildingData;
@@ -93,6 +118,8 @@ public class Building {
             b.setBuildingName(jsonObject.getString("name"));
             b.setBuildingAddress(jsonObject.getString("address"));
             b.setBuildingRoom_count(jsonObject.getInt("room_count"));
+            b.setBuildingAvailable_bikes(jsonObject.getInt("availableBikes"));
+            b.setBuildingMax_bikes(jsonObject.getInt("maxBikes"));
             return b;
         } catch (Exception e){
             e.printStackTrace();
