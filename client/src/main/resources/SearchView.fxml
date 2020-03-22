@@ -93,18 +93,13 @@
                      </Text>
                      <ComboBox fx:id="BikesAvailable" prefHeight="31.2" prefWidth="178.4" />
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-                        <Button fx:id="BookingHistoryButton" layoutX="93.0" layoutY="8.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="64.0" text="Booking History">
-                           <font>
-                              <Font size="7.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="clearFilters" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" onAction="#clearFiltersClicked" prefHeight="52.0" prefWidth="64.0" text="Clear filters">
-                           <font>
-                              <Font size="7.0" />
-                           </font>
-                        </Button>
+                        <Button fx:id="BookingHistoryButton" layoutX="93.0" layoutY="8.0" mnemonicParsing="false" onAction="#BookingHistoryButtonClicked" prefHeight="44.0" prefWidth="62.0" text="Booking History" textAlignment="CENTER" wrapText="true" />
+                        <Button fx:id="clearFilters" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" onAction="#clearFiltersClicked" prefHeight="44.0" prefWidth="60.0" text="Clear filters" textAlignment="CENTER" wrapText="true" />
                      </AnchorPane>
-                     <AnchorPane prefHeight="187.0" prefWidth="171.0" />
+                     <AnchorPane prefHeight="187.0" prefWidth="171.0">
+                        <children>
+                           <Button fx:id="cancelBooking" layoutX="93.0" layoutY="26.0" mnemonicParsing="false" onAction="#cancelBookingClicked" prefHeight="44.0" prefWidth="62.0" text="Cancel Booking" textAlignment="CENTER" wrapText="true" />
+                        </children></AnchorPane>
                      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
                   </VBox>
                </AnchorPane>
@@ -126,6 +121,11 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                         </TextField>
+                        <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#signOutButtonClicked" text="Sign Out">
+                           <HBox.margin>
+                              <Insets left="10.0" top="20.0" />
+                           </HBox.margin>
+                        </Button>
                      </HBox>
                      <ScrollPane fx:id="scrollPane" layoutY="68.0" prefHeight="470.0" prefWidth="687.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="68.0">
                         <content>

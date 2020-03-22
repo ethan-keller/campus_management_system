@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.views;
 
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,20 +10,18 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class AdminManageBuildingView extends Application {
+public class AdminManageReservationView extends Application {
 
-    public AdminManageBuildingView(){
-    }
+    public AdminManageReservationView() {}
 
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
 
         try {
             FXMLLoader loader = new FXMLLoader();
-            URL xmlUrl = getClass().getResource("/adminManageBuildingView.fxml");
+            URL xmlUrl = getClass().getResource("/adminManageReservationView.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
-
-            /*
+            /**
              * Making sure that the page doesn't resize when we switch between scenes
              */
             Scene oldScene = primaryStage.getScene();
@@ -33,15 +32,12 @@ public class AdminManageBuildingView extends Application {
             primaryStage.setMinWidth(710);
             primaryStage.show();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
     public static void main(String[] args) {
         launch(args);
     }
-
 }
-
