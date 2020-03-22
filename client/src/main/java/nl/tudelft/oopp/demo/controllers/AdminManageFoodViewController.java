@@ -70,7 +70,6 @@ public class AdminManageFoodViewController {
         return foodTable.getSelectionModel().getSelectedIndex();
     }
 
-
     /**
      * Delete a food.
      */
@@ -167,6 +166,11 @@ public class AdminManageFoodViewController {
         }
     }
 
+    /**
+     * Show all the buildings which provide this food in a table.
+     * @param event
+     * @throws IOException
+     */
     @FXML
     private void foodBuildingClicked(ActionEvent event) throws IOException {
         Food selectedFood = getSelectedFood();
