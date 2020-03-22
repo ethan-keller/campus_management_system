@@ -21,7 +21,7 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO food(name, price) VALUES (:food, :price)", nativeQuery = true)
+    @Query(value = "INSERT INTO food(name, price) VALUES (:name, :price)", nativeQuery = true)
     public void createFood(@Param("name") String name, @Param("price") double price);
 
     @Modifying
