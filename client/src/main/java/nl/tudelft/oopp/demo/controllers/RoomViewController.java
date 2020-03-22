@@ -461,22 +461,39 @@ public class RoomViewController implements Initializable {
     }
 
     public void BookBikeClicked(ActionEvent event) throws IOException {
+        try{
+            String selectedDate;
+            String selectedStartTime;
+            String selectedEndTime;
+            String selectedFood;
 
+            if(isInputValid()){
+                selectedDate = getDatePickerConverter().toString(datePicker.getValue());
+                selectedStartTime = getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
+                selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
+                selectedFood=food_choice.getValue();
 
-        String selectedDate = getDatePickerConverter().toString(datePicker.getValue());
-        String selectedStartTime = getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
-        String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
-        String selectedFood=food_choice.getValue();
+                ReserveAndRentController.RoomDate= selectedDate;
+                ReserveAndRentController.startTime= selectedStartTime;
+                ReserveAndRentController.endTime= selectedEndTime;
+                ReserveAndRentController.RoomFood=selectedFood;
 
-        ReserveAndRentController.RoomDate= selectedDate;
-        ReserveAndRentController.startTime= selectedStartTime;
-        ReserveAndRentController.endTime= selectedEndTime;
-        ReserveAndRentController.RoomFood=selectedFood;
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                ReserveAndRentView rarv = new ReserveAndRentView();
+                rarv.start(stage);
+            }
+            else{
+                Alert alert = GeneralMethods.createAlert("fields incomplete", "Please fill in all the fields", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.ERROR);
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // create error Alert
+            Alert alert = GeneralMethods.createAlert("Something went wrong", "Sorry, something went wrong on our end. We're fixing it now!", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.ERROR);
+            alert.showAndWait();
+        }
 
-        ReserveAndRentView rarv = new ReserveAndRentView();
-        rarv.start(stage);
 
     }
 

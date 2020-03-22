@@ -29,6 +29,26 @@ public class ReservationServerCommunication {
         return true;
     }
 
+    public static boolean createReservationWithBike(String username, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
+        String params = "username="+username+"&room="+room+"&date="+date+"&starting_time="+starting_time+"&ending_time="+ending_time;
+        params = GeneralMethods.encodeCommunication(params);
+
+
+        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createReservation?"+params)).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode() + response.body());
+            return false;
+        }
+        return true;
+    }
+
     public static boolean updateReservation(String username, int id, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
         String params = "username="+username+"&id="+id+"&room="+room+"&date="+date+"&starting_time="+starting_time+"&ending_time="+ending_time;
         params = GeneralMethods.encodeCommunication(params);

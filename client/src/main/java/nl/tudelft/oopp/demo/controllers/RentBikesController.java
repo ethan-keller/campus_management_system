@@ -1,7 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,13 +10,15 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.SearchView;
 
 import java.io.IOException;
@@ -46,8 +47,8 @@ public class RentBikesController implements Initializable {
     private Text BuildingError;
     @FXML
     private Spinner<Integer> spinner;
-    private static Room currentRoom;
-    public static int currentRoomId;
+    @FXML
+    private VBox BuildingBikes;
 
     /**
      * deal with the button clicking action
@@ -80,14 +81,28 @@ public class RentBikesController implements Initializable {
 
         configureDatePicker();
 
-        currentRoom = Room.getRoomById(currentRoomId);
+        ObservableList<Building> buildingsList = Building.getBuildingData();
+        for(Building b : buildingsList){
+            BuildingBikes.getChildren().add(getEachBikes(b));
+        }
 
-
-        //Building b = Building.getBuildingById(currentRoom.getRoomBuilding().get());
-
-        //capacity.setText("Available bikes: "+b.getBuildingBike_count());
 
     }
+
+    private Text getEachBikes(Building b){
+        String bName = b.toString();
+        int bBikes = b.getBuildingAvailable_bikes().get();
+
+        Text text = new Text();
+        text.setText(bName+": "+bBikes);
+        text.setFill(Color.WHITE);
+        text.setFont(Font.font ("System", 14));
+
+        return text;
+    }
+
+
+
 
     /**
      * Checks whether if all the fields were filled in
@@ -127,21 +142,33 @@ public class RentBikesController implements Initializable {
 
                 String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
                 int selectedBike = spinner.getValue();
+
                 String selectedBuilding = ComboBuilding.getValue();
 
-                Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "+selectedBike+" bikes" +
-                        " from "+selectedBuilding+" on "+selectedDate+"?" , ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
-                assert alert != null;
-                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+                if(checkBikeAvailability(selectedBuilding, selectedBike)){
+                    Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "+selectedBike+" bikes" +
+                            " from "+selectedBuilding+" on "+selectedDate+"?" , ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+                    assert alert != null;
+                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
 
-                Optional<ButtonType> result = alert.showAndWait();
-                if(result.isEmpty()){
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if(result.get() == ButtonType.OK){
+                        ////ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(), );
+                        ////Method not present in Reservation class where it involves the bikes
+                        Alert alert2 = GeneralMethods.createAlert("Room booked", "You successfully booked this room!", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+                        alert2.showAndWait();
+                    }
+                    else if(result.get()==ButtonType.CANCEL){
+                    }
                 }
-                else if(result.get() == ButtonType.OK){
-                    //Return values to the server
-                }
-                else if(result.get()==ButtonType.CANCEL){
+                else{
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Insufficient Bikes");
+                    alert.setContentText("Insufficient Bikes Available. Please check the number of bikes available");
+                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+                    alert.showAndWait();
                 }
             }
         }
@@ -243,6 +270,21 @@ public class RentBikesController implements Initializable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    //Checks if there are sufficient bikes in the database
+    private Boolean checkBikeAvailability(String buildingName, int num){
+        ObservableList<Building> buildingList = Building.getBuildingData();
+        Building building= null;
+        for (Building b : buildingList) {
+            if (b.getBuildingName().get().equals(buildingName)) {
+                building = b;
+                break;
+            }
+        }
+
+        assert building != null;
+        return building.getBuildingAvailable_bikes().get() - num >= 0;
     }
 
 
