@@ -4,11 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
-import nl.tudelft.oopp.demo.views.AdminManageRoomView;
-import nl.tudelft.oopp.demo.views.AdminManageUserView;
-import nl.tudelft.oopp.demo.views.LoginView;
-import nl.tudelft.oopp.demo.views.AdminManageReservationView;
+
+import nl.tudelft.oopp.demo.views.*;
 
 import java.io.IOException;
 

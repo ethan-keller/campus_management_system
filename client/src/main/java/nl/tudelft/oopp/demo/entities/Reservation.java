@@ -16,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 public class Reservation {
     private IntegerProperty id;
     private StringProperty username;
+    //Room means the room-id of the particular room.
     private IntegerProperty room;
     private StringProperty date;
     private StringProperty starting_time;
@@ -128,6 +129,7 @@ public class Reservation {
         }
         return reservationList;
     }
+
 
     public static ObservableList<Reservation> getSelectedUserReservation() throws JSONException, UnsupportedEncodingException{
         ObservableList<Reservation> reservationList = FXCollections.observableArrayList();

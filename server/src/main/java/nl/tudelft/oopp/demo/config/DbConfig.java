@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.config;
 
+import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,14 +12,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import java.sql.SQLException;
 
 
 @Configuration
 @EnableJpaRepositories("nl.tudelft.oopp.demo.repositories")
 @PropertySource("classpath:application-dev.properties")
 @EnableTransactionManagement
-public class DBConfig {
+public class DbConfig {
 
     @Autowired
     private Environment environment;

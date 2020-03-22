@@ -5,16 +5,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Hashing {
 
-    public static String hashIt(String input)
-    {
-        try
-        {
+    public static String hashIt(String input) {
+        try {
             String algorithm = "SHA-256";
             String res = "";
             MessageDigest digest = MessageDigest.getInstance(algorithm);
@@ -23,8 +20,7 @@ public class Hashing {
             res = new String(hash);
 
             StringBuilder sb = new StringBuilder();
-            for(int i=0; i< hash.length ;i++) //changes bytes to a String
-            {
+            for(int i=0; i< hash.length ;i++) {        //changes bytes to a String
                 sb.append(Integer.toString((hash[i] & 0xff) + 0x100, 16).substring(1));
             }
 
@@ -32,8 +28,7 @@ public class Hashing {
 
             return res;
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             System.out.println("Error while hashing: " + e.toString());
         }
         return null;

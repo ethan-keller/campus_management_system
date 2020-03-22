@@ -12,10 +12,15 @@ public class LoginServerCommunication {
 
     /**
      * The sendLogin method encodes the information that is passed to the server in line 23
+<<<<<<< HEAD
      * A http request is created to send all the information that is entered in the text field
      * by the user is sent to the server
      * There is a try-catch block that alerts the user if the communication between the client
      * and the server has succeeded or
+=======
+     * A http request is created to send all the information that is entered in the text field by the user is sent to the server
+     * There is a try-catch block that alerts the user if the communication between the client and the server has succeeded or
+>>>>>>> develop
      * fallen through.
      *
      * @return the body of a get request to the server.
