@@ -235,6 +235,14 @@ public class SearchViewController implements Initializable {
                 e.printStackTrace();
             }
         });
+
+        datePicker.setOnAction(event -> {
+            try{
+                loadCards();
+            }catch(Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void loadCards() throws UnsupportedEncodingException {
@@ -302,11 +310,11 @@ public class SearchViewController implements Initializable {
 
                 int totalHoursAvailable;
                 for(int q = 0; q != roomsWithDate.size(); q++){
-                    totalHoursAvailable = 16;
-                    for(int z = 0; z != reservations.size(); q++){
-                        if(reservations.get(q).getRoom().getValue() == roomsWithDate.get(z)){
-                            int starting = Integer.parseInt(reservations.get(z).getStarting_time().getValue().substring(0 , 1));
-                            int ending = Integer.parseInt(reservations.get(z).getEnding_time().getValue().substring(0 , 1));
+                    totalHoursAvailable = 15;
+                    for(int z = 0; z != reservations.size(); z++){
+                        if(reservations.get(z).getRoom().getValue() == roomsWithDate.get(q)){
+                            int starting = Integer.parseInt(reservations.get(z).getStarting_time().getValue().substring(0 , 2));
+                            int ending = Integer.parseInt(reservations.get(z).getEnding_time().getValue().substring(0 , 2));
                             if(ending == 0){
                                 ending = 24;
                             }
