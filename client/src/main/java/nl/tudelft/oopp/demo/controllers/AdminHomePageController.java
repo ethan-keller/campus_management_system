@@ -45,4 +45,11 @@ public class AdminHomePageController {
         amuv.start(stage);
     }
 
+    public void manageFoodClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage)  ((Node) event.getSource()).getScene().getWindow();
+
+        AdminManageFoodView amfv = new AdminManageFoodView();
+        amfv.start(stage);
+    }
+
 }

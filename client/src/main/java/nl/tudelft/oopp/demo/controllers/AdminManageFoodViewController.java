@@ -1,0 +1,202 @@
+package nl.tudelft.oopp.demo.controllers;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
+import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.views.AdminFoodBuildingView;
+import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.FoodEditDialogView;
+
+import java.io.IOException;
+
+public class AdminManageFoodViewController {
+
+    @FXML
+    private TableView<Food> foodTable;
+
+    @FXML
+    private TableColumn<Food, String> foodIdColumn;
+
+    @FXML
+    private TableColumn<Food, String> foodNameColumn;
+
+    @FXML
+    private TableColumn<Food, String> foodPriceColumn;
+
+    public static Food currentSelectedFood;
+
+    public AdminManageFoodViewController() {
+    }
+
+    /**
+     * Show all the food in the table.
+     */
+    @FXML
+    private void initialize() {
+        try {
+            // Initialize the food table with the three columns.
+            foodIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getFoodId().get())));
+            foodNameColumn.setCellValueFactory(cell -> cell.getValue().getFoodName());
+            foodPriceColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getFoodPrice().get())));
+
+            // Add observable list data to the table
+            foodTable.setItems(Food.getFoodData());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void refresh() {
+        initialize();
+    }
+
+    public Food getSelectedFood() {
+        if (foodTable.getSelectionModel().getSelectedIndex() >= 0) {
+            return foodTable.getSelectionModel().getSelectedItem();
+        } else {
+            return null;
+        }
+    }
+
+    public int getSelectedIndex() {
+        return foodTable.getSelectionModel().getSelectedIndex();
+    }
+
+
+    /**
+     * Delete a food.
+     */
+    @FXML
+    private void deleteFoodClicked(ActionEvent event) {
+        Food selectedFood = getSelectedFood();
+        int selectedIndex = getSelectedIndex();
+        try {
+            if (selectedIndex >= 0) {
+
+                // TODO: Check that food deletion was successful before displaying alert
+                FoodServerCommunication.deleteFood(selectedFood.getFoodId().getValue());
+                refresh();
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Delete food");
+                alert.setContentText("Food deleted!");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("No Selection");
+                alert.setHeaderText("No Food Selected");
+                alert.setContentText("Please select a food in the table.");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            System.out.println("delete food exception");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Handles clicking the create new button.
+     */
+    @FXML
+    private void createNewFoodClicked(ActionEvent event) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            currentSelectedFood = null;
+            FoodEditDialogView view = new FoodEditDialogView();
+            view.start(stage);
+            Food tempFood = FoodEditDialogController.food;
+            if (tempFood == null) return;
+
+            // TODO: Check that building creation was successful before displaying alert
+            FoodServerCommunication.createFood(tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
+            refresh();
+
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("New food");
+            alert.setContentText("Added new food!");
+        } catch (Exception e) {
+            System.out.println("food creation exception");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Called when the user clicks the edit button. Opens a dialog to edit
+     * details for the selected food.
+     */
+    @FXML
+    private void editFoodClicked(ActionEvent event) {
+        Food selectedFood = getSelectedFood();
+        int selectedIndex = getSelectedIndex();
+        try {
+            if (selectedIndex >= 0) {
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentSelectedFood = selectedFood;
+
+                FoodEditDialogView view = new FoodEditDialogView();
+                view.start(stage);
+                Food tempFood = FoodEditDialogController.food;
+
+                if (tempFood == null) return;
+
+                // TODO: Check that building edit was successful before displaying alert
+                FoodServerCommunication.updateFood(selectedFood.getFoodId().get(), tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
+                refresh();
+
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Edit food");
+                alert.setContentText("edited food!");
+            } else {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("No Selection");
+                alert.setHeaderText("No Food Selected");
+                alert.setContentText("Please select a food in the table.");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            System.out.println("food edit exception");
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void foodBuildingClicked(ActionEvent event) throws IOException {
+        Food selectedFood = getSelectedFood();
+        int selectedIndex = getSelectedIndex();
+        try {
+            if (selectedIndex >= 0) {
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentSelectedFood = selectedFood;
+
+                AdminFoodBuildingView afbv = new AdminFoodBuildingView();
+                afbv.start(stage);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("No Selection");
+                alert.setHeaderText("No Food Selected");
+                alert.setContentText("Please select a food in the table.");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            System.out.println("food edit exception");
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void backClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        AdminHomePageView ahpv = new AdminHomePageView();
+        ahpv.start(stage);
+    }
+
+}
