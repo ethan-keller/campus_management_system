@@ -23,7 +23,6 @@ import java.util.List;
 public class AdminFoodBuildingViewController {
 
     @FXML
-
     private Label foodNameLabel;
 
     @FXML
@@ -62,6 +61,10 @@ public class AdminFoodBuildingViewController {
         initialize();
     }
 
+    /**
+     * Called when a building is selected.
+     * @return Building
+     */
     public Building getSelectedBuilding() {
         if (foodBuildingTable.getSelectionModel().getSelectedIndex() >= 0) {
             return foodBuildingTable.getSelectionModel().getSelectedItem();
@@ -79,6 +82,7 @@ public class AdminFoodBuildingViewController {
      */
     @FXML
     private void deleteFoodBuildingClicked(ActionEvent event) {
+        //Get the selected building
         Building selectedBuilding = getSelectedBuilding();
         int selectedIndex = getSelectedIndex();
         try {
@@ -105,6 +109,7 @@ public class AdminFoodBuildingViewController {
 
     /**
      * Handles clicking the add button.
+     * A new dialog pop up to select
      */
     @FXML
     private void addFoodBuildingClicked(ActionEvent event) {
