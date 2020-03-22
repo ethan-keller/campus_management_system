@@ -194,9 +194,9 @@ public class CalendarPaneController implements Initializable {
             CalenderItemDialogView iv = new CalenderItemDialogView();
             iv.start(thisStage);
 
-            // if no item was created, there is an error (shown in alert)
+            // if no item was created (e.g. cancel clicked) return
             if (CalenderItemDialogController.item == null) {
-                GeneralMethods.createAlert("Error", "Sorry, something has gone wrong. We are on it now!", thisStage, Alert.AlertType.ERROR);
+                return;
             } else {
                 Appointment app = CalenderItemDialogController.item;
                 // get date and time in correct format for database
@@ -206,7 +206,7 @@ public class CalendarPaneController implements Initializable {
                 // send info to server
                 ItemServerCommunication.createItem(CurrentUserManager.getUsername(), app.getHeaderText(), date, startTime, endTime, app.getDescriptionText());
                 // get the id of the last inserted item to assign it to the Appointment object
-                app.setId(ItemServerCommunication.getCurrentId());
+                app.setId(String.valueOf(Integer.parseInt(ItemServerCommunication.getCurrentId()) - 1));
                 // add the item to the calendar
                 calendar.getSchedule().getItems().add(app);
             }

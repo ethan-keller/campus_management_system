@@ -382,10 +382,12 @@ public class RoomViewController implements Initializable {
                 selectedStartTime = getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
                 selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
 
+                System.out.println(selectedEndTime);
+
                 // if user confirms booking, reservations is sent to server
                 if (confirmBooking(selectedDate, selectedStartTime, selectedEndTime)) {
                     // send new reservation to server
-                    ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(), currentRoomId, selectedDate, selectedStartTime, selectedEndTime);
+                    ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(), currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24") ? "23:59" : selectedEndTime);
                     // create confirmation Alert
                     Alert alert = GeneralMethods.createAlert("Room booked", "You successfully booked this room!", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
                     alert.showAndWait();

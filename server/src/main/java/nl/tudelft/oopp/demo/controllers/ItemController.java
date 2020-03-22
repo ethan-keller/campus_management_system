@@ -87,7 +87,6 @@ public class ItemController {
     @ResponseBody
     public boolean deleteItem(@RequestParam int id){
         try {
-            id = Integer.parseInt(CommunicationMethods.decodeCommunication(String.valueOf(id)));
             itemRepo.deleteItem(id);
             return true;
         } catch (Exception e){
