@@ -7,6 +7,8 @@ import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
+
 public class Food {
 
     private IntegerProperty foodId;
@@ -66,7 +68,7 @@ public class Food {
         return foodData;
     }
 
-    public static ObservableList<Building> getFoodBuilding(int id) {
+    public static ObservableList<Building> getFoodBuilding(int id) throws UnsupportedEncodingException {
         ObservableList<Building> foodBuilding = FXCollections.observableArrayList();
         JSONArray jsonArrayBuildings= new JSONArray(FoodServerCommunication.getFoodBuilding(id));
         for(int i=0; i<jsonArrayBuildings.length(); i++){

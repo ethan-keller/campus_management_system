@@ -47,4 +47,7 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
     @Query(value = "SELECT * FROM building WHERE name = :name", nativeQuery = true)
     public Building getBuildingByName(@Param("name") String name);
 
+    @Query(value = "SELECT * FROM building WHERE id IN (SELECT building_id FROM food_building WHERE food_id = :id)", nativeQuery = true)
+    public List<Building> getFoodBuildings(@Param("id") int id);
+
 }
