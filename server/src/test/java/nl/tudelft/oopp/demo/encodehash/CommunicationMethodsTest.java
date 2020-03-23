@@ -1,10 +1,10 @@
-package nl.tudelft.oopp.demo.encode_hash;
+package nl.tudelft.oopp.demo.encodehash;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.UnsupportedEncodingException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class CommunicationMethodsTest {
 

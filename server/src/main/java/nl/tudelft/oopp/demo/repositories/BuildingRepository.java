@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+
 @Repository
 public interface BuildingRepository extends JpaRepository<Building, Long> {
 
@@ -21,9 +22,9 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO building (name, room_count, address, available_bikes, max_bikes) VALUES " +
-            "(:name, :room_count, :address, :available_bikes, :max_bikes)", nativeQuery = true)
-    public void insertBuilding(@Param("name") String name, @Param("room_count") int room_count,
+    @Query(value = "INSERT INTO building (name, room_count, address, available_bikes, max_bikes) VALUES "
+            + "(:name, :room_count, :address, :available_bikes, :max_bikes)", nativeQuery = true)
+    public void insertBuilding(@Param("name") String name, @Param("room_count") int roomCount,
                                @Param("address") String address, @Param("available_bikes") int available_bikes,
                                @Param("max_bikes") int max_bikes);
 

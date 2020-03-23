@@ -1,8 +1,10 @@
 package nl.tudelft.oopp.demo.entities;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class ReservationsTest {
     Reservations r1 = new Reservations(1, "Otte", 4, "2020-07-07", "13-00-00", "15-00-00");
@@ -35,14 +37,14 @@ class ReservationsTest {
     }
 
     @Test
-    void getStarting_time() {
-        assertEquals("13-00-00", r1.getStarting_time());
+    void getStartingTime() {
+        assertEquals("13-00-00", r1.getStartingTime());
 
     }
 
     @Test
-    void getEnding_time() {
-        assertEquals("15-00-00", r1.getEnding_time());
+    void getEndingTime() {
+        assertEquals("15-00-00", r1.getEndingTime());
     }
 
     @Test

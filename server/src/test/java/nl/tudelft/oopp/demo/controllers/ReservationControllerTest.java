@@ -1,5 +1,9 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.UnsupportedEncodingException;
+
 import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
@@ -10,9 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.UnsupportedEncodingException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ReservationControllerTest {
@@ -47,7 +48,8 @@ class ReservationControllerTest {
         int roomId2 = roomRepo.getRoomByName("4testing").getId();
 
         reservationCont.createReservation("6testing", roomId, "2020-09-09", "12:00:00", "14:00:00");
-        int id = reservationRepo.getReservationByRoomAndDateAndStarting_time(roomId, "2020-09-09", "12:00:00").getId();
+        int id = reservationRepo.getReservationByRoomAndDateAndStartingTime(
+                roomId, "2020-09-09", "12:00:00").getId();
         Reservations r1 = new Reservations(id, "6testing", roomId, "2020-09-09", "12:00:00", "14:00:00");
         assertEquals(r1, reservationCont.getReservation(id));
 

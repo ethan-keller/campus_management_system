@@ -1,6 +1,11 @@
 package nl.tudelft.oopp.demo.entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "reservation")
@@ -19,31 +24,31 @@ public class Reservations {
     @Column(name = "date")
     private String date;
 
-    @Column(name = "starting_time")
-    private String starting_time;
+    @Column(name = "startingTime")
+    private String startingTime;
 
-    @Column(name = "ending_time")
-    private String ending_time;
+    @Column(name = "endingTime")
+    private String endingTime;
 
     public Reservations() {
     }
 
     /**
-     * Builder
+     * Builder.
      *
-     * @param id int
-     * @param username String
-     * @param date String formatted like "". //TODO address format
-     * @param starting_time String formatted like "". //TODO time format
-     * @param ending_time String formatted like "". //TODO time format
+     * @param id           int
+     * @param username     String
+     * @param date         String formatted like "". //TODO address format
+     * @param startingTime String formatted like "". //TODO time format
+     * @param endingTime   String formatted like "". //TODO time format
      */
-    public Reservations(int id, String username, int room, String date, String starting_time, String ending_time) {
+    public Reservations(int id, String username, int room, String date, String startingTime, String endingTime) {
         this.id = id;
         this.username = username;
         this.room = room;
         this.date = date;
-        this.starting_time = starting_time;
-        this.ending_time = ending_time;
+        this.startingTime = startingTime;
+        this.endingTime = endingTime;
 
     }
 
@@ -70,7 +75,7 @@ public class Reservations {
      *
      * @return Returns the int room.
      */
-    public int getRoom(){
+    public int getRoom() {
         return room;
     }
 
@@ -84,25 +89,25 @@ public class Reservations {
     }
 
     /**
-     * Retrieves the String starting_time from the database.
+     * Retrieves the String startingTime from the database.
      *
-     * @return Returns the String starting_time formatted like "". //TODO time format
+     * @return Returns the String startingTime formatted like "". //TODO time format
      */
-    public String getStarting_time() {
-        return starting_time;
+    public String getStartingTime() {
+        return startingTime;
     }
 
     /**
-     * Retrieves the String ending_time from the database.
+     * Retrieves the String endingTime from the database.
      *
-     * @return Returns the String ending_time formatted like "". //TODO time format
+     * @return Returns the String endingTime formatted like "". //TODO time format
      */
-    public String getEnding_time() {
-        return ending_time;
+    public String getEndingTime() {
+        return endingTime;
     }
 
     /**
-     * equals
+     * equals.
      *
      * @param o The Object to compare to.
      * @return True if Object and "this" are the same, false otherwise

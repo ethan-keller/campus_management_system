@@ -1,19 +1,20 @@
 package nl.tudelft.oopp.demo.views;
 
+import java.io.IOException;
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
 
 public class CancelBookingView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        try{
+        try {
             FXMLLoader loader = new FXMLLoader();
             URL xmlUrl = getClass().getResource("/cancelBooking.fxml");
             loader.setLocation(xmlUrl);
@@ -29,12 +30,13 @@ public class CancelBookingView extends Application {
             primaryStage.setMinHeight(400);
             primaryStage.setMinWidth(800);
             primaryStage.show();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) { launch(args);}
+    public static void main(String[] args) {
+        launch(args);
+    }
 
 }

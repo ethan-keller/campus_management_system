@@ -1,11 +1,14 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import nl.tudelft.oopp.demo.entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.entities.User;
 
 public class UserEditDialogController {
 
@@ -41,9 +44,11 @@ public class UserEditDialogController {
 //        userPasswordField.setText(user.getUserPassword().get());
         if (user.getUserType().get() == 0) {
             userTypeAdmin.setSelected(true);
-        } if (user.getUserType().get() == 1) {
+        }
+        if (user.getUserType().get() == 1) {
             userTypeTeacher.setSelected(true);
-        } if (user.getUserType().get() == 2) {
+        }
+        if (user.getUserType().get() == 2) {
             userTypeStudent.setSelected(true);
         }
     }
@@ -62,9 +67,11 @@ public class UserEditDialogController {
             user.setUsername(usernameField.getText());
             if (userTypeAdmin.isSelected()) {
                 user.setUserType(0);
-            } if (userTypeTeacher.isSelected()) {
+            }
+            if (userTypeTeacher.isSelected()) {
                 user.setUserType(1);
-            } if (userTypeStudent.isSelected()) {
+            }
+            if (userTypeStudent.isSelected()) {
                 user.setUserType(2);
             }
 
@@ -96,18 +103,18 @@ public class UserEditDialogController {
         String errorMessage = "";
 
 
-            if (usernameField.getText().equals("")) {
-                errorMessage += "No valid username!\n";
-            }
+        if (usernameField.getText().equals("")) {
+            errorMessage += "No valid username!\n";
+        }
 
-            if ((userTypeAdmin.isSelected() || userTypeTeacher.isSelected() || userTypeStudent.isSelected()) == false) {
-                errorMessage += "No valid user type!\n";
+        if ((userTypeAdmin.isSelected() || userTypeTeacher.isSelected() || userTypeStudent.isSelected()) == false) {
+            errorMessage += "No valid user type!\n";
+        }
+        if (!edit) {
+            if (userPasswordField.getText().equals("")) {
+                errorMessage += "No valid password!\n";
             }
-            if (!edit) {
-                if (userPasswordField.getText().equals("")) {
-                    errorMessage += "No valid password!\n";
-                }
-            }
+        }
 
         if (errorMessage.equals("")) {
             return true;
