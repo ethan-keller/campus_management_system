@@ -8,34 +8,33 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Building {
 
     private IntegerProperty buildingId;
     private StringProperty buildingName;
-    private IntegerProperty buildingRoom_count;
+    private IntegerProperty buildingRoomCount;
     private StringProperty buildingAddress;
-    private IntegerProperty buildingAvailable_bikes;
-    private IntegerProperty buildingMax_bikes;
+    private IntegerProperty buildingAvailableBikes;
+    private IntegerProperty buildingMaxBikes;
 
     public Building() {
         this.buildingId = new SimpleIntegerProperty(-1);
         this.buildingName = new SimpleStringProperty(null);
-        this.buildingRoom_count = new SimpleIntegerProperty(-1);
+        this.buildingRoomCount = new SimpleIntegerProperty(-1);
         this.buildingAddress = new SimpleStringProperty(null);
-        this.buildingAvailable_bikes = new SimpleIntegerProperty(-1);
-        this.buildingMax_bikes = new SimpleIntegerProperty(-1);
+        this.buildingAvailableBikes = new SimpleIntegerProperty(-1);
+        this.buildingMaxBikes = new SimpleIntegerProperty(-1);
     }
 
-    public Building(int buildingId, String buildingName, int buildingRoom_count, String buildingAddress, int buildingAvailable_bikes, int buildingMax_bikes) {
+    public Building(int buildingId, String buildingName, int buildingRoomCount, String buildingAddress, int buildingAvailableBikes, int buildingMaxBikes) {
         this.buildingId = new SimpleIntegerProperty(buildingId);
         this.buildingName = new SimpleStringProperty(buildingName);
-        this.buildingRoom_count = new SimpleIntegerProperty(buildingRoom_count);
+        this.buildingRoomCount = new SimpleIntegerProperty(buildingRoomCount);
         this.buildingAddress = new SimpleStringProperty(buildingAddress);
-        this.buildingAvailable_bikes = new SimpleIntegerProperty(buildingAvailable_bikes);
-        this.buildingMax_bikes = new SimpleIntegerProperty(buildingMax_bikes);
+        this.buildingAvailableBikes = new SimpleIntegerProperty(buildingAvailableBikes);
+        this.buildingMaxBikes = new SimpleIntegerProperty(buildingMaxBikes);
     }
 
     public IntegerProperty getBuildingId() {
@@ -56,12 +55,12 @@ public class Building {
     }
 
 
-    public IntegerProperty getBuildingRoom_count() {
-        return buildingRoom_count;
+    public IntegerProperty getBuildingRoomCount() {
+        return buildingRoomCount;
     }
 
-    public void setBuildingRoom_count(int buildingRoom_count) {
-        this.buildingRoom_count.set(buildingRoom_count);
+    public void setBuildingRoomCount(int buildingRoomCount) {
+        this.buildingRoomCount.set(buildingRoomCount);
     }
 
 
@@ -75,44 +74,45 @@ public class Building {
 
 
 
-    public IntegerProperty getBuildingAvailable_bikes() {
-        return buildingAvailable_bikes;
+    public IntegerProperty getBuildingAvailableBikes() {
+        return buildingAvailableBikes;
     }
 
-    public void setBuildingAvailable_bikes(int buildingAvailable_bikes) {
-        this.buildingAvailable_bikes.set(buildingAvailable_bikes);
+    public void setBuildingAvailableBikes(int buildingAvailableBikes) {
+        this.buildingAvailableBikes.set(buildingAvailableBikes);
     }
 
 
 
-    public IntegerProperty getBuildingMax_bikes() {
-        return buildingMax_bikes;
+    public IntegerProperty getBuildingMaxBikes() {
+        return buildingMaxBikes;
     }
 
-    public void setBuildingMax_bikes(int buildingMax_bikes) {
-        this.buildingMax_bikes.set(buildingMax_bikes);
+    public void setBuildingMaxBikes(int buildingMaxBikes) {
+        this.buildingMaxBikes.set(buildingMaxBikes);
     }
 
 
     /**
      * Convert server response into an ObservableList of rooms.
      */
-    public static ObservableList<Building> getBuildingData() throws JSONException {
-        ObservableList<Building> buildingData = FXCollections.observableArrayList();
-        JSONArray jsonArrayBuildings = new JSONArray(BuildingServerCommunication.getAllBuildings());
-        for (int i = 0; i < jsonArrayBuildings.length(); i++) {
-            Building b = new Building();
-            b.setBuildingId(2);
-
-            b.setBuildingId(jsonArrayBuildings.getJSONObject(i).getInt("id") );
-            b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name") );
-            b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getString("address") );
-            b.setBuildingRoom_count(jsonArrayBuildings.getJSONObject(i).getInt("room_count") );
-            b.setBuildingAvailable_bikes(jsonArrayBuildings.getJSONObject(i).getInt("availableBikes") );
-            b.setBuildingMax_bikes(jsonArrayBuildings.getJSONObject(i).getInt("maxBikes") );
-            buildingData.add(b);
+    public static ObservableList<Building> getBuildingData() {
+        try {
+            ObservableList<Building> buildingData = FXCollections.observableArrayList();
+            JSONArray jsonArrayBuildings = new JSONArray(BuildingServerCommunication.getAllBuildings());
+            for (int i = 0; i < jsonArrayBuildings.length(); i++) {
+                Building b = new Building();
+                b.setBuildingId(jsonArrayBuildings.getJSONObject(i).getInt("id"));
+                b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name"));
+                b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getString("address"));
+                b.setBuildingRoomCount(jsonArrayBuildings.getJSONObject(i).getInt("roomCount"));
+                buildingData.add(b);
+            }
+            return buildingData;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return buildingData;
+        return null;
     }
 
     public static Building getBuildingById(int id) {
@@ -122,9 +122,9 @@ public class Building {
             b.setBuildingId(jsonObject.getInt("id"));
             b.setBuildingName(jsonObject.getString("name"));
             b.setBuildingAddress(jsonObject.getString("address"));
-            b.setBuildingRoom_count(jsonObject.getInt("room_count"));
-            b.setBuildingAvailable_bikes(jsonObject.getInt("availableBikes"));
-            b.setBuildingMax_bikes(jsonObject.getInt("maxBikes"));
+            b.setBuildingRoomCount(jsonObject.getInt("roomCount"));
+            b.setBuildingAvailableBikes(jsonObject.getInt("availableBikes"));
+            b.setBuildingMaxBikes(jsonObject.getInt("maxBikes"));
             return b;
         } catch (Exception e) {
             e.printStackTrace();

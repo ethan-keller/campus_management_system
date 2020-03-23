@@ -15,7 +15,7 @@ public class BuildingEditDialogController {
     @FXML
     private TextField buildingAddressField;
     @FXML
-    private TextField buildingRoom_countField;
+    private TextField buildingRoomCountField;
 
     public static Building building;
 
@@ -31,7 +31,7 @@ public class BuildingEditDialogController {
         if (building == null) return;
         buildingNameField.setText(building.getBuildingName().get());
         buildingAddressField.setText(building.getBuildingAddress().get());
-        buildingRoom_countField.setText(String.valueOf(building.getBuildingRoom_count().get()));
+        buildingRoomCountField.setText(String.valueOf(building.getBuildingRoomCount().get()));
     }
 
     private static void emptyBuilding() {
@@ -46,7 +46,7 @@ public class BuildingEditDialogController {
         if (isInputValid()) {
             emptyBuilding();
             building.setBuildingName(buildingNameField.getText());
-            building.setBuildingRoom_count(Integer.parseInt(buildingRoom_countField.getText()));
+            building.setBuildingRoomCount(Integer.parseInt(buildingRoomCountField.getText()));
             building.setBuildingAddress(buildingAddressField.getText());
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
@@ -77,11 +77,11 @@ public class BuildingEditDialogController {
         if (buildingAddressField.getText().equals("")) {
             errorMessage += "No valid building address!\n";
         }
-        if (buildingRoom_countField.getText().equals("")) {
+        if (buildingRoomCountField.getText().equals("")) {
             errorMessage += "No valid capacity!\n";
         } else {
             try {
-                Integer.parseInt(buildingRoom_countField.getText());
+                Integer.parseInt(buildingRoomCountField.getText());
             } catch (NumberFormatException e) {
                 errorMessage += "No valid room count (must be an integer)!\n";
             }

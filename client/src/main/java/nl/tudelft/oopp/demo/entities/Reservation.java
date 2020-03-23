@@ -12,7 +12,7 @@ import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.controllers.AdminManageUserViewController;
 import org.json.JSONArray;
-import org.json.JSONException;
+
 
 public class Reservation {
     private IntegerProperty id;
@@ -20,29 +20,29 @@ public class Reservation {
     //Room means the room-id of the particular room.
     private IntegerProperty room;
     private StringProperty date;
-    private StringProperty starting_time;
-    private StringProperty ending_time;
+    private StringProperty startingTime;
+    private StringProperty endingTime;
 
     public Reservation() {
         this.id = new SimpleIntegerProperty(-1);
         this.username = new SimpleStringProperty(null);
         this.room = new SimpleIntegerProperty(-1);
         this.date = new SimpleStringProperty(null);
-        this.starting_time = new SimpleStringProperty(null);
-        this.ending_time = new SimpleStringProperty(null);
+        this.startingTime = new SimpleStringProperty(null);
+        this.endingTime = new SimpleStringProperty(null);
     }
 
     /**
      * Constructor with some initial data.
      * Simple string property is used because it provides data binding.
      */
-    public Reservation(int id, String username, int room, String date, String starting_time, String ending_time) {
+    public Reservation(int id, String username, int room, String date, String startingTime, String endingTime) {
         this.id = new SimpleIntegerProperty(id);
         this.username = new SimpleStringProperty(username);
         this.room = new SimpleIntegerProperty(room);
         this.date = new SimpleStringProperty(date);
-        this.starting_time = new SimpleStringProperty(starting_time);
-        this.ending_time = new SimpleStringProperty(ending_time);
+        this.startingTime = new SimpleStringProperty(startingTime);
+        this.endingTime = new SimpleStringProperty(endingTime);
 
     }
 
@@ -82,8 +82,17 @@ public class Reservation {
     }
 
 
-    public StringProperty getStarting_time() {
-        return starting_time;
+    public void setDate(String date) {
+        this.date.set(date);
+    }
+
+
+    public StringProperty getStartingTime() {
+        return startingTime;
+    }
+
+    public void setStartingTime(String startingTime) {
+        this.startingTime.set(startingTime);
     }
 
     public void setStarting_time(String starting_time) {
@@ -91,74 +100,86 @@ public class Reservation {
     }
 
 
-    public StringProperty getEnding_time() {
-        return ending_time;
+    public StringProperty getEndingTime() {
+        return endingTime;
     }
 
-    public void setEnding_time(String ending_time) {
-        this.ending_time.set(ending_time);
+    public void setEndingTime(String endingTime) {
+        this.endingTime.set(endingTime);
     }
 
     /**
      * Convert the server sent code into an Observable List of Reservation.
      *
      * @return Observable List of Reservations.
-     * @throws JSONException
      */
-    public static ObservableList<Reservation> getReservation() throws JSONException, UnsupportedEncodingException {
-        ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
-        JSONArray jsonArrayReservation = new JSONArray(ReservationServerCommunication.getAllReservations());
-        for (int i = 0; i < jsonArrayReservation.length(); i++) {
-            Reservation r = new Reservation();
-            r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));
-            r.setUsername(jsonArrayReservation.getJSONObject(i).getString("username"));
-            r.setDate(jsonArrayReservation.getJSONObject(i).getString("date"));
-            r.setRoom(jsonArrayReservation.getJSONObject(i).getInt("room"));
-            r.setStarting_time(jsonArrayReservation.getJSONObject(i).getString("starting_time"));
-            r.setEnding_time(jsonArrayReservation.getJSONObject(i).getString("ending_time"));
-            reservationList.add(r);
+    public static ObservableList<Reservation> getReservation() {
+        try {
+            ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
+            JSONArray jsonArrayReservation = new JSONArray(ReservationServerCommunication.getAllReservations());
+            for (int i = 0; i < jsonArrayReservation.length(); i++) {
+                Reservation r = new Reservation();
+                r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));
+                r.setUsername(jsonArrayReservation.getJSONObject(i).getString("username"));
+                r.setDate(jsonArrayReservation.getJSONObject(i).getString("date"));
+                r.setRoom(jsonArrayReservation.getJSONObject(i).getInt("room"));
+                r.setStartingTime(jsonArrayReservation.getJSONObject(i).getString("startingTime"));
+                r.setEndingTime(jsonArrayReservation.getJSONObject(i).getString("endingTime"));
+                reservationList.add(r);
+            }
+            return reservationList;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return reservationList;
+        return null;
     }
 
     /**
      * Convert the server sent code into an Observable List of Reservation for the particular user!!
      *
      * @return Observable List of Reservations.
-     * @throws JSONException
      */
-    public static ObservableList<Reservation> getUserReservation() throws JSONException, UnsupportedEncodingException {
-        ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
-        JSONArray jsonArrayReservation = new JSONArray(ReservationServerCommunication.getUserReservations(CurrentUserManager.getUsername()));
-        for (int i = 0; i < jsonArrayReservation.length(); i++) {
-            Reservation r = new Reservation();
-            r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));
-            r.setUsername(jsonArrayReservation.getJSONObject(i).getString("username"));
-            r.setDate(jsonArrayReservation.getJSONObject(i).getString("date"));
-            r.setRoom(jsonArrayReservation.getJSONObject(i).getInt("room"));
-            r.setStarting_time(jsonArrayReservation.getJSONObject(i).getString("starting_time"));
-            r.setEnding_time(jsonArrayReservation.getJSONObject(i).getString("ending_time"));
-            reservationList.add(r);
+    public static ObservableList<Reservation> getUserReservation() {
+        try {
+            ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
+            JSONArray jsonArrayReservation = new JSONArray(ReservationServerCommunication.getUserReservations(CurrentUserManager.getUsername()));
+            for (int i = 0; i < jsonArrayReservation.length(); i++) {
+                Reservation r = new Reservation();
+                r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));
+                r.setUsername(jsonArrayReservation.getJSONObject(i).getString("username"));
+                r.setDate(jsonArrayReservation.getJSONObject(i).getString("date"));
+                r.setRoom(jsonArrayReservation.getJSONObject(i).getInt("room"));
+                r.setStartingTime(jsonArrayReservation.getJSONObject(i).getString("startingTime"));
+                r.setEndingTime(jsonArrayReservation.getJSONObject(i).getString("endingTime"));
+                reservationList.add(r);
+            }
+            return reservationList;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return reservationList;
+        return null;
     }
 
 
-    public static ObservableList<Reservation> getSelectedUserReservation() throws JSONException, UnsupportedEncodingException {
-        ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
-        JSONArray jsonArrayReservation = new JSONArray(ReservationServerCommunication.getUserReservations(AdminManageUserViewController.currentSelectedUser.getUsername().get()));
-        for (int i = 0; i < jsonArrayReservation.length(); i++) {
-            Reservation r = new Reservation();
-            r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));
-            r.setUsername(jsonArrayReservation.getJSONObject(i).getString("username"));
-            r.setDate(jsonArrayReservation.getJSONObject(i).getString("date"));
-            r.setRoom(jsonArrayReservation.getJSONObject(i).getInt("room"));
-            r.setStarting_time(jsonArrayReservation.getJSONObject(i).getString("starting_time"));
-            r.setEnding_time(jsonArrayReservation.getJSONObject(i).getString("ending_time"));
-            reservationList.add(r);
+    public static ObservableList<Reservation> getSelectedUserReservation() {
+        try {
+            ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
+            JSONArray jsonArrayReservation = new JSONArray(ReservationServerCommunication.getUserReservations(AdminManageUserViewController.currentSelectedUser.getUsername().get()));
+            for (int i = 0; i < jsonArrayReservation.length(); i++) {
+                Reservation r = new Reservation();
+                r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));
+                r.setUsername(jsonArrayReservation.getJSONObject(i).getString("username"));
+                r.setDate(jsonArrayReservation.getJSONObject(i).getString("date"));
+                r.setRoom(jsonArrayReservation.getJSONObject(i).getInt("room"));
+                r.setStartingTime(jsonArrayReservation.getJSONObject(i).getString("startingTime"));
+                r.setEndingTime(jsonArrayReservation.getJSONObject(i).getString("endingTime"));
+                reservationList.add(r);
+            }
+            return reservationList;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return reservationList;
-
+        return null;
     }
 
 }

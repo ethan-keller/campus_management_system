@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Room {
@@ -65,11 +64,11 @@ public class Room {
     }
 
 
-    public BooleanProperty getTeacher_only() {
+    public BooleanProperty getTeacherOnly() {
         return roomTeacherOnly;
     }
 
-    public void setTeacher_only(boolean roomTeacherOnly) {
+    public void setTeacherOnly(boolean roomTeacherOnly) {
         this.roomTeacherOnly.set(roomTeacherOnly);
     }
 
@@ -122,22 +121,27 @@ public class Room {
     /**
      * Convert server response into an ObservableList of rooms.
      */
-    public static ObservableList<Room> getRoomData() throws JSONException {
-        ObservableList<Room> roomData = FXCollections.observableArrayList();
-        JSONArray jsonArrayRooms = new JSONArray(RoomServerCommunication.getAllRooms());
-        for (int i = 0; i < jsonArrayRooms.length(); i++) {
-            Room r = new Room();
-            r.setRoomId(jsonArrayRooms.getJSONObject(i).getInt("id"));
-            r.setRoomName(jsonArrayRooms.getJSONObject(i).getString("name"));
-            r.setRoomBuilding(jsonArrayRooms.getJSONObject(i).getInt("building"));
-            r.setTeacher_only(jsonArrayRooms.getJSONObject(i).getBoolean("teacher_only"));
-            r.setRoomCapacity(jsonArrayRooms.getJSONObject(i).getInt("capacity"));
-            r.setRoomPhoto(jsonArrayRooms.getJSONObject(i).getString("photos"));
-            r.setRoomDescription(jsonArrayRooms.getJSONObject(i).getString("description"));
-            r.setRoomType(jsonArrayRooms.getJSONObject(i).getString("type"));
-            roomData.add(r);
+    public static ObservableList<Room> getRoomData() {
+        try {
+            ObservableList<Room> roomData = FXCollections.observableArrayList();
+            JSONArray jsonArrayRooms = new JSONArray(RoomServerCommunication.getAllRooms());
+            for (int i = 0; i < jsonArrayRooms.length(); i++) {
+                Room r = new Room();
+                r.setRoomId(jsonArrayRooms.getJSONObject(i).getInt("id"));
+                r.setRoomName(jsonArrayRooms.getJSONObject(i).getString("name"));
+                r.setRoomBuilding(jsonArrayRooms.getJSONObject(i).getInt("building"));
+                r.setTeacherOnly(jsonArrayRooms.getJSONObject(i).getBoolean("teacherOnly"));
+                r.setRoomCapacity(jsonArrayRooms.getJSONObject(i).getInt("capacity"));
+                r.setRoomPhoto(jsonArrayRooms.getJSONObject(i).getString("photos"));
+                r.setRoomDescription(jsonArrayRooms.getJSONObject(i).getString("description"));
+                r.setRoomType(jsonArrayRooms.getJSONObject(i).getString("type"));
+                roomData.add(r);
+            }
+            return roomData;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return roomData;
+        return null;
     }
 
     public static Room getRoomById(int id) {
@@ -147,7 +151,7 @@ public class Room {
             r.setRoomId(jsonObject.getInt("id"));
             r.setRoomName(jsonObject.getString("name"));
             r.setRoomBuilding(jsonObject.getInt("building"));
-            r.setTeacher_only(jsonObject.getBoolean("teacher_only"));
+            r.setTeacherOnly(jsonObject.getBoolean("teacherOnly"));
             r.setRoomCapacity(jsonObject.getInt("capacity"));
             r.setRoomPhoto(jsonObject.getString("photos"));
             r.setRoomDescription(jsonObject.getString("description"));

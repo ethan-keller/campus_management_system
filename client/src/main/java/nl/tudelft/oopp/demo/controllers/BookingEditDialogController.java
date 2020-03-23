@@ -34,10 +34,10 @@ public class BookingEditDialogController {
     private DatePicker bookingDate;
 
     @FXML
-    private ComboBox<String> bookingStarting_time;
+    private ComboBox<String> bookingStartingTime;
 
     @FXML
-    private ComboBox<String> bookingEnding_time;
+    private ComboBox<String> bookingEndingTime;
 
     private ObservableList<Building> olb;
 
@@ -81,9 +81,9 @@ public class BookingEditDialogController {
             // Initialize and add listener to the staring time combobox
             sTime = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00",
                     "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00");
-            bookingStarting_time.setItems(sTime);
-            bookingStarting_time.valueProperty().addListener(((observable, oldValue, newValue) -> {
-                starting_timeSelected(newValue);
+            bookingStartingTime.setItems(sTime);
+            bookingStartingTime.valueProperty().addListener(((observable, oldValue, newValue) -> {
+                startingTimeSelected(newValue);
             }));
 
         } catch (Exception e) {
@@ -157,16 +157,16 @@ public class BookingEditDialogController {
      * Initialize the ending time combobox
      * The earliest time in the ending box should be one hour later than starting time
      */
-    public void starting_timeSelected(String newSt) {
+    public void startingTimeSelected(String newSt) {
         //Initialize the ending time combobox with all time slot
         eTime = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00",
                 "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00", "00:00:00");
         //Check if a starting time is selected
-        if (bookingStarting_time.getValue() != null) {
-            int indexSt = sTime.indexOf(bookingStarting_time.getValue());
+        if(bookingStartingTime.getValue() != null) {
+            int indexSt = sTime.indexOf(bookingStartingTime.getValue());
             //Remove the time slot <= the selected starting time plus one hour.
             eTime.remove(0, indexSt);
-            bookingEnding_time.setItems(eTime);
+            bookingEndingTime.setItems(eTime);
         }
     }
 
@@ -243,8 +243,8 @@ public class BookingEditDialogController {
             reservation.setUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             reservation.setRoom(this.bookingRoomComboBox.getSelectionModel().getSelectedItem().getRoomId().get());
             reservation.setDate(this.bookingDate.getValue().toString());
-            reservation.setStarting_time(this.bookingStarting_time.getValue());
-            reservation.setEnding_time(this.bookingEnding_time.getValue());
+            reservation.setStartingTime(this.bookingStartingTime.getValue());
+            reservation.setEndingTime(this.bookingEndingTime.getValue());
             // Close the dialog window
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
@@ -276,10 +276,10 @@ public class BookingEditDialogController {
         if (bookingDate.getValue() == null) {
             errorMessage += "No valid date selected!\n";
         }
-        if (bookingStarting_time.getValue() == null) {
+        if (bookingStartingTime.getValue() == null) {
             errorMessage += "No valid starting time selected!\n";
         }
-        if (bookingEnding_time.getValue() == null) {
+        if (bookingEndingTime.getValue() == null) {
             errorMessage += "No valid ending time selected!\n";
         }
         if (errorMessage.equals("")) {

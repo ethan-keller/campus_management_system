@@ -12,7 +12,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+<<<<<<< HEAD
 import javafx.fxml.FXMLLoader;
+=======
+>>>>>>> ControllerNoUnderBar
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -26,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Parent;
@@ -38,11 +42,15 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.views.BookingHistoryView;
-import nl.tudelft.oopp.demo.views.CancelBookingView;
-import nl.tudelft.oopp.demo.views.LoginView;
-import nl.tudelft.oopp.demo.views.RegisterView;
-import nl.tudelft.oopp.demo.views.RoomView;
+import nl.tudelft.oopp.demo.views.*;
+
+import java.io.IOException;
+import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 
 /**
@@ -79,6 +87,8 @@ public class SearchViewController implements Initializable {
     private TextField searchBar;
     @FXML
     private ComboBox<String> BikesAvailable;
+    @FXML
+    private AnchorPane pane;
 
     // Declaring the observable list for buildings, capacity and bikes to be inserted into the comboBox
     // This is necessary due to the format of inserting items into a comboBox.
@@ -146,6 +156,8 @@ public class SearchViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            pane = new AnchorPane();
+
             // assign lists to the initialized ObservableLists
             capacityList = FXCollections.observableArrayList();
             buildingList = Building.getBuildingData();
@@ -295,10 +307,10 @@ public class SearchViewController implements Initializable {
             // initialize javafx components
             HBox newCard = new HBox();
             ImageView image = new ImageView();
-            VBox room_info = new VBox();
-            Text room_title = new Text();
-            Text room_capacity = new Text();
-            Text room_description = new Text();
+            VBox roomInfo = new VBox();
+            Text roomTitle = new Text();
+            Text roomCapacity = new Text();
+            Text roomDescription = new Text();
             Text roomId = new Text();
 
             // loading image from URL + setting size & properties
@@ -318,34 +330,34 @@ public class SearchViewController implements Initializable {
             roomId.setVisible(false);
 
             // setting title and text margin (+ properties)
-            room_title.setText(r.getRoomName().get());
-            room_title.setWrappingWidth(200);
-            room_title.setFont(Font.font("System", FontWeight.BOLD, 18));
-            room_title.setStyle("-fx-fill: #0ebaf8;");
-            room_info.setMargin(room_title, new Insets(10, 10, 10, 15));
+            roomTitle.setText(r.getRoomName().get());
+            roomTitle.setWrappingWidth(200);
+            roomTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
+            roomTitle.setStyle("-fx-fill: #0ebaf8;");
+            roomInfo.setMargin(roomTitle, new Insets(10, 10, 10, 15));
 
             // setting capacity and text margin (+ properties)
-            room_capacity.setText("Capacity: " + r.getRoomCapacity().get());
-            room_capacity.setWrappingWidth(200);
-            room_capacity.setFont(Font.font("System", 14));
-            room_info.setMargin(room_capacity, new Insets(0, 0, 5, 15));
+            roomCapacity.setText("Capacity: " + r.getRoomCapacity().get());
+            roomCapacity.setWrappingWidth(200);
+            roomCapacity.setFont(Font.font("System", 14));
+            roomInfo.setMargin(roomCapacity, new Insets(0, 0, 5, 15));
 
             // setting description and text margin (+ properties)
-            room_description.setText("Description: " + r.getRoomDescription().get());
-            room_description.setWrappingWidth(310);
-            room_description.setFont(Font.font("System", 14));
-            room_info.setMargin(room_description, new Insets(0, 0, 0, 15));
+            roomDescription.setText("Description: " + r.getRoomDescription().get());
+            roomDescription.setWrappingWidth(310);
+            roomDescription.setFont(Font.font("System", 14));
+            roomInfo.setMargin(roomDescription, new Insets(0, 0, 0, 15));
 
             // setting 'text box' size
-            room_info.setPrefSize(354, 378);
+            roomInfo.setPrefSize(354, 378);
 
             // adding components to their corresponding parent
-            room_info.getChildren().add(roomId);
-            room_info.getChildren().add(room_title);
-            room_info.getChildren().add(room_capacity);
-            room_info.getChildren().add(room_description);
+            roomInfo.getChildren().add(roomId);
+            roomInfo.getChildren().add(roomTitle);
+            roomInfo.getChildren().add(roomCapacity);
+            roomInfo.getChildren().add(roomDescription);
             newCard.getChildren().add(image);
-            newCard.getChildren().add(room_info);
+            newCard.getChildren().add(roomInfo);
 
             // setting size
             newCard.setPrefWidth(688);
@@ -431,4 +443,18 @@ public class SearchViewController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void bookingHistoryClicked(ActionEvent event) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            CalendarPaneController.thisStage = stage;
+            CalendarPaneView cpv = new CalendarPaneView();
+            cpv.start(stage);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
 }

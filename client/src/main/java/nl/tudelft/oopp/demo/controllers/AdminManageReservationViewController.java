@@ -16,7 +16,6 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
 
-
 public class AdminManageReservationViewController {
     /**
      * These are the FXML elements that inject some functionality into the application.
@@ -32,9 +31,9 @@ public class AdminManageReservationViewController {
     @FXML
     private TableColumn<Reservation, String> date;
     @FXML
-    private TableColumn<Reservation, String> starting_time;
+    private TableColumn<Reservation,String> startingTime;
     @FXML
-    private TableColumn<Reservation, String> ending_time;
+    private TableColumn<Reservation,String> endingTime;
 
     public static Reservation currentSelectedReservation;
 
@@ -57,12 +56,13 @@ public class AdminManageReservationViewController {
             username.setCellValueFactory(cell -> cell.getValue().getUsername());
             room.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoom().get())));
             date.setCellValueFactory(cell -> cell.getValue().getDate());
-            starting_time.setCellValueFactory(cell -> cell.getValue().getStarting_time());
-            ending_time.setCellValueFactory(cell -> cell.getValue().getEnding_time());
+            startingTime.setCellValueFactory(cell -> cell.getValue().getStartingTime());
+            endingTime.setCellValueFactory(cell -> cell.getValue().getEndingTime());
 
             //Adding the Observable List Data to the tableView created.
             listReservations.setItems(Reservation.getReservation());
-        } catch (UnsupportedEncodingException e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -140,7 +140,7 @@ public class AdminManageReservationViewController {
             if (tempReservation == null)
                 return;
             //TODO: Checking if the reservation creating was successful before displaying the alert.
-            ReservationServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getEnding_time().get());
+            ReservationServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
             refresh();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -174,7 +174,7 @@ public class AdminManageReservationViewController {
                 if (tempResevation == null)
                     return;
                 //TODO: Making sure that the reservation is created properly, before displaying the alert box.
-                ReservationServerCommunication.updateReservation(selectedReservation.getUsername().get(), selectedReservation.getId().get(), tempResevation.getRoom().get(), tempResevation.getDate().get(), tempResevation.getStarting_time().get(), tempResevation.getEnding_time().get());
+                ReservationServerCommunication.updateReservation(selectedReservation.getUsername().get(), selectedReservation.getId().get(), tempResevation.getRoom().get(), tempResevation.getDate().get(), tempResevation.getStartingTime().get(), tempResevation.getEndingTime().get());
                 refresh();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
