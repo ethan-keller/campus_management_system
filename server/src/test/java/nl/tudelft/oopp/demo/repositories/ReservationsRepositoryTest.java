@@ -43,9 +43,9 @@ class ReservationsRepositoryTest {
         Reservations r1 = new Reservations(id, "4testing", roomId, "2020-05-29", "12:00:00", "14:00:00");
         assertEquals(r1, reservationsRepo.getReservation(id));
 
+        reservationsRepo.updateRoom(id, roomId2);
         reservationsRepo.updateDate(id, "2020-06-29");
         reservationsRepo.updateEndingTime(id, "15:00:00");
-        reservationsRepo.updateRoom(id, roomId2);
         reservationsRepo.updateStartingTime(id, "10:00:00");
 
         Reservations r2 = new Reservations(id, "4testing", roomId2, "2020-06-29", "10:00:00", "15:00:00");

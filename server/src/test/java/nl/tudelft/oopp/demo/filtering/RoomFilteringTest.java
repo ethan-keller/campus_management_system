@@ -30,13 +30,12 @@ class RoomFilteringTest {
         Room r5 = new Room(5, "room 5", 23, false, 19, "hey", "descrip", "whatever you will");
 
         rooms.add(r1);
+        rooms2.add(r1);
         rooms.add(r2);
+        rooms2.add(r2);
         rooms.add(r3);
         rooms.add(r4);
         rooms.add(r5);
-
-        rooms2.add(r1);
-        rooms2.add(r2);
 
 
         rooms = RoomFiltering.filterRooms(rooms, 23, false, 20);
