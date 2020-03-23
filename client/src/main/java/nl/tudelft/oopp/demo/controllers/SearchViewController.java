@@ -27,6 +27,7 @@ import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RegisterView;
 
 import java.io.IOException;
+
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
@@ -88,7 +89,6 @@ public class SearchViewController implements Initializable {
     private ObservableList<Room> rooms;
 
 
-
     // Declaring the observable list for buildings, capacity and bikes to be inserted into the comboBox
     // This is necessary due to the format of inserting items into a comboBox.
     private ObservableList<String> capacityList;
@@ -109,6 +109,7 @@ public class SearchViewController implements Initializable {
     /**
      * Handles the bookingHistory Button onclick.
      * Redirects the user to the booking history page.
+     *
      * @param event
      * @throws IOException
      */
@@ -122,6 +123,7 @@ public class SearchViewController implements Initializable {
     /**
      * Handles the onclick of signOut Button.
      * Redirects the user back to the login page.
+     *
      * @param event
      * @throws IOException
      */
@@ -135,6 +137,7 @@ public class SearchViewController implements Initializable {
     /**
      * Handles the onclick of cancelBooking Button.
      * Redirects the user to the cancelBooking page.
+     *
      * @param event
      * @throws Exception
      */
@@ -189,9 +192,8 @@ public class SearchViewController implements Initializable {
             loadCards();
 
 
-
         } catch (Exception e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
 
         // if a new filter is applied or an filter is removed filter again and load the cards again
@@ -243,9 +245,9 @@ public class SearchViewController implements Initializable {
 
         // if a new filter is applied or an filter is removed filter again and load the cards again
         datePicker.setOnAction(event -> {
-            try{
+            try {
                 loadCards();
-            }catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -254,119 +256,124 @@ public class SearchViewController implements Initializable {
     /**
      * Filters the rooms according to the filters selected.
      * Makes a call to getCardsShown() to show the cards on the view.
+     *
      * @throws UnsupportedEncodingException
      */
     public void loadCards() throws UnsupportedEncodingException {
-            //load all rooms back in the roomlist to filter again
+        //load all rooms back in the roomlist to filter again
         roomList = new ArrayList<Room>();
-        for(int i = 0; i != rooms.size(); i++){
+        for (int i = 0; i != rooms.size(); i++) {
             roomList.add(rooms.get(i));
         }
 
-            //Check if there are any filters selected and if so filter the roomlist
-            if(BuildingComboBox.getValue() != null){
-                building = BuildingComboBox.getValue().getBuildingId().getValue();
-                roomList = GeneralMethods.filterRoomByBuilding(roomList, building);
-            }
-
-            // if the checkbox is selected it filters according to the checkbox.
-            if(yesCheckBoxTeacherOnly.isSelected()){
-                roomList = GeneralMethods.filterRoomByTeacher_only(roomList, true);
-            }
+        //Check if there are any filters selected and if so filter the roomlist
+        if (BuildingComboBox.getValue() != null) {
+            building = BuildingComboBox.getValue().getBuildingId().getValue();
+            roomList = GeneralMethods.filterRoomByBuilding(roomList, building);
+        }
 
         // if the checkbox is selected it filters according to the checkbox.
-            if(noCheckBoxTeacherOnly.isSelected()){
-                roomList = GeneralMethods.filterRoomByTeacher_only(roomList, false);
-            }
+        if (yesCheckBoxTeacherOnly.isSelected()) {
+            roomList = GeneralMethods.filterRoomByTeacher_only(roomList, true);
+        }
+
+        // if the checkbox is selected it filters according to the checkbox.
+        if (noCheckBoxTeacherOnly.isSelected()) {
+            roomList = GeneralMethods.filterRoomByTeacher_only(roomList, false);
+        }
 
         // if the combobox is selected on a value it filters for that value.
-            if(CapacityComboBox.getValue() != null){
-                String capacity = CapacityComboBox.getValue();
-                switch (capacity){
-                    case "1-5":
-                        capMin = 1;
-                        capMax = 5;
-                        break;
-                    case "5-10":
-                        capMin = 5;
-                        capMax = 10;
-                        break;
-                    case "10-20":
-                        capMin = 10;
-                        capMax = 20;
-                        break;
-                    case "20+":
-                        capMin = 20;
-                        capMax = 9999;
-                        break;
+        if (CapacityComboBox.getValue() != null) {
+            String capacity = CapacityComboBox.getValue();
+            switch (capacity) {
+                case "1-5":
+                    capMin = 1;
+                    capMax = 5;
+                    break;
+                case "5-10":
+                    capMin = 5;
+                    capMax = 10;
+                    break;
+                case "10-20":
+                    capMin = 10;
+                    capMax = 20;
+                    break;
+                case "20+":
+                    capMin = 20;
+                    capMax = 9999;
+                    break;
 
-                    default:
-                        capMin = 0;
-                        capMax = 9999;
+                default:
+                    capMin = 0;
+                    capMax = 9999;
 
-                }
-
-                roomList = GeneralMethods.filterRoomByCapacity(roomList, capMax, capMin);
             }
 
-            // if a date is selected it filters out the rooms that are fully booked for that day.
-            if(datePicker.getValue() != null) {
-                // get all the reservations and only keeps the reservations that are from the selected date. The id of the rooms that are of the date are stored in roomsWithDate.
-                ObservableList<Reservation> reservations = Reservation.getReservation();
-                List<Integer> roomsWithDate = new ArrayList<Integer>();
-                String date = datePicker.getValue().toString();
-                for(int i = 0; i != reservations.size(); i++){
-                    if(!reservations.get(i).getDate().getValue().equals(date)){
-                        reservations.remove(i);
-                        i--;
-                    }else{
-                        if(!roomsWithDate.contains(reservations.get(i).getRoom().getValue())){
-                            roomsWithDate.add(reservations.get(i).getRoom().getValue());
-                        }
-                    }
-                }
+            roomList = GeneralMethods.filterRoomByCapacity(roomList, capMax, capMin);
+        }
 
-                // for every room the total hours of bookings on the selected date is calculated if it is 16 the room is fully booked the room will be removed from the rooms to show
-                int totalHoursAvailable;
-                for(int q = 0; q != roomsWithDate.size(); q++){
-                    totalHoursAvailable = 15;
-                    for(int z = 0; z != reservations.size(); z++){
-                        if(reservations.get(z).getRoom().getValue() == roomsWithDate.get(q)){
-                            int starting = Integer.parseInt(reservations.get(z).getStarting_time().getValue().substring(0 , 2));
-                            int ending = Integer.parseInt(reservations.get(z).getEnding_time().getValue().substring(0 , 2));
-                            if(ending == 0){
-                                ending = 24;
-                            }
-                            totalHoursAvailable = totalHoursAvailable + starting - ending;
-                        }
-                    }
-                    if(totalHoursAvailable == 0){
-                        for(int y = 0; y != roomList.size(); y++){
-                            if(roomList.get(y).getRoomId().getValue() == roomsWithDate.get(q)){
-                                roomList.remove(y);
-                            }
-                        }
+        // if a date is selected it filters out the rooms that are fully booked for that day.
+        if (datePicker.getValue() != null) {
+            // get all the reservations and only keeps the reservations that are from the selected date. The id of the rooms that are of the date are stored in roomsWithDate.
+            ObservableList<Reservation> reservations = Reservation.getReservation();
+            List<Integer> roomsWithDate = new ArrayList<Integer>();
+            String date = datePicker.getValue().toString();
+            for (int i = 0; i != reservations.size(); i++) {
+                if (!reservations.get(i).getDate().getValue().equals(date)) {
+                    reservations.remove(i);
+                    i--;
+                } else {
+                    if (!roomsWithDate.contains(reservations.get(i).getRoom().getValue())) {
+                        roomsWithDate.add(reservations.get(i).getRoom().getValue());
                     }
                 }
             }
+
+            // for every room the total hours of bookings on the selected date is calculated if it is 16 the room is fully booked the room will be removed from the rooms to show
+            int totalHoursAvailable;
+            for (int q = 0; q != roomsWithDate.size(); q++) {
+                totalHoursAvailable = 16;
+                for (int z = 0; z != reservations.size(); z++) {
+                    if (reservations.get(z).getRoom().getValue() == roomsWithDate.get(q)) {
+                        int starting = Integer.parseInt(reservations.get(z).getStarting_time().getValue().substring(0, 2));
+                        int ending = Integer.parseInt(reservations.get(z).getEnding_time().getValue().substring(0, 2));
+                        if (reservations.get(z).getEnding_time().getValue().equals("23:59:00")) {
+                            ending = 24;
+                        }
+                        if (ending == 0) {
+                            ending = 24;
+                        }
+                        totalHoursAvailable = totalHoursAvailable + starting - ending;
+                    }
+                }
+                if (totalHoursAvailable == 0) {
+                    for (int y = 0; y != roomList.size(); y++) {
+                        if (roomList.get(y).getRoomId().getValue() == roomsWithDate.get(q)) {
+                            roomList.remove(y);
+                        }
+                    }
+                }
+            }
+        }
 
         // value of the searchbar is put in searchBarInput and is filtered on building name and room name. The list is put in a new List so if a other key is pressed the other filters don't have to be applied again.
         String searchBarInput = searchBar.getText();
         List<Room> roomsToShow = roomList;
-        if(!searchBarInput.equals("")) {
+        if (!searchBarInput.equals("")) {
             roomsToShow = GeneralMethods.filterBySearch(roomList, searchBarInput, buildings);
         }
 
-            //Load the cards that need to be shown
-            getCardsShown(roomsToShow);
+        //Load the cards that need to be shown
+        getCardsShown(roomsToShow);
 
     }
 
     /**
      * Clears all the cards currently shown in the view and shows the cards that are filtered.
+     *
      * @param roomList
      */
-    public void getCardsShown(List<Room> roomList){
+    public void getCardsShown(List<Room> roomList) {
         //Removes cards that are now in the view
         cardHolder.getChildren().clear();
 
@@ -379,14 +386,15 @@ public class SearchViewController implements Initializable {
     /**
      * filters the rooms on the searchbar input. It searches for matches in the building name and room name.
      * Makes a call to GeneralMethods.FilterBySearch.
+     *
      * @throws UnsupportedEncodingException
      */
     public void searchbarChanges() throws UnsupportedEncodingException {
         // filters the rooms on the searchbar input. It searches for matches in the building name and room name.
         String searchBarInput = searchBar.getText();
-        if(searchBarInput== ""){
+        if (searchBarInput == "") {
             loadCards();
-        }else {
+        } else {
             List<Room> roomsToShow = GeneralMethods.filterBySearch(roomList, searchBarInput, buildings);
             //Load the cards that need to be shown
             getCardsShown(roomsToShow);
