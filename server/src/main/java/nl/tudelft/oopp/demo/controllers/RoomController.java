@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
@@ -10,9 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-
 @Controller
 public class RoomController {
 
@@ -20,27 +20,30 @@ public class RoomController {
     private RoomRepository roomRepo;
 
     /**
-     * Creates a Room entry in the database
+     * Creates a Room entry in the database.
      *
-     * @param name Name of the room
-     * @param building Name of the building (must be an existing building)
+     * @param name        Name of the room
+     * @param building    Name of the building (must be an existing building)
      * @param teacherOnly True if it's teacher only, False otherwise
-     * @param capacity capacity of the room
-     * @param photos URL's to photo's of the room
+     * @param capacity    capacity of the room
+     * @param photos      URL's to photo's of the room
      * @param description Piece of text that describes the room
-     * @param type The type of the room (e.g. lecture hall)
+     * @param type        The type of the room (e.g. lecture hall)
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("createRoom")
     @ResponseBody
-    public void createRoom(@RequestParam String name, @RequestParam int building, @RequestParam boolean teacherOnly,
-                           @RequestParam int capacity, @RequestParam String photos, @RequestParam String description,
+    public void createRoom(@RequestParam String name, @RequestParam int building,
+                           @RequestParam boolean teacherOnly, @RequestParam int capacity,
+                           @RequestParam String photos, @RequestParam String description,
                            @RequestParam String type) throws UnsupportedEncodingException {
+
         name = CommunicationMethods.decodeCommunication(name);
         photos = CommunicationMethods.decodeCommunication(photos);
         description = CommunicationMethods.decodeCommunication(description);
         type = CommunicationMethods.decodeCommunication(type);
-        try{
+
+        try {
             roomRepo.insertRoom(name, building, teacherOnly, capacity, photos, description, type);
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,28 +53,30 @@ public class RoomController {
     /**
      * Replaces the values in the database with the provided ones.
      *
-     * @param id The ID of the entry to be updated
-     * @param name The new room name
-     * @param building The new building name (must be an existing building)
+     * @param id          The ID of the entry to be updated
+     * @param name        The new room name
+     * @param building    The new building name (must be an existing building)
      * @param teacherOnly The new teacherOnly
-     * @param capacity The new capacity
-     * @param photos New URL's to photos of the room
+     * @param capacity    The new capacity
+     * @param photos      New URL's to photos of the room
      * @param description New description
-     * @param type New room-type
+     * @param type        New room-type
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("updateRoom")
     @ResponseBody
-    public void updateRoom(@RequestParam int id, @RequestParam String name, @RequestParam int building,
-                           @RequestParam boolean teacherOnly, @RequestParam int capacity, @RequestParam String photos,
-                           @RequestParam String description, @RequestParam String type) throws UnsupportedEncodingException {
+    public void updateRoom(@RequestParam int id, @RequestParam String name,
+                           @RequestParam int building, @RequestParam boolean teacherOnly,
+                           @RequestParam int capacity, @RequestParam String photos,
+                           @RequestParam String description, @RequestParam String type)
+            throws UnsupportedEncodingException {
 
         name = CommunicationMethods.decodeCommunication(name);
         photos = CommunicationMethods.decodeCommunication(photos);
         description = CommunicationMethods.decodeCommunication(description);
         type = CommunicationMethods.decodeCommunication(type);
 
-        try{
+        try {
             roomRepo.updateCapacity(id, capacity);
             roomRepo.updateDescription(id, description);
             roomRepo.updateBuilding(id, building);
@@ -92,7 +97,7 @@ public class RoomController {
     @PostMapping("deleteRoom")
     @ResponseBody
     public void deleteRoom(@RequestParam int id) {
-        try{
+        try {
             roomRepo.deleteRoom(id);
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,13 +122,13 @@ public class RoomController {
     }
 
     /**
-     * Retrieves all rooms from the database
+     * Retrieves all rooms from the database.
      *
      * @return A list of Room objects in Json
      */
     @GetMapping("getAllRooms")
     @ResponseBody
-    public List<Room> getAllRooms(){
+    public List<Room> getAllRooms() {
         try {
             return roomRepo.getAllRooms();
         } catch (Exception e) {
