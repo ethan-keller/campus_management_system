@@ -1,8 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
@@ -13,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
 @Controller
 public class ReservationController {
 
@@ -22,18 +22,17 @@ public class ReservationController {
     /**
      * Puts a new reservation in the database.
      *
-     * @param username     The username of the person reserving.
-     * @param room         The room being reserved.
-     * @param date         The day the reservation starts //TODO date format
+     * @param username The username of the person reserving.
+     * @param room  The room being reserved.
+     * @param date  The day the reservation starts //TODO date format
      * @param startingTime The starting time of the reservation //TODO time format
-     * @param endingTime   The ending time of the reservation //TODO time format
+     * @param endingTime The ending time of the reservation //TODO time format
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("createReservation")
     @ResponseBody
-    public void createReservation(@RequestParam String username, @RequestParam int room,
-                                  @RequestParam String date, @RequestParam String startingTime,
-                                  @RequestParam String endingTime) throws UnsupportedEncodingException {
+    public void createReservation(@RequestParam String username, @RequestParam int room, @RequestParam String date,
+                                  @RequestParam String startingTime, @RequestParam String endingTime) throws UnsupportedEncodingException {
 
         username = CommunicationMethods.decodeCommunication(username);
         date = CommunicationMethods.decodeCommunication(date);
@@ -50,20 +49,19 @@ public class ReservationController {
     /**
      * Replaces the existing info with the newly provided info.
      *
-     * @param id           The reservation being updated.
-     * @param room         The new value for room.
-     * @param date         The new value for date. //TODO date-format
+     * @param id The reservation being updated.
+     * @param room The new value for room.
+     * @param date The new value for date. //TODO date-format
      * @param startingTime The new value for startingTime. //TODO time-format
-     * @param endingTime   The new value for endingTime. //TODO time-format
+     * @param endingTime The new value for endingTime. //TODO time-format
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("updateReservation")
     @ResponseBody
-    public void updateReservation(@RequestParam int id, @RequestParam String username,
-                                  @RequestParam int room, @RequestParam String date,
-                                  @RequestParam String startingTime,
-                                  @RequestParam String endingTime) throws UnsupportedEncodingException {
 
+    public void updateReservation(@RequestParam int id, @RequestParam String username, @RequestParam int room,
+                                  @RequestParam String date, @RequestParam String startingTime,
+                                  @RequestParam String endingTime) throws UnsupportedEncodingException {
         date = CommunicationMethods.decodeCommunication(date);
         startingTime = CommunicationMethods.decodeCommunication(startingTime);
         endingTime = CommunicationMethods.decodeCommunication(endingTime);
@@ -86,7 +84,7 @@ public class ReservationController {
     @PostMapping("deleteReservation")
     @ResponseBody
     public void deleteReservation(@RequestParam int id) {
-        try {
+        try{
             reservationsRepo.deleteReservation(id);
         } catch (Exception e) {
             e.printStackTrace();
@@ -128,13 +126,12 @@ public class ReservationController {
 
     /**
      * Retrieves the reservations of the selected user.
-     *
      * @param username the username of the selected user.
      * @return a list of Reservations object in Json format.
      */
     @GetMapping("getUserReservations")
     @ResponseBody
-    public List<Reservations> getUserReservations(@RequestParam String username) {
+    public List<Reservations> getUserReservations(@RequestParam String username){
         try {
             return reservationsRepo.getUserReservations(username);
         } catch (Exception e) {
