@@ -28,7 +28,7 @@ public class RegisterController {
      * @param username User-provided username (must be unique from existing ones).
      * @param password User-provided password.
      * @return Returns "nice" if everything works.
-     * Returns "This username already exists!" if the username was already taken.
+     *         Returns "This username already exists!" if the username was already taken.
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("register")

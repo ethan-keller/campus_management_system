@@ -22,8 +22,8 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
     //TODO fix line length
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO reservations (username, room, date, starting_time, ending_time) " +
-            "VALUES (:username, :room, :date, :starting_time, :ending_time)", nativeQuery = true)
+    @Query(value = "INSERT INTO reservations (username, room, date, starting_time, ending_time) "
+            + "VALUES (:username, :room, :date, :starting_time, :ending_time)", nativeQuery = true)
     public void insertReservation(@Param("username") String username,
                                   @Param("room") int room, @Param("date") String date,
                                   @Param("starting_time") String starting_time,
@@ -63,8 +63,8 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
     @Query(value = "SELECT * FROM reservations WHERE username = LOWER(:username)", nativeQuery = true)
     public List<Reservations> getUserReservations(@Param("username") String username);
 
-    @Query(value = "SELECT * FROM reservations WHERE starting_time = :starting_time " +
-            "AND ending_time = :ending_time AND date = :date", nativeQuery = true)
+    @Query(value = "SELECT * FROM reservations WHERE starting_time = :starting_time "
+            + "AND ending_time = :ending_time AND date = :date", nativeQuery = true)
     public Reservations getReservationByStarting_timeAndEnding_timeOnDate(
             @Param("starting_time") String starting_time,
             @Param("ending_time") String ending_time,

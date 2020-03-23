@@ -21,8 +21,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO room (name, building, teacher_only, capacity, photos, description, type) " +
-            "VALUES (:name, :building, :teacher_only, :capacity, :photos, :description, :type)", nativeQuery = true)
+    @Query(value = "INSERT INTO room (name, building, teacher_only, capacity, photos, description, type) "
+            + "VALUES (:name, :building, :teacher_only, :capacity, :photos, :description, :type)", nativeQuery = true)
     public void insertRoom(@Param("name") String name,
                            @Param("building") int building, @Param("teacher_only") boolean teacher_only,
                            @Param("capacity") int capacity, @Param("photos") String photos,
@@ -71,15 +71,15 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query(value = "SELECT * FROM room WHERE building = :BuildingId", nativeQuery = true)
     public Room getRoomByBuilding(@Param("BuildingId") int BuildingId);
 
-    @Query(value = "SELECT * FROM room WHERE capacity <= :capMin AND capacity >= :capMax "
-            , nativeQuery = true)
+    @Query(value = "SELECT * FROM room WHERE capacity <= :capMin AND capacity >= :capMax ",
+             nativeQuery = true)
     public Room getRoomByCapacity(@Param("capMin") int capMin, @Param("capMax") int capMax);
-
-    @Query(value = "SELECT * FROM room WHERE type = :role", nativeQuery = true)
-    public Room getRoomByRole(@Param("role") String role);
 
     @Query(value = "SELECT * FROM room WHERE capacity = :capacity", nativeQuery = true)
     public Room getRoomByCapacity(@Param("capacity") String capacity);
+
+    @Query(value = "SELECT * FROM room WHERE type = :role", nativeQuery = true)
+    public Room getRoomByRole(@Param("role") String role);
 
     @Query(value = "SELECT * FROM room WHERE name = :name", nativeQuery = true)
     public Room getRoomByName(@Param("name") String name);

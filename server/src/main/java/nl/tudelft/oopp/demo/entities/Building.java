@@ -35,7 +35,7 @@ public class Building {
     }
 
     /**
-     * Constructor with optional fields available_bikes and max_bikes
+     * Constructor with optional fields available_bikes and max_bikes.
      *
      * @param id              int
      * @param name            String
@@ -114,8 +114,7 @@ public class Building {
 
 
     /**
-     * Equals
-     * >>>>>>> develop
+     * Equals.
      *
      * @param o An Object to be compared to "this".
      * @return True if o is the same object, false otherwise.
