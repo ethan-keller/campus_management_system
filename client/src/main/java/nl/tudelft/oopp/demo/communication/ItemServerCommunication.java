@@ -62,14 +62,14 @@ public class ItemServerCommunication {
      * @param user user who item belongs to
      * @param title title of item
      * @param date date of item
-     * @param starting_time starting_time of item
-     * @param ending_time ending_time of item
+     * @param startingTime startingTime of item
+     * @param endingTime endingTime of item
      * @param description description of item
      * @return http response in JSON format
      * @throws UnsupportedEncodingException
      */
-    public static boolean createItem(String user, String title, String date, String starting_time, String ending_time, String description) throws UnsupportedEncodingException {
-        String params = "user="+user+"&title="+title+"&date="+date+"&starting_time="+starting_time+"&ending_time="+ending_time+"&description="+description;
+    public static boolean createItem(String user, String title, String date, String startingTime, String endingTime, String description) throws UnsupportedEncodingException {
+        String params = "user="+user+"&title="+title+"&date="+date+"&startingTime="+startingTime+"&endingTime="+endingTime+"&description="+description;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createItem?"+params)).build();
