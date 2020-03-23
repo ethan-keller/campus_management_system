@@ -34,6 +34,7 @@ public class BuildingEditDialogView extends Application {
             );
 
             // Set the dialog stage properties
+            // When the dialog box pops up, the admin can't click the page that is behind the dialog box.
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
 

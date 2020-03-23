@@ -31,6 +31,7 @@ public class Room {
 
     /**
      * Constructor with some initial data.
+     * Simple string property is used because it provides data binding.
      */
     public Room(int roomId, String roomName,
                 int roomBuilding, boolean roomTeacherOnly,

@@ -18,10 +18,15 @@ public class AddANewRoomView extends Application {
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
 
+        /**
+         * Making sure that the page doesn't resize when we switch between scenes
+         */
         Scene oldScene = primaryStage.getScene();
         primaryStage.setScene(oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
+        primaryStage.setMinHeight(400);
+        primaryStage.setMinWidth(710);
         primaryStage.show();
     }
 

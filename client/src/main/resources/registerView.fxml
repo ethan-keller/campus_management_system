@@ -15,14 +15,28 @@
             <Font name="Calibri Bold" size="25.0" />
         </font></Label>
     <Label text="Username:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-    <Label text="Password:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-    <Label text="Repeat Password:" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-    <Label fx:id="pwd_error" text="" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+    <Label text="Password:" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+    <Label text="Repeat Password:" GridPane.columnIndex="2" GridPane.rowIndex="7" />
     <TextField fx:id="username" promptText="Username" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-    <PasswordField fx:id="password" promptText="Password" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-    <PasswordField fx:id="rePassword" promptText="Repeat password" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-    <Button fx:id="buttonRegister" onAction="#registerClicked" text="Register" GridPane.columnIndex="3" GridPane.rowIndex="8" />
-   <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#backClicked" text="Back" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+    <PasswordField fx:id="password" promptText="Password" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+    <PasswordField fx:id="rePassword" promptText="Repeat password" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+    <Button fx:id="buttonRegister" defaultButton="true" onAction="#registerClicked" text="Register" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+   <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#backClicked" text="Back" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+   <Label fx:id="passwordLabel" text="Make sure the password is 8 characters long and has 1 numeric value." textFill="#000000" GridPane.columnIndex="3" GridPane.rowIndex="6">
+      <font>
+         <Font size="10.0" />
+      </font>
+   </Label>
+   <Label fx:id="rePasswordLabel" prefHeight="17.0" prefWidth="371.0" text="Repeat the password entered above." textFill="#000000" GridPane.columnIndex="3" GridPane.rowIndex="8">
+      <font>
+         <Font size="10.0" />
+      </font>
+   </Label>
+   <Label fx:id="usernameLabel" prefHeight="17.0" prefWidth="369.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+      <font>
+         <Font size="10.0" />
+      </font>
+   </Label>
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints />
@@ -31,13 +45,15 @@
    </columnConstraints>
    <rowConstraints>
       <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
+      <RowConstraints maxHeight="30.0" minHeight="0.0" prefHeight="22.0" />
+      <RowConstraints maxHeight="30.0" minHeight="0.0" prefHeight="15.0" />
+      <RowConstraints maxHeight="26.0" minHeight="10.0" prefHeight="22.0" />
+      <RowConstraints maxHeight="35.0" minHeight="0.0" prefHeight="0.0" />
+      <RowConstraints maxHeight="40.0" minHeight="2.0" prefHeight="24.0" />
+      <RowConstraints maxHeight="44.0" minHeight="0.0" prefHeight="0.0" />
+      <RowConstraints maxHeight="64.0" minHeight="3.0" prefHeight="23.0" />
+      <RowConstraints maxHeight="64.0" minHeight="0.0" prefHeight="0.0" />
+      <RowConstraints maxHeight="82.0" minHeight="17.0" prefHeight="47.0" />
+      <RowConstraints maxHeight="80.0" minHeight="15.0" prefHeight="54.0" />
    </rowConstraints>
 </GridPane>

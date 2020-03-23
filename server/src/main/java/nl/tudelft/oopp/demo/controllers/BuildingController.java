@@ -23,19 +23,18 @@ public class BuildingController {
      * Adds a building to the database.
      *
      * @param name      The name of the building.
-     * @param roomCount The amount of of rooms inside the building.
+     * @param room_count The amount of of rooms inside the building.
      * @param address   The address of the building. //TODO format of address!!
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("createBuilding")
     @ResponseBody
-    public void createBuilding(@RequestParam String name, @RequestParam int roomCount,
-                               @RequestParam String address) throws UnsupportedEncodingException {
+    public void createBuilding(@RequestParam String name, @RequestParam int room_count, @RequestParam String address, @RequestParam int available_bikes, @RequestParam int max_bikes) throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);
-        try {
-            buildingRepo.insertBuilding(name, roomCount, address);
-        } catch (Exception e) {
+        try{
+            buildingRepo.insertBuilding(name,room_count, address, available_bikes, max_bikes);
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -45,24 +44,35 @@ public class BuildingController {
      *
      * @param id        The building ID, this is the building that is going to get changed.
      * @param name      The new name of the building
-     * @param roomCount the new room count of the building
+     * @param room_count the new room count of the building
      * @param address   the new address of the building //TODO add address format
+     * @param available_bikes The number of available bikes, int
+     * @param max_bikes The max number of bikes, int
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding
      */
     @PostMapping("updateBuilding")
     @ResponseBody
-    public void updateBuilding(@RequestParam int id, @RequestParam String name,
-                               @RequestParam int roomCount, @RequestParam String address)
-                                throws UnsupportedEncodingException {
+//<<<<<<< HEAD
+    //public void updateBuilding(@RequestParam int id, @RequestParam String name,
+     //                          @RequestParam int roomCount, @RequestParam String address)
+     //                           throws UnsupportedEncodingException {
 
+//=======
+    public void updateBuilding(@RequestParam int id, @RequestParam String name,
+                               @RequestParam int room_count, @RequestParam String address,
+                               @RequestParam int available_bikes,
+                               @RequestParam int max_bikes) throws UnsupportedEncodingException {
+//>>>>>>> develop
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);
 
         try {
             buildingRepo.updateAddress(id, address);
             buildingRepo.updateName(id, name);
-            buildingRepo.updateRoomCount(id, roomCount);
-        } catch (Exception e) {
+            buildingRepo.updateRoomCount(id, room_count);
+            buildingRepo.updateAvailableBikes(id, available_bikes);
+            buildingRepo.updateMaxBikes(id, max_bikes);
+        } catch (Exception e){
             e.printStackTrace();
         }
     }

@@ -22,6 +22,8 @@ public class UserHomePageView extends Application {
         primaryStage.setScene(oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
+        primaryStage.setMinWidth(400);
+        primaryStage.setMinHeight(710);
         primaryStage.show();
     }
 

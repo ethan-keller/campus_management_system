@@ -57,6 +57,7 @@ public class AdminManageRoomViewController {
      */
     @FXML
     private void initialize() {
+
         try {
             // Initialize the room table with the eight columns.
             roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoomId().get())));
@@ -191,8 +192,8 @@ public class AdminManageRoomViewController {
     private void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        AdminHomePageView ahpv = new AdminHomePageView();
-        ahpv.start(stage);
+        AdminHomePageView adminHomePageView = new AdminHomePageView();
+        adminHomePageView.start(stage);
     }
 
 }

@@ -27,6 +27,7 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
                                   @Param("room") int room, @Param("date") String date,
                                   @Param("starting_time") String starting_time, @Param("ending_time") String ending_time);
 
+
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM reservations WHERE id = :id", nativeQuery = true)
@@ -77,4 +78,5 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
     public Reservations getReservationByRoomAndDateAndStarting_time(
             @Param("room") int room, @Param("date") String date,
             @Param("starting_time") String starting_time);
+
 }

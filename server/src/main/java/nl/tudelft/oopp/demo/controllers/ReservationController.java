@@ -70,7 +70,6 @@ public class ReservationController {
 
         try {
             reservationsRepo.updateDate(id, date);
-            reservationsRepo.updateUsername(id, username);
             reservationsRepo.updateRoom(id, room);
             reservationsRepo.updateStartingTime(id, startingTime);
             reservationsRepo.updateEndingTime(id, endingTime);
@@ -143,6 +142,5 @@ public class ReservationController {
         }
         return null;
     }
-
 
 }
