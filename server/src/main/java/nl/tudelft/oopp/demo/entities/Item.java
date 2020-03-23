@@ -1,6 +1,11 @@
 package nl.tudelft.oopp.demo.entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "calenderItems")
@@ -29,11 +34,12 @@ public class Item {
     @Column(name = "description")
     private String description;
 
-    public Item(){
+    public Item() {
     }
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param id
      * @param user
      * @param title
@@ -53,7 +59,8 @@ public class Item {
     }
 
     /**
-     * Equals method
+     * Equals method.
+     *
      * @param o object to get compared to
      * @return true if equal, false otherwise
      */
@@ -66,7 +73,8 @@ public class Item {
     }
 
     /**
-     * getter for the id field
+     * getter for the id field.
+     *
      * @return id of item
      */
     public int getId() {
@@ -74,7 +82,8 @@ public class Item {
     }
 
     /**
-     * setter for the id field
+     * setter for the id field.
+     *
      * @param id id of item
      */
     public void setId(int id) {
@@ -82,7 +91,8 @@ public class Item {
     }
 
     /**
-     * getter for the user field
+     * getter for the user field.
+     *
      * @return user of item
      */
     public String getUser() {
@@ -90,7 +100,8 @@ public class Item {
     }
 
     /**
-     * setter for the user field
+     * setter for the user field.
+     *
      * @param user user of item
      */
     public void setUser(String user) {
@@ -98,7 +109,8 @@ public class Item {
     }
 
     /**
-     * getter for the title field
+     * getter for the title field.
+     *
      * @return title of item
      */
     public String getTitle() {
@@ -106,7 +118,8 @@ public class Item {
     }
 
     /**
-     * setter for the title field
+     * setter for the title field.
+     *
      * @param title title of item
      */
     public void setTitle(String title) {
@@ -115,6 +128,7 @@ public class Item {
 
     /**
      * getter for the date field
+     *
      * @return date of item
      */
     public String getDate() {
@@ -122,7 +136,8 @@ public class Item {
     }
 
     /**
-     * setter for the date field
+     * setter for the date field.
+     *
      * @param date date of item
      */
     public void setDate(String date) {
@@ -130,15 +145,17 @@ public class Item {
     }
 
     /**
-     * getter for the startingTime field
-     * @return startingTime of item
+     * getter for the startingTime field.
+     *
+     * @return startingTime of item.
      */
     public String getStartingTime() {
         return startingTime;
     }
 
     /**
-     * setter for the startingTime field
+     * setter for the startingTime field.
+     *
      * @param startingTime startingTime of item
      */
     public void setStartingTime(String startingTime) {
@@ -146,7 +163,8 @@ public class Item {
     }
 
     /**
-     * getter for the endingTime field
+     * getter for the endingTime field.
+     *
      * @return endingTime of item
      */
     public String getEndingTime() {
@@ -154,7 +172,8 @@ public class Item {
     }
 
     /**
-     * setter for the endingTime field
+     * setter for the endingTime field.
+     *
      * @param endingTime endingTime of item
      */
     public void setEndingTime(String endingTime) {
@@ -162,7 +181,8 @@ public class Item {
     }
 
     /**
-     * getter for the description field
+     * getter for the description field.
+     *
      * @return description of item
      */
     public String getDescription() {
@@ -170,7 +190,8 @@ public class Item {
     }
 
     /**
-     * setter for the description field
+     * setter for the description field.
+     *
      * @param description description of item
      */
     public void setDescription(String description) {

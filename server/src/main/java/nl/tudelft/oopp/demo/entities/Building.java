@@ -1,6 +1,11 @@
 package nl.tudelft.oopp.demo.entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "building")
@@ -31,12 +36,12 @@ public class Building {
     /**
      * Constructor with optional fields availableBikes and maxBikes
      *
-     * @param id int
-     * @param name String
-     * @param roomBount int
-     * @param address String
+     * @param id             int
+     * @param name           String
+     * @param roomCount      int
+     * @param address        String
      * @param availableBikes int
-     * @param maxBikes int  //TODO exact format
+     * @param maxBikes       int  //TODO exact format
      */
     public Building(int id, String name, int roomCount, String address, int availableBikes, int maxBikes) {
         this.id = id;

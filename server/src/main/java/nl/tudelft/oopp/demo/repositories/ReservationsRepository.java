@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.repositories;
 
+import java.util.List;
+
 import nl.tudelft.oopp.demo.entities.Reservations;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,8 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Repository
 public interface ReservationsRepository extends JpaRepository<Reservations, Long> {
@@ -21,8 +21,12 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO reservations (username, room, date, startingTime, endingTime) VALUES (LOWER(:username), :room, :date, :startingTime, :endingTime)", nativeQuery = true)
-    public void insertReservation(@Param("username") String username, @Param("room") int room, @Param("date") String date, @Param("startingTime") String startingTime, @Param("endingTime") String endingTime);
+    @Query(value = "INSERT INTO reservations (username, room, date, startingTime, endingTime) "
+            + "VALUES (LOWER(:username), :room, :date, :startingTime, :endingTime)", nativeQuery = true)
+    public void insertReservation(@Param("username") String username,
+                                  @Param("room") int room, @Param("date") String date,
+                                  @Param("startingTime") String startingTime,
+                                  @Param("endingTime") String endingTime);
 
     @Modifying
     @Transactional
@@ -57,16 +61,24 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
     @Query(value = "SELECT * FROM reservations WHERE username = LOWER(:username)", nativeQuery = true)
     public List<Reservations> getUserReservations(@Param("username") String username);
 
-    @Query(value = "SELECT * FROM reservations WHERE startingTime = :startingTime AND endingTime = :endingTime AND date = :date", nativeQuery = true)
-    public Reservations getReservationByStartingTimeAndEndingTimeOnDate(@Param("startingTime") String startingTime, @Param("endingTime") String endingTime, @Param("date") String date);
+    @Query(value = "SELECT * FROM reservations WHERE startingTime = :startingTime "
+            + "AND endingTime = :endingTime AND date = :date", nativeQuery = true)
+    public Reservations getReservationByStartingTimeAndEndingTimeOnDate(
+            @Param("startingTime") String startingTime,
+            @Param("endingTime") String endingTime, @Param("date") String date);
 
-    @Query(value = "SELECT * FROM reservations WHERE startingTime = :startingTime AND date = :date", nativeQuery = true)
+    @Query(value = "SELECT * FROM reservations WHERE startingTime = :startingTime "
+            + "AND date = :date", nativeQuery = true)
     public Reservations getReservationByStartingTimeOnDate(@Param("startingTime") String startingTime, @Param("date") String date);
 
     @Query(value = "SELECT * FROM reservations WHERE date = :date", nativeQuery = true)
     public Reservations getReservationByDate(@Param("date") String date);
 
-    @Query(value = "SELECT * FROM reservations WHERE room = :room AND date = :date AND startingTime = :startingTime", nativeQuery = true)
-    public Reservations getReservationByRoomAndDateAndStartingTime(@Param("room") int room, @Param("date") String date, @Param("startingTime") String startingTime);
+    @Query(value = "SELECT * FROM reservations WHERE room = :room AND date = :date "
+            + "AND startingTime = :startingTime", nativeQuery = true)
+    public Reservations getReservationByRoomAndDateAndStartingTime(
+            @Param("room") int room,
+            @Param("date") String date,
+            @Param("startingTime") String startingTime);
 
 }

@@ -26,7 +26,7 @@ public class User {
      *
      * @param username String
      * @param password String (unencrypted)
-     * @param type int, 0 = admin, 1 = teacher, 2 = student //TODO check if correct
+     * @param type     int, 0 = admin, 1 = teacher, 2 = student //TODO check if correct
      */
     public User(String username, String password, int type) {
         this.username = username;
