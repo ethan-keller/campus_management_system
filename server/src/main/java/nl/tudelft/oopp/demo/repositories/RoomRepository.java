@@ -21,7 +21,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO room (name, building, teacher_only, capacity, photos, description, type) "
+    @Query(value = "INSERT INTO room (name, building, teacherOnly, capacity, photos, description, type) "
             + "VALUES (:name, :building, :teacherOnly, :capacity, :photos, :description, :type)",
             nativeQuery = true)
     public void insertRoom(@Param("name") String name,
@@ -41,7 +41,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE room SET teacher_only = :teacherOnly WHERE id = :id", nativeQuery = true)
+    @Query(value = "UPDATE room SET teacherOnly = :teacherOnly WHERE id = :id", nativeQuery = true)
     public void updateTeacherOnly(@Param("id") int id, @Param("teacherOnly") boolean teacherOnly);
 
     @Modifying

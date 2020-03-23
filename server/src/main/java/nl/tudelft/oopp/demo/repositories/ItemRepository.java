@@ -21,11 +21,11 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO calendarItems (user, title, date, starting_time, ending_time, description) "
-            + "VALUES (:user, :title, :date, :starting_time, :ending_time, :description)", nativeQuery = true)
+    @Query(value = "INSERT INTO calendarItems (user, title, date, startingTime, endingTime, description) "
+            + "VALUES (:user, :title, :date, :startingTime, :endingTime, :description)", nativeQuery = true)
     public void insertItem(@Param("user") String user, @Param("title") String title,
-                           @Param("date") String date, @Param("starting_time") String starting_time,
-                           @Param("ending_time") String ending_time, @Param("description") String description);
+                           @Param("date") String date, @Param("startingTime") String startingTime,
+                           @Param("endingTime") String endingTime, @Param("description") String description);
 
     @Modifying
     @Transactional
