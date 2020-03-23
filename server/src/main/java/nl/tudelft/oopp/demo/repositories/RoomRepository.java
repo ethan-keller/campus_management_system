@@ -1,7 +1,5 @@
 package nl.tudelft.oopp.demo.repositories;
 
-import java.util.List;
-
 import nl.tudelft.oopp.demo.entities.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
@@ -21,13 +21,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO room (name, building, teacher_only, capacity, photos, description, type) "
-            + "VALUES (:name, :building, :teacher_only, :capacity, :photos, :description, :type)",
-            nativeQuery = true)
-    public void insertRoom(@Param("name") String name,
-                           @Param("building") int building, @Param("teacher_only") boolean teacher_only,
-                           @Param("capacity") int capacity, @Param("photos") String photos,
-                           @Param("description") String description, @Param("type") String type);
+    @Query(value = "INSERT INTO room (name, building, teacherOnly, capacity, photos, description, type) VALUES (:name, :building, :teacherOnly, :capacity, :photos, :description, :type)", nativeQuery = true)
+    public void insertRoom(@Param("name") String name, @Param("building") int building, @Param("teacherOnly") boolean teacherOnly, @Param("capacity") int capacity, @Param("photos") String photos, @Param("description") String description, @Param("type") String type);
 
     @Modifying
     @Transactional
@@ -41,8 +36,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE room SET teacher_only = :teacher_only WHERE id = :id", nativeQuery = true)
-    public void updateTeacherOnly(@Param("id") int id, @Param("teacher_only") boolean teacher_only);
+    @Query(value = "UPDATE room SET teacherOnly = :teacherOnly WHERE id = :id", nativeQuery = true)
+    public void updateTeacherOnly(@Param("id") int id, @Param("teacherOnly") boolean teacherOnly);
 
     @Modifying
     @Transactional
@@ -72,15 +67,14 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query(value = "SELECT * FROM room WHERE building = :BuildingId", nativeQuery = true)
     public Room getRoomByBuilding(@Param("BuildingId") int BuildingId);
 
-    @Query(value = "SELECT * FROM room WHERE capacity <= :capMin AND capacity >= :capMax ",
-             nativeQuery = true)
+    @Query(value = "SELECT * FROM room WHERE capacity <= :capMin AND capacity >= :capMax ", nativeQuery = true)
     public Room getRoomByCapacity(@Param("capMin") int capMin, @Param("capMax") int capMax);
-
-    @Query(value = "SELECT * FROM room WHERE capacity = :capacity", nativeQuery = true)
-    public Room getRoomByCapacity(@Param("capacity") String capacity);
 
     @Query(value = "SELECT * FROM room WHERE type = :role", nativeQuery = true)
     public Room getRoomByRole(@Param("role") String role);
+
+    @Query(value = "SELECT * FROM room WHERE capacity = :capacity", nativeQuery = true)
+    public Room getRoomByCapacity(@Param("capacity") String capacity);
 
     @Query(value = "SELECT * FROM room WHERE name = :name", nativeQuery = true)
     public Room getRoomByName(@Param("name") String name);
