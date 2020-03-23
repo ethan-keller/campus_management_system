@@ -9,14 +9,8 @@ import javafx.stage.Window;
 
 /**
  * This method encodes all communication that occurs between the server and the client.
-<<<<<<< HEAD
  * This method is used in all the communication classes that need to send or receive information
  * from the server.
-=======
- * This method is used in all the communication classes that need to send or receive information from the server.
- *
- *
->>>>>>> develop
  * @return the body of a get request to the server.
  * @throws Exception if communication has unsupported encoding mechanism.
  */

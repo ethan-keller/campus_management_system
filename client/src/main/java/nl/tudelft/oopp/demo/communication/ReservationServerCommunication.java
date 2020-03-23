@@ -15,16 +15,16 @@ public class ReservationServerCommunication {
      * @param username - Username of the user
      * @param room - Room id
      * @param date - Date of reservation
-     * @param starting_time - Starting time of reservation
-     * @param ending_time - Ending time of the reservation
+     * @param startingTime - Starting time of reservation
+     * @param endingTime - Ending time of the reservation
      * @return
      * @throws UnsupportedEncodingException
      */
     public static boolean createReservation(String username, int room, String date,
-                                            String starting_time, String ending_time)
+                                            String startingTime, String endingTime)
             throws UnsupportedEncodingException {
         String params = "username=" + username + "&room=" + room + "&date=" + date +
-                "&starting_time=" + starting_time + "&ending_time=" + ending_time;
+                "&startingTime=" + startingTime + "&endingTime=" + endingTime;
         params = GeneralMethods.encodeCommunication(params);
 
 
@@ -49,16 +49,16 @@ public class ReservationServerCommunication {
      * @param id - Reservation id
      * @param room - Room id
      * @param date - Date of reservation
-     * @param starting_time - Starting time of reservation
-     * @param ending_time - Ending time of the reservation
+     * @param startingTime - Starting time of reservation
+     * @param endingTime - Ending time of the reservation
      * @return
      * @throws UnsupportedEncodingException
      */
-    public static boolean updateReservation(int id, int room, String date, String starting_time,
-                                            String ending_time)
+    public static boolean updateReservation(int id, int room, String date, String startingTime,
+                                            String endingTime)
             throws UnsupportedEncodingException {
-        String params = "id=" + id + "&room=" + room + "&date=" + date + "&starting_time=" +
-                starting_time + "&ending_time=" + ending_time;
+        String params = "id=" + id + "&room=" + room + "&date=" + date + "&startingTime=" +
+                startingTime + "&endingTime=" + endingTime;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateReservation?" + params)).build();

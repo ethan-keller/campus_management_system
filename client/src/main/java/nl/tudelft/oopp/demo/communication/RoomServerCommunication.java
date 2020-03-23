@@ -14,7 +14,7 @@ public class RoomServerCommunication {
      * parameters.
      * @param name - Room name
      * @param building - Building name
-     * @param teacher_only - Teacher only condition
+     * @param teacherOnly - Teacher only condition
      * @param capacity - Room capacity
      * @param photos - Photos of the room
      * @param description - Room description
@@ -22,11 +22,11 @@ public class RoomServerCommunication {
      * @return
      * @throws UnsupportedEncodingException
      */
-    public static boolean createRoom(String name, int building, boolean teacher_only,
+    public static boolean createRoom(String name, int building, boolean teacherOnly,
                                      int capacity, String photos, String description, String type)
             throws UnsupportedEncodingException {
-        String params = "name=" + name + "&building=" + building + "&teacher_only=" +
-                teacher_only + "&capacity=" + capacity + "&photos=" + photos + "&description=" +
+        String params = "name=" + name + "&building=" + building + "&teacherOnly=" +
+                teacherOnly + "&capacity=" + capacity + "&photos=" + photos + "&description=" +
                 description + "&type=" + type;
         params = GeneralMethods.encodeCommunication(params);
 
@@ -50,7 +50,7 @@ public class RoomServerCommunication {
      * @param id - Room id
      * @param name - Room name
      * @param building - Building name
-     * @param teacher_only - Teacher only condition
+     * @param teacherOnly - Teacher only condition
      * @param capacity - Room capacity
      * @param photos - Photos of the room
      * @param description - Room description
@@ -58,11 +58,11 @@ public class RoomServerCommunication {
      * @return Boolean value if the room is updated or not.
      * @throws UnsupportedEncodingException
      */
-    public static boolean updateRoom(int id, String name, int building, boolean teacher_only,
+    public static boolean updateRoom(int id, String name, int building, boolean teacherOnly,
                                      int capacity, String photos, String description, String type)
             throws UnsupportedEncodingException {
-        String params = "id=" + id + "&name=" + name + "&building=" + building + "&teacher_only="
-                + teacher_only + "&capacity=" + capacity + "&photos=" + photos + "&description="
+        String params = "id=" + id + "&name=" + name + "&building=" + building + "&teacherOnly="
+                + teacherOnly + "&capacity=" + capacity + "&photos=" + photos + "&description="
                 + description + "&type=" + type;
         params = GeneralMethods.encodeCommunication(params);
 

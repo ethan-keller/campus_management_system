@@ -55,14 +55,14 @@ public class BuildingServerCommunication {
      * This is a client-server communication method which is used to create a new building using the attributes.
      * Attributes are the parameters.
      * @param name - Name of the building
-     * @param room_count - Number of rooms the building has
+     * @param roomCount - Number of rooms the building has
      * @param address - Address of the building
      * @return Boolean value to inform the user if building creating was successful.
      * @throws UnsupportedEncodingException
      */
-    public static boolean createBuilding(String name, int room_count, String address)
+    public static boolean createBuilding(String name, int roomCount, String address)
             throws UnsupportedEncodingException {
-        String params = "name=" + name + "&room_count=" + room_count + "&address=" + address;
+        String params = "name=" + name + "&roomCount=" + roomCount + "&address=" + address;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createBuilding?" + params)).build();
@@ -112,13 +112,13 @@ public class BuildingServerCommunication {
      * Attributes are the parameters.
      * @param id - Building id
      * @param name - Name of the building
-     * @param room_count - Number of rooms the building has
+     * @param roomCount - Number of rooms the building has
      * @param address - Address of the building
      * @return Boolean value which is used to display a message to the client if the building is updated.
      * @throws UnsupportedEncodingException
      */
-    public static boolean updateBuilding(int id, String name, int room_count, String address) throws UnsupportedEncodingException {
-        String params = "id=" + id + "&name=" + name + "&room_count=" + room_count + "&address=" + address;
+    public static boolean updateBuilding(int id, String name, int roomCount, String address) throws UnsupportedEncodingException {
+        String params = "id=" + id + "&name=" + name + "&roomCount=" + roomCount + "&address=" + address;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateBuilding?" + params)).build();
