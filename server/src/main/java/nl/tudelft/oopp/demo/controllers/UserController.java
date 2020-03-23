@@ -11,7 +11,10 @@ import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UserController {
@@ -63,8 +66,8 @@ public class UserController {
         username = CommunicationMethods.decodeCommunication(username);
         password = CommunicationMethods.decodeCommunication(password);
         try {
-            String encrypted_pass = Hashing.hashIt(password);
-            userRepo.updatePassword(username, encrypted_pass);
+            String encryptedPass = Hashing.hashIt(password);
+            userRepo.updatePassword(username, encryptedPass);
             userRepo.updateType(username, type);
         } catch (Exception e) {
             e.printStackTrace();
