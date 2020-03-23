@@ -31,7 +31,7 @@ class RoomFilteringTest {
 
         rooms.add(r1);
         rooms2.add(r1);
-        rooms.add(r2);
+        //rooms.add(r2);
         //rooms.add(r3);  commented out for checkstyle
         //rooms.add(r4);
         rooms.add(r5);
