@@ -36,9 +36,9 @@ public class Reservations {
     /**
      * Builder.
      *
-     * @param id            int
-     * @param username      String
-     * @param date          String formatted like "". //TODO address format
+     * @param id           int
+     * @param username     String
+     * @param date         String formatted like "". //TODO address format
      * @param startingTime String formatted like "". //TODO time format
      * @param endingTime   String formatted like "". //TODO time format
      */

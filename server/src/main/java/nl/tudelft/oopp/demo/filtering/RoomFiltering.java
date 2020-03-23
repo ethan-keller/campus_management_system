@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.filtering;
 
 import java.util.List;
+
 import nl.tudelft.oopp.demo.controllers.ReservationController;
 import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -11,11 +12,11 @@ public class RoomFiltering {
     /**
      * Filters all the rooms on the provided variables.
      *
-     * @param rooms //TODO
-     * @param building The int Id of the building the room should be in.
+     * @param rooms       //TODO
+     * @param building    The int Id of the building the room should be in.
      * @param teacherOnly True = just show teacher only rooms.
      *                    False = just show non teacher only rooms.
-     * @param capacity The minimum int value for capacity the room should have.
+     * @param capacity    The minimum int value for capacity the room should have.
      * @return A list of Room in Json format
      */
     public static List<Room> filterRooms(List<Room> rooms, int building,

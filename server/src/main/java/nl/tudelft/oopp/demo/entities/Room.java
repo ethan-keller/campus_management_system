@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 
-
 @Entity
 @Table(name = "room")
 public class Room {
@@ -44,14 +43,14 @@ public class Room {
     /**
      * Builder.
      *
-     * @param id           int
-     * @param name         String
-     * @param building     int
+     * @param id          int
+     * @param name        String
+     * @param building    int
      * @param teacherOnly boolean
-     * @param capacity     int
-     * @param photos       String containing a URL/filepath
-     * @param description  String
-     * @param type         String (e.g. lecture hall)
+     * @param capacity    int
+     * @param photos      String containing a URL/filepath
+     * @param description String
+     * @param type        String (e.g. lecture hall)
      */
     public Room(int id, String name, int building, boolean teacherOnly, int capacity,
                 String photos, String description, String type) {

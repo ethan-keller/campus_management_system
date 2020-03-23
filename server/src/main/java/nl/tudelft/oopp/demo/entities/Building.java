@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 
-
 @Entity
 @Table(name = "building")
 public class Building {
@@ -38,12 +37,12 @@ public class Building {
     /**
      * Constructor with optional fields available_bikes and max_bikes
      *
-     * @param id int
-     * @param name String
-     * @param room_count int
-     * @param address String
+     * @param id              int
+     * @param name            String
+     * @param room_count      int
+     * @param address         String
      * @param available_bikes int
-     * @param max_bikes int  //TODO exact format
+     * @param max_bikes       int  //TODO exact format
      */
     public Building(int id, String name, int room_count, String address, int available_bikes, int max_bikes) {
 
@@ -93,9 +92,9 @@ public class Building {
     }
 
     /**
-<<<<<<< HEAD
+     * <<<<<<< HEAD
      * Equals.
-=======
+     * =======
      * Retrieves the available bikes for this building from the database.
      *
      * @return Returns the int value available_bikes
@@ -116,7 +115,7 @@ public class Building {
 
     /**
      * Equals
->>>>>>> develop
+     * >>>>>>> develop
      *
      * @param o An Object to be compared to "this".
      * @return True if o is the same object, false otherwise.

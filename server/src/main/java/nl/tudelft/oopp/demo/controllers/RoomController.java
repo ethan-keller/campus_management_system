@@ -69,7 +69,7 @@ public class RoomController {
                            @RequestParam int building, @RequestParam boolean teacherOnly,
                            @RequestParam int capacity, @RequestParam String photos,
                            @RequestParam String description, @RequestParam String type)
-                            throws UnsupportedEncodingException {
+            throws UnsupportedEncodingException {
 
         name = CommunicationMethods.decodeCommunication(name);
         photos = CommunicationMethods.decodeCommunication(photos);

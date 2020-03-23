@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.repositories;
 
 import java.util.List;
+
 import nl.tudelft.oopp.demo.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,7 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO user (username, password, type) VALUES (LOWER(:username), :password, :type)", nativeQuery = true)
+    @Query(value = "INSERT INTO user (username, password, type) " +
+            "VALUES (LOWER(:username), :password, :type)", nativeQuery = true)
     public void insertUser(@Param("username") String userName,
                            @Param("password") String password, @Param("type") int type);
 
