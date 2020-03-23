@@ -226,6 +226,7 @@ public class RoomViewController implements Initializable {
             timeSlotSlider.setShowTickLabels(true);
             timeSlotSlider.setShowTickMarks(true);
             timeSlotSlider.setMajorTickUnit(120);
+            timeSlotSlider.setMinorTickCount(4);
 
             // get and set the StringConverter to show hh:mm format
             StringConverter<Number> converter = getRangeSliderConverter();
@@ -245,6 +246,7 @@ public class RoomViewController implements Initializable {
         }
     }
 
+
     /**
      * Configure the rangeSlider listeners. The listeners make sure that the user jumps
      * intervals of an hour and sets the texts with the correct value.
@@ -259,11 +261,11 @@ public class RoomViewController implements Initializable {
             timeSlotSlider.lowValueProperty().addListener((observable, oldValue, newValue) ->
                     startTime.setText(converter.toString(newValue)));
 
-            // listeners that make sure the user can only select intervals of 1 hour
+            // listeners that make sure the user can only select intervals of 30 minutes
             timeSlotSlider.lowValueProperty().addListener((observable, oldValue, newValue) ->
-                    timeSlotSlider.setLowValue((newValue.intValue() / 60) * 60));
+                    timeSlotSlider.setLowValue((newValue.intValue() / 30) * 30));
             timeSlotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
-                    timeSlotSlider.setHighValue((newValue.intValue() / 60) * 60));
+                    timeSlotSlider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -379,10 +381,12 @@ public class RoomViewController implements Initializable {
                 selectedStartTime = getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
                 selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
 
+                System.out.println(selectedEndTime);
+
                 // if user confirms booking, reservations is sent to server
                 if (confirmBooking(selectedDate, selectedStartTime, selectedEndTime)) {
                     // send new reservation to server
-                    ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(), currentRoomId, selectedDate, selectedStartTime, selectedEndTime);
+                    ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(), currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24") ? "23:59" : selectedEndTime);
                     // create confirmation Alert
                     Alert alert = GeneralMethods.createAlert("Room booked", "You successfully booked this room!", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
                     alert.showAndWait();
