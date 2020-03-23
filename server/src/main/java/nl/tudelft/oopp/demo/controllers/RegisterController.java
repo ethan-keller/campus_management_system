@@ -1,8 +1,9 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.UnsupportedEncodingException;
-import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
-import nl.tudelft.oopp.demo.encode_hash.Hashing;
+
+import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
+import nl.tudelft.oopp.demo.encodehash.Hashing;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +28,7 @@ public class RegisterController {
      * @param username User-provided username (must be unique from existing ones).
      * @param password User-provided password.
      * @return Returns "nice" if everything works.
-     * /n Returns "This username already exists!" if the username was already taken.
+     *         Returns "This username already exists!" if the username was already taken.
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("register")
@@ -39,7 +40,7 @@ public class RegisterController {
 
         String encryptedPassword = Hashing.hashIt(password);
 
-        if(userRepo.getUser(username) == null) {
+        if (userRepo.getUser(username) == null) {
             userRepo.insertUser(username, encryptedPassword, 2);
             return "Your account is created";
         }

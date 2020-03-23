@@ -64,11 +64,11 @@ public class Room {
     }
 
 
-    public BooleanProperty getTeacher_only() {
+    public BooleanProperty getTeacherOnly() {
         return roomTeacherOnly;
     }
 
-    public void setTeacher_only(boolean roomTeacherOnly) {
+    public void setTeacherOnly(boolean roomTeacherOnly) {
         this.roomTeacherOnly.set(roomTeacherOnly);
     }
 
@@ -130,7 +130,7 @@ public class Room {
                 r.setRoomId(jsonArrayRooms.getJSONObject(i).getInt("id"));
                 r.setRoomName(jsonArrayRooms.getJSONObject(i).getString("name"));
                 r.setRoomBuilding(jsonArrayRooms.getJSONObject(i).getInt("building"));
-                r.setTeacher_only(jsonArrayRooms.getJSONObject(i).getBoolean("teacher_only"));
+                r.setTeacherOnly(jsonArrayRooms.getJSONObject(i).getBoolean("teacherOnly"));
                 r.setRoomCapacity(jsonArrayRooms.getJSONObject(i).getInt("capacity"));
                 r.setRoomPhoto(jsonArrayRooms.getJSONObject(i).getString("photos"));
                 r.setRoomDescription(jsonArrayRooms.getJSONObject(i).getString("description"));
@@ -151,7 +151,7 @@ public class Room {
             r.setRoomId(jsonObject.getInt("id"));
             r.setRoomName(jsonObject.getString("name"));
             r.setRoomBuilding(jsonObject.getInt("building"));
-            r.setTeacher_only(jsonObject.getBoolean("teacher_only"));
+            r.setTeacherOnly(jsonObject.getBoolean("teacherOnly"));
             r.setRoomCapacity(jsonObject.getInt("capacity"));
             r.setRoomPhoto(jsonObject.getString("photos"));
             r.setRoomDescription(jsonObject.getString("description"));

@@ -18,17 +18,17 @@ public class Item {
     private StringProperty user;
     private StringProperty title;
     private StringProperty date;
-    private StringProperty starting_time;
-    private StringProperty ending_time;
+    private StringProperty startingTime;
+    private StringProperty endingTime;
     private StringProperty description;
 
-    public Item(int id, String user, String title, String date, String starting_time, String ending_time, String description) {
+    public Item(int id, String user, String title, String date, String startingTime, String endingTime, String description) {
         this.id = new SimpleIntegerProperty(id);
         this.user = new SimpleStringProperty(user);
         this.title = new SimpleStringProperty(title);
         this.date = new SimpleStringProperty(date);
-        this.starting_time = new SimpleStringProperty(starting_time);
-        this.ending_time = new SimpleStringProperty(ending_time);
+        this.startingTime = new SimpleStringProperty(startingTime);
+        this.endingTime = new SimpleStringProperty(endingTime);
         this.description = new SimpleStringProperty(description);
     }
 
@@ -37,8 +37,8 @@ public class Item {
         this.user = new SimpleStringProperty(null);
         this.title = new SimpleStringProperty(null);
         this.date = new SimpleStringProperty(null);
-        this.starting_time = new SimpleStringProperty(null);
-        this.ending_time = new SimpleStringProperty(null);
+        this.startingTime = new SimpleStringProperty(null);
+        this.endingTime = new SimpleStringProperty(null);
         this.description = new SimpleStringProperty(null);
     }
 
@@ -75,20 +75,20 @@ public class Item {
         this.date.set(date);
     }
 
-    public StringProperty getStarting_time() {
-        return starting_time;
+    public StringProperty getStartingTime() {
+        return startingTime;
     }
 
-    public void setStarting_time(String starting_time) {
-        this.starting_time.set(starting_time);
+    public void setStartingTime(String startingTime) {
+        this.startingTime.set(startingTime);
     }
 
-    public StringProperty getEnding_time() {
-        return ending_time;
+    public StringProperty getEndingTime() {
+        return endingTime;
     }
 
-    public void setEnding_time(String ending_time) {
-        this.ending_time.set(ending_time);
+    public void setEndingTime(String endingTime) {
+        this.endingTime.set(endingTime);
     }
 
     public StringProperty getDescription() {
@@ -117,8 +117,8 @@ public class Item {
                 item.setUser(itemArray.getJSONObject(i).getString("user"));
                 item.setTitle(itemArray.getJSONObject(i).getString("title"));
                 item.setDate(itemArray.getJSONObject(i).getString("date"));
-                item.setStarting_time(itemArray.getJSONObject(i).getString("starting_time"));
-                item.setEnding_time(itemArray.getJSONObject(i).getString("ending_time"));
+                item.setStartingTime(itemArray.getJSONObject(i).getString("startingTime"));
+                item.setEndingTime(itemArray.getJSONObject(i).getString("endingTime"));
                 item.setDescription(itemArray.getJSONObject(i).getString("description"));
                 itemData.add(item);
             }
@@ -137,8 +137,8 @@ public class Item {
             item.setUser(jsonObject.getString("user"));
             item.setTitle(jsonObject.getString("title"));
             item.setDate(jsonObject.getString("date"));
-            item.setStarting_time(jsonObject.getString("starting_time"));
-            item.setEnding_time(jsonObject.getString("ending_time"));
+            item.setStartingTime(jsonObject.getString("startingTime"));
+            item.setEndingTime(jsonObject.getString("endingTime"));
             item.setDescription(jsonObject.getString("description"));
             return item;
         } catch (Exception e) {
@@ -157,8 +157,8 @@ public class Item {
                 item.setUser(array.getJSONObject(i).getString("user"));
                 item.setTitle(array.getJSONObject(i).getString("title"));
                 item.setDate(array.getJSONObject(i).getString("date"));
-                item.setStarting_time(array.getJSONObject(i).getString("starting_time"));
-                item.setEnding_time(array.getJSONObject(i).getString("ending_time"));
+                item.setStartingTime(array.getJSONObject(i).getString("startingTime"));
+                item.setEndingTime(array.getJSONObject(i).getString("endingTime"));
                 item.setDescription(array.getJSONObject(i).getString("description"));
                 itemData.add(item);
             }

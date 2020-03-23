@@ -11,35 +11,36 @@ import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.controllers.AdminManageUserViewController;
 import org.json.JSONArray;
 
+
 public class Reservation {
     private IntegerProperty id;
     private StringProperty username;
     //Room means the room-id of the particular room.
     private IntegerProperty room;
     private StringProperty date;
-    private StringProperty starting_time;
-    private StringProperty ending_time;
+    private StringProperty startingTime;
+    private StringProperty endingTime;
 
     public Reservation() {
         this.id = new SimpleIntegerProperty(-1);
         this.username = new SimpleStringProperty(null);
         this.room = new SimpleIntegerProperty(-1);
         this.date = new SimpleStringProperty(null);
-        this.starting_time = new SimpleStringProperty(null);
-        this.ending_time = new SimpleStringProperty(null);
+        this.startingTime = new SimpleStringProperty(null);
+        this.endingTime = new SimpleStringProperty(null);
     }
 
     /**
      * Constructor with some initial data.
      * Simple string property is used because it provides data binding.
      */
-    public Reservation(int id, String username, int room, String date, String starting_time, String ending_time) {
+    public Reservation(int id, String username, int room, String date, String startingTime, String endingTime) {
         this.id = new SimpleIntegerProperty(id);
         this.username = new SimpleStringProperty(username);
         this.room = new SimpleIntegerProperty(room);
         this.date = new SimpleStringProperty(date);
-        this.starting_time = new SimpleStringProperty(starting_time);
-        this.ending_time = new SimpleStringProperty(ending_time);
+        this.startingTime = new SimpleStringProperty(startingTime);
+        this.endingTime = new SimpleStringProperty(endingTime);
 
     }
 
@@ -74,26 +75,31 @@ public class Reservation {
         return date;
     }
 
+
     public void setDate(String date) {
         this.date.set(date);
     }
 
 
-    public StringProperty getStarting_time() {
-        return starting_time;
+    public StringProperty getStartingTime() {
+        return startingTime;
+    }
+
+    public void setStartingTime(String startingTime) {
+        this.startingTime.set(startingTime);
     }
 
     public void setStarting_time(String starting_time) {
-        this.starting_time.set(starting_time);
+        this.startingTime.set(starting_time);
     }
 
 
-    public StringProperty getEnding_time() {
-        return ending_time;
+    public StringProperty getEndingTime() {
+        return endingTime;
     }
 
-    public void setEnding_time(String ending_time) {
-        this.ending_time.set(ending_time);
+    public void setEndingTime(String endingTime) {
+        this.endingTime.set(endingTime);
     }
 
     /**
@@ -111,8 +117,8 @@ public class Reservation {
                 r.setUsername(jsonArrayReservation.getJSONObject(i).getString("username"));
                 r.setDate(jsonArrayReservation.getJSONObject(i).getString("date"));
                 r.setRoom(jsonArrayReservation.getJSONObject(i).getInt("room"));
-                r.setStarting_time(jsonArrayReservation.getJSONObject(i).getString("starting_time"));
-                r.setEnding_time(jsonArrayReservation.getJSONObject(i).getString("ending_time"));
+                r.setStartingTime(jsonArrayReservation.getJSONObject(i).getString("startingTime"));
+                r.setEndingTime(jsonArrayReservation.getJSONObject(i).getString("endingTime"));
                 reservationList.add(r);
             }
             return reservationList;
@@ -137,8 +143,8 @@ public class Reservation {
                 r.setUsername(jsonArrayReservation.getJSONObject(i).getString("username"));
                 r.setDate(jsonArrayReservation.getJSONObject(i).getString("date"));
                 r.setRoom(jsonArrayReservation.getJSONObject(i).getInt("room"));
-                r.setStarting_time(jsonArrayReservation.getJSONObject(i).getString("starting_time"));
-                r.setEnding_time(jsonArrayReservation.getJSONObject(i).getString("ending_time"));
+                r.setStartingTime(jsonArrayReservation.getJSONObject(i).getString("startingTime"));
+                r.setEndingTime(jsonArrayReservation.getJSONObject(i).getString("endingTime"));
                 reservationList.add(r);
             }
             return reservationList;
@@ -159,8 +165,8 @@ public class Reservation {
                 r.setUsername(jsonArrayReservation.getJSONObject(i).getString("username"));
                 r.setDate(jsonArrayReservation.getJSONObject(i).getString("date"));
                 r.setRoom(jsonArrayReservation.getJSONObject(i).getInt("room"));
-                r.setStarting_time(jsonArrayReservation.getJSONObject(i).getString("starting_time"));
-                r.setEnding_time(jsonArrayReservation.getJSONObject(i).getString("ending_time"));
+                r.setStartingTime(jsonArrayReservation.getJSONObject(i).getString("startingTime"));
+                r.setEndingTime(jsonArrayReservation.getJSONObject(i).getString("endingTime"));
                 reservationList.add(r);
             }
             return reservationList;

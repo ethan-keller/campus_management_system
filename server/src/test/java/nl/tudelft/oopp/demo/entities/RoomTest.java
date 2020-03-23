@@ -1,8 +1,10 @@
 package nl.tudelft.oopp.demo.entities;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class RoomTest {
 
@@ -29,9 +31,9 @@ class RoomTest {
     }
 
     @Test
-    void isTeacher_only() {
-        assertTrue(r1.isTeacher_only());
-        assertFalse(r3.isTeacher_only());
+    void isTeacherOnly() {
+        assertTrue(r1.isTeacherOnly());
+        assertFalse(r3.isTeacherOnly());
     }
 
     @Test

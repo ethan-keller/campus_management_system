@@ -1,9 +1,14 @@
 package nl.tudelft.oopp.demo.entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "calender_items")
+@Table(name = "calenderItems")
 public class Item {
 
     @Id
@@ -20,53 +25,62 @@ public class Item {
     @Column(name = "date")
     private String date;
 
-    @Column(name = "starting_time")
-    private String starting_time;
+    @Column(name = "startingTime")
+    private String startingTime;
 
-    @Column(name = "ending_time")
-    private String ending_time;
+    @Column(name = "endingTime")
+    private String endingTime;
 
     @Column(name = "description")
     private String description;
 
-    public Item(){
+    public Item() {
     }
 
     /**
-     * Constructor
-     * @param id
-     * @param user
-     * @param title
-     * @param date
-     * @param starting_time
-     * @param ending_time
-     * @param description
+     * Constructor.
+     *
+     * @param id           //TODO
+     * @param user         //TODO
+     * @param title        //TODO
+     * @param date         //TODO
+     * @param startingTime //TODO
+     * @param endingTime   //TODO
+     * @param description  //TODO
      */
-    public Item(int id, String user, String title, String date, String starting_time, String ending_time, String description) {
+    public Item(int id, String user, String title, String date, String startingTime,
+                String endingTime, String description) {
+
         this.id = id;
         this.user = user;
         this.title = title;
         this.date = date;
-        this.starting_time = starting_time;
-        this.ending_time = ending_time;
+        this.startingTime = startingTime;
+        this.endingTime = endingTime;
         this.description = description;
     }
 
     /**
-     * Equals method
+     * Equals method.
+     *
      * @param o object to get compared to
      * @return true if equal, false otherwise
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Item)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Item)) {
+            return false;
+        }
         Item item = (Item) o;
         return getId() == item.getId();
     }
 
     /**
-     * getter for the id field
+     * getter for the id field.
+     *
      * @return id of item
      */
     public int getId() {
@@ -74,7 +88,8 @@ public class Item {
     }
 
     /**
-     * setter for the id field
+     * setter for the id field.
+     *
      * @param id id of item
      */
     public void setId(int id) {
@@ -82,7 +97,8 @@ public class Item {
     }
 
     /**
-     * getter for the user field
+     * getter for the user field.
+     *
      * @return user of item
      */
     public String getUser() {
@@ -90,7 +106,8 @@ public class Item {
     }
 
     /**
-     * setter for the user field
+     * setter for the user field.
+     *
      * @param user user of item
      */
     public void setUser(String user) {
@@ -98,7 +115,8 @@ public class Item {
     }
 
     /**
-     * getter for the title field
+     * getter for the title field.
+     *
      * @return title of item
      */
     public String getTitle() {
@@ -106,7 +124,8 @@ public class Item {
     }
 
     /**
-     * setter for the title field
+     * setter for the title field.
+     *
      * @param title title of item
      */
     public void setTitle(String title) {
@@ -114,7 +133,8 @@ public class Item {
     }
 
     /**
-     * getter for the date field
+     * getter for the date field.
+     *
      * @return date of item
      */
     public String getDate() {
@@ -122,7 +142,8 @@ public class Item {
     }
 
     /**
-     * setter for the date field
+     * setter for the date field.
+     *
      * @param date date of item
      */
     public void setDate(String date) {
@@ -130,39 +151,44 @@ public class Item {
     }
 
     /**
-     * getter for the starting_time field
-     * @return starting_time of item
+     * getter for the startingTime field.
+     *
+     * @return startingTime of item.
      */
-    public String getStarting_time() {
-        return starting_time;
+    public String getStartingTime() {
+        return startingTime;
     }
 
     /**
-     * setter for the starting_time field
-     * @param starting_time starting_time of item
+     * setter for the startingTime field.
+     *
+     * @param startingTime startingTime of item
      */
-    public void setStarting_time(String starting_time) {
-        this.starting_time = starting_time;
+    public void setStartingTime(String startingTime) {
+        this.startingTime = startingTime;
     }
 
     /**
-     * getter for the ending_time field
-     * @return ending_time of item
+     * getter for the endingTime field.
+     *
+     * @return endingTime of item
      */
-    public String getEnding_time() {
-        return ending_time;
+    public String getEndingTime() {
+        return endingTime;
     }
 
     /**
-     * setter for the ending_time field
-     * @param ending_time ending_time of item
+     * setter for the endingTime field.
+     *
+     * @param endingTime endingTime of item
      */
-    public void setEnding_time(String ending_time) {
-        this.ending_time = ending_time;
+    public void setEndingTime(String endingTime) {
+        this.endingTime = endingTime;
     }
 
     /**
-     * getter for the description field
+     * getter for the description field.
+     *
      * @return description of item
      */
     public String getDescription() {
@@ -170,7 +196,8 @@ public class Item {
     }
 
     /**
-     * setter for the description field
+     * setter for the description field.
+     *
      * @param description description of item
      */
     public void setDescription(String description) {

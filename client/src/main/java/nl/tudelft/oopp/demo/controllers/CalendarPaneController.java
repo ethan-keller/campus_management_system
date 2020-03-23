@@ -90,8 +90,8 @@ public class CalendarPaneController implements Initializable {
                 // split date in [yyyy, MM, dd]
                 String[] date = i.getDate().get().split("-");
                 // split time in [hh, mm, ss]
-                String[] startTime = i.getStarting_time().get().split(":");
-                String[] endTime = i.getEnding_time().get().split(":");
+                String[] startTime = i.getStartingTime().get().split(":");
+                String[] endTime = i.getEndingTime().get().split(":");
                 app.setStartTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1]), Integer.parseInt(startTime[2])));
                 app.setEndTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1]), Integer.parseInt(endTime[2])));
                 app.setDescriptionText(i.getDescription().get());
@@ -132,8 +132,8 @@ public class CalendarPaneController implements Initializable {
                 // split date in [yyyy, MM, dd]
                 String[] date = r.getDate().get().split("-");
                 // split time in [hh, mm, ss]
-                String[] startTime = r.getStarting_time().get().split(":");
-                String[] endTime = r.getEnding_time().get().split(":");
+                String[] startTime = r.getStartingTime().get().split(":");
+                String[] endTime = r.getEndingTime().get().split(":");
                 app.setStartTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1]), Integer.parseInt(startTime[2])));
                 app.setEndTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1]), Integer.parseInt(endTime[2])));
                 // add description with info about the reservation

@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,9 +16,6 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
 
-import java.io.IOException;
-
-
 public class AdminManageReservationViewController {
     /**
      * These are the FXML elements that inject some functionality into the application.
@@ -23,24 +23,25 @@ public class AdminManageReservationViewController {
     @FXML
     private TableView<Reservation> listReservations;
     @FXML
-    private TableColumn<Reservation,String> id;
+    private TableColumn<Reservation, String> id;
     @FXML
-    private TableColumn<Reservation,String> username;
+    private TableColumn<Reservation, String> username;
     @FXML
-    private  TableColumn<Reservation,String> room;
+    private TableColumn<Reservation, String> room;
     @FXML
-    private TableColumn<Reservation,String> date;
+    private TableColumn<Reservation, String> date;
     @FXML
-    private TableColumn<Reservation,String> starting_time;
+    private TableColumn<Reservation,String> startingTime;
     @FXML
-    private TableColumn<Reservation,String> ending_time;
+    private TableColumn<Reservation,String> endingTime;
 
     public static Reservation currentSelectedReservation;
 
     /**
      * Default constructor of the class.
      */
-    public AdminManageReservationViewController() {}
+    public AdminManageReservationViewController() {
+    }
 
     /**
      * To show all the bookings in the table.
@@ -55,8 +56,8 @@ public class AdminManageReservationViewController {
             username.setCellValueFactory(cell -> cell.getValue().getUsername());
             room.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoom().get())));
             date.setCellValueFactory(cell -> cell.getValue().getDate());
-            starting_time.setCellValueFactory(cell -> cell.getValue().getStarting_time());
-            ending_time.setCellValueFactory(cell -> cell.getValue().getEnding_time());
+            startingTime.setCellValueFactory(cell -> cell.getValue().getStartingTime());
+            endingTime.setCellValueFactory(cell -> cell.getValue().getEndingTime());
 
             //Adding the Observable List Data to the tableView created.
             listReservations.setItems(Reservation.getReservation());
@@ -75,14 +76,14 @@ public class AdminManageReservationViewController {
 
     /**
      * This method selects a particular reservation from the table.
+     *
      * @return Returns the selected reservation.
      */
     public Reservation getSelectedReservation() {
 
-        if(listReservations.getSelectionModel().getSelectedIndex() >= 0) {
+        if (listReservations.getSelectionModel().getSelectedIndex() >= 0) {
             return listReservations.getSelectionModel().getSelectedItem();
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -102,7 +103,7 @@ public class AdminManageReservationViewController {
         Reservation selectedReservation = getSelectedReservation();
         int selectedIndex = getSelectedIndex();
         try {
-            if(selectedIndex >= 0 ){
+            if (selectedIndex >= 0) {
                 //TODO: Check that Reservation deletion was successful before displaying alert message.
                 ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
                 refresh();
@@ -117,8 +118,7 @@ public class AdminManageReservationViewController {
                 alert.setContentText("Please select a reservation in the table.");
                 alert.showAndWait();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("delete reservation exception");
             e.printStackTrace();
         }
@@ -132,21 +132,24 @@ public class AdminManageReservationViewController {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            currentSelectedReservation = null;
+            //currentSelectedReservation = null;
             ReservationEditDialogView view = new ReservationEditDialogView();
             view.start(stage);
-            Reservation tempReservation = ReservationEditDialogController.reservation;
 
-            if(tempReservation == null)
+            //If none of the items in the dialog box is selected.
+            if(ReservationEditDialogController.reservation == null)
                 return;
             //TODO: Checking if the reservation creating was successful before displaying the alert.
-            ReservationServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getEnding_time().get());
-            refresh();
+            else {
+                Reservation tempReservation = ReservationEditDialogController.reservation;
+                ReservationServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
+                refresh();
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("New Reservation");
-            alert.setContentText("New Reservation created!");
-            alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("New Reservation");
+                alert.setContentText("New Reservation created!");
+                alert.showAndWait();
+            }
         }
         catch (Exception e) {
             System.out.println("Reservation creation exception");
@@ -156,6 +159,7 @@ public class AdminManageReservationViewController {
 
     /**
      * Handles the clicking of Edit button.
+     *
      * @param event
      */
     @FXML
@@ -163,7 +167,7 @@ public class AdminManageReservationViewController {
         Reservation selectedReservation = getSelectedReservation();
         int selectedIndex = getSelectedIndex();
         try {
-            if(selectedIndex >= 0) {
+            if (selectedIndex >= 0) {
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentSelectedReservation = selectedReservation;
 
@@ -171,25 +175,24 @@ public class AdminManageReservationViewController {
                 view.start(stage);
                 Reservation tempResevation = ReservationEditDialogController.reservation;
 
-                if(tempResevation == null)
+                if (tempResevation == null)
                     return;
                 //TODO: Making sure that the reservation is created properly, before displaying the alert box.
-                ReservationServerCommunication.updateReservation(selectedReservation.getUsername().get(), selectedReservation.getId().get(), tempResevation.getRoom().get(), tempResevation.getDate().get(), tempResevation.getStarting_time().get(), tempResevation.getEnding_time().get());
+
+                ReservationServerCommunication.updateReservation(selectedReservation.getId().get(), tempResevation.getRoom().get(), tempResevation.getDate().get(), tempResevation.getStartingTime().get(), tempResevation.getEndingTime().get());
                 refresh();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Edit Reservation");
                 alert.setContentText("Edited Reservation!");
-            }
-            else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("No selection");
                 alert.setHeaderText("No Reservation Selected!");
                 alert.setContentText("Please select a reservation from the table.");
                 alert.showAndWait();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Reservation edit exception");
             e.printStackTrace();
         }
@@ -197,6 +200,7 @@ public class AdminManageReservationViewController {
 
     /**
      * This will redirect the adminManageReservation view back to the home page for the admin to have for options to choose from.
+     *
      * @param event
      * @throws IOException
      */

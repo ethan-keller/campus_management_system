@@ -10,6 +10,10 @@ public class BuildingServerCommunication {
 
     private static HttpClient client = HttpClient.newBuilder().build();
 
+    /**
+     * This is a server-client communication method which is used to receive all the buildings present in the database.
+     * @return This particular method returns a String of all buildings present in the database.
+     */
     public static String getAllBuildings() {
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getAllBuildings")).build();
         HttpResponse<String> response = null;
@@ -24,11 +28,17 @@ public class BuildingServerCommunication {
         return response.body();
     }
 
+    /**
+     * This is a client-server communication class which receives a certain building using the building id.
+     * @param id - Building id
+     * @return Building
+     * @throws UnsupportedEncodingException
+     */
     public static String getBuilding(int id) throws UnsupportedEncodingException {
-        String params = "id="+id;
+        String params = "id=" + id;
         params = GeneralMethods.encodeCommunication(params);
 
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getBuilding?"+params)).build();
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getBuilding?" + params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -41,8 +51,8 @@ public class BuildingServerCommunication {
         return response.body();
     }
 
-    public static boolean createBuilding(String name, int room_count, String address) throws UnsupportedEncodingException {
-        String params = "name="+name+"&room_count="+room_count+"&address="+address+"&available_bikes=0&max_bikes=0";
+    public static boolean createBuilding(String name, int roomCount, String address) throws UnsupportedEncodingException {
+        String params = "name="+name+"&roomCount="+roomCount+"&address="+address+"&availableBikes=0&maxBikes=0";
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createBuilding?"+params)).build();
@@ -59,8 +69,8 @@ public class BuildingServerCommunication {
         }
         return true;
     }
-    public static boolean createBuilding(String name, int room_count, String address, int max_bikes) throws UnsupportedEncodingException {
-        String params = "name="+name+"&room_count="+room_count+"&address="+address+"&available_bikes="+max_bikes+"&max_bikes="+max_bikes;
+    public static boolean createBuilding(String name, int roomCount, String address, int maxBikes) throws UnsupportedEncodingException {
+        String params = "name="+name+"&roomCount="+roomCount+"&address="+address+"&availableBikes="+maxBikes+"&maxBikes="+maxBikes;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createBuilding?"+params)).build();
@@ -77,8 +87,8 @@ public class BuildingServerCommunication {
         }
         return true;
     }
-    public static boolean createBuilding(String name, int room_count, String address, int available_bikes, int max_bikes) throws UnsupportedEncodingException {
-        String params = "name="+name+"&room_count="+room_count+"&address="+address+"&available_bikes="+available_bikes+"&max_bikes="+max_bikes;
+    public static boolean createBuilding(String name, int roomCount, String address, int availableBikes, int maxBikes) throws UnsupportedEncodingException {
+        String params = "name="+name+"&roomCount="+roomCount+"&address="+address+"&availableBikes="+availableBikes+"&maxBikes="+maxBikes;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createBuilding?"+params)).build();
@@ -96,12 +106,18 @@ public class BuildingServerCommunication {
         return true;
     }
 
+    /**
+     * This is a client-server communication method which is used to delete a certain building.
+     * The building is recognized by the parameter passed.
+     * @param id - Building id
+     * @return Boolean value which announces to the user whether the building is deleted.
+     * @throws UnsupportedEncodingException
+     */
     public static boolean deleteBuilding(int id) throws UnsupportedEncodingException {
-        String params = "id="+id;
+        String params = "id=" + id;
         params = GeneralMethods.encodeCommunication(params);
 
-
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/deleteBuilding?"+params)).build();
+        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/deleteBuilding?" + params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -116,49 +132,21 @@ public class BuildingServerCommunication {
         return true;
     }
 
-    public static boolean updateBuilding(int id, String name, int room_count, String address) throws UnsupportedEncodingException {
-        String params = "id="+id+"&name="+name+"&room_count="+room_count+"&address="+address+"&available_bikes=0&max_bikes=0";
+    /**
+     * This is a client-server communication method which is used to update the attributes of a building.
+     * Attributes are the parameters.
+     * @param id - Building id
+     * @param name - Name of the building
+     * @param roomCount - Number of rooms the building has
+     * @param address - Address of the building
+     * @return Boolean value which is used to display a message to the client if the building is updated.
+     * @throws UnsupportedEncodingException
+     */
+    public static boolean updateBuilding(int id, String name, int roomCount, String address) throws UnsupportedEncodingException {
+        String params = "id=" + id + "&name=" + name + "&roomCount=" + roomCount + "&address=" + address;
         params = GeneralMethods.encodeCommunication(params);
 
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateBuilding?"+params)).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean updateBuilding(int id, String name, int room_count, String address, int max_bikes) throws UnsupportedEncodingException {
-        String params = "id="+id+"&name="+name+"&room_count="+room_count+"&address="+address+"&available_bikes="+max_bikes+"&max_bikes="+max_bikes;
-        params = GeneralMethods.encodeCommunication(params);
-
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateBuilding?"+params)).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean updateBuilding(int id, String name, int room_count, String address, int available_bikes, int max_bikes) throws UnsupportedEncodingException {
-        String params = "id="+id+"&name="+name+"&room_count="+room_count+"&address="+address+"&available_bikes="+available_bikes+"&max_bikes="+max_bikes;
-        params = GeneralMethods.encodeCommunication(params);
-
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateBuilding?"+params)).build();
+        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateBuilding?" + params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());

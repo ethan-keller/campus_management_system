@@ -1,5 +1,11 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,12 +23,6 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 import org.controlsfx.control.RangeSlider;
-
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * This controller class is invokes on the onclick of the newReservationButton/ editReservationButton
@@ -64,37 +64,44 @@ public class ReservationEditDialogController {
      */
     @FXML
     private void initialize() {
-        Reservation reservation = AdminManageReservationViewController.currentSelectedReservation;
-        date.setConverter(getDateConverter());
-        ObservableList<User> oL = User.getUserData();
-        ObservableList<Room> ol = Room.getRoomData();
+        try {
+            Reservation reservation = AdminManageReservationViewController.currentSelectedReservation;
+            date.setConverter(getDateConverter());
+            ObservableList<User> oL = User.getUserData();
+            ObservableList<Room> ol = Room.getRoomData();
 
-        //This method sets up the slider which determines the time of reservation in the dialog view.
-        configureRangeSlider();
-        date.setDayCellFactory(getDayCellFactory());
+            //This method sets up the slider which determines the time of reservation in the dialog view.
+            configureRangeSlider();
+            date.setDayCellFactory(getDayCellFactory());
 
-        //Initializing the observable list for the users available!!
-        //The admin can make a mistake in writing the name of the user.
-        username.setItems(oL);
-        this.setUserComboBoxConverter(oL);
+            //Initializing the observable list for the users available!!
+            //The admin can make a mistake in writing the name of the user.
+            username.setItems(oL);
+            this.setUserComboBoxConverter(oL);
 
-        //Initializing the observable list for the rooms available!!
-        room.setItems(ol);
-        this.setRoomComboBoxConverter(ol);
+            //Initializing the observable list for the rooms available!!
+            room.setItems(ol);
+            this.setRoomComboBoxConverter(ol);
 
-        if(reservation != null){
-            username.getSelectionModel().select(oL.stream().filter(x -> x.getUsername().get().equals(reservation.getUsername().get().toLowerCase())).collect(Collectors.toList()).get(0));
-            username.setDisable(true);
-            room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get() == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
-            date.setValue(LocalDate.parse(reservation.getDate().get(), formatter));
-            String[] startTimeSplit = reservation.getStarting_time().get().split(":");
-            timeslot.setLowValue(Double.parseDouble(startTimeSplit[0])*60.0 + Double.parseDouble(startTimeSplit[1]));
-            String[] endTimeSplit = reservation.getEnding_time().get().split(":");
-            timeslot.setHighValue(Double.parseDouble(endTimeSplit[0])*60.0 + Double.parseDouble(endTimeSplit[1]));
-            startTime.setText("Start: " + getRangeSliderConverter().toString(timeslot.getLowValue()));
-            endTime.setText("End: " + getRangeSliderConverter().toString(timeslot.getHighValue()));
+            if(reservation != null){
+                username.getSelectionModel().select(oL.stream().filter(x -> x.getUsername().get().equals(reservation.getUsername().get().toLowerCase())).collect(Collectors.toList()).get(0));
+                username.setDisable(true);
+                room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get() == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
+                date.setValue(LocalDate.parse(reservation.getDate().get(), formatter));
+                String[] startTimeSplit = reservation.getStartingTime().get().split(":");
+                timeslot.setLowValue(Double.parseDouble(startTimeSplit[0])*60.0 + Double.parseDouble(startTimeSplit[1]));
+                String[] endTimeSplit = reservation.getEndingTime().get().split(":");
+                timeslot.setHighValue(Double.parseDouble(endTimeSplit[0])*60.0 + Double.parseDouble(endTimeSplit[1]));
+                startTime.setText("Start: " + getRangeSliderConverter().toString(timeslot.getLowValue()));
+                endTime.setText("End: " + getRangeSliderConverter().toString(timeslot.getHighValue()));
+            }
+            else {
+                return;
+            }
         }
-
+        catch(Exception e) {
+                e.printStackTrace();
+        }
     }
 
 
@@ -121,7 +128,7 @@ public class ReservationEditDialogController {
                 }
             };
             return dayCellFactory;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -151,7 +158,7 @@ public class ReservationEditDialogController {
 
             // inject the RangeSlider in the JavaFX layout
             grid.add(timeslot, 1, 3);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -169,7 +176,7 @@ public class ReservationEditDialogController {
                     timeslot.setLowValue((newValue.intValue() / 30) * 30));
             timeslot.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeslot.setHighValue((newValue.intValue() / 30) * 30));
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -193,7 +200,7 @@ public class ReservationEditDialogController {
                     return null;
                 }
             };
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -207,7 +214,7 @@ public class ReservationEditDialogController {
                     if (dateSelected != null) {
                         return formatter.format(dateSelected);
                     }
-                    return null;
+                    return "null";
                 }
 
                 @Override
@@ -279,8 +286,8 @@ public class ReservationEditDialogController {
             reservation.setUsername(username.getSelectionModel().getSelectedItem().getUsername().get());
             reservation.setRoom(room.getSelectionModel().getSelectedItem().getRoomId().get());
             reservation.setDate(dateSelected.toString());
-            reservation.setStarting_time(startTime.getText().replace("Start: ", ""));
-            reservation.setEnding_time(endTime.getText().replace("End: ", "").equals("24:00") ? "23:59" : endTime.getText().replace("End: ", ""));
+            reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
+            reservation.setEndingTime(endTime.getText().replace("End: ", "").equals("24:00") ? "23:59" : endTime.getText().replace("End: ", ""));
 
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
@@ -311,7 +318,7 @@ public class ReservationEditDialogController {
         if (room.getSelectionModel().getSelectedItem() == null) {
             errorMessage += "No valid Room provided! \n";
         }
-        if (date.getValue().equals("")) {
+        if (date.getValue() == null) {
             errorMessage += "No date provided!\n";
         }
         if (startTime.getText().equals("")) {

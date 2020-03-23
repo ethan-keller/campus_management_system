@@ -1,12 +1,23 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -23,13 +34,6 @@ import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;
 import org.controlsfx.control.RangeSlider;
 
-import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
-
 
 /**
  * Controller class for the Room view (JavaFX)
@@ -45,7 +49,7 @@ public class RoomViewController implements Initializable {
     @FXML
     private Text building;
     @FXML
-    private Text teacher_only;
+    private Text teacherOnly;
     @FXML
     private Text type;
     @FXML
@@ -53,7 +57,7 @@ public class RoomViewController implements Initializable {
     @FXML
     private Text description;
     @FXML
-    private ComboBox food_choice;
+    private ComboBox foodChoice;
     @FXML
     private Button bookButton;
     @FXML
@@ -107,7 +111,7 @@ public class RoomViewController implements Initializable {
             foodError.setVisible(false);
 
             // if user is a student and the room is teacher only => disable book button and show error
-            if (CurrentUserManager.getType() == 2 && currentRoom.getTeacher_only().get()) {
+            if (CurrentUserManager.getType() == 2 && currentRoom.getTeacherOnly().get()) {
                 teacherOnlyError.setVisible(true);
                 bookButton.setDisable(true);
             } else {
@@ -126,13 +130,13 @@ public class RoomViewController implements Initializable {
             // TODO: adjust the options of this comboBox based on the availabale food dishes
             ObservableList<String> FoodList = FXCollections.observableArrayList();
             FoodList.addAll("Ham Sandwich", "Cheese Sandwich", "Pasta", "No Food");
-            food_choice.setItems(FoodList);
+            foodChoice.setItems(FoodList);
 
             // set text info about the room
             name.setText("Name: " + currentRoom.getRoomName().get());
             capacity.setText("Capacity: " + currentRoom.getRoomCapacity().get());
             building.setText("Building: " + Building.getBuildingById(currentRoom.getRoomBuilding().get()).getBuildingName().get());
-            teacher_only.setText("Teachers only: " + (currentRoom.getTeacher_only().get() ? "yes" : "no"));
+            teacherOnly.setText("Teachers only: " + (currentRoom.getTeacherOnly().get() ? "yes" : "no"));
             type.setText("Type: " + currentRoom.getRoomType().get());
             description.setText("Description:\n" + currentRoom.getRoomDescription().get());
             // TODO: change to room's image
@@ -154,7 +158,7 @@ public class RoomViewController implements Initializable {
             image.setFitWidth((newWidth.doubleValue() - 188) / 1.41550696);
             reservationVbox.setPrefWidth((newWidth.doubleValue() - 188) / 3.3969);
             timeSlotSlider.setMaxWidth((newWidth.doubleValue() - 188) / 5);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -173,7 +177,7 @@ public class RoomViewController implements Initializable {
             StringConverter<LocalDate> converter = getDatePickerConverter();
             // set the converter
             datePicker.setConverter(converter);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -207,7 +211,7 @@ public class RoomViewController implements Initializable {
                 }
             };
             return dayCellFactory;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -241,7 +245,7 @@ public class RoomViewController implements Initializable {
 
             // inject the RangeSlider in the JavaFX layout
             reservationVbox.getChildren().add(2, timeSlotSlider);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -308,7 +312,7 @@ public class RoomViewController implements Initializable {
                     }
                 }
             };
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -337,7 +341,7 @@ public class RoomViewController implements Initializable {
                     return null;
                 }
             };
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -424,7 +428,7 @@ public class RoomViewController implements Initializable {
             rcv.start(thisStage);
             // return true if confirmed, false otherwise
             return ReservationConfirmationViewController.confirmed;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
@@ -450,7 +454,7 @@ public class RoomViewController implements Initializable {
                 dateError.setVisible(true);
                 errors = true;
             }
-            if (food_choice.getSelectionModel().getSelectedItem() == null) {
+            if (foodChoice.getSelectionModel().getSelectedItem() == null) {
                 foodError.setVisible(true);
                 errors = true;
             }
@@ -458,7 +462,7 @@ public class RoomViewController implements Initializable {
             // check if errors were triggered
             if (errors) return false;
             else return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
