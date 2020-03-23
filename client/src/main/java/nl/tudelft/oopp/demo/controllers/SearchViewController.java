@@ -75,7 +75,7 @@ public class SearchViewController implements Initializable {
     @FXML
     private RadioButton noCheckBoxFood;
     @FXML
-    private ComboBox<String> capacityComboBox;
+    private ComboBox<String> CapacityComboBox;
     @FXML
 
     private Button clearFilters;
@@ -84,13 +84,12 @@ public class SearchViewController implements Initializable {
     @FXML
     private TextField searchBar;
     @FXML
-    private ComboBox<String> bikesAvailable;
+    private ComboBox<String> BikesAvailable;
 
     private List<Building> buildings;
     private List<Room> roomList;
     private ObservableList<Room> rooms;
 
-    private ComboBox<String> BikesAvailable;
     @FXML
     private AnchorPane pane;
 
@@ -185,13 +184,13 @@ public class SearchViewController implements Initializable {
             // assign values to the observable lists
             capacityList.addAll("1-5", "5-10", "10-20", "20+");
             BuildingComboBox.setItems(buildingList);
-            BuildingComboBox.setConverter(getbuildingComboBoxConverter());
+            BuildingComboBox.setConverter(getBuildingComboBoxConverter());
             bikeList.addAll("1-5", "5-10", "10-20", "20+");
 
             // populating the choicebox
-            capacityComboBox.setItems(capacityList);
+            CapacityComboBox.setItems(capacityList);
             BuildingComboBox.setItems(buildingList);
-            bikesAvailable.setItems(bikeList);
+            BikesAvailable.setItems(bikeList);
 
             // get all rooms and buildings from server
             rooms = Room.getRoomData();
@@ -215,7 +214,7 @@ public class SearchViewController implements Initializable {
         });
 
         // if a new filter is applied or an filter is removed filter again and load the cards again
-        capacityComboBox.setOnAction(event -> {
+        CapacityComboBox.setOnAction(event -> {
             try {
                 loadCards();
             } catch (Exception e) {
@@ -293,8 +292,8 @@ public class SearchViewController implements Initializable {
         }
 
         // if the combobox is selected on a value it filters for that value.
-        if (capacityComboBox.getValue() != null) {
-            String capacity = capacityComboBox.getValue();
+        if (CapacityComboBox.getValue() != null) {
+            String capacity = CapacityComboBox.getValue();
             switch (capacity) {
                 case "1-5":
                     capMin = 1;
@@ -497,7 +496,7 @@ public class SearchViewController implements Initializable {
      *
      * @return StringConverter
      */
-    private StringConverter<Building> getbuildingComboBoxConverter() {
+    private StringConverter<Building> getBuildingComboBoxConverter() {
         try {
             StringConverter<Building> converter = new StringConverter<Building>() {
                 @Override
@@ -662,8 +661,8 @@ public class SearchViewController implements Initializable {
             yesCheckBoxTeacherOnly.setSelected(false);
             teacherOnly = false;
             noCheckBoxTeacherOnly.setSelected(false);
-            capacityComboBox.setValue(null);
-            bikesAvailable.setValue(null);
+            CapacityComboBox.setValue(null);
+            BikesAvailable.setValue(null);
             searchBar.setText("");
             loadCards();
         } catch (Exception e) {
