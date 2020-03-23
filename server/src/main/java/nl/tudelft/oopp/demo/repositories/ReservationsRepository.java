@@ -19,10 +19,13 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
     @Query(value = "SELECT * FROM reservations WHERE id = :id", nativeQuery = true)
     public Reservations getReservation(@Param("id") int id);
 
+//TODO fix line length
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO reservations (username, room, date, starting_time, ending_time) VALUES (:username, :room, :date, :starting_time, :ending_time)", nativeQuery = true)
-    public void insertReservation(@Param("username") String username, @Param("room") int room, @Param("date") String date, @Param("starting_time") String starting_time, @Param("ending_time") String ending_time);
+    public void insertReservation(@Param("username") String username,
+                                  @Param("room") int room, @Param("date") String date,
+                                  @Param("starting_time") String starting_time, @Param("ending_time") String ending_time);
 
     @Modifying
     @Transactional
@@ -58,14 +61,20 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
     public List<Reservations> getUserReservations(@Param("username") String username);
 
     @Query(value = "SELECT * FROM reservations WHERE starting_time = :starting_time AND ending_time = :ending_time AND date = :date", nativeQuery = true)
-    public Reservations getReservationByStarting_timeAndEnding_timeOnDate(@Param("starting_time") String starting_time, @Param("ending_time") String ending_time, @Param("date") String date);
+    public Reservations getReservationByStarting_timeAndEnding_timeOnDate(
+            @Param("starting_time") String starting_time, @Param("ending_time") String ending_time,
+            @Param("date") String date);
 
     @Query(value = "SELECT * FROM reservations WHERE starting_time = :starting_time AND date = :date", nativeQuery = true)
-    public Reservations getReservationByStarting_timeOnDate(@Param("starting_time") String starting_time, @Param("date") String date);
+    public Reservations getReservationByStarting_timeOnDate(
+            @Param("starting_time") String starting_time, @Param("date") String date);
 
     @Query(value = "SELECT * FROM reservations WHERE date = :date", nativeQuery = true)
     public Reservations getReservationByDate(@Param("date") String date);
 
-    @Query(value = "SELECT * FROM reservations WHERE room = :room AND date = :date AND starting_time = :starting_time", nativeQuery = true)
-    public Reservations getReservationByRoomAndDateAndStarting_time(@Param("room") int room, @Param("date") String date, @Param("starting_time") String starting_time);
+    @Query(value = "SELECT * FROM reservations WHERE room = :room AND date = :date AND starting_time = :starting_time",
+            nativeQuery = true)
+    public Reservations getReservationByRoomAndDateAndStarting_time(
+            @Param("room") int room, @Param("date") String date,
+            @Param("starting_time") String starting_time);
 }

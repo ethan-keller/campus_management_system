@@ -21,8 +21,10 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO building (name, room_count, address) VALUES (:name, :room_count, :address)", nativeQuery = true)
-    public void insertBuilding(@Param("name") String name, @Param("room_count") int room_count, @Param("address") String address);
+    @Query(value = "INSERT INTO building (name, room_count, address) VALUES (:name, :room_count, :address)",
+            nativeQuery = true)
+    public void insertBuilding(@Param("name") String name,
+                               @Param("room_count") int room_count, @Param("address") String address);
 
     @Modifying
     @Transactional

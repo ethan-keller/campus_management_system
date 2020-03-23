@@ -82,8 +82,11 @@ public class UserController {
      */
     @PostMapping("updateUser2")
     @ResponseBody
-    public void updateUser(@RequestParam String username, @RequestParam int type) throws UnsupportedEncodingException {
+    public void updateUser(@RequestParam String username,
+                           @RequestParam int type) throws UnsupportedEncodingException {
+
         username = CommunicationMethods.decodeCommunication(username);
+
         try {
             userRepo.updateType(username, type);
         } catch (Exception e) {
