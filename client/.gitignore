@@ -105,6 +105,7 @@ local.properties
 
 # Package Files #
 *.jar
+!JPlanner.jar
 *.war
 *.ear
 

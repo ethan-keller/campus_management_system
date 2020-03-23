@@ -4,10 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -15,24 +11,20 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.views.BookingHistoryView;
-import nl.tudelft.oopp.demo.views.CancelBookingView;
-import nl.tudelft.oopp.demo.views.LoginView;
-import nl.tudelft.oopp.demo.views.RegisterView;
-
-import java.io.IOException;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.views.RoomView;
+import nl.tudelft.oopp.demo.views.*;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -74,6 +66,8 @@ public class SearchViewController implements Initializable {
     private TextField searchBar;
     @FXML
     private ComboBox<String> BikesAvailable;
+    @FXML
+    private AnchorPane pane;
 
     // Declaring the observable list for buildings, capacity and bikes to be inserted into the comboBox
     // This is necessary due to the format of inserting items into a comboBox.
@@ -138,6 +132,8 @@ public class SearchViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            pane = new AnchorPane();
+
             // assign lists to the initialized ObservableLists
             capacityList = FXCollections.observableArrayList();
             buildingList = Building.getBuildingData();
@@ -423,4 +419,18 @@ public class SearchViewController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void bookingHistoryClicked(ActionEvent event) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            CalendarPaneController.thisStage = stage;
+            CalendarPaneView cpv = new CalendarPaneView();
+            cpv.start(stage);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
 }

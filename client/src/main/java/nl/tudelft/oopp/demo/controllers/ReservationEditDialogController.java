@@ -280,7 +280,7 @@ public class ReservationEditDialogController {
             reservation.setRoom(room.getSelectionModel().getSelectedItem().getRoomId().get());
             reservation.setDate(dateSelected.toString());
             reservation.setStarting_time(startTime.getText().replace("Start: ", ""));
-            reservation.setEnding_time(endTime.getText().replace("End: ", ""));
+            reservation.setEnding_time(endTime.getText().replace("End: ", "").equals("24:00") ? "23:59" : endTime.getText().replace("End: ", ""));
 
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
