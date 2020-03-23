@@ -28,7 +28,7 @@ public class RoomFiltering {
         }
 
         for(int j = 0; j != rooms.size(); j++){
-            if(rooms.get(j).isTeacher_only() != teacher_only){
+            if(rooms.get(j).isTeacherOnly() != teacher_only){
                 rooms.remove(rooms.get(j));
                 j--;
             }
@@ -74,7 +74,7 @@ public class RoomFiltering {
         }
 
         for(int j = 0; j != rooms.size(); j++){
-            if(rooms.get(j).isTeacher_only() != teacher_only){
+            if(rooms.get(j).isTeacherOnly() != teacher_only){
                 rooms.remove(rooms.get(j));
                 j--;
             }
