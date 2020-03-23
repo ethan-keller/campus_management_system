@@ -15,13 +15,13 @@ public class Building {
 
     private IntegerProperty buildingId;
     private StringProperty buildingName;
-    private IntegerProperty buildingRoom_count;
+    private IntegerProperty buildingRoomCount;
     private StringProperty buildingAddress;
 
     public Building() {
         this.buildingId = new SimpleIntegerProperty(-1);
         this.buildingName = new SimpleStringProperty(null);
-        this.buildingRoom_count = new SimpleIntegerProperty(-1);
+        this.buildingRoomCount = new SimpleIntegerProperty(-1);
         this.buildingAddress = new SimpleStringProperty(null);
     }
 
@@ -29,7 +29,7 @@ public class Building {
     public Building(int buildingId, String buildingName, int buildingRoom_count, String buildingAddress) {
         this.buildingId = new SimpleIntegerProperty(buildingId);
         this.buildingName = new SimpleStringProperty(buildingName);
-        this.buildingRoom_count = new SimpleIntegerProperty(buildingRoom_count);
+        this.buildingRoomCount = new SimpleIntegerProperty(buildingRoom_count);
         this.buildingAddress = new SimpleStringProperty(buildingAddress);
     }
 
@@ -50,11 +50,11 @@ public class Building {
 
 
 
-    public IntegerProperty getBuildingRoom_count() {
-        return buildingRoom_count;
+    public IntegerProperty getBuildingRoomCount() {
+        return buildingRoomCount;
     }
 
-    public void setBuildingRoom_count(int buildingRoom_count) { this.buildingRoom_count.set(buildingRoom_count); }
+    public void setBuildingRoomCount(int buildingRoomCount) { this.buildingRoomCount.set(buildingRoomCount); }
 
 
 
@@ -78,7 +78,7 @@ public class Building {
             b.setBuildingId(jsonArrayBuildings.getJSONObject(i).getInt("id") );
             b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name") );
             b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getString("address") );
-            b.setBuildingRoom_count(jsonArrayBuildings.getJSONObject(i).getInt("room_count") );
+            b.setBuildingRoomCount(jsonArrayBuildings.getJSONObject(i).getInt("roomCount") );
             buildingData.add(b);
         }
         return buildingData;
@@ -91,7 +91,7 @@ public class Building {
             b.setBuildingId(jsonObject.getInt("id"));
             b.setBuildingName(jsonObject.getString("name"));
             b.setBuildingAddress(jsonObject.getString("address"));
-            b.setBuildingRoom_count(jsonObject.getInt("room_count"));
+            b.setBuildingRoomCount(jsonObject.getInt("roomCount"));
             return b;
         } catch (Exception e){
             e.printStackTrace();

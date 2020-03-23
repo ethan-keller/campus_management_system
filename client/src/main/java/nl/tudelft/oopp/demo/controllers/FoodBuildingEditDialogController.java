@@ -70,7 +70,7 @@ public class FoodBuildingEditDialogController {
             emptyBuilding();
             building.setBuildingId(this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
             building.setBuildingName(this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingName().get());
-            building.setBuildingRoom_count(this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingRoom_count().get());
+            building.setBuildingRoomCount(this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingRoomCount().get());
             building.setBuildingAddress(this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingAddress().get());
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();

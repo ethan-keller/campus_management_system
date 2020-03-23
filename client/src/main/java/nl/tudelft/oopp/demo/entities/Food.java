@@ -77,7 +77,7 @@ public class Food {
             b.setBuildingId(jsonArrayBuildings.getJSONObject(i).getInt("id"));
             b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name") );
             b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getString("address") );
-            b.setBuildingRoom_count(jsonArrayBuildings.getJSONObject(i).getInt("room_count") );
+            b.setBuildingRoomCount(jsonArrayBuildings.getJSONObject(i).getInt("roomCount") );
             foodBuilding.add(b);
         }
         return foodBuilding;
