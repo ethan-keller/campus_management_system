@@ -22,6 +22,29 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     @Query(value = "SELECT * FROM food WHERE name = :name", nativeQuery = true)
     public Food getFoodByName(@Param("name") String name);
 
+    @Query(value = "SELECT food.* FROM food INNER JOIN foodBuilding ON food.id = foodBuilding.food " +
+            "INNER JOIN building ON building.id = foodBuilding.building WHERE building.name = :name",
+            nativeQuery = true)
+    public List<Food> getFoodByBuildingName(@Param("name") String name);
+
+    @Query(value = "SELECT food.* FROM food INNER JOIN foodBuilding ON food.id = foodBuilding.food WHERE building = :id",
+            nativeQuery = true)
+    public List<Food> getFoodByBuildingId(@Param("id") int id);
+
+    @Query(value = "SELECT food.* FROM food INNER JOIN foodReservations ON food.id = foodReservation.food WHERE" +
+            " reservation = :reservationId", nativeQuery = true)
+    public List<Food> getFoodByReservationId(@Param("reservationId") int reservationId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO foodBuilding (food, building) VALUES (:foodId, :buildingId)", nativeQuery = true)
+    public void addFoodToBuilding(@Param("foodId") int foodId, @Param("buildingId") int buildingId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO foodReservation (reservation, food, quantity) VALUES (:reservationId, :foodId, :quantity)", nativeQuery = true)
+    public void addFoodToReservation(@Param("reservationId") int reservationId, @Param("foodId") int foodId, @Param("quantity") int quantity);
+
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO food (name, price) VALUES (:name, :price)", nativeQuery = true)
