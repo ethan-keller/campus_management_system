@@ -78,7 +78,7 @@ public class SearchViewController implements Initializable {
 
     private Button clearFilters;
     @FXML
-    private Button BookingHistoryButton;
+    private Button bookingHistoryButton;
     @FXML
     private TextField searchBar;
     @FXML
@@ -152,7 +152,8 @@ public class SearchViewController implements Initializable {
 
     /**
      * Method that gets called when loading the view.
-     * Loads the buildings and rooms from the database and sets actions for when a filter is selected.
+     * Loads the buildings and rooms from the database
+     * sets actions for when a filter is selected.
      * JavaFX standard.
      *
      * @param location
@@ -235,7 +236,8 @@ public class SearchViewController implements Initializable {
             }
         });
 
-        // if a key is released only the searchbar gets filtered again. The rest stays the same and the list of the rooms of the other filters is used again.
+        // if a key is released only the searchbar gets filtered again.
+        // the rest stays the same and the list of the rooms of the other filters is used again.
         searchBar.setOnKeyReleased(event -> {
             try {
                 searchbarChanges();
@@ -315,7 +317,8 @@ public class SearchViewController implements Initializable {
 
         // if a date is selected it filters out the rooms that are fully booked for that day.
         if (datePicker.getValue() != null) {
-            // get all the reservations and only keeps the reservations that are from the selected date. The id of the rooms that are of the date are stored in roomsWithDate.
+            // get all the reservations and only keeps the reservations that are from the selected date.
+            // the id of the rooms that are of the date are stored in roomsWithDate.
             ObservableList<Reservation> reservations = Reservation.getReservation();
             List<Integer> roomsWithDate = new ArrayList<Integer>();
             String date = datePicker.getValue().toString();
@@ -330,7 +333,8 @@ public class SearchViewController implements Initializable {
                 }
             }
 
-            // for every room the total hours of bookings on the selected date is calculated if it is 16 the room is fully booked the room will be removed from the rooms to show
+            // for every room the total hours of bookings on the selected date is calculated
+            // if it is 16 the room is fully booked the room will be removed from the rooms to show
             int totalHoursAvailable;
             for (int q = 0; q != roomsWithDate.size(); q++) {
                 totalHoursAvailable = 16;
@@ -357,7 +361,8 @@ public class SearchViewController implements Initializable {
             }
         }
 
-        // value of the searchbar is put in searchBarInput and is filtered on building name and room name. The list is put in a new List so if a other key is pressed the other filters don't have to be applied again.
+        // value of the searchbar is put in searchBarInput and is filtered on building name and room name.
+        // the list is put in a new List so if a other key is pressed the other filters don't have to be applied again.
         String searchBarInput = searchBar.getText();
         List<Room> roomsToShow = roomList;
         if (!searchBarInput.equals("")) {
@@ -490,7 +495,9 @@ public class SearchViewController implements Initializable {
             StringConverter<Building> converter = new StringConverter<Building>() {
                 @Override
                 public String toString(Building object) {
-                    if (object == null) return "";
+                    if (object == null) {
+                        return "";
+                    }
                     return object.getBuildingName().get();
                 }
 
@@ -507,7 +514,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * Creates a new 'card' (HBox) which contains some information about the room
+     * Creates a new 'card' (HBox) which contains some information about the room.
      *
      * @param r The Room that we have to show information from
      * @return HBox which is the final 'card'
@@ -590,7 +597,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * When a card gets clicked, the RoomView gets loaded with all the corresponding room information
+     * When a card gets clicked, the RoomView gets loaded with all the corresponding room information.
      *
      * @param event MouseEvent
      */
@@ -620,12 +627,12 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * Redirects to bookingHistory of the current user to see, edit or cancel bookings
+     * Redirects to bookingHistory of the current user to see, edit or cancel bookings.
      *
      * @param event ActionEvent to get current Stage
      */
     @FXML
-    private void BookingHistoryClicked(ActionEvent event) {
+    private void bookingHistoryClicked(ActionEvent event) {
         // get current Stage
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -633,7 +640,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * Clears all the filters and sets them back to 'empty'
+     * Clears all the filters and sets them back to 'empty'.
      *
      * @param event ActionEvent
      */
