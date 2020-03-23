@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.repositories;
 
+import java.util.List;
+
 import nl.tudelft.oopp.demo.entities.Building;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Repository
 public interface BuildingRepository extends JpaRepository<Building, Long> {
@@ -21,8 +22,8 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO building (name, roomCount, address, availableBikes, maxBikes) VALUES " +
-            "(:name, :roomCount, :address, :availableBikes, :maxBikes)", nativeQuery = true)
+    @Query(value = "INSERT INTO building (name, roomCount, address, availableBikes, maxBikes) VALUES "
+            + "(:name, :roomCount, :address, :availableBikes, :maxBikes)", nativeQuery = true)
     public void insertBuilding(@Param("name") String name, @Param("roomCount") int roomCount,
                                @Param("address") String address, @Param("availableBikes") int availableBikes,
                                @Param("maxBikes") int maxBikes);

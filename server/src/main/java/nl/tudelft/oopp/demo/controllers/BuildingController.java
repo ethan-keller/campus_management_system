@@ -22,24 +22,24 @@ public class BuildingController {
     /**
      * Adds a building to the database.
      *
-     * @param name            The name of the building.
-     * @param room_count      The amount of of rooms inside the building.
-     * @param address         The address of the building. //TODO format of address!!
-     * @param available_bikes The number of available bikes, int
-     * @param max_bikes       The max number of bikes, int
+     * @param name           The name of the building.
+     * @param roomCount      The amount of of rooms inside the building.
+     * @param address        The address of the building. //TODO format of address!!
+     * @param availableBikes The number of available bikes, int
+     * @param maxBikes       The max number of bikes, int
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("createBuilding")
     @ResponseBody
-    public void createBuilding(@RequestParam String name, @RequestParam int room_count,
-                               @RequestParam String address, @RequestParam int available_bikes,
-                               @RequestParam int max_bikes) throws UnsupportedEncodingException {
+    public void createBuilding(@RequestParam String name, @RequestParam int roomCount,
+                               @RequestParam String address, @RequestParam int availableBikes,
+                               @RequestParam int maxBikes) throws UnsupportedEncodingException {
 
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);
 
         try {
-            buildingRepo.insertBuilding(name, room_count, address, available_bikes, max_bikes);
+            buildingRepo.insertBuilding(name, roomCount, address, availableBikes, maxBikes);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,9 +60,9 @@ public class BuildingController {
     @ResponseBody
 
     public void updateBuilding(@RequestParam int id, @RequestParam String name,
-                               @RequestParam int room_count, @RequestParam String address,
-                               @RequestParam int available_bikes,
-                               @RequestParam int max_bikes) throws UnsupportedEncodingException {
+                               @RequestParam int roomCount, @RequestParam String address,
+                               @RequestParam int availableBikes,
+                               @RequestParam int maxBikes) throws UnsupportedEncodingException {
 
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);
@@ -70,9 +70,9 @@ public class BuildingController {
         try {
             buildingRepo.updateAddress(id, address);
             buildingRepo.updateName(id, name);
-            buildingRepo.updateRoomCount(id, room_count);
-            buildingRepo.updateAvailableBikes(id, available_bikes);
-            buildingRepo.updateMaxBikes(id, max_bikes);
+            buildingRepo.updateRoomCount(id, roomCount);
+            buildingRepo.updateAvailableBikes(id, availableBikes);
+            buildingRepo.updateMaxBikes(id, maxBikes);
         } catch (Exception e) {
             e.printStackTrace();
         }

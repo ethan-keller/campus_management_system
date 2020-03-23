@@ -1,6 +1,11 @@
 package nl.tudelft.oopp.demo.entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "reservation")
@@ -31,11 +36,11 @@ public class Reservations {
     /**
      * Builder
      *
-     * @param id int
-     * @param username String
-     * @param date String formatted like "". //TODO address format
+     * @param id           int
+     * @param username     String
+     * @param date         String formatted like "". //TODO address format
      * @param startingTime String formatted like "". //TODO time format
-     * @param endingTime String formatted like "". //TODO time format
+     * @param endingTime   String formatted like "". //TODO time format
      */
     public Reservations(int id, String username, int room, String date, String startingTime, String endingTime) {
         this.id = id;
@@ -70,7 +75,7 @@ public class Reservations {
      *
      * @return Returns the int room.
      */
-    public int getRoom(){
+    public int getRoom() {
         return room;
     }
 
