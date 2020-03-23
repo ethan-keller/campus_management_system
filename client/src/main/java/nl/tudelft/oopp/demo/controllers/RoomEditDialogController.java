@@ -6,12 +6,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.TextField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
@@ -67,8 +67,7 @@ public class RoomEditDialogController {
                     == room.getRoomBuilding().get()).collect(Collectors.toList()).get(0));
             if (room.getTeacherOnly().get()) {
                 radioButtonYes.setSelected(true);
-            }
-            else {
+            } else {
                 radioButtonNo.setSelected(true);
             }
             roomCapacityField.setText(String.valueOf(room.getRoomCapacity().get()));
@@ -79,12 +78,16 @@ public class RoomEditDialogController {
         }
     }
 
+    /**
+     * Converting the buildings into items that can be displayed in a comboBox
+     * @param ol is an observable list of buildings
+     */
     public void setRoomBuildingComboBoxConverter(ObservableList<Building> ol) {
         StringConverter<Building> converter = new StringConverter<Building>() {
             @Override
             public String toString(Building object) {
-                if (object == null) {return "";}
-                else {return object.getBuildingName().get();}
+                if (object == null) { return ""; }
+                else { return object.getBuildingName().get(); }
             }
 
             @Override

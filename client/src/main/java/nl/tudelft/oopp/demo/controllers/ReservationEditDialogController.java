@@ -69,7 +69,6 @@ public class ReservationEditDialogController {
             date.setConverter(getDateConverter());
             ObservableList<User> oL = User.getUserData();
             ObservableList<Room> ol = Room.getRoomData();
-
             //Initializing the observable list for the users available!!
             //The admin can make a mistake in writing the name of the user.
             username.setItems(oL);
@@ -91,19 +90,17 @@ public class ReservationEditDialogController {
                         == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
                 date.setValue(LocalDate.parse(reservation.getDate().get(), formatter));
                 String[] startTimeSplit = reservation.getStartingTime().get().split(":");
-                timeslot.setLowValue(Double.parseDouble(startTimeSplit[0])*60.0
+                timeslot.setLowValue(Double.parseDouble(startTimeSplit[0]) * 60.0
                         + Double.parseDouble(startTimeSplit[1]));
                 String[] endTimeSplit = reservation.getEndingTime().get().split(":");
-                timeslot.setHighValue(Double.parseDouble(endTimeSplit[0])*60.0
+                timeslot.setHighValue(Double.parseDouble(endTimeSplit[0]) * 60.0
                         + Double.parseDouble(endTimeSplit[1]));
                 startTime.setText("Start: " + getRangeSliderConverter().toString(timeslot.getLowValue()));
                 endTime.setText("End: " + getRangeSliderConverter().toString(timeslot.getHighValue()));
-             }
-            else {
+             } else {
                 return;
              }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
                 e.printStackTrace();
         }
     }
@@ -237,14 +234,17 @@ public class ReservationEditDialogController {
         return null;
     }
 
+    /**
+     * This method is to insert the various rooms present in the database into a comboBox.
+     * @param ol - Observable list of Rooms.
+     */
     public void setRoomComboBoxConverter(ObservableList<Room> ol) {
         StringConverter<Room> converter = new StringConverter<Room>() {
             @Override
             public String toString(Room object) {
                 if (object == null) {
                     return "";
-                }
-                else {
+                } else {
                     return object.getRoomName().get();
                 }
             }
@@ -258,14 +258,17 @@ public class ReservationEditDialogController {
         room.setConverter(converter);
     }
 
+    /**
+     * This method helps insert the User's present in the database into a comboBox.
+     * @param oL - Observable list of users
+     */
     public void setUserComboBoxConverter(ObservableList<User> oL) {
         StringConverter<User> converter = new StringConverter<User>() {
             @Override
             public String toString(User object) {
                 if (object == null) {
                     return "";
-                }
-                else {
+                } else {
                     return object.getUsername().get();
                 }
             }
@@ -290,7 +293,7 @@ public class ReservationEditDialogController {
      * @param event is passed
      */
     @FXML
-    public void OKClicked(ActionEvent event) {
+    public void OkClicked(ActionEvent event) {
         LocalDate dateSelected = date.getValue();
         if (isInputValid()) {
             emptyReservation();
@@ -310,7 +313,7 @@ public class ReservationEditDialogController {
      * Called when the user clicks cancel.
      */
     @FXML
-    private void CancelClicked(ActionEvent event) {
+    private void cancelClicked(ActionEvent event) {
         reservation = null;
         this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         dialogStage.close();

@@ -14,6 +14,15 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import javax.swing.SwingUtilities;
+
+import java.util.stream.Collectors;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
@@ -26,13 +35,8 @@ import nl.tudelft.oopp.demo.views.CalenderItemDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
-import javax.swing.*;
-import java.awt.*;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
+import java.awt.Point;
+import java.awt.Color;
 
 /**.
  * Class that controls the view which contains the calendar with booking history
@@ -83,7 +87,7 @@ public class CalendarPaneController implements Initializable {
             // get all items from database that belong to the current user
             ObservableList<nl.tudelft.oopp.demo.entities.Item> itemList =
                     nl.tudelft.oopp.demo.entities.Item.getUserItems(CurrentUserManager.getUsername());
-            if(itemList == null) {return;}
+            if (itemList == null) { return; }
             // make an Appointment object for every item to inject in calendar
             for (nl.tudelft.oopp.demo.entities.Item i : itemList) {
                 Appointment app = new Appointment();
@@ -124,7 +128,7 @@ public class CalendarPaneController implements Initializable {
             ObservableList<Reservation> reservationList = Reservation.getUserReservation();
             ObservableList<Room> roomList = Room.getRoomData();
             ObservableList<Building> buildingList = Building.getBuildingData();
-            if(reservationList == null || roomList == null || buildingList == null) {
+            if (reservationList == null || roomList == null || buildingList == null) {
                 return;
             }
 
@@ -239,7 +243,7 @@ public class CalendarPaneController implements Initializable {
         try {
             // get all the selected items in the calendar
             Item[] items = calendar.getItemSelection().getItems();
-            if(items.length == 0) {
+            if (items.length == 0) {
                 Alert alert = GeneralMethods.createAlert("No selection", "You didn't select any item to delete",
                         thisStage, Alert.AlertType.WARNING);
                 alert.showAndWait();
@@ -277,7 +281,7 @@ public class CalendarPaneController implements Initializable {
         try {
             // get all selected items from the calendar
             Item[] items = calendar.getItemSelection().getItems();
-            if(items.length == 0) {
+            if (items.length == 0) {
                 Alert alert = GeneralMethods.createAlert("No selection", "You didn't select any reservation"
                         + " to delete", thisStage, Alert.AlertType.WARNING);
                 alert.showAndWait();
@@ -354,7 +358,7 @@ public class CalendarPaneController implements Initializable {
      * @param event is passed
      */
     @FXML
-    private void BackButtonClicked(ActionEvent event) {
+    private void backButtonClicked(ActionEvent event) {
         try {
             // get current stage
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

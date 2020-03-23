@@ -50,7 +50,7 @@ public class RegisterViewController {
         String passwordTxt = password.getText();
         String rePasswordTxt = rePassword.getText();
 
-        Pattern UpperCasePattern = Pattern.compile("[A-Z]");
+        Pattern upperCasePattern = Pattern.compile("[A-Z]");
         Pattern characters = Pattern.compile("[!@#$%^&*`~<,>./?:;'{|+=_-]");
         Pattern space = Pattern.compile(" ");
 
@@ -58,27 +58,27 @@ public class RegisterViewController {
         if (username.getText().trim().isEmpty()) {
             usernameLabel.setText("This field cannot be left empty !");
             usernameLabel.setStyle("-fx-text-fill: red");
-        }
-         //Checks whether the password field is left empty.
-        else if (password.getText().trim().isEmpty()) {
+        
+            //Checks whether the password field is left empty.
+        } else if (password.getText().trim().isEmpty()) {
             passwordLabel.setText("This field cannot be left empty !");
             passwordLabel.setStyle("-fx-text-fill: red");
-        }
-         //Checks whether the password field is atleast 8 characters long.
-        else if (password.getText().length() < 8) {
+
+            //Checks whether the password field is atleast 8 characters long.
+        } else if (password.getText().length() < 8) {
             passwordLabel.setText("The password needs to have atleast 8 characters !");
             passwordLabel.setStyle("-fx-text-fill: red");
-        }
-        //Checks whether the password matches the repeat password field
-        else if (!passwordTxt.equals(rePasswordTxt)) {
+
+            //Checks whether the password matches the repeat password field
+        } else if (!passwordTxt.equals(rePasswordTxt)) {
             rePasswordLabel.setText("The password needs to be the same !");
             rePasswordLabel.setStyle("-fx-text-fill: red");
-        }
-        //Checks whether the password contains atleast one numeric value
-        else if (!passwordTxt.matches(".*\\d.*")) {
+
+            //Checks whether the password contains atleast one numeric value
+        } else if (!passwordTxt.matches(".*\\d.*")) {
             passwordLabel.setText("The password needs to have atleast 1 numeric value !");
             passwordLabel.setStyle("-fx-text-fill: red");
-        } else if (!UpperCasePattern.matcher(passwordTxt).find()) {
+        } else if (!upperCasePattern.matcher(passwordTxt).find()) {
             passwordLabel.setText("The password needs to have atleast 1 Upper Case letter !");
             passwordLabel.setStyle("-fx-text-fill: red");
         } else if (space.matcher(usernameTxt).find()) {
@@ -93,9 +93,9 @@ public class RegisterViewController {
         } else if (characters.matcher(passwordTxt).find()) {
             passwordLabel.setText("The password is not allowed to have any punctuations !");
             passwordLabel.setStyle("-fx-text-fill: red");
-        }
-        //Server connection is established.
-        else {
+
+            //Server connection is established.
+        } else {
             alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt));
             alert.showAndWait();
         }

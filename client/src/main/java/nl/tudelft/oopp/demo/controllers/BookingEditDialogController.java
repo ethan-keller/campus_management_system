@@ -103,8 +103,7 @@ public class BookingEditDialogController {
             public String toString(Building object) {
                 if (object == null) {
                     return "";
-                }
-                else {
+                } else {
                     return object.getBuildingName().get();
                 }
             }
@@ -126,10 +125,11 @@ public class BookingEditDialogController {
         StringConverter<Room> converter = new StringConverter<Room>() {
             @Override
             public String toString(Room object) {
-                if(object == null) {
+                if (object == null) {
                     return "";
+                } else {
+                    return object.getRoomName().get();
                 }
-                else return object.getRoomName().get();
             }
 
             @Override
@@ -172,7 +172,7 @@ public class BookingEditDialogController {
                 "14:00:00", "15:00:00", "16:00:00",
                 "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00", "00:00:00");
         //Check if a starting time is selected
-        if(bookingStartingTime.getValue() != null) {
+        if (bookingStartingTime.getValue() != null) {
             int indexSt = sTime.indexOf(bookingStartingTime.getValue());
             //Remove the time slot <= the selected starting time plus one hour.
             eTime.remove(0, indexSt);

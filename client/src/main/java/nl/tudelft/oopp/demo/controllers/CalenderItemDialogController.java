@@ -6,9 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
+
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -16,7 +17,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
 import java.awt.Color;
 import java.net.URL;
@@ -24,6 +24,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
 import org.controlsfx.control.RangeSlider;
 
@@ -310,8 +312,8 @@ public class CalenderItemDialogController implements Initializable {
 
             // split time in [hh:mm:ss]
             String[] startSplit = startText.getText().replace("Start: ", "").split(":");
-            String[] endSplit = endText.getText().replace("End: ", "").split(":")[0].equals("24") ?
-                    new String[]{"23", "59"} : endText.getText().replace("End: ", "").split(":");
+            String[] endSplit = endText.getText().replace("End: ", "").split(":")[0].equals("24")
+                    ? new String[]{"23", "59"} : endText.getText().replace("End: ", "").split(":");
 
             app.setStartTime(new DateTime(year, month, day, Integer.parseInt(startSplit[0]),
                     Integer.parseInt(startSplit[1]), 0));

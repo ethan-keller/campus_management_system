@@ -121,9 +121,9 @@ public class AdminManageUserViewController {
             User tempUser = UserEditDialogController.user;
             if (tempUser == null) {
                 return;
-            }
-            // TODO: Check that user creation was successful before displaying alert
-            else {
+
+                // TODO: Check that user creation was successful before displaying alert
+            } else {
                 UserServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(),
                         tempUser.getUserType().get());
             }
@@ -156,13 +156,13 @@ public class AdminManageUserViewController {
                 view.start(stage);
                 User tempUser = UserEditDialogController.user;
 
-                if (tempUser == null) {return;}
+                if (tempUser == null) { return; }
                 if (tempUser.getUserPassword().get() == null) {
-                    UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(),
-                            tempUser.getUserType().get());
+                    UserServerCommunication.updateUser(tempUser.getUsername().get(),
+                            tempUser.getUserPassword().get(), tempUser.getUserType().get());
                 } else {
-                    UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(),
-                            tempUser.getUserType().get());
+                    UserServerCommunication.updateUser(tempUser.getUsername().get(),
+                            tempUser.getUserPassword().get(), tempUser.getUserType().get());
                 }
                 refresh();
 

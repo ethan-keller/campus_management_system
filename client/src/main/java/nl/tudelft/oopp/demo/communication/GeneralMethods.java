@@ -1,9 +1,10 @@
 package nl.tudelft.oopp.demo.communication;
 
-import javafx.scene.control.Alert;
+import java.nio.charset.StandardCharsets;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+
+import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Window;
 
@@ -28,13 +29,13 @@ public class GeneralMethods {
         return params;
     }
 
-    /**
+    /**.
      * creates an alert message which ??
      * @param title
      * @param content
      * @param owner
      * @param type
-     * @return
+     * @return Alert
      */
     public static Alert createAlert(String title, String content, Window owner,
                                     Alert.AlertType type) {

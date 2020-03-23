@@ -137,7 +137,7 @@ public class AdminManageRoomViewController {
         }
     }
 
-    /**
+    /**.
      * Handles clicking the create new button.
      */
     @FXML
@@ -149,11 +149,12 @@ public class AdminManageRoomViewController {
             RoomEditDialogView view = new RoomEditDialogView();
             view.start(stage);
             Room tempRoom = RoomEditDialogController.room;
-            if (tempRoom == null) {return;}
+            if (tempRoom == null) { return; }
             // TODO: Check that room creation was successful before displaying alert
             RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
-                    tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(),
-                    tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
+                    tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
+                    tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
+                    tempRoom.getRoomType().get());
             refresh();
 
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -183,11 +184,13 @@ public class AdminManageRoomViewController {
                 view.start(stage);
                 Room tempRoom = RoomEditDialogController.room;
 
-                if (tempRoom == null) {return;}
+                if (tempRoom == null) { return; }
                 // TODO: Check that building edit was successful before displaying alert
                 RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(), tempRoom.getRoomName().get(),
-                        tempRoom.getRoomBuilding().get(), tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
-                        tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
+                        tempRoom.getRoomBuilding().get(), tempRoom.getTeacherOnly().get(),
+                        tempRoom.getRoomCapacity().get(),
+                        tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
+                        tempRoom.getRoomType().get());
                 refresh();
 
                 Alert alert = new Alert(AlertType.INFORMATION);
@@ -206,7 +209,11 @@ public class AdminManageRoomViewController {
         }
     }
 
-
+    /**
+     * This takes the user back to the admin home page.
+     * @param event is passed
+     * @throws IOException is thrown
+     */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

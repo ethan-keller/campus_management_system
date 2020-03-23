@@ -70,12 +70,12 @@ public class ItemServerCommunication {
      */
     public static boolean createItem(String user, String title, String date, String startingTime,
                                      String endingTime, String description) throws UnsupportedEncodingException {
-        String params = "user=" + user + "&title=" + title + "&date=" + date + "&starting_time=" + startingTime +
-                "&ending_time=" + endingTime + "&description=" + description;
+        String params = "user=" + user + "&title=" + title + "&date=" + date + "&starting_time=" + startingTime
+                + "&ending_time=" + endingTime + "&description=" + description;
 
         params = GeneralMethods.encodeCommunication(params);
 
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createItem?"+params)).build();
+        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createItem?" + params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
