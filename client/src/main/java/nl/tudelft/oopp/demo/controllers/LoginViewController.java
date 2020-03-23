@@ -2,8 +2,8 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
 
-import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
