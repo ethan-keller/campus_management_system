@@ -20,7 +20,7 @@ public class Building {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "roomCount")
+    @Column(name = "room_count")
     private int roomCount;
 
     @Column(name = "address")
@@ -50,7 +50,7 @@ public class Building {
 
         this.id = id;
         this.name = name;
-        this.roomCount = roomCount;
+        this.roomCount = room_count;
         this.address = address;
         this.available_bikes = available_bikes;
         this.max_bikes = max_bikes;
