@@ -176,7 +176,7 @@ public class AdminManageReservationViewController {
                 if(tempResevation == null)
                     return;
                 //TODO: Making sure that the reservation is created properly, before displaying the alert box.
-                ReservationServerCommunication.updateReservation(selectedReservation.getUsername().get(), selectedReservation.getId().get(), tempResevation.getRoom().get(), tempResevation.getDate().get(), tempResevation.getStarting_time().get(), tempResevation.getEnding_time().get());
+                ReservationServerCommunication.updateReservation(selectedReservation.getId().get(), tempResevation.getRoom().get(), tempResevation.getDate().get(), tempResevation.getStarting_time().get(), tempResevation.getEnding_time().get());
                 refresh();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

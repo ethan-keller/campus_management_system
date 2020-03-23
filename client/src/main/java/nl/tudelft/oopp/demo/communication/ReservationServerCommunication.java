@@ -70,7 +70,7 @@ public class ReservationServerCommunication {
             return false;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            System.out.println("FAILED Status: " + response.statusCode() + response.body());
             return false;
         }
         return true;

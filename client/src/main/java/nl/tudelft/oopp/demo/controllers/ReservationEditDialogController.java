@@ -64,37 +64,44 @@ public class ReservationEditDialogController {
      */
     @FXML
     private void initialize() {
-        Reservation reservation = AdminManageReservationViewController.currentSelectedReservation;
-        date.setConverter(getDateConverter());
-        ObservableList<User> oL = User.getUserData();
-        ObservableList<Room> ol = Room.getRoomData();
+        try {
+            Reservation reservation = AdminManageReservationViewController.currentSelectedReservation;
+            date.setConverter(getDateConverter());
+            ObservableList<User> oL = User.getUserData();
+            ObservableList<Room> ol = Room.getRoomData();
 
-        //This method sets up the slider which determines the time of reservation in the dialog view.
-        configureRangeSlider();
-        date.setDayCellFactory(getDayCellFactory());
+            //This method sets up the slider which determines the time of reservation in the dialog view.
+            configureRangeSlider();
+            date.setDayCellFactory(getDayCellFactory());
 
-        //Initializing the observable list for the users available!!
-        //The admin can make a mistake in writing the name of the user.
-        username.setItems(oL);
-        this.setUserComboBoxConverter(oL);
+            //Initializing the observable list for the users available!!
+            //The admin can make a mistake in writing the name of the user.
+            username.setItems(oL);
+            this.setUserComboBoxConverter(oL);
 
-        //Initializing the observable list for the rooms available!!
-        room.setItems(ol);
-        this.setRoomComboBoxConverter(ol);
+            //Initializing the observable list for the rooms available!!
+            room.setItems(ol);
+            this.setRoomComboBoxConverter(ol);
 
-        if(reservation != null){
-            username.getSelectionModel().select(oL.stream().filter(x -> x.getUsername().get().equals(reservation.getUsername().get().toLowerCase())).collect(Collectors.toList()).get(0));
-            username.setDisable(true);
-            room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get() == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
-            date.setValue(LocalDate.parse(reservation.getDate().get(), formatter));
-            String[] startTimeSplit = reservation.getStarting_time().get().split(":");
-            timeslot.setLowValue(Double.parseDouble(startTimeSplit[0])*60.0 + Double.parseDouble(startTimeSplit[1]));
-            String[] endTimeSplit = reservation.getEnding_time().get().split(":");
-            timeslot.setHighValue(Double.parseDouble(endTimeSplit[0])*60.0 + Double.parseDouble(endTimeSplit[1]));
-            startTime.setText("Start: " + getRangeSliderConverter().toString(timeslot.getLowValue()));
-            endTime.setText("End: " + getRangeSliderConverter().toString(timeslot.getHighValue()));
+            if(reservation != null){
+                username.getSelectionModel().select(oL.stream().filter(x -> x.getUsername().get().equals(reservation.getUsername().get().toLowerCase())).collect(Collectors.toList()).get(0));
+                username.setDisable(true);
+                room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get() == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
+                date.setValue(LocalDate.parse(reservation.getDate().get(), formatter));
+                String[] startTimeSplit = reservation.getStarting_time().get().split(":");
+                timeslot.setLowValue(Double.parseDouble(startTimeSplit[0])*60.0 + Double.parseDouble(startTimeSplit[1]));
+                String[] endTimeSplit = reservation.getEnding_time().get().split(":");
+                timeslot.setHighValue(Double.parseDouble(endTimeSplit[0])*60.0 + Double.parseDouble(endTimeSplit[1]));
+                startTime.setText("Start: " + getRangeSliderConverter().toString(timeslot.getLowValue()));
+                endTime.setText("End: " + getRangeSliderConverter().toString(timeslot.getHighValue()));
+            }
+            else {
+                return;
+            }
         }
-
+        catch(Exception e) {
+                e.printStackTrace();
+        }
     }
 
 
@@ -207,7 +214,7 @@ public class ReservationEditDialogController {
                     if (dateSelected != null) {
                         return formatter.format(dateSelected);
                     }
-                    return null;
+                    return "null";
                 }
 
                 @Override
