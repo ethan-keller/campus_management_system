@@ -31,7 +31,7 @@ public class BuildingEditDialogController {
         if (building == null) return;
         buildingNameField.setText(building.getBuildingName().get());
         buildingAddressField.setText(building.getBuildingAddress().get());
-        buildingRoom_countField.setText(String.valueOf(building.getBuildingRoom_count().get()));
+        buildingRoom_countField.setText(String.valueOf(building.getBuildingRoomCount().get()));
     }
 
     private static void emptyBuilding() {
@@ -46,7 +46,7 @@ public class BuildingEditDialogController {
         if (isInputValid()) {
             emptyBuilding();
             building.setBuildingName(buildingNameField.getText());
-            building.setBuildingRoom_count(Integer.parseInt(buildingRoom_countField.getText()));
+            building.setBuildingRoomCount(Integer.parseInt(buildingRoom_countField.getText()));
             building.setBuildingAddress(buildingAddressField.getText());
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();

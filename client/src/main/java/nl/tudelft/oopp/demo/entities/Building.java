@@ -26,10 +26,10 @@ public class Building {
     }
 
 
-    public Building(int buildingId, String buildingName, int buildingRoom_count, String buildingAddress) {
+    public Building(int buildingId, String buildingName, int buildingRoomCount, String buildingAddress) {
         this.buildingId = new SimpleIntegerProperty(buildingId);
         this.buildingName = new SimpleStringProperty(buildingName);
-        this.buildingRoomCount = new SimpleIntegerProperty(buildingRoom_count);
+        this.buildingRoomCount = new SimpleIntegerProperty(buildingRoomCount);
         this.buildingAddress = new SimpleStringProperty(buildingAddress);
     }
 
