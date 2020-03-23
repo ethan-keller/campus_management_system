@@ -1,5 +1,10 @@
 package nl.tudelft.oopp.demo.filtering;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
@@ -7,10 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class RoomFilteringTest {
@@ -36,7 +37,6 @@ class RoomFilteringTest {
 
         rooms2.add(r1);
         rooms2.add(r2);
-
 
 
         rooms = RoomFiltering.filterRooms(rooms, 23, false, 20);

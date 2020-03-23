@@ -1,8 +1,12 @@
 package nl.tudelft.oopp.demo.entities;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+
 
 class BuildingTest {
     Building b1 = new Building(1, "Name", 5, "drebbelweg aan zee", 4, 5);

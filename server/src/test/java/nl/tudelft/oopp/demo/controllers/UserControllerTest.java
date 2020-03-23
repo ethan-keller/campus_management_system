@@ -1,14 +1,13 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.UnsupportedEncodingException;
+
 import nl.tudelft.oopp.demo.entities.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.io.UnsupportedEncodingException;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 
 @SpringBootTest
 class UserControllerTest {
