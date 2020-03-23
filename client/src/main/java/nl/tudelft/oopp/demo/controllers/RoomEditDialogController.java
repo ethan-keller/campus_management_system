@@ -6,7 +6,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
@@ -54,11 +59,18 @@ public class RoomEditDialogController {
             roomBuildingComboBox.setItems(ol);
             this.setRoomBuildingComboBoxConverter(ol);
 
-            if (room == null) return;
+            if (room == null) {
+                return;
+            }
             roomNameField.setText(room.getRoomName().get());
-            roomBuildingComboBox.getSelectionModel().select(ol.stream().filter(x -> x.getBuildingId().get() == room.getRoomBuilding().get()).collect(Collectors.toList()).get(0));
-            if (room.getTeacherOnly().get()) radioButtonYes.setSelected(true);
-            else radioButtonNo.setSelected(true);
+            roomBuildingComboBox.getSelectionModel().select(ol.stream().filter(x -> x.getBuildingId().get()
+                    == room.getRoomBuilding().get()).collect(Collectors.toList()).get(0));
+            if (room.getTeacherOnly().get()) {
+                radioButtonYes.setSelected(true);
+            }
+            else {
+                radioButtonNo.setSelected(true);
+            }
             roomCapacityField.setText(String.valueOf(room.getRoomCapacity().get()));
             roomTypeField.setText(room.getRoomType().get());
             roomDescriptionField.setText(room.getRoomDescription().get());
@@ -71,13 +83,14 @@ public class RoomEditDialogController {
         StringConverter<Building> converter = new StringConverter<Building>() {
             @Override
             public String toString(Building object) {
-                if (object == null) return "";
-                else return object.getBuildingName().get();
+                if (object == null) {return "";}
+                else {return object.getBuildingName().get();}
             }
 
             @Override
             public Building fromString(String id) {
-                return ol.stream().filter(x -> String.valueOf(x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
+                return ol.stream().filter(x -> String.valueOf(x.getBuildingId()).equals(id)).collect(
+                        Collectors.toList()).get(0);
             }
         };
         roomBuildingComboBox.setConverter(converter);
@@ -87,7 +100,7 @@ public class RoomEditDialogController {
         room = new Room();
     }
 
-    /**
+    /**.
      * Called when the user clicks ok.
      */
     @FXML
@@ -95,7 +108,8 @@ public class RoomEditDialogController {
         if (isInputValid()) {
             emptyRoom();
             room.setRoomName(this.roomNameField.getText());
-            room.setRoomBuilding(this.roomBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
+            room.setRoomBuilding(
+                    this.roomBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
             room.setTeacherOnly(this.radioButtonYes.isSelected() ? true : false);
             room.setRoomCapacity(Integer.parseInt(this.roomCapacityField.getText()));
             room.setRoomType(this.roomTypeField.getText());

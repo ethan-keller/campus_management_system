@@ -38,7 +38,7 @@ public class RegisterViewController {
     @FXML
     private Label usernameLabel;
 
-    /**
+    /**.
      * Handles clicking the button.
      */
     public void registerClicked() throws UnsupportedEncodingException {
@@ -54,33 +54,27 @@ public class RegisterViewController {
         Pattern characters = Pattern.compile("[!@#$%^&*`~<,>./?:;'{|+=_-]");
         Pattern space = Pattern.compile(" ");
 
-        /**
-         *Checks whether the password username field is left empty or not.
-         **/
+        //Checks whether the password username field is left empty or not.
         if (username.getText().trim().isEmpty()) {
             usernameLabel.setText("This field cannot be left empty !");
             usernameLabel.setStyle("-fx-text-fill: red");
-        }/**
-         *Checks whether the password field is left empty.
-         **/
+        }
+         //Checks whether the password field is left empty.
         else if (password.getText().trim().isEmpty()) {
             passwordLabel.setText("This field cannot be left empty !");
             passwordLabel.setStyle("-fx-text-fill: red");
-        }/**
-         *Checks whether the password field is atleast 8 characters long.
-         **/
+        }
+         //Checks whether the password field is atleast 8 characters long.
         else if (password.getText().length() < 8) {
             passwordLabel.setText("The password needs to have atleast 8 characters !");
             passwordLabel.setStyle("-fx-text-fill: red");
-        }/**
-         *Checks whether the password matches the repeat password field
-         **/
+        }
+        //Checks whether the password matches the repeat password field
         else if (!passwordTxt.equals(rePasswordTxt)) {
             rePasswordLabel.setText("The password needs to be the same !");
             rePasswordLabel.setStyle("-fx-text-fill: red");
-        }/**
-         *Checks whether the password contains atleast one numeric value
-         **/
+        }
+        //Checks whether the password contains atleast one numeric value
         else if (!passwordTxt.matches(".*\\d.*")) {
             passwordLabel.setText("The password needs to have atleast 1 numeric value !");
             passwordLabel.setStyle("-fx-text-fill: red");
@@ -100,9 +94,7 @@ public class RegisterViewController {
             passwordLabel.setText("The password is not allowed to have any punctuations !");
             passwordLabel.setStyle("-fx-text-fill: red");
         }
-        /**
-         *Server connection is established.
-         **/
+        //Server connection is established.
         else {
             alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt));
             alert.showAndWait();
@@ -110,11 +102,11 @@ public class RegisterViewController {
     }
 
 
-    /**
+    /**.
      * On the click of the back button, the stage is redirected to the login page.
      *
-     * @param event
-     * @throws IOException
+     * @param event is passed
+     * @throws IOException is thrown
      */
     public void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
