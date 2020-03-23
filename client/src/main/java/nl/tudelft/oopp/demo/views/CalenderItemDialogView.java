@@ -5,9 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
-
 import java.net.URL;
+
+import javafx.stage.Stage;
 
 public class CalenderItemDialogView extends Application {
 
@@ -33,13 +33,12 @@ public class CalenderItemDialogView extends Application {
 
             // Show the dialog and wait until the user closes it
             stage.showAndWait();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
     }
 

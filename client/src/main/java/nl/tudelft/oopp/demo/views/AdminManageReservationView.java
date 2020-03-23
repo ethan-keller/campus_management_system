@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 public class AdminManageReservationView extends Application {
 
+    /**
+     * Constructor
+     */
     public AdminManageReservationView() {
     }
 

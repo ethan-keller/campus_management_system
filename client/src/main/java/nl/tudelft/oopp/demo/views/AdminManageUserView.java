@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 public class AdminManageUserView extends Application {
 
+    /**
+     * Constructor
+     */
     public AdminManageUserView() {
     }
 
