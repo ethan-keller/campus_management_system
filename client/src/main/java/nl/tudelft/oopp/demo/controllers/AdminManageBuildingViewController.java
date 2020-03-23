@@ -12,9 +12,8 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
-import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
-
 import java.io.IOException;
+import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
 
 public class AdminManageBuildingViewController {
 
@@ -49,7 +48,8 @@ public class AdminManageBuildingViewController {
             buildingIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(
                     String.valueOf(cell.getValue().getBuildingId().get())));
             buildingNameColumn.setCellValueFactory(cell -> cell.getValue().getBuildingName());
-            buildingRoomCountColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingRoomCount().get())));
+            buildingRoomCountColumn.setCellValueFactory(cell ->
+                    new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingRoomCount().get())));
             buildingAddressColumn.setCellValueFactory(cell -> cell.getValue().getBuildingAddress());
 
             // Add observable list data to the table
@@ -136,7 +136,9 @@ public class AdminManageBuildingViewController {
             }
 
             // TODO: Check that building creation was succesful before displaying alert
-            BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(), tempBuilding.getBuildingAddress().get());
+            BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
+                    tempBuilding.getBuildingRoomCount().get(),
+                    tempBuilding.getBuildingAddress().get());
             refresh();
 
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -165,10 +167,14 @@ public class AdminManageBuildingViewController {
                 view.start(stage);
                 Building tempBuilding = BuildingEditDialogController.building;
 
-                if (tempBuilding == null) return;
+                if (tempBuilding == null) {
+                    return;
+                }
 
                 // TODO: Check that building edit was successful before displaying alert
-                BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(), tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(), tempBuilding.getBuildingAddress().get());
+                BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
+                        tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
+                        tempBuilding.getBuildingAddress().get());
                 refresh();
 
                 Alert alert = new Alert(AlertType.INFORMATION);
@@ -187,11 +193,10 @@ public class AdminManageBuildingViewController {
         }
     }
 
-    /**
-     * //TODO
-     *
-     * @param event //TODO
-     * @throws IOException //TODO
+    /**.
+     * Back button is clicked which redirects the admin back to admin home page.
+     * @param event is passed
+     * @throws IOException is thrown
      */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {

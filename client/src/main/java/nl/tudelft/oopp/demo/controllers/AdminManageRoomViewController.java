@@ -61,11 +61,15 @@ public class AdminManageRoomViewController {
 
         try {
             // Initialize the room table with the eight columns.
-            roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoomId().get())));
+            roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
+                    cellData.getValue().getRoomId().get())));
             roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().getRoomName());
-            roomBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoomBuilding().get())));
-            roomOnlyTeachersColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getTeacherOnly().get() ? "yes" : "no"));
-            roomCapacityBuilding.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getRoomCapacity().get())));
+            roomBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
+                    cellData.getValue().getRoomBuilding().get())));
+            roomOnlyTeachersColumn.setCellValueFactory(cell -> new SimpleStringProperty(
+                    cell.getValue().getTeacherOnly().get() ? "yes" : "no"));
+            roomCapacityBuilding.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(
+                    cell.getValue().getRoomCapacity().get())));
             roomPhotoColumn.setCellValueFactory(cell -> cell.getValue().getRoomPhoto());
             roomDescriptionColumn.setCellValueFactory(cell -> cell.getValue().getRoomDescription());
             roomTypeColumn.setCellValueFactory(cell -> cell.getValue().getRoomType());
@@ -76,10 +80,17 @@ public class AdminManageRoomViewController {
         }
     }
 
+    /**
+     * Refresh the page to load more rooms into the table view.
+     */
     public void refresh() {
         initialize();
     }
 
+    /**
+     *  The room from the table view is selected.
+     * @return Selected room
+     */
     public Room getSelectedRoom() {
         if (roomTable.getSelectionModel().getSelectedIndex() >= 0) {
             return roomTable.getSelectionModel().getSelectedItem();
@@ -88,6 +99,10 @@ public class AdminManageRoomViewController {
         }
     }
 
+    /**
+     * The index of the room is selected.
+     * @return the index of the room
+     */
     public int getSelectedIndex() {
         return roomTable.getSelectionModel().getSelectedIndex();
     }
@@ -134,9 +149,11 @@ public class AdminManageRoomViewController {
             RoomEditDialogView view = new RoomEditDialogView();
             view.start(stage);
             Room tempRoom = RoomEditDialogController.room;
-            if (tempRoom == null) return;
+            if (tempRoom == null) {return;}
             // TODO: Check that room creation was successful before displaying alert
-            RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
+            RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
+                    tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(),
+                    tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
             refresh();
 
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -166,9 +183,11 @@ public class AdminManageRoomViewController {
                 view.start(stage);
                 Room tempRoom = RoomEditDialogController.room;
 
-                if (tempRoom == null) return;
+                if (tempRoom == null) {return;}
                 // TODO: Check that building edit was successful before displaying alert
-                RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(), tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
+                RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(), tempRoom.getRoomName().get(),
+                        tempRoom.getRoomBuilding().get(), tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
+                        tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
                 refresh();
 
                 Alert alert = new Alert(AlertType.INFORMATION);

@@ -9,10 +9,8 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.LoginView;
-import nl.tudelft.oopp.demo.views.SearchView;
-
 import java.io.IOException;
-
+import nl.tudelft.oopp.demo.views.SearchView;
 
 public class BookingHistoryController {
     /**
@@ -44,11 +42,14 @@ public class BookingHistoryController {
     public void initialize() {
         try {
 
-            //Initializing all the columns created in the table view to inhibit the data passed down through the server.
+            //Initializing all the columns created in the table view to inhibit the data passed down
+            // through the server.
 
-            id.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getId().get())));
+            id.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(
+                    cell.getValue().getId().get())));
             username.setCellValueFactory(cell -> cell.getValue().getUsername());
-            room.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getRoom().get())));
+            room.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(
+                    cell.getValue().getRoom().get())));
             date.setCellValueFactory(cell -> cell.getValue().getDate());
             startingTime.setCellValueFactory(cell -> cell.getValue().getStartingTime());
             endingTime.setCellValueFactory(cell -> cell.getValue().getEndingTime());
@@ -64,8 +65,8 @@ public class BookingHistoryController {
      * Handles the onclick of backButton.
      * Redirects the user back to the searchView.
      *
-     * @param event
-     * @throws IOException
+     * @param event is passed
+     * @throws IOException is thrown
      */
     @FXML
     public void backButtonClicked(ActionEvent event) throws IOException {
@@ -79,7 +80,7 @@ public class BookingHistoryController {
      * Handles the onclick of signOut Button.
      * Redirects the user back to the loginView.
      *
-     * @param event
+     * @param event is passed
      */
     @FXML
     public void signOutClicked(ActionEvent event) throws Exception {

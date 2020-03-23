@@ -50,11 +50,14 @@ public class AdminManageReservationViewController {
     private void initialize() {
         try {
 
-            //Initializing all the columns created in the table view to inhibit the data passed down through the server.
+            //Initializing all the columns created in the table view to inhibit the data passed
+            // down through the server.
 
-            id.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getId().get())));
+            id.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
+                    cellData.getValue().getId().get())));
             username.setCellValueFactory(cell -> cell.getValue().getUsername());
-            room.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoom().get())));
+            room.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
+                    cellData.getValue().getRoom().get())));
             date.setCellValueFactory(cell -> cell.getValue().getDate());
             startingTime.setCellValueFactory(cell -> cell.getValue().getStartingTime());
             endingTime.setCellValueFactory(cell -> cell.getValue().getEndingTime());
@@ -89,6 +92,7 @@ public class AdminManageReservationViewController {
     }
 
     /**
+     * The index of the reserrvation is selected.
      * @return the index of the selected reservation.
      */
     public int getSelectedIndex() {
@@ -96,7 +100,7 @@ public class AdminManageReservationViewController {
     }
 
     /**
-     * Delete a building.
+     * Delete a Reservation.
      */
     @FXML
     public void DeleteReservationClicked(ActionEvent event) {
@@ -137,12 +141,15 @@ public class AdminManageReservationViewController {
             view.start(stage);
 
             //If none of the items in the dialog box is selected.
-            if(ReservationEditDialogController.reservation == null)
+            if(ReservationEditDialogController.reservation == null) {
                 return;
+            }
             //TODO: Checking if the reservation creating was successful before displaying the alert.
             else {
                 Reservation tempReservation = ReservationEditDialogController.reservation;
-                ReservationServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
+                ReservationServerCommunication.createReservation(tempReservation.getUsername().get(),
+                        tempReservation.getRoom().get(), tempReservation.getDate().get(),
+                        tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
                 refresh();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -159,8 +166,7 @@ public class AdminManageReservationViewController {
 
     /**
      * Handles the clicking of Edit button.
-     *
-     * @param event
+     * @param event is passed
      */
     @FXML
     public void EditReservationClicked(ActionEvent event) {
@@ -175,11 +181,15 @@ public class AdminManageReservationViewController {
                 view.start(stage);
                 Reservation tempResevation = ReservationEditDialogController.reservation;
 
-                if (tempResevation == null)
+                if (tempResevation == null) {
                     return;
+                }
+
                 //TODO: Making sure that the reservation is created properly, before displaying the alert box.
 
-                ReservationServerCommunication.updateReservation(selectedReservation.getId().get(), tempResevation.getRoom().get(), tempResevation.getDate().get(), tempResevation.getStartingTime().get(), tempResevation.getEndingTime().get());
+                ReservationServerCommunication.updateReservation(selectedReservation.getId().get(),
+                        tempResevation.getRoom().get(), tempResevation.getDate().get(),
+                        tempResevation.getStartingTime().get(), tempResevation.getEndingTime().get());
                 refresh();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -199,10 +209,10 @@ public class AdminManageReservationViewController {
     }
 
     /**
-     * This will redirect the adminManageReservation view back to the home page for the admin to have for options to choose from.
-     *
-     * @param event
-     * @throws IOException
+     * This will redirect the adminManageReservation view back to the home page for the admin to have
+     * for options to choose from.
+     * @param event is passed
+     * @throws IOException is thrown
      */
     @FXML
     private void BackButtonClicked(ActionEvent event) throws IOException {
