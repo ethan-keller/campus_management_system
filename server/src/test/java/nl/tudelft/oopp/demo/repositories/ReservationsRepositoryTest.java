@@ -26,7 +26,7 @@ class ReservationsRepositoryTest {
     void testAllMethods() {
         userRepo.insertUser("4testing", "4testing", 0);
 
-        buildingRepo.insertBuilding("4reservationtesting", 24, "4TestingStreet 34");
+        buildingRepo.insertBuilding("4reservationtesting", 24, "4TestingStreet 34", 5, 5);
         int id3 = buildingRepo.getBuildingByName("4reservationtesting").getId();
 
         roomRepo.insertRoom("4testing", id3, false, 35, "/photos/test", "Very nice room!", "Study room");

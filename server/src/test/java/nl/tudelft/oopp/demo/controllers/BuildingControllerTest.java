@@ -22,13 +22,13 @@ class BuildingControllerTest {
      */
     @Test
     void testAllMethods() throws UnsupportedEncodingException {
-      buildingCont.createBuilding("buildingcontrollertest", 20, "teststreet");
+      buildingCont.createBuilding("buildingcontrollertest", 20, "teststreet", 1, 5);
       int id = buildingCont.getBuildingByName("buildingcontrollertest").getId();
-      Building b1 = new Building(id, "buildingcontrollertest", 20, "teststreet");
+      Building b1 = new Building(id, "buildingcontrollertest", 20, "teststreet", 1, 5);
       assertEquals(b1, buildingCont.getBuilding(id));
 
-      buildingCont.updateBuilding(id, "buildingcontrollertest2", 21, "teststreet2");
-      Building b2 = new Building(id, "buildingcontrollertest2", 21, "teststreet2");
+      buildingCont.updateBuilding(id, "buildingcontrollertest2", 21, "teststreet2", 2, 6);
+      Building b2 = new Building(id, "buildingcontrollertest2", 21, "teststreet2", 2, 6);
       assertEquals(b2, buildingCont.getBuilding(id));
 
       buildingCont.deleteBuilding(id);
