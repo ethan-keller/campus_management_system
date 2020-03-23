@@ -19,9 +19,9 @@ public class BikeReservationController {
 
     @PostMapping("createBikeReservation")
     @ResponseBody
-    public void createBikeReservation(@RequestParam int building, @RequestParam int num_bikes) {
+    public void createBikeReservation(@RequestParam int building, @RequestParam int numBikes, @RequestParam String date, @RequestParam String startingTime, @RequestParam String endingTime) {
         try {
-            bikeResRepo.insertBikeReservation(building, num_bikes);
+            bikeResRepo.insertBikeReservation(building, numBikes, date, startingTime, endingTime);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -29,10 +29,13 @@ public class BikeReservationController {
 
     @PostMapping("updateBikeReservation")
     @ResponseBody
-    public void updateBikeReservation(@RequestParam int id, @RequestParam int building, @RequestParam int num_bikes) {
+    public void updateBikeReservation(@RequestParam int id, @RequestParam int building, @RequestParam int numBikes, @RequestParam String date, @RequestParam String startingTime, @RequestParam String endingTime) {
         try{
-            bikeResRepo.updateBikeNum(id, num_bikes);
+            bikeResRepo.updateBikeNum(id, numBikes);
             bikeResRepo.updateBuilding(id, building);
+            bikeResRepo.updateDate(id, date);
+            bikeResRepo.updateStartingTime(id, startingTime);
+            bikeResRepo.updateEndingTime(id, endingTime);
         } catch(Exception e){
             e.printStackTrace();
         }

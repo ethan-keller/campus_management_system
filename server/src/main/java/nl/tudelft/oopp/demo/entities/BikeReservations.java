@@ -14,7 +14,16 @@ public class BikeReservations {
     private int building;
 
     @Column(name = "room_count")
-    private int num_bikes;
+    private int numBikes;
+
+    @Column(name = "date")
+    private String date;
+
+    @Column(name = "starting_time")
+    private String startingTime;
+
+    @Column(name = "ending_time")
+    private String endingTime;
 
     public BikeReservations() {
     }
@@ -24,12 +33,18 @@ public class BikeReservations {
      *
      * @param id int
      * @param building int
-     * @param num_bikes int
+     * @param numBikes int
+     * @Param date String
+     * @Param startingTime String
+     * @Param endingTime String
      */
-    public BikeReservations(int id, int building, int num_bikes) {
+    public BikeReservations(int id, int building, int numBikes, String date, String startingTime, String endingTime) {
         this.id = id;
         this.building = building;
-        this.num_bikes = num_bikes;
+        this.numBikes = numBikes;
+        this.date = date;
+        this.startingTime = startingTime;
+        this.endingTime = endingTime;
     }
 
     /**
@@ -55,8 +70,35 @@ public class BikeReservations {
      *
      * @return Returns the int value room_count.
      */
-    public int getNum_bikes() {
-        return num_bikes;
+    public int getNumBikes() {
+        return numBikes;
+    }
+
+    /**
+     * Retrieves the date of the bike reservation.
+     *
+     * @return Returns the date.
+     */
+    public String getDate() {
+        return date;
+    }
+
+    /**
+     * Retrieves the starting time of the bike reservation.
+     *
+     * @return Returns the starting time.
+     */
+    public String getStartingTime() {
+        return this.startingTime;
+    }
+
+    /**
+     * Retrieves the ending time of the bike reservation.
+     *
+     * @return Returns the ending time.
+     */
+    public String getEndingTime() {
+        return this.endingTime;
     }
 
     /**

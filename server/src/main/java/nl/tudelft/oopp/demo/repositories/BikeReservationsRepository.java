@@ -23,8 +23,8 @@ public interface BikeReservationsRepository extends JpaRepository<BikeReservatio
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO bike_reservations (building, num_bikes) VALUES (:building, :num_bikes)", nativeQuery = true)
-    public void insertBikeReservation(@Param("building") int building, @Param("num_bikes") int num_bikes);
+    @Query(value = "INSERT INTO bike_reservations (building, num_bikes, date, starting_time, ending_time) VALUES (:building, :numBikes, :date, :startingTime, :endingTime))", nativeQuery = true)
+    public void insertBikeReservation(@Param("building") int building, @Param("numBikes") int numBikes, @Param("date") String date, @Param("startingTime") String startingTime, @Param("endingTime") String endingTime);
 
     @Modifying
     @Transactional
@@ -33,11 +33,26 @@ public interface BikeReservationsRepository extends JpaRepository<BikeReservatio
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE bike_reservations SET num_bikes = :num_bikes WHERE id = :id", nativeQuery = true)
-    public void updateBikeNum(@Param("id") int id, @Param("num_bikes") int num_bikes);
+    @Query(value = "UPDATE bike_reservations SET num_bikes = :numBikes WHERE id = :id", nativeQuery = true)
+    public void updateBikeNum(@Param("id") int id, @Param("numBikes") int numBikes);
 
     @Modifying
     @Transactional
     @Query(value = "UPDATE bike_reservations SET building = :building WHERE id = :id", nativeQuery = true)
     public void updateBuilding(@Param("id") int id, @Param("building") int building);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE bike_reservations SET date = :date WHERE id = :id", nativeQuery = true)
+    public void updateDate(@Param("id") int id, @Param("date") String date);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE bike_reservations SET starting_time = :startingTime WHERE id = :id", nativeQuery = true)
+    public void updateStartingTime(@Param("id") int id, @Param("startingTime") String startingTime);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE bike_reservations SET ending_time = :endingTime WHERE id = :id", nativeQuery = true)
+    public void updateEndingTime(@Param("id") int id, @Param("endingTime") String endingTime);
 }
