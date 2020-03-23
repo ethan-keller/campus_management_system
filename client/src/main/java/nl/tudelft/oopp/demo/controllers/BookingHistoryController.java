@@ -1,6 +1,12 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.io.PipedReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,10 +27,6 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
-import java.io.IOException;
-import java.io.PipedReader;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class BookingHistoryController {
     /**
@@ -33,19 +35,20 @@ public class BookingHistoryController {
     @FXML
     private TableView<Reservation> listReservations;
     @FXML
-    private TableColumn<Reservation,String> id;
+    private TableColumn<Reservation, String> id;
     @FXML
-    private TableColumn<Reservation,String> username;
+    private TableColumn<Reservation, String> username;
     @FXML
-    private  TableColumn<Reservation,String> room;
+    private TableColumn<Reservation, String> room;
     @FXML
-    private TableColumn<Reservation,String> date;
+    private TableColumn<Reservation, String> date;
     @FXML
-    private TableColumn<Reservation,String> starting_time;
+    private TableColumn<Reservation, String> starting_time;
     @FXML
-    private TableColumn<Reservation,String> ending_time;
+    private TableColumn<Reservation, String> ending_time;
 
-    public BookingHistoryController() {}
+    public BookingHistoryController() {
+    }
 
     /**
      * Method that is called before the view is functionable to the user.
@@ -66,8 +69,7 @@ public class BookingHistoryController {
 
             //Adding the Observable List Data to the tableView created.
             listReservations.setItems(Reservation.getUserReservation());
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -75,6 +77,7 @@ public class BookingHistoryController {
     /**
      * Handles the onclick of backButton.
      * Redirects the user back to the searchView.
+     *
      * @param event
      * @throws IOException
      */
@@ -89,6 +92,7 @@ public class BookingHistoryController {
     /**
      * Handles the onclick of signOut Button.
      * Redirects the user back to the loginView.
+     *
      * @param event
      * @throws IOException
      */

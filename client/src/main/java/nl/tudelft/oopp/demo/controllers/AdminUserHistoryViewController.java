@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +16,6 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.BookingEditDialogView;
 
-import java.io.IOException;
 
 public class AdminUserHistoryViewController {
 
@@ -60,7 +61,7 @@ public class AdminUserHistoryViewController {
             bookingStartColumn.setCellValueFactory(cell -> cell.getValue().getStarting_time());
             bookingEndColumn.setCellValueFactory(cell -> cell.getValue().getEnding_time());
             bookingTable.setItems(Reservation.getSelectedUserReservation());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

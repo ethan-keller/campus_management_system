@@ -23,22 +23,23 @@ public class CancelBookingController {
     @FXML
     private TableView<Reservation> listReservations;
     @FXML
-    private TableColumn<Reservation,String> id;
+    private TableColumn<Reservation, String> id;
     @FXML
-    private TableColumn<Reservation,String> username;
+    private TableColumn<Reservation, String> username;
     @FXML
-    private  TableColumn<Reservation,String> room;
+    private TableColumn<Reservation, String> room;
     @FXML
-    private TableColumn<Reservation,String> date;
+    private TableColumn<Reservation, String> date;
     @FXML
-    private TableColumn<Reservation,String> starting_time;
+    private TableColumn<Reservation, String> starting_time;
     @FXML
-    private TableColumn<Reservation,String> ending_time;
+    private TableColumn<Reservation, String> ending_time;
 
     /**
      * Default constructor of cancelBooking class.
      */
-    public CancelBookingController() {}
+    public CancelBookingController() {
+    }
 
     /**
      * Method that is called before the view is functionable to the user.
@@ -60,8 +61,7 @@ public class CancelBookingController {
 
             //Adding the Observable List Data to the tableView created.
             listReservations.setItems(Reservation.getUserReservation());
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -76,14 +76,14 @@ public class CancelBookingController {
 
     /**
      * This method selects a particular reservation from the table.
+     *
      * @return Returns the selected reservation.
      */
     public Reservation getSelectedReservation() {
 
-        if(listReservations.getSelectionModel().getSelectedIndex() >= 0) {
+        if (listReservations.getSelectionModel().getSelectedIndex() >= 0) {
             return listReservations.getSelectionModel().getSelectedItem();
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -103,7 +103,7 @@ public class CancelBookingController {
         Reservation selectedReservation = getSelectedReservation();
         int selectedIndex = getSelectedIndex();
         try {
-            if(selectedIndex >= 0 ){
+            if (selectedIndex >= 0) {
                 //TODO: Check that Reservation deletion was successful before displaying alert message.
                 ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
                 refresh();
@@ -118,8 +118,7 @@ public class CancelBookingController {
                 alert.setContentText("Please select a reservation in the table.");
                 alert.showAndWait();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("delete reservation exception");
             e.printStackTrace();
         }
@@ -128,6 +127,7 @@ public class CancelBookingController {
     /**
      * Handles the onclick of backButton.
      * Redirects the user back to the searchView.
+     *
      * @param event
      * @throws IOException
      */
@@ -142,6 +142,7 @@ public class CancelBookingController {
     /**
      * Handles the onclick of signOut Button.
      * Redirects the user back to the loginView.
+     *
      * @param event
      * @throws IOException
      */

@@ -1,11 +1,16 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
@@ -14,8 +19,6 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.RoomEditDialogView;
 import org.json.JSONException;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 public class AdminManageRoomViewController {
 

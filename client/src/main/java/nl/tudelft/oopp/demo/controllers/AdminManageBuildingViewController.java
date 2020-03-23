@@ -1,20 +1,20 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.Node;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
-
-import java.io.IOException;
 
 public class AdminManageBuildingViewController {
 
@@ -58,10 +58,18 @@ public class AdminManageBuildingViewController {
         }
     }
 
+    /**
+     * Refreshes the buildings on the page.
+     */
     public void refresh() {
         initialize();
     }
 
+    /**
+     * Gets the currently selected building.
+     *
+     * @return a Building object
+     */
     public Building getSelectedBuilding() {
         if (buildingTable.getSelectionModel().getSelectedIndex() >= 0) {
             return buildingTable.getSelectionModel().getSelectedItem();
@@ -70,6 +78,11 @@ public class AdminManageBuildingViewController {
         }
     }
 
+    /**
+     * Gets a number representing the index of the selected building.
+     *
+     * @return int
+     */
     public int getSelectedIndex() {
         return buildingTable.getSelectionModel().getSelectedIndex();
     }
@@ -171,7 +184,12 @@ public class AdminManageBuildingViewController {
         }
     }
 
-
+    /**
+     * //TODO
+     *
+     * @param event //TODO
+     * @throws IOException //TODO
+     */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

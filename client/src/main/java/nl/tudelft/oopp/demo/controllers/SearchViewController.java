@@ -11,7 +11,14 @@ import javafx.scene.Scene;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+//import javafx.scene.control.*;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -27,6 +34,7 @@ import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RegisterView;
 
 import java.io.IOException;
+
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
@@ -90,6 +98,7 @@ public class SearchViewController implements Initializable {
     /**
      * Handles the bookingHistory Button onclick.
      * Redirects the user to the booking history page.
+     *
      * @param event
      * @throws IOException
      */
@@ -103,6 +112,7 @@ public class SearchViewController implements Initializable {
     /**
      * Handles the onclick of signOut Button.
      * Redirects the user back to the login page.
+     *
      * @param event
      * @throws IOException
      */
@@ -116,6 +126,7 @@ public class SearchViewController implements Initializable {
     /**
      * Handles the onclick of cancelBooking Button.
      * Redirects the user to the cancelBooking page.
+     *
      * @param event
      * @throws Exception
      */

@@ -1,5 +1,11 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,12 +23,6 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 import org.controlsfx.control.RangeSlider;
-
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * This controller class is invokes on the onclick of the newReservationButton/ editReservationButton
@@ -82,15 +82,15 @@ public class ReservationEditDialogController {
         room.setItems(ol);
         this.setRoomComboBoxConverter(ol);
 
-        if(reservation != null){
+        if (reservation != null) {
             username.getSelectionModel().select(oL.stream().filter(x -> x.getUsername().get().equals(reservation.getUsername().get().toLowerCase())).collect(Collectors.toList()).get(0));
             username.setDisable(true);
             room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get() == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
             date.setValue(LocalDate.parse(reservation.getDate().get(), formatter));
             String[] startTimeSplit = reservation.getStarting_time().get().split(":");
-            timeslot.setLowValue(Double.parseDouble(startTimeSplit[0])*60.0 + Double.parseDouble(startTimeSplit[1]));
+            timeslot.setLowValue(Double.parseDouble(startTimeSplit[0]) * 60.0 + Double.parseDouble(startTimeSplit[1]));
             String[] endTimeSplit = reservation.getEnding_time().get().split(":");
-            timeslot.setHighValue(Double.parseDouble(endTimeSplit[0])*60.0 + Double.parseDouble(endTimeSplit[1]));
+            timeslot.setHighValue(Double.parseDouble(endTimeSplit[0]) * 60.0 + Double.parseDouble(endTimeSplit[1]));
             startTime.setText("Start: " + getRangeSliderConverter().toString(timeslot.getLowValue()));
             endTime.setText("End: " + getRangeSliderConverter().toString(timeslot.getHighValue()));
         }
@@ -121,7 +121,7 @@ public class ReservationEditDialogController {
                 }
             };
             return dayCellFactory;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -151,7 +151,7 @@ public class ReservationEditDialogController {
 
             // inject the RangeSlider in the JavaFX layout
             grid.add(timeslot, 1, 3);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -169,7 +169,7 @@ public class ReservationEditDialogController {
                     timeslot.setLowValue((newValue.intValue() / 30) * 30));
             timeslot.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeslot.setHighValue((newValue.intValue() / 30) * 30));
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -193,7 +193,7 @@ public class ReservationEditDialogController {
                     return null;
                 }
             };
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

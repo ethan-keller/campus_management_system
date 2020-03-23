@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -14,8 +16,6 @@ import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.views.RegisterView;
 import nl.tudelft.oopp.demo.views.SearchView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
-
-import java.io.IOException;
 
 
 public class LoginViewController {

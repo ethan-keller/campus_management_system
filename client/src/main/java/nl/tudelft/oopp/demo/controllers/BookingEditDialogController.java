@@ -1,5 +1,11 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,12 +21,6 @@ import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
-
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class BookingEditDialogController {
 
@@ -79,23 +79,24 @@ public class BookingEditDialogController {
             configureDatePicker();
 
             // Initialize and add listener to the staring time combobox
-            sTime = FXCollections.observableArrayList("08:00:00","09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00",
+            sTime = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00",
                     "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00");
             bookingStarting_time.setItems(sTime);
             bookingStarting_time.valueProperty().addListener(((observable, oldValue, newValue) -> {
                 starting_timeSelected(newValue);
             }));
 
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Set the building combobox converter
+     *
      * @param olb
      */
-    public void setBookingBuildingComboBoxConverter(ObservableList<Building> olb){
+    public void setBookingBuildingComboBoxConverter(ObservableList<Building> olb) {
         StringConverter<Building> converter = new StringConverter<Building>() {
             @Override
             public String toString(Building object) {
@@ -113,9 +114,10 @@ public class BookingEditDialogController {
 
     /**
      * Set the room combobox converter
+     *
      * @param olr
      */
-    public void setBookingRoomComboBoxConverter(ObservableList<Room> olr){
+    public void setBookingRoomComboBoxConverter(ObservableList<Room> olr) {
         StringConverter<Room> converter = new StringConverter<Room>() {
             @Override
             public String toString(Room object) {
@@ -136,14 +138,14 @@ public class BookingEditDialogController {
      * The room combobox only shows the rooms of the selected building
      */
     public void buildingSelected(Building newBuilding) {
-        if(bookingBuildingComboBox.getValue() != null){
+        if (bookingBuildingComboBox.getValue() != null) {
             //Get all the rooms
             olr = Room.getRoomData();
             //Create a list of rooms only belongs to the selected building
             List<Room> filteredRooms = olr.stream().filter(x -> x.getRoomBuilding().get() == newBuilding.getBuildingId().get()).collect(Collectors.toList());
             olr.clear();
             //Add the filtered rooms to the observable list
-            for(Room r: filteredRooms){
+            for (Room r : filteredRooms) {
                 olr.add(r);
             }
             bookingRoomComboBox.setItems(olr);
@@ -160,7 +162,7 @@ public class BookingEditDialogController {
         eTime = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00",
                 "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00", "00:00:00");
         //Check if a starting time is selected
-        if(bookingStarting_time.getValue() != null) {
+        if (bookingStarting_time.getValue() != null) {
             int indexSt = sTime.indexOf(bookingStarting_time.getValue());
             //Remove the time slot <= the selected starting time plus one hour.
             eTime.remove(0, indexSt);
@@ -182,7 +184,7 @@ public class BookingEditDialogController {
             StringConverter<LocalDate> converter = getDatePickerConverter();
             // set the converter
             bookingDate.setConverter(converter);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -216,7 +218,7 @@ public class BookingEditDialogController {
                 }
             };
             return dayCellFactory;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -225,7 +227,7 @@ public class BookingEditDialogController {
     /**
      * Create a new reservation when called
      */
-    private static void emptyReservation(){
+    private static void emptyReservation() {
         reservation = new Reservation();
     }
 
@@ -331,7 +333,7 @@ public class BookingEditDialogController {
                     }
                 }
             };
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

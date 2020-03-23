@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -11,11 +13,14 @@ import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.LoginView;
 
-
-import java.io.IOException;
-
 public class AdminHomePageController {
-
+    /**
+     * Logs the user out when the log out button is pressed.
+     * Also returns the user to the login view.
+     *
+     * @param event //TODO
+     * @throws IOException //TODO
+     */
     public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -23,6 +28,12 @@ public class AdminHomePageController {
         loginView.start(stage);
     }
 
+    /**
+     * //TODO.
+     *
+     * @param event //TODO.
+     * @throws IOException //TODO.
+     */
     public void addRoomClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -30,6 +41,12 @@ public class AdminHomePageController {
         adminManageRoomView.start(stage);
     }
 
+    /**
+     * //TODO.
+     *
+     * @param event //TODO.
+     * @throws IOException //TODO.
+     */
     public void addBuildingClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -37,13 +54,25 @@ public class AdminHomePageController {
         adminManageBuildingView.start(stage);
     }
 
-    public void addReservationClicked(ActionEvent event) throws IOException{
+    /**
+     * //TODO.
+     *
+     * @param event //TODO.
+     * @throws IOException //TODO.
+     */
+    public void addReservationClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         AdminManageReservationView amrv = new AdminManageReservationView();
         amrv.start(stage);
     }
 
+    /**
+     * //TODO.
+     *
+     * @param event //TODO.
+     * @throws IOException //TODO.
+     */
     public void manageUserClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

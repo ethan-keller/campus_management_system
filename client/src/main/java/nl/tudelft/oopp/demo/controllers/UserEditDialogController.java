@@ -4,7 +4,10 @@ import nl.tudelft.oopp.demo.entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
 
 public class UserEditDialogController {
