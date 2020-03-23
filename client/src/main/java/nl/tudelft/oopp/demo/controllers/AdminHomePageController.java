@@ -15,11 +15,9 @@ import nl.tudelft.oopp.demo.views.LoginView;
 
 public class AdminHomePageController {
     /**
-     * Logs the user out when the log out button is pressed.
-     * Also returns the user to the login view.
-     *
-     * @param event //TODO
-     * @throws IOException //TODO
+     * This button lets the admin sign out and redirects the admin back to the login page.
+     * @param event
+     * @throws IOException
      */
     public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -29,10 +27,10 @@ public class AdminHomePageController {
     }
 
     /**
-     * //TODO.
-     *
-     * @param event //TODO.
-     * @throws IOException //TODO.
+     * This button redirects the admin to a page where the admin can create/edit/delete rooms.
+     * This page also displays all the rooms in the database in a tabular view.
+     * @param event
+     * @throws IOException
      */
     public void addRoomClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -42,10 +40,10 @@ public class AdminHomePageController {
     }
 
     /**
-     * //TODO.
-     *
-     * @param event //TODO.
-     * @throws IOException //TODO.
+     * This button redirects the admin to a page where the admin can create/edit/delete a
+     * building. This page also displays all the buildings present in a database in a tabular view.
+     * @param event
+     * @throws IOException
      */
     public void addBuildingClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -55,10 +53,11 @@ public class AdminHomePageController {
     }
 
     /**
-     * //TODO.
-     *
-     * @param event //TODO.
-     * @throws IOException //TODO.
+     * This button redirects the admin to a page where the admin can create/edit/delete
+     * reservations made by a user. This page also displays all the reservations made by
+     * all the users in a tabular view.
+     * @param event
+     * @throws IOException
      */
     public void addReservationClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -68,10 +67,18 @@ public class AdminHomePageController {
     }
 
     /**
+<<<<<<< HEAD
      * //TODO.
      *
      * @param event //TODO.
      * @throws IOException //TODO.
+=======
+     * This button would redirects the admin to a page where the admin can create/edit/delete an
+     * users' information or look at their reservation history. This button also displays all the
+     * users and information related to them in a tabular view.
+     * @param event
+     * @throws IOException
+>>>>>>> CheckStyle_Client_Communication
      */
     public void manageUserClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
