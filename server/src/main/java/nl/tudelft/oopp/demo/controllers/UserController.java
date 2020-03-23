@@ -39,8 +39,8 @@ public class UserController {
         password = CommunicationMethods.decodeCommunication(password);
 
         try{
-            String encrypted_pass = Hashing.hashIt(password);
-            userRepo.insertUser(username, encrypted_pass, type);
+            String encryptedPass = Hashing.hashIt(password);
+            userRepo.insertUser(username, encryptedPass, type);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,8 +61,8 @@ public class UserController {
         username = CommunicationMethods.decodeCommunication(username);
         password = CommunicationMethods.decodeCommunication(password);
         try{
-            String encrypted_pass = Hashing.hashIt(password);
-            userRepo.updatePassword(username, encrypted_pass);
+            String encryptedPass = Hashing.hashIt(password);
+            userRepo.updatePassword(username, encryptedPass);
             userRepo.updateType(username, type);
         } catch (Exception e) {
             e.printStackTrace();

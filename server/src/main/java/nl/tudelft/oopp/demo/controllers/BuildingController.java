@@ -1,7 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
 import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
@@ -32,11 +30,11 @@ public class BuildingController {
      */
     @PostMapping("createBuilding")
     @ResponseBody
-    public void createBuilding(@RequestParam String name, @RequestParam int room_count, @RequestParam String address, @RequestParam int available_bikes, @RequestParam int max_bikes) throws UnsupportedEncodingException {
+    public void createBuilding(@RequestParam String name, @RequestParam int roomCount, @RequestParam String address, @RequestParam int availableBikes, @RequestParam int maxBikes) throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);
         try{
-            buildingRepo.insertBuilding(name,room_count, address, available_bikes, max_bikes);
+            buildingRepo.insertBuilding(name,roomCount, address, availableBikes, maxBikes);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -53,16 +51,16 @@ public class BuildingController {
      */
     @PostMapping("updateBuilding")
     @ResponseBody
-    public void updateBuilding(@RequestParam int id, @RequestParam String name, @RequestParam int room_count, @RequestParam String address, @RequestParam int available_bikes, @RequestParam int max_bikes) throws UnsupportedEncodingException {
+    public void updateBuilding(@RequestParam int id, @RequestParam String name, @RequestParam int roomCount, @RequestParam String address, @RequestParam int availableBikes, @RequestParam int maxBikes) throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);
 
         try {
             buildingRepo.updateAddress(id, address);
             buildingRepo.updateName(id, name);
-            buildingRepo.updateRoomCount(id, room_count);
-            buildingRepo.updateAvailableBikes(id, available_bikes);
-            buildingRepo.updateMaxBikes(id, max_bikes);
+            buildingRepo.updateRoomCount(id, roomCount);
+            buildingRepo.updateAvailableBikes(id, availableBikes);
+            buildingRepo.updateMaxBikes(id, maxBikes);
         } catch (Exception e){
             e.printStackTrace();
         }

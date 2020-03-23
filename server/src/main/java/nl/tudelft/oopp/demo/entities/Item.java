@@ -3,7 +3,7 @@ package nl.tudelft.oopp.demo.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "calender_items")
+@Table(name = "calenderItems")
 public class Item {
 
     @Id
@@ -20,11 +20,11 @@ public class Item {
     @Column(name = "date")
     private String date;
 
-    @Column(name = "starting_time")
-    private String starting_time;
+    @Column(name = "startingTime")
+    private String startingTime;
 
-    @Column(name = "ending_time")
-    private String ending_time;
+    @Column(name = "endingTime")
+    private String endingTime;
 
     @Column(name = "description")
     private String description;
@@ -38,17 +38,17 @@ public class Item {
      * @param user
      * @param title
      * @param date
-     * @param starting_time
-     * @param ending_time
+     * @param startingTime
+     * @param endingTime
      * @param description
      */
-    public Item(int id, String user, String title, String date, String starting_time, String ending_time, String description) {
+    public Item(int id, String user, String title, String date, String startingTime, String endingTime, String description) {
         this.id = id;
         this.user = user;
         this.title = title;
         this.date = date;
-        this.starting_time = starting_time;
-        this.ending_time = ending_time;
+        this.startingTime = startingTime;
+        this.endingTime = endingTime;
         this.description = description;
     }
 
@@ -130,35 +130,35 @@ public class Item {
     }
 
     /**
-     * getter for the starting_time field
-     * @return starting_time of item
+     * getter for the startingTime field
+     * @return startingTime of item
      */
-    public String getStarting_time() {
-        return starting_time;
+    public String getStartingTime() {
+        return startingTime;
     }
 
     /**
-     * setter for the starting_time field
-     * @param starting_time starting_time of item
+     * setter for the startingTime field
+     * @param startingTime startingTime of item
      */
-    public void setStarting_time(String starting_time) {
-        this.starting_time = starting_time;
+    public void setStartingTime(String startingTime) {
+        this.startingTime = startingTime;
     }
 
     /**
-     * getter for the ending_time field
-     * @return ending_time of item
+     * getter for the endingTime field
+     * @return endingTime of item
      */
-    public String getEnding_time() {
-        return ending_time;
+    public String getEndingTime() {
+        return endingTime;
     }
 
     /**
-     * setter for the ending_time field
-     * @param ending_time ending_time of item
+     * setter for the endingTime field
+     * @param endingTime endingTime of item
      */
-    public void setEnding_time(String ending_time) {
-        this.ending_time = ending_time;
+    public void setEndingTime(String endingTime) {
+        this.endingTime = endingTime;
     }
 
     /**

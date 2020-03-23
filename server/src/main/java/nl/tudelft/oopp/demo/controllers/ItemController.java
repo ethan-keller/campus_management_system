@@ -55,22 +55,22 @@ public class ItemController {
      * @param user user who the item belongs to
      * @param title title of the item
      * @param date date of the item
-     * @param starting_time starting_time of the item
-     * @param ending_time ending_time of the item
+     * @param startingTime startingTime of the item
+     * @param endingTime endingTime of the item
      * @param description description of the item
      * @return true if success, false otherwise
      */
     @PostMapping("createItem")
     @ResponseBody
-    public boolean createItem(@RequestParam String user, @RequestParam String title, @RequestParam String date, @RequestParam String starting_time, @RequestParam String ending_time, @RequestParam String description){
+    public boolean createItem(@RequestParam String user, @RequestParam String title, @RequestParam String date, @RequestParam String startingTime, @RequestParam String endingTime, @RequestParam String description){
         try {
             user = CommunicationMethods.decodeCommunication(user);
             title = CommunicationMethods.decodeCommunication(title);
             date = CommunicationMethods.decodeCommunication(date);
-            starting_time = CommunicationMethods.decodeCommunication(starting_time);
-            ending_time = CommunicationMethods.decodeCommunication(ending_time);
+            startingTime = CommunicationMethods.decodeCommunication(startingTime);
+            endingTime = CommunicationMethods.decodeCommunication(endingTime);
             description = CommunicationMethods.decodeCommunication(description);
-            itemRepo.insertItem(user, title, date, starting_time, ending_time, description);
+            itemRepo.insertItem(user, title, date, startingTime, endingTime, description);
             return true;
         } catch (Exception e){
             e.printStackTrace();

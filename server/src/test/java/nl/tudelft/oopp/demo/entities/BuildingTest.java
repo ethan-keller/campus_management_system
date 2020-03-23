@@ -22,8 +22,8 @@ class BuildingTest {
     }
 
     @org.junit.jupiter.api.Test
-    void getRoom_count() {
-        assertEquals(5, b1.getRoom_count());
+    void getRoomCount() {
+        assertEquals(5, b1.getRoomCount());
     }
 
     @Test

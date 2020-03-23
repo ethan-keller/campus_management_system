@@ -1,7 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
 import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
@@ -11,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 @Controller
 public class RoomController {
@@ -23,7 +24,7 @@ public class RoomController {
      *
      * @param name Name of the room
      * @param building Name of the building (must be an existing building)
-     * @param teacher_only True if it's teacher only, False otherwise
+     * @param teacherOnly True if it's teacher only, False otherwise
      * @param capacity capacity of the room
      * @param photos URL's to photo's of the room
      * @param description Piece of text that describes the room
@@ -32,7 +33,7 @@ public class RoomController {
      */
     @PostMapping("createRoom")
     @ResponseBody
-    public void createRoom(@RequestParam String name, @RequestParam int building, @RequestParam boolean teacher_only,
+    public void createRoom(@RequestParam String name, @RequestParam int building, @RequestParam boolean teacherOnly,
                            @RequestParam int capacity, @RequestParam String photos, @RequestParam String description,
                            @RequestParam String type) throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
@@ -40,7 +41,7 @@ public class RoomController {
         description = CommunicationMethods.decodeCommunication(description);
         type = CommunicationMethods.decodeCommunication(type);
         try{
-            roomRepo.insertRoom(name, building, teacher_only, capacity, photos, description, type);
+            roomRepo.insertRoom(name, building, teacherOnly, capacity, photos, description, type);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,7 +53,7 @@ public class RoomController {
      * @param id The ID of the entry to be updated
      * @param name The new room name
      * @param building The new building name (must be an existing building)
-     * @param teacher_only The new teacher_only
+     * @param teacherOnly The new teacherOnly
      * @param capacity The new capacity
      * @param photos New URL's to photos of the room
      * @param description New description
@@ -62,7 +63,7 @@ public class RoomController {
     @PostMapping("updateRoom")
     @ResponseBody
     public void updateRoom(@RequestParam int id, @RequestParam String name, @RequestParam int building,
-                           @RequestParam boolean teacher_only, @RequestParam int capacity, @RequestParam String photos,
+                           @RequestParam boolean teacherOnly, @RequestParam int capacity, @RequestParam String photos,
                            @RequestParam String description, @RequestParam String type) throws UnsupportedEncodingException {
 
         name = CommunicationMethods.decodeCommunication(name);
@@ -76,7 +77,7 @@ public class RoomController {
             roomRepo.updateBuilding(id, building);
             roomRepo.updateName(id, name);
             roomRepo.updatePhotos(id, photos);
-            roomRepo.updateTeacherOnly(id, teacher_only);
+            roomRepo.updateTeacherOnly(id, teacherOnly);
             roomRepo.updateType(id, type);
         } catch (Exception e) {
             e.printStackTrace();

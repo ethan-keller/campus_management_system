@@ -1,7 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.UnsupportedEncodingException;
-import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
 import nl.tudelft.oopp.demo.encode_hash.Hashing;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
@@ -11,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.UnsupportedEncodingException;
 
 
 @Controller
@@ -28,8 +28,8 @@ public class LoginController {
      * @param username The user-provided username.
      * @param password The unencrypted user-provided password
      * @return Returns the user types when successful (admin, teacher, student).
-     * /n Returns "not_found" when username doesn't exist.
-     * /n Returns "wrong_password" when the password doesn't match.
+     * /n Returns "notFound" when username doesn't exist.
+     * /n Returns "wrongPassword" when the password doesn't match.
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("login")
@@ -44,9 +44,9 @@ public class LoginController {
         String hashedPassword = Hashing.hashIt(password);
         User user = userRepo.getUser(username);
         if(user == null) {
-            return "not_found";
+            return "notFound";
         } else if (!user.getPassword().equals(hashedPassword)) {
-            return "wrong_password";
+            return "wrongPassword";
         } else if(user.getType() == 0) {
             return "admin";
         } else if(user.getType() == 1) {

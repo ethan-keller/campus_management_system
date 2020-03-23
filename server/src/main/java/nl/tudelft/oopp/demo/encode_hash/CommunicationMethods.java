@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 
 public class CommunicationMethods {
     /**
-     *Decodes a String using UTF_8 encoding
+     *Decodes a String using UTF8 encoding
      *
      * @param input The encoded input
      * @return Returns the decoded input

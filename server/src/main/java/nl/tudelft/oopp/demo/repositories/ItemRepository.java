@@ -13,25 +13,25 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    @Query(value = "SELECT * FROM calendar_items", nativeQuery = true)
+    @Query(value = "SELECT * FROM calendarItems", nativeQuery = true)
     public List<Item> getAllItems();
 
-    @Query(value = "SELECT * FROM calendar_items WHERE id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM calendarItems WHERE id = :id", nativeQuery = true)
     public Item getItem(@Param("id") int id);
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO calendar_items (user, title, date, starting_time, ending_time, description) VALUES (:user, :title, :date, :starting_time, :ending_time, :description)", nativeQuery = true)
-    public void insertItem(@Param("user") String user, @Param("title") String title, @Param("date") String date, @Param("starting_time") String starting_time, @Param("ending_time") String ending_time, @Param("description") String description);
+    @Query(value = "INSERT INTO calendarItems (user, title, date, startingTime, endingTime, description) VALUES (:user, :title, :date, :startingTime, :endingTime, :description)", nativeQuery = true)
+    public void insertItem(@Param("user") String user, @Param("title") String title, @Param("date") String date, @Param("startingTime") String startingTime, @Param("endingTime") String endingTime, @Param("description") String description);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM calendar_items WHERE id = :id", nativeQuery = true)
+    @Query(value = "DELETE FROM calendarItems WHERE id = :id", nativeQuery = true)
     public void deleteItem(@Param("id") int id);
 
-    @Query(value = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'OOPP38' AND TABLE_NAME = 'calendar_items'", nativeQuery = true)
+    @Query(value = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'OOPP38' AND TABLE_NAME = 'calendarItems'", nativeQuery = true)
     public int getCurrentId();
 
-    @Query(value = "SELECT * FROM calendar_items WHERE user = :user", nativeQuery = true)
+    @Query(value = "SELECT * FROM calendarItems WHERE user = :user", nativeQuery = true)
     public List<Item> getUserItems(@Param("user") String user);
 }

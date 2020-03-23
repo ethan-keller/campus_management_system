@@ -1,16 +1,12 @@
 package nl.tudelft.oopp.demo.filtering;
 
-import nl.tudelft.oopp.demo.controllers.ReservationController;
-import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class RoomFiltering {
 
-    public static List<Room> filterRooms(List<Room> rooms, int building, boolean teacher_only, int capacity){
+    public static List<Room> filterRooms(List<Room> rooms, int building, boolean teacherOnly, int capacity){
 
         if(rooms == null){
             return null;
@@ -24,7 +20,7 @@ public class RoomFiltering {
         }
 
         for(int j = 0; j != rooms.size(); j++){
-            if(rooms.get(j).isTeacher_only() != teacher_only){
+            if(rooms.get(j).isTeacherOnly() != teacherOnly){
                 rooms.remove(rooms.get(j));
                 j--;
             }

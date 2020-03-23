@@ -16,8 +16,8 @@ public class Room {
     @Column(name = "building")
     private int building;
 
-    @Column(name = "teacher_only")
-    private boolean teacher_only;
+    @Column(name = "teacherOnly")
+    private boolean teacherOnly;
 
     @Column(name = "capacity")
     private int capacity;
@@ -40,17 +40,17 @@ public class Room {
      * @param id int
      * @param name String
      * @param building int
-     * @param teacher_only boolean
+     * @param teacherOnly boolean
      * @param capacity int
      * @param photos String containing a URL/filepath
      * @param description String
      * @param type String (e.g. lecture hall)
      */
-    public Room(int id, String name, int building, boolean teacher_only, int capacity, String photos, String description, String type) {
+    public Room(int id, String name, int building, boolean teacherOnly, int capacity, String photos, String description, String type) {
         this.id = id;
         this.name = name;
         this.building = building;
-        this.teacher_only = teacher_only;
+        this.teacherOnly = teacherOnly;
         this.capacity = capacity;
         this.photos = photos;
         this.description = description;
@@ -85,12 +85,12 @@ public class Room {
     }
 
     /**
-     * Retrieves the boolean teacher_only from the database.
+     * Retrieves the boolean teacherOnly from the database.
      *
-     * @return Returns the boolean teacher_only.
+     * @return Returns the boolean teacherOnly.
      */
-    public boolean isTeacher_only() {
-        return teacher_only;
+    public boolean isTeacherOnly() {
+        return teacherOnly;
     }
 
     /**
