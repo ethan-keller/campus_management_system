@@ -50,7 +50,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 /**
- * Controller class for SearchView (JavaFX)
+ * Controller class for SearchView (JavaFX).
  */
 public class SearchViewController implements Initializable {
     /**
@@ -63,7 +63,7 @@ public class SearchViewController implements Initializable {
     @FXML
     private VBox cardHolder;
     @FXML
-    private ComboBox<Building> BuildingComboBox;
+    private ComboBox<Building> buildingComboBox;
     @FXML
     private RadioButton yesCheckBoxTeacherOnly;
     @FXML
@@ -73,7 +73,7 @@ public class SearchViewController implements Initializable {
     @FXML
     private RadioButton noCheckBoxFood;
     @FXML
-    private ComboBox<String> CapacityComboBox;
+    private ComboBox<String> capacityComboBox;
     @FXML
 
     private Button clearFilters;
@@ -82,21 +82,22 @@ public class SearchViewController implements Initializable {
     @FXML
     private TextField searchBar;
     @FXML
-    private ComboBox<String> BikesAvailable;
+    private ComboBox<String> bikesAvailable;
 
     private List<Building> buildings;
     private List<Room> roomList;
     private ObservableList<Room> rooms;
 
 
-    // Declaring the observable list for buildings, capacity and bikes to be inserted into the comboBox
+    // Declaring the observable list for buildings, capacity and bikes
+    // to be inserted into the comboBox.
     // This is necessary due to the format of inserting items into a comboBox.
     private ObservableList<String> capacityList;
     private ObservableList<Building> buildingList;
     private ObservableList<String> bikeList;
 
     private int building;
-    private boolean teacher_only;
+    private boolean teacherOnly;
     private int capMin;
     private int capMax;
 
@@ -168,21 +169,21 @@ public class SearchViewController implements Initializable {
 
 
             // the comboBox only shows 6 rows (more => scroll)
-            BuildingComboBox.setVisibleRowCount(6);
+            buildingComboBox.setVisibleRowCount(6);
 
             datePicker.setConverter(getDatePickerStringConverter());
             datePicker.setDayCellFactory(getDayCellFactory());
 
             // assign values to the observable lists
             capacityList.addAll("1-5", "5-10", "10-20", "20+");
-            BuildingComboBox.setItems(buildingList);
-            BuildingComboBox.setConverter(getBuildingComboBoxConverter());
+            buildingComboBox.setItems(buildingList);
+            buildingComboBox.setConverter(getbuildingComboBoxConverter());
             bikeList.addAll("1-5", "5-10", "10-20", "20+");
 
             // populating the choicebox
-            CapacityComboBox.setItems(capacityList);
-            BuildingComboBox.setItems(buildingList);
-            BikesAvailable.setItems(bikeList);
+            capacityComboBox.setItems(capacityList);
+            buildingComboBox.setItems(buildingList);
+            bikesAvailable.setItems(bikeList);
 
             // get all rooms and buildings from server
             rooms = Room.getRoomData();
@@ -197,7 +198,7 @@ public class SearchViewController implements Initializable {
         }
 
         // if a new filter is applied or an filter is removed filter again and load the cards again
-        BuildingComboBox.setOnAction(event -> {
+        buildingComboBox.setOnAction(event -> {
             try {
                 loadCards();
             } catch (Exception e) {
@@ -206,7 +207,7 @@ public class SearchViewController implements Initializable {
         });
 
         // if a new filter is applied or an filter is removed filter again and load the cards again
-        CapacityComboBox.setOnAction(event -> {
+        capacityComboBox.setOnAction(event -> {
             try {
                 loadCards();
             } catch (Exception e) {
@@ -257,7 +258,7 @@ public class SearchViewController implements Initializable {
      * Filters the rooms according to the filters selected.
      * Makes a call to getCardsShown() to show the cards on the view.
      *
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException when encoding fails.
      */
     public void loadCards() throws UnsupportedEncodingException {
         //load all rooms back in the roomlist to filter again
@@ -267,8 +268,8 @@ public class SearchViewController implements Initializable {
         }
 
         //Check if there are any filters selected and if so filter the roomlist
-        if (BuildingComboBox.getValue() != null) {
-            building = BuildingComboBox.getValue().getBuildingId().getValue();
+        if (buildingComboBox.getValue() != null) {
+            building = buildingComboBox.getValue().getBuildingId().getValue();
             roomList = GeneralMethods.filterRoomByBuilding(roomList, building);
         }
 
@@ -283,8 +284,8 @@ public class SearchViewController implements Initializable {
         }
 
         // if the combobox is selected on a value it filters for that value.
-        if (CapacityComboBox.getValue() != null) {
-            String capacity = CapacityComboBox.getValue();
+        if (capacityComboBox.getValue() != null) {
+            String capacity = capacityComboBox.getValue();
             switch (capacity) {
                 case "1-5":
                     capMin = 1;
@@ -371,7 +372,7 @@ public class SearchViewController implements Initializable {
     /**
      * Clears all the cards currently shown in the view and shows the cards that are filtered.
      *
-     * @param roomList
+     * @param roomList list of rooms that are going to be shown.
      */
     public void getCardsShown(List<Room> roomList) {
         //Removes cards that are now in the view
@@ -387,7 +388,7 @@ public class SearchViewController implements Initializable {
      * filters the rooms on the searchbar input. It searches for matches in the building name and room name.
      * Makes a call to GeneralMethods.FilterBySearch.
      *
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException when encoding fails.
      */
     public void searchbarChanges() throws UnsupportedEncodingException {
         // filters the rooms on the searchbar input. It searches for matches in the building name and room name.
@@ -484,7 +485,7 @@ public class SearchViewController implements Initializable {
      *
      * @return StringConverter
      */
-    private StringConverter<Building> getBuildingComboBoxConverter() {
+    private StringConverter<Building> getbuildingComboBoxConverter() {
         try {
             StringConverter<Building> converter = new StringConverter<Building>() {
                 @Override
@@ -641,14 +642,14 @@ public class SearchViewController implements Initializable {
         try {
             // clear every filter and reload the cards
             datePicker.setValue(null);
-            BuildingComboBox.setValue(null);
+            buildingComboBox.setValue(null);
             yesCheckBoxFood.setSelected(false);
             noCheckBoxFood.setSelected(false);
             yesCheckBoxTeacherOnly.setSelected(false);
-            teacher_only = false;
+            teacherOnly = false;
             noCheckBoxTeacherOnly.setSelected(false);
-            CapacityComboBox.setValue(null);
-            BikesAvailable.setValue(null);
+            capacityComboBox.setValue(null);
+            bikesAvailable.setValue(null);
             searchBar.setText("");
             loadCards();
         } catch (Exception e) {
