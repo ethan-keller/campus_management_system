@@ -51,7 +51,7 @@
                         <Insets left="20.0" />
                      </VBox.margin>
                   </Text>
-                  <Text fx:id="teacher_only" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="teachers only: YES/NO">
+                  <Text fx:id="teacherOnly" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="teachers only: YES/NO">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -135,7 +135,7 @@
                   </HBox>
                   <VBox alignment="CENTER">
                      <children>
-                        <ComboBox fx:id="food_choice" prefWidth="150.0" promptText="Food choice" />
+                        <ComboBox fx:id="foodChoice" prefWidth="150.0" promptText="Food choice" />
                         <Text fx:id="foodError" fill="#ed0d0d" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select a food option" />
                      </children>
                   </VBox>

@@ -1,15 +1,15 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.UnsupportedEncodingException;
+
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.io.UnsupportedEncodingException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class RoomControllerTest {
@@ -25,10 +25,10 @@ class RoomControllerTest {
 
     @Test
     void testAllMethods() throws UnsupportedEncodingException {
-        buildingRepo.insertBuilding("4testing", 24, "4TestingStreet 34");
+        buildingRepo.insertBuilding("4testing", 24, "4TestingStreet 34", 5, 5);
         int buildingId = buildingRepo.getBuildingByName("4testing").getId();
 
-        buildingRepo.insertBuilding("5testing", 24, "4TestingStreet 34");
+        buildingRepo.insertBuilding("5testing", 24, "4TestingStreet 34", 5, 5);
         int buildingId2 = buildingRepo.getBuildingByName("5testing").getId();
 
         roomCont.createRoom("4testing", buildingId, true, 30, "url", "very nice", "testingRoom");

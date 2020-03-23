@@ -5,11 +5,11 @@ public class CurrentUserManager {
     private static String username;
     private static int type;
 
-    public CurrentUserManager(){
+    public CurrentUserManager() {
 
     }
 
-    public CurrentUserManager(String usernameP, int typeP){
+    public CurrentUserManager(String usernameP, int typeP) {
         username = usernameP;
         type = typeP;
     }

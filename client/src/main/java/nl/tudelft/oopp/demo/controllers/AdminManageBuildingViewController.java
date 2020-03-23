@@ -46,7 +46,8 @@ public class AdminManageBuildingViewController {
     private void initialize() {
         try {
             // Initialize the room table with the four columns.
-            buildingIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingId().get())));
+            buildingIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(
+                    String.valueOf(cell.getValue().getBuildingId().get())));
             buildingNameColumn.setCellValueFactory(cell -> cell.getValue().getBuildingName());
             buildingRoomCountColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingRoomCount().get())));
             buildingAddressColumn.setCellValueFactory(cell -> cell.getValue().getBuildingAddress());
@@ -58,10 +59,18 @@ public class AdminManageBuildingViewController {
         }
     }
 
+    /**
+     * Refreshes the buildings on the page.
+     */
     public void refresh() {
         initialize();
     }
 
+    /**
+     * Gets the currently selected building.
+     *
+     * @return a Building object
+     */
     public Building getSelectedBuilding() {
         if (buildingTable.getSelectionModel().getSelectedIndex() >= 0) {
             return buildingTable.getSelectionModel().getSelectedItem();
@@ -70,6 +79,11 @@ public class AdminManageBuildingViewController {
         }
     }
 
+    /**
+     * Gets a number representing the index of the selected building.
+     *
+     * @return int
+     */
     public int getSelectedIndex() {
         return buildingTable.getSelectionModel().getSelectedIndex();
     }
@@ -117,7 +131,9 @@ public class AdminManageBuildingViewController {
             BuildingEditDialogView view = new BuildingEditDialogView();
             view.start(stage);
             Building tempBuilding = BuildingEditDialogController.building;
-            if (tempBuilding == null) return;
+            if (tempBuilding == null) {
+                return;
+            }
 
             // TODO: Check that building creation was succesful before displaying alert
             BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(), tempBuilding.getBuildingAddress().get());
@@ -171,7 +187,12 @@ public class AdminManageBuildingViewController {
         }
     }
 
-
+    /**
+     * //TODO
+     *
+     * @param event //TODO
+     * @throws IOException //TODO
+     */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

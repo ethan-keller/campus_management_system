@@ -1,12 +1,9 @@
 package nl.tudelft.oopp.demo.entities;
 
-import org.springframework.context.annotation.ComponentScan;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
 
 @Entity
 @Table(name = "user")
@@ -29,7 +26,7 @@ public class User {
      *
      * @param username String
      * @param password String (unencrypted)
-     * @param type int, 0 = admin, 1 = teacher, 2 = student //TODO check if correct
+     * @param type     int, 0 = admin, 1 = teacher, 2 = student //TODO check if correct
      */
     public User(String username, String password, int type) {
         this.username = username;
@@ -65,7 +62,7 @@ public class User {
     }
 
     /**
-     * equals
+     * equals.
      *
      * @param o The Object to compare to.
      * @return True if Object and "this" are the same, false otherwise

@@ -13,6 +13,7 @@ import nl.tudelft.oopp.demo.views.SearchView;
 
 import java.io.IOException;
 
+
 public class BookingHistoryController {
     /**
      * These are the FXML elements that inject some functionality into the application.
@@ -20,19 +21,20 @@ public class BookingHistoryController {
     @FXML
     private TableView<Reservation> listReservations;
     @FXML
-    private TableColumn<Reservation,String> id;
+    private TableColumn<Reservation, String> id;
     @FXML
-    private TableColumn<Reservation,String> username;
+    private TableColumn<Reservation, String> username;
     @FXML
-    private  TableColumn<Reservation,String> room;
+    private TableColumn<Reservation, String> room;
     @FXML
-    private TableColumn<Reservation,String> date;
+    private TableColumn<Reservation, String> date;
     @FXML
-    private TableColumn<Reservation,String> starting_time;
+    private TableColumn<Reservation,String> startingTime;
     @FXML
-    private TableColumn<Reservation,String> ending_time;
+    private TableColumn<Reservation,String> endingTime;
 
-    public BookingHistoryController() {}
+    public BookingHistoryController() {
+    }
 
     /**
      * Method that is called before the view is functionable to the user.
@@ -48,13 +50,12 @@ public class BookingHistoryController {
             username.setCellValueFactory(cell -> cell.getValue().getUsername());
             room.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getRoom().get())));
             date.setCellValueFactory(cell -> cell.getValue().getDate());
-            starting_time.setCellValueFactory(cell -> cell.getValue().getStarting_time());
-            ending_time.setCellValueFactory(cell -> cell.getValue().getEnding_time());
+            startingTime.setCellValueFactory(cell -> cell.getValue().getStartingTime());
+            endingTime.setCellValueFactory(cell -> cell.getValue().getEndingTime());
 
             //Adding the Observable List Data to the tableView created.
             listReservations.setItems(Reservation.getUserReservation());
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -62,6 +63,7 @@ public class BookingHistoryController {
     /**
      * Handles the onclick of backButton.
      * Redirects the user back to the searchView.
+     *
      * @param event
      * @throws IOException
      */
@@ -76,8 +78,8 @@ public class BookingHistoryController {
     /**
      * Handles the onclick of signOut Button.
      * Redirects the user back to the loginView.
+     *
      * @param event
-     * @throws IOException
      */
     @FXML
     public void signOutClicked(ActionEvent event) throws Exception {
