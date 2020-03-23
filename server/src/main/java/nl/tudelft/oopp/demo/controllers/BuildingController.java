@@ -50,10 +50,10 @@ public class BuildingController {
      *
      * @param id              The building ID, this is the building that is going to get changed.
      * @param name            The new name of the building
-     * @param room_count      the new room count of the building
+     * @param roomCount      the new room count of the building
      * @param address         the new address of the building //TODO add address format
-     * @param available_bikes The number of available bikes, int
-     * @param max_bikes       The max number of bikes, int
+     * @param availableBikes The number of available bikes, int
+     * @param maxBikes       The max number of bikes, int
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding
      */
     @PostMapping("updateBuilding")

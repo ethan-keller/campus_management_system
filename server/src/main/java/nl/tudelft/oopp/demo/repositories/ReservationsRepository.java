@@ -69,7 +69,8 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
 
     @Query(value = "SELECT * FROM reservations WHERE startingTime = :startingTime "
             + "AND date = :date", nativeQuery = true)
-    public Reservations getReservationByStartingTimeOnDate(@Param("startingTime") String startingTime, @Param("date") String date);
+    public Reservations getReservationByStartingTimeOnDate(
+            @Param("startingTime") String startingTime, @Param("date") String date);
 
     @Query(value = "SELECT * FROM reservations WHERE date = :date", nativeQuery = true)
     public Reservations getReservationByDate(@Param("date") String date);

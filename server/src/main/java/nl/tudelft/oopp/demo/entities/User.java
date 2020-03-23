@@ -62,7 +62,7 @@ public class User {
     }
 
     /**
-     * equals
+     * equals.
      *
      * @param o The Object to compare to.
      * @return True if Object and "this" are the same, false otherwise

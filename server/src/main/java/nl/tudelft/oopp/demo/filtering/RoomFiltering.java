@@ -6,7 +6,7 @@ import nl.tudelft.oopp.demo.entities.Room;
 
 public class RoomFiltering {
     /**
-     * //TODO
+     * //TODO.
      *
      * @param rooms       //TODO
      * @param building    //TODO

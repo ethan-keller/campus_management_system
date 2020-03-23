@@ -34,7 +34,7 @@ public class Reservations {
     }
 
     /**
-     * Builder
+     * Builder.
      *
      * @param id           int
      * @param username     String
@@ -107,7 +107,7 @@ public class Reservations {
     }
 
     /**
-     * equals
+     * equals.
      *
      * @param o The Object to compare to.
      * @return True if Object and "this" are the same, false otherwise

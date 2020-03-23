@@ -40,7 +40,7 @@ public class Room {
     }
 
     /**
-     * Builder
+     * Builder.
      *
      * @param id          int
      * @param name        String
@@ -51,7 +51,8 @@ public class Room {
      * @param description String
      * @param type        String (e.g. lecture hall)
      */
-    public Room(int id, String name, int building, boolean teacherOnly, int capacity, String photos, String description, String type) {
+    public Room(int id, String name, int building, boolean teacherOnly,
+                int capacity, String photos, String description, String type) {
         this.id = id;
         this.name = name;
         this.building = building;
@@ -135,7 +136,7 @@ public class Room {
     }
 
     /**
-     * equals
+     * equals.
      *
      * @param o The Object to compare to.
      * @return True if Object and "this" are the same, false otherwise

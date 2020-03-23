@@ -40,15 +40,17 @@ public class Item {
     /**
      * Constructor.
      *
-     * @param id
-     * @param user
-     * @param title
-     * @param date
-     * @param startingTime
-     * @param endingTime
-     * @param description
+     * @param id           //TODO
+     * @param user         //TODO
+     * @param title        //TODO
+     * @param date         //TODO
+     * @param startingTime //TODO
+     * @param endingTime   //TODO
+     * @param description  //TODO
      */
-    public Item(int id, String user, String title, String date, String startingTime, String endingTime, String description) {
+    public Item(int id, String user, String title, String date, String startingTime,
+                String endingTime, String description) {
+
         this.id = id;
         this.user = user;
         this.title = title;
@@ -66,8 +68,8 @@ public class Item {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Item)) return false;
+        if (this == o) {return true;}
+        if (!(o instanceof Item)) {return false;}
         Item item = (Item) o;
         return getId() == item.getId();
     }
@@ -127,7 +129,7 @@ public class Item {
     }
 
     /**
-     * getter for the date field
+     * getter for the date field.
      *
      * @return date of item
      */

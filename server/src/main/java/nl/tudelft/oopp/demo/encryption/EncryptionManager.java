@@ -33,7 +33,7 @@ public class EncryptionManager {
     }
 
     /**
-     * Encrypts a string using the provided secret key
+     * Encrypts a string using the provided secret key.
      *
      * @param strToEncrypt The String you want to encrypt
      * @param secret       The encryption-key
