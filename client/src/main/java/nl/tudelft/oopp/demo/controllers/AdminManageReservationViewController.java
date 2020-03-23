@@ -134,7 +134,7 @@ public class AdminManageReservationViewController {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            currentSelectedReservation = null;
+            //currentSelectedReservation = null;
             ReservationEditDialogView view = new ReservationEditDialogView();
             view.start(stage);
 
