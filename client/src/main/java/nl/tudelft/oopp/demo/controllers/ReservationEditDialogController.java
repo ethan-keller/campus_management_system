@@ -318,7 +318,7 @@ public class ReservationEditDialogController {
         if (room.getSelectionModel().getSelectedItem() == null) {
             errorMessage += "No valid Room provided! \n";
         }
-        if (date.getValue().equals("")) {
+        if (date.getValue() == null) {
             errorMessage += "No date provided!\n";
         }
         if (startTime.getText().equals("")) {
