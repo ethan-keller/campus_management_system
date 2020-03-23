@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.encodeHash;
+package nl.tudelft.oopp.demo.encodehash;
 
 import java.security.MessageDigest;
 
