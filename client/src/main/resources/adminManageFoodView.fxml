@@ -57,7 +57,7 @@
       </HBox>
    </bottom>
    <center>
-      <TableView fx:id="buildingTable" prefHeight="500.0" prefWidth="900.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+      <TableView fx:id="foodTable" prefHeight="500.0" prefWidth="900.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="foodIdColumn" minWidth="100.0" prefWidth="-1.0" text="ID" />
           <TableColumn fx:id="foodNameColumn" minWidth="200.0" prefWidth="279.1999816894531" text="Name" />

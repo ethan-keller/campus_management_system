@@ -43,7 +43,7 @@ public class FoodEditDialogController {
         if (isInputValid()) {
             emptyFood();
             food.setFoodName(foodNameField.getText());
-            food.setFoodPrice(Float.parseFloat(foodPriceField.getText()));
+            food.setFoodPrice(Double.parseDouble(foodPriceField.getText()));
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
         }
@@ -74,11 +74,18 @@ public class FoodEditDialogController {
             errorMessage += "No valid price!\n";
         } else {
             try {
-                Float.parseFloat(foodPriceField.getText());
+                Double d = Double.parseDouble(foodPriceField.getText());
+                String[] splitter = d.toString().split("\\.");
+                int decimalLength = splitter[1].length();
+                if (decimalLength != 2) {
+                    errorMessage += "No valid price (must be in two decimals)!\n";
+                }
+
             } catch (NumberFormatException e) {
-                errorMessage += "No valid price (must be in format x.xx)!\n";
+                errorMessage += "No valid price (must be numbers)!\n";
             }
         }
+
         if (errorMessage.equals("")) {
             return true;
         } else {

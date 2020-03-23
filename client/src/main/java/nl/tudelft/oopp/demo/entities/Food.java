@@ -13,19 +13,19 @@ public class Food {
 
     private IntegerProperty foodId;
     private StringProperty foodName;
-    private FloatProperty foodPrice;
+    private DoubleProperty foodPrice;
 
     public Food() {
         this.foodId = new SimpleIntegerProperty(-1);
         this.foodName = new SimpleStringProperty(null);
-        this.foodPrice = new SimpleFloatProperty(-1.0f); //????????????
+        this.foodPrice = new SimpleDoubleProperty(-1.0f); //????????????
     }
 
 
     public Food(int foodId, String foodName, float foodPrice) {
         this.foodId = new SimpleIntegerProperty(foodId);
         this.foodName = new SimpleStringProperty(foodName);
-        this.foodPrice = new SimpleFloatProperty(foodPrice);
+        this.foodPrice = new SimpleDoubleProperty(foodPrice);
     }
 
     public IntegerProperty getFoodId() {
@@ -44,15 +44,15 @@ public class Food {
 
 
 
-    public FloatProperty getFoodPrice() {
+    public DoubleProperty getFoodPrice() {
         return foodPrice;
     }
 
-    public void setFoodPrice(float foodPrice) { this.foodPrice.set(foodPrice); }
+    public void setFoodPrice(double foodPrice) { this.foodPrice.set(foodPrice); }
 
 
     /**
-     * Convert server response into an ObservableList of rooms.
+     * Convert server response into an ObservableList of foods.
      */
     public static ObservableList<Food> getFoodData() throws JSONException {
         ObservableList<Food> foodData = FXCollections.observableArrayList();
@@ -70,7 +70,7 @@ public class Food {
 
     public static ObservableList<Building> getFoodBuilding(int id) throws UnsupportedEncodingException {
         ObservableList<Building> foodBuilding = FXCollections.observableArrayList();
-        JSONArray jsonArrayBuildings= new JSONArray(FoodServerCommunication.getFoodBuilding(id));
+        JSONArray jsonArrayBuildings= new JSONArray(FoodServerCommunication.getFoodBuildings(id));
         for(int i=0; i<jsonArrayBuildings.length(); i++){
             Building b = new Building();
             b.setBuildingId(2);

@@ -88,7 +88,7 @@ public class AdminFoodBuildingViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that building deletion was successful before displaying alert
-                FoodServerCommunication.deleteFoodBuilding(AdminManageFoodViewController.currentSelectedFood.getFoodId().get(), selectedBuilding.getBuildingId().getValue());
+                FoodServerCommunication.deleteFoodFromBuilding(AdminManageFoodViewController.currentSelectedFood.getFoodId().get(), selectedBuilding.getBuildingId().getValue());
                 refresh();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Delete building");
@@ -121,7 +121,7 @@ public class AdminFoodBuildingViewController {
             view.start(stage);
             Building tempBuilding = FoodBuildingEditDialogController.building;
             if (tempBuilding == null) return;
-            else FoodServerCommunication.addFoodBuilding(AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),tempBuilding.getBuildingId().get());
+            else FoodServerCommunication.addFoodToBuilding(AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),tempBuilding.getBuildingId().get());
             refresh();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
