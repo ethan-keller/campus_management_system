@@ -137,18 +137,21 @@ public class AdminManageReservationViewController {
             currentSelectedReservation = null;
             ReservationEditDialogView view = new ReservationEditDialogView();
             view.start(stage);
-            Reservation tempReservation = ReservationEditDialogController.reservation;
 
-            if(tempReservation == null)
+            //If none of the items in the dialog box is selected.
+            if(ReservationEditDialogController.reservation == null)
                 return;
             //TODO: Checking if the reservation creating was successful before displaying the alert.
-            ReservationServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getEnding_time().get());
-            refresh();
+            else {
+                Reservation tempReservation = ReservationEditDialogController.reservation;
+                ReservationServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStarting_time().get(), tempReservation.getEnding_time().get());
+                refresh();
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("New Reservation");
-            alert.setContentText("New Reservation created!");
-            alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("New Reservation");
+                alert.setContentText("New Reservation created!");
+                alert.showAndWait();
+            }
         }
         catch (Exception e) {
             System.out.println("Reservation creation exception");
