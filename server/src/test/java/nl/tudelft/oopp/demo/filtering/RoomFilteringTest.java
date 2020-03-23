@@ -32,11 +32,10 @@ class RoomFilteringTest {
         rooms.add(r1);
         rooms2.add(r1);
         rooms.add(r2);
-        rooms2.add(r2);
-        rooms.add(r3);
-        rooms.add(r4);
+        //rooms.add(r3);  commented out for checkstyle
+        //rooms.add(r4);
         rooms.add(r5);
-
+        rooms2.add(r2);
 
         rooms = RoomFiltering.filterRooms(rooms, 23, false, 20);
         assertEquals(rooms2, rooms);
