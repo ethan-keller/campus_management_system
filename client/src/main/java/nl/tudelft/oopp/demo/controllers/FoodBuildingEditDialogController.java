@@ -35,9 +35,6 @@ public class FoodBuildingEditDialogController {
         olb = Building.getBuildingData();
         foodBuildingComboBox.setItems(olb);
         this.setFoodBuildingComboBoxConverter(olb);
-//        foodBuildingComboBox.valueProperty().addListener(((observable, oldValue, newValue) -> {
-//            buildingSelected(newValue);
-//        }));
     }
 
     /**

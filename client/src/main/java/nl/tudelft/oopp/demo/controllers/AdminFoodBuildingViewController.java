@@ -90,11 +90,13 @@ public class AdminFoodBuildingViewController {
                 // TODO: Check that building deletion was successful before displaying alert
                 FoodServerCommunication.deleteFoodFromBuilding(AdminManageFoodViewController.currentSelectedFood.getFoodId().get(), selectedBuilding.getBuildingId().getValue());
                 refresh();
+                // An alert pop up when a building deleted successfully
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Delete building");
                 alert.setContentText("Building deleted!");
                 alert.showAndWait();
             } else {
+                // An alert pop up when no building selected
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("No Selection");
                 alert.setHeaderText("No Building Selected");
@@ -114,16 +116,18 @@ public class AdminFoodBuildingViewController {
     @FXML
     private void addFoodBuildingClicked(ActionEvent event) {
         try {
+            // Building edit dialog pop up.
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
             currentSelectedFoodBuilding = null;
+            // Get the building from the pop up dialog.
             FoodBuildingEditDialogView view = new FoodBuildingEditDialogView();
             view.start(stage);
             Building tempBuilding = FoodBuildingEditDialogController.building;
             if (tempBuilding == null) return;
+            // TODO: Check that reservation creation was successful before displaying alert
             else FoodServerCommunication.addFoodToBuilding(AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),tempBuilding.getBuildingId().get());
             refresh();
-
+            // An alert pop up when a new building added.
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("New building");
             alert.setContentText("Added new building!");
@@ -133,6 +137,9 @@ public class AdminFoodBuildingViewController {
         }
     }
 
+    /**
+     * Handles clicking the back button, redirect to the food view.
+     */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

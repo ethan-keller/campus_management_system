@@ -46,7 +46,6 @@ public class AdminManageFoodViewController {
             foodIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getFoodId().get())));
             foodNameColumn.setCellValueFactory(cell -> cell.getValue().getFoodName());
             foodPriceColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf((double)Math.round((cell.getValue().getFoodPrice().get())*100)/100)));
-
             // Add observable list data to the table
             foodTable.setItems(Food.getFoodData());
         } catch (Exception e) {
@@ -54,10 +53,16 @@ public class AdminManageFoodViewController {
         }
     }
 
+    /**
+     * refresh the table when called
+     */
     public void refresh() {
         initialize();
     }
 
+    /**
+     * Called when admin clicks a food.
+     */
     public Food getSelectedFood() {
         if (foodTable.getSelectionModel().getSelectedIndex() >= 0) {
             return foodTable.getSelectionModel().getSelectedItem();
@@ -79,15 +84,16 @@ public class AdminManageFoodViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-
                 // TODO: Check that food deletion was successful before displaying alert
                 FoodServerCommunication.deleteFood(selectedFood.getFoodId().getValue());
                 refresh();
+                // An alert pop up when a food deleted successfully
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Delete food");
                 alert.setContentText("Food deleted!");
                 alert.showAndWait();
             } else {
+                // An alert pop up when no food selected
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("No Selection");
                 alert.setHeaderText("No Food Selected");
@@ -106,18 +112,18 @@ public class AdminManageFoodViewController {
     @FXML
     private void createNewFoodClicked(ActionEvent event) {
         try {
+            // Food edit dialog pop up.
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
             currentSelectedFood = null;
             FoodEditDialogView view = new FoodEditDialogView();
             view.start(stage);
+            // Get the food from the pop up dialog.
             Food tempFood = FoodEditDialogController.food;
             if (tempFood == null) return;
-
             // TODO: Check that building creation was successful before displaying alert
             FoodServerCommunication.createFood(tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
             refresh();
-
+            // An alert pop up when a new food created.
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("New food");
             alert.setContentText("Added new food!");
@@ -136,24 +142,25 @@ public class AdminManageFoodViewController {
         Food selectedFood = getSelectedFood();
         int selectedIndex = getSelectedIndex();
         try {
+            // Food edit dialog pop up.
             if (selectedIndex >= 0) {
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentSelectedFood = selectedFood;
-
                 FoodEditDialogView view = new FoodEditDialogView();
                 view.start(stage);
+                // Get the food from the pop up dialog.
                 Food tempFood = FoodEditDialogController.food;
-
                 if (tempFood == null) return;
 
                 // TODO: Check that building edit was successful before displaying alert
                 FoodServerCommunication.updateFood(selectedFood.getFoodId().get(), tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
                 refresh();
-
+                // An alert pop up when a new food created.
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Edit food");
                 alert.setContentText("edited food!");
             } else {
+                // An alert pop up when no food selected
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("No Selection");
                 alert.setHeaderText("No Food Selected");
@@ -176,6 +183,7 @@ public class AdminManageFoodViewController {
         Food selectedFood = getSelectedFood();
         int selectedIndex = getSelectedIndex();
         try {
+            // Switch to the building table of selected food
             if (selectedIndex >= 0) {
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentSelectedFood = selectedFood;
@@ -183,6 +191,7 @@ public class AdminManageFoodViewController {
                 AdminFoodBuildingView afbv = new AdminFoodBuildingView();
                 afbv.start(stage);
             } else {
+                // An alert pop up when no food selected
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("No Selection");
                 alert.setHeaderText("No Food Selected");
@@ -195,6 +204,9 @@ public class AdminManageFoodViewController {
         }
     }
 
+    /**
+     * Handles clicking the back button, redirect to the admin home page.
+     */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

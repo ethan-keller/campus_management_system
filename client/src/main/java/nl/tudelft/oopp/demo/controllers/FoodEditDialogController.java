@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -28,7 +29,7 @@ public class FoodEditDialogController {
         Food food = AdminManageFoodViewController.currentSelectedFood;
         if (food == null) return;
         foodNameField.setText(food.getFoodName().get());
-        foodPriceField.setText(String.valueOf(food.getFoodPrice().get()));
+        foodPriceField.setText(String.valueOf((double)Math.round((food.getFoodPrice().get())*100)/100));
     }
 
     private static void emptyFood() {
