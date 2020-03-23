@@ -1,7 +1,5 @@
 package nl.tudelft.oopp.demo.entities;
 
-import java.io.UnsupportedEncodingException;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -76,10 +74,7 @@ public class Reservation {
     public StringProperty getDate() {
         return date;
     }
-
-    public void setDate(String date) {
-        this.date.set(date);
-    }
+    
 
 
     public void setDate(String date) {
@@ -96,7 +91,7 @@ public class Reservation {
     }
 
     public void setStarting_time(String starting_time) {
-        this.starting_time.set(starting_time);
+        this.startingTime.set(starting_time);
     }
 
 

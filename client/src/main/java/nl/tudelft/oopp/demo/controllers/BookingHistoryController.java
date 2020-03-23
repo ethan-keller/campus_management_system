@@ -1,15 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-<<<<<<< HEAD
-import com.google.gson.Gson;
-
-import java.io.IOException;
-import java.io.PipedReader;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-=======
->>>>>>> ControllerNoUnderBar
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +10,8 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
+
+import java.io.IOException;
 
 
 public class BookingHistoryController {
@@ -88,7 +80,6 @@ public class BookingHistoryController {
      * Redirects the user back to the loginView.
      *
      * @param event
-     * @throws IOException
      */
     @FXML
     public void signOutClicked(ActionEvent event) throws Exception {

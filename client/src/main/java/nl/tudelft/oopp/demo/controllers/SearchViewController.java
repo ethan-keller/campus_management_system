@@ -1,42 +1,22 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.IOException;
-import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-<<<<<<< HEAD
-import javafx.fxml.FXMLLoader;
-=======
->>>>>>> ControllerNoUnderBar
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.Parent;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;

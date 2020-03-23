@@ -1,7 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.IOException;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +13,8 @@ import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
+
+import java.io.IOException;
 
 public class AdminManageBuildingViewController {
 
@@ -136,12 +136,7 @@ public class AdminManageBuildingViewController {
             }
 
             // TODO: Check that building creation was succesful before displaying alert
-<<<<<<< HEAD
-            BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
-                    tempBuilding.getBuildingRoom_count().get(), tempBuilding.getBuildingAddress().get());
-=======
             BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(), tempBuilding.getBuildingAddress().get());
->>>>>>> ControllerNoUnderBar
             refresh();
 
             Alert alert = new Alert(AlertType.INFORMATION);
