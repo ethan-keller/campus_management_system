@@ -18,7 +18,7 @@ public class Food {
     public Food() {
         this.foodId = new SimpleIntegerProperty(-1);
         this.foodName = new SimpleStringProperty(null);
-        this.foodPrice = new SimpleDoubleProperty(-1.0f); //????????????
+        this.foodPrice = new SimpleDoubleProperty(-1.0d);
     }
 
 

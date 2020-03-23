@@ -6,12 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.views.AdminHomePageView;
-import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
-import nl.tudelft.oopp.demo.views.AdminManageReservationView;
-import nl.tudelft.oopp.demo.views.AdminManageRoomView;
-import nl.tudelft.oopp.demo.views.AdminManageUserView;
-import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.*;
 
 public class AdminHomePageController {
     /**
@@ -67,18 +62,11 @@ public class AdminHomePageController {
     }
 
     /**
-<<<<<<< HEAD
-     * //TODO.
-     *
-     * @param event //TODO.
-     * @throws IOException //TODO.
-=======
      * This button would redirects the admin to a page where the admin can create/edit/delete an
      * users' information or look at their reservation history. This button also displays all the
      * users and information related to them in a tabular view.
      * @param event
      * @throws IOException
->>>>>>> CheckStyle_Client_Communication
      */
     public void manageUserClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
