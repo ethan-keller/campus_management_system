@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo;
 
-
 import nl.tudelft.oopp.demo.views.LoginView;
 
 public class MainApp {

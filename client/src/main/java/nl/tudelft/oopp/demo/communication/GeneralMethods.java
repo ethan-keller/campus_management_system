@@ -1,10 +1,10 @@
 package nl.tudelft.oopp.demo.communication;
 
 import javafx.scene.control.Alert;
-import javafx.stage.Modality;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import javafx.stage.Modality;
 import javafx.stage.Window;
 
 /**
@@ -17,9 +17,9 @@ import javafx.stage.Window;
 public class GeneralMethods {
     /**
      * This method is to encode all communication across the data stream.
-     * @param params
-     * @return Encoded parameters as string
-     * @throws UnsupportedEncodingException
+     * @param params are passed
+     * @return :Encoded parameters as string
+     * @throws UnsupportedEncodingException is thrown
      */
     public static String encodeCommunication(String params) throws UnsupportedEncodingException {
         params = URLEncoder.encode(params, StandardCharsets.UTF_8.toString());

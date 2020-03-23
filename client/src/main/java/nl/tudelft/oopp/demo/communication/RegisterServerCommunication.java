@@ -19,7 +19,6 @@ public class RegisterServerCommunication {
      * There is a try-catch block that alerts the user if the communication between the client
      * and the server has succeeded or
      * fallen through.
-     *
      * @return the body of a get request to the server.
      * @throws Exception if communication has unsupported encoding mechanism.
      */

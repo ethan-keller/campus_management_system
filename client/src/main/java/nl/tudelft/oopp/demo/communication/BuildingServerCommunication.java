@@ -11,7 +11,8 @@ public class BuildingServerCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
 
     /**
-     * This is a server-client communication method which is used to receive all the buildings present in the database.
+     * This is a server-client communication method which is used to receive all the buildings
+     * present in the database.
      * @return This particular method returns a String of all buildings present in the database.
      */
     public static String getAllBuildings() {
@@ -31,7 +32,7 @@ public class BuildingServerCommunication {
     /**
      * This is a client-server communication class which receives a certain building using the building id.
      * @param id - Building id
-     * @return Building
+     * @return Building is returned
      * @throws UnsupportedEncodingException
      */
     public static String getBuilding(int id) throws UnsupportedEncodingException {
@@ -57,7 +58,7 @@ public class BuildingServerCommunication {
      * @param name - Name of the building
      * @param roomCount - Number of rooms the building has
      * @param address - Address of the building
-     * @return Boolean value to inform the user if building creating was successful.
+     * @return :Boolean value to inform the user if building creating was successful.
      * @throws UnsupportedEncodingException
      */
     public static boolean createBuilding(String name, int roomCount, String address)
@@ -116,7 +117,8 @@ public class BuildingServerCommunication {
      * @return Boolean value which is used to display a message to the client if the building is updated.
      * @throws UnsupportedEncodingException
      */
-    public static boolean updateBuilding(int id, String name, int roomCount, String address) throws UnsupportedEncodingException {
+    public static boolean updateBuilding(int id, String name, int roomCount, String address)
+            throws UnsupportedEncodingException {
         String params = "id=" + id + "&name=" + name + "&roomCount=" + roomCount + "&address=" + address;
         params = GeneralMethods.encodeCommunication(params);
 
