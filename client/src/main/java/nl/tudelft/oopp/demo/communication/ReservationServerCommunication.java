@@ -9,8 +9,8 @@ import java.net.http.HttpResponse;
 public class ReservationServerCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
 
-    public static boolean createReservation(String username, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
-        String params = "username="+username+"&room="+room+"&date="+date+"&starting_time="+starting_time+"&ending_time="+ending_time;
+    public static boolean createReservation(String username, int room, String date, String startingTime, String endingTime) throws UnsupportedEncodingException {
+        String params = "username="+username+"&room="+room+"&date="+date+"&startingTime="+startingTime+"&endingTime="+endingTime;
         params = GeneralMethods.encodeCommunication(params);
 
 
@@ -29,8 +29,8 @@ public class ReservationServerCommunication {
         return true;
     }
 
-    public static boolean updateReservation(String username, int id, int room, String date, String starting_time, String ending_time) throws UnsupportedEncodingException {
-        String params = "username="+username+"&id="+id+"&room="+room+"&date="+date+"&starting_time="+starting_time+"&ending_time="+ending_time;
+    public static boolean updateReservation(String username, int id, int room, String date, String startingTime, String endingTime) throws UnsupportedEncodingException {
+        String params = "username="+username+"&id="+id+"&room="+room+"&date="+date+"&startingTime="+startingTime+"&endingTime="+endingTime;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateReservation?"+params)).build();

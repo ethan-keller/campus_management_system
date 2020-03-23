@@ -19,7 +19,7 @@ public class RoomEditDialogController {
     @FXML
     private ComboBox<Building> roomBuildingComboBox;
     @FXML
-    private ToggleGroup teacher_only;
+    private ToggleGroup teacherOnly;
     @FXML
     private RadioButton radioButtonYes;
     @FXML
@@ -56,7 +56,7 @@ public class RoomEditDialogController {
             if (room == null) return;
             roomNameField.setText(room.getRoomName().get());
             roomBuildingComboBox.getSelectionModel().select(ol.stream().filter(x -> x.getBuildingId().get() == room.getRoomBuilding().get()).collect(Collectors.toList()).get(0));
-            if (room.getTeacher_only().get()) radioButtonYes.setSelected(true);
+            if (room.getTeacherOnly().get()) radioButtonYes.setSelected(true);
             else radioButtonNo.setSelected(true);
             roomCapacityField.setText(String.valueOf(room.getRoomCapacity().get()));
             roomTypeField.setText(room.getRoomType().get());
@@ -95,7 +95,7 @@ public class RoomEditDialogController {
             emptyRoom();
             room.setRoomName(this.roomNameField.getText());
             room.setRoomBuilding(this.roomBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
-            room.setTeacher_only(this.radioButtonYes.isSelected() ? true : false);
+            room.setTeacherOnly(this.radioButtonYes.isSelected() ? true : false);
             room.setRoomCapacity(Integer.parseInt(this.roomCapacityField.getText()));
             room.setRoomType(this.roomTypeField.getText());
             room.setRoomDescription(this.roomDescriptionField.getText());

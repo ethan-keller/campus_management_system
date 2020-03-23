@@ -87,9 +87,9 @@ public class ReservationEditDialogController {
             username.setDisable(true);
             room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get() == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
             date.setValue(LocalDate.parse(reservation.getDate().get(), formatter));
-            String[] startTimeSplit = reservation.getStarting_time().get().split(":");
+            String[] startTimeSplit = reservation.getStartingTime().get().split(":");
             timeslot.setLowValue(Double.parseDouble(startTimeSplit[0])*60.0 + Double.parseDouble(startTimeSplit[1]));
-            String[] endTimeSplit = reservation.getEnding_time().get().split(":");
+            String[] endTimeSplit = reservation.getEndingTime().get().split(":");
             timeslot.setHighValue(Double.parseDouble(endTimeSplit[0])*60.0 + Double.parseDouble(endTimeSplit[1]));
             startTime.setText("Start: " + getRangeSliderConverter().toString(timeslot.getLowValue()));
             endTime.setText("End: " + getRangeSliderConverter().toString(timeslot.getHighValue()));
@@ -279,8 +279,8 @@ public class ReservationEditDialogController {
             reservation.setUsername(username.getSelectionModel().getSelectedItem().getUsername().get());
             reservation.setRoom(room.getSelectionModel().getSelectedItem().getRoomId().get());
             reservation.setDate(dateSelected.toString());
-            reservation.setStarting_time(startTime.getText().replace("Start: ", ""));
-            reservation.setEnding_time(endTime.getText().replace("End: ", "").equals("24:00") ? "23:59" : endTime.getText().replace("End: ", ""));
+            reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
+            reservation.setEndingTime(endTime.getText().replace("End: ", "").equals("24:00") ? "23:59" : endTime.getText().replace("End: ", ""));
 
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();

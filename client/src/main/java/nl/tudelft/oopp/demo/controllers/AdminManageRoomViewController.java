@@ -62,7 +62,7 @@ public class AdminManageRoomViewController {
             roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoomId().get())));
             roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().getRoomName());
             roomBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoomBuilding().get())));
-            roomOnlyTeachersColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getTeacher_only().get() ? "yes" : "no"));
+            roomOnlyTeachersColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getTeacherOnly().get() ? "yes" : "no"));
             roomCapacityBuilding.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getRoomCapacity().get())));
             roomPhotoColumn.setCellValueFactory(cell -> cell.getValue().getRoomPhoto());
             roomDescriptionColumn.setCellValueFactory(cell -> cell.getValue().getRoomDescription());
@@ -134,7 +134,7 @@ public class AdminManageRoomViewController {
             Room tempRoom = RoomEditDialogController.room;
             if (tempRoom == null) return;
             // TODO: Check that room creation was successful before displaying alert
-            RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacher_only().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
+            RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
             refresh();
 
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -166,7 +166,7 @@ public class AdminManageRoomViewController {
 
                 if (tempRoom == null) return;
                 // TODO: Check that building edit was successful before displaying alert
-                RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(), tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacher_only().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
+                RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(), tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(), tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get());
                 refresh();
 
                 Alert alert = new Alert(AlertType.INFORMATION);

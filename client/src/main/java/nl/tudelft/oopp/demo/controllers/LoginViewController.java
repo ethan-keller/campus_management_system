@@ -36,18 +36,18 @@ public class LoginViewController {
     public void loginButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        String login_response = LoginServerCommunication.sendLogin(username.getText(), password.getText());
-        if(login_response.equals("admin")){
-            CurrentUserManager current_user = new CurrentUserManager(username.getText(), 0);
+        String loginResponse = LoginServerCommunication.sendLogin(username.getText(), password.getText());
+        if(loginResponse.equals("admin")){
+            CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 0);
             AdminHomePageView av = new AdminHomePageView();
             av.start(stage);
-        } else if(login_response.equals("student")){
-            CurrentUserManager current_user = new CurrentUserManager(username.getText(), 2);
-            //current_user.setUsername(username.getText());
+        } else if(loginResponse.equals("student")){
+            CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 2);
+            //currentUser.setUsername(username.getText());
             SearchView sv = new SearchView();
             sv.start(stage);
-        } else if (login_response.equals("teacher")){
-            CurrentUserManager current_user = new CurrentUserManager(username.getText(), 1);
+        } else if (loginResponse.equals("teacher")){
+            CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 1);
             SearchView sv = new SearchView();
             sv.start(stage);
         } else {

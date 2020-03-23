@@ -28,9 +28,9 @@ public class BookingHistoryController {
     @FXML
     private TableColumn<Reservation,String> date;
     @FXML
-    private TableColumn<Reservation,String> starting_time;
+    private TableColumn<Reservation,String> startingTime;
     @FXML
-    private TableColumn<Reservation,String> ending_time;
+    private TableColumn<Reservation,String> endingTime;
 
     public BookingHistoryController() {}
 
@@ -48,8 +48,8 @@ public class BookingHistoryController {
             username.setCellValueFactory(cell -> cell.getValue().getUsername());
             room.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getRoom().get())));
             date.setCellValueFactory(cell -> cell.getValue().getDate());
-            starting_time.setCellValueFactory(cell -> cell.getValue().getStarting_time());
-            ending_time.setCellValueFactory(cell -> cell.getValue().getEnding_time());
+            startingTime.setCellValueFactory(cell -> cell.getValue().getStartingTime());
+            endingTime.setCellValueFactory(cell -> cell.getValue().getEndingTime());
 
             //Adding the Observable List Data to the tableView created.
             listReservations.setItems(Reservation.getUserReservation());
