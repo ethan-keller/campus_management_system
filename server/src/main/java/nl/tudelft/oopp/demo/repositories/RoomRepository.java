@@ -70,7 +70,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     public void deleteRoom(@Param("id") int id);
 
     @Query(value = "SELECT * FROM room WHERE building = :buildingId", nativeQuery = true)
-    public Room getRoomByBuilding(@Param("BuildingId") int buildingId);
+    public Room getRoomByBuilding(@Param("buildingId") int buildingId);
 
     @Query(value = "SELECT * FROM room WHERE capacity <= :capMin AND capacity >= :capMax ", nativeQuery = true)
     public Room getRoomByCapacity(@Param("capMin") int capMin, @Param("capMax") int capMax);
