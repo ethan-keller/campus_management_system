@@ -35,14 +35,14 @@ class ReservationsTest {
     }
 
     @Test
-    void getStarting_time() {
-        assertEquals("13-00-00", r1.getStarting_time());
+    void getStartingTime() {
+        assertEquals("13-00-00", r1.getStartingTime());
 
     }
 
     @Test
-    void getEnding_time() {
-        assertEquals("15-00-00", r1.getEnding_time());
+    void getEndingTime() {
+        assertEquals("15-00-00", r1.getEndingTime());
     }
 
     @Test

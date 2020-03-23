@@ -29,9 +29,9 @@ class RoomTest {
     }
 
     @Test
-    void isTeacher_only() {
-        assertTrue(r1.isTeacher_only());
-        assertFalse(r3.isTeacher_only());
+    void isTeacherOnly() {
+        assertTrue(r1.isTeacherOnly());
+        assertFalse(r3.isTeacherOnly());
     }
 
     @Test
