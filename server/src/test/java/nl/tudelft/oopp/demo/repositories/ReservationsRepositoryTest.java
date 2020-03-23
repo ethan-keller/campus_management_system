@@ -37,7 +37,8 @@ class ReservationsRepositoryTest {
         int roomId2 = roomRepo.getRoomByName("5testing").getId();
 
         reservationsRepo.insertReservation("4testing", roomId, "2020-05-29", "12:00:00", "14:00:00");
-        int id = reservationsRepo.getReservationByRoomAndDateAndStartingTime(roomId, "2020-05-29", "12:00:00").getId();
+        int id = reservationsRepo.getReservationByRoomAndDateAndStartingTime(
+                roomId, "2020-05-29", "12:00:00").getId();
 
         Reservations r1 = new Reservations(id, "4testing", roomId, "2020-05-29", "12:00:00", "14:00:00");
         assertEquals(r1, reservationsRepo.getReservation(id));

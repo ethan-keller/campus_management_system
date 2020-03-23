@@ -1,6 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.UnsupportedEncodingException;
 
