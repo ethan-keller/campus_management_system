@@ -3,8 +3,8 @@ package nl.tudelft.oopp.demo.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "bike_reservations")
-public class BikeReservations {
+@Table(name = "bikeReservation")
+public class BikeReservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -25,7 +25,7 @@ public class BikeReservations {
     @Column(name = "ending_time")
     private String endingTime;
 
-    public BikeReservations() {
+    public BikeReservation() {
     }
 
     /**
@@ -38,7 +38,7 @@ public class BikeReservations {
      * @Param startingTime String
      * @Param endingTime String
      */
-    public BikeReservations(int id, int building, int numBikes, String date, String startingTime, String endingTime) {
+    public BikeReservation(int id, int building, int numBikes, String date, String startingTime, String endingTime) {
         this.id = id;
         this.building = building;
         this.numBikes = numBikes;
@@ -109,14 +109,14 @@ public class BikeReservations {
      */
     @Override
     public boolean equals(Object o) {
-            if(!(o instanceof BikeReservations)){
-                return false;
-            }
-            BikeReservations temp = (BikeReservations)o;
+        if(!(o instanceof BikeReservation)){
+            return false;
+        }
+        BikeReservation temp = (BikeReservation)o;
 
-            if(id != temp.getId()){
-                return false;
-            }
+        if(id != temp.getId()){
+            return false;
+        }
 
         return true;
     }

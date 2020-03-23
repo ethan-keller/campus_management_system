@@ -31,8 +31,8 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
             nativeQuery = true)
     public List<Food> getFoodByBuildingId(@Param("id") int id);
 
-    @Query(value = "SELECT food.* FROM food INNER JOIN foodReservations ON food.id = foodReservation.food WHERE" +
-            " reservation = :reservationId", nativeQuery = true)
+    @Query(value = "SELECT food.* FROM food INNER JOIN foodReservation ON food.id = foodReservation.food WHERE" +
+                " reservation = :reservationId", nativeQuery = true)
     public List<Food> getFoodByReservationId(@Param("reservationId") int reservationId);
 
     @Modifying
