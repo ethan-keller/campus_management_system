@@ -62,8 +62,8 @@ public class ItemServerCommunication {
      * @param user user who item belongs to
      * @param title title of item
      * @param date date of item
-     * @param startingTime starting_time of item
-     * @param endingTime ending_time of item
+     * @param startingTime startingTime of item
+     * @param endingTime endingTime of item
      * @param description description of item
      * @return http response in JSON format
      * @throws UnsupportedEncodingException is thrown
@@ -72,6 +72,7 @@ public class ItemServerCommunication {
                                      String endingTime, String description) throws UnsupportedEncodingException {
         String params = "user=" + user + "&title=" + title + "&date=" + date + "&starting_time=" + startingTime +
                 "&ending_time=" + endingTime + "&description=" + description;
+
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createItem?"+params)).build();
