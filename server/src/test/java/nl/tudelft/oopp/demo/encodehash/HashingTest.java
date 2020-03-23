@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.encode_hash;
+package nl.tudelft.oopp.demo.encodehash;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
