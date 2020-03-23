@@ -1,7 +1,5 @@
 package nl.tudelft.oopp.demo.communication;
 
-import javafx.beans.Observable;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Window;
@@ -44,7 +42,13 @@ public class GeneralMethods {
         return null;
     }
 
-    public static ObservableList<Room> filterRoomByBuilding(ObservableList<Room> rooms, int building){
+    /**
+     * filters rooms by the id of the building.
+     * @param rooms
+     * @param building
+     * @return list of rooms with the building-id that is given.
+     */
+    public static List<Room> filterRoomByBuilding(List<Room> rooms, int building){
         if(rooms == null){
             return null;
         }
@@ -64,7 +68,13 @@ public class GeneralMethods {
         return rooms;
     }
 
-    public static ObservableList<Room> filterRoomByTeacher_only(ObservableList<Room> rooms, boolean teacher_only){
+    /**
+     * filters the rooms that are teacher only or not teacher only. Depending on the given boolean.
+     * @param rooms
+     * @param teacher_only
+     * @return list of rooms that are all teacher only or not teacher only. Depending on the boolean given.
+     */
+    public static List<Room> filterRoomByTeacher_only(List<Room> rooms, boolean teacher_only){
         if(rooms == null){
             return null;
         }
@@ -83,7 +93,14 @@ public class GeneralMethods {
         return rooms;
     }
 
-    public static ObservableList<Room> filterRoomByCapacity(ObservableList<Room> rooms, int capMax, int capMin){
+    /**
+     * filters room by a capacity between 2 ints.
+     * @param rooms
+     * @param capMax
+     * @param capMin
+     * @return list of rooms that have a capacity between the two given ints.
+     */
+    public static List<Room> filterRoomByCapacity(List<Room> rooms, int capMax, int capMin){
         if(rooms == null){
             return null;
         }
@@ -102,9 +119,17 @@ public class GeneralMethods {
         return rooms;
     }
 
-    public static List<Room> filterBySearch(ObservableList<Room> rooms, String input, List<Building> buildings){
+    /**
+     * filters rooms with the building names and room names that contain the input.
+     * @param rooms
+     * @param input
+     * @param buildings
+     * @return lists of room with the building names and room names that contain the input.
+     */
+    public static List<Room> filterBySearch(List<Room> rooms, String input, List<Building> buildings){
         List<Room> roomsFilteredByRoom = filterRoomsBySearch(rooms, input);
         List<Room> roomsFilteredByBuilding = filterBuildingsBySearch(rooms, input, buildings);
+        // makes a union of the 2 filtered lists and removes the doubled rooms.
         for(int i = 0; i  != roomsFilteredByRoom.size(); i++){
             if(!roomsFilteredByBuilding.contains(roomsFilteredByRoom.get(i))){
                 roomsFilteredByBuilding.add(roomsFilteredByRoom.get(i));
@@ -113,7 +138,13 @@ public class GeneralMethods {
         return roomsFilteredByBuilding;
     }
 
-    public static List<Room> filterRoomsBySearch(ObservableList<Room> rooms, String input){
+    /**
+     * filters rooms with the room names that contain the input.
+     * @param rooms
+     * @param input
+     * @return a lists with rooms with the building names that contain the input.
+     */
+    public static List<Room> filterRoomsBySearch(List<Room> rooms, String input){
         List<Room> res = new ArrayList<Room>();
         for(int j = 0; j != rooms.size(); j++){
             res.add(rooms.get(j));
@@ -129,7 +160,14 @@ public class GeneralMethods {
         return res;
     }
 
-    public static List<Room> filterBuildingsBySearch(ObservableList<Room> rooms, String input, List<Building> buildings){
+    /**
+     * filters rooms with the building names that contain the input.
+     * @param rooms
+     * @param input
+     * @param buildings
+     * @return a list of rooms with the building names that contain the input.
+     */
+    public static List<Room> filterBuildingsBySearch(List<Room> rooms, String input, List<Building> buildings){
         List<Room> res = new ArrayList<Room>();
         List<Integer> buildingIds = new ArrayList<Integer>();
         input = input.toLowerCase();

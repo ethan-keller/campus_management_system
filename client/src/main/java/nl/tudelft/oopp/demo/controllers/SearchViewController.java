@@ -84,7 +84,7 @@ public class SearchViewController implements Initializable {
     private ComboBox<String> BikesAvailable;
 
     private List<Building> buildings;
-    private ObservableList<Room> roomList;
+    private List<Room> roomList;
     private ObservableList<Room> rooms;
 
 
@@ -147,7 +147,8 @@ public class SearchViewController implements Initializable {
 
 
     /**
-     * Method that gets called before everything (mostly to initialize nodes etc.)
+     * Method that gets called when loading the view.
+     * Loads the buildings and rooms from the database and sets actions for when a filter is selected.
      * JavaFX standard.
      *
      * @param location
@@ -184,6 +185,7 @@ public class SearchViewController implements Initializable {
             rooms = Room.getRoomData();
             buildings = Building.getBuildingData();
 
+            // load all the cards
             loadCards();
 
 
@@ -192,7 +194,7 @@ public class SearchViewController implements Initializable {
         e.printStackTrace();
         }
 
-        //if a new filter is applied or an filter is removed filter again and load the cards again
+        // if a new filter is applied or an filter is removed filter again and load the cards again
         BuildingComboBox.setOnAction(event -> {
             try {
                 loadCards();
@@ -201,6 +203,7 @@ public class SearchViewController implements Initializable {
             }
         });
 
+        // if a new filter is applied or an filter is removed filter again and load the cards again
         CapacityComboBox.setOnAction(event -> {
             try {
                 loadCards();
@@ -209,7 +212,7 @@ public class SearchViewController implements Initializable {
             }
         });
 
-
+        // if a new filter is applied or an filter is removed filter again and load the cards again
         yesCheckBoxTeacherOnly.setOnAction(event -> {
             try {
                 yesCheckBoxTeacherOnly.setSelected(true);
@@ -219,6 +222,7 @@ public class SearchViewController implements Initializable {
             }
         });
 
+        // if a new filter is applied or an filter is removed filter again and load the cards again
         noCheckBoxTeacherOnly.setOnAction(event -> {
             try {
                 yesCheckBoxTeacherOnly.setSelected(false);
@@ -228,6 +232,7 @@ public class SearchViewController implements Initializable {
             }
         });
 
+        // if a key is released only the searchbar gets filtered again. The rest stays the same and the list of the rooms of the other filters is used again.
         searchBar.setOnKeyReleased(event -> {
             try {
                 searchbarChanges();
@@ -236,6 +241,7 @@ public class SearchViewController implements Initializable {
             }
         });
 
+        // if a new filter is applied or an filter is removed filter again and load the cards again
         datePicker.setOnAction(event -> {
             try{
                 loadCards();
@@ -245,9 +251,17 @@ public class SearchViewController implements Initializable {
         });
     }
 
+    /**
+     * Filters the rooms according to the filters selected.
+     * Makes a call to getCardsShown() to show the cards on the view.
+     * @throws UnsupportedEncodingException
+     */
     public void loadCards() throws UnsupportedEncodingException {
             //load all rooms back in the roomlist to filter again
-            roomList = rooms;
+        roomList = new ArrayList<Room>();
+        for(int i = 0; i != rooms.size(); i++){
+            roomList.add(rooms.get(i));
+        }
 
             //Check if there are any filters selected and if so filter the roomlist
             if(BuildingComboBox.getValue() != null){
@@ -255,15 +269,17 @@ public class SearchViewController implements Initializable {
                 roomList = GeneralMethods.filterRoomByBuilding(roomList, building);
             }
 
-
+            // if the checkbox is selected it filters according to the checkbox.
             if(yesCheckBoxTeacherOnly.isSelected()){
                 roomList = GeneralMethods.filterRoomByTeacher_only(roomList, true);
             }
 
+        // if the checkbox is selected it filters according to the checkbox.
             if(noCheckBoxTeacherOnly.isSelected()){
                 roomList = GeneralMethods.filterRoomByTeacher_only(roomList, false);
             }
 
+        // if the combobox is selected on a value it filters for that value.
             if(CapacityComboBox.getValue() != null){
                 String capacity = CapacityComboBox.getValue();
                 switch (capacity){
@@ -293,7 +309,9 @@ public class SearchViewController implements Initializable {
                 roomList = GeneralMethods.filterRoomByCapacity(roomList, capMax, capMin);
             }
 
+            // if a date is selected it filters out the rooms that are fully booked for that day.
             if(datePicker.getValue() != null) {
+                // get all the reservations and only keeps the reservations that are from the selected date. The id of the rooms that are of the date are stored in roomsWithDate.
                 ObservableList<Reservation> reservations = Reservation.getReservation();
                 List<Integer> roomsWithDate = new ArrayList<Integer>();
                 String date = datePicker.getValue().toString();
@@ -308,6 +326,7 @@ public class SearchViewController implements Initializable {
                     }
                 }
 
+                // for every room the total hours of bookings on the selected date is calculated if it is 16 the room is fully booked the room will be removed from the rooms to show
                 int totalHoursAvailable;
                 for(int q = 0; q != roomsWithDate.size(); q++){
                     totalHoursAvailable = 15;
@@ -331,9 +350,10 @@ public class SearchViewController implements Initializable {
                 }
             }
 
+        // value of the searchbar is put in searchBarInput and is filtered on building name and room name. The list is put in a new List so if a other key is pressed the other filters don't have to be applied again.
         String searchBarInput = searchBar.getText();
         List<Room> roomsToShow = roomList;
-        if(searchBarInput != "") {
+        if(!searchBarInput.equals("")) {
             roomsToShow = GeneralMethods.filterBySearch(roomList, searchBarInput, buildings);
         }
 
@@ -342,6 +362,10 @@ public class SearchViewController implements Initializable {
 
     }
 
+    /**
+     * Clears all the cards currently shown in the view and shows the cards that are filtered.
+     * @param roomList
+     */
     public void getCardsShown(List<Room> roomList){
         //Removes cards that are now in the view
         cardHolder.getChildren().clear();
@@ -352,7 +376,13 @@ public class SearchViewController implements Initializable {
         }
     }
 
+    /**
+     * filters the rooms on the searchbar input. It searches for matches in the building name and room name.
+     * Makes a call to GeneralMethods.FilterBySearch.
+     * @throws UnsupportedEncodingException
+     */
     public void searchbarChanges() throws UnsupportedEncodingException {
+        // filters the rooms on the searchbar input. It searches for matches in the building name and room name.
         String searchBarInput = searchBar.getText();
         if(searchBarInput== ""){
             loadCards();
@@ -611,6 +641,7 @@ public class SearchViewController implements Initializable {
             noCheckBoxTeacherOnly.setSelected(false);
             CapacityComboBox.setValue(null);
             BikesAvailable.setValue(null);
+            searchBar.setText("");
             loadCards();
         } catch (Exception e) {
             e.printStackTrace();
