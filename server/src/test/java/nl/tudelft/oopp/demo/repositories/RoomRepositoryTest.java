@@ -18,10 +18,10 @@ class RoomRepositoryTest {
 
     @Test
     void testAllMethods() {
-        buildingRepo.insertBuilding("4roomtesting", 24, "4TestingStreet 34");
+        buildingRepo.insertBuilding("4roomtesting", 24, "4TestingStreet 34", 5, 5);
         int id3 = buildingRepo.getBuildingByName("4roomtesting").getId();
 
-        buildingRepo.insertBuilding("4roomtesting2", 24, "4TestingStreet 34");
+        buildingRepo.insertBuilding("4roomtesting2", 24, "4TestingStreet 34", 5, 5);
         int id2 = buildingRepo.getBuildingByName("4roomtesting2").getId();
 
         roomRepo.insertRoom("4testing", id3, false, 35, "/photos/test", "Very nice room!", "Study room");

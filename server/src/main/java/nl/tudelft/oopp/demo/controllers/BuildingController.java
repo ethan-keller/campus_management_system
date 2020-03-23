@@ -7,7 +7,13 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 
 @Controller
@@ -26,13 +32,12 @@ public class BuildingController {
      */
     @PostMapping("createBuilding")
     @ResponseBody
-    public void createBuilding(@RequestParam String name, @RequestParam int roomCount,
-                               @RequestParam String address) throws UnsupportedEncodingException {
+    public void createBuilding(@RequestParam String name, @RequestParam int room_count, @RequestParam String address, @RequestParam int available_bikes, @RequestParam int max_bikes) throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);
-        try {
-            buildingRepo.insertBuilding(name, roomCount, address);
-        } catch (Exception e) {
+        try{
+            buildingRepo.insertBuilding(name,room_count, address, available_bikes, max_bikes);
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -48,16 +53,17 @@ public class BuildingController {
      */
     @PostMapping("updateBuilding")
     @ResponseBody
-    public void updateBuilding(@RequestParam int id, @RequestParam String name, @RequestParam int roomCount,
-                               @RequestParam String address) throws UnsupportedEncodingException {
+    public void updateBuilding(@RequestParam int id, @RequestParam String name, @RequestParam int room_count, @RequestParam String address, @RequestParam int available_bikes, @RequestParam int max_bikes) throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);
 
         try {
             buildingRepo.updateAddress(id, address);
             buildingRepo.updateName(id, name);
-            buildingRepo.updateRoomCount(id, roomCount);
-        } catch (Exception e) {
+            buildingRepo.updateRoomCount(id, room_count);
+            buildingRepo.updateAvailableBikes(id, available_bikes);
+            buildingRepo.updateMaxBikes(id, max_bikes);
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
