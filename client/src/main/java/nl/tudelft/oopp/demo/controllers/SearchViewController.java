@@ -65,7 +65,7 @@ public class SearchViewController implements Initializable {
     @FXML
     private VBox cardHolder;
     @FXML
-    private ComboBox<Building> buildingComboBox;
+    private ComboBox<Building> BuildingComboBox;
     @FXML
     private RadioButton yesCheckBoxTeacherOnly;
     @FXML
@@ -177,20 +177,20 @@ public class SearchViewController implements Initializable {
 
 
             // the comboBox only shows 6 rows (more => scroll)
-            buildingComboBox.setVisibleRowCount(6);
+            BuildingComboBox.setVisibleRowCount(6);
 
             datePicker.setConverter(getDatePickerStringConverter());
             datePicker.setDayCellFactory(getDayCellFactory());
 
             // assign values to the observable lists
             capacityList.addAll("1-5", "5-10", "10-20", "20+");
-            buildingComboBox.setItems(buildingList);
-            buildingComboBox.setConverter(getbuildingComboBoxConverter());
+            BuildingComboBox.setItems(buildingList);
+            BuildingComboBox.setConverter(getbuildingComboBoxConverter());
             bikeList.addAll("1-5", "5-10", "10-20", "20+");
 
             // populating the choicebox
             capacityComboBox.setItems(capacityList);
-            buildingComboBox.setItems(buildingList);
+            BuildingComboBox.setItems(buildingList);
             bikesAvailable.setItems(bikeList);
 
             // get all rooms and buildings from server
@@ -206,7 +206,7 @@ public class SearchViewController implements Initializable {
         }
 
         // if a new filter is applied or an filter is removed filter again and load the cards again
-        buildingComboBox.setOnAction(event -> {
+        BuildingComboBox.setOnAction(event -> {
             try {
                 loadCards();
             } catch (Exception e) {
@@ -277,8 +277,8 @@ public class SearchViewController implements Initializable {
         }
 
         //Check if there are any filters selected and if so filter the roomlist
-        if (buildingComboBox.getValue() != null) {
-            building = buildingComboBox.getValue().getBuildingId().getValue();
+        if (BuildingComboBox.getValue() != null) {
+            building = BuildingComboBox.getValue().getBuildingId().getValue();
             roomList = GeneralMethods.filterRoomByBuilding(roomList, building);
         }
 
@@ -656,7 +656,7 @@ public class SearchViewController implements Initializable {
         try {
             // clear every filter and reload the cards
             datePicker.setValue(null);
-            buildingComboBox.setValue(null);
+            BuildingComboBox.setValue(null);
             yesCheckBoxFood.setSelected(false);
             noCheckBoxFood.setSelected(false);
             yesCheckBoxTeacherOnly.setSelected(false);
