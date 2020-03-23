@@ -266,7 +266,6 @@ public class RoomViewController implements Initializable {
                     timeSlotSlider.setLowValue((newValue.intValue() / 30) * 30));
             timeSlotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeSlotSlider.setHighValue((newValue.intValue() / 30) * 30));
-            System.out.println(timeSlotSlider.lookup(".axis-tick-mark"));
         } catch (Exception e){
             e.printStackTrace();
         }
