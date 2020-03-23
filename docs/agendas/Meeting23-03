@@ -20,8 +20,12 @@ Date:           23-03-2030
 - Adjust code due to changes in database (Mathijs)
     - make sure the server communication works!
 - Calendar booking history should be finished (reservations & personal entries)
+    - add bike reservations
+    - add food selection
 - start on timeslot restrictions
 - Add building names to room cards in search view
+- Change database:
+    - add food selection
 
 # Action points for next week
 - start on timeslot restrictions
