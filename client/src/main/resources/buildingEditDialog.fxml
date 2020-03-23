@@ -30,7 +30,7 @@
             <Label text="Building Capacity:" GridPane.rowIndex="2" />
             <TextField fx:id="buildingNameField" GridPane.columnIndex="1" />
             <TextField fx:id="buildingAddressField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="buildingRoom_countField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="buildingRoomCountField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         </children>
     </GridPane>
     <ButtonBar layoutX="176.0" layoutY="233.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">

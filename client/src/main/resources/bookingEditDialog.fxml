@@ -30,8 +30,8 @@
             <Label text="Room:" GridPane.rowIndex="1" />
             <Label text="Starting Time:" GridPane.rowIndex="3" />
             <Label layoutX="10.0" layoutY="87.0" text="Ending Time:" GridPane.rowIndex="4" />
-            <ComboBox fx:id="bookingEnding_time" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ComboBox fx:id="bookingStarting_time" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ComboBox fx:id="bookingEndingTime" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ComboBox fx:id="bookingStartingTime" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <ComboBox fx:id="bookingBuildingComboBox" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" />
             <ComboBox fx:id="bookingRoomComboBox" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label layoutX="10.0" layoutY="56.0" text="Date:" GridPane.rowIndex="2" />
