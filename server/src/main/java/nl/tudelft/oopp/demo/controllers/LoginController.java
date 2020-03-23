@@ -2,8 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.UnsupportedEncodingException;
 
-import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
-import nl.tudelft.oopp.demo.encode_hash.Hashing;
+import nl.tudelft.oopp.demo.encodeHash.Hashing;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,4 @@
-package nl.tudelft.oopp.demo.encode_hash;
-
-import org.junit.jupiter.api.Test;
+package nl.tudelft.oopp.demo.encodeHash;
 
 import static org.junit.jupiter.api.Assertions.*;
 

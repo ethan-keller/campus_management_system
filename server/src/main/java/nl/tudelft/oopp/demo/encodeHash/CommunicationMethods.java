@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.encode_hash;
+package nl.tudelft.oopp.demo.encodeHash;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
