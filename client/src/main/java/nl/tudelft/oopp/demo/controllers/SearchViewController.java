@@ -31,7 +31,7 @@ import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.views.*;
+import nl.tudelft.oopp.demo.views.RoomView;
 
 
 import java.io.UnsupportedEncodingException;
