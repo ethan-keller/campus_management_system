@@ -74,7 +74,6 @@ public class Reservation {
     public StringProperty getDate() {
         return date;
     }
-    
 
 
     public void setDate(String date) {

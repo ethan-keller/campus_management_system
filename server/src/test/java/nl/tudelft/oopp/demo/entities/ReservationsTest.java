@@ -1,8 +1,10 @@
 package nl.tudelft.oopp.demo.entities;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class ReservationsTest {
     Reservations r1 = new Reservations(1, "Otte", 4, "2020-07-07", "13-00-00", "15-00-00");

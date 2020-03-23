@@ -39,12 +39,12 @@
             <ComboBox fx:id="roomBuildingComboBox" prefHeight="25.0" prefWidth="301.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Group GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <RadioButton fx:id="radioButtonYes" mnemonicParsing="false" text="yes" toggleGroup="$teacher_only">
+                  <RadioButton fx:id="radioButtonYes" mnemonicParsing="false" text="yes" toggleGroup="$teacherOnly">
                      <toggleGroup>
-                        <ToggleGroup fx:id="teacher_only" />
+                        <ToggleGroup fx:id="teacherOnly" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="radioButtonNo" layoutX="100.0" mnemonicParsing="false" text="no" toggleGroup="$teacher_only" />
+                  <RadioButton fx:id="radioButtonNo" layoutX="100.0" mnemonicParsing="false" text="no" toggleGroup="$teacherOnly" />
                </children>
             </Group>
             <TextField fx:id="roomCapacityField" GridPane.columnIndex="1" GridPane.rowIndex="3" />

@@ -48,10 +48,10 @@
                                  <Insets left="10.0" right="10.0" />
                               </HBox.margin>
                               <toggleGroup>
-                                 <ToggleGroup fx:id="teacher_only" />
+                                 <ToggleGroup fx:id="teacherOnly" />
                               </toggleGroup>
                            </RadioButton>
-                           <RadioButton fx:id="noCheckBoxTeacherOnly" mnemonicParsing="false" text="no" textFill="WHITE" toggleGroup="$teacher_only">
+                           <RadioButton fx:id="noCheckBoxTeacherOnly" mnemonicParsing="false" text="no" textFill="WHITE" toggleGroup="$teacherOnly">
                               <HBox.margin>
                                  <Insets left="10.0" right="10.0" />
                               </HBox.margin>

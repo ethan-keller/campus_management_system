@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.repositories;
 
+import java.util.List;
+
 import nl.tudelft.oopp.demo.entities.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,8 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
@@ -70,7 +70,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     public void deleteRoom(@Param("id") int id);
 
     @Query(value = "SELECT * FROM room WHERE building = :buildingId", nativeQuery = true)
-    public Room getRoomByBuilding(@Param("BuildingId") int buildingId);
+    public Room getRoomByBuilding(@Param("buildingId") int buildingId);
 
     @Query(value = "SELECT * FROM room WHERE capacity <= :capMin AND capacity >= :capMax ", nativeQuery = true)
     public Room getRoomByCapacity(@Param("capMin") int capMin, @Param("capMax") int capMax);

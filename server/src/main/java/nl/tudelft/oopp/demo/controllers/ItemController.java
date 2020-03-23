@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
+import java.util.List;
+
+import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Item;
 import nl.tudelft.oopp.demo.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
 
 @Controller
 public class ItemController {
@@ -19,108 +20,116 @@ public class ItemController {
     private ItemRepository itemRepo;
 
     /**
-     * Endpoint to get item by id from database
+     * Endpoint to get item by id from database.
+     *
      * @param id id of item to get
      * @return Item
      */
     @GetMapping("getItem")
     @ResponseBody
-    public Item getItem(@RequestParam int id){
+    public Item getItem(@RequestParam int id) {
         try {
             id = Integer.parseInt(CommunicationMethods.decodeCommunication(String.valueOf(id)));
             return itemRepo.getItem(id);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
     /**
-     * Endpoint to get all items from database
+     * Endpoint to get all items from database.
+     *
      * @return List of items
      */
     @GetMapping("getAllItems")
     @ResponseBody
-    public List<Item> getAllItems(){
+    public List<Item> getAllItems() {
         try {
             return itemRepo.getAllItems();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
     /**
-     * Endpoint to create new item in the database
-     * @param user user who the item belongs to
-     * @param title title of the item
-     * @param date date of the item
-     * @param starting_time starting_time of the item
-     * @param ending_time ending_time of the item
-     * @param description description of the item
+     * Endpoint to create new item in the database.
+     *
+     * @param user          user who the item belongs to
+     * @param title         title of the item
+     * @param date          date of the item
+     * @param startingTime starting_time of the item
+     * @param endingTime   ending_time of the item
+     * @param description   description of the item
      * @return true if success, false otherwise
      */
     @PostMapping("createItem")
     @ResponseBody
-    public boolean createItem(@RequestParam String user, @RequestParam String title, @RequestParam String date, @RequestParam String starting_time, @RequestParam String ending_time, @RequestParam String description){
+    public boolean createItem(@RequestParam String user, @RequestParam String title,
+                              @RequestParam String date, @RequestParam String startingTime,
+                              @RequestParam String endingTime, @RequestParam String description) {
         try {
             user = CommunicationMethods.decodeCommunication(user);
             title = CommunicationMethods.decodeCommunication(title);
             date = CommunicationMethods.decodeCommunication(date);
-            starting_time = CommunicationMethods.decodeCommunication(starting_time);
-            ending_time = CommunicationMethods.decodeCommunication(ending_time);
+            startingTime = CommunicationMethods.decodeCommunication(startingTime);
+            endingTime = CommunicationMethods.decodeCommunication(endingTime);
             description = CommunicationMethods.decodeCommunication(description);
-            itemRepo.insertItem(user, title, date, starting_time, ending_time, description);
+            itemRepo.insertItem(user, title, date, startingTime, endingTime, description);
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
 
     /**
-     * Endpoint to delete item from database
+     * Endpoint to delete item from database.
+     *
      * @param id id of item to delete
      * @return true if success, false otherwise
      */
     @PostMapping("deleteItem")
     @ResponseBody
-    public boolean deleteItem(@RequestParam int id){
+    public boolean deleteItem(@RequestParam int id) {
         try {
             itemRepo.deleteItem(id);
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
     /**
-     * Endpoint to get id of last inserted item in the database
+     * Endpoint to get id of last inserted item in the database.
+     *
      * @return id of last inserted item
      */
     @GetMapping("currentId")
     @ResponseBody
-    public int getCurrentId(){
-        try{
+    public int getCurrentId() {
+        try {
             return itemRepo.getCurrentId();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return -1;
     }
 
     /**
-     * Enpoint to get all the items of a particular user from the database
+     * Endpoint to get all the items of a particular user from the database.
+     *
      * @param user user to get items from
      * @return List of items
      */
     @GetMapping("getUserItems")
     @ResponseBody
-    public List<Item> getUserItems(String user){
+    public List<Item> getUserItems(String user) {
         try {
             return itemRepo.getUserItems(user);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
