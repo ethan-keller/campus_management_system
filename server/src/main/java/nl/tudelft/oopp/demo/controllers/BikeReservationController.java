@@ -1,7 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import nl.tudelft.oopp.demo.entities.BikeReservations;
-import nl.tudelft.oopp.demo.repositories.BikeReservationsRepository;
+import nl.tudelft.oopp.demo.entities.BikeReservation;
+import nl.tudelft.oopp.demo.repositories.BikeReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ import java.util.List;
 public class BikeReservationController {
 
     @Autowired
-    private BikeReservationsRepository bikeResRepo;
+    private BikeReservationRepository bikeResRepo;
 
     @PostMapping("createBikeReservation")
     @ResponseBody
@@ -53,7 +53,7 @@ public class BikeReservationController {
 
     @GetMapping("getBikeReservation")
     @ResponseBody
-    public BikeReservations getBikeReservation(@RequestParam int id) {
+    public BikeReservation getBikeReservation(@RequestParam int id) {
         try{
             return bikeResRepo.getBikeReservation(id);
         } catch(Exception e) {
@@ -62,9 +62,9 @@ public class BikeReservationController {
         return null;
     }
 
-    @GetMapping("getAllBikeReservations")
+    @GetMapping("getAllBikeReservation")
     @ResponseBody
-    public List<BikeReservations> getBikeReservation() {
+    public List<BikeReservation> getBikeReservation() {
         try{
             return bikeResRepo.getAllBikeReservations();
         } catch(Exception e) {
@@ -73,9 +73,9 @@ public class BikeReservationController {
         return null;
     }
 
-    @GetMapping("getBuildingBikeReservations")
+    @GetMapping("getBuildingBikeReservation")
     @ResponseBody
-    public List<BikeReservations> getBuildingBikeReservations(@RequestParam int building) {
+    public List<BikeReservation> getBuildingBikeReservation(@RequestParam int building) {
         try{
             return bikeResRepo.getBuildingBikeReservations(building);
         } catch(Exception e) {
