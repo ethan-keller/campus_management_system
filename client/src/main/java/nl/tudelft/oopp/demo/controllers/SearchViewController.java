@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -22,8 +23,12 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.views.*;
+import nl.tudelft.oopp.demo.views.CalendarPaneView;
+import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.RoomView;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
@@ -83,20 +88,6 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * Handles the bookingHistory Button onclick.
-     * Redirects the user to the booking history page.
-     *
-     * @param event
-     * @throws IOException
-     */
-    public void BookingHistoryButtonClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        BookingHistoryView bookingHistoryView = new BookingHistoryView();
-        bookingHistoryView.start(stage);
-    }
-
-    /**
      * Handles the onclick of signOut Button.
      * Redirects the user back to the login page.
      *
@@ -108,20 +99,6 @@ public class SearchViewController implements Initializable {
 
         LoginView loginView = new LoginView();
         loginView.start(stage);
-    }
-
-    /**
-     * Handles the onclick of cancelBooking Button.
-     * Redirects the user to the cancelBooking page.
-     *
-     * @param event
-     * @throws Exception
-     */
-    public void cancelBookingClicked(ActionEvent event) throws Exception {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        CancelBookingView cancelBookingView = new CancelBookingView();
-        cancelBookingView.start(stage);
     }
 
 
@@ -190,7 +167,9 @@ public class SearchViewController implements Initializable {
                             super.updateItem(item, empty);
 
                             // Disable all days before today + weekend days
-                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                            if (item.isBefore(LocalDate.now())
+                                    || item.getDayOfWeek() == DayOfWeek.SATURDAY
+                                    || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
                                 // disable the 'button'
                                 setDisable(true);
                                 // make them red
@@ -266,7 +245,9 @@ public class SearchViewController implements Initializable {
 
                 @Override
                 public Building fromString(String id) {
-                    return buildingList.stream().filter(x -> String.valueOf(x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
+                    return buildingList.stream()
+                            .filter(x -> String.valueOf(x.getBuildingId()).equals(id))
+                            .collect(Collectors.toList()).get(0);
                 }
             };
             return converter;
@@ -277,7 +258,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * Creates a new 'card' (HBox) which contains some information about the room
+     * Creates a new 'card' (HBox) which contains some information about the room.
      *
      * @param r The Room that we have to show information from
      * @return HBox which is the final 'card'
@@ -293,15 +274,23 @@ public class SearchViewController implements Initializable {
             Text roomDescription = new Text();
             Text roomId = new Text();
 
-            // loading image from URL + setting size & properties
-            Image img = new Image("images/placeholder.png");
-            image.setImage(img);
+            // get URL of room image
+            URL path = getClass().getResource("/images/" + r.getRoomPhoto().get());
+            // set the ImageView to show the room image
+            image.setImage(new Image(path.toExternalForm()));
+            // get the room image in a BufferedImage object for later use
+            BufferedImage roomPhoto = ImageIO.read(path);
+            // crop image in proportion to image size in a standard room card
+            image.setViewport(new Rectangle2D(0, 0, roomPhoto.getWidth(),
+                    roomPhoto.getWidth() * (168.75 / 300.0) ));
+            // keep aspect ration of an image
             image.setPreserveRatio(true);
             image.setPickOnBounds(true);
+            // set width to 300 (height will follow)
             image.setFitWidth(300);
 
             // adding image margin
-            newCard.setMargin(image, new Insets(10, 5, 10, 10));
+            newCard.setMargin(image, new Insets(8, 5, 8, 10));
 
             /* set the roomId visibility to false such that it is not visible for the user but still useful to
                get the specific room information later in the RoomView

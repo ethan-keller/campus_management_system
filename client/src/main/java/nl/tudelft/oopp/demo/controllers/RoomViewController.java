@@ -1,23 +1,13 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -33,6 +23,15 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;
 import org.controlsfx.control.RangeSlider;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -135,12 +134,39 @@ public class RoomViewController implements Initializable {
             // set text info about the room
             name.setText("Name: " + currentRoom.getRoomName().get());
             capacity.setText("Capacity: " + currentRoom.getRoomCapacity().get());
-            building.setText("Building: " + Building.getBuildingById(currentRoom.getRoomBuilding().get()).getBuildingName().get());
+            building.setText("Building: " + Building.getBuildingById(currentRoom.getRoomBuilding()
+                    .get()).getBuildingName().get());
             teacherOnly.setText("Teachers only: " + (currentRoom.getTeacherOnly().get() ? "yes" : "no"));
             type.setText("Type: " + currentRoom.getRoomType().get());
             description.setText("Description:\n" + currentRoom.getRoomDescription().get());
             // TODO: change to room's image
-            image.setImage(new Image("images/placeholder.png"));
+            configureRoomImage();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Method that configures the ImageView which ontains the image of the room
+     */
+    private void configureRoomImage() {
+        try {
+            // get URL to the room image
+            URL path = getClass().getResource("/images/" + currentRoom.getRoomPhoto().get());
+
+            // get the room image
+            BufferedImage roomPhoto = ImageIO.read(path);
+
+            // set the image in the ImageView
+            image.setImage(new Image(path.toExternalForm()));
+
+            // crop the image to show in proportion with the standard room picture size
+            Rectangle2D viewPort = new Rectangle2D(0, 0, roomPhoto.getWidth(),
+                    roomPhoto.getWidth() * (336.9 / 503.0));
+            image.setViewport(viewPort);
+
+            // make sure the image is correctly resized in proportion to the current stage width
+            changeWidthConstraints(thisStage.getWidth());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -158,6 +184,7 @@ public class RoomViewController implements Initializable {
             image.setFitWidth((newWidth.doubleValue() - 188) / 1.41550696);
             reservationVbox.setPrefWidth((newWidth.doubleValue() - 188) / 3.3969);
             timeSlotSlider.setMaxWidth((newWidth.doubleValue() - 188) / 5);
+            description.setWrappingWidth((newWidth.doubleValue() - 188) / 1.564835);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -165,7 +192,7 @@ public class RoomViewController implements Initializable {
 
     /**
      * Methods that sets the dayCellFactory made in {@link #getDayCellFactory()}
-     * and the StringConverter made in {@link #getDatePickerConverter()}
+     * and the StringConverter made in {@link #getDatePickerConverter()}.
      */
     private void configureDatePicker() {
         try {
@@ -200,7 +227,9 @@ public class RoomViewController implements Initializable {
                             super.updateItem(item, empty);
 
                             // Disable all days before today + weekend days
-                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                            if (item.isBefore(LocalDate.now())
+                                    || item.getDayOfWeek() == DayOfWeek.SATURDAY
+                                    || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
                                 // disable the 'button'
                                 setDisable(true);
                                 // make them red
@@ -270,7 +299,7 @@ public class RoomViewController implements Initializable {
                     timeSlotSlider.setLowValue((newValue.intValue() / 30) * 30));
             timeSlotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeSlotSlider.setHighValue((newValue.intValue() / 30) * 30));
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -319,7 +348,7 @@ public class RoomViewController implements Initializable {
     }
 
     /**
-     * Creates a StringConverter that converts the selected value to an actual time (in String format)
+     * Creates a StringConverter that converts the selected value to an actual time (in String format).
      *
      * @return a StringConverter object
      */
@@ -390,20 +419,28 @@ public class RoomViewController implements Initializable {
                 // if user confirms booking, reservations is sent to server
                 if (confirmBooking(selectedDate, selectedStartTime, selectedEndTime)) {
                     // send new reservation to server
-                    ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(), currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24") ? "23:59" : selectedEndTime);
+                    ReservationServerCommunication.createReservation(CurrentUserManager.getUsername()
+                            , currentRoomId, selectedDate, selectedStartTime
+                            , selectedEndTime.contains("24") ? "23:59" : selectedEndTime);
                     // create confirmation Alert
-                    Alert alert = GeneralMethods.createAlert("Room booked", "You successfully booked this room!", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+                    Alert alert = GeneralMethods.createAlert("Room booked"
+                            , "You successfully booked this room!"
+                            , ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
                     alert.showAndWait();
                 }
             } else {
                 // create error Alert
-                Alert alert = GeneralMethods.createAlert("fields incomplete", "Please fill in all the fields", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.ERROR);
+                Alert alert = GeneralMethods.createAlert("fields incomplete"
+                        , "Please fill in all the fields", ((Node) event.getSource()).getScene().getWindow()
+                        , Alert.AlertType.ERROR);
                 alert.showAndWait();
             }
         } catch (Exception e) {
             e.printStackTrace();
             // create error Alert
-            Alert alert = GeneralMethods.createAlert("Something went wrong", "Sorry, something went wrong on our end. We're fixing it now!", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.ERROR);
+            Alert alert = GeneralMethods.createAlert("Something went wrong"
+                    , "Sorry, something went wrong on our end. We're fixing it now!"
+                    , ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.ERROR);
             alert.showAndWait();
         }
     }
