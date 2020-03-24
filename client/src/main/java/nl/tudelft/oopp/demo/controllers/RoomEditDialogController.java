@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.util.stream.Collectors;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,7 +12,6 @@ import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 
-import java.util.stream.Collectors;
 
 public class RoomEditDialogController {
 
@@ -19,7 +20,7 @@ public class RoomEditDialogController {
     @FXML
     private ComboBox<Building> roomBuildingComboBox;
     @FXML
-    private ToggleGroup teacher_only;
+    private ToggleGroup teacherOnly;
     @FXML
     private RadioButton radioButtonYes;
     @FXML
@@ -56,17 +57,17 @@ public class RoomEditDialogController {
             if (room == null) return;
             roomNameField.setText(room.getRoomName().get());
             roomBuildingComboBox.getSelectionModel().select(ol.stream().filter(x -> x.getBuildingId().get() == room.getRoomBuilding().get()).collect(Collectors.toList()).get(0));
-            if (room.getTeacher_only().get()) radioButtonYes.setSelected(true);
+            if (room.getTeacherOnly().get()) radioButtonYes.setSelected(true);
             else radioButtonNo.setSelected(true);
             roomCapacityField.setText(String.valueOf(room.getRoomCapacity().get()));
             roomTypeField.setText(room.getRoomType().get());
             roomDescriptionField.setText(room.getRoomDescription().get());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setRoomBuildingComboBoxConverter(ObservableList<Building> ol){
+    public void setRoomBuildingComboBoxConverter(ObservableList<Building> ol) {
         StringConverter<Building> converter = new StringConverter<Building>() {
             @Override
             public String toString(Building object) {
@@ -82,7 +83,7 @@ public class RoomEditDialogController {
         roomBuildingComboBox.setConverter(converter);
     }
 
-    private static void emptyRoom(){
+    private static void emptyRoom() {
         room = new Room();
     }
 
@@ -95,7 +96,7 @@ public class RoomEditDialogController {
             emptyRoom();
             room.setRoomName(this.roomNameField.getText());
             room.setRoomBuilding(this.roomBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
-            room.setTeacher_only(this.radioButtonYes.isSelected() ? true : false);
+            room.setTeacherOnly(this.radioButtonYes.isSelected() ? true : false);
             room.setRoomCapacity(Integer.parseInt(this.roomCapacityField.getText()));
             room.setRoomType(this.roomTypeField.getText());
             room.setRoomDescription(this.roomDescriptionField.getText());
@@ -134,7 +135,7 @@ public class RoomEditDialogController {
         if (!radioButtonYes.isSelected() && !radioButtonNo.isSelected()) {
             errorMessage += "No teacher only button selected!\n";
         }
-        if(roomCapacityField.getText().equals("")){
+        if (roomCapacityField.getText().equals("")) {
             errorMessage += "No valid capacity!\n";
         } else {
             try {
@@ -143,10 +144,10 @@ public class RoomEditDialogController {
                 errorMessage += "No valid room count (must be an integer)!\n";
             }
         }
-        if(roomTypeField.getText().equals("")){
-          errorMessage += "No valid room type!\n";
+        if (roomTypeField.getText().equals("")) {
+            errorMessage += "No valid room type!\n";
         }
-        if(roomDescriptionField.getText().equals("")){
+        if (roomDescriptionField.getText().equals("")) {
             errorMessage += "No valid room description!\n";
         }
 

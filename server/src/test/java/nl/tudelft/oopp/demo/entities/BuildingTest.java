@@ -1,12 +1,15 @@
 package nl.tudelft.oopp.demo.entities;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class BuildingTest {
     Building b1 = new Building(1, "Name", 5, "drebbelweg aan zee", 4, 5);
-    Building b2 = new Building(1, "Name", 5, "drebbelweg aan zee", 4 ,5);
+    Building b2 = new Building(1, "Name", 5, "drebbelweg aan zee", 4, 5);
     Building b3 = new Building(2, "Name", 5, "drebbelweg aan zee", 4, 5);
 
     @org.junit.jupiter.api.Test
@@ -22,8 +25,8 @@ class BuildingTest {
     }
 
     @org.junit.jupiter.api.Test
-    void getRoom_count() {
-        assertEquals(5, b1.getRoom_count());
+    void getRoomCount() {
+        assertEquals(5, b1.getRoomCount());
     }
 
     @Test

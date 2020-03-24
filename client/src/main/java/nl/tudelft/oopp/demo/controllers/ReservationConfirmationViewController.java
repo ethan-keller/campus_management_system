@@ -1,5 +1,9 @@
 package nl.tudelft.oopp.demo.controllers;
 
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,8 +13,6 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Room;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class ReservationConfirmationViewController implements Initializable {
 
@@ -41,7 +43,9 @@ public class ReservationConfirmationViewController implements Initializable {
         // TODO: add food choice into confirmation text
         confirmationText.setText("You (" + CurrentUserManager.getUsername() + ") would like to book the " + room.getRoomName().get() + " on " +
                 date + " from " + startTime + " until " + endTime + ". Would you like to confirm that?");
-    };
+    }
+
+    ;
 
     @FXML
     private void confirmClicked(ActionEvent event) {

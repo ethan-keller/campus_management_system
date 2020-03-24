@@ -1,6 +1,11 @@
 package nl.tudelft.oopp.demo.entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "building")
@@ -13,38 +18,38 @@ public class Building {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "room_count")
-    private int room_count;
+    @Column(name = "roomCount")
+    private int roomCount;
 
     @Column(name = "address")
     private String address;
 
-    @Column(name = "available_bikes")
-    private Integer available_bikes;
+    @Column(name = "availableBikes")
+    private Integer availableBikes;
 
-    @Column(name = "max_bikes")
-    private Integer max_bikes;
+    @Column(name = "maxBikes")
+    private Integer maxBikes;
 
     public Building() {
     }
 
     /**
-     * Constructor with optional fields available_bikes and max_bikes
+     * Constructor with optional fields availableBikes and maxBikes.
      *
-     * @param id int
-     * @param name String
-     * @param room_count int
-     * @param address String
-     * @param available_bikes int
-     * @param max_bikes int  //TODO exact format
+     * @param id             int
+     * @param name           String
+     * @param roomCount      int
+     * @param address        String
+     * @param availableBikes int
+     * @param maxBikes       int  //TODO exact format
      */
-    public Building(int id, String name, int room_count, String address, int available_bikes, int max_bikes) {
+    public Building(int id, String name, int roomCount, String address, int availableBikes, int maxBikes) {
         this.id = id;
         this.name = name;
-        this.room_count = room_count;
+        this.roomCount = roomCount;
         this.address = address;
-        this.available_bikes = available_bikes;
-        this.max_bikes = max_bikes;
+        this.availableBikes = availableBikes;
+        this.maxBikes = maxBikes;
     }
 
     /**
@@ -68,10 +73,10 @@ public class Building {
     /**
      * Retrieves the room count of the building from the database.
      *
-     * @return Returns the int value room_count.
+     * @return Returns the int value roomCount.
      */
-    public int getRoom_count() {
-        return room_count;
+    public int getRoomCount() {
+        return roomCount;
     }
 
     /**
@@ -86,24 +91,24 @@ public class Building {
     /**
      * Retrieves the available bikes for this building from the database.
      *
-     * @return Returns the int value available_bikes
+     * @return Returns the int value availableBikes
      */
     public int getAvailableBikes() {
-        return available_bikes;
+        return availableBikes;
     }
 
     /**
      * Retrieves the maximum amount of bikes for this building from the database.
      *
-     * @return Returns the int value max_bikes
+     * @return Returns the int value maxBikes
      */
     public int getMaxBikes() {
-        return max_bikes;
+        return maxBikes;
     }
 
 
     /**
-     * Equals
+     * Equals.
      *
      * @param o An Object to be compared to "this".
      * @return True if o is the same object, false otherwise.

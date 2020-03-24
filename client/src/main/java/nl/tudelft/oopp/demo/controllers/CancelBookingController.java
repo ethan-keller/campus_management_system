@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,9 +15,6 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
-
-import java.io.IOException;
-
 public class CancelBookingController {
     /**
      * These are the FXML elements that inject some functionality into the application.
@@ -23,22 +22,23 @@ public class CancelBookingController {
     @FXML
     private TableView<Reservation> listReservations;
     @FXML
-    private TableColumn<Reservation,String> id;
+    private TableColumn<Reservation, String> id;
     @FXML
-    private TableColumn<Reservation,String> username;
+    private TableColumn<Reservation, String> username;
     @FXML
-    private  TableColumn<Reservation,String> room;
+    private TableColumn<Reservation, String> room;
     @FXML
-    private TableColumn<Reservation,String> date;
+    private TableColumn<Reservation, String> date;
     @FXML
-    private TableColumn<Reservation,String> starting_time;
+    private TableColumn<Reservation,String> startingTime;
     @FXML
-    private TableColumn<Reservation,String> ending_time;
+    private TableColumn<Reservation,String> endingTime;
 
     /**
      * Default constructor of cancelBooking class.
      */
-    public CancelBookingController() {}
+    public CancelBookingController() {
+    }
 
     /**
      * Method that is called before the view is functionable to the user.
@@ -55,13 +55,12 @@ public class CancelBookingController {
             username.setCellValueFactory(cell -> cell.getValue().getUsername());
             room.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getRoom().get())));
             date.setCellValueFactory(cell -> cell.getValue().getDate());
-            starting_time.setCellValueFactory(cell -> cell.getValue().getStarting_time());
-            ending_time.setCellValueFactory(cell -> cell.getValue().getEnding_time());
+            startingTime.setCellValueFactory(cell -> cell.getValue().getStartingTime());
+            endingTime.setCellValueFactory(cell -> cell.getValue().getEndingTime());
 
             //Adding the Observable List Data to the tableView created.
             listReservations.setItems(Reservation.getUserReservation());
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -76,14 +75,14 @@ public class CancelBookingController {
 
     /**
      * This method selects a particular reservation from the table.
+     *
      * @return Returns the selected reservation.
      */
     public Reservation getSelectedReservation() {
 
-        if(listReservations.getSelectionModel().getSelectedIndex() >= 0) {
+        if (listReservations.getSelectionModel().getSelectedIndex() >= 0) {
             return listReservations.getSelectionModel().getSelectedItem();
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -103,7 +102,7 @@ public class CancelBookingController {
         Reservation selectedReservation = getSelectedReservation();
         int selectedIndex = getSelectedIndex();
         try {
-            if(selectedIndex >= 0 ){
+            if (selectedIndex >= 0) {
                 //TODO: Check that Reservation deletion was successful before displaying alert message.
                 ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
                 refresh();
@@ -118,8 +117,7 @@ public class CancelBookingController {
                 alert.setContentText("Please select a reservation in the table.");
                 alert.showAndWait();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("delete reservation exception");
             e.printStackTrace();
         }
@@ -128,6 +126,7 @@ public class CancelBookingController {
     /**
      * Handles the onclick of backButton.
      * Redirects the user back to the searchView.
+     *
      * @param event
      * @throws IOException
      */
@@ -142,6 +141,7 @@ public class CancelBookingController {
     /**
      * Handles the onclick of signOut Button.
      * Redirects the user back to the loginView.
+     *
      * @param event
      * @throws IOException
      */
