@@ -8,8 +8,17 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 
+/**
+ * View class for the calendar booking history.
+ */
 public class CalendarPaneView extends Application {
 
+    /**
+     * Starts the thread to load the fxml as a view in the given stage.
+     *
+     * @param primaryStage stage to load view in
+     * @throws Exception exception to be catched if something goes wrong
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
@@ -26,7 +35,12 @@ public class CalendarPaneView extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args){
+    /**
+     * Main method.
+     *
+     * @param args command line parameters
+     */
+    public static void main(String[] args) {
         launch(args);
     }
 }

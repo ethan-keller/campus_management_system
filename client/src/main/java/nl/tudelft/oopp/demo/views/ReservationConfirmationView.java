@@ -1,7 +1,5 @@
 package nl.tudelft.oopp.demo.views;
 
-import java.net.URL;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,9 +7,20 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.net.URL;
 
 
+/**
+ * View class for the dialog pop up which asks for reservation confirmation.
+ */
 public class ReservationConfirmationView extends Application {
+
+    /**
+     * Starts the thread to load the fxml as a view in the given stage.
+     *
+     * @param primaryStage stage to load view in
+     * @throws Exception exception to be catched if something goes wrong
+     */
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -23,14 +32,10 @@ public class ReservationConfirmationView extends Application {
 
             // Create the dialog Stage.
             Stage stage = new Stage();
-            stage.setTitle("Edit Building");
+            stage.setTitle("Confirm reservation");
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setResizable(false);
-//            stage.getScene().getWindow().addEventFilter(
-//                    WindowEvent.WINDOW_CLOSE_REQUEST,
-//                    event -> x
-//            );
 
             // Set the dialog stage properties
             stage.initModality(Modality.WINDOW_MODAL);
@@ -44,6 +49,11 @@ public class ReservationConfirmationView extends Application {
         }
     }
 
+    /**
+     * Main method.
+     *
+     * @param args command line parameters
+     */
     public static void main(String[] args) {
         launch(args);
     }
