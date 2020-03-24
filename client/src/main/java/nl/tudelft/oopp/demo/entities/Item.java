@@ -8,10 +8,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.Objects;
 
+/**
+ * Entity class for calendar items
+ */
 public class Item {
 
     private IntegerProperty id;
@@ -22,6 +24,16 @@ public class Item {
     private StringProperty endingTime;
     private StringProperty description;
 
+    /**
+     * Constructor
+     * @param id id of item
+     * @param user to whom item belongs
+     * @param title title of the item
+     * @param date date of item
+     * @param startingTime startingTime of item
+     * @param endingTime endingTime of item
+     * @param description description of item
+     */
     public Item(int id, String user, String title, String date, String startingTime, String endingTime, String description) {
         this.id = new SimpleIntegerProperty(id);
         this.user = new SimpleStringProperty(user);
@@ -32,6 +44,9 @@ public class Item {
         this.description = new SimpleStringProperty(description);
     }
 
+    /**
+     * Default constructor
+     */
     public Item() {
         this.id = new SimpleIntegerProperty(-1);
         this.user = new SimpleStringProperty(null);
@@ -42,63 +57,123 @@ public class Item {
         this.description = new SimpleStringProperty(null);
     }
 
+    /**
+     * getter for id
+     * @return id of item
+     */
     public IntegerProperty getId() {
         return id;
     }
 
-
+    /**
+     * setter for id
+     * @param id of item
+     */
     public void setId(int id) {
         this.id.set(id);
     }
 
+    /**
+     * getter for user
+     * @return user of item
+     */
     public StringProperty getUser() {
         return user;
     }
 
+    /**
+     * setter for user
+     * @param user of item
+     */
     public void setUser(String user) {
         this.user.set(user);
     }
 
+    /**
+     * getter for title
+     * @return title of item
+     */
     public StringProperty getTitle() {
         return title;
     }
 
+    /**
+     * setter for title
+     * @param title of item
+     */
     public void setTitle(String title) {
         this.title.set(title);
     }
 
+    /**
+     * getter for date
+     * @return date of item
+     */
     public StringProperty getDate() {
         return date;
     }
 
+    /**
+     * setter for date
+     * @param date of item
+     */
     public void setDate(String date) {
         this.date.set(date);
     }
 
+    /**
+     * getter for startingTime
+     * @return startingTime of item
+     */
     public StringProperty getStartingTime() {
         return startingTime;
     }
 
+    /**
+     * setter for startingTime
+     * @param startingTime of item
+     */
     public void setStartingTime(String startingTime) {
         this.startingTime.set(startingTime);
     }
 
+    /**
+     * getter for endingTime
+     * @return endingTime of item
+     */
     public StringProperty getEndingTime() {
         return endingTime;
     }
 
+    /**
+     * setter for endingTime
+     * @param endingTime of item
+     */
     public void setEndingTime(String endingTime) {
         this.endingTime.set(endingTime);
     }
 
+    /**
+     * getter for description
+     * @return description of item
+     */
     public StringProperty getDescription() {
         return description;
     }
 
+    /**
+     * setter for description
+     * @param description of item
+     */
     public void setDescription(String description) {
         this.description.set(description);
     }
 
+    /**
+     * Equals method to compare two Item objects.
+     * @param o the item to compare to
+     * @return true if id's match, false otherwise
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -107,6 +182,10 @@ public class Item {
         return Objects.equals(getId(), item.getId());
     }
 
+    /**
+     * Method that gets all the Items in the database and parses the JSON into ObservableList.
+     * @return ObservableList with all items in the database
+     */
     public static ObservableList<Item> getAllItems() {
         try {
             ObservableList<Item> itemData = FXCollections.observableArrayList();
@@ -129,24 +208,11 @@ public class Item {
         return null;
     }
 
-    public static Item getItem(int id) {
-        try {
-            JSONObject jsonObject = new JSONObject(ItemServerCommunication.getItem(id));
-            Item item = new Item();
-            item.setId(jsonObject.getInt("id"));
-            item.setUser(jsonObject.getString("user"));
-            item.setTitle(jsonObject.getString("title"));
-            item.setDate(jsonObject.getString("date"));
-            item.setStartingTime(jsonObject.getString("startingTime"));
-            item.setEndingTime(jsonObject.getString("endingTime"));
-            item.setDescription(jsonObject.getString("description"));
-            return item;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
+    /**
+     * Get all items of a particular user in the database.
+     * @param user the user from which we need the items
+     * @return ObservableList with all items of the user
+     */
     public static ObservableList<Item> getUserItems(String user) {
         try {
             ObservableList<Item> itemData = FXCollections.observableArrayList();
