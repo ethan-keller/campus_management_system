@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 public class AdminUserHistoryView extends Application {
 
-    /**
+    /**.
      * Constructor
      */
     public AdminUserHistoryView() {

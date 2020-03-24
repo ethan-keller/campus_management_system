@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 public class AdminManageRoomView extends Application {
 
-    /**
+    /**,
      * Constructor
      */
     public AdminManageRoomView() {

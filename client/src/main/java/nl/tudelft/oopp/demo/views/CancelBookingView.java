@@ -20,7 +20,7 @@ public class CancelBookingView extends Application {
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
 
-             // Making sure that the scene doesn't resize
+            // Making sure that the scene doesn't resize
             Scene oldScene = primaryStage.getScene();
             primaryStage.setScene(oldScene == null
                     ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
