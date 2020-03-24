@@ -1,10 +1,13 @@
 package nl.tudelft.oopp.demo.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "food")
-public class Food {
+public class Food implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -15,6 +18,12 @@ public class Food {
 
     @Column(name = "price")
     private int price;
+
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
+    private Set<FoodReservations> foodReservations;
+
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
+    private Set<FoodBuilding> foodBuilding;
 
     public Food() {
     }
@@ -30,6 +39,8 @@ public class Food {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.foodBuilding = new HashSet<>();
+        this.foodReservations = new HashSet<>();
     }
 
     /**
@@ -58,6 +69,15 @@ public class Food {
     public int getPrice() {
         return price;
     }
+
+    public Set<FoodReservations> getFoodReservations() {
+        return foodReservations;
+    }
+
+    public Set<FoodBuilding> getFoodBuilding() {
+        return foodBuilding;
+    }
+
 
     /**
      * Equals

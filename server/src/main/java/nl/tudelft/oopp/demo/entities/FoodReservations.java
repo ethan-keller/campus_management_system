@@ -1,89 +1,70 @@
 package nl.tudelft.oopp.demo.entities;
 
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
-@Table(name = "foodReservations")
-public class FoodReservations {
+public class FoodReservations implements Serializable {
     @Id
-    @Column(name = "reservation")
-    private int reservation;
+    @ManyToOne
+    @JoinColumn
+    private Food food;
 
     @Id
-    @Column(name = "food")
-    private int food;
+    @ManyToOne
+    @JoinColumn
+    private Reservations reservation;
 
     @Column(name = "quantity")
     private int quantity;
 
-    public FoodReservations() {
-    }
+    public FoodReservations() {}
 
-    /**
-     * Constructor.
-     *
-     * @param reservation
-     * @param food
-     * @param quantity
-     */
-    public FoodReservations(int reservation, int food, int quantity) {
-        this.reservation = reservation;
+    public FoodReservations(Food food, Reservations reservation, int quantity) {
         this.food = food;
+        this.reservation = reservation;
         this.quantity = quantity;
     }
 
-    /**
-     * Retrieves the reservation ID of the reservation from the database.
-     *
-     * @return Returns the Integer Reservation ID.
-     */
-    public int getReservation() {
-        return reservation;
-    }
-
-
-    /**
-     * Retrieves the id of the food from the database.
-     *
-     * @return Returns the Integer food.
-     */
-    public int getFood() {
+    public Food getFood() {
         return food;
     }
 
+    public void setFood(Food food) {
+        this.food = food;
+    }
 
-    /**
-     * Retrieves the quantity.
-     *
-     * @return Returns the quantity of the food.
-     */
+    public Reservations getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservations reservation) {
+        this.reservation = reservation;
+    }
+
     public int getQuantity() {
         return quantity;
     }
 
-    /**
-     * Equals
-     *
-     * @param o An Object to be compared to "this".
-     * @return True if o is the same object, false otherwise.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof FoodBuilding)) {
-            return false;
-        }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
-        FoodReservations temp = (FoodReservations) o;
-        if (reservation != temp.getReservation()) {
+    public boolean equals(Object o) {
+        if(!(o instanceof FoodReservations)){
             return false;
         }
-        if (food != temp.getFood()) {
+        FoodReservations temp = (FoodReservations)o;
+        if(food != temp.getFood())
             return false;
-        }
+        if(reservation != temp.getReservation())
+            return false;
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(reservation.getId(), food.getId(), quantity);
     }
 }

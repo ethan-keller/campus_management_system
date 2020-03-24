@@ -23,7 +23,7 @@ public interface BikeReservationRepository extends JpaRepository<BikeReservation
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO bikeReservation (building, num_bikes, date, starting_time, ending_time) VALUES (:building, :numBikes, :date, :startingTime, :endingTime))", nativeQuery = true)
+    @Query(value = "INSERT INTO bikeReservation (building, num_bikes, date, starting_time, ending_time) VALUES (:building, :numBikes, :date, :startingTime, :endingTime)", nativeQuery = true)
     public void insertBikeReservation(@Param("building") int building, @Param("numBikes") int numBikes, @Param("date") String date, @Param("startingTime") String startingTime, @Param("endingTime") String endingTime);
 
     @Modifying

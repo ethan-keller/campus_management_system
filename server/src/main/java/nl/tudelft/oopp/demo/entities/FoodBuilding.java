@@ -1,70 +1,58 @@
 package nl.tudelft.oopp.demo.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
-@Table(name = "foodBuilding")
-public class FoodBuilding {
+public class FoodBuilding implements Serializable {
     @Id
-    @Column(name = "building")
-    private int building;
+    @ManyToOne
+    @JoinColumn
+    private Food food;
 
     @Id
-    @Column(name = "food")
-    private int food;
+    @ManyToOne
+    @JoinColumn
+    private Building building;
 
-    public FoodBuilding() {
-    }
+    public FoodBuilding() {}
 
-    /**
-     * Constructor.
-     *
-     * @param building
-     * @param food
-     */
-    public FoodBuilding(int building, int food) {
-        this.building = building;
+    public FoodBuilding(Food food, Building building) {
         this.food = food;
+        this.building = building;
     }
 
-    /**
-     * Retrieves ID of the building from the database.
-     *
-     * @return Returns the int ID.
-     */
-    public int getBuilding() {
-        return building;
-    }
-
-
-    /**
-     * Retrieves the id of the food from the database.
-     *
-     * @return Returns the String name.
-     */
-    public int getFood() {
+    public Food getFood() {
         return food;
     }
 
+    public void setFood(Food food) {
+        this.food = food;
+    }
 
-    /**
-     * Equals
-     *
-     * @param o An Object to be compared to "this".
-     * @return True if o is the same object, false otherwise.
-     */
-    @Override
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
     public boolean equals(Object o) {
         if(!(o instanceof FoodBuilding)){
             return false;
         }
-
-        FoodBuilding temp = (FoodBuilding) o;
-        if(building != temp.getBuilding()){
+        FoodBuilding temp = (FoodBuilding)o;
+        if(food.getId() != temp.getFood().getId())
             return false;
-        } if (food != temp.getFood()){
+        if(building.getId() != temp.getBuilding().getId())
             return false;
-        }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(food.getId(), building.getId());
     }
 }

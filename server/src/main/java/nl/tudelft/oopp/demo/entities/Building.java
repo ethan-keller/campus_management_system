@@ -1,15 +1,13 @@
 package nl.tudelft.oopp.demo.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "building")
-public class Building {
+public class Building implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -29,6 +27,9 @@ public class Building {
 
     @Column(name = "maxBikes")
     private Integer maxBikes;
+
+    @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
+    private Set<FoodBuilding> foodBuilding;
 
     public Building() {
     }
@@ -50,6 +51,7 @@ public class Building {
         this.address = address;
         this.availableBikes = availableBikes;
         this.maxBikes = maxBikes;
+        this.foodBuilding = new HashSet<>();
     }
 
     /**
@@ -106,6 +108,9 @@ public class Building {
         return maxBikes;
     }
 
+    public Set<FoodBuilding> getFoodBuilding() {
+        return foodBuilding;
+    }
 
     /**
      * Equals.

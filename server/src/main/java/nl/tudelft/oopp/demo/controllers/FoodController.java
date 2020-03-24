@@ -1,6 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import nl.tudelft.oopp.demo.encode_hash.CommunicationMethods;
+import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.repositories.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class FoodController {
     @Autowired
     private FoodRepository foodRepo;
 
-    @PostMapping
+    @PostMapping("createFood")
     @ResponseBody
     public void createFood(@RequestParam String name, @RequestParam int price) throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
@@ -30,7 +30,27 @@ public class FoodController {
         }
     }
 
-    @PostMapping
+    @PostMapping("addFoodToBuilding")
+    @ResponseBody
+    public void addFoodToBuilding(@RequestParam int foodId, @RequestParam int buildingId) {
+        try {
+            foodRepo.addFoodToBuilding(foodId, buildingId);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("addFoodToReservation")
+    @ResponseBody
+    public void addFoodToReservation(@RequestParam int foodId, @RequestParam int reservationId, @RequestParam int quantity) {
+        try {
+            foodRepo.addFoodToReservation(foodId, reservationId, quantity);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("updateFood")
     @ResponseBody
     public void updateFood(@RequestParam int id, @RequestParam String name, @RequestParam int price) throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
@@ -42,7 +62,38 @@ public class FoodController {
         }
     }
 
-    @PostMapping
+    @PostMapping("deleteFoodFromReservation")
+    @ResponseBody
+    public void deleteFoodFromReservation(@RequestParam int foodId, @RequestParam int reservationId) {
+        try {
+            foodRepo.deleteFoodReservation(reservationId, foodId);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("deleteFoodFromBuilding")
+    @ResponseBody
+    public void deleteFoodFromBuilding(@RequestParam int foodId, @RequestParam int buildingId) {
+        try {
+            foodRepo.deleteFoodBuilding(buildingId, foodId);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("updateFoodReservationQuantity")
+    @ResponseBody
+    public void updateFoodReservationQuantity(@RequestParam int foodId, @RequestParam int reservationId, @RequestParam int quantity) {
+        try {
+            foodRepo.updateFoodReservationQuantity(reservationId, foodId, quantity);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @PostMapping("deleteFood")
     @ResponseBody
     public void deleteFood(@RequestParam int id) {
         try {
@@ -52,7 +103,7 @@ public class FoodController {
         }
     }
 
-    @GetMapping
+    @GetMapping("getFood")
     @ResponseBody
     public Food getFood(@RequestParam int id) {
         try {
@@ -63,7 +114,7 @@ public class FoodController {
         return null;
     }
 
-    @GetMapping
+    @GetMapping("getFoodByName")
     @ResponseBody
     public Food getFoodByName(@RequestParam String name) throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
@@ -75,7 +126,40 @@ public class FoodController {
         return null;
     }
 
-    @GetMapping
+    @GetMapping("getFoodByReservation")
+    @ResponseBody
+    public List<Food> getFoodByReservation(@RequestParam int reservationId)  {
+        try {
+            return foodRepo.getFoodByReservationId(reservationId);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @GetMapping("getFoodByBuildingId")
+    @ResponseBody
+    public List<Food> getFoodByBuildingId(@RequestParam int buildingId)  {
+        try {
+            return foodRepo.getFoodByBuildingId(buildingId);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @GetMapping("getFoodByBuildingName")
+    @ResponseBody
+    public List<Food> getFoodByBuildingId(@RequestParam String name)  {
+        try {
+            return foodRepo.getFoodByBuildingName(name);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @GetMapping("getAllFood")
     @ResponseBody
     public List<Food> getAllFood() {
         try {
