@@ -92,7 +92,6 @@ public class FoodController {
         }
     }
 
-
     @PostMapping("deleteFood")
     @ResponseBody
     public void deleteFood(@RequestParam int id) {
