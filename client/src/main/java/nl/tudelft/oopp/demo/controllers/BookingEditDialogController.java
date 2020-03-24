@@ -1,12 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,29 +8,42 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import org.controlsfx.control.RangeSlider;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class BookingEditDialogController {
 
     @FXML
+    private GridPane grid;
+    @FXML
     private ComboBox<Building> bookingBuildingComboBox;
-
     @FXML
     private ComboBox<Room> bookingRoomComboBox;
-
     @FXML
     private DatePicker bookingDate;
-
     @FXML
-    private ComboBox<String> bookingStartingTime;
-
+    private Text startTime;
     @FXML
-    private ComboBox<String> bookingEndingTime;
+    private Text endTime;
 
     private ObservableList<Building> olb;
 
@@ -48,6 +54,9 @@ public class BookingEditDialogController {
     private ObservableList<String> eTime;
 
     public static Reservation reservation;
+
+    // double thumb slider
+    private RangeSlider timeSlotSlider;
 
     private Stage dialogStage;
 
@@ -61,6 +70,11 @@ public class BookingEditDialogController {
     @FXML
     private void initialize() {
         try {
+            // configure the range slider
+            configureRangeSlider();
+
+            // add stylesheet to rangeslider
+            timeSlotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
 
             // Initialize and add listener to the building combobox
             olb = Building.getBuildingData();
@@ -75,20 +89,198 @@ public class BookingEditDialogController {
             bookingRoomComboBox.setItems(olr);
             this.setBookingRoomComboBoxConverter(olr);
 
+            // change css of slider if date or room change
+            bookingRoomComboBox.valueProperty().addListener(((observable, oldValue, newValue) -> {
+                configureCSS();
+            }));
+            bookingDate.valueProperty().addListener((observable, oldValue, newValue) -> {
+                configureCSS();
+            });
+
             // Configure the string converters and custom properties (like disabling some dates in the datePicker)
             configureDatePicker();
-
-            // Initialize and add listener to the staring time combobox
-            sTime = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00",
-                    "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00");
-            bookingStartingTime.setItems(sTime);
-            bookingStartingTime.valueProperty().addListener(((observable, oldValue, newValue) -> {
-                startingTimeSelected(newValue);
-            }));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Create a range slider (slider with two 'thumbs') adjusted to hours and minutes.
+     */
+    private void configureRangeSlider() {
+        try {
+            // initialize the RangeSlider (values are handled as minutes) and the positions of the thumbs
+            timeSlotSlider = new RangeSlider(480, 1440, 600, 1080);
+            timeSlotSlider.setLowValue(600);
+            timeSlotSlider.setMinWidth(100);
+            timeSlotSlider.setMaxWidth(200);
+            timeSlotSlider.setShowTickLabels(true);
+            timeSlotSlider.setShowTickMarks(true);
+            timeSlotSlider.setMajorTickUnit(120);
+            timeSlotSlider.setMinorTickCount(4);
+
+            // get and set the StringConverter to show hh:mm format
+            StringConverter<Number> converter = getRangeSliderConverter();
+            timeSlotSlider.setLabelFormatter(converter);
+
+            // add listeners to show the current thumb values in separate Text objects
+            configureRangeSliderListeners(converter);
+
+            // configure css of rangeslider to show user what timeslots are free
+            configureCSS();
+
+            // initialize the Text objects with the current values of the thumbs
+            startTime.setText("Start: " + converter.toString(timeSlotSlider.getLowValue()));
+            endTime.setText("End: " + converter.toString(timeSlotSlider.getHighValue()));
+
+            // inject the RangeSlider in the JavaFX layout
+            grid.add(timeSlotSlider, 1, 3);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Configure (in CSS) the colors of the track of the range slider to show in green the available timeslots and in
+     * red the rest
+     */
+    private void configureCSS() {
+        try {
+            // get currently selected room
+            Room selectedRoom = bookingRoomComboBox.getSelectionModel().getSelectedItem();
+            if (selectedRoom == null) return;
+            // get reservations for this room on the selected date
+            List<Reservation> reservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
+                    bookingDate.getValue(),
+                    getDatePickerConverter());
+
+            // sort them in ascending order
+            reservations.sort(new Comparator<Reservation>() {
+                @Override
+                public int compare(Reservation o1, Reservation o2) {
+                    // split time in hh:mm
+                    String[] o1StartSplit = o1.getStartingTime().get().split(":");
+                    int o1StartHour = Integer.parseInt(o1StartSplit[0]);
+                    int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
+
+                    String[] o2StartSplit = o2.getStartingTime().get().split(":");
+                    int o2StartHour = Integer.parseInt(o2StartSplit[0]);
+                    int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
+
+                    // compare hours and minutes
+                    if (o1StartHour < o2StartHour) return -1;
+                    else if (o1StartHour > o2StartHour) return 1;
+                    if (o1StartMinute < o2StartMinute) return -1;
+                    else return 1;
+                }
+            });
+
+            // get css file and delete its content to fill it again
+            File css = new File(getClass().getResource("/RangeSlider.css").getPath());
+            css.delete();
+            css.createNewFile();
+            BufferedWriter bw = new BufferedWriter(new FileWriter(css));
+
+            // first part of css
+            bw.write(".track {\n" + "\t-fx-background-color: linear-gradient(to right, ");
+
+            // iterator to loop over all the reservations
+            Iterator<Reservation> it = reservations.iterator();
+
+            // if there are no reservations make the track completely green
+            if (!it.hasNext()) bw.write("#91ef99 0%, #91ef99 100%);\n");
+
+            // calculate and add green and red parts
+            while (it.hasNext()) {
+                Reservation r = it.next();
+                String[] startTime = r.getStartingTime().get().split(":");
+                String[] endTime = r.getEndingTime().get().split(":");
+                double startPercentage = ((Double.parseDouble(startTime[0]) - 8.0) * 60.0 + Double.parseDouble(startTime[1])) / 9.60;
+                double endPercentage = ((Double.parseDouble(endTime[0]) - 8.0) * 60.0 + Double.parseDouble(endTime[1])) / 9.60;
+                bw.write("#91ef99 " + startPercentage + "%, ");
+                bw.write("#ffc0cb " + startPercentage + "%, ");
+                bw.write("#ffc0cb " + endPercentage + "%, ");
+                bw.write("#91ef99 " + endPercentage + "%");
+                if (!it.hasNext()) bw.write(");\n");
+                else bw.write(", ");
+            }
+
+            // last part of css (more configuration)
+            bw.write("\t-fx-background-insets: 0 0 -1 0, 0, 1;\n" +
+                    "\t-fx-background-radius: 0.25em, 0.25em, 0.166667em; /* 3 3 2 */\n" +
+                    "\t-fx-padding: 0.25em; /* 3 */\n" +
+                    "}\n\n" + ".range-bar {\n" +
+                    "\t-fx-background-color: rgba(0,0,0,0.3);\n" +
+                    "}");
+            // close writer
+            bw.close();
+            // remove current stylesheet
+            timeSlotSlider.getStylesheets().remove(getClass().getResource("/RangeSlider.css").toExternalForm());
+            // add new stylesheet
+            timeSlotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Configure the rangeSlider listeners. The listeners make sure that the user jumps
+     * intervals of an hour and sets the texts with the correct value.
+     *
+     * @param converter String converter that is created in {@link #getRangeSliderConverter()}
+     */
+    private void configureRangeSliderListeners(StringConverter<Number> converter) {
+        try {
+            // listeners to adjust start and end Text objects when thumbs get moved
+            timeSlotSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
+                endTime.setText("End: " + converter.toString(newValue));
+            });
+            timeSlotSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
+                startTime.setText("Start: " + converter.toString(newValue));
+            });
+
+            // listeners that make sure the user can only select intervals of 30 minutes
+            timeSlotSlider.lowValueProperty().addListener((observable, oldValue, newValue) ->
+                    timeSlotSlider.setLowValue((newValue.intValue() / 30) * 30));
+            timeSlotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
+                    timeSlotSlider.setHighValue((newValue.intValue() / 30) * 30));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Creates a StringConverter that converts the selected value to an actual time (in String format)
+     *
+     * @return a StringConverter object
+     */
+    private StringConverter<Number> getRangeSliderConverter() {
+        try {
+            return new StringConverter<Number>() {
+                @Override
+                public String toString(Number n) {
+                    // calculate hours and remaining minutes to get a correct hh:mm format
+                    long minutes = n.longValue();
+                    long hours = TimeUnit.MINUTES.toHours(minutes);
+                    long remainingMinutes = minutes - TimeUnit.HOURS.toMinutes(hours);
+                    // '%02d' means that there will be a 0 in front if its only 1 number + it's a long number
+                    return String.format("%02d", hours) + ":" + String.format("%02d", remainingMinutes);
+                }
+
+                @Override
+                public Number fromString(String time) {
+                    if (time != null) {
+                        String[] split = time.split(":");
+                        return Double.parseDouble(split[0]) * 60 + Double.parseDouble(split[1]);
+                    }
+                    return null;
+                }
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -153,24 +345,6 @@ public class BookingEditDialogController {
     }
 
     /**
-     * Called when a starting time is selected
-     * Initialize the ending time combobox
-     * The earliest time in the ending box should be one hour later than starting time
-     */
-    public void startingTimeSelected(String newSt) {
-        //Initialize the ending time combobox with all time slot
-        eTime = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00",
-                "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00", "00:00:00");
-        //Check if a starting time is selected
-        if(bookingStartingTime.getValue() != null) {
-            int indexSt = sTime.indexOf(bookingStartingTime.getValue());
-            //Remove the time slot <= the selected starting time plus one hour.
-            eTime.remove(0, indexSt);
-            bookingEndingTime.setItems(eTime);
-        }
-    }
-
-    /**
      * Methods that sets the dayCellFactory made in {@link #getDayCellFactory()}
      * and the StringConverter made in {@link #getDatePickerConverter()}
      */
@@ -184,6 +358,14 @@ public class BookingEditDialogController {
             StringConverter<LocalDate> converter = getDatePickerConverter();
             // set the converter
             bookingDate.setConverter(converter);
+            // reset css when date changes
+            bookingDate.valueProperty().addListener(((observable, oldValue, newValue) -> {
+                try {
+                    configureCSS();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -243,8 +425,8 @@ public class BookingEditDialogController {
             reservation.setUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             reservation.setRoom(this.bookingRoomComboBox.getSelectionModel().getSelectedItem().getRoomId().get());
             reservation.setDate(this.bookingDate.getValue().toString());
-            reservation.setStartingTime(this.bookingStartingTime.getValue());
-            reservation.setEndingTime(this.bookingEndingTime.getValue());
+            reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
+            reservation.setEndingTime(endTime.getText().replace("End: ", ""));
             // Close the dialog window
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
@@ -276,11 +458,8 @@ public class BookingEditDialogController {
         if (bookingDate.getValue() == null) {
             errorMessage += "No valid date selected!\n";
         }
-        if (bookingStartingTime.getValue() == null) {
-            errorMessage += "No valid starting time selected!\n";
-        }
-        if (bookingEndingTime.getValue() == null) {
-            errorMessage += "No valid ending time selected!\n";
+        if (!checkTimeSlotValidity() || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
+            errorMessage += "No valid timeslot selected!\n";
         }
         if (errorMessage.equals("")) {
             return true;
@@ -294,6 +473,39 @@ public class BookingEditDialogController {
 
             return false;
         }
+    }
+
+    /**
+     * Method that checks if the chosen timeslot is free
+     *
+     * @return true if the timeslot is free, false otherwise
+     */
+    private boolean checkTimeSlotValidity() {
+        // get currently selected room
+        Room selectedRoom = bookingRoomComboBox.getSelectionModel().getSelectedItem();
+        if (selectedRoom == null) return false;
+        // get all reservations for the current room on the chosen date
+        List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
+                bookingDate.getValue(), getDatePickerConverter());
+
+        // get converter to convert date value to String format hh:mm
+        StringConverter<Number> timeConverter = getRangeSliderConverter();
+
+        // if there are no reservations the timeslot is valid
+        if (roomReservations.size() == 0) return true;
+
+        for (Reservation r : roomReservations) {
+            // get rangeslider values + reservation values
+            double currentStartValue = timeSlotSlider.getLowValue();
+            double currentEndValue = timeSlotSlider.getHighValue();
+            double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
+            double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
+
+            // check if the values overlap
+            if (currentStartValue <= startValue && currentEndValue <= startValue) return true;
+            if (currentStartValue >= endValue && currentEndValue >= endValue) return true;
+        }
+        return false;
     }
 
     /**

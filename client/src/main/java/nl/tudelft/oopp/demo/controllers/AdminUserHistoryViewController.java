@@ -1,7 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.IOException;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,27 +14,23 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.BookingEditDialogView;
 
+import java.io.IOException;
+
 
 public class AdminUserHistoryViewController {
 
     @FXML
     private Label usernameLabel;
-
     @FXML
     private TableView<Reservation> bookingTable;
-
     @FXML
     private TableColumn<Reservation, String> bookingIdColumn;
-
     @FXML
     private TableColumn<Reservation, String> bookingDateColumn;
-
     @FXML
     private TableColumn<Reservation, String> bookingRoomColumn;
-
     @FXML
     private TableColumn<Reservation, String> bookingStartColumn;
-
     @FXML
     private TableColumn<Reservation, String> bookingEndColumn;
 

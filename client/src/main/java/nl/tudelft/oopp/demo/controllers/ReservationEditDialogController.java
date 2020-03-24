@@ -1,11 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +17,18 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 import org.controlsfx.control.RangeSlider;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * This controller class is invokes on the onclick of the newReservationButton/ editReservationButton
@@ -72,7 +78,19 @@ public class ReservationEditDialogController {
 
             //This method sets up the slider which determines the time of reservation in the dialog view.
             configureRangeSlider();
+
+            // set stylesheet for range slider
+            timeslot.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
+
             date.setDayCellFactory(getDayCellFactory());
+
+            // change CSS when date changes or room changes
+            date.valueProperty().addListener(((observable, oldValue, newValue) -> {
+                configureCSS();
+            }));
+            room.valueProperty().addListener(((observable, oldValue, newValue) -> {
+                configureCSS();
+            }));
 
             //Initializing the observable list for the users available!!
             //The admin can make a mistake in writing the name of the user.
@@ -145,6 +163,9 @@ public class ReservationEditDialogController {
             timeslot.setShowTickMarks(true);
             timeslot.setMajorTickUnit(120);
 
+            // configure css of rangeslider to show user what timeslots are free
+            configureCSS();
+
             // get and set the StringConverter to show hh:mm format
             StringConverter<Number> converter = getRangeSliderConverter();
             timeslot.setLabelFormatter(converter);
@@ -158,6 +179,88 @@ public class ReservationEditDialogController {
 
             // inject the RangeSlider in the JavaFX layout
             grid.add(timeslot, 1, 3);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Configure (in CSS) the colors of the track of the range slider to show in green the available timeslots and in
+     * red the rest
+     */
+    private void configureCSS() {
+        try {
+            // get currently selected room
+            Room selectedRoom = room.getSelectionModel().getSelectedItem();
+            if (selectedRoom == null) return;
+            // get reservations for this room on the selected date
+            List<Reservation> reservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
+                    date.getValue(), getDateConverter());
+
+            // sort them in ascending order
+            reservations.sort(new Comparator<Reservation>() {
+                @Override
+                public int compare(Reservation o1, Reservation o2) {
+                    // split time in hh:mm
+                    String[] o1StartSplit = o1.getStartingTime().get().split(":");
+                    int o1StartHour = Integer.parseInt(o1StartSplit[0]);
+                    int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
+
+                    String[] o2StartSplit = o2.getStartingTime().get().split(":");
+                    int o2StartHour = Integer.parseInt(o2StartSplit[0]);
+                    int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
+
+                    // compare hours and minutes
+                    if (o1StartHour < o2StartHour) return -1;
+                    else if (o1StartHour > o2StartHour) return 1;
+                    if (o1StartMinute < o2StartMinute) return -1;
+                    else return 1;
+                }
+            });
+
+            // get css file and delete its content to fill it again
+            File css = new File(getClass().getResource("/RangeSlider.css").getPath());
+            css.delete();
+            css.createNewFile();
+            BufferedWriter bw = new BufferedWriter(new FileWriter(css));
+
+            // first part of css
+            bw.write(".track {\n" + "\t-fx-background-color: linear-gradient(to right, ");
+
+            // iterator to loop over all the reservations
+            Iterator<Reservation> it = reservations.iterator();
+
+            // if there are no reservations make the track completely green
+            if (!it.hasNext()) bw.write("#91ef99 0%, #91ef99 100%);\n");
+
+            // calculate and add green and red parts
+            while (it.hasNext()) {
+                Reservation r = it.next();
+                String[] startTime = r.getStartingTime().get().split(":");
+                String[] endTime = r.getEndingTime().get().split(":");
+                double startPercentage = ((Double.parseDouble(startTime[0]) - 8.0) * 60.0 + Double.parseDouble(startTime[1])) / 9.60;
+                double endPercentage = ((Double.parseDouble(endTime[0]) - 8.0) * 60.0 + Double.parseDouble(endTime[1])) / 9.60;
+                bw.write("#91ef99 " + startPercentage + "%, ");
+                bw.write("#ffc0cb " + startPercentage + "%, ");
+                bw.write("#ffc0cb " + endPercentage + "%, ");
+                bw.write("#91ef99 " + endPercentage + "%");
+                if (!it.hasNext()) bw.write(");\n");
+                else bw.write(", ");
+            }
+
+            // last part of css (more configuration)
+            bw.write("\t-fx-background-insets: 0 0 -1 0, 0, 1;\n" +
+                    "\t-fx-background-radius: 0.25em, 0.25em, 0.166667em; /* 3 3 2 */\n" +
+                    "\t-fx-padding: 0.25em; /* 3 */\n" +
+                    "}\n\n" + ".range-bar {\n" +
+                    "\t-fx-background-color: rgba(0,0,0,0.3);\n" +
+                    "}");
+            // close writer
+            bw.close();
+            // remove current stylesheet
+            timeslot.getStylesheets().remove(getClass().getResource("/RangeSlider.css").toExternalForm());
+            // add new stylesheet
+            timeslot.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -321,11 +424,8 @@ public class ReservationEditDialogController {
         if (date.getValue() == null) {
             errorMessage += "No date provided!\n";
         }
-        if (startTime.getText().equals("")) {
-            errorMessage += "No starting Time provided!\n";
-        }
-        if (startTime.getText().equals("")) {
-            errorMessage += "No ending Time provided!\n";
+        if (!checkTimeSlotValidity() || timeslot.getLowValue() == timeslot.getHighValue()) {
+            errorMessage += "No valid timeslot selected!\n";
         }
 
         // If all the fields are valid, then true is returned.
@@ -341,5 +441,38 @@ public class ReservationEditDialogController {
 
             return false;
         }
+    }
+
+    /**
+     * Method that checks if the chosen timeslot is free
+     *
+     * @return true if the timeslot is free, false otherwise
+     */
+    private boolean checkTimeSlotValidity() {
+        // get currently selected room
+        Room selectedRoom = room.getSelectionModel().getSelectedItem();
+        if (selectedRoom == null) return false;
+        // get all reservations for the current room on the chosen date
+        List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
+                date.getValue(), getDateConverter());
+
+        // get converter to convert date value to String format hh:mm
+        StringConverter<Number> timeConverter = getRangeSliderConverter();
+
+        // if there are no reservations the timeslot is valid
+        if (roomReservations.size() == 0) return true;
+
+        for (Reservation r : roomReservations) {
+            // get rangeslider values + reservation values
+            double currentStartValue = timeslot.getLowValue();
+            double currentEndValue = timeslot.getHighValue();
+            double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
+            double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
+
+            // check if the values overlap
+            if (currentStartValue <= startValue && currentEndValue <= startValue) return true;
+            if (currentStartValue >= endValue && currentEndValue >= endValue) return true;
+        }
+        return false;
     }
 }

@@ -109,30 +109,35 @@
                         <Text fx:id="dateError" fill="#ed0d0d" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select a date" />
                      </children>
                   </VBox>
-                  <HBox alignment="CENTER" spacing="30.0">
+                  <VBox alignment="CENTER">
                      <children>
-                        <HBox>
+                        <HBox alignment="CENTER" spacing="30.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="from ">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                              </Text>
-                              <Text fx:id="startTime" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00" />
+                              <HBox>
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="from ">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="startTime" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00" />
+                                 </children>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="until ">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="endTime" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00" />
+                                 </children>
+                              </HBox>
                            </children>
                         </HBox>
-                        <HBox>
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="until ">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                              </Text>
-                              <Text fx:id="endTime" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00" />
-                           </children>
-                        </HBox>
+                        <Text fx:id="timeSlotError" fill="#ed0d0d" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select a valid timeslot" />
                      </children>
-                  </HBox>
+                  </VBox>
                   <VBox alignment="CENTER">
                      <children>
                         <ComboBox fx:id="foodChoice" prefWidth="150.0" promptText="Food choice" />
@@ -144,7 +149,6 @@
                         <HBox alignment="CENTER" spacing="9.0">
                            <children>
                               <Button fx:id="bookButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#bookClicked" text="Book this room" />
-                              <Button fx:id="bookBikesButton" mnemonicParsing="false" text="Book bikes" />
                            </children>
                         </HBox>
                         <Text fx:id="teacherOnlyError" fill="#ed0d0d" strokeType="OUTSIDE" strokeWidth="0.0" text="Only teachers can book this room" />
