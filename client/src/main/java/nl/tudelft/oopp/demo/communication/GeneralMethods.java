@@ -2,21 +2,25 @@ package nl.tudelft.oopp.demo.communication;
 
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
+import javafx.stage.Window;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import javafx.stage.Window;
 
 /**
  * This method encodes all communication that occurs between the server and the client.
  * This method is used in all the communication classes that need to send or receive information
  * from the server.
+ *
  * @return the body of a get request to the server.
  * @throws Exception if communication has unsupported encoding mechanism.
  */
 public class GeneralMethods {
+
     /**
      * This method is to encode all communication across the data stream.
+     *
      * @param params
      * @return Encoded parameters as string
      * @throws UnsupportedEncodingException
@@ -29,7 +33,8 @@ public class GeneralMethods {
     }
 
     /**
-     * creates an alert message which ??
+     * creates a custom alert message.
+     *
      * @param title
      * @param content
      * @param owner
