@@ -341,13 +341,19 @@ public class SearchViewController implements Initializable {
 
             // for every room the total hours of bookings on the selected date is calculated
             // if it is 16 the room is fully booked the room will be removed from the rooms to show
-            int totalHoursAvailable;
+            double totalHoursAvailable;
             for (int q = 0; q != roomsWithDate.size(); q++) {
                 totalHoursAvailable = 16;
                 for (int z = 0; z != reservations.size(); z++) {
-                    if (reservations.get(z).getRoom().getValue() == roomsWithDate.get(q)) {
-                        int starting = Integer.parseInt(reservations.get(z).getStartingTime().getValue().substring(0, 2));
-                        int ending = Integer.parseInt(reservations.get(z).getEndingTime().getValue().substring(0, 2));
+                    if (reservations.get(z).getRoom().getValue().equals(roomsWithDate.get(q))) {
+                        double starting = Integer.parseInt(reservations.get(z).getStartingTime().getValue().substring(0, 2));
+                        double ending = Integer.parseInt(reservations.get(z).getEndingTime().getValue().substring(0, 2));
+                        if(reservations.get(z).getStartingTime().getValue().substring(3, 5).equals("30")){
+                            starting = starting + 0.5;
+                        }
+                        if(reservations.get(z).getEndingTime().getValue().substring(3,5).equals("30")){
+                            ending = ending + 0.5;
+                        }
                         if (reservations.get(z).getEndingTime().getValue().equals("23:59:00")) {
                             ending = 24;
                         }
@@ -357,9 +363,9 @@ public class SearchViewController implements Initializable {
                         totalHoursAvailable = totalHoursAvailable + starting - ending;
                     }
                 }
-                if (totalHoursAvailable == 0) {
+                if (totalHoursAvailable <= 0) {
                     for (int y = 0; y != roomList.size(); y++) {
-                        if (roomList.get(y).getRoomId().getValue() == roomsWithDate.get(q)) {
+                        if (roomList.get(y).getRoomId().getValue().equals(roomsWithDate.get(q))) {
                             roomList.remove(y);
                         }
                     }
