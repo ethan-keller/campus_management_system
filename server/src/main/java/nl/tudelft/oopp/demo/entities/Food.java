@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -19,11 +21,13 @@ public class Food implements Serializable {
     @Column(name = "price")
     private int price;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
-    private Set<FoodReservations> foodReservations;
+    private Set<FoodReservations> food_reservations;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
-    private Set<FoodBuilding> foodBuilding;
+    private Set<FoodBuilding> food_building;
 
     public Food() {
     }
@@ -39,8 +43,8 @@ public class Food implements Serializable {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.foodBuilding = new HashSet<>();
-        this.foodReservations = new HashSet<>();
+        this.food_building = new HashSet<>();
+        this.food_reservations = new HashSet<>();
     }
 
     /**
@@ -71,11 +75,11 @@ public class Food implements Serializable {
     }
 
     public Set<FoodReservations> getFoodReservations() {
-        return foodReservations;
+        return food_reservations;
     }
 
     public Set<FoodBuilding> getFoodBuilding() {
-        return foodBuilding;
+        return food_building;
     }
 
 

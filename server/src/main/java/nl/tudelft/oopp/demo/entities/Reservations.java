@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,14 +23,15 @@ public class Reservations {
     @Column(name = "date")
     private String date;
 
-    @Column(name = "startingTime")
+    @Column(name = "starting_time")
     private String startingTime;
 
-    @Column(name = "endingTime")
+    @Column(name = "ending_time")
     private String endingTime;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
-    private Set<FoodReservations> foodReservations;
+    private Set<FoodReservations> food_reservations;
 
     public Reservations() {
     }
@@ -49,7 +52,7 @@ public class Reservations {
         this.date = date;
         this.startingTime = startingTime;
         this.endingTime = endingTime;
-        this.foodReservations = new HashSet<>();
+        this.food_reservations = new HashSet<>();
     }
 
     /**
@@ -107,7 +110,7 @@ public class Reservations {
     }
 
     public Set<FoodReservations> getFoodReservations() {
-        return foodReservations;
+        return food_reservations;
     }
 
     /**

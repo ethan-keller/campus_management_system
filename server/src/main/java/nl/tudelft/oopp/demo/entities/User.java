@@ -1,9 +1,9 @@
 package nl.tudelft.oopp.demo.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -17,6 +17,10 @@ public class User {
 
     @Column(name = "type")
     private int type;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<BikeReservation> bikeReservations;
 
     public User() {
     }

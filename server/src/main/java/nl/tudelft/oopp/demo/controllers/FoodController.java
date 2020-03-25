@@ -32,9 +32,9 @@ public class FoodController {
 
     @PostMapping("addFoodToBuilding")
     @ResponseBody
-    public void addFoodToBuilding(@RequestParam int foodId, @RequestParam int buildingId) {
+    public void addFoodToBuilding(@RequestParam int food, @RequestParam int building) {
         try {
-            foodRepo.addFoodToBuilding(foodId, buildingId);
+            foodRepo.addFoodToBuilding(food, building);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -42,9 +42,9 @@ public class FoodController {
 
     @PostMapping("addFoodToReservation")
     @ResponseBody
-    public void addFoodToReservation(@RequestParam int foodId, @RequestParam int reservationId, @RequestParam int quantity) {
+    public void addFoodToReservation(@RequestParam int food, @RequestParam int reservation, @RequestParam int quantity) {
         try {
-            foodRepo.addFoodToReservation(reservationId, foodId, quantity);
+            foodRepo.addFoodToReservation(reservation, food, quantity);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -64,9 +64,9 @@ public class FoodController {
 
     @PostMapping("deleteFoodFromReservation")
     @ResponseBody
-    public void deleteFoodFromReservation(@RequestParam int foodId, @RequestParam int reservationId) {
+    public void deleteFoodFromReservation(@RequestParam int food, @RequestParam int reservation) {
         try {
-            foodRepo.deleteFoodReservation(reservationId, foodId);
+            foodRepo.deleteFoodReservation(reservation, food);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -74,9 +74,9 @@ public class FoodController {
 
     @PostMapping("deleteFoodFromBuilding")
     @ResponseBody
-    public void deleteFoodFromBuilding(@RequestParam int foodId, @RequestParam int buildingId) {
+    public void deleteFoodFromBuilding(@RequestParam int food, @RequestParam int building) {
         try {
-            foodRepo.deleteFoodBuilding(buildingId, foodId);
+            foodRepo.deleteFoodBuilding(building, food);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -84,9 +84,9 @@ public class FoodController {
 
     @PostMapping("updateFoodReservationQuantity")
     @ResponseBody
-    public void updateFoodReservationQuantity(@RequestParam int foodId, @RequestParam int reservationId, @RequestParam int quantity) {
+    public void updateFoodReservationQuantity(@RequestParam int food, @RequestParam int reservation, @RequestParam int quantity) {
         try {
-            foodRepo.updateFoodReservationQuantity(reservationId, foodId, quantity);
+            foodRepo.updateFoodReservationQuantity(reservation, food, quantity);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -127,9 +127,9 @@ public class FoodController {
 
     @GetMapping("getFoodByReservation")
     @ResponseBody
-    public List<Food> getFoodByReservation(@RequestParam int reservationId)  {
+    public List<Food> getFoodByReservation(@RequestParam int reservation)  {
         try {
-            return foodRepo.getFoodByReservationId(reservationId);
+            return foodRepo.getFoodByReservationId(reservation);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -138,9 +138,9 @@ public class FoodController {
 
     @GetMapping("getFoodByBuildingId")
     @ResponseBody
-    public List<Food> getFoodByBuildingId(@RequestParam int buildingId)  {
+    public List<Food> getFoodByBuildingId(@RequestParam int building)  {
         try {
-            return foodRepo.getFoodByBuildingId(buildingId);
+            return foodRepo.getFoodByBuildingId(building);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -149,7 +149,7 @@ public class FoodController {
 
     @GetMapping("getFoodByBuildingName")
     @ResponseBody
-    public List<Food> getFoodByBuildingId(@RequestParam String name)  {
+    public List<Food> getFoodByBuildingName(@RequestParam String name)  {
         try {
             return foodRepo.getFoodByBuildingName(name);
         } catch(Exception e) {

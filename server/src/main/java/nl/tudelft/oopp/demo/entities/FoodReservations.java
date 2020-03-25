@@ -1,18 +1,23 @@
 package nl.tudelft.oopp.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@Table(name = "food_reservations")
 public class FoodReservations implements Serializable {
     @Id
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     @JoinColumn
     private Food food;
 
     @Id
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     @JoinColumn
     private Reservations reservation;
 

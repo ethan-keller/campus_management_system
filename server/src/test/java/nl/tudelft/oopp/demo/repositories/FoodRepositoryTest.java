@@ -16,12 +16,12 @@ class FoodRepositoryTest {
     @Test
     void testReservationJoin() {
         List<Food> a = foodrepo.getFoodByReservationId(358);
-        //assertEquals(a.size(), );
+        return;
     }
 
      @Test
      void testBuildingJoin() {
-         foodrepo.addFoodToReservation(358, 5, 6);
+         foodrepo.addFoodToBuilding(13, 697);
          //assertEquals(a.size(), 4);
      }
 }

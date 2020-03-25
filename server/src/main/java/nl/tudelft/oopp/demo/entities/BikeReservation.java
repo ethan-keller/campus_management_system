@@ -1,9 +1,11 @@
 package nl.tudelft.oopp.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "bikeReservation")
+@Table(name = "bike_reservation")
 public class BikeReservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +15,12 @@ public class BikeReservation {
     @Column(name = "building")
     private int building;
 
-    @Column(name = "room_count")
+    @ManyToOne
+    @JoinColumn(name = "user")
+    @JsonManagedReference
+    private User user;
+
+    @Column(name = "num_bikes")
     private int numBikes;
 
     @Column(name = "date")
@@ -38,9 +45,10 @@ public class BikeReservation {
      * @Param startingTime String
      * @Param endingTime String
      */
-    public BikeReservation(int id, int building, int numBikes, String date, String startingTime, String endingTime) {
+    public BikeReservation(int id, int building, User user, int numBikes, String date, String startingTime, String endingTime) {
         this.id = id;
         this.building = building;
+        this.user = user;
         this.numBikes = numBikes;
         this.date = date;
         this.startingTime = startingTime;
@@ -63,6 +71,15 @@ public class BikeReservation {
      */
     public int getBuilding() {
         return building;
+    }
+
+    /**
+     * Retrieves the user from the database.
+     *
+     * @return Returns the String user.
+     */
+    public User getUser() {
+        return user;
     }
 
     /**

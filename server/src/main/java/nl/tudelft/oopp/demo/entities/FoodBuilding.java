@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,11 +11,13 @@ public class FoodBuilding implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn
+    @JsonBackReference
     private Food food;
 
     @Id
     @ManyToOne
     @JoinColumn
+    @JsonBackReference
     private Building building;
 
     public FoodBuilding() {}

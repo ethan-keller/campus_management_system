@@ -6,47 +6,47 @@ o  0: admin\
 o  1: teacher\
 o  2: student\
 
-Reservations(id, username, room, date, startingTime, endingTime)\
+Reservations(id, username, room, date, starting_time, ending_time)\
 -  Id: integer\
 -  Username: String (Same as User's username)\
 -  Room: int (Room id)\
 -  Date: Date (String ('yyyy-mm-dd'))\
--  StartingTime: String 'hh:mm:ss'\
--  EndingTime: String 'hh:mm:ss'\
+-  Starting_time: String 'hh:mm:ss'\
+-  Ending_time: String 'hh:mm:ss'\
 
-Room(id, name, building, teacherOnly, capacity, photos, description)\
+Room(id, name, building, teacher_only, capacity, photos, description)\
 -  Id: int\
 -  Name: String\
 -  Building: int (Building id)\
--  TeacherOnly: Boolean\
+-  Teacher_only: Boolean\
 -  Capacity: int\
 -  Photos: String (url to photos)\
 -  Description: String\
 -  Type: String (Project room, lecture hall)\
 
-Building(id, name, roomCount, address, availableBikes, maxBikes)\
+Building(id, name, roomCount, address, available_bikes, max_bikes)\
 -  Id: int\
 -  Name: String\
--  RoomCount: int\
+-  Room_count: int\
 -  Address: String\
--  AvailableBikes: int\
--  MaxBikes: int\
+-  Available_bikes: int\
+-  Max_bikes: int\
 
-BikeReservation(id, building, numBikes, date, startingTime, endingTime)\
+Bike_reservation(id, building, numBikes, date, starting_time, ending_time)\
 -  Id: int\
 -  Building: int\
--  NumBikes: int\
+-  Num_bikes: int\
 -  Date: Date (String ('yyyy-mm-dd'))\
--  StartingTime: String 'hh:mm:ss'\
--  EndingTime: String 'hh:mm:ss'\
+-  Starting_time: String 'hh:mm:ss'\
+-  Ending_time: String 'hh:mm:ss'\
 
-CalenderItems(id, user, title, date, startingTime, endingTime, description)\
+CalenderItems(id, user, title, date, starting_time, ending_time, description)\
 -  Id: int\
 -  User: String\
 -  Title: String\
 -  Date: Date (String ('yyyy-mm-dd'))\
--  StartingTime: String 'hh:mm:ss'\
--  EndingTime: String 'hh:mm:ss'\
+-  Starting_time: String 'hh:mm:ss'\
+-  Ending_time: String 'hh:mm:ss'\
 -  Description: String
 
 Food(id, name, price)\
@@ -54,11 +54,11 @@ Food(id, name, price)\
 -  Name: String\
 -  Price: float\
 
-FoodBuilding(building, food)\
+Food_building(building, food)\
 -  Building: int (foreign key building id)\
 -  Food: int (foreign key food id)\
 
-FoodReservations(reservation, food, quantity)\
+Food_reservations(reservation, food, quantity)\
 -  Reservation: int (foreign key reservation id)\
 -  Food: int (foreign key food id)\
 -  Quantity: int
