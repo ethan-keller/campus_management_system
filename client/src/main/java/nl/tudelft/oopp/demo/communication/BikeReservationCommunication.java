@@ -21,9 +21,9 @@ public class BikeReservationCommunication {
      */
     public static void createBikeReservation(int building, String user, int numBikes, String date,
                                              String startingTime, String endingTime) {
-        String params = "building=" + building + "&user=" + user + "&numBikes=" + numBikes +
-                "&date=" + date + "&startingTime=" + startingTime +
-                "&endingTime=" + endingTime;
+        String params = "building=" + building + "&user=" + user + "&numBikes=" + numBikes
+                + "&date=" + date + "&startingTime=" + startingTime
+                + "&endingTime=" + endingTime;
         sendPost("createBikeReservation", params);
     }
 
@@ -40,9 +40,9 @@ public class BikeReservationCommunication {
      */
     public static void updateBikeReservation(int id, int building, String user, int numBikes, String date,
                                       String startingTime, String endingTime) {
-        String params = "id=" + id + "&building=" + building + "&user=" + user +
-                "&numBikes=" + numBikes + "&date=" + date +
-                "&startingTime=" + startingTime + "&endingTime=" + endingTime;
+        String params = "id=" + id + "&building=" + building + "&user=" + user
+                + "&numBikes=" + numBikes + "&date=" + date
+                + "&startingTime=" + startingTime + "&endingTime=" + endingTime;
         sendPost("updateBikeReservation", params);
     }
 
@@ -71,14 +71,15 @@ public class BikeReservationCommunication {
      * Retrieves all bike reservations from the database.
      *
      * @return Returns a list of BikeReservations
-     */    public static String getAllBikeReservation() {
+     */
+    public static String getAllBikeReservation() {
         return sendGet("getAllBikeReservation", "");
     }
 
     /**
      * Retrieves all the bike reservations of the bikes that belong to the building of buildingId.
      *
-     * @param buildingId The id of the building
+     * @param building The id of the building
      * @return Returns a list of bike reservations.
      */
     public static String getBuildingBikeReservations(int building) {
@@ -106,7 +107,7 @@ public class BikeReservationCommunication {
     private static String sendGet(String url, String params) {
         try {
             params = GeneralMethods.encodeCommunication(params);
-        } catch (UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         HttpRequest request = HttpRequest.newBuilder().GET()
@@ -132,7 +133,7 @@ public class BikeReservationCommunication {
     private static void sendPost(String url, String params) {
         try {
             params = GeneralMethods.encodeCommunication(params);
-        } catch (UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody())

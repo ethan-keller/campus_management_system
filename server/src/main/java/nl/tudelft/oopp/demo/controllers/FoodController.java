@@ -19,6 +19,12 @@ public class FoodController {
     @Autowired
     private FoodRepository foodRepo;
 
+    /**
+     * If it receives an HTTP request, it executes the SQL commands to create a food in the database.
+     * @param name The name of the new food
+     * @param price The price of the new food
+     * @throws UnsupportedEncodingException When the decoding does not work
+     */
     @PostMapping("createFood")
     @ResponseBody
     public void createFood(@RequestParam String name, @RequestParam int price) throws UnsupportedEncodingException {
@@ -30,6 +36,11 @@ public class FoodController {
         }
     }
 
+    /**
+     * If it receives an HTTP request, it executes the SQL commands to create a food to a building in the database.
+     * @param food The ID of the food
+     * @param building The ID of the building
+     */
     @PostMapping("addFoodToBuilding")
     @ResponseBody
     public void addFoodToBuilding(@RequestParam int food, @RequestParam int building) {
@@ -40,6 +51,12 @@ public class FoodController {
         }
     }
 
+    /**
+     * If it receives an HTTP request, it executes the SQL commands to create a food to a reservation in the database.
+     * @param food The food ID
+     * @param reservation The reservation ID
+     * @param quantity The quantity
+     */
     @PostMapping("addFoodToReservation")
     @ResponseBody
     public void addFoodToReservation(@RequestParam int food, @RequestParam int reservation, @RequestParam int quantity) {
@@ -50,6 +67,13 @@ public class FoodController {
         }
     }
 
+    /**
+     * If it receives an HTTP request, it executes the SQL commands to update a food in the database.
+     * @param id The food ID
+     * @param name The new food name
+     * @param price The new food price
+     * @throws UnsupportedEncodingException Throws when it can't decode the parameters
+     */
     @PostMapping("updateFood")
     @ResponseBody
     public void updateFood(@RequestParam int id, @RequestParam String name, @RequestParam int price) throws UnsupportedEncodingException {
@@ -62,6 +86,11 @@ public class FoodController {
         }
     }
 
+    /**
+     * If it receives an HTTP request, it executes the SQL commands to delete a food from a reservation in the database.
+     * @param food The ID of the food to be removed.
+     * @param reservation The ID of the reservation to remove the food from
+     */
     @PostMapping("deleteFoodFromReservation")
     @ResponseBody
     public void deleteFoodFromReservation(@RequestParam int food, @RequestParam int reservation) {
@@ -72,6 +101,11 @@ public class FoodController {
         }
     }
 
+    /**
+     * If it receives an HTTP request, it executes the SQL commands to delete a food from a building in the database.
+     * @param food The ID of the food
+     * @param building The ID of the building
+     */
     @PostMapping("deleteFoodFromBuilding")
     @ResponseBody
     public void deleteFoodFromBuilding(@RequestParam int food, @RequestParam int building) {
@@ -82,6 +116,13 @@ public class FoodController {
         }
     }
 
+    /**
+     * If it receives an HTTP request, it executes the SQL commands to update<br>
+     *  the food quantity for a reservation in the database.
+     * @param food The ID of the food
+     * @param reservation The ID of the reservation
+     * @param quantity The new quantity of the food
+     */
     @PostMapping("updateFoodReservationQuantity")
     @ResponseBody
     public void updateFoodReservationQuantity(@RequestParam int food, @RequestParam int reservation, @RequestParam int quantity) {
@@ -92,6 +133,10 @@ public class FoodController {
         }
     }
 
+    /**
+     * If it receives an HTTP request, it executes the SQL commands to delete a food in the database.
+     * @param id The ID of the food
+     */
     @PostMapping("deleteFood")
     @ResponseBody
     public void deleteFood(@RequestParam int id) {
@@ -102,6 +147,11 @@ public class FoodController {
         }
     }
 
+    /**
+     * If it receives an HTTP request, it executes the SQL command to retrieve a food in the database.
+     * @param id The food ID
+     * @return Returns a Food entity
+     */
     @GetMapping("getFood")
     @ResponseBody
     public Food getFood(@RequestParam int id) {
@@ -113,6 +163,12 @@ public class FoodController {
         return null;
     }
 
+    /**
+     * If it receives an HTTP request, it executes the SQL command to retrieve a food in the database based on its name.
+     * @param name The food name
+     * @return Returns a food entity
+     * @throws UnsupportedEncodingException Throws when it can't decode the parameter
+     */
     @GetMapping("getFoodByName")
     @ResponseBody
     public Food getFoodByName(@RequestParam String name) throws UnsupportedEncodingException {
@@ -125,6 +181,12 @@ public class FoodController {
         return null;
     }
 
+    /**
+     * If it receives an HTTP request, it executes the SQL command to retrieve the foods that are ordered<br>
+     *  with a reservation based on the reservationID.
+     * @param reservation The reservation ID
+     * @return Returns a list of Food entities
+     */
     @GetMapping("getFoodByReservation")
     @ResponseBody
     public List<Food> getFoodByReservation(@RequestParam int reservation)  {
@@ -136,6 +198,12 @@ public class FoodController {
         return null;
     }
 
+    /**
+     * If it receives an HTTP request, it executes the SQL command to retrieve the foods that<br>
+     *  are available at a building based on the building ID.
+     * @param building The building ID
+     * @return Returns a list of Foods
+     */
     @GetMapping("getFoodByBuildingId")
     @ResponseBody
     public List<Food> getFoodByBuildingId(@RequestParam int building)  {
@@ -147,6 +215,12 @@ public class FoodController {
         return null;
     }
 
+    /**
+     * If it receives an HTTP request, it executes the SQL command to retrieve the foods that<br>
+     *  are available at a building based on the building name.
+     * @param name The building name
+     * @return Returns a list of Foods
+     */
     @GetMapping("getFoodByBuildingName")
     @ResponseBody
     public List<Food> getFoodByBuildingName(@RequestParam String name)  {
@@ -158,6 +232,10 @@ public class FoodController {
         return null;
     }
 
+    /**
+     * If it receives an HTTP request, it executes the SQL command to retrieve all foods from the database.
+     * @return Returns a list of Foods
+     */
     @GetMapping("getAllFood")
     @ResponseBody
     public List<Food> getAllFood() {

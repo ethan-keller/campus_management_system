@@ -15,43 +15,79 @@ public class Food {
     private StringProperty foodName;
     private IntegerProperty foodPrice;
 
-
-    public Food(){
+    /**
+     * Constructor to initialize without paramters.
+     */
+    public Food() {
         this.foodId = new SimpleIntegerProperty(-1);
         this.foodName = new SimpleStringProperty(null);
         this.foodPrice = new SimpleIntegerProperty(-1);
     }
 
-    public Food(int id, String name, int price){
+    /**
+     * Constructor to initialize with parameters.
+     * @param id New Food id
+     * @param name New Food name
+     * @param price New Food price
+     */
+    public Food(int id, String name, int price) {
         this.foodId = new SimpleIntegerProperty(id);
         this.foodName = new SimpleStringProperty(name);
         this.foodPrice = new SimpleIntegerProperty(price);
     }
 
+    /**
+     * Gets food ID.
+     * @return Returns ID
+     */
     public int getFoodId() {
         return foodId.get();
     }
 
+    /**
+     * Sets the Food ID.
+     * @param foodId The new ID
+     */
     public void setFoodId(int foodId) {
         this.foodId.set(foodId);
     }
 
+    /**
+     * Returns the food name.
+     * @return The name
+     */
     public String getFoodName() {
         return foodName.get();
     }
 
+    /**
+     * Sets the food name.
+     * @param foodName The new name
+     */
     public void setFoodName(String foodName) {
         this.foodName.set(foodName);
     }
 
+    /**
+     * Returns the food price.
+     * @return The price
+     */
     public int getFoodPrice() {
         return foodPrice.get();
     }
 
+    /**
+     * Sets the food price.
+     * @param foodPrice The new price
+     */
     public void setFoodPrice(int foodPrice) {
         this.foodPrice.set(foodPrice);
     }
 
+    /**
+     * Returns all foods in the database.
+     * @return List of Food
+     */
     public static ObservableList<Food> getAllFoodData() {
         try {
             ObservableList<Food> foodData = FXCollections.observableArrayList();
@@ -70,6 +106,11 @@ public class Food {
         return null;
     }
 
+    /**
+     * Returns a list of Foods that have been added to a particular reservation.
+     * @param id The Reservation ID
+     * @return Returns a list of Food
+     */
     public static ObservableList<Food> getFoodByReservationId(int id) {
         try {
             ObservableList<Food> foodData = FXCollections.observableArrayList();
@@ -88,6 +129,11 @@ public class Food {
         return null;
     }
 
+    /**
+     * Returns all foods that are available at a particular building with ID.
+     * @param id The building ID
+     * @return Returns a list of Food
+     */
     public static ObservableList<Food> getFoodByBuildingId(int id) {
         try {
             ObservableList<Food> foodData = FXCollections.observableArrayList();
@@ -106,6 +152,11 @@ public class Food {
         return null;
     }
 
+    /**
+     * Returns all foods that are available at a particular building with a building name.
+     * @param name The building name
+     * @return Returns a list of Food
+     */
     public static ObservableList<Food> getFoodByBuildingName(String name) {
         try {
             ObservableList<Food> foodData = FXCollections.observableArrayList();
@@ -124,6 +175,11 @@ public class Food {
         return null;
     }
 
+    /**
+     * Returns a Food that is associated with a particular ID.
+     * @param id The food ID
+     * @return Returns a Food object
+     */
     public static Food getFoodById(int id) {
         try {
             JSONObject jsonObject = new JSONObject(FoodServerCommunication.getFood(id));
