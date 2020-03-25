@@ -1,8 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +12,8 @@ import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
+
+import java.io.IOException;
 
 public class AdminManageReservationViewController {
     /**
@@ -132,7 +131,7 @@ public class AdminManageReservationViewController {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            //currentSelectedReservation = null;
+            currentSelectedReservation = null;
             ReservationEditDialogView view = new ReservationEditDialogView();
             view.start(stage);
 

@@ -434,10 +434,11 @@ public class RoomViewController implements Initializable {
             double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
 
             // check if the values overlap
-            if (currentStartValue <= startValue && currentEndValue <= startValue) return true;
-            if (currentStartValue >= endValue && currentEndValue >= endValue) return true;
+            if (!((currentStartValue <= startValue && currentEndValue <= startValue)
+                    || (currentStartValue >= endValue && currentEndValue >= endValue))) return false;
+
         }
-        return false;
+        return true;
     }
 
     /**

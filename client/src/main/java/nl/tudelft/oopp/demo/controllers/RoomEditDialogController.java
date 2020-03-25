@@ -1,7 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.util.stream.Collectors;
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +9,8 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
+
+import java.util.stream.Collectors;
 
 
 public class RoomEditDialogController {
@@ -96,7 +96,7 @@ public class RoomEditDialogController {
             emptyRoom();
             room.setRoomName(this.roomNameField.getText());
             room.setRoomBuilding(this.roomBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
-            room.setTeacherOnly(this.radioButtonYes.isSelected() ? true : false);
+            room.setTeacherOnly(this.radioButtonYes.isSelected());
             room.setRoomCapacity(Integer.parseInt(this.roomCapacityField.getText()));
             room.setRoomType(this.roomTypeField.getText());
             room.setRoomDescription(this.roomDescriptionField.getText());

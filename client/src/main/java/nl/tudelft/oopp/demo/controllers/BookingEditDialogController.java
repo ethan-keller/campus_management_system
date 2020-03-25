@@ -495,6 +495,9 @@ public class BookingEditDialogController {
         if (roomReservations.size() == 0) return true;
 
         for (Reservation r : roomReservations) {
+            // if reservation equals the one we are editing, don't consider it
+            if(r.getId().get() == reservation.getId().get()) continue;
+
             // get rangeslider values + reservation values
             double currentStartValue = timeSlotSlider.getLowValue();
             double currentEndValue = timeSlotSlider.getHighValue();
@@ -502,10 +505,11 @@ public class BookingEditDialogController {
             double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
 
             // check if the values overlap
-            if (currentStartValue <= startValue && currentEndValue <= startValue) return true;
-            if (currentStartValue >= endValue && currentEndValue >= endValue) return true;
+            if (!((currentStartValue <= startValue && currentEndValue <= startValue)
+                    || (currentStartValue >= endValue && currentEndValue >= endValue))) return false;
+
         }
-        return false;
+        return true;
     }
 
     /**

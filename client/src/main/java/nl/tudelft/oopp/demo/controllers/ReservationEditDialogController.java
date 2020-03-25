@@ -72,6 +72,7 @@ public class ReservationEditDialogController {
     private void initialize() {
         try {
             Reservation reservation = AdminManageReservationViewController.currentSelectedReservation;
+            this.reservation = null;
             date.setConverter(getDateConverter());
             ObservableList<User> oL = User.getUserData();
             ObservableList<Room> ol = Room.getRoomData();
@@ -101,24 +102,22 @@ public class ReservationEditDialogController {
             room.setItems(ol);
             this.setRoomComboBoxConverter(ol);
 
-            if(reservation != null){
+            if (reservation != null) {
                 username.getSelectionModel().select(oL.stream().filter(x -> x.getUsername().get().equals(reservation.getUsername().get().toLowerCase())).collect(Collectors.toList()).get(0));
                 username.setDisable(true);
                 room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get() == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
                 date.setValue(LocalDate.parse(reservation.getDate().get(), formatter));
                 String[] startTimeSplit = reservation.getStartingTime().get().split(":");
-                timeslot.setLowValue(Double.parseDouble(startTimeSplit[0])*60.0 + Double.parseDouble(startTimeSplit[1]));
+                timeslot.setLowValue(Double.parseDouble(startTimeSplit[0]) * 60.0 + Double.parseDouble(startTimeSplit[1]));
                 String[] endTimeSplit = reservation.getEndingTime().get().split(":");
-                timeslot.setHighValue(Double.parseDouble(endTimeSplit[0])*60.0 + Double.parseDouble(endTimeSplit[1]));
+                timeslot.setHighValue(Double.parseDouble(endTimeSplit[0]) * 60.0 + Double.parseDouble(endTimeSplit[1]));
                 startTime.setText("Start: " + getRangeSliderConverter().toString(timeslot.getLowValue()));
                 endTime.setText("End: " + getRangeSliderConverter().toString(timeslot.getHighValue()));
-            }
-            else {
+            } else {
                 return;
             }
-        }
-        catch(Exception e) {
-                e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -192,7 +191,28 @@ public class ReservationEditDialogController {
         try {
             // get currently selected room
             Room selectedRoom = room.getSelectionModel().getSelectedItem();
-            if (selectedRoom == null) return;
+            // get css file and delete its content to fill it again
+            File css = new File(getClass().getResource("/RangeSlider.css").getPath());
+            css.delete();
+            css.createNewFile();
+            BufferedWriter bw = new BufferedWriter(new FileWriter(css));
+
+            if (selectedRoom == null) {
+                // set the default css of a rangeSlider
+                timeslot.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
+                bw.write(".track {\n" +
+                        "\t-fx-background-color: linear-gradient(to right, #91ef99 0%, #91ef99 100%);\n" +
+                        "    -fx-background-insets: 0 0 -1 0, 0, 1;\n" +
+                        "    -fx-background-radius: 0.25em, 0.25em, 0.166667em; /* 3 3 2 */\n" +
+                        "    -fx-padding: 0.25em; /* 3 */\n" +
+                        "}\n" +
+                        "\n" +
+                        ".range-bar {\n" +
+                        "    -fx-background-color: rgba(0,0,0,0.5);\n" +
+                        "}");
+                bw.close();
+                return;
+            }
             // get reservations for this room on the selected date
             List<Reservation> reservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
                     date.getValue(), getDateConverter());
@@ -217,12 +237,6 @@ public class ReservationEditDialogController {
                     else return 1;
                 }
             });
-
-            // get css file and delete its content to fill it again
-            File css = new File(getClass().getResource("/RangeSlider.css").getPath());
-            css.delete();
-            css.createNewFile();
-            BufferedWriter bw = new BufferedWriter(new FileWriter(css));
 
             // first part of css
             bw.write(".track {\n" + "\t-fx-background-color: linear-gradient(to right, ");
@@ -300,7 +314,10 @@ public class ReservationEditDialogController {
 
                 @Override
                 public Number fromString(String string) {
-                    return null;
+                    String[] split = string.split(":");
+                    double hours = Double.parseDouble(split[0]);
+                    double minutes = Double.parseDouble(split[1]);
+                    return hours * 60 + minutes;
                 }
             };
         } catch (Exception e) {
@@ -449,30 +466,47 @@ public class ReservationEditDialogController {
      * @return true if the timeslot is free, false otherwise
      */
     private boolean checkTimeSlotValidity() {
-        // get currently selected room
-        Room selectedRoom = room.getSelectionModel().getSelectedItem();
-        if (selectedRoom == null) return false;
-        // get all reservations for the current room on the chosen date
-        List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
-                date.getValue(), getDateConverter());
+        try {
+            // get currently selected room
+            Room selectedRoom = room.getSelectionModel().getSelectedItem();
+            if (selectedRoom == null) return false;
+            // get all reservations for the current room on the chosen date
+            List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
+                    date.getValue(), getDateConverter());
 
-        // get converter to convert date value to String format hh:mm
-        StringConverter<Number> timeConverter = getRangeSliderConverter();
+            // if something went wrong with the server communication return false
+            if (roomReservations == null) return false;
 
-        // if there are no reservations the timeslot is valid
-        if (roomReservations.size() == 0) return true;
+            // get converter to convert date value to String format hh:mm
+            StringConverter<Number> timeConverter = getRangeSliderConverter();
 
-        for (Reservation r : roomReservations) {
-            // get rangeslider values + reservation values
-            double currentStartValue = timeslot.getLowValue();
-            double currentEndValue = timeslot.getHighValue();
-            double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
-            double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
+            // if there are no reservations the timeslot is valid
+            if (roomReservations.size() == 0) return true;
 
-            // check if the values overlap
-            if (currentStartValue <= startValue && currentEndValue <= startValue) return true;
-            if (currentStartValue >= endValue && currentEndValue >= endValue) return true;
+            Reservation res = AdminManageReservationViewController.currentSelectedReservation;
+
+            for (Reservation r : roomReservations) {
+                // if reservation equals the one we are editing, don't consider it
+                if (res != null) {
+                    if (r.getId().get() == res.getId().get()) continue;
+                }
+
+                // get rangeslider values + reservation values
+                double currentStartValue = timeslot.getLowValue();
+                double currentEndValue = timeslot.getHighValue();
+                double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
+                double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
+
+                // check if the values overlap
+                if (!((currentStartValue <= startValue && currentEndValue <= startValue)
+                        || (currentStartValue >= endValue && currentEndValue >= endValue))) return false;
+
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }
+
 }
