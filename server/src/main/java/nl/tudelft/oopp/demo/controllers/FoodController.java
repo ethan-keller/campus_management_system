@@ -44,7 +44,7 @@ public class FoodController {
     @ResponseBody
     public void addFoodToReservation(@RequestParam int foodId, @RequestParam int reservationId, @RequestParam int quantity) {
         try {
-            foodRepo.addFoodToReservation(foodId, reservationId, quantity);
+            foodRepo.addFoodToReservation(reservationId, foodId, quantity);
         } catch(Exception e) {
             e.printStackTrace();
         }

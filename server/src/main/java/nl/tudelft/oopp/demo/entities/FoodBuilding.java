@@ -27,10 +27,6 @@ public class FoodBuilding implements Serializable {
         return food;
     }
 
-    public void setFood(Food food) {
-        this.food = food;
-    }
-
     public Building getBuilding() {
         return building;
     }

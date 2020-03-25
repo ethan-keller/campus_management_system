@@ -9,84 +9,88 @@ import java.net.http.HttpResponse;
 public class FoodServerCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
 
-    public void createFood(String name, int price) throws UnsupportedEncodingException {
+    public static void createFood(String name, int price) {
         String params = "name=" + name + "&price=" + price;
         send("createFood", params);
     }
 
-    public void addFoodToBuilding(int foodId, int buildingId) {
+    public static void addFoodToBuilding(int foodId, int buildingId) {
         String params = "foodId=" + foodId + "&buildingId=" + buildingId;
         send("addFoodToBuilding", params);
     }
 
-    public void addFoodToReservation(int foodId, int reservationId) {
-        String params = "foodId=" + foodId + "&reservationId=" + reservationId;
+    public static void addFoodToReservation(int foodId, int reservationId) {
+        String params = "foodId=" + foodId + "&reservationId=" + reservationId + "&quantity=1";
         send("addFoodToReservation", params);
     }
 
-    public void updateFood(int id, int name, int price) {
+    public static void addFoodToReservation(int foodId, int reservationId, int quantity) {
+        String params = "foodId=" + foodId + "&reservationId=" + reservationId + "&quantity=" + quantity;
+        send("addFoodToReservation", params);
+    }
+
+    public static void updateFood(int id, int name, int price) {
         String params = "id=" + id + "&name=" + name + "&price=" + price;
         send("updateFood", params);
     }
 
-    public void deleteFoodFromReservation(int foodId, int reservationId) {
+    public static void deleteFoodFromReservation(int foodId, int reservationId) {
         String params = "foodId=" + foodId + "&reservationId=" + reservationId;
         send("deleteFoodFromReservation", params);
     }
 
-    public void deleteFoodFromBuilding(int foodId, int buildingId) {
+    public static void deleteFoodFromBuilding(int foodId, int buildingId) {
         String params = "foodId=" + foodId + "&buildingId=" + buildingId;
         send("deleteFoodFromBuilding", params);
     }
 
-    public void updateFoodReservationQuantity(int foodId, int reservationId) {
+    public static void updateFoodReservationQuantity(int foodId, int reservationId) {
         String params = "foodId=" + foodId + "&reservationId=" + reservationId;
         send("updateFoodReservationQuantity", params);
     }
 
-    public void deleteFood(int id) {
+    public static void deleteFood(int id) {
         String params = "id=" + id;
         send("deleteFood", params);
     }
 
-    public String getFood(int id) {
+    public static String getFood(int id) {
         String params = "id=" + id;
         return send("getFood", params);
     }
 
-    public String getFoodByName(String name) {
+    public static String getFoodByName(String name) {
         String params = "name=" + name;
         return send("getFoodByName", params);
     }
 
-    public String getFoodByReservation(int reservationId) {
+    public static String getFoodByReservation(int reservationId) {
         String params = "reservationId=" + reservationId;
         return send("getFoodByReservation", params);
     }
 
-    public String getFoodByBuildingId(int buildingId) {
+    public static String getFoodByBuildingId(int buildingId) {
         String params = "buildingId=" + buildingId;
         return send("getFoodByBuildingId", params);
     }
 
-    public String getFoodByBuildingName(int name) {
+    public static String getFoodByBuildingName(String name) {
         String params = "name=" + name;
         return send("getFoodByBuildingName", params);
     }
 
-    public String getAllFood() {
+    public static String getAllFood() {
         return send("getAllFood", "");
     }
 
-
-    public String send(String url, String params) {
+    public static String send(String url, String params) {
         try {
             params = GeneralMethods.encodeCommunication(params);
         } catch (UnsupportedEncodingException e){
             e.printStackTrace();
         }
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody())
-                .uri(URI.create("http://localhost:8080/" + url + params)).build();
+                .uri(URI.create("http://localhost:8080/" + url + "?" + params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());

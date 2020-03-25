@@ -9,14 +9,14 @@ import java.net.http.HttpResponse;
 public class BikeReservationCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
 
-    public void createBikeReservation(int building, int numBikes, String date, String startingTime, String endingTime) {
+    public static void createBikeReservation(int building, int numBikes, String date, String startingTime, String endingTime) {
         String params = "building=" + building + "&numBikes=" + numBikes +
                 "&date=" + date + "&startingTime=" + startingTime +
                 "&endingTime=" + endingTime;
         send("createBikeReservation", params);
     }
 
-    public void updateBikeReservation(int id, int building, int numBikes, String date,
+    public static void updateBikeReservation(int id, int building, int numBikes, String date,
                                       String startingTime, String endingTime) {
         String params = "id=" + id + "&building=" + building + "&numBikes=" + numBikes +
                 "&date=" + date + "&startingTime=" + startingTime +
@@ -24,28 +24,28 @@ public class BikeReservationCommunication {
         send("updateBikeReservation", params);
     }
 
-    public void deleteBikeReservation(int id) {
+    public static void deleteBikeReservation(int id) {
         String params = "id=" + id;
         send("deleteBikeReservation", params);
     }
 
-    public String getBikeReservation(int id) {
+    public static String getBikeReservation(int id) {
         String params = "id=" + id;
         return send("getBikeReservation", params);
     }
 
-    public String getAllBikeReservation() {
+    public static String getAllBikeReservation() {
         return send("getBikeReservation", "");
     }
 
-    public String getBuildingBikeReservation(int building) {
+    public static String getBuildingBikeReservation(int building) {
         String params = "building=" + building;
         return send("getBuildingBikeReservation", params);
     }
 
 
 
-    public String send(String url, String params) {
+    public static String send(String url, String params) {
         try {
             params = GeneralMethods.encodeCommunication(params);
         } catch (UnsupportedEncodingException e){

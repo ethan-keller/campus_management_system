@@ -7,12 +7,12 @@ import java.util.Objects;
 @Entity
 public class FoodReservations implements Serializable {
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Food food;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Reservations reservation;
 
@@ -31,24 +31,12 @@ public class FoodReservations implements Serializable {
         return food;
     }
 
-    public void setFood(Food food) {
-        this.food = food;
-    }
-
     public Reservations getReservation() {
         return reservation;
     }
 
-    public void setReservation(Reservations reservation) {
-        this.reservation = reservation;
-    }
-
     public int getQuantity() {
         return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public boolean equals(Object o) {

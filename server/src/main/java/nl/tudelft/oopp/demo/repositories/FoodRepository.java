@@ -37,12 +37,12 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO foodBuilding (food, building) VALUES (:foodId, :buildingId)", nativeQuery = true)
+    @Query(value = "INSERT INTO foodBuilding(food, building) VALUES (:foodId, :buildingId)", nativeQuery = true)
     public void addFoodToBuilding(@Param("foodId") int foodId, @Param("buildingId") int buildingId);
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO foodReservations (reservation, food, quantity) VALUES (:reservationId, :foodId, :quantity)", nativeQuery = true)
+    @Query(value = "INSERT INTO foodReservations(reservation, food, quantity) VALUES (:reservationId, :foodId, :quantity)", nativeQuery = true)
     public void addFoodToReservation(@Param("reservationId") int reservationId, @Param("foodId") int foodId, @Param("quantity") int quantity);
 
     @Modifying
@@ -57,17 +57,17 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM foodReservations WHERE reservation = :reservationId AND food := foodId", nativeQuery = true)
+    @Query(value = "DELETE FROM foodReservations WHERE reservation = :reservationId AND food = :foodId", nativeQuery = true)
     public void deleteFoodReservation(@Param("reservationId") int reservationId, @Param("foodId") int foodId);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM foodBuilding WHERE building = :buildingId AND food := foodId", nativeQuery = true)
+    @Query(value = "DELETE FROM foodBuilding WHERE building = :buildingId AND food = :foodId", nativeQuery = true)
     public void deleteFoodBuilding(@Param("buildingId") int buildingId, @Param("foodId") int foodId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE foodReservations SET quantity := quantity WHERE reservation = :reservationId AND food := foodId", nativeQuery = true)
+    @Query(value = "UPDATE foodReservations SET quantity = :quantity WHERE reservation = :reservationId AND food = :foodId", nativeQuery = true)
     public void updateFoodReservationQuantity(@Param("reservationId") int reservationId, @Param("foodId") int foodId, @Param("quantity") int quantity);
 
     @Modifying
