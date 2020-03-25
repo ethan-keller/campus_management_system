@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -149,7 +150,16 @@ public class BookingEditDialogController {
         try {
             // get currently selected room
             Room selectedRoom = bookingRoomComboBox.getSelectionModel().getSelectedItem();
-            if (selectedRoom == null) return;
+            // get css file and delete its content to fill it again
+            File css = new File(getClass().getResource("/RangeSlider.css").getPath());
+            css.delete();
+            css.createNewFile();
+            BufferedWriter bw = new BufferedWriter(new FileWriter(css));
+            if (selectedRoom == null) {
+                GeneralMethods.setSliderDefaultCSS(timeSlotSlider, bw
+                        , getClass().getResource("/RangeSlider.css").toExternalForm());
+                return;
+            }
             // get reservations for this room on the selected date
             List<Reservation> reservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
                     bookingDate.getValue(),
@@ -175,12 +185,6 @@ public class BookingEditDialogController {
                     else return 1;
                 }
             });
-
-            // get css file and delete its content to fill it again
-            File css = new File(getClass().getResource("/RangeSlider.css").getPath());
-            css.delete();
-            css.createNewFile();
-            BufferedWriter bw = new BufferedWriter(new FileWriter(css));
 
             // first part of css
             bw.write(".track {\n" + "\t-fx-background-color: linear-gradient(to right, ");
@@ -213,7 +217,8 @@ public class BookingEditDialogController {
                     "}\n\n" + ".range-bar {\n" +
                     "\t-fx-background-color: rgba(0,0,0,0.3);\n" +
                     "}");
-            // close writer
+            // flush and close writer
+            bw.flush();
             bw.close();
             // remove current stylesheet
             timeSlotSlider.getStylesheets().remove(getClass().getResource("/RangeSlider.css").toExternalForm());

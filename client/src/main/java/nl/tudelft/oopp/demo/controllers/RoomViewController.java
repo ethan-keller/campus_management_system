@@ -310,9 +310,22 @@ public class RoomViewController implements Initializable {
      */
     private void configureCSS() {
         try {
+            // get css file and delete its content to fill it again
+            File css = new File(getClass().getResource("/RangeSlider.css").getPath());
+            css.delete();
+            css.createNewFile();
+            BufferedWriter bw = new BufferedWriter(new FileWriter(css));
+            // if no date picked, make slider track white
+            if(datePicker.getValue() == null){
+                GeneralMethods.setSliderDefaultCSS(timeSlotSlider, bw
+                        , getClass().getResource("/RangeSlider.css").toExternalForm());
+                return;
+            }
             // get reservations for this room on the selected date
             List<Reservation> reservations = Reservation.getRoomReservationsOnDate(currentRoomId,
                     datePicker.getValue(), getDatePickerConverter());
+
+            if(reservations == null) return;
 
             // sort them in ascending order
             reservations.sort(new Comparator<Reservation>() {
@@ -334,12 +347,6 @@ public class RoomViewController implements Initializable {
                     else return 1;
                 }
             });
-
-            // get css file and delete its content to fill it again
-            File css = new File(getClass().getResource("/RangeSlider.css").getPath());
-            css.delete();
-            css.createNewFile();
-            BufferedWriter bw = new BufferedWriter(new FileWriter(css));
 
             // first part of css
             bw.write(".track {\n" + "\t-fx-background-color: linear-gradient(to right, ");
@@ -372,7 +379,8 @@ public class RoomViewController implements Initializable {
                     "}\n\n" + ".range-bar {\n" +
                     "\t-fx-background-color: rgba(0,0,0,0.3);\n" +
                     "}");
-            // close writer
+            // flush and close writer
+            bw.flush();
             bw.close();
             // remove current stylesheet
             timeSlotSlider.getStylesheets().remove(getClass().getResource("/RangeSlider.css").toExternalForm());

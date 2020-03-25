@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
@@ -198,19 +199,9 @@ public class ReservationEditDialogController {
             BufferedWriter bw = new BufferedWriter(new FileWriter(css));
 
             if (selectedRoom == null) {
-                // set the default css of a rangeSlider
-                timeslot.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
-                bw.write(".track {\n" +
-                        "\t-fx-background-color: linear-gradient(to right, #91ef99 0%, #91ef99 100%);\n" +
-                        "    -fx-background-insets: 0 0 -1 0, 0, 1;\n" +
-                        "    -fx-background-radius: 0.25em, 0.25em, 0.166667em; /* 3 3 2 */\n" +
-                        "    -fx-padding: 0.25em; /* 3 */\n" +
-                        "}\n" +
-                        "\n" +
-                        ".range-bar {\n" +
-                        "    -fx-background-color: rgba(0,0,0,0.5);\n" +
-                        "}");
-                bw.close();
+                // make track completely white
+                GeneralMethods.setSliderDefaultCSS(timeslot, bw
+                        , getClass().getResource("/RangeSlider.css").toExternalForm());
                 return;
             }
             // get reservations for this room on the selected date
@@ -247,6 +238,8 @@ public class ReservationEditDialogController {
             // if there are no reservations make the track completely green
             if (!it.hasNext()) bw.write("#91ef99 0%, #91ef99 100%);\n");
 
+            Reservation res = AdminManageReservationViewController.currentSelectedReservation;
+
             // calculate and add green and red parts
             while (it.hasNext()) {
                 Reservation r = it.next();
@@ -254,6 +247,16 @@ public class ReservationEditDialogController {
                 String[] endTime = r.getEndingTime().get().split(":");
                 double startPercentage = ((Double.parseDouble(startTime[0]) - 8.0) * 60.0 + Double.parseDouble(startTime[1])) / 9.60;
                 double endPercentage = ((Double.parseDouble(endTime[0]) - 8.0) * 60.0 + Double.parseDouble(endTime[1])) / 9.60;
+                // if reservation is the one that is being edited, give it a light blue color
+                if(res != null && res.getId().get() == r.getId().get()){
+                    bw.write("#91ef99 " + startPercentage + "%, ");
+                    bw.write("#70e5fa " + startPercentage + "%, ");
+                    bw.write("#70e5fa " + endPercentage + "%, ");
+                    bw.write("#91ef99 " + endPercentage + "%");
+                    if (!it.hasNext()) bw.write(");\n");
+                    else bw.write(", ");
+                    continue;
+                }
                 bw.write("#91ef99 " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + endPercentage + "%, ");
@@ -269,13 +272,33 @@ public class ReservationEditDialogController {
                     "}\n\n" + ".range-bar {\n" +
                     "\t-fx-background-color: rgba(0,0,0,0.3);\n" +
                     "}");
-            // close writer
+            // flush and close writer
+            bw.flush();
             bw.close();
             // remove current stylesheet
             timeslot.getStylesheets().remove(getClass().getResource("/RangeSlider.css").toExternalForm());
             // add new stylesheet
             timeslot.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setSliderDefaultCSS(BufferedWriter bw) {
+        try {
+            timeslot.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
+            bw.write(".track {\n" +
+                    "\t-fx-background-color: linear-gradient(to right, #91ef99 0%, #91ef99 100%);\n" +
+                    "    -fx-background-insets: 0 0 -1 0, 0, 1;\n" +
+                    "    -fx-background-radius: 0.25em, 0.25em, 0.166667em; /* 3 3 2 */\n" +
+                    "    -fx-padding: 0.25em; /* 3 */\n" +
+                    "}\n" +
+                    "\n" +
+                    ".range-bar {\n" +
+                    "    -fx-background-color: rgba(0,0,0,0.5);\n" +
+                    "}");
+            bw.close();
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
