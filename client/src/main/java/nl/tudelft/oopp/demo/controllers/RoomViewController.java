@@ -30,6 +30,7 @@ import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;
 import org.controlsfx.control.RangeSlider;
@@ -466,6 +467,21 @@ public class RoomViewController implements Initializable {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * Redirects the user back to the login page.
+     * @param event ActionEvent
+     */
+    @FXML
+    private void signOutButtonClicked(ActionEvent event) {
+        try {
+            //loads a new login page
+            LoginView loginView = new LoginView();
+            loginView.start(thisStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

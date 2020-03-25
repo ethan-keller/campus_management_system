@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
 
 public class AdminManageReservationViewController {
@@ -81,9 +82,12 @@ public class AdminManageReservationViewController {
      */
     public Reservation getSelectedReservation() {
 
+        // If reservation selection is valid:
         if (listReservations.getSelectionModel().getSelectedIndex() >= 0) {
+            // Returns the item ( of type Reservation ) back to the user.
             return listReservations.getSelectionModel().getSelectedItem();
         } else {
+            // If no item is selected, then null is returned.
             return null;
         }
     }
@@ -100,13 +104,16 @@ public class AdminManageReservationViewController {
      */
     @FXML
     public void DeleteReservationClicked(ActionEvent event) {
+        // To delete a reservation, one of the reservations need to be selected from the tabular view.
         Reservation selectedReservation = getSelectedReservation();
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
                 //TODO: Check that Reservation deletion was successful before displaying alert message.
                 ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
+                // To update the tabular view after removing the reservation.
                 refresh();
+                // Displaying a message to the admin for clearer communication.
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Delete Reservation");
                 alert.setContentText("Reservation deleted!");
@@ -201,14 +208,29 @@ public class AdminManageReservationViewController {
     /**
      * This will redirect the adminManageReservation view back to the home page for the admin to have for options to choose from.
      *
-     * @param event
-     * @throws IOException
+     * @param event is passed as a paramter.
+     * @throws IOException is thrown.
      */
     @FXML
     private void BackButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
+        // This loads up a new admin home page.
         AdminHomePageView ahpv = new AdminHomePageView();
         ahpv.start(stage);
+    }
+
+    /**
+     * This button redirects the admin back to the login page.
+     * @param event is passed as a parameter.
+     * @throws IOException is thrown.
+     */
+    @FXML
+    private void signOutButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // This loads up a new login page.
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
     }
 }

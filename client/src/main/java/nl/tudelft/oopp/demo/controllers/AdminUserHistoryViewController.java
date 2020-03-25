@@ -15,6 +15,7 @@ import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.BookingEditDialogView;
+import nl.tudelft.oopp.demo.views.LoginView;
 
 
 public class AdminUserHistoryViewController {
@@ -157,6 +158,20 @@ public class AdminUserHistoryViewController {
 
         AdminManageUserView amuv = new AdminManageUserView();
         amuv.start(stage);
+    }
+
+    /**
+     * This button redirects the user back to the login page.
+     * @param event is passed
+     * @throws IOException is thrown.
+     */
+    @FXML
+    private void signOutClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // This opens up a new login page.
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
     }
 
 }

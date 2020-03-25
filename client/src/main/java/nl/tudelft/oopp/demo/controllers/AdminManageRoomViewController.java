@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomEditDialogView;
 
 
@@ -187,13 +188,31 @@ public class AdminManageRoomViewController {
         }
     }
 
-
+    /**
+     * This button redirects the user back to the login page.
+     * @param event is passed.
+     * @throws IOException is thrown.
+     */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         AdminHomePageView adminHomePageView = new AdminHomePageView();
         adminHomePageView.start(stage);
+    }
+
+    /**
+     * This redirects the admin back to the login page.
+     * @param event is passed.
+     * @throws IOException is thrown.
+     */
+    @FXML
+    private void signOutClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // This open up a new login page.
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
     }
 
 }

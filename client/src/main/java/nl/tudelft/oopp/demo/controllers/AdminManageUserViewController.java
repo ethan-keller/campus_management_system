@@ -16,6 +16,7 @@ import nl.tudelft.oopp.demo.communication.UserServerCommunication;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.UserEditDialogView;
 
 
@@ -194,11 +195,32 @@ public class AdminManageUserViewController {
         }
     }
 
+    /**
+     * This button redirects the admin back to the admin home page for more options
+     * @param event is passed.
+     * @throws IOException is thrown.
+     */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
+        // This starts a new admin home page view.
         AdminHomePageView ahpv = new AdminHomePageView();
         ahpv.start(stage);
     }
+
+    /**
+     * This button redirects the user back to the login page.
+     * @param event is passed.
+     * @throws IOException is thrown.
+     */
+    @FXML
+    private void signOutClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // This loads up a new login page.
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
+    }
+
 }
