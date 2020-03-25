@@ -248,7 +248,7 @@ public class ReservationEditDialogController {
                 double startPercentage = ((Double.parseDouble(startTime[0]) - 8.0) * 60.0 + Double.parseDouble(startTime[1])) / 9.60;
                 double endPercentage = ((Double.parseDouble(endTime[0]) - 8.0) * 60.0 + Double.parseDouble(endTime[1])) / 9.60;
                 // if reservation is the one that is being edited, give it a light blue color
-                if(res != null && res.getId().get() == r.getId().get()){
+                if (res != null && res.getId().get() == r.getId().get()) {
                     bw.write("#91ef99 " + startPercentage + "%, ");
                     bw.write("#70e5fa " + startPercentage + "%, ");
                     bw.write("#70e5fa " + endPercentage + "%, ");
@@ -284,25 +284,12 @@ public class ReservationEditDialogController {
         }
     }
 
-    private void setSliderDefaultCSS(BufferedWriter bw) {
-        try {
-            timeslot.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
-            bw.write(".track {\n" +
-                    "\t-fx-background-color: linear-gradient(to right, #91ef99 0%, #91ef99 100%);\n" +
-                    "    -fx-background-insets: 0 0 -1 0, 0, 1;\n" +
-                    "    -fx-background-radius: 0.25em, 0.25em, 0.166667em; /* 3 3 2 */\n" +
-                    "    -fx-padding: 0.25em; /* 3 */\n" +
-                    "}\n" +
-                    "\n" +
-                    ".range-bar {\n" +
-                    "    -fx-background-color: rgba(0,0,0,0.5);\n" +
-                    "}");
-            bw.close();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Configure RangeSLider listeners that change the Start and End text values.
+     * This method also makes sure that the user can only pick timeslots of 30 min
+     *
+     * @param converter StringConverter that converts slider value to String hh:mm format
+     */
     private void configureRangeSliderListeners(StringConverter<Number> converter) {
         try {
             // listeners to adjust start and end Text objects when thumbs get moved
@@ -321,6 +308,11 @@ public class ReservationEditDialogController {
         }
     }
 
+    /**
+     * Constructor for the RangeSlider converter that converts the slider values to String hh:mm format.
+     *
+     * @return constructed StringConverter
+     */
     private StringConverter<Number> getRangeSliderConverter() {
         try {
             return new StringConverter<Number>() {
@@ -349,6 +341,11 @@ public class ReservationEditDialogController {
         return null;
     }
 
+    /**
+     * Constructor for the converter that converts LocalDate objects to String yyyy-MM-dd format.
+     *
+     * @return constructed StringConverter
+     */
     private StringConverter<LocalDate> getDateConverter() {
         try {
             return new StringConverter<LocalDate>() {
@@ -375,6 +372,11 @@ public class ReservationEditDialogController {
         return null;
     }
 
+    /**
+     * Sets the converter of the room combobox to only show the names of the rooms.
+     *
+     * @param ol ObservableList of rooms
+     */
     public void setRoomComboBoxConverter(ObservableList<Room> ol) {
         StringConverter<Room> converter = new StringConverter<Room>() {
             @Override
@@ -393,6 +395,11 @@ public class ReservationEditDialogController {
         room.setConverter(converter);
     }
 
+    /**
+     * Sets the converter of the user combobox to only show the names of the users.
+     *
+     * @param oL
+     */
     public void setUserComboBoxConverter(ObservableList<User> oL) {
         StringConverter<User> converter = new StringConverter<User>() {
             @Override
@@ -411,6 +418,9 @@ public class ReservationEditDialogController {
         username.setConverter(converter);
     }
 
+    /**
+     * Create a new empty reservation.
+     */
     public static void emptyReservation() {
         reservation = new Reservation();
     }
@@ -419,7 +429,7 @@ public class ReservationEditDialogController {
      * Called when the OK button is clicked on the dialog box.
      * This causes the information input by the user to be stored in an object.
      *
-     * @param event
+     * @param event event that triggered this method
      */
     @FXML
     public void OKClicked(ActionEvent event) {
@@ -438,13 +448,19 @@ public class ReservationEditDialogController {
     }
 
     /**
-     * Called when the user clicks cancel.
+     * Method that cancels the current edit/creation of a reservation
+     *
+     * @param event event that triggered this method
      */
     @FXML
     private void CancelClicked(ActionEvent event) {
-        reservation = null;
-        this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        dialogStage.close();
+        try {
+            reservation = null;
+            this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            dialogStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

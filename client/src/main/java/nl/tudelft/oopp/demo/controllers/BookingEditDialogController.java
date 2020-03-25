@@ -50,10 +50,6 @@ public class BookingEditDialogController {
 
     private ObservableList<Room> olr;
 
-    private ObservableList<String> sTime;
-
-    private ObservableList<String> eTime;
-
     public static Reservation reservation;
 
     // double thumb slider

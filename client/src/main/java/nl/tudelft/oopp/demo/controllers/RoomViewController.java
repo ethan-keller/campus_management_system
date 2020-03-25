@@ -316,7 +316,7 @@ public class RoomViewController implements Initializable {
             css.createNewFile();
             BufferedWriter bw = new BufferedWriter(new FileWriter(css));
             // if no date picked, make slider track white
-            if(datePicker.getValue() == null){
+            if (datePicker.getValue() == null) {
                 GeneralMethods.setSliderDefaultCSS(timeSlotSlider, bw
                         , getClass().getResource("/RangeSlider.css").toExternalForm());
                 return;
@@ -325,7 +325,7 @@ public class RoomViewController implements Initializable {
             List<Reservation> reservations = Reservation.getRoomReservationsOnDate(currentRoomId,
                     datePicker.getValue(), getDatePickerConverter());
 
-            if(reservations == null) return;
+            if (reservations == null) return;
 
             // sort them in ascending order
             reservations.sort(new Comparator<Reservation>() {

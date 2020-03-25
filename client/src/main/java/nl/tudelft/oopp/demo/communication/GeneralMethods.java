@@ -58,6 +58,13 @@ public class GeneralMethods {
         return null;
     }
 
+    /**
+     * Sets the RangeSlider to a standard white track.
+     *
+     * @param rs  the RangeSlider to configure
+     * @param bw  the BufferedWriter which writes to the CSS file
+     * @param css the css file that is written to
+     */
     public static void setSliderDefaultCSS(RangeSlider rs, BufferedWriter bw, String css) {
         try {
             rs.getStylesheets().add(css);
