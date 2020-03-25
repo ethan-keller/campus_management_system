@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.repositories.BikeReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,10 @@ public class BikeReservationController {
                                       @RequestParam int numBikes, @RequestParam String date,
                                       @RequestParam String startingTime, @RequestParam String endingTime) {
         try {
+            user = CommunicationMethods.decodeCommunication(user);
+            date = CommunicationMethods.decodeCommunication(date);
+            startingTime = CommunicationMethods.decodeCommunication(startingTime);
+            endingTime = CommunicationMethods.decodeCommunication(endingTime);
             bikeResRepo.insertBikeReservation(building, user, numBikes, date, startingTime, endingTime);
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,6 +63,10 @@ public class BikeReservationController {
                                       @RequestParam String date, @RequestParam String startingTime,
                                       @RequestParam String endingTime) {
         try {
+            user = CommunicationMethods.decodeCommunication(user);
+            date = CommunicationMethods.decodeCommunication(date);
+            startingTime = CommunicationMethods.decodeCommunication(startingTime);
+            endingTime = CommunicationMethods.decodeCommunication(endingTime);
             bikeResRepo.updateBikeNum(id, numBikes);
             bikeResRepo.updateBuilding(id, building);
             bikeResRepo.updateUser(id, user);
@@ -123,14 +132,14 @@ public class BikeReservationController {
     /**
      * Retrieves all the bike reservations of the bikes that belong to the building of buildingId.
      *
-     * @param buildingId The id of the building
+     * @param building The id of the building
      * @return Returns a list of bike reservations.
      */
     @GetMapping("getBuildingBikeReservations")
     @ResponseBody
-    public List<BikeReservation> getBuildingBikeReservation(@RequestParam int buildingId) {
+    public List<BikeReservation> getBuildingBikeReservation(@RequestParam int building) {
         try {
-            return bikeResRepo.getBuildingBikeReservations(buildingId);
+            return bikeResRepo.getBuildingBikeReservations(building);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -147,6 +156,7 @@ public class BikeReservationController {
     @ResponseBody
     public List<BikeReservation> getUserBikeReservations(@RequestParam String user) {
         try {
+            user = CommunicationMethods.decodeCommunication(user);
             return bikeResRepo.getUserBikeReservations(user);
         } catch(Exception e) {
             e.printStackTrace();

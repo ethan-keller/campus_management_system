@@ -234,6 +234,7 @@ public class FoodController {
     @ResponseBody
     public List<Food> getFoodByBuildingName(@RequestParam String name)  {
         try {
+            name = CommunicationMethods.decodeCommunication(name);
             return foodRepo.getFoodByBuildingName(name);
         } catch(Exception e) {
             e.printStackTrace();

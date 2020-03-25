@@ -51,7 +51,7 @@ public interface BikeReservationRepository extends JpaRepository<BikeReservation
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE bikeReservation SET date = :date WHERE id = :id", nativeQuery = true)
+    @Query(value = "UPDATE bike_reservation SET date = :date WHERE id = :id", nativeQuery = true)
     public void updateDate(@Param("id") int id, @Param("date") String date);
 
     @Modifying
