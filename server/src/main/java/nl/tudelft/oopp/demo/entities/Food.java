@@ -84,19 +84,19 @@ public class Food implements Serializable {
 
 
     /**
-     * Equals
+     * Equals method.
      *
      * @param o An Object to be compared to "this".
      * @return True if o is the same object, false otherwise.
      */
     @Override
     public boolean equals(Object o) {
-        if(!(o instanceof Food)){
+        if(!(o instanceof Food)) {
             return false;
         }
 
         Food temp = (Food)o;
-        if(id != temp.getId()){
+        if(id != temp.getId()) {
             return false;
         }
 

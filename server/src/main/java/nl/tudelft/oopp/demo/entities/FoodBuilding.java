@@ -20,27 +20,60 @@ public class FoodBuilding implements Serializable {
     @JsonBackReference
     private Building building;
 
+    /**
+     * Empty contructor
+     */
     public FoodBuilding() {}
 
+    /**
+     * Constructor to initialize the variables
+     * @param food The Food entity
+     * @param building The Building entity
+     */
     public FoodBuilding(Food food, Building building) {
         this.food = food;
         this.building = building;
     }
 
+    /**
+     * Returns Food entity.
+     * @return Returns Food entity
+     */
     public Food getFood() {
         return food;
     }
 
+    /**
+     * Sets the Food variable.
+     * @param food The new Food entity
+     */
+    public void setFood(Food food) {
+        this.food = food;
+    }
+
+    /**
+     * Returns Building entity.
+     * @return Returns building entity
+     */
     public Building getBuilding() {
         return building;
     }
 
+    /**
+     * Sets the Building variable.
+     * @param building The new Building entity
+     */
     public void setBuilding(Building building) {
         this.building = building;
     }
 
+    /**
+     * The equals method.
+     * @param o The object to compare 'this' to
+     * @return Returns a boolean
+     */
     public boolean equals(Object o) {
-        if(!(o instanceof FoodBuilding)){
+        if(!(o instanceof FoodBuilding)) {
             return false;
         }
         FoodBuilding temp = (FoodBuilding)o;
@@ -51,6 +84,10 @@ public class FoodBuilding implements Serializable {
         return true;
     }
 
+    /**
+     * The hash method.
+     * @return Returns a unique hashcode for the object
+     */
     @Override
     public int hashCode() {
         return Objects.hash(food.getId(), building.getId());

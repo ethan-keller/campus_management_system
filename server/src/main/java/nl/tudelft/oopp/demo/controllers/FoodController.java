@@ -27,17 +27,19 @@ public class FoodController {
      */
     @PostMapping("createFood")
     @ResponseBody
-    public void createFood(@RequestParam String name, @RequestParam int price) throws UnsupportedEncodingException {
+    public void createFood(@RequestParam String name, @RequestParam int price)
+            throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
-        try{
+        try {
             foodRepo.insertFood(name, price);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * If it receives an HTTP request, it executes the SQL commands to create a food to a building in the database.
+     * If it receives an HTTP request, it executes the SQL commands to<br>
+     * create a food to a building in the database.
      * @param food The ID of the food
      * @param building The ID of the building
      */
@@ -52,14 +54,16 @@ public class FoodController {
     }
 
     /**
-     * If it receives an HTTP request, it executes the SQL commands to create a food to a reservation in the database.
+     * If it receives an HTTP request, it executes the SQL commands to create<br>
+     * a food to a reservation in the database.
      * @param food The food ID
      * @param reservation The reservation ID
      * @param quantity The quantity
      */
     @PostMapping("addFoodToReservation")
     @ResponseBody
-    public void addFoodToReservation(@RequestParam int food, @RequestParam int reservation, @RequestParam int quantity) {
+    public void addFoodToReservation(@RequestParam int food, @RequestParam int reservation,
+                                     @RequestParam int quantity) {
         try {
             foodRepo.addFoodToReservation(reservation, food, quantity);
         } catch(Exception e) {
@@ -76,7 +80,8 @@ public class FoodController {
      */
     @PostMapping("updateFood")
     @ResponseBody
-    public void updateFood(@RequestParam int id, @RequestParam String name, @RequestParam int price) throws UnsupportedEncodingException {
+    public void updateFood(@RequestParam int id, @RequestParam String name,
+                           @RequestParam int price) throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
         try {
             foodRepo.updateName(id, name);
@@ -87,7 +92,8 @@ public class FoodController {
     }
 
     /**
-     * If it receives an HTTP request, it executes the SQL commands to delete a food from a reservation in the database.
+     * If it receives an HTTP request, it executes the SQL commands to<br>
+     * delete a food from a reservation in the database.
      * @param food The ID of the food to be removed.
      * @param reservation The ID of the reservation to remove the food from
      */
@@ -102,7 +108,8 @@ public class FoodController {
     }
 
     /**
-     * If it receives an HTTP request, it executes the SQL commands to delete a food from a building in the database.
+     * If it receives an HTTP request, it executes the SQL commands to<br>
+     * delete a food from a building in the database.
      * @param food The ID of the food
      * @param building The ID of the building
      */
@@ -118,14 +125,15 @@ public class FoodController {
 
     /**
      * If it receives an HTTP request, it executes the SQL commands to update<br>
-     *  the food quantity for a reservation in the database.
+     * the food quantity for a reservation in the database.
      * @param food The ID of the food
      * @param reservation The ID of the reservation
      * @param quantity The new quantity of the food
      */
     @PostMapping("updateFoodReservationQuantity")
     @ResponseBody
-    public void updateFoodReservationQuantity(@RequestParam int food, @RequestParam int reservation, @RequestParam int quantity) {
+    public void updateFoodReservationQuantity(@RequestParam int food, @RequestParam int reservation,
+                                              @RequestParam int quantity) {
         try {
             foodRepo.updateFoodReservationQuantity(reservation, food, quantity);
         } catch(Exception e) {
@@ -164,7 +172,8 @@ public class FoodController {
     }
 
     /**
-     * If it receives an HTTP request, it executes the SQL command to retrieve a food in the database based on its name.
+     * If it receives an HTTP request, it executes the SQL command to<br>
+     * retrieve a food in the database based on its name.
      * @param name The food name
      * @return Returns a food entity
      * @throws UnsupportedEncodingException Throws when it can't decode the parameter
@@ -182,8 +191,8 @@ public class FoodController {
     }
 
     /**
-     * If it receives an HTTP request, it executes the SQL command to retrieve the foods that are ordered<br>
-     *  with a reservation based on the reservationID.
+     * If it receives an HTTP request, it executes the SQL command to<br>
+     * retrieve the foods that are ordered with a reservation based on the reservationID.
      * @param reservation The reservation ID
      * @return Returns a list of Food entities
      */
@@ -200,7 +209,7 @@ public class FoodController {
 
     /**
      * If it receives an HTTP request, it executes the SQL command to retrieve the foods that<br>
-     *  are available at a building based on the building ID.
+     * are available at a building based on the building ID.
      * @param building The building ID
      * @return Returns a list of Foods
      */
@@ -233,7 +242,8 @@ public class FoodController {
     }
 
     /**
-     * If it receives an HTTP request, it executes the SQL command to retrieve all foods from the database.
+     * If it receives an HTTP request, it executes the SQL command<br>
+     * to retrieve all foods from the database.
      * @return Returns a list of Foods
      */
     @GetMapping("getAllFood")

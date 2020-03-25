@@ -30,7 +30,9 @@ public class BikeReservationController {
      */
     @PostMapping("createBikeReservation")
     @ResponseBody
-    public void createBikeReservation(@RequestParam int building, @RequestParam String user, @RequestParam int numBikes, @RequestParam String date, @RequestParam String startingTime, @RequestParam String endingTime) {
+    public void createBikeReservation(@RequestParam int building, @RequestParam String user,
+                                      @RequestParam int numBikes, @RequestParam String date,
+                                      @RequestParam String startingTime, @RequestParam String endingTime) {
         try {
             bikeResRepo.insertBikeReservation(building, user, numBikes, date, startingTime, endingTime);
         } catch (Exception e) {
@@ -51,15 +53,18 @@ public class BikeReservationController {
      */
     @PostMapping("updateBikeReservation")
     @ResponseBody
-    public void updateBikeReservation(@RequestParam int id, @RequestParam int building, @RequestParam String user, @RequestParam int numBikes, @RequestParam String date, @RequestParam String startingTime, @RequestParam String endingTime) {
-        try{
+    public void updateBikeReservation(@RequestParam int id, @RequestParam int building,
+                                      @RequestParam String user, @RequestParam int numBikes,
+                                      @RequestParam String date, @RequestParam String startingTime,
+                                      @RequestParam String endingTime) {
+        try {
             bikeResRepo.updateBikeNum(id, numBikes);
             bikeResRepo.updateBuilding(id, building);
             bikeResRepo.updateUser(id, user);
             bikeResRepo.updateDate(id, date);
             bikeResRepo.updateStartingTime(id, startingTime);
             bikeResRepo.updateEndingTime(id, endingTime);
-        } catch(Exception e){
+        } catch(Exception e) {
             e.printStackTrace();
         }
     }
@@ -73,9 +78,9 @@ public class BikeReservationController {
     @PostMapping("deleteBikeReservation")
     @ResponseBody
     public void deleteBikeReservation(@RequestParam int id) {
-        try{
+        try {
             bikeResRepo.deleteBikeReservation(id);
-        } catch(Exception e){
+        } catch(Exception e) {
             e.printStackTrace();
         }
     }
@@ -89,7 +94,7 @@ public class BikeReservationController {
     @GetMapping("getBikeReservation")
     @ResponseBody
     public BikeReservation getBikeReservation(@RequestParam int id) {
-        try{
+        try {
             return bikeResRepo.getBikeReservation(id);
         } catch(Exception e) {
             e.printStackTrace();
@@ -124,7 +129,7 @@ public class BikeReservationController {
     @GetMapping("getBuildingBikeReservations")
     @ResponseBody
     public List<BikeReservation> getBuildingBikeReservation(@RequestParam int buildingId) {
-        try{
+        try {
             return bikeResRepo.getBuildingBikeReservations(buildingId);
         } catch(Exception e) {
             e.printStackTrace();
@@ -141,7 +146,7 @@ public class BikeReservationController {
     @GetMapping("getUserBikeReservations")
     @ResponseBody
     public List<BikeReservation> getUserBikeReservations(@RequestParam String user) {
-        try{
+        try {
             return bikeResRepo.getUserBikeReservations(user);
         } catch(Exception e) {
             e.printStackTrace();

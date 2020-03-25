@@ -45,7 +45,8 @@ public class BikeReservation {
      * @Param startingTime String
      * @Param endingTime String
      */
-    public BikeReservation(int id, int building, User user, int numBikes, String date, String startingTime, String endingTime) {
+    public BikeReservation(int id, int building, User user, int numBikes,
+                           String date, String startingTime, String endingTime) {
         this.id = id;
         this.building = building;
         this.user = user;
@@ -119,22 +120,20 @@ public class BikeReservation {
     }
 
     /**
-     * Equals
+     * Equals method.
      *
      * @param o An Object to be compared to "this".
      * @return True if o is the same object, false otherwise.
      */
     @Override
     public boolean equals(Object o) {
-        if(!(o instanceof BikeReservation)){
+        if(!(o instanceof BikeReservation)) {
             return false;
         }
         BikeReservation temp = (BikeReservation)o;
-
-        if(id != temp.getId()){
+        if(id != temp.getId()) {
             return false;
         }
-
         return true;
     }
 }
