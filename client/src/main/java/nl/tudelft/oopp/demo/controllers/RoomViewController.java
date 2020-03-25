@@ -26,6 +26,7 @@ import org.controlsfx.control.RangeSlider;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -151,14 +152,16 @@ public class RoomViewController implements Initializable {
      */
     private void configureRoomImage() {
         try {
-            // get URL to the room image
-            URL path = getClass().getResource("/images/" + currentRoom.getRoomPhoto().get());
+            File resourceImage = new File("client/src/main/resources/images/"
+                    + currentRoom.getRoomPhoto().get());
+            // get path to the room image
+            String path = resourceImage.getAbsolutePath();
 
             // get the room image
-            BufferedImage roomPhoto = ImageIO.read(path);
+            BufferedImage roomPhoto = ImageIO.read(resourceImage);
 
             // set the image in the ImageView
-            image.setImage(new Image(path.toExternalForm()));
+            image.setImage(new Image("file:" + path));
 
             // crop the image to show in proportion with the standard room picture size
             Rectangle2D viewPort = new Rectangle2D(0, 0, roomPhoto.getWidth(),

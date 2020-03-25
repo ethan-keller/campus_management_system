@@ -95,6 +95,7 @@ public class RoomEditDialogController {
             roomCapacityField.setText(String.valueOf(room.getRoomCapacity().get()));
             roomTypeField.setText(room.getRoomType().get());
             roomDescriptionField.setText(room.getRoomDescription().get());
+            oldFileName = room.getRoomPhoto().get();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,21 +142,21 @@ public class RoomEditDialogController {
     @FXML
     private void handleOkClicked(ActionEvent event) {
         try {
-            // if this is a new room, no old images have to be deleted
-            if (oldFileName != null) {
-                // get the image file that is not used anymore
-                File fileToDelete = new File(getClass()
-                        .getResource("/images").getPath() + "/" + oldFileName);
-                // if not deleted properly, show alert
-                if (!fileToDelete.delete()) {
-                    Alert alert = GeneralMethods.createAlert("Error"
-                            , "Something went wrong, please try again"
-                            , dialogStage, Alert.AlertType.ERROR);
-                    alert.showAndWait();
-                }
-            }
             // if all fields are valid, fill Room object with the corresponding information given by the admin
             if (isInputValid()) {
+                // if the image has been updated delete the old one
+                if (changedImage) {
+                    // get the image file that is not used anymore
+                    File fileToDelete = new File("client/src/main/resources/images/" + oldFileName);
+                    // if not deleted properly, show alert
+                    if (!fileToDelete.delete()) {
+                        Alert alert = GeneralMethods.createAlert("Error"
+                                , "Something went wrong, please try again"
+                                , dialogStage, Alert.AlertType.ERROR);
+                        alert.showAndWait();
+                        return;
+                    }
+                }
                 // initialize a new, empty room
                 emptyRoom();
                 // set all its attributes
@@ -168,15 +169,14 @@ public class RoomEditDialogController {
                 room.setRoomDescription(this.roomDescriptionField.getText());
                 room.setRoomPhoto(fileName.getText());
 
-                // if the image file has been updated by the admin, save the new file
-                if (changedImage) {
+                // if the admin creates a new room or updates an image, save the new file
+                if (fileName == null || changedImage) {
                     // split on '.' (dot) to later get the extension of the file (fileName.jpg -> [fileName, jpg])
                     String[] splitFileDot = fileName.getText().split("\\.");
                     // create destination file
-                    File newFile = new File(getClass()
-                            .getResource("/images").getPath() + "/" + fileName.getText());
+                    File newFile = new File("client/src/main/resources/images/" + fileName.getText());
                     // write image to new file with its corresponding extension
-                    ImageIO.write(image, splitFileDot[splitFileDot.length - 1], newFile);
+                    ImageIO.write(image, splitFileDot[splitFileDot.length - 1], newFile.getAbsoluteFile());
                 }
 
                 // get current dialog and close it
@@ -236,11 +236,12 @@ public class RoomEditDialogController {
             errorMessage += "No image selected!\n";
         }
         // checks if there already exists an image with this name
-        File imageFolder = new File(getClass().getResource("/images").getPath());
-        if (changedImage) {
-            for (File f : imageFolder.listFiles()) {
+        File imageFolder = new File("client/src/main/resources/images");
+        // if admin creates new room or updates image, check if the image already exists
+        if (oldFileName == null || changedImage) {
+            for (File f : imageFolder.getAbsoluteFile().listFiles()) {
                 if (f.getName().equals(fileName.getText())) {
-                    errorMessage += "Please choose another file name for your image!\n";
+                    errorMessage += "This file name is already used, please choose another one!\n";
                     break;
                 }
             }
@@ -253,8 +254,8 @@ public class RoomEditDialogController {
             return true;
         } else {
             // Show the error message.
-            Alert alert = GeneralMethods.createAlert("Invalid fields"
-                    , "Please correct the invalid fields"
+            Alert alert = GeneralMethods.createAlert("Please correct the invalid fields"
+                    , errorMessage
                     , dialogStage, Alert.AlertType.ERROR);
             alert.showAndWait();
             return false;
@@ -267,6 +268,8 @@ public class RoomEditDialogController {
      */
     public void uploadImage(ActionEvent event) {
         try {
+            // reset attribute
+            changedImage = false;
             // create the FileChooser
             FileChooser chooser = new FileChooser();
             chooser.setTitle("Upload image");
@@ -285,15 +288,12 @@ public class RoomEditDialogController {
             // get filename from backslash split array
             String fileName = splitFileBackSlash[splitFileBackSlash.length - 1];
 
-            // if the user is updating a room image, store the old file name
-            if (!this.fileName.getText().equals("")) {
-                oldFileName = this.fileName.getText();
-            }
 
             // show the admin which file he picked
             this.fileName.setText(fileName);
             this.fileName.setVisible(true);
-            this.changedImage = true;
+
+            if(oldFileName != null && !oldFileName.equals(fileName)) changedImage = true;
 
             // store the chosen image
             this.image = ImageIO.read(selectedFile);

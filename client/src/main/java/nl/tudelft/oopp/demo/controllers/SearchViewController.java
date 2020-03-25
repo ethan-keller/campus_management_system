@@ -29,6 +29,7 @@ import nl.tudelft.oopp.demo.views.RoomView;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
@@ -274,12 +275,13 @@ public class SearchViewController implements Initializable {
             Text roomDescription = new Text();
             Text roomId = new Text();
 
-            // get URL of room image
-            URL path = getClass().getResource("/images/" + r.getRoomPhoto().get());
+            // get path of room image
+            File resourceImage = new File("client/src/main/resources/images/" + r.getRoomPhoto().get());;
+            String path = resourceImage.getAbsolutePath();
             // set the ImageView to show the room image
-            image.setImage(new Image(path.toExternalForm()));
+            image.setImage(new Image("file:" + path));
             // get the room image in a BufferedImage object for later use
-            BufferedImage roomPhoto = ImageIO.read(path);
+            BufferedImage roomPhoto = ImageIO.read(resourceImage);
             // crop image in proportion to image size in a standard room card
             image.setViewport(new Rectangle2D(0, 0, roomPhoto.getWidth(),
                     roomPhoto.getWidth() * (168.75 / 300.0) ));
