@@ -17,6 +17,17 @@ public class BikeReservationController {
     @Autowired
     private BikeReservationRepository bikeResRepo;
 
+
+    /**
+     * Adds a bike reservation to the database.
+     *
+     * @param building The Building id to which the bikes belong
+     * @param user The username of the user making the reservation
+     * @param numBikes The number of bikes reserved
+     * @param date The date of the reservation
+     * @param startingTime The starting time of the reservation
+     * @param endingTime The ending time of the reservation
+     */
     @PostMapping("createBikeReservation")
     @ResponseBody
     public void createBikeReservation(@RequestParam int building, @RequestParam String user, @RequestParam int numBikes, @RequestParam String date, @RequestParam String startingTime, @RequestParam String endingTime) {
@@ -27,6 +38,17 @@ public class BikeReservationController {
         }
     }
 
+    /**
+     * Updates a previously made bike reservation.
+     *
+     * @param id The id of the reservation
+     * @param building The new building of the reservation
+     * @param user The new user of the reservation
+     * @param numBikes The new number of bikes reserved
+     * @param date The new date of the reservation
+     * @param startingTime The new starting time of the reservation
+     * @param endingTime The new ending time of the reservation
+     */
     @PostMapping("updateBikeReservation")
     @ResponseBody
     public void updateBikeReservation(@RequestParam int id, @RequestParam int building, @RequestParam String user, @RequestParam int numBikes, @RequestParam String date, @RequestParam String startingTime, @RequestParam String endingTime) {
@@ -42,6 +64,12 @@ public class BikeReservationController {
         }
     }
 
+
+    /**
+     * Deletes a bike reservation from the database.
+     *
+     * @param id The id of the bike reservation
+     */
     @PostMapping("deleteBikeReservation")
     @ResponseBody
     public void deleteBikeReservation(@RequestParam int id) {
@@ -52,6 +80,12 @@ public class BikeReservationController {
         }
     }
 
+    /**
+     * Rretreives a bike reservation from the database by id.
+     *
+     * @param id The id of the bike reservation
+     * @return Returns a BikeReservation object
+     */
     @GetMapping("getBikeReservation")
     @ResponseBody
     public BikeReservation getBikeReservation(@RequestParam int id) {
@@ -63,6 +97,12 @@ public class BikeReservationController {
         return null;
     }
 
+
+    /**
+     * Retrieves all bike reservations from the database.
+     *
+     * @return Returns a list of BikeReservations
+     */
     @GetMapping("getAllBikeReservation")
     @ResponseBody
     public List<BikeReservation> getBikeReservation() {
@@ -74,17 +114,30 @@ public class BikeReservationController {
         return null;
     }
 
+
+    /**
+     * Retrieves all the bike reservations of the bikes that belong to the building of buildingId.
+     *
+     * @param buildingId The id of the building
+     * @return Returns a list of bike reservations.
+     */
     @GetMapping("getBuildingBikeReservations")
     @ResponseBody
-    public List<BikeReservation> getBuildingBikeReservation(@RequestParam int building) {
+    public List<BikeReservation> getBuildingBikeReservation(@RequestParam int buildingId) {
         try{
-            return bikeResRepo.getBuildingBikeReservations(building);
+            return bikeResRepo.getBuildingBikeReservations(buildingId);
         } catch(Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
+
+    /**
+     * Retrieves all bike reservations that have been made by a user.
+     * @param user The username of the particular user
+     * @return Returns a list of bike reservations
+     */
     @GetMapping("getUserBikeReservations")
     @ResponseBody
     public List<BikeReservation> getUserBikeReservations(@RequestParam String user) {
