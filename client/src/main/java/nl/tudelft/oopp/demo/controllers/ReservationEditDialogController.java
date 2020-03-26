@@ -86,7 +86,8 @@ public class ReservationEditDialogController {
             this.setRoomComboBoxConverter(roomObservableList);
 
             if (reservation != null) {
-                username.getSelectionModel().select(userObservableList.stream().filter(x -> x.getUsername().get().equals(
+                username.getSelectionModel().select(
+                        userObservableList.stream().filter(x -> x.getUsername().get().equals(
                         reservation.getUsername().get().toLowerCase())).collect(Collectors.toList()).get(0));
                 username.setDisable(true);
                 room.getSelectionModel().select(roomObservableList.stream().filter(x -> x.getRoomId().get()

@@ -31,7 +31,7 @@ public class BuildingEditDialogView extends Application {
             dialogStage.setResizable(false);
             dialogStage.getScene().getWindow().addEventFilter(
                     WindowEvent.WINDOW_CLOSE_REQUEST,
-                    event -> BuildingEditDialogController.building = null);
+                event -> BuildingEditDialogController.building = null);
 
             // Set the dialog stage properties
             // When the dialog box pops up, the admin can't click the page that is behind the dialog box.

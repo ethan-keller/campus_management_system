@@ -420,20 +420,6 @@ public class SearchViewController implements Initializable {
 
     /**
      * .
-     * Redirects to bookingHistory of the current user to see, edit or cancel bookings
-     *
-     * @param event ActionEvent to get current Stage
-     */
-    @FXML
-    private void BookingHistoryClicked(ActionEvent event) {
-        // get current Stage
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        // TODO: redirect to bookingHistory
-    }
-
-    /**
-     * .
      * Clears all the filters and sets them back to 'empty'
      *
      * @param event ActionEvent
