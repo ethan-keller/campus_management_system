@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.entities.User;
 
+import java.util.regex.Pattern;
+
 public class UserEditDialogController {
 
     @FXML
@@ -96,34 +98,76 @@ public class UserEditDialogController {
 
     /**
      * Validates the user input in the text fields.
-     *
+     * This method is used to validate if the admin has entered a valid username and password during creation/update.
      * @return true if the input is valid
      */
     private boolean isInputValid() {
+
+        // This pattern is used to compare the text to see if it has an upper case character.
+        Pattern upperCasePattern = Pattern.compile("[A-Z]");
+        // This pattern is used to compare the text to see if it has any punctuations.
+        Pattern characters = Pattern.compile("[!@#$%^&*`~<,>./?:;'{|+=_-]");
+        // This pattern is used to compare the text to see if it has any spaces.
+        Pattern space = Pattern.compile(" ");
+
         String errorMessage = "";
 
-
-        if (usernameField.getText().equals("")) {
-            errorMessage += "No valid username!\n";
+        // Checks whether the username field is empty.
+        if (usernameField.getText().trim().isEmpty()) {
+            errorMessage += "Username field can't be blank!\n";
         }
-
+        // Checks whether the type of user is selected.
         if ((userTypeAdmin.isSelected() || userTypeTeacher.isSelected() || userTypeStudent.isSelected()) == false) {
-            errorMessage += "No valid user type!\n";
+            errorMessage += "Select the type of user!\n";
         }
+        // Checks whether the password field is empty.
         if (!edit) {
-            if (userPasswordField.getText().equals("")) {
-                errorMessage += "No valid password!\n";
+            if (userPasswordField.getText().trim().isEmpty()) {
+                errorMessage += "Password field can't be blank!\n";
             }
         }
+        // Checks whether the password field is atleast 8 characters long.
+        if (userPasswordField.getLength() < 8) {
+            errorMessage += "Password needs to at-least 8 characters.\n";
+        }
+        // Checks whether the password contains atleast one numeric value.
+        if (!userPasswordField.getText().matches(".*\\d.*")) {
+            errorMessage += "Password needs at-least 1 numeric value.\n";
+        }
+        // Checks whether the password contains atleast one upper case character.
+        if (!upperCasePattern.matcher(userPasswordField.getText()).find()) {
+            errorMessage += "Password needs at-least 1 upper case character.\n";
+        }
+        // Checks whether the password contains any spaces.
+        if (space.matcher(userPasswordField.getText()).find()) {
+            errorMessage += "Password is not allowed to have spaces in them.\n";
+        }
+        // Checks whether the username contains any spaces.
+        if (space.matcher(usernameField.getText()).find()) {
+            errorMessage += "Username is not allowed to have any spaces.\n";
+        }
+        // Checks whether the password contains any punctuations.
+        if (characters.matcher(userPasswordField.getText()).find()) {
+            errorMessage += "Password is not allowed to have any punctuations.\n";
+        }
+        // Checks whether the username contains any punctuations.
+        if (characters.matcher(usernameField.getText()).find()) {
+            errorMessage += "Username is not allowed to have any punctuations.\n";
+        }
 
+        // When all the criteria of creating a username and password are met, we can return true.
         if (errorMessage.equals("")) {
             return true;
         } else {
             // Show the error message.
             Alert alert = new Alert(Alert.AlertType.ERROR);
+            // Setting the title of the alert box.
             alert.setTitle("Invalid Fields");
+            // Setting the header of the alert box.
             alert.setHeaderText("Please correct invalid fields");
+            // Setting the content of the alert box.
             alert.setContentText(errorMessage);
+            // Wait till the user reads the message and closes the alert box.
             alert.showAndWait();
 
             return false;

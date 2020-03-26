@@ -1,8 +1,10 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
+import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -116,14 +118,14 @@ public class AdminManageUserViewController {
             view.start(stage);
             User tempUser = UserEditDialogController.user;
             if (tempUser == null) return;
-                // TODO: Check that user creation was succesful before displaying alert
-            else
+                // TODO: Check that user creation was successful before displaying alert
+            else {
                 UserServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
+            }
+            // Refreshing loads the new user created into the tabular view.
             refresh();
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("New user");
-            alert.setContentText("Added new user!");
+            // Informing the admin through a alert box that a new user is created successfully.
+            AlertBox("New User","", "Added new user!");
         } catch (Exception e) {
             System.out.println("user creation exception");
             e.printStackTrace();
@@ -149,21 +151,16 @@ public class AdminManageUserViewController {
                 User tempUser = UserEditDialogController.user;
 
                 if (tempUser == null) return;
-                if (tempUser.getUserPassword().get() == null) {
+                else {
                     UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
-                } else
-                    UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
+                }
                 refresh();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Edit user");
                 alert.setContentText("edited user!");
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No User Selected");
-                alert.setContentText("Please select a user in the table.");
-                alert.showAndWait();
+                AlertBox("No Selection","No User Selected", "Please select a user in the table.");
             }
         } catch (Exception e) {
             System.out.println("user edit exception");
@@ -183,11 +180,7 @@ public class AdminManageUserViewController {
                 AdminUserHistoryView auhv = new AdminUserHistoryView();
                 auhv.start(stage);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No User Selected");
-                alert.setContentText("Please select a user in the table.");
-                alert.showAndWait();
+                AlertBox("No Selection","No User Selected", "Please select a user in the table.");
             }
         } catch (Exception e) {
             System.out.println("user edit exception");
@@ -221,6 +214,31 @@ public class AdminManageUserViewController {
         // This loads up a new login page.
         LoginView loginView = new LoginView();
         loginView.start(stage);
+    }
+
+    /**
+     * This method is used to reduce code length so that whenever the developer wants to use an alert method;
+     * he/she would use this method with the given parameter.
+     * @param title - Title of the alert dialog box
+     * @param header - Header of the alert dialog box
+     * @param content - Content of the alert dialog box
+     */
+    private void AlertBox(String title, String header, String content) {
+
+        // Creates a new alert dialog box for displaying the constraints that were not met.
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+
+        // Setting the title of the alert box.
+        alert.setTitle(title);
+
+        // Setting the header of the alert box.
+        alert.setHeaderText(header);
+
+        // Setting the content of the alert box.
+        alert.setContentText(content);
+
+        // Wait till the user reads the message and closes the alert box.
+        alert.showAndWait();
     }
 
 }
