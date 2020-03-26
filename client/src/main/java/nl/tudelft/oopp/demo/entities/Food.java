@@ -3,9 +3,11 @@ package nl.tudelft.oopp.demo.entities;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
@@ -62,7 +64,7 @@ public class Food {
             f.setFoodId(2);
             f.setFoodId(jsonArrayFoods.getJSONObject(i).getInt("id") );
             f.setFoodName(jsonArrayFoods.getJSONObject(i).getString("name") );
-            f.setFoodPrice(jsonArrayFoods.getJSONObject(i).getFloat("price") );
+            f.setFoodPrice(jsonArrayFoods.getJSONObject(i).getDouble("price") );
             foodData.add(f);
         }
         return foodData;
@@ -81,6 +83,20 @@ public class Food {
             foodBuilding.add(b);
         }
         return foodBuilding;
+    }
+
+    public static Food getFoodById(int id) throws JSONException {
+        try {
+            JSONObject jsonObject = new JSONObject(FoodServerCommunication.getFood(id));
+            Food f = new Food();
+            f.setFoodId(jsonObject.getInt("id"));
+            f.setFoodName(jsonObject.getString("name"));
+            f.setFoodPrice(jsonObject.getInt("price"));
+            return f;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

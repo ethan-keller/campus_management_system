@@ -75,11 +75,32 @@ public class AdminHomePageController {
         amuv.start(stage);
     }
 
+    /**
+     * This button would redirects the admin to a page where the admin can create/edit/delete
+     * food information. This button also displays all the foods and information related to
+     * them in a tabular view.
+     * @param event
+     * @throws IOException
+     */
     public void manageFoodClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage)  ((Node) event.getSource()).getScene().getWindow();
 
         AdminManageFoodView amfv = new AdminManageFoodView();
         amfv.start(stage);
+    }
+
+    /**
+     * This button would redirects the admin to a page where the admin can create/edit/delete
+     * bike reservation information. This button also displays all the bike reservation information
+     * in a tabular view.
+     * @param event
+     * @throws IOException
+     */
+    public void manageBikeClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage)  ((Node) event.getSource()).getScene().getWindow();
+
+        AdminBikeReservationView abrv = new AdminBikeReservationView();
+        abrv.start(stage);
     }
 
 }

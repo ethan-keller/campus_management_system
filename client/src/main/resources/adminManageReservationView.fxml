@@ -54,7 +54,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="backReservation" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#BackButtonClicked" prefHeight="39.0" prefWidth="86.0" text="Back" textAlignment="CENTER" textFill="#0ebaf8">
+            <Button fx:id="deleteReservation" mnemonicParsing="false" onAction="#DeleteReservationClicked" prefHeight="39.0" prefWidth="99.0" text="Delete" textAlignment="CENTER" textFill="#0ebaf8">
                <font>
                   <Font size="18.0" />
                </font>
@@ -62,12 +62,20 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="deleteReservation" mnemonicParsing="false" onAction="#DeleteReservationClicked" prefHeight="39.0" prefWidth="99.0" text="Delete" textAlignment="CENTER" textFill="#0ebaf8">
+            <Button fx:id="foodReservation" layoutX="405.0" layoutY="30.0" mnemonicParsing="false" onAction="#FoodReservationClicked" prefHeight="39.0" prefWidth="99.0" text="Food" textAlignment="CENTER" textFill="#0ebaf8">
                <font>
                   <Font size="18.0" />
                </font>
                <HBox.margin>
-                  <Insets />
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="backReservation" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#BackButtonClicked" prefHeight="39.0" prefWidth="86.0" text="Back" textAlignment="CENTER" textFill="#0ebaf8">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="20.0" />
                </HBox.margin>
             </Button>
          </children>

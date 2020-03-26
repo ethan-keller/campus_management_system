@@ -43,6 +43,10 @@ public class FoodServerCommunication {
         return response.body();
     }
 
+    public static String getFood(int id) {
+
+    }
+
     public static boolean updateFood(int id, String name, double price) throws UnsupportedEncodingException {
         String params = "id=" + id + "&name=" + name + "&price=" + price;
         params = GeneralMethods.encodeCommunication(params);
