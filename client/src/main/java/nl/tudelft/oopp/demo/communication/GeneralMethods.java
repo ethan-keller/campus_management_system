@@ -14,19 +14,8 @@ import java.util.List;
 
 /**
  * This method encodes all communication that occurs between the server and the client.
- * This method is used in all the communication classes that need to send or receive information from the server.
- *
-=======
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import javafx.stage.Window;
-
-/**
- * This method encodes all communication that occurs between the server and the client.
  * This method is used in all the communication classes that need to send or receive information
  * from the server.
->>>>>>> develop
  * @return the body of a get request to the server.
  * @throws Exception if communication has unsupported encoding mechanism.
  */
@@ -71,8 +60,8 @@ public class GeneralMethods {
     /**
      * filters rooms by the id of the building.
      *
-     * @param rooms
-     * @param building
+     * @param rooms list of rooms  to be filtered
+     * @param building id of the building the rooms should contain
      * @return list of rooms with the building-id that is given.
      */
     public static List<Room> filterRoomByBuilding(List<Room> rooms, int building) {
@@ -98,8 +87,8 @@ public class GeneralMethods {
     /**
      * filters the rooms that are teacher only or not teacher only. Depending on the given boolean.
      *
-     * @param rooms
-     * @param teacher_only
+     * @param rooms list of rooms  to be filtered
+     * @param teacher_only if a room should be teacher only or not
      * @return list of rooms that are all teacher only or not teacher only. Depending on the boolean given.
      */
     public static List<Room> filterRoomByTeacher_only(List<Room> rooms, boolean teacher_only) {
@@ -124,9 +113,9 @@ public class GeneralMethods {
     /**
      * filters room by a capacity between 2 ints.
      *
-     * @param rooms
-     * @param capMax
-     * @param capMin
+     * @param rooms list of rooms  to be filtered
+     * @param capMax maximum capacity wanted
+     * @param capMin minimum capacity wanted
      * @return list of rooms that have a capacity between the two given ints.
      */
     public static List<Room> filterRoomByCapacity(List<Room> rooms, int capMax, int capMin) {
@@ -151,9 +140,9 @@ public class GeneralMethods {
     /**
      * filters rooms with the building names and room names that contain the input.
      *
-     * @param rooms
-     * @param input
-     * @param buildings
+     * @param rooms list of rooms  to be filtered
+     * @param input input of the searchbar
+     * @param buildings buildings that are in the system
      * @return lists of room with the building names and room names that contain the input.
      */
     public static List<Room> filterBySearch(List<Room> rooms, String input, List<Building> buildings) {
@@ -171,8 +160,8 @@ public class GeneralMethods {
     /**
      * filters rooms with the room names that contain the input.
      *
-     * @param rooms
-     * @param input
+     * @param rooms list of rooms  to be filtered
+     * @param input input from the searchbar
      * @return a lists with rooms with the building names that contain the input.
      */
     public static List<Room> filterRoomsBySearch(List<Room> rooms, String input) {
@@ -194,9 +183,9 @@ public class GeneralMethods {
     /**
      * filters rooms with the building names that contain the input.
      *
-     * @param rooms
-     * @param input
-     * @param buildings
+     * @param rooms list of rooms  to be filtered
+     * @param input input from the searchbar
+     * @param buildings buildings that are present in the database
      * @return a list of rooms with the building names that contain the input.
      */
     public static List<Room> filterBuildingsBySearch(List<Room> rooms, String input, List<Building> buildings) {
