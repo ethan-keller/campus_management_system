@@ -6,6 +6,14 @@ import com.mindfusion.scheduling.CalendarView;
 import com.mindfusion.scheduling.model.Appointment;
 import com.mindfusion.scheduling.model.Item;
 
+import java.awt.Point;
+import java.awt.Color;
+import java.util.stream.Collectors;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
@@ -17,14 +25,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import javax.swing.SwingUtilities;
-
-import java.awt.Point;
-import java.awt.Color;
-import java.util.stream.Collectors;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;

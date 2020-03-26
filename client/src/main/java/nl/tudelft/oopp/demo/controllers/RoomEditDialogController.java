@@ -6,11 +6,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -79,7 +79,7 @@ public class RoomEditDialogController {
     }
 
     /**
-     * Converting the buildings into items that can be displayed in a comboBox
+     * Converting the buildings into items that can be displayed in a comboBox.
      *
      * @param ol is an observable list of buildings
      */

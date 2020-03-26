@@ -1,11 +1,11 @@
 package nl.tudelft.oopp.demo.views;
 
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import java.net.URL;
 import javafx.scene.Scene;
-
 import javafx.stage.Stage;
 
 public class CalendarPaneView extends Application {

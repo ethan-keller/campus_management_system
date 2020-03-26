@@ -33,6 +33,13 @@ public class Reservation {
     /**
      * Constructor with some initial data.
      * Simple string property is used because it provides data binding.
+     *
+     * @param id           int
+     * @param username     String
+     * @param room         int
+     * @param date         String
+     * @param startingTime String
+     * @param endingTime   String
      */
     public Reservation(int id, String username, int room, String date, String startingTime, String endingTime) {
         this.id = new SimpleIntegerProperty(id);
@@ -44,56 +51,101 @@ public class Reservation {
 
     }
 
+    /**
+     * Getter.
+     *
+     * @return int, in the form of IntegerProperty.
+     */
     public IntegerProperty getId() {
         return id;
     }
 
+    /**
+     * Setter.
+     *
+     * @param id int.
+     */
     public void setId(int id) {
         this.id.set(id);
     }
 
-
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
     public StringProperty getUsername() {
         return username;
     }
 
+    /**
+     * Setter.
+     *
+     * @param username String, new
+     */
     public void setUsername(String username) {
         this.username.set(username);
     }
 
-
+    /**
+     * Getter.
+     *
+     * @return int, in the form of IntegerProperty.
+     */
     public IntegerProperty getRoom() {
         return room;
     }
 
+    /**
+     * Setter.
+     *
+     * @param room int, new
+     */
     public void setRoom(int room) {
         this.room.set(room);
     }
 
-
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
     public StringProperty getDate() {
         return date;
     }
 
-
+    /**
+     * Setter.
+     *
+     * @param date String, new.
+     */
     public void setDate(String date) {
         this.date.set(date);
     }
 
-
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
     public StringProperty getStartingTime() {
         return startingTime;
     }
 
+    /**
+     * Setter.
+     *
+     * @param startingTime String, new
+     */
     public void setStartingTime(String startingTime) {
         this.startingTime.set(startingTime);
     }
 
-    public void setStarting_time(String starting_time) {
-        this.startingTime.set(starting_time);
-    }
-
-
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
     public StringProperty getEndingTime() {
         return endingTime;
     }
@@ -154,7 +206,10 @@ public class Reservation {
         return null;
     }
 
-
+    /**
+     * Getter.
+     * @return ObservableList containing reservations from the selected user.
+     */
     public static ObservableList<Reservation> getSelectedUserReservation() {
         try {
             ObservableList<Reservation> reservationList = FXCollections.observableArrayList();

@@ -130,15 +130,15 @@ public class RoomViewController implements Initializable {
             });
 
             // TODO: adjust the options of this comboBox based on the available food dishes
-            ObservableList<String> FoodList = FXCollections.observableArrayList();
-            FoodList.addAll("Ham Sandwich", "Cheese Sandwich", "Pasta", "No Food");
-            foodChoice.setItems(FoodList);
+            ObservableList<String> foodList = FXCollections.observableArrayList();
+            foodList.addAll("Ham Sandwich", "Cheese Sandwich", "Pasta", "No Food");
+            foodChoice.setItems(foodList);
 
             // set text info about the room
             name.setText("Name: " + currentRoom.getRoomName().get());
             capacity.setText("Capacity: " + currentRoom.getRoomCapacity().get());
-            building.setText("Building: " +
-                    Building.getBuildingById(currentRoom.getRoomBuilding().get()).getBuildingName().get());
+            building.setText("Building: "
+                    + Building.getBuildingById(currentRoom.getRoomBuilding().get()).getBuildingName().get());
             teacherOnly.setText("Teachers only: " + (currentRoom.getTeacherOnly().get() ? "yes" : "no"));
             type.setText("Type: " + currentRoom.getRoomType().get());
             description.setText("Description:\n" + currentRoom.getRoomDescription().get());
