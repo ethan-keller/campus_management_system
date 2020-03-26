@@ -313,13 +313,13 @@ public class SearchViewController implements Initializable {
     private HBox createRoomCard(Room r) {
         try {
             // initialize javafx components
-            HBox newCard = new HBox();
-            ImageView image = new ImageView();
-            VBox roomInfo = new VBox();
-            Text roomTitle = new Text();
-            Text roomCapacity = new Text();
-            Text roomDescription = new Text();
-            Text roomId = new Text();
+            final HBox newCard = new HBox();
+            final ImageView image = new ImageView();
+            final VBox roomInfo = new VBox();
+            final Text roomTitle = new Text();
+            final Text roomCapacity = new Text();
+            final Text roomDescription = new Text();
+            final Text roomId = new Text();
 
             // loading image from URL + setting size & properties
             Image img = new Image("images/placeholder.png");

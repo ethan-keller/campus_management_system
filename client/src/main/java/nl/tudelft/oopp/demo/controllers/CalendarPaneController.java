@@ -9,9 +9,9 @@ import com.mindfusion.scheduling.model.Item;
 import java.awt.Color;
 import java.awt.Point;
 import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;

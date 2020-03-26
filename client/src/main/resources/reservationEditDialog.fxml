@@ -32,7 +32,7 @@
          <children>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <buttons>
-                <Button fx:id="okButton" mnemonicParsing="false" onAction="#OkClicked" text="OK" />
+                <Button fx:id="okButton" mnemonicParsing="false" onAction="#okClicked" text="OK" />
                   <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelClicked" text="Cancel" />
                </buttons>
             </ButtonBar>

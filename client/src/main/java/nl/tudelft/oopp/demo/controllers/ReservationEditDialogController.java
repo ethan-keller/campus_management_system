@@ -68,28 +68,28 @@ public class ReservationEditDialogController {
     @FXML
     private void initialize() {
         try {
-            Reservation reservation = AdminManageReservationViewController.currentSelectedReservation;
+            final Reservation reservation = AdminManageReservationViewController.currentSelectedReservation;
             date.setConverter(getDateConverter());
-            ObservableList<User> oL = User.getUserData();
-            ObservableList<Room> ol = Room.getRoomData();
+            final ObservableList<User> userObservableList = User.getUserData();
+            final ObservableList<Room> roomObservableList = Room.getRoomData();
             //Initializing the observable list for the users available!!
             //The admin can make a mistake in writing the name of the user.
-            username.setItems(oL);
-            this.setUserComboBoxConverter(oL);
+            username.setItems(userObservableList);
+            this.setUserComboBoxConverter(userObservableList);
 
             //This method sets up the slider which determines the time of reservation in the dialog view.
             configureRangeSlider();
             date.setDayCellFactory(getDayCellFactory());
 
             //Initializing the observable list for the rooms available!!
-            room.setItems(ol);
-            this.setRoomComboBoxConverter(ol);
+            room.setItems(roomObservableList);
+            this.setRoomComboBoxConverter(roomObservableList);
 
             if (reservation != null) {
-                username.getSelectionModel().select(oL.stream().filter(x -> x.getUsername().get().equals(
+                username.getSelectionModel().select(userObservableList.stream().filter(x -> x.getUsername().get().equals(
                         reservation.getUsername().get().toLowerCase())).collect(Collectors.toList()).get(0));
                 username.setDisable(true);
-                room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get()
+                room.getSelectionModel().select(roomObservableList.stream().filter(x -> x.getRoomId().get()
                         == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
                 date.setValue(LocalDate.parse(reservation.getDate().get(), formatter));
                 String[] startTimeSplit = reservation.getStartingTime().get().split(":");
@@ -240,9 +240,9 @@ public class ReservationEditDialogController {
     /**
      * This method is to insert the various rooms present in the database into a comboBox.
      *
-     * @param ol - Observable list of Rooms.
+     * @param observableList - Observable list of Rooms.
      */
-    public void setRoomComboBoxConverter(ObservableList<Room> ol) {
+    public void setRoomComboBoxConverter(ObservableList<Room> observableList) {
         StringConverter<Room> converter = new StringConverter<Room>() {
             @Override
             public String toString(Room object) {
@@ -255,7 +255,7 @@ public class ReservationEditDialogController {
 
             @Override
             public Room fromString(String id) {
-                return ol.stream().filter(x -> String.valueOf(x.getRoomId()).equals(id)).collect(
+                return observableList.stream().filter(x -> String.valueOf(x.getRoomId()).equals(id)).collect(
                         Collectors.toList()).get(0);
             }
         };
@@ -265,9 +265,9 @@ public class ReservationEditDialogController {
     /**
      * This method helps insert the User's present in the database into a comboBox.
      *
-     * @param oL - Observable list of users
+     * @param observableList - Observable list of users
      */
-    public void setUserComboBoxConverter(ObservableList<User> oL) {
+    public void setUserComboBoxConverter(ObservableList<User> observableList) {
         StringConverter<User> converter = new StringConverter<User>() {
             @Override
             public String toString(User object) {
@@ -280,7 +280,7 @@ public class ReservationEditDialogController {
 
             @Override
             public User fromString(String id) {
-                return oL.stream().filter(x -> String.valueOf(x.getUsername()).equals(id)).collect(
+                return observableList.stream().filter(x -> String.valueOf(x.getUsername()).equals(id)).collect(
                         Collectors.toList()).get(0);
             }
         };
@@ -299,7 +299,7 @@ public class ReservationEditDialogController {
      * @param event is passed
      */
     @FXML
-    public void OkClicked(ActionEvent event) {
+    public void okClicked(ActionEvent event) {
         LocalDate dateSelected = date.getValue();
         if (isInputValid()) {
             emptyReservation();

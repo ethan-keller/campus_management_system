@@ -30,8 +30,7 @@ public class BookingEditDialogView extends Application {
             dialogStage.setScene(scene);
             dialogStage.setResizable(false);
             dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST,
-            event -> BookingEditDialogController.reservation = null);
-
+                event -> BookingEditDialogController.reservation = null);
             // Set the dialog stage properties
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
