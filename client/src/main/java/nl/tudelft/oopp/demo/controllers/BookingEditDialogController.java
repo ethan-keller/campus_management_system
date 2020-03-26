@@ -43,9 +43,9 @@ public class BookingEditDialogController {
 
     private ObservableList<Room> olr;
 
-    private ObservableList<String> sTime;
+    private ObservableList<String> startTime;
 
-    private ObservableList<String> eTime;
+    private ObservableList<String> endTime;
 
     public static Reservation reservation;
 
@@ -79,11 +79,11 @@ public class BookingEditDialogController {
             configureDatePicker();
 
             // Initialize and add listener to the staring time combobox
-            sTime = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00",
+            startTime = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00",
                     "12:00:00", "13:00:00", "14:00:00", "15:00:00",
                     "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00",
                     "23:00:00");
-            bookingStartingTime.setItems(sTime);
+            bookingStartingTime.setItems(startTime);
             bookingStartingTime.valueProperty().addListener(((observable, oldValue, newValue) -> {
                 startingTimeSelected(newValue);
             }));
@@ -93,8 +93,10 @@ public class BookingEditDialogController {
         }
     }
 
-    /**.
+    /**
+     * .
      * Set the building combobox converter
+     *
      * @param olb is passed
      */
     public void setBookingBuildingComboBoxConverter(ObservableList<Building> olb) {
@@ -117,8 +119,10 @@ public class BookingEditDialogController {
         bookingBuildingComboBox.setConverter(converter);
     }
 
-    /**.
+    /**
+     * .
      * Set the room combobox converter
+     *
      * @param olr is passed
      */
     public void setBookingRoomComboBoxConverter(ObservableList<Room> olr) {
@@ -141,7 +145,8 @@ public class BookingEditDialogController {
         bookingRoomComboBox.setConverter(converter);
     }
 
-    /**.
+    /**
+     * .
      * Called when a building is selected
      * The room combobox only shows the rooms of the selected building
      */
@@ -161,26 +166,28 @@ public class BookingEditDialogController {
         }
     }
 
-    /**.
+    /**
+     * .
      * Called when a starting time is selected
      * Initialize the ending time combobox
      * The earliest time in the ending box should be one hour later than starting time
      */
     public void startingTimeSelected(String newSt) {
         //Initialize the ending time combobox with all time slot
-        eTime = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00",
+        endTime = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00",
                 "14:00:00", "15:00:00", "16:00:00",
                 "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00", "00:00:00");
         //Check if a starting time is selected
         if (bookingStartingTime.getValue() != null) {
-            int indexSt = sTime.indexOf(bookingStartingTime.getValue());
+            int indexSt = startTime.indexOf(bookingStartingTime.getValue());
             //Remove the time slot <= the selected starting time plus one hour.
-            eTime.remove(0, indexSt);
-            bookingEndingTime.setItems(eTime);
+            endTime.remove(0, indexSt);
+            bookingEndingTime.setItems(endTime);
         }
     }
 
-    /**.
+    /**
+     * .
      * Methods that sets the dayCellFactory made in {@link #getDayCellFactory()}
      * and the StringConverter made in {@link #getDatePickerConverter()}
      */
@@ -236,7 +243,8 @@ public class BookingEditDialogController {
         return null;
     }
 
-    /**.
+    /**
+     * .
      * Create a new reservation when called
      */
     private static void emptyReservation() {

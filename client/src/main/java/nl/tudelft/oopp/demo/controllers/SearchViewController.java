@@ -37,11 +37,13 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 
-/**.
+/**
+ * .
  * Controller class for SearchView (JavaFX)
  */
 public class SearchViewController implements Initializable {
-    /**.
+    /**
+     * .
      * These are the FXML elements that inject some functionality into the application.
      */
     @FXML
@@ -80,13 +82,15 @@ public class SearchViewController implements Initializable {
     private ObservableList<Building> buildingList;
     private ObservableList<String> bikeList;
 
-    /**.
+    /**
+     * .
      * Default construct of searchView class.
      */
     public SearchViewController() {
     }
 
-    /**.
+    /**
+     * .
      * Handles the bookingHistory Button onclick.
      * Redirects the user to the booking history page.
      *
@@ -100,7 +104,8 @@ public class SearchViewController implements Initializable {
         bookingHistoryView.start(stage);
     }
 
-    /**.
+    /**
+     * .
      * Handles the onclick of signOut Button.
      * Redirects the user back to the login page.
      *
@@ -114,7 +119,8 @@ public class SearchViewController implements Initializable {
         loginView.start(stage);
     }
 
-    /**.
+    /**
+     * .
      * Handles the onclick of cancelBooking Button.
      * Redirects the user to the cancelBooking page.
      *
@@ -129,11 +135,12 @@ public class SearchViewController implements Initializable {
     }
 
 
-    /**.
+    /**
+     * .
      * Method that gets called before everything (mostly to initialize nodes etc.)
      * JavaFX standard.
      *
-     * @param location is passed
+     * @param location  is passed
      * @param resources is passed
      */
     @FXML
@@ -176,7 +183,8 @@ public class SearchViewController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Create cellFactory for the datePicker that disables all days before today and weekend days.
      * It also marks them red to make sure the user understands why they are disabled.
      *
@@ -194,7 +202,7 @@ public class SearchViewController implements Initializable {
                             super.updateItem(item, empty);
 
                             // Disable all days before today + weekend days
-                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY 
+                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY
                                     || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
                                 // disable the 'button'
                                 setDisable(true);
@@ -255,7 +263,8 @@ public class SearchViewController implements Initializable {
         return null;
     }
 
-    /**.
+    /**
+     * .
      * Create a StringConverter that shows the name of the building for each building in the comboBox.
      *
      * @return StringConverter
@@ -265,7 +274,7 @@ public class SearchViewController implements Initializable {
             StringConverter<Building> converter = new StringConverter<Building>() {
                 @Override
                 public String toString(Building object) {
-                    if (object == null) { 
+                    if (object == null) {
                         return "";
                     }
                     return object.getBuildingName().get();
@@ -284,7 +293,8 @@ public class SearchViewController implements Initializable {
         return null;
     }
 
-    /**.
+    /**
+     * .
      * Creates a new 'card' (HBox) which contains some information about the room
      *
      * @param r The Room that we have to show information from
@@ -367,7 +377,8 @@ public class SearchViewController implements Initializable {
         return null;
     }
 
-    /**.
+    /**
+     * .
      * When a card gets clicked, the RoomView gets loaded with all the corresponding room information
      *
      * @param event MouseEvent
@@ -397,7 +408,8 @@ public class SearchViewController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Redirects to bookingHistory of the current user to see, edit or cancel bookings
      *
      * @param event ActionEvent to get current Stage
@@ -410,7 +422,8 @@ public class SearchViewController implements Initializable {
         // TODO: redirect to bookingHistory
     }
 
-    /**.
+    /**
+     * .
      * Clears all the filters and sets them back to 'empty'
      *
      * @param event ActionEvent

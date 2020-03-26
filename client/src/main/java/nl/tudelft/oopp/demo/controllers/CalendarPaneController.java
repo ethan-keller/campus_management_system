@@ -5,6 +5,7 @@ import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.CalendarView;
 import com.mindfusion.scheduling.model.Appointment;
 import com.mindfusion.scheduling.model.Item;
+
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
@@ -17,6 +18,8 @@ import javafx.stage.Stage;
 
 import javax.swing.SwingUtilities;
 
+import java.awt.Point;
+import java.awt.Color;
 import java.util.stream.Collectors;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,10 +38,8 @@ import nl.tudelft.oopp.demo.views.CalenderItemDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
-import java.awt.Point;
-import java.awt.Color;
-
-/**.
+/**
+ * .
  * Class that controls the view which contains the calendar with booking history
  * and custom calendar items
  */
@@ -49,11 +50,12 @@ public class CalendarPaneController implements Initializable {
     private Calendar calendar;
     public static Stage thisStage;
 
-    /**.
+    /**
+     * .
      * Custom initialization of JavaFX components. This method is automatically called
      * after the fxml file has been loaded.
      *
-     * @param location is passed
+     * @param location  is passed
      * @param resources is passed
      */
     @Override
@@ -79,7 +81,8 @@ public class CalendarPaneController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Adds all the items in the database that belong to the current user to the calendar.
      */
     private void addItemsToCalendar() {
@@ -87,7 +90,9 @@ public class CalendarPaneController implements Initializable {
             // get all items from database that belong to the current user
             ObservableList<nl.tudelft.oopp.demo.entities.Item> itemList =
                     nl.tudelft.oopp.demo.entities.Item.getUserItems(CurrentUserManager.getUsername());
-            if (itemList == null) { return; }
+            if (itemList == null) {
+                return;
+            }
             // make an Appointment object for every item to inject in calendar
             for (nl.tudelft.oopp.demo.entities.Item i : itemList) {
                 Appointment app = new Appointment();
@@ -119,7 +124,8 @@ public class CalendarPaneController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Adds all the reservations in the database that belong to the current user to the calendar
      */
     private void addReservationsToCalendar() {
@@ -235,7 +241,8 @@ public class CalendarPaneController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Method that deletes an item from the calendar and database
      */
     @FXML
@@ -256,13 +263,13 @@ public class CalendarPaneController implements Initializable {
                         // delete from calendar and confirm deletion
                         calendar.getSchedule().getItems().remove(x);
                         Alert alert = GeneralMethods.createAlert("Deletion confirmation", "Your item has"
-                                + " successfully been deleted from your schedule", thisStage,
+                                        + " successfully been deleted from your schedule", thisStage,
                                 Alert.AlertType.INFORMATION);
                         alert.showAndWait();
                     } else {
                         // alert the user that something went wrong
                         Alert alert = GeneralMethods.createAlert("Deletion error", "Something went wrong,"
-                                + " your item has not been deleted. Please try again", thisStage,
+                                        + " your item has not been deleted. Please try again", thisStage,
                                 Alert.AlertType.ERROR);
                         alert.showAndWait();
                     }
@@ -273,7 +280,8 @@ public class CalendarPaneController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Method that cancels a reservation and deletes it from the database
      */
     @FXML
@@ -309,7 +317,8 @@ public class CalendarPaneController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Switches the calendar to a 7-day week view
      */
     @FXML
@@ -321,7 +330,8 @@ public class CalendarPaneController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Switches the calendar to a month view
      */
     @FXML
@@ -333,7 +343,8 @@ public class CalendarPaneController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Loads the login view (logs the user out)
      *
      * @param event is passed

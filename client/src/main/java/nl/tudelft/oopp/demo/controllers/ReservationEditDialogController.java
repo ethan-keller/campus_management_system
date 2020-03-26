@@ -24,7 +24,8 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 import org.controlsfx.control.RangeSlider;
 
-/**.
+/**
+ * .
  * This controller class is invokes on the onclick of the newReservationButton/ editReservationButton
  * in the AdminManageReservationViewController class.
  * This controller class displays a dialog box for the admin to create/update reservations.
@@ -52,13 +53,15 @@ public class ReservationEditDialogController {
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    /**.
+    /**
+     * .
      * Default constructor of the ReservationEditDialogController class.
      */
     public ReservationEditDialogController() {
     }
 
-    /**.
+    /**
+     * .
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
@@ -97,11 +100,11 @@ public class ReservationEditDialogController {
                         + Double.parseDouble(endTimeSplit[1]));
                 startTime.setText("Start: " + getRangeSliderConverter().toString(timeslot.getLowValue()));
                 endTime.setText("End: " + getRangeSliderConverter().toString(timeslot.getHighValue()));
-             } else {
+            } else {
                 return;
-             }
+            }
         } catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -236,6 +239,7 @@ public class ReservationEditDialogController {
 
     /**
      * This method is to insert the various rooms present in the database into a comboBox.
+     *
      * @param ol - Observable list of Rooms.
      */
     public void setRoomComboBoxConverter(ObservableList<Room> ol) {
@@ -260,6 +264,7 @@ public class ReservationEditDialogController {
 
     /**
      * This method helps insert the User's present in the database into a comboBox.
+     *
      * @param oL - Observable list of users
      */
     public void setUserComboBoxConverter(ObservableList<User> oL) {
@@ -286,7 +291,8 @@ public class ReservationEditDialogController {
         reservation = new Reservation();
     }
 
-    /**.
+    /**
+     * .
      * Called when the OK button is clicked on the dialog box.
      * This causes the information input by the user to be stored in an object.
      *
@@ -309,7 +315,8 @@ public class ReservationEditDialogController {
         }
     }
 
-    /**.
+    /**
+     * .
      * Called when the user clicks cancel.
      */
     @FXML
@@ -319,7 +326,8 @@ public class ReservationEditDialogController {
         dialogStage.close();
     }
 
-    /**.
+    /**
+     * .
      * Validates the user input in the text fields.
      *
      * @return true if the input is valid

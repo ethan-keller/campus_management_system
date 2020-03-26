@@ -2,21 +2,6 @@ package nl.tudelft.oopp.demo.controllers;
 
 import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.model.Appointment;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 import java.awt.Color;
 import java.net.URL;
@@ -25,11 +10,29 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+
+import javafx.stage.Stage;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
 import org.controlsfx.control.RangeSlider;
 
-/**.
+/**
+ * .
  * Class that controls the dialog box to add a calendar item to the users calendar
  */
 public class CalenderItemDialogController implements Initializable {
@@ -51,17 +54,19 @@ public class CalenderItemDialogController implements Initializable {
     public static Appointment item;
     public static Stage dialogStage;
 
-    /**.
+    /**
+     * .
      * default constructor needed by JavaFX
      */
     public CalenderItemDialogController() {
     }
 
-    /**.
+    /**
+     * .
      * Custom initialization of JavaFX components. This method is automatically called
      * after the fxml file has been loaded.
      *
-     * @param location is passed
+     * @param location  is passed
      * @param resources is passed
      */
     @Override
@@ -73,8 +78,10 @@ public class CalenderItemDialogController implements Initializable {
         gridPane.add(timeSlot, 1, 2);
     }
 
-    /**.
+    /**
+     * .
      * Method that configures the RangeSlider and returns it ready to use
+     *
      * @return ready to use RangeSlider
      */
     private RangeSlider configureRangeSlider() {
@@ -102,10 +109,12 @@ public class CalenderItemDialogController implements Initializable {
         return slider;
     }
 
-    /**.
+    /**
+     * .
      * Configures the listeners of the RangeSlider needed for the start and end texts
+     *
      * @param converter converts RangeSlider values to hh:mm format
-     * @param slider the RangeSlider that needs configuration
+     * @param slider    the RangeSlider that needs configuration
      */
     private void configureRangeSliderListeners(StringConverter<Number> converter, RangeSlider slider) {
         try {
@@ -125,8 +134,10 @@ public class CalenderItemDialogController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Method that constructs and returns a ready to use RangeSlider converter for the time format hh:mm
+     *
      * @return the completed StringConverter
      */
     private StringConverter<Number> getRangeSliderConverter() {
@@ -153,7 +164,8 @@ public class CalenderItemDialogController implements Initializable {
         return null;
     }
 
-    /**.
+    /**
+     * .
      * To check if the information filled out by the user is valid.
      *
      * @return true if valid, false otherwise
@@ -184,7 +196,8 @@ public class CalenderItemDialogController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Configures the date picker to show valid dates and format the dates as needed
      */
     private void configureDatePicker() {
@@ -202,8 +215,10 @@ public class CalenderItemDialogController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Constructs the StringConverter for the datepicker to format the date to yyyy-MM-dd
+     *
      * @return StringConverter
      */
     private StringConverter<LocalDate> getDatePickerConverter() {
@@ -244,8 +259,10 @@ public class CalenderItemDialogController implements Initializable {
         return null;
     }
 
-    /**.
+    /**
+     * .
      * Constructs a DayCellFactory for the calendar that only validates future dates
+     *
      * @return
      */
     private Callback<DatePicker, DateCell> getDayCellFactory() {
@@ -277,7 +294,8 @@ public class CalenderItemDialogController implements Initializable {
         return null;
     }
 
-    /**.
+    /**
+     * .
      * Cancels the item creation
      *
      * @param event to get current stage
@@ -289,7 +307,8 @@ public class CalenderItemDialogController implements Initializable {
         dialogStage.close();
     }
 
-    /**.
+    /**
+     * .
      * Confirms item creation and sets the class attribute
      *
      * @param event to get current stage

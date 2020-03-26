@@ -35,7 +35,8 @@ import nl.tudelft.oopp.demo.views.SearchView;
 import org.controlsfx.control.RangeSlider;
 
 
-/**.
+/**
+ * .
  * Controller class for the Room view (JavaFX)
  */
 public class RoomViewController implements Initializable {
@@ -88,11 +89,12 @@ public class RoomViewController implements Initializable {
     // current Stage
     public static Stage thisStage;
 
-    /**.
+    /**
+     * .
      * Method that gets called before everything (mostly to initialize nodes etc.)
      * JavaFX standard.
      *
-     * @param location is passed
+     * @param location  is passed
      * @param resources is passed
      */
     @FXML
@@ -147,7 +149,8 @@ public class RoomViewController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * This method changes the width of some JavaFX nodes based on the width of the stage.
      * It's the callback method for the stage width listener.
      *
@@ -164,7 +167,8 @@ public class RoomViewController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Methods that sets the dayCellFactory made in {@link #getDayCellFactory()}
      * and the StringConverter made in {@link #getDatePickerConverter()}
      */
@@ -183,7 +187,8 @@ public class RoomViewController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Create cellFactory for the datePicker that disables all days before today and weekend days.
      * It also marks them red to make sure the user understands why they are disabled.
      *
@@ -220,7 +225,8 @@ public class RoomViewController implements Initializable {
         return null;
     }
 
-    /**.
+    /**
+     * .
      * Create a range slider (slider with two 'thumbs') adjusted to hours and minutes.
      */
     private void configureRangeSlider() {
@@ -254,7 +260,8 @@ public class RoomViewController implements Initializable {
     }
 
 
-    /**.
+    /**
+     * .
      * Configure the rangeSlider listeners. The listeners make sure that the user jumps
      * intervals of an hour and sets the texts with the correct value.
      *
@@ -278,7 +285,8 @@ public class RoomViewController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Creates a StringConverter that converts the selected value to a usable Date (in String format).
      *
      * @return a StringConverter object
@@ -321,7 +329,8 @@ public class RoomViewController implements Initializable {
         return null;
     }
 
-    /**.
+    /**
+     * .
      * Creates a StringConverter that converts the selected value to an actual time (in String format)
      *
      * @return a StringConverter object
@@ -351,7 +360,8 @@ public class RoomViewController implements Initializable {
     }
 
 
-    /**.
+    /**
+     * .
      * Method that executes when the backButton is clicked. It returns to the searchview.
      *
      * @param event ActionEvent.
@@ -369,7 +379,8 @@ public class RoomViewController implements Initializable {
 
     // TODO: add try catch everywhere
 
-    /**.
+    /**
+     * .
      * Method that executes when book button is clicked. It checks if fields are correctly filled.
      *
      * @param event ActionEvent
@@ -419,7 +430,8 @@ public class RoomViewController implements Initializable {
         }
     }
 
-    /**.
+    /**
+     * .
      * Loads a little pop up stage that shows all information about the booking and asks for confirmation.
      *
      * @param date      day of the booking
@@ -445,7 +457,8 @@ public class RoomViewController implements Initializable {
         return false;
     }
 
-    /**.
+    /**
+     * .
      * Checks if fields are correctly filled and shows errors and warnings if
      * the user forgot some fields.
      *
@@ -473,8 +486,7 @@ public class RoomViewController implements Initializable {
             // check if errors were triggered
             if (errors) {
                 return false;
-            }
-            else {
+            } else {
                 return true;
             }
         } catch (Exception e) {

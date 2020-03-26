@@ -80,14 +80,18 @@ public class RoomEditDialogController {
 
     /**
      * Converting the buildings into items that can be displayed in a comboBox
+     *
      * @param ol is an observable list of buildings
      */
     public void setRoomBuildingComboBoxConverter(ObservableList<Building> ol) {
         StringConverter<Building> converter = new StringConverter<Building>() {
             @Override
             public String toString(Building object) {
-                if (object == null) { return ""; }
-                else { return object.getBuildingName().get(); }
+                if (object == null) {
+                    return "";
+                } else {
+                    return object.getBuildingName().get();
+                }
             }
 
             @Override
@@ -103,7 +107,8 @@ public class RoomEditDialogController {
         room = new Room();
     }
 
-    /**.
+    /**
+     * .
      * Called when the user clicks ok.
      */
     @FXML
