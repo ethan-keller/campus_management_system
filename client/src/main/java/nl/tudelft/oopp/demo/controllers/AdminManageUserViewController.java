@@ -63,6 +63,7 @@ public class AdminManageUserViewController {
 
     /**
      * The user from the table view is selected.
+     *
      * @return User selected.
      */
     public User getSelectedUser() {
@@ -156,7 +157,9 @@ public class AdminManageUserViewController {
                 view.start(stage);
                 User tempUser = UserEditDialogController.user;
 
-                if (tempUser == null) { return; }
+                if (tempUser == null) {
+                    return;
+                }
                 if (tempUser.getUserPassword().get() == null) {
                     UserServerCommunication.updateUser(tempUser.getUsername().get(),
                             tempUser.getUserPassword().get(), tempUser.getUserType().get());
@@ -184,6 +187,7 @@ public class AdminManageUserViewController {
 
     /**
      * The history of the particular user is displayed.
+     *
      * @param event is passed
      * @throws IOException is thrown
      */
@@ -213,6 +217,7 @@ public class AdminManageUserViewController {
 
     /**
      * Back button redirects the user back to the admin home page.
+     *
      * @param event is passed
      * @throws IOException is thrown
      */

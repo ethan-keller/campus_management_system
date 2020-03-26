@@ -40,10 +40,11 @@ import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.BookingHistoryView;
-import nl.tudelft.oopp.demo.views.LoginView;
-import nl.tudelft.oopp.demo.views.CancelBookingView;
-import nl.tudelft.oopp.demo.views.RoomView;
 import nl.tudelft.oopp.demo.views.CalendarPaneView;
+import nl.tudelft.oopp.demo.views.CancelBookingView;
+import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.RoomView;
+
 
 
 /**
@@ -77,7 +78,7 @@ public class SearchViewController implements Initializable {
 
     private Button clearFilters;
     @FXML
-    private Button BookingHistoryButton;
+    private Button bookingHistoryButton;
     @FXML
     private TextField searchBar;
     @FXML
@@ -106,7 +107,7 @@ public class SearchViewController implements Initializable {
      * @param event is passed
      * @throws IOException is thrown
      */
-    public void BookingHistoryButtonClicked(ActionEvent event) throws IOException {
+    public void bookingHistoryButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         BookingHistoryView bookingHistoryView = new BookingHistoryView();

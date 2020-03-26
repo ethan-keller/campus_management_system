@@ -6,13 +6,13 @@ import com.mindfusion.scheduling.CalendarView;
 import com.mindfusion.scheduling.model.Appointment;
 import com.mindfusion.scheduling.model.Item;
 
-import java.awt.Point;
 import java.awt.Color;
-import java.util.stream.Collectors;
+import java.awt.Point;
 import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
