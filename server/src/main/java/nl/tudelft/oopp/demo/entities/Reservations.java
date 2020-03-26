@@ -31,7 +31,7 @@ public class Reservations {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
-    private Set<FoodReservations> food_reservations;
+    private Set<FoodReservations> foodReservations;
 
     public Reservations() {
     }
@@ -52,7 +52,7 @@ public class Reservations {
         this.date = date;
         this.startingTime = startingTime;
         this.endingTime = endingTime;
-        this.food_reservations = new HashSet<>();
+        this.foodReservations = new HashSet<>();
     }
 
     /**
@@ -110,7 +110,7 @@ public class Reservations {
     }
 
     public Set<FoodReservations> getFoodReservations() {
-        return food_reservations;
+        return foodReservations;
     }
 
     /**

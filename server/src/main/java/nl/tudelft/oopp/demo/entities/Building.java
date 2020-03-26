@@ -32,7 +32,7 @@ public class Building implements Serializable {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
-    private Set<FoodBuilding> food_building;
+    private Set<FoodBuilding> foodBuilding;
 
     public Building() {
     }
@@ -54,7 +54,7 @@ public class Building implements Serializable {
         this.address = address;
         this.availableBikes = availableBikes;
         this.maxBikes = maxBikes;
-        this.food_building = new HashSet<>();
+        this.foodBuilding = new HashSet<>();
     }
 
     /**
@@ -112,7 +112,7 @@ public class Building implements Serializable {
     }
 
     public Set<FoodBuilding> getFoodBuilding() {
-        return food_building;
+        return foodBuilding;
     }
 
     /**

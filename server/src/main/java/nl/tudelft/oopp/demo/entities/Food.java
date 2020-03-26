@@ -23,11 +23,11 @@ public class Food implements Serializable {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
-    private Set<FoodReservations> food_reservations;
+    private Set<FoodReservations> foodReservations;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
-    private Set<FoodBuilding> food_building;
+    private Set<FoodBuilding> foodBuilding;
 
     public Food() {
     }
@@ -43,8 +43,8 @@ public class Food implements Serializable {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.food_building = new HashSet<>();
-        this.food_reservations = new HashSet<>();
+        this.foodBuilding = new HashSet<>();
+        this.foodReservations = new HashSet<>();
     }
 
     /**
@@ -75,11 +75,11 @@ public class Food implements Serializable {
     }
 
     public Set<FoodReservations> getFoodReservations() {
-        return food_reservations;
+        return foodReservations;
     }
 
     public Set<FoodBuilding> getFoodBuilding() {
-        return food_building;
+        return foodBuilding;
     }
 
 
