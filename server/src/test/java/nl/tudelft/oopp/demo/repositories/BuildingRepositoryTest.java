@@ -14,8 +14,19 @@ class BuildingRepositoryTest {
     @Autowired
     private BuildingRepository buildingRepo;
 
-     @Test
-     void testAllMethods() {
+
+    @Test
+    void testAllMethods() {
+         //This test is logically incorrect because two buildings with the same building id
+         //can't exist. This is against the database constraints as id is the primary key.
+
+         try{
+             int id = buildingRepo.getBuildingByName("4testing").getId();
+             buildingRepo.deleteBuilding(id);
+         } catch (Exception e){
+             e.getSuppressed();
+         }
+
          buildingRepo.insertBuilding("4testing", 24, "4TestingStreet 34", 4, 5);
          int id = buildingRepo.getBuildingByName("4testing").getId();
 
