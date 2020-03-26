@@ -25,8 +25,8 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
             + "VALUES (LOWER(:username), :room, :date, :starting_time, :ending_time)", nativeQuery = true)
     public void insertReservation(@Param("username") String username,
                                   @Param("room") int room, @Param("date") String date,
-                                  @Param("starting_time") String starting_time,
-                                  @Param("ending_time") String ending_time);
+                                  @Param("starting_time") String startingTime,
+                                  @Param("ending_time") String endingTime);
 
     @Modifying
     @Transactional
@@ -41,7 +41,7 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
     @Modifying
     @Transactional
     @Query(value = "UPDATE reservations SET starting_time = :starting_time WHERE id = :id", nativeQuery = true)
-    public void updateStartingTime(@Param("id") int id, @Param("starting_time") String starting_time);
+    public void updateStartingTime(@Param("id") int id, @Param("starting_time") String startingTime);
 
     @Modifying
     @Transactional
@@ -64,13 +64,13 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
     @Query(value = "SELECT * FROM reservations WHERE starting_time = :starting_time "
             + "AND ending_time = :ending_time AND date = :date", nativeQuery = true)
     public Reservations getReservationByStartingTimeAndEndingTimeOnDate(
-            @Param("starting_time") String starting_time,
-            @Param("ending_time") String ending_time, @Param("date") String date);
+            @Param("starting_time") String startingTime,
+            @Param("ending_time") String endingTime, @Param("date") String date);
 
     @Query(value = "SELECT * FROM reservations WHERE starting_time = :starting_time "
             + "AND date = :date", nativeQuery = true)
     public Reservations getReservationByStartingTimeOnDate(
-            @Param("starting_time") String starting_time, @Param("date") String date);
+            @Param("starting_time") String startingTime, @Param("date") String date);
 
     @Query(value = "SELECT * FROM reservations WHERE date = :date", nativeQuery = true)
     public Reservations getReservationByDate(@Param("date") String date);
@@ -80,6 +80,6 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
     public Reservations getReservationByRoomAndDateAndStartingTime(
             @Param("room") int room,
             @Param("date") String date,
-            @Param("starting_time") String starting_time);
+            @Param("starting_time") String startingTime);
 
 }
