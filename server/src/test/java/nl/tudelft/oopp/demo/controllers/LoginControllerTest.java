@@ -32,7 +32,7 @@ class LoginControllerTest {
         assertEquals("admin", loginCont.getUser("logintest3", "login"));
 
         assertEquals("not_found", loginCont.getUser("thisDoesNotExist", "pizza"));
-        assertEquals("wrongPassword", loginCont.getUser("logintest", "wrong"));
+        assertEquals("wrong_password", loginCont.getUser("logintest", "wrong"));
 
         userCont.createUser("logintest4", "login", -2);
         assertEquals("error", loginCont.getUser("logintest4", "login"));
