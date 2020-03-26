@@ -41,7 +41,8 @@ public class Building {
      * @param buildingAvailableBikes int
      * @param buildingMaxBikes       int
      */
-    public Building(int buildingId, String buildingName, int buildingRoomCount, String buildingAddress, int buildingAvailableBikes, int buildingMaxBikes) {
+    public Building(int buildingId, String buildingName, int buildingRoomCount,
+                    String buildingAddress, int buildingAvailableBikes, int buildingMaxBikes) {
         this.buildingId = new SimpleIntegerProperty(buildingId);
         this.buildingName = new SimpleStringProperty(buildingName);
         this.buildingRoomCount = new SimpleIntegerProperty(buildingRoomCount);

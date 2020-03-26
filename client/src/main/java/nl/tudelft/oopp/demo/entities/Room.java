@@ -1,6 +1,11 @@
 package nl.tudelft.oopp.demo.entities;
 
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
@@ -17,6 +22,9 @@ public class Room {
     private StringProperty roomDescription;
     private StringProperty roomType;
 
+    /**
+     * Constructor with some initial data.
+     */
     public Room() {
         this.roomId = new SimpleIntegerProperty(-1);
         this.roomName = new SimpleStringProperty(null);
@@ -29,7 +37,7 @@ public class Room {
     }
 
     /**
-     * Constructor with some initial data.
+     * Constructor.
      * Simple string property is used because it provides data binding.
      *
      * @param roomId          int
@@ -66,6 +74,7 @@ public class Room {
 
     /**
      * Setter.
+     *
      * @param roomId int, new
      */
     public void setRoomId(int roomId) {

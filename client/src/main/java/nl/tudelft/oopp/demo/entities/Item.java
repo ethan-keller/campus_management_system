@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.util.Objects;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -9,8 +11,6 @@ import javafx.collections.ObservableList;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.Objects;
 
 public class Item {
 
@@ -33,7 +33,8 @@ public class Item {
      * @param endingTime   String
      * @param description  String
      */
-    public Item(int id, String user, String title, String date, String startingTime, String endingTime, String description) {
+    public Item(int id, String user, String title, String date,
+                String startingTime, String endingTime, String description) {
         this.id = new SimpleIntegerProperty(id);
         this.user = new SimpleStringProperty(user);
         this.title = new SimpleStringProperty(title);
@@ -66,7 +67,7 @@ public class Item {
     }
 
     /**
-     * Setter
+     * Setter.
      *
      * @param id int, new value
      */
@@ -120,7 +121,7 @@ public class Item {
     }
 
     /**
-     * Setter
+     * Setter.
      *
      * @param date String, new value
      */
@@ -190,14 +191,18 @@ public class Item {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Item)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Item)) {
+            return false;
+        }
         Item item = (Item) o;
         return Objects.equals(getId(), item.getId());
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return ObservableList with all items in the database.
      */
@@ -224,7 +229,7 @@ public class Item {
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @param id int
      * @return Item object.

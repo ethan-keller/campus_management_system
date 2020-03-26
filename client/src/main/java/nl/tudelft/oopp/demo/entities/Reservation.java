@@ -21,6 +21,9 @@ public class Reservation {
     private StringProperty startingTime;
     private StringProperty endingTime;
 
+    /**
+     * constructor with some initial data.
+     */
     public Reservation() {
         this.id = new SimpleIntegerProperty(-1);
         this.username = new SimpleStringProperty(null);
@@ -31,7 +34,7 @@ public class Reservation {
     }
 
     /**
-     * Constructor with some initial data.
+     * Constructor.
      * Simple string property is used because it provides data binding.
      *
      * @param id           int
@@ -162,7 +165,8 @@ public class Reservation {
     public static ObservableList<Reservation> getReservation() {
         try {
             ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
-            JSONArray jsonArrayReservation = new JSONArray(ReservationServerCommunication.getAllReservations());
+            JSONArray jsonArrayReservation = new JSONArray(
+                    ReservationServerCommunication.getAllReservations());
             for (int i = 0; i < jsonArrayReservation.length(); i++) {
                 Reservation r = new Reservation();
                 r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));
@@ -181,14 +185,15 @@ public class Reservation {
     }
 
     /**
-     * Convert the server sent code into an Observable List of Reservation for the particular user!!
+     * Convert the server sent code into an Observable List of Reservation for the particular user!!.
      *
      * @return Observable List of Reservations.
      */
     public static ObservableList<Reservation> getUserReservation() {
         try {
             ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
-            JSONArray jsonArrayReservation = new JSONArray(ReservationServerCommunication.getUserReservations(CurrentUserManager.getUsername()));
+            JSONArray jsonArrayReservation = new JSONArray(
+                    ReservationServerCommunication.getUserReservations(CurrentUserManager.getUsername()));
             for (int i = 0; i < jsonArrayReservation.length(); i++) {
                 Reservation r = new Reservation();
                 r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));
@@ -208,12 +213,15 @@ public class Reservation {
 
     /**
      * Getter.
+     *
      * @return ObservableList containing reservations from the selected user.
      */
     public static ObservableList<Reservation> getSelectedUserReservation() {
         try {
             ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
-            JSONArray jsonArrayReservation = new JSONArray(ReservationServerCommunication.getUserReservations(AdminManageUserViewController.currentSelectedUser.getUsername().get()));
+            JSONArray jsonArrayReservation = new JSONArray(
+                    ReservationServerCommunication.getUserReservations(
+                            AdminManageUserViewController.currentSelectedUser.getUsername().get()));
             for (int i = 0; i < jsonArrayReservation.length(); i++) {
                 Reservation r = new Reservation();
                 r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));
