@@ -29,6 +29,7 @@ import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;
@@ -62,7 +63,7 @@ public class RoomViewController implements Initializable {
     @FXML
     private Button bookButton;
     @FXML
-    private Button bookBikesButton;
+    private Button RentABikeButton;
     @FXML
     private DatePicker datePicker;
     @FXML
@@ -129,9 +130,21 @@ public class RoomViewController implements Initializable {
                 changeWidthConstraints(newVal);
             });
 
-            // TODO: adjust the options of this comboBox based on the available food dishes
+            // Create ObservableList for combobox
             ObservableList<String> foodList = FXCollections.observableArrayList();
-            foodList.addAll("Ham Sandwich", "Cheese Sandwich", "Pasta", "No Food");
+            //get building number
+            int bNumber = currentRoom.getRoomBuilding().get();
+            //get list of food from specific building
+            ObservableList<Food> FoodList = Food.getFoodByBuildingId(bNumber);
+
+            //add list of food to the list and an option for no food
+            for(Food f: FoodList){
+                foodList.add(f.getFoodName());
+            }
+
+            foodList.add("No food");
+
+            //populate foodlist
             foodChoice.setItems(foodList);
 
             // set text info about the room
@@ -494,7 +507,6 @@ public class RoomViewController implements Initializable {
         }
         return false;
     }
-
 
 }
 

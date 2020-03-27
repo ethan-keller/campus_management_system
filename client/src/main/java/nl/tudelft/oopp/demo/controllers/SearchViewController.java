@@ -39,12 +39,7 @@ import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.views.BookingHistoryView;
-import nl.tudelft.oopp.demo.views.CalendarPaneView;
-import nl.tudelft.oopp.demo.views.CancelBookingView;
-import nl.tudelft.oopp.demo.views.LoginView;
-import nl.tudelft.oopp.demo.views.RoomView;
-
+import nl.tudelft.oopp.demo.views.*;
 
 
 /**
@@ -63,7 +58,7 @@ public class SearchViewController implements Initializable {
     @FXML
     private VBox cardHolder;
     @FXML
-    private ComboBox<Building> buildingComboBox;
+    private ComboBox<Building> BuildingComboBox;
     @FXML
     private RadioButton yesCheckBoxTeacherOnly;
     @FXML
@@ -73,16 +68,15 @@ public class SearchViewController implements Initializable {
     @FXML
     private RadioButton noCheckBoxFood;
     @FXML
-    private ComboBox<String> capacityComboBox;
+    private ComboBox<String> CapacityComboBox;
     @FXML
-
     private Button clearFilters;
     @FXML
-    private Button bookingHistoryButton;
+    private Button BookingHistoryButton;
     @FXML
     private TextField searchBar;
     @FXML
-    private ComboBox<String> bikesAvailable;
+    private ComboBox<String> BikesAvailable;
     @FXML
     private AnchorPane pane;
 
@@ -166,21 +160,21 @@ public class SearchViewController implements Initializable {
 
 
             // the comboBox only shows 6 rows (more => scroll)
-            buildingComboBox.setVisibleRowCount(6);
+            BuildingComboBox.setVisibleRowCount(6);
 
             datePicker.setConverter(getDatePickerStringConverter());
             datePicker.setDayCellFactory(getDayCellFactory());
 
             // assign values to the observable lists
             capacityList.addAll("1-5", "5-10", "10-20", "20+");
-            buildingComboBox.setItems(buildingList);
-            buildingComboBox.setConverter(getbuildingComboBoxConverter());
+            BuildingComboBox.setItems(buildingList);
+            BuildingComboBox.setConverter(getbuildingComboBoxConverter());
             bikeList.addAll("1-5", "5-10", "10-20", "20+");
 
             // populating the choicebox
-            capacityComboBox.setItems(capacityList);
-            buildingComboBox.setItems(buildingList);
-            bikesAvailable.setItems(bikeList);
+            CapacityComboBox.setItems(capacityList);
+            BuildingComboBox.setItems(buildingList);
+            BikesAvailable.setItems(bikeList);
 
             // get all rooms from server
             ObservableList<Room> roomList = Room.getRoomData();
@@ -429,13 +423,13 @@ public class SearchViewController implements Initializable {
         try {
             // clear every filter
             datePicker.setValue(null);
-            buildingComboBox.setValue(null);
+            BuildingComboBox.setValue(null);
             yesCheckBoxFood.setSelected(false);
             noCheckBoxFood.setSelected(false);
             yesCheckBoxTeacherOnly.setSelected(false);
             noCheckBoxTeacherOnly.setSelected(false);
-            capacityComboBox.setValue(null);
-            bikesAvailable.setValue(null);
+            CapacityComboBox.setValue(null);
+            BikesAvailable.setValue(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -454,4 +448,16 @@ public class SearchViewController implements Initializable {
     }
 
 
+    @FXML
+    private void RentABikeClicked(ActionEvent event){
+        try{
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            RentABikeView rabv = new RentABikeView();
+            rabv.start(stage);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }
