@@ -71,11 +71,10 @@ public class CalendarPaneController implements Initializable {
             // The calendar gets scrolled to 08:00 instead of 00:00
             // Waiting for the calender to be loaded, else the code would give a NPE.
             while (calendar != null) {
-
                 calendar.setScrollPosition(new Point(0, 16));
-                addReservationsToCalendar();
-                addItemsToCalendar();
             }
+            addReservationsToCalendar();
+            addItemsToCalendar();
         } catch (Exception e) {
             e.printStackTrace();
         }
