@@ -1,23 +1,26 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import javax.imageio.ImageIO;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.stream.Collectors;
 
 /**
  * Class that controls the dialog box for admins to create or edit rooms.
@@ -59,6 +62,7 @@ public class RoomEditDialogController {
     }
 
     /**
+     * .
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
@@ -68,7 +72,7 @@ public class RoomEditDialogController {
             // set the currently edited room to null
             RoomEditDialogController.room = null;
             // get the room that was selected by the admin
-            Room room = AdminManageRoomViewController.currentSelectedRoom;
+            final Room room = AdminManageRoomViewController.currentSelectedRoom;
             // get all the buildings from the database
             ObservableList<Building> ol = Building.getBuildingData();
 
@@ -76,22 +80,26 @@ public class RoomEditDialogController {
             fileName.setVisible(false);
 
             // if there are no buildings (should not be possible) return
-            if (ol == null) return;
+            if (ol == null) {
+                return;
+            }
             // set the buildings in the combobox
             roomBuildingComboBox.setItems(ol);
             // set the converter to only show building name
             this.setRoomBuildingComboBoxConverter(ol);
-            // if no room was selected by the admin (he's creating one) stop here
-            if (room == null) return;
-            // set room info in corresponding fields
-            fileName.setText(room.getRoomPhoto().get());
-            fileName.setVisible(true);
+
+            if (room == null) {
+                return;
+            }
             roomNameField.setText(room.getRoomName().get());
             roomBuildingComboBox.getSelectionModel().select(ol.stream()
                     .filter(x -> x.getBuildingId().get() == room.getRoomBuilding().get())
                     .collect(Collectors.toList()).get(0));
-            if (room.getTeacherOnly().get()) radioButtonYes.setSelected(true);
-            else radioButtonNo.setSelected(true);
+            if (room.getTeacherOnly().get()) {
+                radioButtonYes.setSelected(true);
+            } else {
+                radioButtonNo.setSelected(true);
+            }
             roomCapacityField.setText(String.valueOf(room.getRoomCapacity().get()));
             roomTypeField.setText(room.getRoomType().get());
             roomDescriptionField.setText(room.getRoomDescription().get());
@@ -111,15 +119,18 @@ public class RoomEditDialogController {
         StringConverter<Building> converter = new StringConverter<Building>() {
             @Override
             public String toString(Building object) {
-                if (object == null) return "";
-                else return object.getBuildingName().get();
+                if (object == null) {
+                    return "";
+                } else {
+                    return object.getBuildingName().get();
+                }
             }
 
             @Override
             public Building fromString(String id) {
                 return ol.stream()
-                        .filter(x -> String.valueOf(x.getBuildingId())
-                                .equals(id)).collect(Collectors.toList()).get(0);
+                        .filter(x -> String.valueOf(x.getBuildingId()).equals(id))
+                        .collect(Collectors.toList()).get(0);
             }
         };
         // set the converter
@@ -150,9 +161,9 @@ public class RoomEditDialogController {
                     File fileToDelete = new File("client/src/main/resources/images/" + oldFileName);
                     // if not deleted properly, show alert
                     if (!fileToDelete.delete()) {
-                        Alert alert = GeneralMethods.createAlert("Error"
-                                , "Something went wrong, please try again"
-                                , dialogStage, Alert.AlertType.ERROR);
+                        Alert alert = GeneralMethods.createAlert("Error",
+                                "Something went wrong, please try again",
+                                dialogStage, Alert.AlertType.ERROR);
                         alert.showAndWait();
                         return;
                     }
@@ -191,6 +202,7 @@ public class RoomEditDialogController {
 
     /**
      * Cancels the room edit/creation and closes the current stage.
+     *
      * @param event event that triggered this method
      */
     @FXML
@@ -254,9 +266,9 @@ public class RoomEditDialogController {
             return true;
         } else {
             // Show the error message.
-            Alert alert = GeneralMethods.createAlert("Please correct the invalid fields"
-                    , errorMessage
-                    , dialogStage, Alert.AlertType.ERROR);
+            Alert alert = GeneralMethods.createAlert("Please correct the invalid fields",
+                    errorMessage,
+                    dialogStage, Alert.AlertType.ERROR);
             alert.showAndWait();
             return false;
         }
@@ -264,6 +276,7 @@ public class RoomEditDialogController {
 
     /**
      * Method that opens a file chooser for the admin and reads the selected image.
+     *
      * @param event event that triggered this method
      */
     public void uploadImage(ActionEvent event) {
@@ -275,12 +288,14 @@ public class RoomEditDialogController {
             chooser.setTitle("Upload image");
             // set file extension filters to only accept images
             chooser.getExtensionFilters().add(
-                    new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
+                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
             // open file chooser on top of the current stage
             File selectedFile = chooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
 
             // if no file was selected, stop here
-            if (selectedFile == null) return;
+            if (selectedFile == null) {
+                return;
+            }
 
             // split on '\' (backslash) to later get the filename (C:\Images\image.jpg -> [C:, Images, image.jpg]
             String[] splitFileBackSlash = selectedFile.getAbsolutePath().split("\\\\");
@@ -293,11 +308,13 @@ public class RoomEditDialogController {
             this.fileName.setText(fileName);
             this.fileName.setVisible(true);
 
-            if(oldFileName != null && !oldFileName.equals(fileName)) changedImage = true;
+            if (oldFileName != null && !oldFileName.equals(fileName)) {
+                changedImage = true;
+            }
 
             // store the chosen image
             this.image = ImageIO.read(selectedFile);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

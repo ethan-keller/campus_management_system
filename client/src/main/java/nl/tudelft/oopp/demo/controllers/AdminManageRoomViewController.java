@@ -1,11 +1,17 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.File;
+import java.io.IOException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -14,9 +20,6 @@ import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.RoomEditDialogView;
-
-import java.io.File;
-import java.io.IOException;
 
 
 /**
@@ -71,16 +74,21 @@ public class AdminManageRoomViewController {
 
         try {
             // Initialize the room table with the eight columns.
-            roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoomId().get())));
+            roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
+                    cellData.getValue().getRoomId().get())));
             roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().getRoomName());
-            roomBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoomBuilding().get())));
-            roomOnlyTeachersColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getTeacherOnly().get() ? "yes" : "no"));
-            roomCapacityBuilding.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getRoomCapacity().get())));
+            roomBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
+                    cellData.getValue().getRoomBuilding().get())));
+            roomOnlyTeachersColumn.setCellValueFactory(cell -> new SimpleStringProperty(
+                    cell.getValue().getTeacherOnly().get() ? "yes" : "no"));
+            roomCapacityBuilding.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(
+                    cell.getValue().getRoomCapacity().get())));
             roomPhotoColumn.setCellValueFactory(cell -> cell.getValue().getRoomPhoto());
             roomDescriptionColumn.setCellValueFactory(cell -> cell.getValue().getRoomDescription());
             roomTypeColumn.setCellValueFactory(cell -> cell.getValue().getRoomType());
 
-            // sets a Tooltip such that when the admin hovers over the image name, he can get a preview of the image
+            // sets a Tooltip such that when the admin hovers over the image name,
+            // he can get a preview of the image
             roomPhotoColumn.setCellFactory(tc -> {
                 return new TableCell<>() {
                     @Override
@@ -108,8 +116,8 @@ public class AdminManageRoomViewController {
      * @return a Tooltip with the image set
      */
     private Tooltip getPhotoToolTip(String fileName) {
-        Tooltip tooltip = new Tooltip();
         ImageView image = new ImageView();
+        final Tooltip tooltip = new Tooltip();
 
         // get the image file from resources
         File resourceImage = new File("client/src/main/resources/images/" + fileName);
@@ -170,12 +178,12 @@ public class AdminManageRoomViewController {
                 // TODO: Check that room deletion was successful before displaying alert
                 RoomServerCommunication.deleteRoom(selectedRoom.getRoomId().getValue());
                 refresh();
-                Alert alert = GeneralMethods.createAlert("Delete room", "Room deleted succesfully!"
-                        , stage, AlertType.INFORMATION);
+                Alert alert = GeneralMethods.createAlert("Delete room", "Room deleted succesfully!",
+                        stage, AlertType.INFORMATION);
                 alert.showAndWait();
             } else {
-                Alert alert = GeneralMethods.createAlert("No selection", "Please select a room!"
-                        , stage, AlertType.WARNING);
+                Alert alert = GeneralMethods.createAlert("No selection", "Please select a room!",
+                        stage, AlertType.WARNING);
                 alert.setHeaderText("No room Selected");
                 alert.showAndWait();
             }
@@ -199,21 +207,23 @@ public class AdminManageRoomViewController {
             RoomEditDialogView view = new RoomEditDialogView();
             view.start(stage);
             Room tempRoom = RoomEditDialogController.room;
-            if (tempRoom == null) return;
-
-            if (RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get()
-                    , tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get()
-                    , tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get())) {
-                refresh();
-                Alert alert = GeneralMethods.createAlert("New room", "Added a new room!"
-                        , stage, AlertType.INFORMATION);
-                alert.showAndWait();
-            } else {
-                Alert alert = GeneralMethods.createAlert("New room"
-                        , "An error occurred, please try again!", stage, AlertType.ERROR);
-                alert.showAndWait();
+            if (tempRoom == null) {
+                return;
             }
 
+            if (RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
+                    tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
+                    tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
+                    tempRoom.getRoomType().get())) {
+                refresh();
+                Alert alert = GeneralMethods.createAlert("New room", "Added a new room!",
+                        stage, AlertType.INFORMATION);
+                alert.showAndWait();
+            } else {
+                Alert alert = GeneralMethods.createAlert("New room",
+                        "An error occurred, please try again!", stage, AlertType.ERROR);
+                alert.showAndWait();
+            }
         } catch (Exception e) {
             System.out.println("room creation exception");
             e.printStackTrace();
@@ -238,24 +248,28 @@ public class AdminManageRoomViewController {
                 view.start(stage);
                 Room tempRoom = RoomEditDialogController.room;
 
-                if (tempRoom == null) return;
+                if (tempRoom == null) {
+                    return;
+                }
 
-                if (RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(), tempRoom.getRoomName().get()
-                        , tempRoom.getRoomBuilding().get(), tempRoom.getTeacherOnly().get()
-                        , tempRoom.getRoomCapacity().get(), tempRoom.getRoomPhoto().get()
-                        , tempRoom.getRoomDescription().get(), tempRoom.getRoomType().get())) {
+
+                if (RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(),
+                        tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
+                        tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
+                        tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
+                        tempRoom.getRoomType().get())) {
                     refresh();
-                    Alert alert = GeneralMethods.createAlert("Edit room"
-                            , "The room was edited successfully", stage, AlertType.INFORMATION);
+                    Alert alert = GeneralMethods.createAlert("Edit room",
+                            "The room was edited successfully", stage, AlertType.INFORMATION);
                     alert.showAndWait();
                 } else {
-                    Alert alert = GeneralMethods.createAlert("Edit room"
-                            , "An error occurred, please try again!", stage, AlertType.INFORMATION);
+                    Alert alert = GeneralMethods.createAlert("Edit room",
+                            "An error occurred, please try again!", stage, AlertType.INFORMATION);
                     alert.showAndWait();
                 }
             } else {
-                Alert alert = GeneralMethods.createAlert("No Selection"
-                        , "Please select a room in the table.", stage, AlertType.WARNING);
+                Alert alert = GeneralMethods.createAlert("No Selection",
+                        "Please select a room in the table.", stage, AlertType.WARNING);
                 alert.setHeaderText("No Room Selected");
                 alert.showAndWait();
             }
@@ -265,9 +279,8 @@ public class AdminManageRoomViewController {
         }
     }
 
-
     /**
-     * Redirects the admin to tha admin home view
+     * Redirects the admin to tha admin home view.
      *
      * @param event event that triggered this method
      */

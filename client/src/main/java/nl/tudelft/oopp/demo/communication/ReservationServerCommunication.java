@@ -17,14 +17,14 @@ public class ReservationServerCommunication {
      * @param date - Date of reservation
      * @param startingTime - Starting time of reservation
      * @param endingTime - Ending time of the reservation
-     * @return
-     * @throws UnsupportedEncodingException
+     * @return Boolean value which indicates to the user if Reservation creation is successful.
+     * @throws UnsupportedEncodingException is thrown
      */
     public static boolean createReservation(String username, int room, String date,
                                             String startingTime, String endingTime)
             throws UnsupportedEncodingException {
-        String params = "username=" + username + "&room=" + room + "&date=" + date +
-                "&startingTime=" + startingTime + "&endingTime=" + endingTime;
+        String params = "username=" + username + "&room=" + room + "&date=" + date
+                + "&startingTime=" + startingTime + "&endingTime=" + endingTime;
         params = GeneralMethods.encodeCommunication(params);
 
 
@@ -51,14 +51,14 @@ public class ReservationServerCommunication {
      * @param date - Date of reservation
      * @param startingTime - Starting time of reservation
      * @param endingTime - Ending time of the reservation
-     * @return
-     * @throws UnsupportedEncodingException
+     * @return Boolean value which indicates to the user if Reservation update is successful.
+     * @throws UnsupportedEncodingException is thrown
      */
     public static boolean updateReservation(int id, int room, String date, String startingTime,
                                             String endingTime)
             throws UnsupportedEncodingException {
-        String params = "id=" + id + "&room=" + room + "&date=" + date + "&startingTime=" +
-                startingTime + "&endingTime=" + endingTime;
+        String params = "id=" + id + "&room=" + room + "&date=" + date + "&startingTime="
+                + startingTime + "&endingTime=" + endingTime;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateReservation?" + params)).build();
@@ -81,7 +81,7 @@ public class ReservationServerCommunication {
      * From client side, this method is supposed to be cancelling a reservation.
      * @param id - Reservation id
      * @return Boolean value to indicate if the reservation is deleted.
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
     public static boolean deleteReservation(int id) throws UnsupportedEncodingException {
         String params = "id=" + id;
@@ -103,11 +103,11 @@ public class ReservationServerCommunication {
         return true;
     }
 
-    /**
+    /**.
      * This client-server method is used to get the reservation using the user's user id
-     * @param id
+     * @param id - Reservation id
      * @return Reservation of the user.
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
     public static String getReservation(int id) throws UnsupportedEncodingException {
         String params = "id=" + id;
@@ -151,7 +151,7 @@ public class ReservationServerCommunication {
      * identified by their username which is passed as a parameter.
      * @param username - Username of the user requesting the reservation
      * @return Reservations of "username"
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
     public static String getUserReservations(String username) throws UnsupportedEncodingException {
         String params = "username=" + username;
