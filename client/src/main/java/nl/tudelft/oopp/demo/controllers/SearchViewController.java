@@ -7,7 +7,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.DateCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -18,14 +24,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import nl.tudelft.oopp.demo.views.BookingHistoryView;
 import nl.tudelft.oopp.demo.views.CancelBookingView;
 import nl.tudelft.oopp.demo.views.LoginView;
-import nl.tudelft.oopp.demo.views.RegisterView;
 
 import java.io.IOException;
 
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
@@ -33,15 +38,9 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.RoomView;
 
-
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
-
-import java.io.IOException;
 
 import java.net.URL;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -346,12 +345,14 @@ public class SearchViewController implements Initializable {
                 totalHoursAvailable = 16;
                 for (int z = 0; z != reservations.size(); z++) {
                     if (reservations.get(z).getRoom().getValue().equals(roomsWithDate.get(q))) {
-                        double starting = Integer.parseInt(reservations.get(z).getStartingTime().getValue().substring(0, 2));
-                        double ending = Integer.parseInt(reservations.get(z).getEndingTime().getValue().substring(0, 2));
-                        if(reservations.get(z).getStartingTime().getValue().substring(3, 5).equals("30")){
+                        double starting = Integer.parseInt(
+                                reservations.get(z).getStartingTime().getValue().substring(0, 2));
+                        double ending = Integer.parseInt(
+                                reservations.get(z).getEndingTime().getValue().substring(0, 2));
+                        if (reservations.get(z).getStartingTime().getValue().substring(3, 5).equals("30")) {
                             starting = starting + 0.5;
                         }
-                        if(reservations.get(z).getEndingTime().getValue().substring(3,5).equals("30")){
+                        if (reservations.get(z).getEndingTime().getValue().substring(3,5).equals("30")) {
                             ending = ending + 0.5;
                         }
                         if (reservations.get(z).getEndingTime().getValue().equals("23:59:00")) {
