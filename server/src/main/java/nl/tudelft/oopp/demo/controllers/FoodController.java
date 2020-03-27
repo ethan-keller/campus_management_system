@@ -32,7 +32,7 @@ public class FoodController {
         name = CommunicationMethods.decodeCommunication(name);
         try {
             foodRepo.insertFood(name, price);
-        } catch (Exception e) {
+        } catch  (Exception e) {
             e.printStackTrace();
         }
     }
@@ -48,7 +48,7 @@ public class FoodController {
     public void addFoodToBuilding(@RequestParam int food, @RequestParam int building) {
         try {
             foodRepo.addFoodToBuilding(food, building);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -66,7 +66,7 @@ public class FoodController {
                                      @RequestParam int quantity) {
         try {
             foodRepo.addFoodToReservation(reservation, food, quantity);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -86,7 +86,7 @@ public class FoodController {
         try {
             foodRepo.updateName(id, name);
             foodRepo.updatePrice(id, price);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -102,7 +102,7 @@ public class FoodController {
     public void deleteFoodFromReservation(@RequestParam int food, @RequestParam int reservation) {
         try {
             foodRepo.deleteFoodReservation(reservation, food);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -118,7 +118,7 @@ public class FoodController {
     public void deleteFoodFromBuilding(@RequestParam int food, @RequestParam int building) {
         try {
             foodRepo.deleteFoodBuilding(building, food);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -136,7 +136,7 @@ public class FoodController {
                                               @RequestParam int quantity) {
         try {
             foodRepo.updateFoodReservationQuantity(reservation, food, quantity);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -150,7 +150,7 @@ public class FoodController {
     public void deleteFood(@RequestParam int id) {
         try {
             foodRepo.deleteFood(id);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -165,7 +165,7 @@ public class FoodController {
     public Food getFood(@RequestParam int id) {
         try {
             return foodRepo.getFood(id);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -184,7 +184,7 @@ public class FoodController {
         name = CommunicationMethods.decodeCommunication(name);
         try {
             return foodRepo.getFoodByName(name);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -201,7 +201,7 @@ public class FoodController {
     public List<Food> getFoodByReservation(@RequestParam int reservation)  {
         try {
             return foodRepo.getFoodByReservationId(reservation);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -218,7 +218,7 @@ public class FoodController {
     public List<Food> getFoodByBuildingId(@RequestParam int building)  {
         try {
             return foodRepo.getFoodByBuildingId(building);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -236,7 +236,7 @@ public class FoodController {
         try {
             name = CommunicationMethods.decodeCommunication(name);
             return foodRepo.getFoodByBuildingName(name);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -252,7 +252,7 @@ public class FoodController {
     public List<Food> getAllFood() {
         try {
             return foodRepo.getAllFood();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

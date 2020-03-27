@@ -2,7 +2,12 @@ package nl.tudelft.oopp.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.GenerationType;
 
 @Entity
 @Table(name = "bike_reservation")

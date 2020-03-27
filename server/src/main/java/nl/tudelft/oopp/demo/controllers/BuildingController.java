@@ -68,7 +68,7 @@ public class BuildingController {
     public void addBikeReservation(int building, int numBikes) {
         List<BikeReservation> reservations = bikeResRepo.getBuildingBikeReservations(building);
         int count = buildingRepo.getBuilding(building).getMaxBikes();
-        for(int x = 0; x < reservations.size(); x++){
+        for (int x = 0; x < reservations.size(); x++) {
             count -= reservations.get(x).getNumBikes();
         }
         buildingRepo.updateAvailableBikes(building, count);

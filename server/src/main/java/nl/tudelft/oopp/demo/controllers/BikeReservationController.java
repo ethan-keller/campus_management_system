@@ -81,7 +81,7 @@ public class BikeReservationController {
             bikeResRepo.updateEndingTime(id, endingTime);
 
             buildingControl.addBikeReservation(building, numBikes);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -98,7 +98,7 @@ public class BikeReservationController {
         try {
             buildingControl.removeBikeReservation(id);
             bikeResRepo.deleteBikeReservation(id);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -114,7 +114,7 @@ public class BikeReservationController {
     public BikeReservation getBikeReservation(@RequestParam int id) {
         try {
             return bikeResRepo.getBikeReservation(id);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -129,9 +129,9 @@ public class BikeReservationController {
     @GetMapping("getAllBikeReservation")
     @ResponseBody
     public List<BikeReservation> getBikeReservation() {
-        try{
+        try {
             return bikeResRepo.getAllBikeReservations();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -149,7 +149,7 @@ public class BikeReservationController {
     public List<BikeReservation> getBuildingBikeReservation(@RequestParam int building) {
         try {
             return bikeResRepo.getBuildingBikeReservations(building);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -167,7 +167,7 @@ public class BikeReservationController {
         try {
             user = CommunicationMethods.decodeCommunication(user);
             return bikeResRepo.getUserBikeReservations(user);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
