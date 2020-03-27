@@ -71,7 +71,7 @@ public class CalendarPaneController implements Initializable {
             // The calendar gets scrolled to 08:00 instead of 00:00
             // Delay is needed otherwise NPE
             // Waiting for the calender to be loaded.
-            while(calendar != null) {
+            while (calendar != null) {
                 CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS).execute(() -> {
                     calendar.setScrollPosition(new Point(0, 16));
                 });

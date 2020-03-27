@@ -133,7 +133,7 @@ public class AdminManageUserViewController {
             }
             refresh();
             // Informing the admin through a alert box that a new user is created successfully.
-            AlertBox("New User","", "Added new user!");
+            alertBox("New User","", "Added new user!");
         } catch (Exception e) {
             System.out.println("user creation exception");
             e.printStackTrace();
@@ -174,7 +174,7 @@ public class AdminManageUserViewController {
                 alert.setTitle("Edit user");
                 alert.setContentText("edited user!");
             } else {
-                AlertBox("No Selection","No User Selected", "Please select a user in the table.");
+                alertBox("No Selection","No User Selected", "Please select a user in the table.");
             }
         } catch (Exception e) {
             System.out.println("user edit exception");
@@ -200,7 +200,7 @@ public class AdminManageUserViewController {
                 AdminUserHistoryView auhv = new AdminUserHistoryView();
                 auhv.start(stage);
             } else {
-                AlertBox("No Selection","No User Selected", "Please select a user in the table.");
+                alertBox("No Selection","No User Selected", "Please select a user in the table.");
             }
         } catch (Exception e) {
             System.out.println("user edit exception");
@@ -244,7 +244,7 @@ public class AdminManageUserViewController {
      * @param header - Header of the alert dialog box
      * @param content - Content of the alert dialog box
      */
-    private void AlertBox(String title, String header, String content) {
+    private void alertBox(String title, String header, String content) {
 
         // Creates a new alert dialog box for displaying the constraints that were not met.
         Alert alert = new Alert(Alert.AlertType.WARNING);

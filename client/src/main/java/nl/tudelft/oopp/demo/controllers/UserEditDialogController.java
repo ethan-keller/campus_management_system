@@ -8,9 +8,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.entities.User;
-
 import java.util.regex.Pattern;
+
+import nl.tudelft.oopp.demo.entities.User;
 
 public class UserEditDialogController {
 
@@ -100,17 +100,11 @@ public class UserEditDialogController {
 
     /**
      * Validates the user input in the text fields.
-     * This method is used to validate if the admin has entered a valid username and password during creation/update.
+     * This method is used to validate if the admin has entered a valid username and password during
+     * creation/update.
      * @return true if the input is valid
      */
     private boolean isInputValid() {
-
-        // This pattern is used to compare the text to see if it has an upper case character.
-        Pattern upperCasePattern = Pattern.compile("[A-Z]");
-        // This pattern is used to compare the text to see if it has any punctuations.
-        Pattern characters = Pattern.compile("[!@#$%^&*`~<,>./?:;'{|+=_-]");
-        // This pattern is used to compare the text to see if it has any spaces.
-        Pattern space = Pattern.compile(" ");
 
         String errorMessage = "";
 
@@ -119,7 +113,8 @@ public class UserEditDialogController {
             errorMessage += "Username field can't be blank!\n";
         }
         // Checks whether the type of user is selected.
-        if ((userTypeAdmin.isSelected() || userTypeTeacher.isSelected() || userTypeStudent.isSelected()) == false) {
+        if ((userTypeAdmin.isSelected() || userTypeTeacher.isSelected()
+                || userTypeStudent.isSelected()) == false) {
             errorMessage += "Select the type of user!\n";
         }
         // Checks whether the password field is empty.
@@ -136,10 +131,14 @@ public class UserEditDialogController {
         if (!userPasswordField.getText().matches(".*\\d.*")) {
             errorMessage += "Password needs at-least 1 numeric value.\n";
         }
+        // This pattern is used to compare the text to see if it has an upper case character.
+        Pattern upperCasePattern = Pattern.compile("[A-Z]");
         // Checks whether the password contains atleast one upper case character.
         if (!upperCasePattern.matcher(userPasswordField.getText()).find()) {
             errorMessage += "Password needs at-least 1 upper case character.\n";
         }
+        // This pattern is used to compare the text to see if it has any spaces.
+        Pattern space = Pattern.compile(" ");
         // Checks whether the password contains any spaces.
         if (space.matcher(userPasswordField.getText()).find()) {
             errorMessage += "Password is not allowed to have spaces in them.\n";
@@ -148,6 +147,8 @@ public class UserEditDialogController {
         if (space.matcher(usernameField.getText()).find()) {
             errorMessage += "Username is not allowed to have any spaces.\n";
         }
+        // This pattern is used to compare the text to see if it has any punctuations.
+        Pattern characters = Pattern.compile("[!@#$%^&*`~<,>./?:;'{|+=_-]");
         // Checks whether the password contains any punctuations.
         if (characters.matcher(userPasswordField.getText()).find()) {
             errorMessage += "Password is not allowed to have any punctuations.\n";
