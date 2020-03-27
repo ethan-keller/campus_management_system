@@ -1,7 +1,6 @@
 package nl.tudelft.oopp.demo.repositories;
 
 import java.util.List;
-
 import nl.tudelft.oopp.demo.entities.Building;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 
 
 @Repository
@@ -19,6 +19,10 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
 
     @Query(value = "SELECT * FROM building WHERE id = :id", nativeQuery = true)
     public Building getBuilding(@Param("id") int id);
+
+    @Query(value = "SELECT building.* FROM building INNER JOIN food_building ON"
+            + " building.id = food_building.building_id WHERE food_building.food_id = :id", nativeQuery = true)
+    public List<Building> getBuildingByFoodId(@Param("id") int foodId);
 
     @Modifying
     @Transactional
@@ -55,10 +59,15 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
 
     @Modifying
     @Transactional
+    @Query(value = "UPDATE building SET available_bikes = available_bikes + :numRemovedBikes"
+            + " WHERE id = :id", nativeQuery = true)
+    public void removeBikeReservation(@Param("id") int buildingId, @Param("numRemovedBikes") int numRemovedBikes);
+
+    @Modifying
+    @Transactional
     @Query(value = "UPDATE building SET max_bikes = :max_bikes WHERE id = :id", nativeQuery = true)
     public void updateMaxBikes(@Param("id") int id, @Param("max_bikes") int maxBikes);
 
     @Query(value = "SELECT * FROM building WHERE name = :name", nativeQuery = true)
     public Building getBuildingByName(@Param("name") String name);
-
 }
