@@ -1,5 +1,12 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -7,7 +14,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -20,22 +34,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.CalendarPaneView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomView;
 
-import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-
 
 /**
- * Controller class for SearchView (JavaFX)
+ * Controller class for SearchView (JavaFX).
  */
 public class SearchViewController implements Initializable {
     /**
@@ -58,6 +66,8 @@ public class SearchViewController implements Initializable {
     @FXML
     private ComboBox<String> capacityComboBox;
     @FXML
+    private Button clearFilters;
+    @FXML
     private TextField searchBar;
     @FXML
     private ComboBox<String> bikesAvailable;
@@ -78,11 +88,11 @@ public class SearchViewController implements Initializable {
 
 
     /**
-     * Method that gets called before everything (mostly to initialize nodes etc.)
+     * Method that gets called before everything (mostly to initialize nodes etc.).
      * JavaFX standard.
      *
-     * @param location
-     * @param resources
+     * @param location  is passed
+     * @param resources is passed
      */
     @FXML
     @Override
@@ -142,7 +152,8 @@ public class SearchViewController implements Initializable {
                             super.updateItem(item, empty);
 
                             // Disable all days before today + weekend days
-                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY
+                                    || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
                                 // disable the 'button'
                                 setDisable(true);
                                 // make them red
@@ -212,13 +223,16 @@ public class SearchViewController implements Initializable {
             StringConverter<Building> converter = new StringConverter<Building>() {
                 @Override
                 public String toString(Building object) {
-                    if (object == null) return "";
+                    if (object == null) {
+                        return "";
+                    }
                     return object.getBuildingName().get();
                 }
 
                 @Override
                 public Building fromString(String id) {
-                    return buildingList.stream().filter(x -> String.valueOf(x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
+                    return buildingList.stream().filter(x -> String.valueOf(
+                            x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
                 }
             };
             return converter;
@@ -229,7 +243,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * Creates a new 'card' (HBox) which contains some information about the room
+     * Creates a new 'card' (HBox) which contains some information about the room.
      *
      * @param r The Room that we have to show information from
      * @return HBox which is the final 'card'
@@ -237,14 +251,14 @@ public class SearchViewController implements Initializable {
     private HBox createRoomCard(Room r) {
         try {
             // initialize javafx components
-            HBox newCard = new HBox();
-            ImageView image = new ImageView();
-            VBox roomInfo = new VBox();
-            Text roomTitle = new Text();
-            Text roomCapacity = new Text();
-            Text roomDescription = new Text();
-            Text roomBuilding = new Text();
-            Text roomId = new Text();
+            final HBox newCard = new HBox();
+            final ImageView image = new ImageView();
+            final VBox roomInfo = new VBox();
+            final Text roomTitle = new Text();
+            final Text roomBuilding = new Text();
+            final Text roomCapacity = new Text();
+            final Text roomDescription = new Text();
+            final Text roomId = new Text();
 
             // loading image from URL + setting size & properties
             Image img = new Image("images/placeholder.png");
@@ -254,7 +268,7 @@ public class SearchViewController implements Initializable {
             image.setFitWidth(300);
 
             // adding image margin
-            newCard.setMargin(image, new Insets(10, 5, 10, 10));
+            HBox.setMargin(image, new Insets(10, 5, 10, 10));
 
             /* set the roomId visibility to false such that it is not visible for the user but still useful to
                get the specific room information later in the RoomView
@@ -323,7 +337,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * When a card gets clicked, the RoomView gets loaded with all the corresponding room information
+     * When a card gets clicked, the RoomView gets loaded with all the corresponding room information.
      *
      * @param event MouseEvent
      */
@@ -352,9 +366,8 @@ public class SearchViewController implements Initializable {
         }
     }
 
-
     /**
-     * Clears all the filters and sets them back to 'empty'
+     * Clears all the filters and sets them back to 'empty'.
      *
      * @param event ActionEvent
      */
@@ -375,6 +388,10 @@ public class SearchViewController implements Initializable {
         }
     }
 
+    /**
+     * Loads the Calendar view with all the booking history.
+     * @param event event that triggered this method
+     */
     @FXML
     private void bookingHistoryClicked(ActionEvent event) {
         try {
@@ -391,7 +408,7 @@ public class SearchViewController implements Initializable {
      * Handles the onclick of signOut Button.
      * Redirects the user back to the login page.
      *
-     * @param event
+     * @param event event that triggered this method
      */
     @FXML
     private void signOutButtonClicked(ActionEvent event) {

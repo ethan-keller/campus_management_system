@@ -1,12 +1,28 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -24,22 +40,9 @@ import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;
 import org.controlsfx.control.RangeSlider;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
-
 
 /**
- * Controller class for the Room view (JavaFX)
+ * Controller class for the Room view (JavaFX).
  */
 public class RoomViewController implements Initializable {
     /**
@@ -59,8 +62,9 @@ public class RoomViewController implements Initializable {
     private ImageView image;
     @FXML
     private Text description;
+    // TODO: change String to Food entity
     @FXML
-    private ComboBox foodChoice;
+    private ComboBox<String> foodChoice;
     @FXML
     private Button bookButton;
     @FXML
@@ -94,8 +98,8 @@ public class RoomViewController implements Initializable {
      * Method that gets called before everything (mostly to initialize nodes etc.).
      * JavaFX standard.
      *
-     * @param location
-     * @param resources
+     * @param location  is passed
+     * @param resources is passed
      */
     @FXML
     @Override
@@ -128,10 +132,10 @@ public class RoomViewController implements Initializable {
                 changeWidthConstraints(newVal);
             });
 
-            // TODO: adjust the options of this comboBox based on the availabale food dishes
-            ObservableList<String> FoodList = FXCollections.observableArrayList();
-            FoodList.addAll("Ham Sandwich", "Cheese Sandwich", "Pasta", "No Food");
-            foodChoice.setItems(FoodList);
+            // TODO: adjust the options of this comboBox based on the available food dishes
+            ObservableList<String> foodList = FXCollections.observableArrayList();
+            foodList.addAll("Ham Sandwich", "Cheese Sandwich", "Pasta", "No Food");
+            foodChoice.setItems(foodList);
 
             // set text and image info about the room
             configureRoomInfoTexts();
@@ -148,7 +152,8 @@ public class RoomViewController implements Initializable {
             // sets all the room info text fields (+ image)
             name.setText("Name: " + currentRoom.getRoomName().get());
             capacity.setText("Capacity: " + currentRoom.getRoomCapacity().get());
-            building.setText("Building: " + Building.getBuildingById(currentRoom.getRoomBuilding().get()).getBuildingName().get());
+            building.setText("Building: " + Building.getBuildingById(currentRoom.getRoomBuilding().get())
+                    .getBuildingName().get());
             teacherOnly.setText("Teachers only: " + (currentRoom.getTeacherOnly().get() ? "yes" : "no"));
             type.setText("Type: " + currentRoom.getRoomType().get());
             description.setText("Description:\n" + currentRoom.getRoomDescription().get());
@@ -160,7 +165,7 @@ public class RoomViewController implements Initializable {
     }
 
     /**
-     * Method that disbales all the components needed to book a reservation.
+     * Method that disables all the components needed to book a reservation.
      */
     private void disableReservationComponents() {
         // disbale all the components that are used to book a reservation
@@ -175,7 +180,7 @@ public class RoomViewController implements Initializable {
     }
 
     /**
-     * Methods that hides all the error messages
+     * Methods that hides all the error messages.
      */
     private void hideErrors() {
         try {
@@ -206,6 +211,7 @@ public class RoomViewController implements Initializable {
     }
 
     /**
+     * .
      * Methods that sets the dayCellFactory made in {@link #getDayCellFactory()}
      * and the StringConverter made in {@link #getDatePickerConverter()}
      */
@@ -222,7 +228,7 @@ public class RoomViewController implements Initializable {
             // set value change listener to adjust css for available timeslots
             datePicker.valueProperty().addListener(((observable, oldValue, newValue) -> {
                 try {
-                    configureCSS();
+                    configureCss();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -236,7 +242,8 @@ public class RoomViewController implements Initializable {
      * Create cellFactory for the datePicker that disables all days before today and weekend days.
      * It also marks them red to make sure the user understands why they are disabled.
      *
-     * @return a CallBack object used to set the dayCellFactory for the datePicker in {@link #configureDatePicker()}
+     * @return a CallBack object used to set the dayCellFactory for the datePicker in
+     * {@link #configureDatePicker()}
      */
     private Callback<DatePicker, DateCell> getDayCellFactory() {
         try {
@@ -250,7 +257,8 @@ public class RoomViewController implements Initializable {
                             super.updateItem(item, empty);
 
                             // Disable all days before today + weekend days
-                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY
+                                    || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
                                 // disable the 'button'
                                 setDisable(true);
                                 // make them red
@@ -290,7 +298,7 @@ public class RoomViewController implements Initializable {
             configureRangeSliderListeners(converter);
 
             // configure css of rangeslider to show user what timeslots are free
-            configureCSS();
+            configureCss();
 
             // initialize the Text objects with the current values of the thumbs
             startTime.setText(converter.toString(timeSlotSlider.getLowValue()));
@@ -305,10 +313,11 @@ public class RoomViewController implements Initializable {
 
 
     /**
-     * Configure (in CSS) the colors of the track of the range slider to show in green the available timeslots and in
-     * red the rest
+     * .
+     * Configure (in CSS) the colors of the track of the range slider to show in green the available timeslots
+     * and in red the rest
      */
-    private void configureCSS() {
+    private void configureCss() {
         try {
             // get css file and delete its content to fill it again
             File css = new File(getClass().getResource("/RangeSlider.css").getPath());
@@ -317,15 +326,17 @@ public class RoomViewController implements Initializable {
             BufferedWriter bw = new BufferedWriter(new FileWriter(css));
             // if no date picked, make slider track white
             if (datePicker.getValue() == null) {
-                GeneralMethods.setSliderDefaultCSS(timeSlotSlider, bw
-                        , getClass().getResource("/RangeSlider.css").toExternalForm());
+                GeneralMethods.setSliderDefaultCss(timeSlotSlider, bw,
+                        getClass().getResource("/RangeSlider.css").toExternalForm());
                 return;
             }
             // get reservations for this room on the selected date
             List<Reservation> reservations = Reservation.getRoomReservationsOnDate(currentRoomId,
                     datePicker.getValue(), getDatePickerConverter());
 
-            if (reservations == null) return;
+            if (reservations == null) {
+                return;
+            }
 
             // sort them in ascending order
             reservations.sort(new Comparator<Reservation>() {
@@ -341,10 +352,16 @@ public class RoomViewController implements Initializable {
                     int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
 
                     // compare hours and minutes
-                    if (o1StartHour < o2StartHour) return -1;
-                    else if (o1StartHour > o2StartHour) return 1;
-                    if (o1StartMinute < o2StartMinute) return -1;
-                    else return 1;
+                    if (o1StartHour < o2StartHour) {
+                        return -1;
+                    } else if (o1StartHour > o2StartHour) {
+                        return 1;
+                    }
+                    if (o1StartMinute < o2StartMinute) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
                 }
             });
 
@@ -355,37 +372,46 @@ public class RoomViewController implements Initializable {
             Iterator<Reservation> it = reservations.iterator();
 
             // if there are no reservations make the track completely green
-            if (!it.hasNext()) bw.write("#91ef99 0%, #91ef99 100%);\n");
+            if (!it.hasNext()) {
+                bw.write("#91ef99 0%, #91ef99 100%);\n");
+            }
 
             // calculate and add green and red parts
             while (it.hasNext()) {
                 Reservation r = it.next();
                 String[] startTime = r.getStartingTime().get().split(":");
                 String[] endTime = r.getEndingTime().get().split(":");
-                double startPercentage = ((Double.parseDouble(startTime[0]) - 8.0) * 60.0 + Double.parseDouble(startTime[1])) / 9.60;
-                double endPercentage = ((Double.parseDouble(endTime[0]) - 8.0) * 60.0 + Double.parseDouble(endTime[1])) / 9.60;
+                double startPercentage = ((Double.parseDouble(startTime[0]) - 8.0) * 60.0
+                        + Double.parseDouble(startTime[1])) / 9.60;
+                double endPercentage = ((Double.parseDouble(endTime[0]) - 8.0) * 60.0
+                        + Double.parseDouble(endTime[1])) / 9.60;
                 bw.write("#91ef99 " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + endPercentage + "%, ");
                 bw.write("#91ef99 " + endPercentage + "%");
-                if (!it.hasNext()) bw.write(");\n");
-                else bw.write(", ");
+                if (!it.hasNext()) {
+                    bw.write(");\n");
+                } else {
+                    bw.write(", ");
+                }
             }
 
             // last part of css (more configuration)
-            bw.write("\t-fx-background-insets: 0 0 -1 0, 0, 1;\n" +
-                    "\t-fx-background-radius: 0.25em, 0.25em, 0.166667em; /* 3 3 2 */\n" +
-                    "\t-fx-padding: 0.25em; /* 3 */\n" +
-                    "}\n\n" + ".range-bar {\n" +
-                    "\t-fx-background-color: rgba(0,0,0,0.3);\n" +
-                    "}");
+            bw.write("\t-fx-background-insets: 0 0 -1 0, 0, 1;\n"
+                    + "\t-fx-background-radius: 0.25em, 0.25em, 0.166667em; /* 3 3 2 */\n"
+                    + "\t-fx-padding: 0.25em; /* 3 */\n"
+                    + "}\n\n" + ".range-bar {\n"
+                    + "\t-fx-background-color: rgba(0,0,0,0.3);\n"
+                    + "}");
             // flush and close writer
             bw.flush();
             bw.close();
             // remove current stylesheet
-            timeSlotSlider.getStylesheets().remove(getClass().getResource("/RangeSlider.css").toExternalForm());
+            timeSlotSlider.getStylesheets().remove(getClass().getResource("/RangeSlider.css")
+                    .toExternalForm());
             // add new stylesheet
-            timeSlotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
+            timeSlotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css")
+                    .toExternalForm());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -393,8 +419,9 @@ public class RoomViewController implements Initializable {
 
 
     /**
-     * Configure the rangeSlider listeners. The listeners make sure that the user jumps
-     * intervals of an hour and sets the texts with the correct value.
+     * Configure the rangeSlider listeners.
+     * The listeners make sure that the user jumps intervals of
+     * 30 minutes and sets the texts with the correct value.
      *
      * @param converter String converter that is created in {@link #getRangeSliderConverter()}
      */
@@ -419,7 +446,7 @@ public class RoomViewController implements Initializable {
     }
 
     /**
-     * Method that checks if the chosen timeslot is free
+     * Method that checks if the chosen timeslot is free.
      *
      * @return true if the timeslot is free, false otherwise
      */
@@ -432,7 +459,9 @@ public class RoomViewController implements Initializable {
         StringConverter<Number> timeConverter = getRangeSliderConverter();
 
         // if there are no reservations the timeslot is valid
-        if (roomReservations.size() == 0) return true;
+        if (roomReservations.size() == 0) {
+            return true;
+        }
 
         for (Reservation r : roomReservations) {
             // get rangeslider values + reservation values
@@ -443,7 +472,9 @@ public class RoomViewController implements Initializable {
 
             // check if the values overlap
             if (!((currentStartValue <= startValue && currentEndValue <= startValue)
-                    || (currentStartValue >= endValue && currentEndValue >= endValue))) return false;
+                    || (currentStartValue >= endValue && currentEndValue >= endValue))) {
+                return false;
+            }
 
         }
         return true;
@@ -493,7 +524,7 @@ public class RoomViewController implements Initializable {
     }
 
     /**
-     * Creates a StringConverter that converts the selected value to an actual time (in String format)
+     * Creates a StringConverter that converts the selected value to an actual time (in String format).
      *
      * @return a StringConverter object
      */
@@ -542,8 +573,6 @@ public class RoomViewController implements Initializable {
         }
     }
 
-    // TODO: add try catch everywhere
-
     /**
      * Method that executes when book button is clicked. It checks if fields are correctly filled.
      *
@@ -566,9 +595,14 @@ public class RoomViewController implements Initializable {
                 // if user confirms booking, reservations is sent to server
                 if (confirmBooking(selectedDate, selectedStartTime, selectedEndTime)) {
                     // send new reservation to server
-                    if (ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(), currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24") ? "23:59" : selectedEndTime)) {
+                    if (ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
+                            currentRoomId, selectedDate, selectedStartTime,
+                            selectedEndTime.contains("24") ? "23:59" : selectedEndTime)) {
                         // create confirmation Alert
-                        Alert alert = GeneralMethods.createAlert("Room booked", "You successfully booked this room!", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+                        Alert alert = GeneralMethods.createAlert("Room booked",
+                                "You successfully booked this room!",
+                                ((Node) event.getSource()).getScene().getWindow(),
+                                Alert.AlertType.CONFIRMATION);
                         alert.showAndWait();
                         // go back to search view
                         SearchView sv = new SearchView();
@@ -580,13 +614,17 @@ public class RoomViewController implements Initializable {
                 }
             } else {
                 // create error Alert
-                Alert alert = GeneralMethods.createAlert("fields incomplete", "Please fill in all the fields", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.ERROR);
+                Alert alert = GeneralMethods.createAlert("fields incomplete",
+                        "Please fill in all the fields",
+                        ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.ERROR);
                 alert.showAndWait();
             }
         } catch (Exception e) {
             e.printStackTrace();
             // create error Alert
-            Alert alert = GeneralMethods.createAlert("Something went wrong", "Sorry, something went wrong on our end. We're fixing it now!", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.ERROR);
+            Alert alert = GeneralMethods.createAlert("Something went wrong",
+                    "Sorry, something went wrong on our end. We're fixing it now!",
+                    ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.ERROR);
             alert.showAndWait();
         }
     }
@@ -618,6 +656,7 @@ public class RoomViewController implements Initializable {
     }
 
     /**
+     * Validator.
      * Checks if fields are correctly filled and shows errors and warnings if
      * the user forgot some fields.
      *
@@ -647,9 +686,8 @@ public class RoomViewController implements Initializable {
                 errors = true;
             }
 
-            // check if errors were triggered
-            if (errors) return false;
-            else return true;
+            // return true if no errors where triggered
+            return !errors;
         } catch (Exception e) {
             e.printStackTrace();
         }

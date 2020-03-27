@@ -13,11 +13,17 @@ import nl.tudelft.oopp.demo.views.SearchView;
 public class UserHomePageController {
 
     @FXML
-    private Rectangle BookANewRoom;
+    private Rectangle bookANewRoom;
 
     @FXML
-    private Rectangle BookingHistory;
+    private Rectangle bookingHistory;
 
+    /**
+     * //TODO.
+     *
+     * @param event //TODO.
+     * @throws IOException //TODO.
+     */
     public void setBookANewRoomClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

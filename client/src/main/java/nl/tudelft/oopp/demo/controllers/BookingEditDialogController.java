@@ -1,5 +1,16 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,18 +29,6 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import org.controlsfx.control.RangeSlider;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class BookingEditDialogController {
 
@@ -61,6 +60,7 @@ public class BookingEditDialogController {
     }
 
     /**
+     * .
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
@@ -88,10 +88,10 @@ public class BookingEditDialogController {
 
             // change css of slider if date or room change
             bookingRoomComboBox.valueProperty().addListener(((observable, oldValue, newValue) -> {
-                configureCSS();
+                configureCss();
             }));
             bookingDate.valueProperty().addListener((observable, oldValue, newValue) -> {
-                configureCSS();
+                configureCss();
             });
 
             // Configure the string converters and custom properties (like disabling some dates in the datePicker)
@@ -101,6 +101,7 @@ public class BookingEditDialogController {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Create a range slider (slider with two 'thumbs') adjusted to hours and minutes.
@@ -125,7 +126,7 @@ public class BookingEditDialogController {
             configureRangeSliderListeners(converter);
 
             // configure css of rangeslider to show user what timeslots are free
-            configureCSS();
+            configureCss();
 
             // initialize the Text objects with the current values of the thumbs
             startTime.setText("Start: " + converter.toString(timeSlotSlider.getLowValue()));
@@ -139,10 +140,11 @@ public class BookingEditDialogController {
     }
 
     /**
-     * Configure (in CSS) the colors of the track of the range slider to show in green the available timeslots and in
-     * red the rest
+     * .
+     * Configure (in CSS) the colors of the track of the range slider to show in green
+     * the available timeslots and in red the rest.
      */
-    private void configureCSS() {
+    private void configureCss() {
         try {
             // get currently selected room
             Room selectedRoom = bookingRoomComboBox.getSelectionModel().getSelectedItem();
@@ -152,8 +154,8 @@ public class BookingEditDialogController {
             css.createNewFile();
             BufferedWriter bw = new BufferedWriter(new FileWriter(css));
             if (selectedRoom == null) {
-                GeneralMethods.setSliderDefaultCSS(timeSlotSlider, bw
-                        , getClass().getResource("/RangeSlider.css").toExternalForm());
+                GeneralMethods.setSliderDefaultCss(timeSlotSlider, bw,
+                        getClass().getResource("/RangeSlider.css").toExternalForm());
                 return;
             }
             // get reservations for this room on the selected date
@@ -175,10 +177,16 @@ public class BookingEditDialogController {
                     int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
 
                     // compare hours and minutes
-                    if (o1StartHour < o2StartHour) return -1;
-                    else if (o1StartHour > o2StartHour) return 1;
-                    if (o1StartMinute < o2StartMinute) return -1;
-                    else return 1;
+                    if (o1StartHour < o2StartHour) {
+                        return -1;
+                    } else if (o1StartHour > o2StartHour) {
+                        return 1;
+                    }
+                    if (o1StartMinute < o2StartMinute) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
                 }
             });
 
@@ -189,43 +197,53 @@ public class BookingEditDialogController {
             Iterator<Reservation> it = reservations.iterator();
 
             // if there are no reservations make the track completely green
-            if (!it.hasNext()) bw.write("#91ef99 0%, #91ef99 100%);\n");
+            if (!it.hasNext()) {
+                bw.write("#91ef99 0%, #91ef99 100%);\n");
+            }
 
             // calculate and add green and red parts
             while (it.hasNext()) {
                 Reservation r = it.next();
                 String[] startTime = r.getStartingTime().get().split(":");
                 String[] endTime = r.getEndingTime().get().split(":");
-                double startPercentage = ((Double.parseDouble(startTime[0]) - 8.0) * 60.0 + Double.parseDouble(startTime[1])) / 9.60;
-                double endPercentage = ((Double.parseDouble(endTime[0]) - 8.0) * 60.0 + Double.parseDouble(endTime[1])) / 9.60;
+                double startPercentage = ((Double.parseDouble(startTime[0]) - 8.0) * 60.0
+                        + Double.parseDouble(startTime[1])) / 9.60;
+                double endPercentage = ((Double.parseDouble(endTime[0]) - 8.0) * 60.0
+                        + Double.parseDouble(endTime[1])) / 9.60;
                 bw.write("#91ef99 " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + endPercentage + "%, ");
                 bw.write("#91ef99 " + endPercentage + "%");
-                if (!it.hasNext()) bw.write(");\n");
-                else bw.write(", ");
+                if (!it.hasNext()) {
+                    bw.write(");\n");
+                } else {
+                    bw.write(", ");
+                }
             }
 
             // last part of css (more configuration)
-            bw.write("\t-fx-background-insets: 0 0 -1 0, 0, 1;\n" +
-                    "\t-fx-background-radius: 0.25em, 0.25em, 0.166667em; /* 3 3 2 */\n" +
-                    "\t-fx-padding: 0.25em; /* 3 */\n" +
-                    "}\n\n" + ".range-bar {\n" +
-                    "\t-fx-background-color: rgba(0,0,0,0.3);\n" +
-                    "}");
+            bw.write("\t-fx-background-insets: 0 0 -1 0, 0, 1;\n"
+                    + "\t-fx-background-radius: 0.25em, 0.25em, 0.166667em; /* 3 3 2 */\n"
+                    + "\t-fx-padding: 0.25em; /* 3 */\n"
+                    + "}\n\n" + ".range-bar {\n"
+                    + "\t-fx-background-color: rgba(0,0,0,0.3);"
+                    + "\n}");
             // flush and close writer
             bw.flush();
             bw.close();
             // remove current stylesheet
-            timeSlotSlider.getStylesheets().remove(getClass().getResource("/RangeSlider.css").toExternalForm());
+            timeSlotSlider.getStylesheets().remove(getClass().getResource("/RangeSlider.css")
+                    .toExternalForm());
             // add new stylesheet
-            timeSlotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
+            timeSlotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css")
+                    .toExternalForm());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
+     * .
      * Configure the rangeSlider listeners. The listeners make sure that the user jumps
      * intervals of an hour and sets the texts with the correct value.
      *
@@ -252,7 +270,7 @@ public class BookingEditDialogController {
     }
 
     /**
-     * Creates a StringConverter that converts the selected value to an actual time (in String format)
+     * Creates a StringConverter that converts the selected value to an actual time (in String format).
      *
      * @return a StringConverter object
      */
@@ -285,48 +303,57 @@ public class BookingEditDialogController {
     }
 
     /**
-     * Set the building combobox converter
+     * Set the building combobox converter.
      *
-     * @param olb
+     * @param olb is passed
      */
     public void setBookingBuildingComboBoxConverter(ObservableList<Building> olb) {
         StringConverter<Building> converter = new StringConverter<Building>() {
             @Override
             public String toString(Building object) {
-                if (object == null) return "";
-                else return object.getBuildingName().get();
+                if (object == null) {
+                    return "";
+                } else {
+                    return object.getBuildingName().get();
+                }
             }
 
             @Override
             public Building fromString(String id) {
-                return olb.stream().filter(x -> String.valueOf(x.getBuildingId()) == id).collect(Collectors.toList()).get(0);
+                return olb.stream().filter(x -> String.valueOf(x.getBuildingId()) == id).collect(
+                        Collectors.toList()).get(0);
             }
         };
         bookingBuildingComboBox.setConverter(converter);
     }
 
     /**
-     * Set the room combobox converter
+     * Set the room combobox converter.
      *
-     * @param olr
+     * @param olr is passed
      */
     public void setBookingRoomComboBoxConverter(ObservableList<Room> olr) {
         StringConverter<Room> converter = new StringConverter<Room>() {
             @Override
             public String toString(Room object) {
-                if (object == null) return "";
-                else return object.getRoomName().get();
+                if (object == null) {
+                    return "";
+                } else {
+                    return object.getRoomName().get();
+                }
             }
 
             @Override
             public Room fromString(String id) {
-                return olr.stream().filter(x -> String.valueOf(x.getRoomId()) == id).collect(Collectors.toList()).get(0);
+                return olr.stream().filter(x -> String.valueOf(x.getRoomId()) == id).collect(
+                        Collectors.toList()).get(0);
             }
         };
         bookingRoomComboBox.setConverter(converter);
     }
 
     /**
+     * .
      * Called when a building is selected
      * The room combobox only shows the rooms of the selected building
      */
@@ -335,7 +362,8 @@ public class BookingEditDialogController {
             //Get all the rooms
             olr = Room.getRoomData();
             //Create a list of rooms only belongs to the selected building
-            List<Room> filteredRooms = olr.stream().filter(x -> x.getRoomBuilding().get() == newBuilding.getBuildingId().get()).collect(Collectors.toList());
+            List<Room> filteredRooms = olr.stream().filter(x -> x.getRoomBuilding().get()
+                    == newBuilding.getBuildingId().get()).collect(Collectors.toList());
             olr.clear();
             //Add the filtered rooms to the observable list
             for (Room r : filteredRooms) {
@@ -346,6 +374,7 @@ public class BookingEditDialogController {
     }
 
     /**
+     * .
      * Methods that sets the dayCellFactory made in {@link #getDayCellFactory()}
      * and the StringConverter made in {@link #getDatePickerConverter()}
      */
@@ -362,7 +391,7 @@ public class BookingEditDialogController {
             // reset css when date changes
             bookingDate.valueProperty().addListener(((observable, oldValue, newValue) -> {
                 try {
-                    configureCSS();
+                    configureCss();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -376,7 +405,8 @@ public class BookingEditDialogController {
      * Create cellFactory for the datePicker that disables all days before today and weekend days.
      * It also marks them red to make sure the user understands why they are disabled.
      *
-     * @return a CallBack object used to set the dayCellFactory for the datePicker in {@link #configureDatePicker()}
+     * @return a CallBack object used to set the dayCellFactory for the datePicker in
+     * {@link #configureDatePicker()}
      */
     private Callback<DatePicker, DateCell> getDayCellFactory() {
         try {
@@ -390,7 +420,8 @@ public class BookingEditDialogController {
                             super.updateItem(item, empty);
 
                             // Disable all days before today + weekend days
-                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY
+                                    || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
                                 // disable the 'button'
                                 setDisable(true);
                                 // make them red
@@ -408,6 +439,7 @@ public class BookingEditDialogController {
     }
 
     /**
+     * .
      * Create a new reservation when called
      */
     private static void emptyReservation() {
@@ -477,14 +509,16 @@ public class BookingEditDialogController {
     }
 
     /**
-     * Method that checks if the chosen timeslot is free
+     * Method that checks if the chosen timeslot is free.
      *
      * @return true if the timeslot is free, false otherwise
      */
     private boolean checkTimeSlotValidity() {
         // get currently selected room
         Room selectedRoom = bookingRoomComboBox.getSelectionModel().getSelectedItem();
-        if (selectedRoom == null) return false;
+        if (selectedRoom == null) {
+            return false;
+        }
         // get all reservations for the current room on the chosen date
         List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
                 bookingDate.getValue(), getDatePickerConverter());
@@ -493,11 +527,15 @@ public class BookingEditDialogController {
         StringConverter<Number> timeConverter = getRangeSliderConverter();
 
         // if there are no reservations the timeslot is valid
-        if (roomReservations.size() == 0) return true;
+        if (roomReservations.size() == 0) {
+            return true;
+        }
 
         for (Reservation r : roomReservations) {
             // if reservation equals the one we are editing, don't consider it
-            if(r.getId().get() == reservation.getId().get()) continue;
+            if (r.getId().get() == reservation.getId().get()) {
+                continue;
+            }
 
             // get rangeslider values + reservation values
             double currentStartValue = timeSlotSlider.getLowValue();
@@ -507,7 +545,9 @@ public class BookingEditDialogController {
 
             // check if the values overlap
             if (!((currentStartValue <= startValue && currentEndValue <= startValue)
-                    || (currentStartValue >= endValue && currentEndValue >= endValue))) return false;
+                    || (currentStartValue >= endValue && currentEndValue >= endValue))) {
+                return false;
+            }
 
         }
         return true;

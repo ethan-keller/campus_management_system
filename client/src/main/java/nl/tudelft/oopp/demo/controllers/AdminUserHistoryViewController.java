@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,8 +14,6 @@ import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.BookingEditDialogView;
-
-import java.io.IOException;
 
 
 public class AdminUserHistoryViewController {
@@ -49,8 +48,10 @@ public class AdminUserHistoryViewController {
             // Initialize the title of the table
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             // Initialize the booking table with the five columns.
-            bookingIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getId().get())));
-            bookingRoomColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getRoom().get())));
+            bookingIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
+                    cellData.getValue().getId().get())));
+            bookingRoomColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
+                    cellData.getValue().getRoom().get())));
             bookingDateColumn.setCellValueFactory(cell -> cell.getValue().getDate());
             bookingStartColumn.setCellValueFactory(cell -> cell.getValue().getStartingTime());
             bookingEndColumn.setCellValueFactory(cell -> cell.getValue().getEndingTime());
@@ -60,7 +61,7 @@ public class AdminUserHistoryViewController {
         }
     }
 
-    /**
+    /**.
      * refresh the table when called
      */
     public void refresh() {
@@ -127,9 +128,13 @@ public class AdminUserHistoryViewController {
             view.start(stage);
             // Get the reservation from the pop up dialog.
             Reservation tempReservation = BookingEditDialogController.reservation;
-            if (tempReservation == null) return;
+            if (tempReservation == null) {
+                return;
+            }
             // TODO: Check that reservation creation was successful before displaying alert
-            ReservationServerCommunication.createReservation(tempReservation.getUsername().get(), tempReservation.getRoom().get(), tempReservation.getDate().get(), tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
+            ReservationServerCommunication.createReservation(tempReservation.getUsername().get(),
+                    tempReservation.getRoom().get(), tempReservation.getDate().get(),
+                    tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
             refresh();
             // An alert pop up when a new reservation created.
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

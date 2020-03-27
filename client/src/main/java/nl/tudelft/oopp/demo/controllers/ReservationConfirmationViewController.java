@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
-
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,9 +10,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Room;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * Class that controls the dialog pop up that asks for a reservation confirmation.
@@ -36,23 +34,23 @@ public class ReservationConfirmationViewController implements Initializable {
      * Method that gets called before everything (mostly to initialize nodes etc.).
      * JavaFX standard.
      *
-     * @param location
-     * @param resources
+     * @param location is passed
+     * @param resources is passed
      */
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // TODO: add food choice into confirmation text
-        confirmationText.setText("You (" + CurrentUserManager.getUsername() + ") would like to book the " +
-                room.getRoomName().get() + " on " + date + " from " + startTime + " until " +
-                endTime + ". Would you like to confirm that?");
+        confirmationText.setText("You (" + CurrentUserManager.getUsername() + ") would like to book the "
+                + room.getRoomName().get() + " on " + date + " from " + startTime + " until "
+                + endTime + ". Would you like to confirm that?");
     }
 
 
     /**
      * When user clicks 'confirm' reservation goes through.
      *
-     * @param event
+     * @param event event that triggered this method
      */
     @FXML
     private void confirmClicked(ActionEvent event) {
@@ -67,7 +65,7 @@ public class ReservationConfirmationViewController implements Initializable {
     /**
      * When user clicks 'cancel' reservation does not go through.
      *
-     * @param event
+     * @param event event that triggered this method
      */
     @FXML
     private void cancelClicked(ActionEvent event) {

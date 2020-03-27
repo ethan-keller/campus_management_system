@@ -3,7 +3,6 @@ package nl.tudelft.oopp.demo.controllers;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,7 +46,8 @@ public class AdminManageUserViewController {
             // Initialize the room table with the four columns.
             usernameColumn.setCellValueFactory(cell -> cell.getValue().getUsername());
             List<String> availableUserType = Arrays.asList("Admin", "Teacher", "Student");
-            userTypeColumn.setCellValueFactory(cell -> new SimpleStringProperty(availableUserType.get(cell.getValue().getUserType().get())));
+            userTypeColumn.setCellValueFactory(cell -> new SimpleStringProperty(availableUserType.get(
+                    cell.getValue().getUserType().get())));
             userPasswordColumn.setCellValueFactory(cell -> cell.getValue().getUserPassword());
             // Add observable list data to the table
             userTable.setItems(User.getUserData());
@@ -60,6 +60,11 @@ public class AdminManageUserViewController {
         initialize();
     }
 
+    /**
+     * The user from the table view is selected.
+     *
+     * @return User selected.
+     */
     public User getSelectedUser() {
         if (userTable.getSelectionModel().getSelectedIndex() >= 0) {
             return userTable.getSelectionModel().getSelectedItem();
@@ -114,10 +119,14 @@ public class AdminManageUserViewController {
             UserEditDialogView view = new UserEditDialogView();
             view.start(stage);
             User tempUser = UserEditDialogController.user;
-            if (tempUser == null) return;
-                // TODO: Check that user creation was succesful before displaying alert
-            else
-                UserServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
+            if (tempUser == null) {
+                return;
+
+                // TODO: Check that user creation was successful before displaying alert
+            } else {
+                UserServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(),
+                        tempUser.getUserType().get());
+            }
             refresh();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -147,11 +156,16 @@ public class AdminManageUserViewController {
                 view.start(stage);
                 User tempUser = UserEditDialogController.user;
 
-                if (tempUser == null) return;
+                if (tempUser == null) {
+                    return;
+                }
                 if (tempUser.getUserPassword().get() == null) {
-                    UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
-                } else
-                    UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
+                    UserServerCommunication.updateUser(tempUser.getUsername().get(),
+                            tempUser.getUserPassword().get(), tempUser.getUserType().get());
+                } else {
+                    UserServerCommunication.updateUser(tempUser.getUsername().get(),
+                            tempUser.getUserPassword().get(), tempUser.getUserType().get());
+                }
                 refresh();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -170,6 +184,12 @@ public class AdminManageUserViewController {
         }
     }
 
+    /**
+     * The history of the particular user is displayed.
+     *
+     * @param event is passed
+     * @throws IOException is thrown
+     */
     @FXML
     private void historyClicked(ActionEvent event) throws IOException {
         User selectedUser = getSelectedUser();
@@ -194,6 +214,12 @@ public class AdminManageUserViewController {
         }
     }
 
+    /**
+     * Back button redirects the user back to the admin home page.
+     *
+     * @param event is passed
+     * @throws IOException is thrown
+     */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

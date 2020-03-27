@@ -16,56 +16,102 @@ public class User {
     private StringProperty userPassword;
     private IntegerProperty userType;
 
+    /**
+     * Default constructor.
+     */
     public User() {
         this.username = new SimpleStringProperty(null);
         this.userPassword = new SimpleStringProperty(null);
         this.userType = new SimpleIntegerProperty(-1);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param username     String
+     * @param userPassword String
+     * @param userType     int
+     */
     public User(String username, String userPassword, int userType) {
         this.username = new SimpleStringProperty(username);
         this.userPassword = new SimpleStringProperty(userPassword);
         this.userType = new SimpleIntegerProperty(userType);
     }
 
+    /**
+     * Getter.
+     *
+     * @return String, in the form of StringProperty.
+     */
     public StringProperty getUsername() {
         return username;
     }
 
+    /**
+     * Setter.
+     *
+     * @param username String, new.
+     */
     public void setUsername(String username) {
         this.username.set(username);
     }
 
+    /**
+     * Getter.
+     *
+     * @return String, in the form of StringProperty.
+     */
     public StringProperty getUserPassword() {
         return userPassword;
     }
 
+    /**
+     * Setter.
+     *
+     * @param userPassword String, new.
+     */
     public void setUserPassword(String userPassword) {
         this.userPassword.set(userPassword);
     }
 
-
+    /**
+     * Getter.
+     *
+     * @return int, in the form of IntegerProperty.
+     */
     public IntegerProperty getUserType() {
         return userType;
     }
 
+    /**
+     * Setter.
+     *
+     * @param userType int, new
+     */
     public void setUserType(int userType) {
         this.userType.set(userType);
     }
 
     /**
      * Convert server response into an ObservableList of rooms.
+     *
+     * @return ObservableList containing all users.
      */
     public static ObservableList<User> getUserData() throws JSONException {
-        ObservableList<User> userData = FXCollections.observableArrayList();
-        JSONArray jsonArrayUsers = new JSONArray(UserServerCommunication.getAllUsers());
-        for (int i = 0; i < jsonArrayUsers.length(); i++) {
-            User u = new User();
-            u.setUsername(jsonArrayUsers.getJSONObject(i).getString("username"));
-            u.setUserPassword(jsonArrayUsers.getJSONObject(i).getString("password"));
-            u.setUserType(jsonArrayUsers.getJSONObject(i).getInt("type"));
-            userData.add(u);
+        try {
+            ObservableList<User> userData = FXCollections.observableArrayList();
+            JSONArray jsonArrayUsers = new JSONArray(UserServerCommunication.getAllUsers());
+            for (int i = 0; i < jsonArrayUsers.length(); i++) {
+                User u = new User();
+                u.setUsername(jsonArrayUsers.getJSONObject(i).getString("username"));
+                u.setUserPassword(jsonArrayUsers.getJSONObject(i).getString("password"));
+                u.setUserType(jsonArrayUsers.getJSONObject(i).getInt("type"));
+                userData.add(u);
+            }
+            return userData;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return userData;
+        return null;
     }
 }

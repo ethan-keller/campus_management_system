@@ -1,7 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -10,7 +9,6 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.User;
@@ -40,16 +38,16 @@ public class LoginViewController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         String loginResponse = LoginServerCommunication.sendLogin(username.getText(), password.getText());
-        if(loginResponse.equals("admin")){
+        if (loginResponse.equals("admin")) {
             CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 0);
             AdminHomePageView av = new AdminHomePageView();
             av.start(stage);
-        } else if(loginResponse.equals("student")){
+        } else if (loginResponse.equals("student")) {
             CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 2);
             //currentUser.setUsername(username.getText());
             SearchView sv = new SearchView();
             sv.start(stage);
-        } else if (loginResponse.equals("teacher")){
+        } else if (loginResponse.equals("teacher")) {
             CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 1);
             SearchView sv = new SearchView();
             sv.start(stage);
@@ -61,7 +59,7 @@ public class LoginViewController {
         }
     }
 
-    /**
+    /**.
      * Handles clicking the register link.
      */
     public void goToRegisterClicked(ActionEvent event) throws IOException {
