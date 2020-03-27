@@ -9,11 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.FoodReservationServerCommunication;
-import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
+import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservation;
-import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.*;
 
 import java.io.IOException;
@@ -98,12 +96,12 @@ public class AdminFoodReservationViewController {
             if (selectedIndex >= 0) {
                 // TODO: Check that food reservation deletion was successful before displaying alert
                 if(AdminUserHistoryViewController.currentSelectedReservation != null) {
-                    FoodReservationServerCommunication.deleteFoodReservation(AdminUserHistoryViewController.currentSelectedReservation.getId().get(),
-                            selectedFoodReservation.getFoodId().getValue());
+                    FoodServerCommunication.deleteFoodFromReservation(selectedFoodReservation.getFoodId().getValue(),
+                            AdminUserHistoryViewController.currentSelectedReservation.getId().get());
                 }
                 if(AdminManageReservationViewController.currentSelectedReservation != null) {
-                    FoodReservationServerCommunication.deleteFoodReservation(AdminManageReservationViewController.currentSelectedReservation.getId().get(),
-                            selectedFoodReservation.getFoodId().getValue());
+                    FoodServerCommunication.deleteFoodFromReservation(selectedFoodReservation.getFoodId().getValue(),
+                            AdminManageReservationViewController.currentSelectedReservation.getId().get());
                 }
 
                 refresh();
@@ -143,12 +141,12 @@ public class AdminFoodReservationViewController {
             if (tempReservation == null) return;
             // TODO: Check that reservation creation was successful before displaying alert
             if (AdminUserHistoryViewController.currentSelectedReservation != null) {
-                FoodReservationServerCommunication.createFoodReservation(AdminUserHistoryViewController.currentSelectedReservation.getId().get(),
-                        tempReservation.getFoodId().get(), tempReservation.getFoodQuantity().get());
+                FoodServerCommunication.addFoodToReservation(tempReservation.getFoodId().get(),
+                        AdminUserHistoryViewController.currentSelectedReservation.getId().get(), tempReservation.getFoodQuantity().get());
             }
             if (AdminManageReservationViewController.currentSelectedReservation != null) {
-                FoodReservationServerCommunication.createFoodReservation(AdminManageReservationViewController.currentSelectedReservation.getId().get(),
-                        tempReservation.getFoodId().get(), tempReservation.getFoodQuantity().get());
+                FoodServerCommunication.addFoodToReservation(tempReservation.getFoodId().get(),
+                        AdminManageReservationViewController.currentSelectedReservation.getId().get(), tempReservation.getFoodQuantity().get());
             }
             refresh();
             // An alert pop up when a new reservation created.

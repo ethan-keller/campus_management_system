@@ -48,6 +48,8 @@ public class BikeEditDialogController {
 
     public static BikeReservation bikeReservation;
 
+    public static boolean edit;
+
     private Stage dialogStage;
 
     public BikeEditDialogController() {
@@ -64,6 +66,9 @@ public class BikeEditDialogController {
             olu = User.getUserData();
             bikeUsernameComboBox.setItems(olu);
             this.setBikeUsernameComboBoxConverter(olu);
+            if (edit) {
+                bikeUsernameComboBox.setDisable(true);
+            }
 
             // Initialize the building combobox
             olb = Building.getBuildingData();

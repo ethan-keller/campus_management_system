@@ -58,7 +58,7 @@ public class Food {
      */
     public static ObservableList<Food> getFoodData() throws JSONException {
         ObservableList<Food> foodData = FXCollections.observableArrayList();
-        JSONArray jsonArrayFoods= new JSONArray(FoodServerCommunication.getAllFoods());
+        JSONArray jsonArrayFoods= new JSONArray(FoodServerCommunication.getAllFood());
         for(int i=0; i<jsonArrayFoods.length(); i++){
             Food f = new Food();
             f.setFoodId(2);
@@ -72,7 +72,7 @@ public class Food {
 
     public static ObservableList<Building> getFoodBuilding(int id) throws UnsupportedEncodingException {
         ObservableList<Building> foodBuilding = FXCollections.observableArrayList();
-        JSONArray jsonArrayBuildings= new JSONArray(FoodServerCommunication.getFoodBuildings(id));
+        JSONArray jsonArrayBuildings= new JSONArray(FoodServerCommunication.getFoodByBuildingId(id));
         for(int i=0; i<jsonArrayBuildings.length(); i++){
             Building b = new Building();
             b.setBuildingId(2);

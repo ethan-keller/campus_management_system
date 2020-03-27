@@ -6,10 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.BikeReservationServerCommunication;
+import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.BikeEditDialogView;
 
@@ -114,7 +113,7 @@ public class AdminUserBikeViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that bike reservation deletion was successful before displaying alert
-                BikeReservationServerCommunication.deleteBikeReservation(selectedBikeReservation.getBikeId().getValue());
+                BikeReservationCommunication.deleteBikeReservation(selectedBikeReservation.getBikeId().getValue());
                 refresh();
                 // An alert pop up when a reservation deleted successfully
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -151,7 +150,7 @@ public class AdminUserBikeViewController {
             BikeReservation tempBikeReservation = BikeEditDialogController.bikeReservation;
             if (tempBikeReservation == null) return;
             // TODO: Check that reservation creation was successful before displaying alert
-            BikeReservationServerCommunication.createBikeReservation(tempBikeReservation.getBikeUsername().get(), tempBikeReservation.getBikeBuilding().get(),
+            BikeReservationCommunication.createBikeReservation(tempBikeReservation.getBikeBuilding().get(), tempBikeReservation.getBikeUsername().get(),
                     tempBikeReservation.getBikeQuantity().get(), tempBikeReservation.getBikeDate().get(), tempBikeReservation.getBikeStartingTime().get(), tempBikeReservation.getBikeEndingTime().get());
             refresh();
             // An alert pop up when a new reservation created.
@@ -183,7 +182,7 @@ public class AdminUserBikeViewController {
 
                 if (tempBikeReservation == null) return;
                 // TODO: Check that building edit was successful before displaying alert
-                BikeReservationServerCommunication.updateBikeReservation(selectedBikeReservation.getBikeId().get(), tempBikeReservation.getBikeBuilding().get(),
+                BikeReservationCommunication.updateBikeReservation(selectedBikeReservation.getBikeId().get(), tempBikeReservation.getBikeBuilding().get(), selectedBikeReservation.getBikeUsername().get(),
                         tempBikeReservation.getBikeQuantity().get(), tempBikeReservation.getBikeDate().get(), tempBikeReservation.getBikeStartingTime().get(), tempBikeReservation.getBikeEndingTime().get());
                 refresh();
 

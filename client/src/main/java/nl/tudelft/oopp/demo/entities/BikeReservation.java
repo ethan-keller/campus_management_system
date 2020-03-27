@@ -6,7 +6,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import nl.tudelft.oopp.demo.communication.BikeReservationServerCommunication;
+import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
+import nl.tudelft.oopp.demo.controllers.AdminManageUserViewController;
 import org.json.JSONArray;
 
 
@@ -109,7 +110,7 @@ public class BikeReservation {
     public static ObservableList<BikeReservation> getAllBikeReservations() {
         try {
             ObservableList<BikeReservation> bikeReservationList = FXCollections.observableArrayList();
-            JSONArray jsonArrayBikeReservation = new JSONArray(BikeReservationServerCommunication.getAllBikeReservations());
+            JSONArray jsonArrayBikeReservation = new JSONArray(BikeReservationCommunication.getAllBikeReservation());
             for (int i = 0; i < jsonArrayBikeReservation.length(); i++) {
                 BikeReservation br = new BikeReservation();
                 br.setBikeId(jsonArrayBikeReservation.getJSONObject(i).getInt("id"));
@@ -136,7 +137,7 @@ public class BikeReservation {
     public static ObservableList<BikeReservation> getUserBikeReservations() {
         try {
             ObservableList<BikeReservation> bikeReservationList = FXCollections.observableArrayList();
-            JSONArray jsonArrayBikeReservation = new JSONArray(BikeReservationServerCommunication.getUserBikeReservations());
+            JSONArray jsonArrayBikeReservation = new JSONArray(BikeReservationCommunication.getUserBikeReservations(AdminManageUserViewController.currentSelectedUser.getUsername().get()));
             for (int i = 0; i < jsonArrayBikeReservation.length(); i++) {
                 BikeReservation br = new BikeReservation();
                 br.setBikeId(jsonArrayBikeReservation.getJSONObject(i).getInt("id"));

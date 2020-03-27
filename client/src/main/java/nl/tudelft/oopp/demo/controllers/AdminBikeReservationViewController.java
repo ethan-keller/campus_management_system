@@ -7,9 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import nl.tudelft.oopp.demo.communication.BikeReservationServerCommunication;
-import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
-import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
+import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.entities.*;
 import nl.tudelft.oopp.demo.views.*;
 
@@ -114,7 +112,7 @@ public class AdminBikeReservationViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that bike reservation deletion was successful before displaying alert
-                BikeReservationServerCommunication.deleteBikeReservation(selectedBikeReservation.getBikeId().getValue());
+                BikeReservationCommunication.deleteBikeReservation(selectedBikeReservation.getBikeId().getValue());
                 refresh();
                 // An alert pop up when a reservation deleted successfully
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -145,13 +143,14 @@ public class AdminBikeReservationViewController {
             // Booking edit dialog pop up.
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentSelectedBikeReservation = null;
+            BikeEditDialogController.edit = false;
             BikeEditDialogView view = new BikeEditDialogView();
             view.start(stage);
             // Get the reservation from the pop up dialog.
             BikeReservation tempBikeReservation = BikeEditDialogController.bikeReservation;
             if (tempBikeReservation == null) return;
             // TODO: Check that reservation creation was successful before displaying alert
-            BikeReservationServerCommunication.createBikeReservation(tempBikeReservation.getBikeUsername().get(), tempBikeReservation.getBikeBuilding().get(),
+            BikeReservationCommunication.createBikeReservation(tempBikeReservation.getBikeBuilding().get(), tempBikeReservation.getBikeUsername().get(),
                     tempBikeReservation.getBikeQuantity().get(), tempBikeReservation.getBikeDate().get(), tempBikeReservation.getBikeStartingTime().get(), tempBikeReservation.getBikeEndingTime().get());
             refresh();
             // An alert pop up when a new reservation created.
@@ -177,13 +176,14 @@ public class AdminBikeReservationViewController {
             if (selectedIndex >= 0) {
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentSelectedBikeReservation = selectedBikeReservation;
+                BikeEditDialogController.edit = true;
                 BikeEditDialogView view = new BikeEditDialogView();
                 view.start(stage);
                 BikeReservation tempBikeReservation = BikeEditDialogController.bikeReservation;
 
                 if (tempBikeReservation == null) return;
                 // TODO: Check that building edit was successful before displaying alert
-                BikeReservationServerCommunication.updateBikeReservation(selectedBikeReservation.getBikeId().get(), tempBikeReservation.getBikeBuilding().get(),
+                BikeReservationCommunication.updateBikeReservation(selectedBikeReservation.getBikeId().get(), tempBikeReservation.getBikeBuilding().get(), selectedBikeReservation.getBikeUsername().get(),
                         tempBikeReservation.getBikeQuantity().get(), tempBikeReservation.getBikeDate().get(), tempBikeReservation.getBikeStartingTime().get(), tempBikeReservation.getBikeEndingTime().get());
                 refresh();
 

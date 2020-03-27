@@ -3,14 +3,10 @@ package nl.tudelft.oopp.demo.entities;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import nl.tudelft.oopp.demo.communication.FoodReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.controllers.AdminUserHistoryViewController;
-import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import java.io.UnsupportedEncodingException;
 
 public class FoodReservation {
 
@@ -59,7 +55,7 @@ public class FoodReservation {
      */
     public static ObservableList<FoodReservation> getUserReservationFood() throws JSONException {
         ObservableList<FoodReservation> foodReservation = FXCollections.observableArrayList();
-        JSONArray jsonArrayFoodReservation= new JSONArray(FoodReservationServerCommunication.getUserFoodReservation(AdminUserHistoryViewController.currentSelectedReservation.getId().get()));
+        JSONArray jsonArrayFoodReservation= new JSONArray(FoodServerCommunication.getFoodByReservation(AdminUserHistoryViewController.currentSelectedReservation.getId().get()));
         for(int i=0; i<jsonArrayFoodReservation.length(); i++){
             FoodReservation fr = new FoodReservation();
             fr.setFoodId(2);
