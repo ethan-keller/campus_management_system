@@ -18,6 +18,9 @@ public class BikeReservationController {
     @Autowired
     private BikeReservationRepository bikeResRepo;
 
+    @Autowired
+    private BuildingController buildingControl;
+
 
     /**
      * Adds a bike reservation to the database.
@@ -40,6 +43,7 @@ public class BikeReservationController {
             startingTime = CommunicationMethods.decodeCommunication(startingTime);
             endingTime = CommunicationMethods.decodeCommunication(endingTime);
             bikeResRepo.insertBikeReservation(building, user, numBikes, date, startingTime, endingTime);
+            buildingControl.addBikeReservation(building, numBikes);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,6 +67,8 @@ public class BikeReservationController {
                                       @RequestParam String date, @RequestParam String startingTime,
                                       @RequestParam String endingTime) {
         try {
+            buildingControl.removeBikeReservation(id);
+
             user = CommunicationMethods.decodeCommunication(user);
             date = CommunicationMethods.decodeCommunication(date);
             startingTime = CommunicationMethods.decodeCommunication(startingTime);
@@ -73,6 +79,8 @@ public class BikeReservationController {
             bikeResRepo.updateDate(id, date);
             bikeResRepo.updateStartingTime(id, startingTime);
             bikeResRepo.updateEndingTime(id, endingTime);
+
+            buildingControl.addBikeReservation(building, numBikes);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -88,6 +96,7 @@ public class BikeReservationController {
     @ResponseBody
     public void deleteBikeReservation(@RequestParam int id) {
         try {
+            buildingControl.removeBikeReservation(id);
             bikeResRepo.deleteBikeReservation(id);
         } catch(Exception e) {
             e.printStackTrace();

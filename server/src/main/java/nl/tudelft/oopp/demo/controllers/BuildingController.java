@@ -1,10 +1,9 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
+import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.repositories.BikeReservationRepository;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,11 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
 @Controller
 public class BuildingController {
 
     @Autowired
     private BuildingRepository buildingRepo;
+
+    @Autowired
+    private BikeReservationRepository bikeResRepo;
 
     /**
      * Adds a building to the database.
@@ -43,6 +48,30 @@ public class BuildingController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Updates available bikes when a bike reservation is removed.
+     * @param bikeResId The bike reservation id
+     */
+    public void removeBikeReservation(int bikeResId) {
+        BikeReservation bikeRes = bikeResRepo.getBikeReservation(bikeResId);
+        buildingRepo.removeBikeReservation(bikeRes.getBuilding(), bikeRes.getNumBikes());
+    }
+
+
+    /**
+     * Updates available bikes for the specified building.
+     * @param building The building ID
+     * @param numBikes The amount of bikes the are reserved
+     */
+    public void addBikeReservation(int building, int numBikes) {
+        List<BikeReservation> reservations = bikeResRepo.getBuildingBikeReservations(building);
+        int count = buildingRepo.getBuilding(building).getMaxBikes();
+        for(int x = 0; x < reservations.size(); x++){
+            count -= reservations.get(x).getNumBikes();
+        }
+        buildingRepo.updateAvailableBikes(building, count);
     }
 
     /**

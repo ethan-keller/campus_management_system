@@ -55,10 +55,14 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
 
     @Modifying
     @Transactional
+    @Query(value = "UPDATE building SET available_bikes = available_bikes + :numRemovedBikes WHERE id = :id", nativeQuery = true)
+    public void removeBikeReservation(@Param("id") int buildingId, @Param("numRemovedBikes") int numRemovedBikes);
+
+    @Modifying
+    @Transactional
     @Query(value = "UPDATE building SET max_bikes = :max_bikes WHERE id = :id", nativeQuery = true)
     public void updateMaxBikes(@Param("id") int id, @Param("max_bikes") int max_bikes);
 
     @Query(value = "SELECT * FROM building WHERE name = :name", nativeQuery = true)
     public Building getBuildingByName(@Param("name") String name);
-
 }
