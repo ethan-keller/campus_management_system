@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.repositories;
 
+import java.util.List;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Repository
 public interface BikeReservationRepository extends JpaRepository<BikeReservation, Long> {
@@ -21,13 +21,18 @@ public interface BikeReservationRepository extends JpaRepository<BikeReservation
     @Query(value = "SELECT * FROM bike_reservation WHERE building = :building", nativeQuery = true)
     public List<BikeReservation> getBuildingBikeReservations(@Param("building") int building);
 
-    @Query(value = "SELECT * FROM bike_reservation JOIN user ON bike_reservation.user = user.username WHERE user.username = :username", nativeQuery = true)
+    @Query(value = "SELECT * FROM bike_reservation JOIN user ON bike_reservation.user = user.username "
+            + "WHERE user.username = :username", nativeQuery = true)
     public List<BikeReservation> getUserBikeReservations(@Param("username") String username);
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO bike_reservation (building, user, num_bikes, date, starting_time, ending_time) VALUES (:building, :user, :numBikes, :date, :startingTime, :endingTime)", nativeQuery = true)
-    public void insertBikeReservation(@Param("building") int building, @Param("user") String user, @Param("numBikes") int numBikes, @Param("date") String date, @Param("startingTime") String startingTime, @Param("endingTime") String endingTime);
+    @Query(value = "INSERT INTO bike_reservation (building, user, num_bikes, date, starting_time, ending_time)"
+            + " VALUES (:building, :user, :numBikes, :date, :startingTime, :endingTime)", nativeQuery = true)
+    public void insertBikeReservation(@Param("building") int building, @Param("user") String user,
+                                      @Param("numBikes") int numBikes, @Param("date") String date,
+                                      @Param("startingTime") String startingTime,
+                                      @Param("endingTime") String endingTime);
 
     @Modifying
     @Transactional

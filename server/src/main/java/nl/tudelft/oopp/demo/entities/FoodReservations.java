@@ -2,9 +2,15 @@ package nl.tudelft.oopp.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "food_reservations")
@@ -27,7 +33,8 @@ public class FoodReservations implements Serializable {
     /**
      * Empty constructor.
      */
-    public FoodReservations() {}
+    public FoodReservations() {
+    }
 
     /**
      * Constructor to initialize the variables.
@@ -71,14 +78,16 @@ public class FoodReservations implements Serializable {
      * @return Returns if they are equal in a boolean
      */
     public boolean equals(Object o) {
-        if(!(o instanceof FoodReservations)) {
+        if (!(o instanceof FoodReservations)) {
             return false;
         }
         FoodReservations temp = (FoodReservations)o;
-        if(food != temp.getFood())
+        if (food != temp.getFood()) {
             return false;
-        if(reservation != temp.getReservation())
+        }
+        if (reservation != temp.getReservation()) {
             return false;
+        }
         return true;
     }
 

@@ -2,12 +2,14 @@ package nl.tudelft.oopp.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Column;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "bike_reservation")
@@ -41,7 +43,7 @@ public class BikeReservation {
     }
 
     /**
-     * Constructor with optional fields available_bikes and max_bikes
+     * Constructor with optional fields available_bikes and max_bikes.
      *
      * @param id int
      * @param building int
@@ -132,11 +134,11 @@ public class BikeReservation {
      */
     @Override
     public boolean equals(Object o) {
-        if(!(o instanceof BikeReservation)) {
+        if (!(o instanceof BikeReservation)) {
             return false;
         }
         BikeReservation temp = (BikeReservation)o;
-        if(id != temp.getId()) {
+        if (id != temp.getId()) {
             return false;
         }
         return true;

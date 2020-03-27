@@ -2,9 +2,12 @@ package nl.tudelft.oopp.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class FoodBuilding implements Serializable {
@@ -21,12 +24,13 @@ public class FoodBuilding implements Serializable {
     private Building building;
 
     /**
-     * Empty contructor
+     * Empty contructor.
      */
-    public FoodBuilding() {}
+    public FoodBuilding() {
+    }
 
     /**
-     * Constructor to initialize the variables
+     * Constructor to initialize the variables.
      * @param food The Food entity
      * @param building The Building entity
      */
@@ -73,14 +77,16 @@ public class FoodBuilding implements Serializable {
      * @return Returns a boolean
      */
     public boolean equals(Object o) {
-        if(!(o instanceof FoodBuilding)) {
+        if (!(o instanceof FoodBuilding)) {
             return false;
         }
         FoodBuilding temp = (FoodBuilding)o;
-        if(food.getId() != temp.getFood().getId())
+        if (food.getId() != temp.getFood().getId()) {
             return false;
-        if(building.getId() != temp.getBuilding().getId())
+        }
+        if (building.getId() != temp.getBuilding().getId()) {
             return false;
+        }
         return true;
     }
 
