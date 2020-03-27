@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -30,19 +29,20 @@ public class ReservationConfirmationViewController implements Initializable {
     // confirmation state
     public static boolean confirmed = false;
 
-    /**
+    /**.
      * Method that gets called before everything (mostly to initialize nodes etc.)
      * JavaFX standard.
      *
-     * @param location
-     * @param resources
+     * @param location is passed
+     * @param resources is passed
      */
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // TODO: add food choice into confirmation text
-        confirmationText.setText("You (" + CurrentUserManager.getUsername() + ") would like to book the " + room.getRoomName().get() + " on " +
-                date + " from " + startTime + " until " + endTime + ". Would you like to confirm that?");
+        confirmationText.setText("You (" + CurrentUserManager.getUsername() + ") would like to book the "
+                + room.getRoomName().get() + " on "
+                + date + " from " + startTime + " until " + endTime + ". Would you like to confirm that?");
     }
 
     ;

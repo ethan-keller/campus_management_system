@@ -19,17 +19,16 @@ class RoomRepositoryTest {
 
     @Test
     void testAllMethods() {
-        try{
+        try {
             int id4 = roomRepo.getRoomByName("5testing").getId();
             int id2 = buildingRepo.getBuildingByName("4roomtesting2").getId();
             int id3 = buildingRepo.getBuildingByName("4roomtesting").getId();
             roomRepo.deleteRoom(id4);
             buildingRepo.deleteBuilding(id2);
             buildingRepo.deleteBuilding(id3);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.getSuppressed();
         }
-
 
 
         buildingRepo.insertBuilding("4roomtesting", 24, "4TestingStreet 34", 5, 5);

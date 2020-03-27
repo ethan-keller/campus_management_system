@@ -26,7 +26,7 @@ class ReservationsRepositoryTest {
     @Test
     void testAllMethods() {
 
-        try{
+        try {
             int roomId = roomRepo.getRoomByName("4testing").getId();
             int id = reservationsRepo.getReservationByRoomAndDateAndStartingTime(
                     roomId, "2020-05-29", "12:00:00").getId();
@@ -34,7 +34,7 @@ class ReservationsRepositoryTest {
             userRepo.deleteUser("4testing");
             reservationsRepo.deleteReservation(id);
             buildingRepo.deleteBuilding(id3);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.getSuppressed();
         }
 

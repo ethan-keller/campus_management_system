@@ -1,6 +1,11 @@
 package nl.tudelft.oopp.demo.entities;
 
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
@@ -17,6 +22,9 @@ public class Room {
     private StringProperty roomDescription;
     private StringProperty roomType;
 
+    /**
+     * Constructor with some initial data.
+     */
     public Room() {
         this.roomId = new SimpleIntegerProperty(-1);
         this.roomName = new SimpleStringProperty(null);
@@ -29,8 +37,17 @@ public class Room {
     }
 
     /**
-     * Constructor with some initial data.
+     * Constructor.
      * Simple string property is used because it provides data binding.
+     *
+     * @param roomId          int
+     * @param roomName        String
+     * @param roomBuilding    int
+     * @param roomTeacherOnly boolean
+     * @param roomCapacity    int
+     * @param roomPhoto       String
+     * @param roomDescription String
+     * @param roomType        String
      */
     public Room(int roomId, String roomName,
                 int roomBuilding, boolean roomTeacherOnly,
@@ -46,73 +63,146 @@ public class Room {
         this.roomType = new SimpleStringProperty(roomType);
     }
 
+    /**
+     * Getter.
+     *
+     * @return int, in the form of IntegerProperty.
+     */
     public IntegerProperty getRoomId() {
         return roomId;
     }
 
+    /**
+     * Setter.
+     *
+     * @param roomId int, new
+     */
     public void setRoomId(int roomId) {
         this.roomId.set(roomId);
     }
 
-
+    /**
+     * Getter.
+     *
+     * @return String, in the form of StringProperty.
+     */
     public StringProperty getRoomName() {
         return roomName;
     }
 
+    /**
+     * Setter.
+     *
+     * @param roomName String, new
+     */
     public void setRoomName(String roomName) {
         this.roomName.set(roomName);
     }
 
-
+    /**
+     * Getter.
+     *
+     * @return Bool, in the form of BooleanProperty.
+     */
     public BooleanProperty getTeacherOnly() {
         return roomTeacherOnly;
     }
 
+    /**
+     * Setter.
+     *
+     * @param roomTeacherOnly boolean, new
+     */
     public void setTeacherOnly(boolean roomTeacherOnly) {
         this.roomTeacherOnly.set(roomTeacherOnly);
     }
 
-
+    /**
+     * Getter.
+     *
+     * @return int, in the form of IntegerProperty.
+     */
     public IntegerProperty getRoomBuilding() {
         return roomBuilding;
     }
 
+    /**
+     * Setter.
+     *
+     * @param roomBuilding int, new
+     */
     public void setRoomBuilding(int roomBuilding) {
         this.roomBuilding.set(roomBuilding);
     }
 
-
+    /**
+     * Getter.
+     *
+     * @return int, in the form of IntegerProperty.
+     */
     public IntegerProperty getRoomCapacity() {
         return roomCapacity;
     }
 
+    /**
+     * Setter.
+     *
+     * @param roomCapacity int, new
+     */
     public void setRoomCapacity(int roomCapacity) {
         this.roomCapacity.set(roomCapacity);
     }
 
-
+    /**
+     * Getter.
+     *
+     * @return String, in the form of StringProperty.
+     */
     public StringProperty getRoomPhoto() {
         return roomPhoto;
     }
 
+    /**
+     * Setter.
+     *
+     * @param roomPhoto String, new
+     */
     public void setRoomPhoto(String roomPhoto) {
         this.roomPhoto.set(roomPhoto);
     }
 
-
+    /**
+     * Getter.
+     *
+     * @return String, in the form of StringProperty.
+     */
     public StringProperty getRoomDescription() {
         return roomDescription;
     }
 
+    /**
+     * Setter.
+     *
+     * @param roomDescription String, new
+     */
     public void setRoomDescription(String roomDescription) {
         this.roomDescription.set(roomDescription);
     }
 
-
+    /**
+     * Getter.
+     *
+     * @return String, in the form of StringProperty.
+     */
     public StringProperty getRoomType() {
         return roomType;
     }
 
+    /**
+     * Setter.
+     *
+     * @param roomType String, new
+     */
     public void setRoomType(String roomType) {
         this.roomType.set(roomType);
     }
@@ -144,6 +234,12 @@ public class Room {
         return null;
     }
 
+    /**
+     * Getter.
+     *
+     * @param id int
+     * @return Room object.
+     */
     public static Room getRoomById(int id) {
         try {
             JSONObject jsonObject = new JSONObject(RoomServerCommunication.getRoom(id));

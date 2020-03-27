@@ -17,10 +17,9 @@ class UserRepositoryTest {
 
     @Test
     void testAllMethods() {
-        try{
+        try {
             userRepo.deleteUser("6testing");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.getSuppressed();
         }
         User us1 = new User("6testing", "4testing", 2);
@@ -36,11 +35,10 @@ class UserRepositoryTest {
 
 
     @Test
-    void testUpdatePassword(){
-        try{
+    void testUpdatePassword() {
+        try {
             userRepo.deleteUser("6testing");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.getSuppressed();
         }
         userRepo.insertUser("6testing", "4testing", 2);

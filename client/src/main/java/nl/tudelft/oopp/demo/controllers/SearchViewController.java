@@ -1,5 +1,13 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
+import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -7,7 +15,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -20,24 +36,24 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.views.*;
+import nl.tudelft.oopp.demo.views.BookingHistoryView;
+import nl.tudelft.oopp.demo.views.CalendarPaneView;
+import nl.tudelft.oopp.demo.views.CancelBookingView;
+import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.RoomView;
 
-import java.io.IOException;
-import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 
 /**
+ * .
  * Controller class for SearchView (JavaFX)
  */
 public class SearchViewController implements Initializable {
     /**
+     * .
      * These are the FXML elements that inject some functionality into the application.
      */
     @FXML
@@ -47,7 +63,7 @@ public class SearchViewController implements Initializable {
     @FXML
     private VBox cardHolder;
     @FXML
-    private ComboBox<Building> BuildingComboBox;
+    private ComboBox<Building> buildingComboBox;
     @FXML
     private RadioButton yesCheckBoxTeacherOnly;
     @FXML
@@ -57,16 +73,16 @@ public class SearchViewController implements Initializable {
     @FXML
     private RadioButton noCheckBoxFood;
     @FXML
-    private ComboBox<String> CapacityComboBox;
+    private ComboBox<String> capacityComboBox;
     @FXML
 
     private Button clearFilters;
     @FXML
-    private Button BookingHistoryButton;
+    private Button bookingHistoryButton;
     @FXML
     private TextField searchBar;
     @FXML
-    private ComboBox<String> BikesAvailable;
+    private ComboBox<String> bikesAvailable;
     @FXML
     private AnchorPane pane;
 
@@ -77,19 +93,21 @@ public class SearchViewController implements Initializable {
     private ObservableList<String> bikeList;
 
     /**
+     * .
      * Default construct of searchView class.
      */
     public SearchViewController() {
     }
 
     /**
+     * .
      * Handles the bookingHistory Button onclick.
      * Redirects the user to the booking history page.
      *
-     * @param event
-     * @throws IOException
+     * @param event is passed
+     * @throws IOException is thrown
      */
-    public void BookingHistoryButtonClicked(ActionEvent event) throws IOException {
+    public void bookingHistoryButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         BookingHistoryView bookingHistoryView = new BookingHistoryView();
@@ -97,11 +115,12 @@ public class SearchViewController implements Initializable {
     }
 
     /**
+     * .
      * Handles the onclick of signOut Button.
      * Redirects the user back to the login page.
      *
-     * @param event
-     * @throws IOException
+     * @param event is passed
+     * @throws IOException is thrown
      */
     public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -111,11 +130,12 @@ public class SearchViewController implements Initializable {
     }
 
     /**
+     * .
      * Handles the onclick of cancelBooking Button.
      * Redirects the user to the cancelBooking page.
      *
-     * @param event
-     * @throws Exception
+     * @param event is passed
+     * @throws Exception is thrown
      */
     public void cancelBookingClicked(ActionEvent event) throws Exception {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -126,11 +146,12 @@ public class SearchViewController implements Initializable {
 
 
     /**
+     * .
      * Method that gets called before everything (mostly to initialize nodes etc.)
      * JavaFX standard.
      *
-     * @param location
-     * @param resources
+     * @param location  is passed
+     * @param resources is passed
      */
     @FXML
     @Override
@@ -145,21 +166,21 @@ public class SearchViewController implements Initializable {
 
 
             // the comboBox only shows 6 rows (more => scroll)
-            BuildingComboBox.setVisibleRowCount(6);
+            buildingComboBox.setVisibleRowCount(6);
 
             datePicker.setConverter(getDatePickerStringConverter());
             datePicker.setDayCellFactory(getDayCellFactory());
 
             // assign values to the observable lists
             capacityList.addAll("1-5", "5-10", "10-20", "20+");
-            BuildingComboBox.setItems(buildingList);
-            BuildingComboBox.setConverter(getBuildingComboBoxConverter());
+            buildingComboBox.setItems(buildingList);
+            buildingComboBox.setConverter(getbuildingComboBoxConverter());
             bikeList.addAll("1-5", "5-10", "10-20", "20+");
 
             // populating the choicebox
-            CapacityComboBox.setItems(capacityList);
-            BuildingComboBox.setItems(buildingList);
-            BikesAvailable.setItems(bikeList);
+            capacityComboBox.setItems(capacityList);
+            buildingComboBox.setItems(buildingList);
+            bikesAvailable.setItems(bikeList);
 
             // get all rooms from server
             ObservableList<Room> roomList = Room.getRoomData();
@@ -173,6 +194,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
+     * .
      * Create cellFactory for the datePicker that disables all days before today and weekend days.
      * It also marks them red to make sure the user understands why they are disabled.
      *
@@ -190,7 +212,8 @@ public class SearchViewController implements Initializable {
                             super.updateItem(item, empty);
 
                             // Disable all days before today + weekend days
-                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY
+                                    || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
                                 // disable the 'button'
                                 setDisable(true);
                                 // make them red
@@ -251,22 +274,26 @@ public class SearchViewController implements Initializable {
     }
 
     /**
+     * .
      * Create a StringConverter that shows the name of the building for each building in the comboBox.
      *
      * @return StringConverter
      */
-    private StringConverter<Building> getBuildingComboBoxConverter() {
+    private StringConverter<Building> getbuildingComboBoxConverter() {
         try {
             StringConverter<Building> converter = new StringConverter<Building>() {
                 @Override
                 public String toString(Building object) {
-                    if (object == null) return "";
+                    if (object == null) {
+                        return "";
+                    }
                     return object.getBuildingName().get();
                 }
 
                 @Override
                 public Building fromString(String id) {
-                    return buildingList.stream().filter(x -> String.valueOf(x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
+                    return buildingList.stream().filter(x -> String.valueOf(
+                            x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
                 }
             };
             return converter;
@@ -277,6 +304,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
+     * .
      * Creates a new 'card' (HBox) which contains some information about the room
      *
      * @param r The Room that we have to show information from
@@ -285,13 +313,13 @@ public class SearchViewController implements Initializable {
     private HBox createRoomCard(Room r) {
         try {
             // initialize javafx components
-            HBox newCard = new HBox();
-            ImageView image = new ImageView();
-            VBox roomInfo = new VBox();
-            Text roomTitle = new Text();
-            Text roomCapacity = new Text();
-            Text roomDescription = new Text();
-            Text roomId = new Text();
+            final HBox newCard = new HBox();
+            final ImageView image = new ImageView();
+            final VBox roomInfo = new VBox();
+            final Text roomTitle = new Text();
+            final Text roomCapacity = new Text();
+            final Text roomDescription = new Text();
+            final Text roomId = new Text();
 
             // loading image from URL + setting size & properties
             Image img = new Image("images/placeholder.png");
@@ -360,6 +388,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
+     * .
      * When a card gets clicked, the RoomView gets loaded with all the corresponding room information
      *
      * @param event MouseEvent
@@ -390,19 +419,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * Redirects to bookingHistory of the current user to see, edit or cancel bookings
-     *
-     * @param event ActionEvent to get current Stage
-     */
-    @FXML
-    private void BookingHistoryClicked(ActionEvent event) {
-        // get current Stage
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        // TODO: redirect to bookingHistory
-    }
-
-    /**
+     * .
      * Clears all the filters and sets them back to 'empty'
      *
      * @param event ActionEvent
@@ -412,13 +429,13 @@ public class SearchViewController implements Initializable {
         try {
             // clear every filter
             datePicker.setValue(null);
-            BuildingComboBox.setValue(null);
+            buildingComboBox.setValue(null);
             yesCheckBoxFood.setSelected(false);
             noCheckBoxFood.setSelected(false);
             yesCheckBoxTeacherOnly.setSelected(false);
             noCheckBoxTeacherOnly.setSelected(false);
-            CapacityComboBox.setValue(null);
-            BikesAvailable.setValue(null);
+            capacityComboBox.setValue(null);
+            bikesAvailable.setValue(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -431,7 +448,7 @@ public class SearchViewController implements Initializable {
             CalendarPaneController.thisStage = stage;
             CalendarPaneView cpv = new CalendarPaneView();
             cpv.start(stage);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
