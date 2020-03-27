@@ -19,15 +19,15 @@ public class RoomServerCommunication {
      * @param photos - Photos of the room
      * @param description - Room description
      * @param type - Room type (Lecture hall, project room, etc)
-     * @return
-     * @throws UnsupportedEncodingException
+     * @return Boolean value which indicates to the user if Room creation is successful.
+     * @throws UnsupportedEncodingException is thrown
      */
     public static boolean createRoom(String name, int building, boolean teacherOnly,
                                      int capacity, String photos, String description, String type)
             throws UnsupportedEncodingException {
-        String params = "name=" + name + "&building=" + building + "&teacherOnly=" +
-                teacherOnly + "&capacity=" + capacity + "&photos=" + photos + "&description=" +
-                description + "&type=" + type;
+        String params = "name=" + name + "&building=" + building + "&teacherOnly="
+                + teacherOnly + "&capacity=" + capacity + "&photos=" + photos + "&description="
+                + description + "&type=" + type;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createRoom?" + params)).build();
@@ -56,7 +56,7 @@ public class RoomServerCommunication {
      * @param description - Room description
      * @param type - Room type (Lecture hall, project room, etc)
      * @return Boolean value if the room is updated or not.
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
     public static boolean updateRoom(int id, String name, int building, boolean teacherOnly,
                                      int capacity, String photos, String description, String type)
@@ -85,7 +85,7 @@ public class RoomServerCommunication {
      * This client-server method is used to delete a room from the database.
      * @param id - Room id
      * @return - Boolean value to inform if the room is deleted.
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
     public static boolean deleteRoom(int id) throws UnsupportedEncodingException {
         String params = "id=" + id;
@@ -110,7 +110,7 @@ public class RoomServerCommunication {
      * This client-server method is used to get a single room which corresponds to the room id.
      * @param id - Room id
      * @return Room
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
     public static String getRoom(int id) throws UnsupportedEncodingException {
         String params = "id=" + id;

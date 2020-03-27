@@ -50,7 +50,8 @@ public class AdminManageUserViewController {
             // Initialize the room table with the four columns.
             usernameColumn.setCellValueFactory(cell -> cell.getValue().getUsername());
             List<String> availableUserType = Arrays.asList("Admin", "Teacher", "Student");
-            userTypeColumn.setCellValueFactory(cell -> new SimpleStringProperty(availableUserType.get(cell.getValue().getUserType().get())));
+            userTypeColumn.setCellValueFactory(cell -> new SimpleStringProperty(availableUserType.get(
+                    cell.getValue().getUserType().get())));
             userPasswordColumn.setCellValueFactory(cell -> cell.getValue().getUserPassword());
             // Add observable list data to the table
             userTable.setItems(User.getUserData());
@@ -63,6 +64,11 @@ public class AdminManageUserViewController {
         initialize();
     }
 
+    /**
+     * The user from the table view is selected.
+     *
+     * @return User selected.
+     */
     public User getSelectedUser() {
         if (userTable.getSelectionModel().getSelectedIndex() >= 0) {
             return userTable.getSelectionModel().getSelectedItem();
@@ -117,12 +123,14 @@ public class AdminManageUserViewController {
             UserEditDialogView view = new UserEditDialogView();
             view.start(stage);
             User tempUser = UserEditDialogController.user;
-            if (tempUser == null) return;
+            if (tempUser == null) {
+                return;
+
                 // TODO: Check that user creation was successful before displaying alert
-            else {
-                UserServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
+            } else {
+                UserServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(),
+                        tempUser.getUserType().get());
             }
-            // Refreshing loads the new user created into the tabular view.
             refresh();
             // Informing the admin through a alert box that a new user is created successfully.
             AlertBox("New User","", "Added new user!");
@@ -150,9 +158,15 @@ public class AdminManageUserViewController {
                 view.start(stage);
                 User tempUser = UserEditDialogController.user;
 
-                if (tempUser == null) return;
-                else {
-                    UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(), tempUser.getUserType().get());
+                if (tempUser == null) {
+                    return;
+                }
+                if (tempUser.getUserPassword().get() == null) {
+                    UserServerCommunication.updateUser(tempUser.getUsername().get(),
+                            tempUser.getUserPassword().get(), tempUser.getUserType().get());
+                } else {
+                    UserServerCommunication.updateUser(tempUser.getUsername().get(),
+                            tempUser.getUserPassword().get(), tempUser.getUserType().get());
                 }
                 refresh();
 
@@ -168,6 +182,12 @@ public class AdminManageUserViewController {
         }
     }
 
+    /**
+     * The history of the particular user is displayed.
+     *
+     * @param event is passed
+     * @throws IOException is thrown
+     */
     @FXML
     private void historyClicked(ActionEvent event) throws IOException {
         User selectedUser = getSelectedUser();
@@ -189,9 +209,10 @@ public class AdminManageUserViewController {
     }
 
     /**
-     * This button redirects the admin back to the admin home page for more options
-     * @param event is passed.
-     * @throws IOException is thrown.
+     * Back button redirects the user back to the admin home page.
+     *
+     * @param event is passed
+     * @throws IOException is thrown
      */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {

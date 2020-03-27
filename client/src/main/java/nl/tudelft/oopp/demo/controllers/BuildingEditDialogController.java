@@ -28,7 +28,9 @@ public class BuildingEditDialogController {
     @FXML
     private void initialize() {
         Building building = AdminManageBuildingViewController.currentSelectedBuilding;
-        if (building == null) return;
+        if (building == null) {
+            return;
+        }
         buildingNameField.setText(building.getBuildingName().get());
         buildingAddressField.setText(building.getBuildingAddress().get());
         buildingRoomCountField.setText(String.valueOf(building.getBuildingRoomCount().get()));

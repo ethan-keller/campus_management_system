@@ -38,12 +38,14 @@ public class UserEditDialogController {
     @FXML
     private void initialize() {
         User user = AdminManageUserViewController.currentSelectedUser;
-        if (user == null) return;
+        if (user == null) {
+            return;
+        }
         usernameField.setText(user.getUsername().get());
         if (edit) {
             usernameField.setDisable(true);
         }
-//        userPasswordField.setText(user.getUserPassword().get());
+        //        userPasswordField.setText(user.getUserPassword().get());
         if (user.getUserType().get() == 0) {
             userTypeAdmin.setSelected(true);
         }

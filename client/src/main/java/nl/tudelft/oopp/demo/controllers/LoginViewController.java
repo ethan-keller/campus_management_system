@@ -90,7 +90,7 @@ public class LoginViewController {
         }
     }
 
-    /**
+    /**.
      * Handles clicking the register link.
      */
     public void goToRegisterClicked(ActionEvent event) throws IOException {

@@ -35,6 +35,11 @@ class ReservationControllerTest {
 
     @Test
     void testAllMethods() throws UnsupportedEncodingException {
+        try {
+            userRepo.deleteUser("6testing");
+        } catch (Exception e) {
+            e.getSuppressed();
+        }
         User us1 = new User("6testing", "4testing", 2);
         userRepo.insertUser("6testing", "4testing", 2);
 

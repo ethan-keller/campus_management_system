@@ -27,10 +27,6 @@ public class ReservationConfirmationView extends Application {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setResizable(false);
-//            stage.getScene().getWindow().addEventFilter(
-//                    WindowEvent.WINDOW_CLOSE_REQUEST,
-//                    event -> x
-//            );
 
             // Set the dialog stage properties
             stage.initModality(Modality.WINDOW_MODAL);
