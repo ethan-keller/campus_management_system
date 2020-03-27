@@ -1,8 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
-
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -22,13 +21,13 @@ public class AdminManageBuildingViewController {
     private TableView<Building> buildingTable;
 
     @FXML
-    private TableColumn<Building, String> buildingIdColumn;
+    private TableColumn<Building, Number> buildingIdColumn;
 
     @FXML
     private TableColumn<Building, String> buildingNameColumn;
 
     @FXML
-    private TableColumn<Building, String> buildingRoomCountColumn;
+    private TableColumn<Building, Number> buildingRoomCountColumn;
 
     @FXML
     private TableColumn<Building, String> buildingAddressColumn;
@@ -46,11 +45,11 @@ public class AdminManageBuildingViewController {
     private void initialize() {
         try {
             // Initialize the room table with the four columns.
-            buildingIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(
-                    String.valueOf(cell.getValue().getBuildingId().get())));
+            buildingIdColumn.setCellValueFactory(cell -> new SimpleIntegerProperty(
+                    cell.getValue().getBuildingId().get()));
             buildingNameColumn.setCellValueFactory(cell -> cell.getValue().getBuildingName());
             buildingRoomCountColumn.setCellValueFactory(cell ->
-                    new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingRoomCount().get())));
+                    new SimpleIntegerProperty(cell.getValue().getBuildingRoomCount().get()));
             buildingAddressColumn.setCellValueFactory(cell -> cell.getValue().getBuildingAddress());
 
             // Add observable list data to the table
