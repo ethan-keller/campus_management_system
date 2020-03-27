@@ -14,7 +14,7 @@
    <left>
       <AnchorPane prefHeight="400.0" prefWidth="108.0" style="-fx-background-color: #0ebaf8;" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="BackButton" layoutX="11.0" layoutY="10.0" mnemonicParsing="false" onAction="#BackButtonClicked" text="Back" />
+            <Button fx:id="BackButton" layoutX="11.0" layoutY="10.0" mnemonicParsing="false" onAction="#backButtonClicked" text="Back" />
             <VBox alignment="CENTER" layoutX="4.0" layoutY="69.0" spacing="10.0" AnchorPane.bottomAnchor="69.39999999999998" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.799999999999997" AnchorPane.topAnchor="69.0">
                <children>
                   <Button fx:id="addItem" mnemonicParsing="false" onAction="#addItemClicked" prefHeight="36.0" prefWidth="99.0" text="Add item" textAlignment="CENTER" />

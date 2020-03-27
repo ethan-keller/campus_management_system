@@ -13,6 +13,7 @@ import nl.tudelft.oopp.demo.controllers.BookingEditDialogController;
 
 
 public class BookingEditDialogView extends Application {
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
@@ -28,8 +29,8 @@ public class BookingEditDialogView extends Application {
             Scene scene = new Scene(root);
             dialogStage.setScene(scene);
             dialogStage.setResizable(false);
-            dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> BookingEditDialogController.reservation = null);
-
+            dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST,
+                event -> BookingEditDialogController.reservation = null);
             // Set the dialog stage properties
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);

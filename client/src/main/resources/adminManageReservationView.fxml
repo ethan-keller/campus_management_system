@@ -21,7 +21,7 @@
       </Label>
    </top>
    <center>
-      <TableView fx:id="listReservations" prefHeight="500.0" prefWidth="900.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+      <TableView fx:id="listReservations" prefHeight="367.0" prefWidth="787.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="id" maxWidth="300.0" minWidth="100.0" prefWidth="-1.0" text="ReservationId" />
           <TableColumn fx:id="username" maxWidth="300.0" minWidth="130.0" prefWidth="-1.0" text="Username" />
@@ -38,7 +38,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="78.0" prefWidth="911.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="newReservation" mnemonicParsing="false" onAction="#NewReservationClicked" prefHeight="35.0" prefWidth="93.0" text="New" textAlignment="CENTER" textFill="#0ebaf8">
+            <Button fx:id="newReservation" mnemonicParsing="false" onAction="#newReservationClicked" prefHeight="35.0" prefWidth="93.0" text="New" textAlignment="CENTER" textFill="#0ebaf8">
                <font>
                   <Font size="18.0" />
                </font>
@@ -46,7 +46,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="editReservation" mnemonicParsing="false" onAction="#EditReservationClicked" prefHeight="39.0" prefWidth="95.0" text="Edit" textAlignment="CENTER" textFill="#0ebaf8">
+            <Button fx:id="editReservation" mnemonicParsing="false" onAction="#editReservationClicked" prefHeight="39.0" prefWidth="95.0" text="Edit" textAlignment="CENTER" textFill="#0ebaf8">
                <font>
                   <Font size="18.0" />
                </font>
@@ -54,7 +54,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="deleteReservation" mnemonicParsing="false" onAction="#DeleteReservationClicked" prefHeight="39.0" prefWidth="99.0" text="Delete" textAlignment="CENTER" textFill="#0ebaf8">
+            <Button fx:id="deleteReservation" mnemonicParsing="false" onAction="#deleteReservationClicked" prefHeight="39.0" prefWidth="99.0" text="Delete" textAlignment="CENTER" textFill="#0ebaf8">
                <font>
                   <Font size="18.0" />
                </font>
@@ -62,15 +62,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="foodReservation" layoutX="405.0" layoutY="30.0" mnemonicParsing="false" onAction="#FoodReservationClicked" prefHeight="39.0" prefWidth="99.0" text="Food" textAlignment="CENTER" textFill="#0ebaf8">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="backReservation" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#BackButtonClicked" prefHeight="39.0" prefWidth="86.0" text="Back" textAlignment="CENTER" textFill="#0ebaf8">
+            <Button fx:id="backReservation" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="39.0" prefWidth="86.0" text="Back" textAlignment="CENTER" textFill="#0ebaf8">
                <font>
                   <Font size="18.0" />
                </font>

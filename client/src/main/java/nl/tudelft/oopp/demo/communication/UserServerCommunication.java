@@ -32,7 +32,7 @@ public class UserServerCommunication {
      * using hos/her username.
      * @param username - User's username
      * @return User
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
     public static String getUser(String username) throws UnsupportedEncodingException {
         String params = "username=" + username;
@@ -55,7 +55,7 @@ public class UserServerCommunication {
      * The user is identified using his/her username.
      * @param username - User's username
      * @return Boolean value indicating if the user is deleted.
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
     public static boolean deleteUser(String username) throws UnsupportedEncodingException {
         String params = "username=" + username;
@@ -82,7 +82,7 @@ public class UserServerCommunication {
      * @param password - User's Password
      * @param type - Type of user (teacher, student or admin)
      * @return Boolean value to inform the user if the users' information is updated.
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
     public static boolean updateUser(String username, String password, int type)
             throws UnsupportedEncodingException {
@@ -110,7 +110,7 @@ public class UserServerCommunication {
      * @param password - User's Password
      * @param type - Type of user (teacher, student or admin)
      * @return Boolean value to inform the user if the users' account is created.
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
     public static boolean createUser(String username, String password, int type)
             throws UnsupportedEncodingException {
