@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -36,12 +35,6 @@ import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 public class RentABikeController implements Initializable {
-    @FXML
-    private Text name;
-    @FXML
-    private Text capacity;
-    @FXML
-    private ImageView image;
     @FXML
     private DatePicker datePicker;
     @FXML
@@ -198,7 +191,7 @@ public class RentABikeController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
 
                 // if the user responds with OK
-                if(result.get() == ButtonType.OK){
+                if(result.orElse(null) == ButtonType.OK){
 
                     //send new reservation to the server
                     BikeReservationCommunication.createBikeReservation(getBuildingNumber(selectedBuilding), CurrentUserManager.getUsername(), selectedBike,selectedDate, selectedStartTime, selectedEndTime );
@@ -215,9 +208,6 @@ public class RentABikeController implements Initializable {
 
                 }
                 // do nothing if user selects no
-                else {
-                    result.get();
-                }
             }
             // only case for insufficient bikes in the database for selected date and timeslot
             else{
