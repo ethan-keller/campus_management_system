@@ -1,91 +1,186 @@
 package nl.tudelft.oopp.demo.entities;
 
-import javafx.beans.property.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-
 public class Food {
-
     private IntegerProperty foodId;
     private StringProperty foodName;
-    private DoubleProperty foodPrice;
+    private IntegerProperty foodPrice;
 
+    /**
+     * Constructor to initialize without paramters.
+     */
     public Food() {
         this.foodId = new SimpleIntegerProperty(-1);
         this.foodName = new SimpleStringProperty(null);
-        this.foodPrice = new SimpleDoubleProperty(-1.0d);
+        this.foodPrice = new SimpleIntegerProperty(-1);
     }
-
-
-    public Food(int foodId, String foodName, float foodPrice) {
-        this.foodId = new SimpleIntegerProperty(foodId);
-        this.foodName = new SimpleStringProperty(foodName);
-        this.foodPrice = new SimpleDoubleProperty(foodPrice);
-    }
-
-    public IntegerProperty getFoodId() {
-        return foodId;
-    }
-
-    public void setFoodId(int foodId) { this.foodId.set(foodId); }
-
-
-
-    public StringProperty getFoodName() {
-        return foodName;
-    }
-
-    public void setFoodName(String foodName) { this.foodName.set(foodName); }
-
-
-
-    public DoubleProperty getFoodPrice() {
-        return foodPrice;
-    }
-
-    public void setFoodPrice(double foodPrice) { this.foodPrice.set(foodPrice); }
-
 
     /**
-     * Convert server response into an ObservableList of foods.
+     * Constructor to initialize with parameters.
+     * @param id New Food id
+     * @param name New Food name
+     * @param price New Food price
      */
-    public static ObservableList<Food> getFoodData() throws JSONException {
-        ObservableList<Food> foodData = FXCollections.observableArrayList();
-        JSONArray jsonArrayFoods= new JSONArray(FoodServerCommunication.getAllFood());
-        for(int i=0; i<jsonArrayFoods.length(); i++){
-            Food f = new Food();
-            f.setFoodId(2);
-            f.setFoodId(jsonArrayFoods.getJSONObject(i).getInt("id") );
-            f.setFoodName(jsonArrayFoods.getJSONObject(i).getString("name") );
-            f.setFoodPrice(jsonArrayFoods.getJSONObject(i).getDouble("price") );
-            foodData.add(f);
-        }
-        return foodData;
+    public Food(int id, String name, int price) {
+        this.foodId = new SimpleIntegerProperty(id);
+        this.foodName = new SimpleStringProperty(name);
+        this.foodPrice = new SimpleIntegerProperty(price);
     }
 
-    public static ObservableList<Building> getFoodBuilding(int id) throws UnsupportedEncodingException {
-        ObservableList<Building> foodBuilding = FXCollections.observableArrayList();
-        JSONArray jsonArrayBuildings= new JSONArray(FoodServerCommunication.getFoodByBuildingId(id));
-        for(int i=0; i<jsonArrayBuildings.length(); i++){
-            Building b = new Building();
-            b.setBuildingId(2);
-            b.setBuildingId(jsonArrayBuildings.getJSONObject(i).getInt("id"));
-            b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name") );
-            b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getString("address") );
-            b.setBuildingRoomCount(jsonArrayBuildings.getJSONObject(i).getInt("roomCount") );
-            foodBuilding.add(b);
-        }
-        return foodBuilding;
+    /**
+     * Gets food ID.
+     * @return Returns ID
+     */
+    public int getFoodId() {
+        return foodId.get();
     }
 
-    public static Food getFoodById(int id) throws JSONException {
+    /**
+     * Sets the Food ID.
+     * @param foodId The new ID
+     */
+    public void setFoodId(int foodId) {
+        this.foodId.set(foodId);
+    }
+
+    /**
+     * Returns the food name.
+     * @return The name
+     */
+    public String getFoodName() {
+        return foodName.get();
+    }
+
+    /**
+     * Sets the food name.
+     * @param foodName The new name
+     */
+    public void setFoodName(String foodName) {
+        this.foodName.set(foodName);
+    }
+
+    /**
+     * Returns the food price.
+     * @return The price
+     */
+    public int getFoodPrice() {
+        return foodPrice.get();
+    }
+
+    /**
+     * Sets the food price.
+     * @param foodPrice The new price
+     */
+    public void setFoodPrice(int foodPrice) {
+        this.foodPrice.set(foodPrice);
+    }
+
+    /**
+     * Returns all foods in the database.
+     * @return List of Food
+     */
+    public static ObservableList<Food> getAllFoodData() {
+        try {
+            ObservableList<Food> foodData = FXCollections.observableArrayList();
+            JSONArray jsonArrayFood = new JSONArray(FoodServerCommunication.getAllFood());
+            for (int i = 0; i < jsonArrayFood.length(); i++) {
+                Food f = new Food();
+                f.setFoodId(jsonArrayFood.getJSONObject(i).getInt("id"));
+                f.setFoodName(jsonArrayFood.getJSONObject(i).getString("name"));
+                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getInt("price"));
+                foodData.add(f);
+            }
+            return foodData;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Returns a list of Foods that have been added to a particular reservation.
+     * @param id The Reservation ID
+     * @return Returns a list of Food
+     */
+    public static ObservableList<Food> getFoodByReservationId(int id) {
+        try {
+            ObservableList<Food> foodData = FXCollections.observableArrayList();
+            JSONArray jsonArrayFood = new JSONArray(FoodServerCommunication.getFoodByReservation(id));
+            for (int i = 0; i < jsonArrayFood.length(); i++) {
+                Food f = new Food();
+                f.setFoodId(jsonArrayFood.getJSONObject(i).getInt("id"));
+                f.setFoodName(jsonArrayFood.getJSONObject(i).getString("name"));
+                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getInt("price"));
+                foodData.add(f);
+            }
+            return foodData;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Returns all foods that are available at a particular building with ID.
+     * @param id The building ID
+     * @return Returns a list of Food
+     */
+    public static ObservableList<Food> getFoodByBuildingId(int id) {
+        try {
+            ObservableList<Food> foodData = FXCollections.observableArrayList();
+            JSONArray jsonArrayFood = new JSONArray(FoodServerCommunication.getFoodByBuildingId(id));
+            for (int i = 0; i < jsonArrayFood.length(); i++) {
+                Food f = new Food();
+                f.setFoodId(jsonArrayFood.getJSONObject(i).getInt("id"));
+                f.setFoodName(jsonArrayFood.getJSONObject(i).getString("name"));
+                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getInt("price"));
+                foodData.add(f);
+            }
+            return foodData;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Returns all foods that are available at a particular building with a building name.
+     * @param name The building name
+     * @return Returns a list of Food
+     */
+    public static ObservableList<Food> getFoodByBuildingName(String name) {
+        try {
+            ObservableList<Food> foodData = FXCollections.observableArrayList();
+            JSONArray jsonArrayFood = new JSONArray(FoodServerCommunication.getFoodByBuildingName(name));
+            for (int i = 0; i < jsonArrayFood.length(); i++) {
+                Food f = new Food();
+                f.setFoodId(jsonArrayFood.getJSONObject(i).getInt("id"));
+                f.setFoodName(jsonArrayFood.getJSONObject(i).getString("name"));
+                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getInt("price"));
+                foodData.add(f);
+            }
+            return foodData;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Returns a Food that is associated with a particular ID.
+     * @param id The food ID
+     * @return Returns a Food object
+     */
+    public static Food getFoodById(int id) {
         try {
             JSONObject jsonObject = new JSONObject(FoodServerCommunication.getFood(id));
             Food f = new Food();
@@ -98,5 +193,4 @@ public class Food {
         }
         return null;
     }
-
 }

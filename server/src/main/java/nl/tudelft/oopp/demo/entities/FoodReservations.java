@@ -100,4 +100,3 @@ public class FoodReservations implements Serializable {
         return Objects.hash(reservation.getId(), food.getId(), quantity);
     }
 }
-

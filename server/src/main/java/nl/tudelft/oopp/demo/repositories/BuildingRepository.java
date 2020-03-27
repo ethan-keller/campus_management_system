@@ -20,6 +20,10 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
     @Query(value = "SELECT * FROM building WHERE id = :id", nativeQuery = true)
     public Building getBuilding(@Param("id") int id);
 
+    @Query(value = "SELECT building.* FROM building INNER JOIN food_building ON"
+            + " building.id = food_building.building_id WHERE food_building.food_id = :id", nativeQuery = true)
+    public List<Building> getBuildingByFoodId(@Param("id") int foodId);
+
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO building (name, room_count, address, available_bikes, max_bikes) VALUES "

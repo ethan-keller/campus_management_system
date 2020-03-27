@@ -157,6 +157,22 @@ public class BuildingController {
     }
 
     /**
+     * Returns a list of buildings that sell a particular food.
+     * @param id the Food id.
+     * @return Returns a list
+     */
+    @GetMapping("getBuildingByFoodId")
+    @ResponseBody
+    public List<Building> getBuildingByFoodId(@RequestParam int id) {
+        try {
+            return buildingRepo.getBuildingByFoodId(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * Returns all the buildings.
      *
      * @return Returns a List of Building in Json
