@@ -1,11 +1,15 @@
 package nl.tudelft.oopp.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "food")
-public class Food {
-
+public class Food implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -15,48 +19,87 @@ public class Food {
     private String name;
 
     @Column(name = "price")
-    private double price;
+    private int price;
 
-    public Food(){
+    @JsonManagedReference
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
+    private Set<FoodReservations> foodReservations;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
+    private Set<FoodBuilding> foodBuilding;
+
+    public Food() {
     }
 
-    public Food(int id, String name, double price){
+    /**
+     * Constructor.
+     *
+     * @param id int
+     * @param name String
+     * @param price int
+     */
+    public Food(int id, String name, int price) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.foodBuilding = new HashSet<>();
+        this.foodReservations = new HashSet<>();
     }
 
+    /**
+     * Retrieves ID of the building from the database.
+     *
+     * @return Returns the int ID.
+     */
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    /**
+     * Retrieves the name of the food from the database.
+     *
+     * @return Returns the String name.
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
+    /**
+     * Retrieves the price of the food from the database.
+     *
+     * @return Returns the int value room_count.
+     */
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public Set<FoodReservations> getFoodReservations() {
+        return foodReservations;
     }
 
+    public Set<FoodBuilding> getFoodBuilding() {
+        return foodBuilding;
+    }
+
+
+    /**
+     * Equals method.
+     *
+     * @param o An Object to be compared to "this".
+     * @return True if o is the same object, false otherwise.
+     */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Food)) return false;
-        Food food = (Food) o;
-        return getId() == food.getId();
-    }
+        if(!(o instanceof Food)) {
+            return false;
+        }
 
+        Food temp = (Food)o;
+        if(id != temp.getId()) {
+            return false;
+        }
+
+        return true;
+    }
 }

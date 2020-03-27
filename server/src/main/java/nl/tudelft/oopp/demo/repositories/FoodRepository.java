@@ -14,36 +14,69 @@ import java.util.List;
 public interface FoodRepository extends JpaRepository<Food, Long> {
 
     @Query(value = "SELECT * FROM food", nativeQuery = true)
-    public List<Food> getAllFoods();
+    public List<Food> getAllFood();
 
     @Query(value = "SELECT * FROM food WHERE id = :id", nativeQuery = true)
     public Food getFood(@Param("id") int id);
 
-    @Modifying
-    @Transactional
-    @Query(value = "INSERT INTO food(name, price) VALUES (:name, :price)", nativeQuery = true)
-    public void createFood(@Param("name") String name, @Param("price") double price);
+    @Query(value = "SELECT * FROM food WHERE name = :name", nativeQuery = true)
+    public Food getFoodByName(@Param("name") String name);
+
+    @Query(value = "SELECT food.* FROM food INNER JOIN food_building ON food.id = food_building.food_id " +
+            "INNER JOIN building ON building.id = food_building.building_id WHERE building.name = :name",
+            nativeQuery = true)
+    public List<Food> getFoodByBuildingName(@Param("name") String name);
+
+    @Query(value = "SELECT food.* FROM food INNER JOIN food_building ON food.id = food_building.food_id WHERE building_id = :id",
+            nativeQuery = true)
+    public List<Food> getFoodByBuildingId(@Param("id") int id);
+
+    @Query(value = "SELECT food.*, food_reservations.quantity FROM food INNER JOIN food_reservations ON food.id = food_reservations.food_id WHERE" +
+            " reservation_id = :reservation", nativeQuery = true)
+    public List<Food> getFoodByReservationId(@Param("reservation") int reservationId);
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO food_building(food_id, building_id) VALUES (:food_id, :building_id)", nativeQuery = true)
-    public void addFoodToBuilding(@Param("food_id") int food_id, @Param("building_id") int building_id);
+    @Query(value = "INSERT INTO food_building(food_id, building_id) VALUES (:food, :building)", nativeQuery = true)
+    public void addFoodToBuilding(@Param("food") int food_id, @Param("building") int buildingId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE food SET name = :name, price = :price WHERE id = :id", nativeQuery = true)
-    public void updateFood(@Param("id") int id, @Param("name") String name, @Param("price") double price);
+    @Query(value = "INSERT INTO food_reservations(reservation_id, food_id, quantity) VALUES (:reservation, :food, :quantity)", nativeQuery = true)
+    public void addFoodToReservation(@Param("reservation") int reservationId, @Param("food") int foodId, @Param("quantity") int quantity);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM food where id = :id", nativeQuery = true)
+    @Query(value = "INSERT INTO food (name, price) VALUES (:name, :price)", nativeQuery = true)
+    public void insertFood(@Param("name") String name, @Param("price") int price);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM food WHERE id = :id", nativeQuery = true)
     public void deleteFood(@Param("id") int id);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM food_building where food_id = :food_id AND building_id = :building_id", nativeQuery = true)
-    public void deleteFoodFromBuilding(@Param("food_id") int food_id, @Param("building_id") int building_id);
+    @Query(value = "DELETE FROM food_reservations WHERE reservation_id = :reservation AND food_id = :food", nativeQuery = true)
+    public void deleteFoodReservation(@Param("reservation") int reservationId, @Param("food") int food_id);
 
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM food_building WHERE building_id = :building AND food_id = :food", nativeQuery = true)
+    public void deleteFoodBuilding(@Param("building") int buildingId, @Param("food") int food_id);
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE food_reservations SET quantity = :quantity WHERE reservation_id = :reservation AND food_id = :food", nativeQuery = true)
+    public void updateFoodReservationQuantity(@Param("reservation") int reservationId, @Param("food") int foodId, @Param("quantity") int quantity);
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE food SET name = :name WHERE id = :id", nativeQuery = true)
+    public void updateName(@Param("id") int id, @Param("name") String name);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE food SET price = :price WHERE id = :id", nativeQuery = true)
+    public void updatePrice(@Param("id") int id, @Param("price") int price);
 }

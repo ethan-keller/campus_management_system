@@ -159,7 +159,7 @@ public class FoodServerCommunication {
      * @return Returns a JSON List
      */
     public static String getAllFood() {
-        return sendGet("getAllFood", "");
+        return sendGet("getAllFoods", "");
     }
 
     /**
