@@ -14,6 +14,7 @@ public class BikeReservation {
     private IntegerProperty bikeReservationId;
     private IntegerProperty bikeReservationBuilding;
     private StringProperty bikeReservationUser;
+    private IntegerProperty bikeReservationQuantity;
     private StringProperty bikeReservationDate;
     private StringProperty bikeReservationStartingTime;
     private StringProperty bikeReservationEndingTime;
@@ -25,6 +26,7 @@ public class BikeReservation {
         bikeReservationId = new SimpleIntegerProperty(-1);
         bikeReservationBuilding = new SimpleIntegerProperty(-1);
         bikeReservationUser = new SimpleStringProperty(null);
+        bikeReservationQuantity = new SimpleIntegerProperty(-1);
         bikeReservationDate = new SimpleStringProperty(null);
         bikeReservationStartingTime = new SimpleStringProperty(null);
         bikeReservationEndingTime = new SimpleStringProperty(null);
@@ -39,11 +41,12 @@ public class BikeReservation {
      * @param startingTime New starting time
      * @param endingTime New ending time
      */
-    public BikeReservation(int id, int building, String user, String date,
+    public BikeReservation(int id, int building, String user, int quantity, String date,
                            String startingTime, String endingTime) {
         bikeReservationId = new SimpleIntegerProperty(id);
         bikeReservationBuilding = new SimpleIntegerProperty(building);
         bikeReservationUser = new SimpleStringProperty(user);
+        bikeReservationQuantity = new SimpleIntegerProperty(quantity);
         bikeReservationDate = new SimpleStringProperty(date);
         bikeReservationStartingTime = new SimpleStringProperty(startingTime);
         bikeReservationEndingTime = new SimpleStringProperty(endingTime);
@@ -53,8 +56,8 @@ public class BikeReservation {
      * Gets bike reservation id.
      * @return ID
      */
-    public int getBikeReservationId() {
-        return bikeReservationId.get();
+    public IntegerProperty getBikeReservationId() {
+        return bikeReservationId;
     }
 
     /**
@@ -67,10 +70,10 @@ public class BikeReservation {
 
     /**
      * Gets bike reservation building.
-      * @return Building
+     * @return Building
      */
-    public int getBikeReservationBuilding() {
-        return bikeReservationBuilding.get();
+    public IntegerProperty getBikeReservationBuilding() {
+        return bikeReservationBuilding;
     }
 
     /**
@@ -85,8 +88,8 @@ public class BikeReservation {
      * Gets bike reservation user.
      * @return User
      */
-    public String getBikeReservationUser() {
-        return bikeReservationUser.get();
+    public StringProperty getBikeReservationUser() {
+        return bikeReservationUser;
     }
 
     /**
@@ -98,11 +101,27 @@ public class BikeReservation {
     }
 
     /**
+     * Gets bike reservation quantity.
+     * @return number of bikes
+     */
+    public IntegerProperty getBikeReservationQuantity() {
+        return bikeReservationQuantity;
+    }
+
+    /**
+     * Sets bike reservation quantity.
+     * @param bikeReservationQuantity quantity of bikes
+     */
+    public void setBikeReservationQuantity(int bikeReservationQuantity) {
+        this.bikeReservationQuantity.set(bikeReservationQuantity);
+    }
+
+    /**
      * Gets bike reservation date.
      * @return Date
      */
-    public String getBikeReservationDate() {
-        return bikeReservationDate.get();
+    public StringProperty getBikeReservationDate() {
+        return bikeReservationDate;
     }
 
     /**
@@ -117,13 +136,13 @@ public class BikeReservation {
      * Gets bike reservation starting time.
      * @return Starting time
      */
-    public String getBikeReservationStartingTime() {
-        return bikeReservationStartingTime.get();
+    public StringProperty getBikeReservationStartingTime() {
+        return bikeReservationStartingTime;
     }
 
     /**
      * Sets bike reservation starting time.
-     * @param bikeReservationStartingTime New starting time in String(hh-mm-ss)
+     * @param bikeReservationStartingTime New starting time in String(hh:m:ss)
      */
     public void setBikeReservationStartingTime(String bikeReservationStartingTime) {
         this.bikeReservationStartingTime.set(bikeReservationStartingTime);
@@ -133,8 +152,8 @@ public class BikeReservation {
      * Gets bike reservation ending time.
      * @return Ending time
      */
-    public String getBikeReservationEndingTime() {
-        return bikeReservationEndingTime.get();
+    public StringProperty getBikeReservationEndingTime() {
+        return bikeReservationEndingTime;
     }
 
     /**

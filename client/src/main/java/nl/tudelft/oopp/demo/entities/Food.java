@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.entities;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -13,7 +15,7 @@ import org.json.JSONObject;
 public class Food {
     private IntegerProperty foodId;
     private StringProperty foodName;
-    private IntegerProperty foodPrice;
+    private DoubleProperty foodPrice;
 
     /**
      * Constructor to initialize without paramters.
@@ -21,7 +23,7 @@ public class Food {
     public Food() {
         this.foodId = new SimpleIntegerProperty(-1);
         this.foodName = new SimpleStringProperty(null);
-        this.foodPrice = new SimpleIntegerProperty(-1);
+        this.foodPrice = new SimpleDoubleProperty(-1);
     }
 
     /**
@@ -30,18 +32,18 @@ public class Food {
      * @param name New Food name
      * @param price New Food price
      */
-    public Food(int id, String name, int price) {
+    public Food(int id, String name, double price) {
         this.foodId = new SimpleIntegerProperty(id);
         this.foodName = new SimpleStringProperty(name);
-        this.foodPrice = new SimpleIntegerProperty(price);
+        this.foodPrice = new SimpleDoubleProperty(price);
     }
 
     /**
      * Gets food ID.
      * @return Returns ID
      */
-    public int getFoodId() {
-        return foodId.get();
+    public IntegerProperty getFoodId() {
+        return foodId;
     }
 
     /**
@@ -56,8 +58,8 @@ public class Food {
      * Returns the food name.
      * @return The name
      */
-    public String getFoodName() {
-        return foodName.get();
+    public StringProperty getFoodName() {
+        return foodName;
     }
 
     /**
@@ -72,15 +74,15 @@ public class Food {
      * Returns the food price.
      * @return The price
      */
-    public int getFoodPrice() {
-        return foodPrice.get();
+    public DoubleProperty getFoodPrice() {
+        return foodPrice;
     }
 
     /**
      * Sets the food price.
      * @param foodPrice The new price
      */
-    public void setFoodPrice(int foodPrice) {
+    public void setFoodPrice(double foodPrice) {
         this.foodPrice.set(foodPrice);
     }
 
