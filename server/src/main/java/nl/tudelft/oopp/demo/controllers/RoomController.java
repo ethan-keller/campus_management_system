@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
@@ -11,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 @Controller
 public class RoomController {
@@ -84,12 +84,12 @@ public class RoomController {
 
         try {
             int oldBuilding = roomRepo.getRoom(id).getBuilding();
-            if(oldBuilding != building) {
+            if (oldBuilding != building) {
                 int count = roomRepo.getRoomByBuilding(oldBuilding).size();
-                buildingRepo.updateRoomCount(oldBuilding, count-1);
+                buildingRepo.updateRoomCount(oldBuilding, count - 1);
 
                 count = roomRepo.getRoomByBuilding(building).size();
-                buildingRepo.updateRoomCount(building, count+1);
+                buildingRepo.updateRoomCount(building, count + 1);
             }
             roomRepo.updateCapacity(id, capacity);
             roomRepo.updateDescription(id, description);
