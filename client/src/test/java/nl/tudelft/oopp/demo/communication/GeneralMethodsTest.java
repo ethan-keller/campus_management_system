@@ -12,7 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GeneralMethodsTest {
 
-    @org.junit.jupiter.api.Test
+    /**
+     * Tests the encoding of a string.
+     * @throws UnsupportedEncodingException when the encoding method used is not supported.
+     */
+    @Test
     void encodeCommunication() throws UnsupportedEncodingException {
         String input1 = "er staat een paard in de gang?!";
         String input2 = "It = a song & it is good";
@@ -23,6 +27,9 @@ class GeneralMethodsTest {
         assertEquals(res2, GeneralMethods.encodeCommunication(input2));
     }
 
+    /**
+     * Tests the filtering of a list of rooms by a building
+     */
     @Test
     void filterRoomByBuildingTest(){
         Room r1 = new Room(1, "name", 23, false, 25, "Test.jpg", "cool", "lecture hall");
@@ -42,6 +49,9 @@ class GeneralMethodsTest {
 
     }
 
+    /**
+     * Tests the filtering of a list of rooms by the capacity of the rooms
+     */
     @Test
     void filterByCapacityTest(){
         Room r1 = new Room(1, "name", 23, false, 10, "Test.jpg", "cool", "lecture hall");
@@ -66,6 +76,9 @@ class GeneralMethodsTest {
         assertEquals(expected, GeneralMethods.filterRoomByCapacity(rooms, 10, 5));
     }
 
+    /**
+     * Tests the filtering of a list of rooms by if there are teacher only or not.
+     */
     @Test
     void filterByTeacherOnly(){
         Room r1 = new Room(1, "name", 23, false, 25, "Test.jpg", "cool", "lecture hall");
@@ -84,6 +97,10 @@ class GeneralMethodsTest {
         assertEquals(expected, GeneralMethods.filterRoomByTeacher_only(rooms, false));
     }
 
+    /**
+     * Tests the filtering of a list of rooms by a input String.
+     * It checks the roomname and the building name.
+     */
     @Test
     void filterBySearch(){
         Building b1 = new Building(23, "pizza", 8, "Street 34", 25, 50);
