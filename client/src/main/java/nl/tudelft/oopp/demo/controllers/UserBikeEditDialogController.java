@@ -185,12 +185,12 @@ public class UserBikeEditDialogController {
         if (isInputValid()) {
             emptyReservation();
             // Set the user input to the reservation
-            bikeReservation.setBikeUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
-            bikeReservation.setBikeBuilding(this.bikeBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
-            bikeReservation.setBikeQuantity(Integer.parseInt(this.bikeQuantityField.getText()));
-            bikeReservation.setBikeDate(this.bikeDate.getValue().toString());
-            bikeReservation.setBikeStartingTime(this.bikeStartingTime.getValue());
-            bikeReservation.setBikeEndingTime(this.bikeEndingTime.getValue());
+            bikeReservation.setBikeReservationUser(AdminManageUserViewController.currentSelectedUser.getUsername().get());
+            bikeReservation.setBikeReservationBuilding(this.bikeBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
+            bikeReservation.setBikeReservationQuantity(Integer.parseInt(this.bikeQuantityField.getText()));
+            bikeReservation.setBikeReservationDate(this.bikeDate.getValue().toString());
+            bikeReservation.setBikeReservationStartingTime(this.bikeStartingTime.getValue());
+            bikeReservation.setBikeReservationEndingTime(this.bikeEndingTime.getValue());
             // Close the dialog window
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();

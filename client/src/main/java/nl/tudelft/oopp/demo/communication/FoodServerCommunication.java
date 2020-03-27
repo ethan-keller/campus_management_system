@@ -14,7 +14,7 @@ public class FoodServerCommunication {
      * @param name The name of the new food
      * @param price The price of the new food
      */
-    public static void createFood(String name, int price) {
+    public static void createFood(String name, double price) {
         String params = "name=" + name + "&price=" + price;
         sendPost("createFood", params);
     }
@@ -56,7 +56,7 @@ public class FoodServerCommunication {
      * @param name The new name of the food
      * @param price The new price of the food
      */
-    public static void updateFood(int id, String name, int price) {
+    public static void updateFood(int id, String name, double price) {
         String params = "id=" + id + "&name=" + name + "&price=" + price;
         sendPost("updateFood", params);
     }
@@ -159,7 +159,7 @@ public class FoodServerCommunication {
      * @return Returns a JSON List
      */
     public static String getAllFood() {
-        return sendGet("getAllFoods", "");
+        return sendGet("getAllFood", "");
     }
 
     /**

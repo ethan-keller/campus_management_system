@@ -51,7 +51,7 @@ public class AdminFoodBuildingViewController {
             foodBuildingIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingId().get())));
             foodBuildingNameColumn.setCellValueFactory(cell -> cell.getValue().getBuildingName());
             // Add observable list data to the table
-            foodBuildingTable.setItems(Food.getFoodBuilding(AdminManageFoodViewController.currentSelectedFood.getFoodId().get()));
+            foodBuildingTable.setItems(Building.getBuildingByFoodId(AdminManageFoodViewController.currentSelectedFood.getFoodId().get()));
         } catch (Exception e) {
             e.printStackTrace();
         }

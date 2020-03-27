@@ -47,7 +47,7 @@ public class AdminManageFoodViewController {
             foodNameColumn.setCellValueFactory(cell -> cell.getValue().getFoodName());
             foodPriceColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf((double)Math.round((cell.getValue().getFoodPrice().get())*100)/100)));
             // Add observable list data to the table
-            foodTable.setItems(Food.getFoodData());
+            foodTable.setItems(Food.getAllFoodData());
         } catch (Exception e) {
             e.printStackTrace();
         }

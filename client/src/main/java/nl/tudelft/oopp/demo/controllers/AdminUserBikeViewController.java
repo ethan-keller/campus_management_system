@@ -10,7 +10,7 @@ import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
-import nl.tudelft.oopp.demo.views.BikeEditDialogView;
+import nl.tudelft.oopp.demo.views.UserBikeEditDialogView;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -64,13 +64,13 @@ public class AdminUserBikeViewController {
         try {
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             // Initialize the bike reservation table with the five columns.
-            bikeIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getBikeId().get())));
-            bikeBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(Building.getBuildingById(cellData.getValue().getBikeBuilding().get()).getBuildingName().get()));
-            bikeQuantityColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getBikeQuantity().get())));
-            bikeDateColumn.setCellValueFactory(cell -> cell.getValue().getBikeDate());
-            bikeStartingTimeColumn.setCellValueFactory(cell -> cell.getValue().getBikeStartingTime());
-            bikeEndingTimeColumn.setCellValueFactory(cell -> cell.getValue().getBikeEndingTime());
-            userBikeTable.setItems(BikeReservation.getAllBikeReservations());
+            bikeIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getBikeReservationId().get())));
+            bikeBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(Building.getBuildingById(cellData.getValue().getBikeReservationBuilding().get()).getBuildingName().get()));
+            bikeQuantityColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getBikeReservationQuantity().get())));
+            bikeDateColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationDate());
+            bikeStartingTimeColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationStartingTime());
+            bikeEndingTimeColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationEndingTime());
+            userBikeTable.setItems(BikeReservation.getUserBikeReservations(AdminManageUserViewController.currentSelectedUser.getUsername().get()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,7 +89,7 @@ public class AdminUserBikeViewController {
     public BikeReservation getSelectedBikeReservation() {
         if (userBikeTable.getSelectionModel().getSelectedIndex() >= 0) {
             BikeReservation br = userBikeTable.getSelectionModel().getSelectedItem();
-            if(getSelectedBikeReservationDate(br.getBikeDate().get()).isBefore(LocalDate.now()) || getSelectedBikeReservationTime(br.getBikeStartingTime().get()).isBefore(LocalTime.now())){
+            if(getSelectedBikeReservationDate(br.getBikeReservationDate().get()).isBefore(LocalDate.now()) || getSelectedBikeReservationTime(br.getBikeReservationStartingTime().get()).isBefore(LocalTime.now())){
                 editBikeButton.setDisable(true);
                 deleteBikeButton.setDisable(true);
             }
@@ -113,7 +113,7 @@ public class AdminUserBikeViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that bike reservation deletion was successful before displaying alert
-                BikeReservationCommunication.deleteBikeReservation(selectedBikeReservation.getBikeId().getValue());
+                BikeReservationCommunication.deleteBikeReservation(selectedBikeReservation.getBikeReservationId().getValue());
                 refresh();
                 // An alert pop up when a reservation deleted successfully
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -144,14 +144,14 @@ public class AdminUserBikeViewController {
             // Booking edit dialog pop up.
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentSelectedBikeReservation = null;
-            BikeEditDialogView view = new BikeEditDialogView();
+            UserBikeEditDialogView view = new UserBikeEditDialogView();
             view.start(stage);
             // Get the reservation from the pop up dialog.
             BikeReservation tempBikeReservation = BikeEditDialogController.bikeReservation;
             if (tempBikeReservation == null) return;
             // TODO: Check that reservation creation was successful before displaying alert
-            BikeReservationCommunication.createBikeReservation(tempBikeReservation.getBikeBuilding().get(), tempBikeReservation.getBikeUsername().get(),
-                    tempBikeReservation.getBikeQuantity().get(), tempBikeReservation.getBikeDate().get(), tempBikeReservation.getBikeStartingTime().get(), tempBikeReservation.getBikeEndingTime().get());
+            BikeReservationCommunication.createBikeReservation(tempBikeReservation.getBikeReservationBuilding().get(), tempBikeReservation.getBikeReservationUser().get(),
+                    tempBikeReservation.getBikeReservationQuantity().get(), tempBikeReservation.getBikeReservationDate().get(), tempBikeReservation.getBikeReservationStartingTime().get(), tempBikeReservation.getBikeReservationEndingTime().get());
             refresh();
             // An alert pop up when a new reservation created.
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -176,14 +176,14 @@ public class AdminUserBikeViewController {
             if (selectedIndex >= 0) {
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentSelectedBikeReservation = selectedBikeReservation;
-                BikeEditDialogView view = new BikeEditDialogView();
+                UserBikeEditDialogView view = new UserBikeEditDialogView();
                 view.start(stage);
                 BikeReservation tempBikeReservation = BikeEditDialogController.bikeReservation;
 
                 if (tempBikeReservation == null) return;
                 // TODO: Check that building edit was successful before displaying alert
-                BikeReservationCommunication.updateBikeReservation(selectedBikeReservation.getBikeId().get(), tempBikeReservation.getBikeBuilding().get(), selectedBikeReservation.getBikeUsername().get(),
-                        tempBikeReservation.getBikeQuantity().get(), tempBikeReservation.getBikeDate().get(), tempBikeReservation.getBikeStartingTime().get(), tempBikeReservation.getBikeEndingTime().get());
+                BikeReservationCommunication.updateBikeReservation(selectedBikeReservation.getBikeReservationId().get(), tempBikeReservation.getBikeReservationBuilding().get(), selectedBikeReservation.getBikeReservationUser().get(),
+                        tempBikeReservation.getBikeReservationQuantity().get(), tempBikeReservation.getBikeReservationDate().get(), tempBikeReservation.getBikeReservationStartingTime().get(), tempBikeReservation.getBikeReservationEndingTime().get());
                 refresh();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -232,7 +232,7 @@ public class AdminUserBikeViewController {
      * @return
      */
     private LocalTime getSelectedBikeReservationTime(String selectedTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         //convert String to LocalTime
         LocalTime selectedTime = LocalTime.parse(selectedTimeString, formatter);
         return selectedTime;

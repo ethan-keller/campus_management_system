@@ -35,7 +35,7 @@ public class FoodReservationEditDialogController {
     private void initialize() {
         try {
             // Initialize and add listener to the building combobox
-            olf = Food.getFoodData();
+            olf = Food.getAllFoodData();
             foodComboBox.setItems(olf);
             this.setFoodComboBoxConverter(olf);
         } catch (Exception e) {
