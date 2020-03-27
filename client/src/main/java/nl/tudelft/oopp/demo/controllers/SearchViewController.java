@@ -7,13 +7,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.DateCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -25,15 +25,16 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import nl.tudelft.oopp.demo.views.BookingHistoryView;
-import nl.tudelft.oopp.demo.views.CancelBookingView;
-import nl.tudelft.oopp.demo.views.LoginView;
 
 import java.io.IOException;
 
 import javafx.util.StringConverter;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+
+import nl.tudelft.oopp.demo.views.BookingHistoryView;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.views.CancelBookingView;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.RoomView;
@@ -374,8 +375,10 @@ public class SearchViewController implements Initializable {
             }
         }
 
-        // value of the searchbar is put in searchBarInput and is filtered on building name and room name.
-        // the list is put in a new List so if a other key is pressed the other filters don't have to be applied again.
+        // value of the searchbar is put in searchBarInput
+        // and is filtered on building name and room name.
+        // the list is put in a new List
+        // so if a other key is pressed the other filters don't have to be applied again.
         String searchBarInput = searchBar.getText();
         List<Room> roomsToShow = roomList;
         if (!searchBarInput.equals("")) {
@@ -438,7 +441,8 @@ public class SearchViewController implements Initializable {
                             super.updateItem(item, empty);
 
                             // Disable all days before today + weekend days
-                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY
+                                    || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
                                 // disable the 'button'
                                 setDisable(true);
                                 // make them red
@@ -516,7 +520,8 @@ public class SearchViewController implements Initializable {
 
                 @Override
                 public Building fromString(String id) {
-                    return buildingList.stream().filter(x -> String.valueOf(x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
+                    return buildingList.stream().filter(x -> String.valueOf(
+                            x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
                 }
             };
             return converter;
