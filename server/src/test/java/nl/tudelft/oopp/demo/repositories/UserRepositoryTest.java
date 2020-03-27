@@ -15,6 +15,9 @@ class UserRepositoryTest {
     @Autowired
     private UserRepository userRepo;
 
+    /**
+     * Test that tests all methods of the BuildingRepository that do not depend on the whole database.
+     */
     @Test
     void testAllMethods() {
         User us1 = new User("6testing", "4testing", 2);

@@ -16,6 +16,10 @@ class UserControllerTest {
     @Autowired
     private UserController userCont;
 
+    /**
+     * Test that tests all the methods of the UserController that do not depend on the whole database.
+     * @throws UnsupportedEncodingException when there is an error with encoding.
+     */
     @Test
     void testAllMethods() throws UnsupportedEncodingException {
         userCont.createUser("4testing", "4testing", 0);

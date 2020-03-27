@@ -32,6 +32,10 @@ class ReservationControllerTest {
     @Autowired
     private UserRepository userRepo;
 
+    /**
+     * Test that tests all the methods of the ReservationController that do not depend on the whole database.
+     * @throws UnsupportedEncodingException when there is an error with encoding.
+     */
     @Test
     void testAllMethods() throws UnsupportedEncodingException {
         User us1 = new User("6testing", "4testing", 2);

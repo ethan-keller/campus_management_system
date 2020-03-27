@@ -17,7 +17,10 @@ class RegisterControllerTest {
     @Autowired
     private UserController userCont;
 
-
+    /**
+     * Test that test all the methods of the RegisterController.
+     * @throws UnsupportedEncodingException when there is an error with encoding.
+     */
     @Test
     void register() throws UnsupportedEncodingException {
         userCont.deleteUser("registertest");

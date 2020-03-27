@@ -23,6 +23,9 @@ class ReservationsRepositoryTest {
     @Autowired
     private BuildingRepository buildingRepo;
 
+    /**
+     * Test that tests all methods of the BuildingRepository that do not depend on the whole database.
+     */
     @Test
     void testAllMethods() {
         userRepo.insertUser("4testing", "4testing", 0);

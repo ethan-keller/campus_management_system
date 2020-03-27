@@ -23,6 +23,10 @@ class RoomControllerTest {
     @Autowired
     private BuildingRepository buildingRepo;
 
+    /**
+     * Test that tests all the methods of the RoomController that do not depend on the whole database.
+     * @throws UnsupportedEncodingException when there is an error with encoding.
+     */
     @Test
     void testAllMethods() throws UnsupportedEncodingException {
         buildingRepo.insertBuilding("4testing", 24, "4TestingStreet 34");

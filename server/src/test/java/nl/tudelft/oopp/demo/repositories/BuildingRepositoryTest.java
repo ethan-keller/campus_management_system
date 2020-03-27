@@ -13,6 +13,9 @@ class BuildingRepositoryTest {
     @Autowired
     private BuildingRepository buildingRepo;
 
+    /**
+     * Test that tests all methods of the BuildingRepository that do not depend on the whole database.
+     */
     @Test
     void testAllMethods() {
         buildingRepo.insertBuilding("4testing", 24, "4TestingStreet 34");

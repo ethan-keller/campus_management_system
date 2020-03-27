@@ -17,6 +17,11 @@ class LoginControllerTest {
     @Autowired
     private UserController userCont;
 
+    /**
+     * Test that tests all methods of the LoginController.
+     * First it deletes the users that are being used to prevent errors in the database.
+     * @throws UnsupportedEncodingException when there is an error with encoding.
+     */
     @Test
     void getUser() throws UnsupportedEncodingException {
         userCont.deleteUser("logintest");

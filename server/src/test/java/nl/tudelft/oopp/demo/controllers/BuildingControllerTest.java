@@ -15,6 +15,10 @@ class BuildingControllerTest {
     @Autowired
     private BuildingController buildingCont;
 
+    /**
+     * Test that tests all methods in the BuildingController that do not depend on the whole database.
+     * @throws UnsupportedEncodingException when there is a error with encoding.
+     */
     @Test
     void testAllMethods() throws UnsupportedEncodingException {
       buildingCont.createBuilding("buildingcontrollertest", 20, "teststreet");
