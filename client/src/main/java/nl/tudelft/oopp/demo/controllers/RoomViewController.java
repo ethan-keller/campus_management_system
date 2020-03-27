@@ -139,7 +139,7 @@ public class RoomViewController implements Initializable {
 
             //add list of food to the list and an option for no food
             for(Food f: FoodList){
-                foodList.add(f.getFoodName());
+                foodList.add(f.getFoodName().get());
             }
 
             foodList.add("No food");
