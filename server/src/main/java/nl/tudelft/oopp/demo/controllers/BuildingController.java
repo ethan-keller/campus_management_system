@@ -5,6 +5,7 @@ import java.util.List;
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.repositories.BikeReservationRepository;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,6 +151,17 @@ public class BuildingController {
     public Building getBuildingByName(@RequestParam String name) {
         try {
             return buildingRepo.getBuildingByName(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @GetMapping("getBuildingByFoodId")
+    @ResponseBody
+    public List<Building> getBuildingByFoodId(@RequestParam int id) {
+        try {
+            return buildingRepo.getBuildingByFoodId(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
