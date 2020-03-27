@@ -157,6 +157,11 @@ public class BuildingController {
         return null;
     }
 
+    /**
+     * Returns a list of buildings that sell a particular food.
+     * @param id the Food id.
+     * @return Returns a list
+     */
     @GetMapping("getBuildingByFoodId")
     @ResponseBody
     public List<Building> getBuildingByFoodId(@RequestParam int id) {
