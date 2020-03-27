@@ -12,9 +12,17 @@ import javafx.stage.Stage;
 
 public class AdminManageBuildingView extends Application {
 
+    /**.
+     * Constructor
+     */
     public AdminManageBuildingView() {
     }
 
+    /**
+     * This is to start up the view which is linked to the fxml page.
+     * @param primaryStage is passed
+     * @throws IOException is thrown
+     */
     public void start(Stage primaryStage) throws IOException {
 
         try {

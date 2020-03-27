@@ -19,6 +19,9 @@ public class Building {
     private IntegerProperty buildingAvailableBikes;
     private IntegerProperty buildingMaxBikes;
 
+    /**
+     * Constructor with default fields.
+     */
     public Building() {
         this.buildingId = new SimpleIntegerProperty(-1);
         this.buildingName = new SimpleStringProperty(null);
@@ -28,7 +31,18 @@ public class Building {
         this.buildingMaxBikes = new SimpleIntegerProperty(-1);
     }
 
-    public Building(int buildingId, String buildingName, int buildingRoomCount, String buildingAddress, int buildingAvailableBikes, int buildingMaxBikes) {
+    /**
+     * Constructor.
+     *
+     * @param buildingId             int
+     * @param buildingName           String
+     * @param buildingRoomCount      int
+     * @param buildingAddress        String
+     * @param buildingAvailableBikes int
+     * @param buildingMaxBikes       int
+     */
+    public Building(int buildingId, String buildingName, int buildingRoomCount,
+                    String buildingAddress, int buildingAvailableBikes, int buildingMaxBikes) {
         this.buildingId = new SimpleIntegerProperty(buildingId);
         this.buildingName = new SimpleStringProperty(buildingName);
         this.buildingRoomCount = new SimpleIntegerProperty(buildingRoomCount);
@@ -37,57 +51,98 @@ public class Building {
         this.buildingMaxBikes = new SimpleIntegerProperty(buildingMaxBikes);
     }
 
+    /**
+     * Getter.
+     * @return int in the form of a IntegerProperty.
+     */
     public IntegerProperty getBuildingId() {
         return buildingId;
     }
 
+    /**
+     * Setter.
+     * @param buildingId int, the new building id.
+     */
     public void setBuildingId(int buildingId) {
         this.buildingId.set(buildingId);
     }
 
-
+    /**
+     * Getter.
+     * @return String in the form of a StringProperty.
+     */
     public StringProperty getBuildingName() {
         return buildingName;
     }
 
+    /**
+     * Setter.
+     * @param buildingName String, new name of the building.
+     */
     public void setBuildingName(String buildingName) {
         this.buildingName.set(buildingName);
     }
 
-
+    /**
+     * Getter.
+     * @return int in the form of a IntegerProperty.
+     */
     public IntegerProperty getBuildingRoomCount() {
         return buildingRoomCount;
     }
 
+    /**
+     * Setter.
+     * @param buildingRoomCount int, new value.
+     */
     public void setBuildingRoomCount(int buildingRoomCount) {
         this.buildingRoomCount.set(buildingRoomCount);
     }
 
-
+    /**
+     * Getter.
+     * @return String in the form of a StringProperty.
+     */
     public StringProperty getBuildingAddress() {
         return buildingAddress;
     }
 
+    /**
+     * Setter.
+     * @param buildingAddress String, new value
+     */
     public void setBuildingAddress(String buildingAddress) {
         this.buildingAddress.set(buildingAddress);
     }
 
-
-
+    /**
+     * Getter.
+     * @return int in the form of a IntegerProperty.
+     */
     public IntegerProperty getBuildingAvailableBikes() {
         return buildingAvailableBikes;
     }
 
+    /**
+     * Setter.
+     * @param buildingAvailableBikes in, new value
+     */
     public void setBuildingAvailableBikes(int buildingAvailableBikes) {
         this.buildingAvailableBikes.set(buildingAvailableBikes);
     }
 
-
-
+    /**
+     * Getter.
+     * @return int in the form of a IntegerProperty.
+     */
     public IntegerProperty getBuildingMaxBikes() {
         return buildingMaxBikes;
     }
 
+    /**
+     * Setter.
+     * @param buildingMaxBikes int, new value
+     */
     public void setBuildingMaxBikes(int buildingMaxBikes) {
         this.buildingMaxBikes.set(buildingMaxBikes);
     }
@@ -115,6 +170,11 @@ public class Building {
         return null;
     }
 
+    /**
+     * Getter by building id.
+     * @param id int
+     * @return Building
+     */
     public static Building getBuildingById(int id) {
         try {
             JSONObject jsonObject = new JSONObject(BuildingServerCommunication.getBuilding(id));
