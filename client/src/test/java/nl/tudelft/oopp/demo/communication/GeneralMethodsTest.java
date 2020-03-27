@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.communication;
 
+import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 import org.junit.jupiter.api.Test;
 
@@ -81,5 +82,30 @@ class GeneralMethodsTest {
         expected.add(r2);
 
         assertEquals(expected, GeneralMethods.filterRoomByTeacher_only(rooms, false));
+    }
+
+    @Test
+    void filterBySearch(){
+        Building b1 = new Building(23, "pizza", 8, "Street 34", 25, 50);
+        Building b2 = new Building(24, "name2", 8, "Street 34", 25, 50);
+
+        List<Building> buildings = new ArrayList<Building>();
+        buildings.add(b1);
+        buildings.add(b2);
+
+        Room r1 = new Room(1, "name", 24, false, 25, "Test.jpg", "cool", "lecture hall");
+        Room r2 = new Room(2, "name2", 23, false, 25, "Test.jpg", "cool", "lecture hall");
+        Room r3 = new Room(3, "name", 23, true, 27, "Test.jpg", "cool", "lecture hall");
+
+        List<Room> rooms = new ArrayList<Room>();
+        rooms.add(r1);
+        rooms.add(r2);
+        rooms.add(r3);
+
+        List<Room> expected = new ArrayList<Room>();
+        expected.add(r1);
+        expected.add(r2);
+
+        assertEquals(expected, GeneralMethods.filterBySearch(rooms, "name2", buildings));
     }
 }
