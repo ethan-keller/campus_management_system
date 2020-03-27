@@ -6,12 +6,12 @@ import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.CalendarView;
 import com.mindfusion.scheduling.TimetableSettings;
 
-/**
+/**.
  * Basic class that customizes the general Calendar object
  */
 public class CustomCalendar extends Calendar {
 
-    /**
+    /**.
      * Constructor
      */
     public CustomCalendar() {
@@ -22,8 +22,9 @@ public class CustomCalendar extends Calendar {
         TimetableSettings settings = this.getTimetableSettings();
         settings.getDates().clear();
         // create a 7 day view
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 7; i++) {
             settings.getDates().add(DateTime.today().addDays(i));
+        }
         // make all 7 days visible
         settings.setVisibleColumns(7);
         // make cell size/time 30 minutes
