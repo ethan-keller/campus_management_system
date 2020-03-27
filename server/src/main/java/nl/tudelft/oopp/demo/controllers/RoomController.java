@@ -83,6 +83,14 @@ public class RoomController {
         type = CommunicationMethods.decodeCommunication(type);
 
         try {
+            int oldBuilding = roomRepo.getRoom(id).getBuilding();
+            if(oldBuilding != building) {
+                int count = roomRepo.getRoomByBuilding(oldBuilding).size();
+                buildingRepo.updateRoomCount(oldBuilding, count-1);
+
+                count = roomRepo.getRoomByBuilding(building).size();
+                buildingRepo.updateRoomCount(building, count+1);
+            }
             roomRepo.updateCapacity(id, capacity);
             roomRepo.updateDescription(id, description);
             roomRepo.updateBuilding(id, building);
@@ -90,8 +98,6 @@ public class RoomController {
             roomRepo.updatePhotos(id, photos);
             roomRepo.updateTeacherOnly(id, teacherOnly);
             roomRepo.updateType(id, type);
-            int count = roomRepo.getRoomByBuilding(building).size();
-            buildingRepo.updateRoomCount(building, count);
         } catch (Exception e) {
             e.printStackTrace();
         }
