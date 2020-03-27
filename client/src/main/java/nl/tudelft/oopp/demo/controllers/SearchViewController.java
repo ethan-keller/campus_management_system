@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.awt.ScrollPane;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -282,26 +282,43 @@ public class SearchViewController implements Initializable {
             final Text roomDescription = new Text();
             final Text roomId = new Text();
 
-            // get path of room image
-            File resourceImage = new File("client/src/main/resources/images/" + r.getRoomPhoto().get());
-            ;
-            String path = resourceImage.getAbsolutePath();
-            // set the ImageView to show the room image
-            image.setImage(new Image("file:" + path));
-            // get the room image in a BufferedImage object for later use
-            BufferedImage roomPhoto = ImageIO.read(resourceImage);
-            // crop image in proportion to image size in a standard room card
-            image.setViewport(new Rectangle2D(0, 0, roomPhoto.getWidth(),
-                    roomPhoto.getWidth() * (168.75 / 300.0)));
-            // keep aspect ration of an image
+            // keep aspect ration of the image
             image.setPreserveRatio(true);
             image.setPickOnBounds(true);
             // set width to 300 (height will follow)
             image.setFitWidth(300);
-
             // adding image margin
-            VBox.setMargin(image, new Insets(8, 5, 8, 10));
+            HBox.setMargin(image, new Insets(8, 5, 8, 10));
+            try {
+                // get path of room image
+                File resourceImage = new File("client/src/main/resources/images/" + r.getRoomPhoto().get());
 
+                String path = resourceImage.getAbsolutePath();
+                // set the ImageView to show the room image
+                image.setImage(new Image("file:" + path));
+                // get the room image in a BufferedImage object for later use
+                BufferedImage roomPhoto = ImageIO.read(resourceImage);
+                // crop image in proportion to image size in a standard room card
+                image.setViewport(new Rectangle2D(0, 0, roomPhoto.getWidth(),
+                        roomPhoto.getWidth() * (168.75 / 300.0)));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                try {
+                    // get default placeholder image
+                    File resourceImage = new File("client/src/main/resources/images/placeholder.png");
+                    String path = resourceImage.getAbsolutePath();
+                    // set the ImageView to show the placeholder image
+                    image.setImage(new Image("file:" + path));
+                    // get the placeholder image in a BufferedImage object for later use
+                    BufferedImage placeHolder = ImageIO.read(resourceImage);
+                    // crop image in proportion to image size in a standard room card
+                    image.setViewport(new Rectangle2D(0, 0, placeHolder.getWidth(),
+                            placeHolder.getWidth() * (168.75 / 300.0)));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
             /* set the roomId visibility to false such that it is not visible for the user but still useful to
                get the specific room information later in the RoomView
              */

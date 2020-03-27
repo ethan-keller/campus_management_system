@@ -35,7 +35,7 @@
                            <Font size="15.0" />
                         </font>
                      </Text>
-                     <ComboBox fx:id="BuildingComboBox" prefHeight="31.2" prefWidth="171.2" />
+                     <ComboBox fx:id="buildingComboBox" prefHeight="31.2" prefWidth="171.2" />
                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Teachers only">
                         <font>
                            <Font size="15.0" />
@@ -85,15 +85,15 @@
                            <Font size="15.0" />
                         </font>
                      </Text>
-                     <ComboBox fx:id="CapacityComboBox" prefHeight="31.2" prefWidth="178.4" />
+                     <ComboBox fx:id="capacityComboBox" prefHeight="31.2" prefWidth="178.4" />
                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Bikes Available">
                         <font>
                            <Font size="15.0" />
                         </font>
                      </Text>
-                     <ComboBox fx:id="BikesAvailable" prefHeight="31.2" prefWidth="178.4" />
+                     <ComboBox fx:id="bikesAvailable" prefHeight="31.2" prefWidth="178.4" />
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-                        <Button fx:id="BookingHistoryButton" layoutX="93.0" layoutY="8.0" mnemonicParsing="false" onAction="#bookingHistoryClicked" prefHeight="52.0" prefWidth="64.0" text="Booking History">
+                        <Button fx:id="bookingHistoryButton" layoutX="93.0" layoutY="8.0" mnemonicParsing="false" onAction="#bookingHistoryClicked" prefHeight="52.0" prefWidth="64.0" text="Booking History">
                            <font>
                               <Font size="7.0" />
                            </font>

@@ -151,7 +151,7 @@ public class RoomViewController implements Initializable {
     }
 
     /**
-     * Method that configures the ImageView which ontains the image of the room.
+     * Method that configures the ImageView which contains the image of the room.
      */
     private void configureRoomImage() {
         try {
@@ -171,10 +171,17 @@ public class RoomViewController implements Initializable {
                     roomPhoto.getWidth() * (336.9 / 503.0));
             image.setViewport(viewPort);
 
-            // make sure the image is correctly resized in proportion to the current stage width
-            changeWidthConstraints(thisStage.getWidth());
         } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                // set the default image in the ImageView
+                image.setImage(new Image(getClass().getResource("/images/placeholder.png")
+                        .toExternalForm()));
+                // make sure the image is correctly resized in proportion to the current stage width
+                changeWidthConstraints(thisStage.getWidth());
+                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
