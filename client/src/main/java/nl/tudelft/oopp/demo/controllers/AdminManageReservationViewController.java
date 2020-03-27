@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
@@ -95,7 +96,7 @@ public class AdminManageReservationViewController {
     }
 
     /**
-     * The index of the reserrvation is selected.
+     * The index of the reservation is selected.
      * @return the index of the selected reservation.
      */
     public int getSelectedIndex() {
@@ -116,17 +117,12 @@ public class AdminManageReservationViewController {
                 ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
                 // To update the tabular view after removing the reservation.
                 refresh();
-                // Displaying a message to the admin for clearer communication.
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Delete Reservation");
-                alert.setContentText("Reservation deleted!");
-                alert.showAndWait();
+                // Displaying a message to the admin for clearer communication through an alert box.
+                GeneralMethods.alertBox("Delete Reservation", "", "Reservation deleted!",
+                        Alert.AlertType.INFORMATION);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No Reservation Selected");
-                alert.setContentText("Please select a reservation in the table.");
-                alert.showAndWait();
+                GeneralMethods.alertBox("No Selection", "No Reservation Selected",
+                        "Please select a Reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("delete reservation exception");
@@ -157,10 +153,9 @@ public class AdminManageReservationViewController {
                         tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
                 refresh();
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("New Reservation");
-                alert.setContentText("New Reservation created!");
-                alert.showAndWait();
+                // Displaying a message to the admin for clearer communication through an alert box.
+                GeneralMethods.alertBox("New Reservation", "", "New Reservation created!",
+                        Alert.AlertType.INFORMATION);
             }
         } catch (Exception e) {
             System.out.println("Reservation creation exception");
@@ -196,15 +191,14 @@ public class AdminManageReservationViewController {
                         tempResevation.getStartingTime().get(), tempResevation.getEndingTime().get());
                 refresh();
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Edit Reservation");
-                alert.setContentText("Edited Reservation!");
+                // Displaying a message to the admin for clearer communication through an alert box.
+                GeneralMethods.alertBox("Edit Reservation", "", "Edited Reservation!",
+                        Alert.AlertType.INFORMATION);
             } else {
+                // Displaying a message to the admin for clearer communication through an alert box.
+                GeneralMethods.alertBox("No Selection", "No Reservation Selected",
+                        "Please select a Reservation in the table.", Alert.AlertType.INFORMATION);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("No selection");
-                alert.setHeaderText("No Reservation Selected!");
-                alert.setContentText("Please select a reservation from the table.");
-                alert.showAndWait();
             }
         } catch (Exception e) {
             System.out.println("Reservation edit exception");

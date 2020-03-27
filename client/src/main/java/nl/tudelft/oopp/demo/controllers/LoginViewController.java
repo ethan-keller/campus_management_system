@@ -14,6 +14,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.User;
@@ -64,10 +65,8 @@ public class LoginViewController {
                 SearchView sv = new SearchView();
                 sv.start(stage);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Login attempt");
-                alert.setContentText("Wrong credentials");
-                alert.showAndWait();
+                // Creates an alert box to inform the user that his/her login credentials are wrong.
+                GeneralMethods.alertBox("Login attempt", "", "Wrong Credentials", Alert.AlertType.WARNING);
             }
         }
     }

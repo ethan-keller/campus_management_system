@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.UserServerCommunication;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
@@ -93,16 +94,12 @@ public class AdminManageUserViewController {
                 // TODO: Check that building deletion was succesful before displaying alert
                 UserServerCommunication.deleteUser(selectedUser.getUsername().getValue());
                 refresh();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Delete user");
-                alert.setContentText("User deleted!");
-                alert.showAndWait();
+                // Creates an alert box for transparent communication.
+                GeneralMethods.alertBox("Delete user", "", "User deleted!", Alert.AlertType.INFORMATION);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No User Selected");
-                alert.setContentText("Please select a user in the table.");
-                alert.showAndWait();
+                // Creates an alert box.
+                GeneralMethods.alertBox("No Selection", "No User Selected",
+                        "Please select a User in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("delete user exception");
@@ -133,7 +130,7 @@ public class AdminManageUserViewController {
             }
             refresh();
             // Informing the admin through a alert box that a new user is created successfully.
-            alertBox("New User","", "Added new user!");
+            GeneralMethods.alertBox("New user", "", "New User created!", Alert.AlertType.INFORMATION);
         } catch (Exception e) {
             System.out.println("user creation exception");
             e.printStackTrace();
@@ -169,12 +166,12 @@ public class AdminManageUserViewController {
                             tempUser.getUserPassword().get(), tempUser.getUserType().get());
                 }
                 refresh();
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Edit user");
-                alert.setContentText("edited user!");
+                // Creates an alert box for transparent communication.
+                GeneralMethods.alertBox("Edit user", "", "User edited!", Alert.AlertType.INFORMATION);
             } else {
-                alertBox("No Selection","No User Selected", "Please select a user in the table.");
+                // Creates an alert box.
+                GeneralMethods.alertBox("No Selection", "No User Selected",
+                        "Please select an User in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("user edit exception");
@@ -200,7 +197,9 @@ public class AdminManageUserViewController {
                 AdminUserHistoryView auhv = new AdminUserHistoryView();
                 auhv.start(stage);
             } else {
-                alertBox("No Selection","No User Selected", "Please select a user in the table.");
+                // Creates an alert box.
+                GeneralMethods.alertBox("No Selection", "No User Selected",
+                        "Please select a User in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("user edit exception");
@@ -235,31 +234,6 @@ public class AdminManageUserViewController {
         // This loads up a new login page.
         LoginView loginView = new LoginView();
         loginView.start(stage);
-    }
-
-    /**
-     * This method is used to reduce code length so that whenever the developer wants to use an alert method;
-     * he/she would use this method with the given parameter.
-     * @param title - Title of the alert dialog box
-     * @param header - Header of the alert dialog box
-     * @param content - Content of the alert dialog box
-     */
-    private void alertBox(String title, String header, String content) {
-
-        // Creates a new alert dialog box for displaying the constraints that were not met.
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-
-        // Setting the title of the alert box.
-        alert.setTitle(title);
-
-        // Setting the header of the alert box.
-        alert.setHeaderText(header);
-
-        // Setting the content of the alert box.
-        alert.setContentText(content);
-
-        // Wait till the user reads the message and closes the alert box.
-        alert.showAndWait();
     }
 
 }

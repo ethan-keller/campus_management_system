@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 
 import javafx.stage.Stage;
 
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.User;
 
 public class UserEditDialogController {
@@ -164,17 +165,10 @@ public class UserEditDialogController {
         if (errorMessage.equals("")) {
             return true;
         } else {
-            // Show the error message.
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            // Setting the title of the alert box.
-            alert.setTitle("Invalid Fields");
-            // Setting the header of the alert box.
-            alert.setHeaderText("Please correct invalid fields");
-            // Setting the content of the alert box.
-            alert.setContentText(errorMessage);
-            // Wait till the user reads the message and closes the alert box.
-            alert.showAndWait();
 
+            // Show the error message.
+            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
+                    errorMessage, Alert.AlertType.ERROR);
             return false;
         }
     }

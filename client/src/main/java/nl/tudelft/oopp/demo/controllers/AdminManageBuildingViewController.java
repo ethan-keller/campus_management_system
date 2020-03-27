@@ -13,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
@@ -107,16 +108,13 @@ public class AdminManageBuildingViewController {
                 // TODO: Check that building deletion was succesful before displaying alert
                 BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
                 refresh();
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Delete building");
-                alert.setContentText("Building deleted!");
-                alert.showAndWait();
+                // Create an alert box.
+                GeneralMethods.alertBox("Delete Building", "", "Building deleted!",
+                        AlertType.INFORMATION);
             } else {
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No Building Selected");
-                alert.setContentText("Please select a building in the table.");
-                alert.showAndWait();
+                // Create an alert box.
+                GeneralMethods.alertBox("No Selection", "No Building Selected", "Please"
+                        + " select a building in the table", AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("delete building exception");
@@ -145,10 +143,10 @@ public class AdminManageBuildingViewController {
                     tempBuilding.getBuildingRoomCount().get(),
                     tempBuilding.getBuildingAddress().get());
             refresh();
+            // Create an alert box.
+            GeneralMethods.alertBox("New Building", "", "Added new building!",
+                    AlertType.INFORMATION);
 
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("New building");
-            alert.setContentText("Added new building!");
         } catch (Exception e) {
             System.out.println("building creation exception");
             e.printStackTrace();
@@ -181,16 +179,14 @@ public class AdminManageBuildingViewController {
                         tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
                         tempBuilding.getBuildingAddress().get());
                 refresh();
+                // Create an alert box.
+                GeneralMethods.alertBox("Edit Building", "", "Edited building!",
+                        AlertType.INFORMATION);
 
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Edit building");
-                alert.setContentText("edited building!");
             } else {
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No Building Selected");
-                alert.setContentText("Please select a building in the table.");
-                alert.showAndWait();
+                // Create an alert box.
+                GeneralMethods.alertBox("No Selection", "No Building Selected",
+                        "Please select a building in the table.", AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("building edit exception");
