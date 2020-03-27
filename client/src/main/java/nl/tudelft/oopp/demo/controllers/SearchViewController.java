@@ -65,7 +65,7 @@ public class SearchViewController implements Initializable {
     @FXML
     private VBox cardHolder;
     @FXML
-    private ComboBox<Building> BuildingComboBox;
+    private ComboBox<Building> buildingComboBox;
     @FXML
     private RadioButton yesCheckBoxTeacherOnly;
     @FXML
@@ -75,16 +75,15 @@ public class SearchViewController implements Initializable {
     @FXML
     private RadioButton noCheckBoxFood;
     @FXML
-    private ComboBox<String> CapacityComboBox;
+    private ComboBox<String> capacityComboBox;
     @FXML
-
     private Button clearFilters;
     @FXML
     private Button bookingHistoryButton;
     @FXML
     private TextField searchBar;
     @FXML
-    private ComboBox<String> BikesAvailable;
+    private ComboBox<String> bikesAvailable;
 
     private List<Building> buildings;
     private List<Room> roomList;
@@ -101,6 +100,7 @@ public class SearchViewController implements Initializable {
     private ObservableList<String> bikeList;
 
     private int building;
+    @FXML
     private boolean teacherOnly;
     private int capMin;
     private int capMax;
@@ -109,20 +109,6 @@ public class SearchViewController implements Initializable {
      * Default construct of searchView class.
      */
     public SearchViewController() {
-    }
-
-    /**
-     * Handles the bookingHistory Button onclick.
-     * Redirects the user to the booking history page.
-     *
-     * @param event
-     * @throws IOException
-     */
-    public void BookingHistoryButtonClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        BookingHistoryView bookingHistoryView = new BookingHistoryView();
-        bookingHistoryView.start(stage);
     }
 
     /**
@@ -176,21 +162,21 @@ public class SearchViewController implements Initializable {
 
 
             // the comboBox only shows 6 rows (more => scroll)
-            BuildingComboBox.setVisibleRowCount(6);
+            buildingComboBox.setVisibleRowCount(6);
 
             datePicker.setConverter(getDatePickerStringConverter());
             datePicker.setDayCellFactory(getDayCellFactory());
 
             // assign values to the observable lists
             capacityList.addAll("1-5", "5-10", "10-20", "20+");
-            BuildingComboBox.setItems(buildingList);
-            BuildingComboBox.setConverter(getBuildingComboBoxConverter());
+            buildingComboBox.setItems(buildingList);
+            buildingComboBox.setConverter(getbuildingComboBoxConverter());
             bikeList.addAll("1-5", "5-10", "10-20", "20+");
 
             // populating the choicebox
-            CapacityComboBox.setItems(capacityList);
-            BuildingComboBox.setItems(buildingList);
-            BikesAvailable.setItems(bikeList);
+            capacityComboBox.setItems(capacityList);
+            buildingComboBox.setItems(buildingList);
+            bikesAvailable.setItems(bikeList);
 
             // get all rooms and buildings from server
             rooms = Room.getRoomData();
@@ -205,7 +191,7 @@ public class SearchViewController implements Initializable {
         }
 
         // if a new filter is applied or an filter is removed filter again and load the cards again
-        BuildingComboBox.setOnAction(event -> {
+        buildingComboBox.setOnAction(event -> {
             try {
                 loadCards();
             } catch (Exception e) {
@@ -214,7 +200,7 @@ public class SearchViewController implements Initializable {
         });
 
         // if a new filter is applied or an filter is removed filter again and load the cards again
-        CapacityComboBox.setOnAction(event -> {
+        capacityComboBox.setOnAction(event -> {
             try {
                 loadCards();
             } catch (Exception e) {
@@ -276,8 +262,8 @@ public class SearchViewController implements Initializable {
         }
 
         //Check if there are any filters selected and if so filter the roomlist
-        if (BuildingComboBox.getValue() != null) {
-            building = BuildingComboBox.getValue().getBuildingId().getValue();
+        if (buildingComboBox.getValue() != null) {
+            building = buildingComboBox.getValue().getBuildingId().getValue();
             roomList = GeneralMethods.filterRoomByBuilding(roomList, building);
         }
 
@@ -292,8 +278,8 @@ public class SearchViewController implements Initializable {
         }
 
         // if the combobox is selected on a value it filters for that value.
-        if (CapacityComboBox.getValue() != null) {
-            String capacity = CapacityComboBox.getValue();
+        if (capacityComboBox.getValue() != null) {
+            String capacity = capacityComboBox.getValue();
             switch (capacity) {
                 case "1-5":
                     capMin = 1;
@@ -507,7 +493,7 @@ public class SearchViewController implements Initializable {
      *
      * @return StringConverter
      */
-    private StringConverter<Building> getBuildingComboBoxConverter() {
+    private StringConverter<Building> getbuildingComboBoxConverter() {
         try {
             StringConverter<Building> converter = new StringConverter<Building>() {
                 @Override
@@ -645,36 +631,38 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * Redirects to bookingHistory of the current user to see, edit or cancel bookings.
+     * Handles the bookingHistory Button onclick.
+     * Redirects the user to the booking history page.
      *
-     * @param event ActionEvent to get current Stage
+     * @param event is passed.
+     * @throws IOException is thrown.
      */
     @FXML
-    private void bookingHistoryClicked(ActionEvent event) {
+    private void bookingHistoryClicked(ActionEvent event) throws IOException {
         // get current Stage
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        // TODO: redirect to bookingHistory
+        BookingHistoryView bookingHistoryView = new BookingHistoryView();
+        bookingHistoryView.start(stage);
     }
 
     /**
      * Clears all the filters and sets them back to 'empty'.
      *
-     * @param event ActionEvent
      */
     @FXML
-    private void clearFiltersClicked(ActionEvent event) {
+    private void clearFiltersClicked() {
         try {
             // clear every filter and reload the cards
             datePicker.setValue(null);
-            BuildingComboBox.setValue(null);
+            buildingComboBox.setValue(null);
             yesCheckBoxFood.setSelected(false);
             noCheckBoxFood.setSelected(false);
             yesCheckBoxTeacherOnly.setSelected(false);
             teacherOnly = false;
             noCheckBoxTeacherOnly.setSelected(false);
-            CapacityComboBox.setValue(null);
-            BikesAvailable.setValue(null);
+            capacityComboBox.setValue(null);
+            bikesAvailable.setValue(null);
             searchBar.setText("");
             loadCards();
         } catch (Exception e) {
