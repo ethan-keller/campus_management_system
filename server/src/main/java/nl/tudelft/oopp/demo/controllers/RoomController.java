@@ -1,10 +1,8 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.repositories.BuildingRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,11 +11,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
 @Controller
 public class RoomController {
 
     @Autowired
     private RoomRepository roomRepo;
+
+    @Autowired
+    private BuildingRepository buildingRepo;
 
     /**
      * Creates a Room entry in the database.
@@ -45,6 +49,8 @@ public class RoomController {
 
         try {
             roomRepo.insertRoom(name, building, teacherOnly, capacity, photos, description, type);
+            int count = roomRepo.getRoomByBuilding(building).size();
+            buildingRepo.updateRoomCount(building, count);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,6 +90,8 @@ public class RoomController {
             roomRepo.updatePhotos(id, photos);
             roomRepo.updateTeacherOnly(id, teacherOnly);
             roomRepo.updateType(id, type);
+            int count = roomRepo.getRoomByBuilding(building).size();
+            buildingRepo.updateRoomCount(building, count);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,7 +106,11 @@ public class RoomController {
     @ResponseBody
     public void deleteRoom(@RequestParam int id) {
         try {
+            int buildingId = roomRepo.getRoom(id).getBuilding();
             roomRepo.deleteRoom(id);
+
+            int roomCount = roomRepo.getRoomByBuilding(buildingId).size();
+            buildingRepo.updateRoomCount(buildingId, roomCount);
         } catch (Exception e) {
             e.printStackTrace();
         }
