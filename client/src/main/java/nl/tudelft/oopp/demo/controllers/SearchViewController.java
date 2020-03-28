@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -39,8 +40,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import javafx.util.StringConverter;
-
-import java.io.UnsupportedEncodingException;
 
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
