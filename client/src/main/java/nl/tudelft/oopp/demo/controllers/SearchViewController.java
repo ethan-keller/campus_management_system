@@ -55,7 +55,7 @@ import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomView;
 
 /**
- * Controller class for SearchView (JavaFX)
+ * Controller class for SearchView (JavaFX).
  */
 public class SearchViewController implements Initializable {
     /**
