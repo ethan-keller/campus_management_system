@@ -1,5 +1,10 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
+import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javafx.collections.FXCollections;
 
@@ -9,12 +14,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 
-import javafx.scene.control.Spinner;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Spinner;
 
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -33,12 +38,6 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
-import java.io.IOException;
-import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -53,13 +52,13 @@ public class RentABikeController implements Initializable {
     @FXML
     private Text dateError;
     @FXML
-    private ComboBox<String> ComboBuilding;
+    private ComboBox<String> comboBuilding;
     @FXML
-    private Text BuildingError;
+    private Text buildingError;
     @FXML
     private Spinner<Integer> spinner;
     @FXML
-    private VBox BuildingBikes;
+    private VBox buildingBikes;
     @FXML
     private Text endTime;
     @FXML
@@ -97,14 +96,14 @@ public class RentABikeController implements Initializable {
         //Converting buildingName into String for each item and getting number of available bikes
         for (Building b : buildingList) {
             buildList.add(b.getBuildingName().get());
-            BuildingBikes.getChildren().add(getEachBikes(b));
+            buildingBikes.getChildren().add(getEachBikes(b));
         }
         //Setting the values to comboBox
-        ComboBuilding.setItems(buildList);
+        comboBuilding.setItems(buildList);
 
         // make sure errors are not visible
         dateError.setVisible(false);
-        BuildingError.setVisible(false);
+        buildingError.setVisible(false);
 
         // set up the date picker and date slider
         configureDatePicker();
@@ -146,9 +145,9 @@ public class RentABikeController implements Initializable {
      */
     public int isInputValid() {
         // If both datePicker and  ComboBuilding are null
-        if (datePicker.getValue() == null && ComboBuilding.getSelectionModel().getSelectedItem() == null) {
+        if (datePicker.getValue() == null && comboBuilding.getSelectionModel().getSelectedItem() == null) {
             return 1;
-        } else if(ComboBuilding.getSelectionModel().getSelectedItem() == null){
+        } else if (comboBuilding.getSelectionModel().getSelectedItem() == null) {
             return 2;
         } else if (datePicker.getValue() == null) {
             return 3;
@@ -165,14 +164,14 @@ public class RentABikeController implements Initializable {
         // set both text visible
         if (isInputValid() == 1) {
             dateError.setVisible(true);
-            BuildingError.setVisible(true);
+            buildingError.setVisible(true);
         }
         // only sets buildingError visible
         if (isInputValid() == 2) {
-            BuildingError.setVisible(true);
+            buildingError.setVisible(true);
         }
         // only sets datePicker visible
-        if (isInputValid() ==3 ) {
+        if (isInputValid() == 3) {
             dateError.setVisible(true);
         }
         // only the case when both are filled in
@@ -183,15 +182,15 @@ public class RentABikeController implements Initializable {
             String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
                     .toString(timeSlotSlider.getLowValue());
             String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
-            String selectedBuilding = ComboBuilding.getValue();
+            String selectedBuilding = comboBuilding.getValue();
 
             // check to see enough bikes for selected building
             if (checkBikeAvailability(selectedBuilding, selectedBike)) {
                 // create alert for confirmation with the user
-                Alert alert = GeneralMethods.createAlert
-                        ("Your Bike Reservation", "Make reservation for " + selectedBike + " bikes" +
-                        " from " + selectedBuilding + " on " + selectedDate + "for " + selectedStartTime + "-" + selectedEndTime + "?",
-                                ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+                Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "
+                                + selectedBike + " bikes" +
+                        " from " + selectedBuilding + " on " + selectedDate + "for " + selectedStartTime + "-"
+                                + selectedEndTime + "?", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
                 assert alert != null;
                 //set alert size depending on the text length
                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -201,11 +200,12 @@ public class RentABikeController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
 
                 // if the user responds with OK
-                if (result.orElse(null) == ButtonType.OK){
+                if (result.orElse(null) == ButtonType.OK) {
 
                     //send new reservation to the server
                     BikeReservationCommunication.createBikeReservation(getBuildingNumber(selectedBuilding),
-                            CurrentUserManager.getUsername(), selectedBike,selectedDate, selectedStartTime, selectedEndTime);
+                            CurrentUserManager.getUsername(), selectedBike,selectedDate,
+                            selectedStartTime, selectedEndTime);
                     // inform the user for successful reservation
                     Alert alert2 = GeneralMethods.createAlert("Room booked", "You successfully booked this room!",
                             ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
@@ -220,9 +220,9 @@ public class RentABikeController implements Initializable {
 
                 }
                 // do nothing if user selects no
-            }
+             }
             // only case for insufficient bikes in the database for selected date and time slot
-             else {
+            else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Insufficient Bikes");
                 alert.setContentText("Insufficient Bikes Available. Please check the number of bikes available");
@@ -237,8 +237,7 @@ public class RentABikeController implements Initializable {
      * Create cellFactory for the datePicker that disables all days before today and weekend days.
      * It also marks them red to make sure the user understands why they are disabled.
      *
-     * @return a CallBack object used to set the dayCellFactory for the datePicker
-     * in {@link #configureDatePicker()}
+     * @return a CallBack to set the datePicker in {@link #configureDatePicker()}
      */
     private Callback<DatePicker, DateCell> getDayCellFactory() {
         try {

@@ -130,11 +130,11 @@ public class RoomViewController implements Initializable {
             //get building number
             int buildNumber = currentRoom.getRoomBuilding().get();
             //get list of food from specific building
-            ObservableList<Food> FoodList = Food.getFoodByBuildingId(buildNumber);
+            ObservableList<Food> fooodList = Food.getFoodByBuildingId(buildNumber);
 
             //add list of food to the list and an option for no food
-            assert FoodList != null;
-            for (Food f: FoodList) {
+            assert fooodList != null;
+            for (Food f: fooodList) {
                 foodList.add(f.getFoodName().get());
             }
 
@@ -147,7 +147,8 @@ public class RoomViewController implements Initializable {
             capacity.setText("Capacity: " + currentRoom.getRoomCapacity().get());
             building.setText("Building: "
                     + Objects.requireNonNull(
-                            Building.getBuildingById(currentRoom.getRoomBuilding().get())).getBuildingName().get());
+                            Building.getBuildingById(
+                                    currentRoom.getRoomBuilding().get())).getBuildingName().get());
             teacherOnly.setText("Teachers only: " + (currentRoom.getTeacherOnly().get() ? "yes" : "no"));
             type.setText("Type: " + currentRoom.getRoomType().get());
             description.setText("Description:\n" + currentRoom.getRoomDescription().get());

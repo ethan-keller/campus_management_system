@@ -40,11 +40,11 @@ import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.BookingHistoryView;
-import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.CancelBookingView;
-import nl.tudelft.oopp.demo.views.RoomView;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.CalendarPaneView;
 import nl.tudelft.oopp.demo.views.RentABikeView;
+import nl.tudelft.oopp.demo.views.RoomView;
 
 /**
  * .
@@ -74,7 +74,7 @@ public class SearchViewController implements Initializable {
     @FXML
     private ComboBox<String> capacityComboBox;
     @FXML
-    private ComboBox<String> BikesAvailable;
+    private ComboBox<String> bikesAvailable;
     @FXML
     private AnchorPane pane;
 
@@ -172,7 +172,7 @@ public class SearchViewController implements Initializable {
             // populating the choicebox
             capacityComboBox.setItems(capacityList);
             buildingComboBox.setItems(buildingList);
-            BikesAvailable.setItems(bikeList);
+            bikesAvailable.setItems(bikeList);
 
             // get all rooms from server
             ObservableList<Room> roomList = Room.getRoomData();
@@ -427,7 +427,7 @@ public class SearchViewController implements Initializable {
             yesCheckBoxTeacherOnly.setSelected(false);
             noCheckBoxTeacherOnly.setSelected(false);
             capacityComboBox.setValue(null);
-            BikesAvailable.setValue(null);
+            bikesAvailable.setValue(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -447,7 +447,7 @@ public class SearchViewController implements Initializable {
 
 
     @FXML
-    private void RentABikeClicked(ActionEvent event) {
+    private void rentABikeClicked(ActionEvent event) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

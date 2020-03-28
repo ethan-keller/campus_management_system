@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="540.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.SearchViewController">
+<AnchorPane prefHeight="540.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.SearchViewController">
    <SplitPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <BorderPane layoutX="134.0" layoutY="114.0" prefHeight="398.4" prefWidth="598.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -35,7 +24,7 @@
                            <Font size="15.0" />
                         </font>
                      </Text>
-                     <ComboBox fx:id="BuildingComboBox" prefHeight="31.2" prefWidth="171.2" />
+                     <ComboBox fx:id="buildingComboBox" prefHeight="31.2" prefWidth="171.2" />
                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Teachers only">
                         <font>
                            <Font size="15.0" />
@@ -85,13 +74,13 @@
                            <Font size="15.0" />
                         </font>
                      </Text>
-                     <ComboBox fx:id="CapacityComboBox" prefHeight="31.2" prefWidth="178.4" />
+                     <ComboBox fx:id="capacityComboBox" prefHeight="31.2" prefWidth="178.4" />
                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 15;" text="Bikes Available">
                         <font>
                            <Font size="15.0" />
                         </font>
                      </Text>
-                     <ComboBox fx:id="BikesAvailable" prefHeight="31.2" prefWidth="178.4" />
+                     <ComboBox fx:id="bikesAvailable" prefHeight="31.2" prefWidth="178.4" />
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                         <Button fx:id="BookingHistoryButton" layoutX="93.0" layoutY="8.0" mnemonicParsing="false" onAction="#bookingHistoryClicked" prefHeight="52.0" prefWidth="64.0" style="-fx-background-radius: 8;" text="Booking History">
                            <font>
@@ -107,7 +96,7 @@
                      <AnchorPane prefHeight="187.0" prefWidth="171.0" />
                      <AnchorPane prefHeight="200.0" prefWidth="200.0">
                         <children>
-                           <Button fx:id="RentABikeButton" layoutX="55.0" layoutY="-23.0" mnemonicParsing="false" onAction="#RentABikeClicked" prefHeight="52.0" prefWidth="64.0" style="-fx-background-radius: 8;" text="Rent a Bike">
+                           <Button fx:id="RentABikeButton" layoutX="55.0" layoutY="-23.0" mnemonicParsing="false" onAction="#rentABikeClicked" prefHeight="52.0" prefWidth="64.0" style="-fx-background-radius: 8;" text="Rent a Bike">
                               <font>
                                  <Font size="10.0" />
                               </font>
