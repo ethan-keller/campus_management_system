@@ -11,10 +11,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.BookingEditDialogView;
+import nl.tudelft.oopp.demo.views.LoginView;
 
 
 public class AdminUserHistoryViewController {
@@ -103,17 +105,12 @@ public class AdminUserHistoryViewController {
                 ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
                 refresh();
                 // An alert pop up when a reservation deleted successfully
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Delete reservation");
-                alert.setContentText("Reservation deleted!");
-                alert.showAndWait();
+                GeneralMethods.alertBox("Delete Reservation", "", "Reservation deleted!",
+                        Alert.AlertType.INFORMATION);
             } else {
                 // An alert pop up when no reservation selected
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No reservation Selected");
-                alert.setContentText("Please select a reservation in the table.");
-                alert.showAndWait();
+                GeneralMethods.alertBox("No Selection", "No reservation Selected",
+                        "Please select a reservation", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("delete reservation exception");
@@ -144,10 +141,8 @@ public class AdminUserHistoryViewController {
                     tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
             refresh();
             // An alert pop up when a new reservation created.
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("New reservation");
-            alert.setContentText("Added new reservation!");
-            alert.showAndWait();
+            GeneralMethods.alertBox("New Reservation", "", "New Reservation added!",
+                    Alert.AlertType.INFORMATION);
         } catch (Exception e) {
             System.out.println("reservation creation exception");
             e.printStackTrace();
@@ -163,6 +158,20 @@ public class AdminUserHistoryViewController {
 
         AdminManageUserView amuv = new AdminManageUserView();
         amuv.start(stage);
+    }
+
+    /**
+     * This button redirects the user back to the login page.
+     * @param event is passed
+     * @throws IOException is thrown.
+     */
+    @FXML
+    private void signOutClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // This opens up a new login page.
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
     }
 
 }

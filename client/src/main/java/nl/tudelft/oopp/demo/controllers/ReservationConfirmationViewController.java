@@ -45,8 +45,12 @@ public class ReservationConfirmationViewController implements Initializable {
                 + date + " from " + startTime + " until " + endTime + ". Would you like to confirm that?");
     }
 
-    ;
 
+    /**.
+     * Handles the clicking of confirm button.
+     *
+     * @param event is passed.
+     */
     @FXML
     private void confirmClicked(ActionEvent event) {
         // set confirmed state
@@ -57,6 +61,11 @@ public class ReservationConfirmationViewController implements Initializable {
         thisStage.close();
     }
 
+    /**.
+     * Handles the clicking of cancel button.
+     *
+     * @param event is passed.
+     */
     @FXML
     private void cancelClicked(ActionEvent event) {
         // set confirmed state

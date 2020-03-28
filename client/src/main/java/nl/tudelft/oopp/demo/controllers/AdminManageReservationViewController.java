@@ -11,9 +11,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
 
 public class AdminManageReservationViewController {
@@ -83,15 +85,18 @@ public class AdminManageReservationViewController {
      */
     public Reservation getSelectedReservation() {
 
+        // If reservation selection is valid:
         if (listReservations.getSelectionModel().getSelectedIndex() >= 0) {
+            // Returns the item ( of type Reservation ) back to the user.
             return listReservations.getSelectionModel().getSelectedItem();
         } else {
+            // If no item is selected, then null is returned.
             return null;
         }
     }
 
     /**
-     * The index of the reserrvation is selected.
+     * The index of the reservation is selected.
      * @return the index of the selected reservation.
      */
     public int getSelectedIndex() {
@@ -103,23 +108,21 @@ public class AdminManageReservationViewController {
      */
     @FXML
     public void deleteReservationClicked(ActionEvent event) {
+        // To delete a reservation, one of the reservations need to be selected from the tabular view.
         Reservation selectedReservation = getSelectedReservation();
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
                 //TODO: Check that Reservation deletion was successful before displaying alert message.
                 ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
+                // To update the tabular view after removing the reservation.
                 refresh();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Delete Reservation");
-                alert.setContentText("Reservation deleted!");
-                alert.showAndWait();
+                // Displaying a message to the admin for clearer communication through an alert box.
+                GeneralMethods.alertBox("Delete Reservation", "", "Reservation deleted!",
+                        Alert.AlertType.INFORMATION);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No Reservation Selected");
-                alert.setContentText("Please select a reservation in the table.");
-                alert.showAndWait();
+                GeneralMethods.alertBox("No Selection", "No Reservation Selected",
+                        "Please select a Reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("delete reservation exception");
@@ -150,10 +153,9 @@ public class AdminManageReservationViewController {
                         tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
                 refresh();
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("New Reservation");
-                alert.setContentText("New Reservation created!");
-                alert.showAndWait();
+                // Displaying a message to the admin for clearer communication through an alert box.
+                GeneralMethods.alertBox("New Reservation", "", "New Reservation created!",
+                        Alert.AlertType.INFORMATION);
             }
         } catch (Exception e) {
             System.out.println("Reservation creation exception");
@@ -189,15 +191,14 @@ public class AdminManageReservationViewController {
                         tempResevation.getStartingTime().get(), tempResevation.getEndingTime().get());
                 refresh();
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Edit Reservation");
-                alert.setContentText("Edited Reservation!");
+                // Displaying a message to the admin for clearer communication through an alert box.
+                GeneralMethods.alertBox("Edit Reservation", "", "Edited Reservation!",
+                        Alert.AlertType.INFORMATION);
             } else {
+                // Displaying a message to the admin for clearer communication through an alert box.
+                GeneralMethods.alertBox("No Selection", "No Reservation Selected",
+                        "Please select a Reservation in the table.", Alert.AlertType.INFORMATION);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("No selection");
-                alert.setHeaderText("No Reservation Selected!");
-                alert.setContentText("Please select a reservation from the table.");
-                alert.showAndWait();
             }
         } catch (Exception e) {
             System.out.println("Reservation edit exception");
@@ -215,7 +216,22 @@ public class AdminManageReservationViewController {
     private void backButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
+        // This loads up a new admin home page.
         AdminHomePageView ahpv = new AdminHomePageView();
         ahpv.start(stage);
+    }
+
+    /**
+     * This button redirects the admin back to the login page.
+     * @param event is passed as a parameter.
+     * @throws IOException is thrown.
+     */
+    @FXML
+    private void signOutButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // This loads up a new login page.
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
     }
 }

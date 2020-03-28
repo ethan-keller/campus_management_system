@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.LoginView;
@@ -109,16 +110,14 @@ public class CancelBookingController {
                 //TODO: Check that Reservation deletion was successful before displaying alert message.
                 ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
                 refresh();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Cancel Reservation");
-                alert.setContentText("Reservation canceled!");
-                alert.showAndWait();
+
+                // Creates an alert box to display the message.
+                GeneralMethods.alertBox("Cancel Reservation", "", "Reservation canceled!",
+                        Alert.AlertType.INFORMATION);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No Reservation Selected");
-                alert.setContentText("Please select a reservation in the table.");
-                alert.showAndWait();
+
+                GeneralMethods.alertBox("No Selection", "No Reservation Selected",
+                        "Please select a reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("delete reservation exception");

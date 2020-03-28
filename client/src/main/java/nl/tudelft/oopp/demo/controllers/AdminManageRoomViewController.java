@@ -12,9 +12,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomEditDialogView;
 
 
@@ -122,16 +124,12 @@ public class AdminManageRoomViewController {
                 // TODO: Check that room deletion was successful before displaying alert
                 RoomServerCommunication.deleteRoom(selectedRoom.getRoomId().getValue());
                 refresh();
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Delete room");
-                alert.setContentText("Room deleted!");
-                alert.showAndWait();
+                // Creates an alert box to display the message.
+                GeneralMethods.alertBox("Delete room", "", "Room deleted!", AlertType.INFORMATION);
             } else {
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No room Selected");
-                alert.setContentText("Please select a room in the table.");
-                alert.showAndWait();
+                // Creates an alert box.
+                GeneralMethods.alertBox("No Selection", "No Room Selected",
+                        "Please select a Room in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("delete room exception");
@@ -161,11 +159,8 @@ public class AdminManageRoomViewController {
                     tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
                     tempRoom.getRoomType().get());
             refresh();
-
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("New room");
-            alert.setContentText("Added new room!");
-            alert.showAndWait();
+            // Creates an alert box to display the message.
+            GeneralMethods.alertBox("New room", "", "New Room added!", AlertType.INFORMATION);
         } catch (Exception e) {
             System.out.println("room creation exception");
             e.printStackTrace();
@@ -199,16 +194,12 @@ public class AdminManageRoomViewController {
                         tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
                         tempRoom.getRoomType().get());
                 refresh();
-
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Edit room");
-                alert.setContentText("edited room!");
+                // Creates an alert box to display the message.
+                GeneralMethods.alertBox("Edit room", "", "Room edited!", AlertType.INFORMATION);
             } else {
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No Room Selected");
-                alert.setContentText("Please select a room in the table.");
-                alert.showAndWait();
+                // Creates an alert box.
+                GeneralMethods.alertBox("No Selection", "No Room Selected",
+                        "Please select a Room in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("room edit exception");
@@ -217,10 +208,9 @@ public class AdminManageRoomViewController {
     }
 
     /**
-     * This takes the user back to the admin home page.
-     *
-     * @param event is passed
-     * @throws IOException is thrown
+     * This button redirects the user back to the login page.
+     * @param event is passed.
+     * @throws IOException is thrown.
      */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
@@ -228,6 +218,20 @@ public class AdminManageRoomViewController {
 
         AdminHomePageView adminHomePageView = new AdminHomePageView();
         adminHomePageView.start(stage);
+    }
+
+    /**
+     * This redirects the admin back to the login page.
+     * @param event is passed.
+     * @throws IOException is thrown.
+     */
+    @FXML
+    private void signOutClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // This open up a new login page.
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
     }
 
 }
