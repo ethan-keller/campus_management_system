@@ -106,7 +106,7 @@ public class BikeReservation {
     }
 
     /**
-     * Gets bike reservation quantity
+     * Gets bike reservation quantity.
      * @return number of bikes
      */
     public IntegerProperty getBikeReservationQuantity() {
@@ -114,8 +114,8 @@ public class BikeReservation {
     }
 
     /**
-     * Sets bike reservation quantity
-     * @param bikeReservationQuantity
+     * Sets bike reservation quantity.
+     * @param bikeReservationQuantity quantity of bikes
      */
     public void setBikeReservationQuantity(int bikeReservationQuantity) {
         this.bikeReservationQuantity.set(bikeReservationQuantity);
@@ -147,7 +147,7 @@ public class BikeReservation {
 
     /**
      * Sets bike reservation starting time.
-     * @param bikeReservationStartingTime New starting time in String(hh-mm-ss)
+     * @param bikeReservationStartingTime New starting time in String(hh:m:ss)
      */
     public void setBikeReservationStartingTime(String bikeReservationStartingTime) {
         this.bikeReservationStartingTime.set(bikeReservationStartingTime);

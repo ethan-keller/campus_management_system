@@ -44,11 +44,60 @@ public class GeneralMethods {
      */
     public static Alert createAlert(String title, String content, Window owner, Alert.AlertType type) {
         try {
+            // Create a new alert object (dialog box)
             Alert alert = new Alert(type);
+
+            // Setting the title of the alert box.
             alert.setTitle(title);
+
+            // Setting the content of the alert box.
             alert.setContentText(content);
+
+            // Sets the owner of the alert box.
             alert.initOwner(owner);
+
+            // Setting the modality of the window so that the user doesn't interact with the background screen.
             alert.initModality(Modality.WINDOW_MODAL);
+
+            // Return the alert object.
+            return alert;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Creates an alert box with a separate set of features compared to the above method.
+     *
+     * @param title - Title of the alert box (String)
+     * @param header - Header of the alert box (String)
+     * @param content - Content of the alert box (String)
+     * @param type - AlertType
+     * @return Alert  An alert containing the provided information.
+     */
+    public static Alert alertBox(String title, String header, String content, Alert.AlertType type) {
+
+        try {
+            // Create a new alert object (dialog box)
+            Alert alert = new Alert(type);
+
+            // Setting the title of the alert box.
+            alert.setTitle(title);
+
+            // Setting the header of the alert box.
+            alert.setHeaderText(header);
+
+            // Setting the content of the alert box.
+            alert.setContentText(content);
+
+            // Setting the modality of the window so that the user doesn't interact with the background screen.
+            alert.initModality(Modality.WINDOW_MODAL);
+
+            // Wait for the user to close the alert box.
+            alert.showAndWait();
+
+            // return the alert object
             return alert;
         } catch (Exception e) {
             e.printStackTrace();

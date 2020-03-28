@@ -3,7 +3,6 @@ package nl.tudelft.oopp.demo.controllers;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,11 +11,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.UserServerCommunication;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminUserBikeView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.UserEditDialogView;
 
 
@@ -91,16 +92,12 @@ public class AdminManageUserViewController {
                 // TODO: Check that building deletion was succesful before displaying alert
                 UserServerCommunication.deleteUser(selectedUser.getUsername().getValue());
                 refresh();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Delete user");
-                alert.setContentText("User deleted!");
-                alert.showAndWait();
+                // Creates an alert box for transparent communication.
+                GeneralMethods.alertBox("Delete user", "", "User deleted!", Alert.AlertType.INFORMATION);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No User Selected");
-                alert.setContentText("Please select a user in the table.");
-                alert.showAndWait();
+                // Creates an alert box.
+                GeneralMethods.alertBox("No Selection", "No User Selected",
+                        "Please select a User in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("delete user exception");
@@ -130,10 +127,8 @@ public class AdminManageUserViewController {
                         tempUser.getUserType().get());
             }
             refresh();
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("New user");
-            alert.setContentText("Added new user!");
+            // Informing the admin through a alert box that a new user is created successfully.
+            GeneralMethods.alertBox("New user", "", "New User created!", Alert.AlertType.INFORMATION);
         } catch (Exception e) {
             System.out.println("user creation exception");
             e.printStackTrace();
@@ -169,16 +164,12 @@ public class AdminManageUserViewController {
                             tempUser.getUserPassword().get(), tempUser.getUserType().get());
                 }
                 refresh();
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Edit user");
-                alert.setContentText("edited user!");
+                // Creates an alert box for transparent communication.
+                GeneralMethods.alertBox("Edit user", "", "User edited!", Alert.AlertType.INFORMATION);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No User Selected");
-                alert.setContentText("Please select a user in the table.");
-                alert.showAndWait();
+                // Creates an alert box.
+                GeneralMethods.alertBox("No Selection", "No User Selected",
+                        "Please select an User in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("user edit exception");
@@ -204,11 +195,9 @@ public class AdminManageUserViewController {
                 AdminUserHistoryView auhv = new AdminUserHistoryView();
                 auhv.start(stage);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No User Selected");
-                alert.setContentText("Please select a user in the table.");
-                alert.showAndWait();
+                // Creates an alert box.
+                GeneralMethods.alertBox("No Selection", "No User Selected",
+                        "Please select a User in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("user edit exception");
@@ -250,7 +239,23 @@ public class AdminManageUserViewController {
     private void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
+        // This starts a new admin home page view.
         AdminHomePageView ahpv = new AdminHomePageView();
         ahpv.start(stage);
     }
+
+    /**
+     * This button redirects the user back to the login page.
+     * @param event is passed.
+     * @throws IOException is thrown.
+     */
+    @FXML
+    private void signOutClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // This loads up a new login page.
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
+    }
+
 }
