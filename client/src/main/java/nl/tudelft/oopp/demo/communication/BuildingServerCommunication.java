@@ -63,7 +63,8 @@ public class BuildingServerCommunication {
      */
     public static boolean createBuilding(String name, int roomCount, String address)
             throws UnsupportedEncodingException {
-        String params = "name=" + name + "&roomCount=" + roomCount + "&address=" + address;
+        String params = "name=" + name + "&roomCount=" + roomCount + "&address=" + address
+                + "&availableBikes=0&maxBikes=0";
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createBuilding?" + params)).build();
         HttpResponse<String> response = null;
