@@ -216,7 +216,7 @@ public class BikeEditDialogController {
             bikeEndingTime.setText(converter.toString(timeslotSlider.getHighValue()));
 
             // inject the RangeSlider in the JavaFX layout
-            grid.add(timeslotSlider, 1, 3);
+            grid.add(timeslotSlider, 1, 4);
         } catch (Exception e) {
             e.printStackTrace();
         }

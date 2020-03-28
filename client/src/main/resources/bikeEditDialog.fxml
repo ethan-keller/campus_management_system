@@ -15,7 +15,7 @@
 
 <AnchorPane prefHeight="270.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.BikeEditDialogController">
 <children>
-    <GridPane layoutX="10.0" layoutY="5.0" prefHeight="210.0" prefWidth="461.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="5.0">
+    <GridPane fx:id="grid" layoutX="10.0" layoutY="5.0" prefHeight="210.0" prefWidth="461.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="5.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.0" minWidth="10.0" prefWidth="226.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="333.0" minWidth="10.0" prefWidth="235.0" />

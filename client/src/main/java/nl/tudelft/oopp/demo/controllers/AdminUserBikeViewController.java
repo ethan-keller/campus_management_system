@@ -89,10 +89,10 @@ public class AdminUserBikeViewController {
     public BikeReservation getSelectedBikeReservation() {
         if (userBikeTable.getSelectionModel().getSelectedIndex() >= 0) {
             BikeReservation br = userBikeTable.getSelectionModel().getSelectedItem();
-            if(getSelectedBikeReservationDate(br.getBikeReservationDate().get()).isBefore(LocalDate.now()) || getSelectedBikeReservationTime(br.getBikeReservationStartingTime().get()).isBefore(LocalTime.now())){
-                editBikeButton.setDisable(true);
-                deleteBikeButton.setDisable(true);
-            }
+//            if(getSelectedBikeReservationDate(br.getBikeReservationDate().get()).isBefore(LocalDate.now()) || getSelectedBikeReservationTime(br.getBikeReservationStartingTime().get()).isBefore(LocalTime.now())){
+//                editBikeButton.setDisable(true);
+//                deleteBikeButton.setDisable(true);
+//            }
             return br;
         } else {
             return null;

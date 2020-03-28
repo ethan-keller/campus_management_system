@@ -226,7 +226,7 @@ public class AdminManageReservationViewController {
      * Handles clicking the food button, redirect to the food reservation view.
      */
     @FXML
-    private void FoodReservationClicked(ActionEvent event) throws IOException {
+    private void foodReservationClicked(ActionEvent event) throws IOException {
         Reservation selectedReservation = getSelectedReservation();
         int selectedIndex = getSelectedIndex();
         try {

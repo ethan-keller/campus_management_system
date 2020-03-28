@@ -80,7 +80,12 @@ public class FoodReservationEditDialogController {
         if (isInputValid()) {
             emptyFoodReservation();
             // Set the user input to the reservation
-            foodReservation.setReservationId(AdminUserHistoryViewController.currentSelectedReservation.getId().get());
+            if(AdminUserHistoryViewController.currentSelectedReservation != null) {
+                foodReservation.setReservationId(AdminUserHistoryViewController.currentSelectedReservation.getId().get());
+            }
+            if(AdminManageReservationViewController.currentSelectedReservation != null) {
+                foodReservation.setReservationId(AdminManageReservationViewController.currentSelectedReservation.getId().get());
+            }
             foodReservation.setFoodId(this.foodComboBox.getSelectionModel().getSelectedItem().getFoodId().get());
             foodReservation.setFoodQuantity(Integer.parseInt(this.foodQuantityField.getText()));
             // Close the dialog window

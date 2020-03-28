@@ -51,8 +51,6 @@ public class UserBikeEditDialogController {
     @FXML
     private Label timeslot;
 
-    private ObservableList<User> olu;
-
     private ObservableList<Building> olb;
 
     private RangeSlider timeslotSlider;
