@@ -36,24 +36,23 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-
 import javafx.util.StringConverter;
-
-import nl.tudelft.oopp.demo.views.BookingHistoryView;
-
-import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.views.CancelBookingView;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
-import nl.tudelft.oopp.demo.views.LoginView;
-import nl.tudelft.oopp.demo.entities.Reservation;
-import nl.tudelft.oopp.demo.entities.Room;
-
-import nl.tudelft.oopp.demo.views.RoomView;
 
 import java.io.UnsupportedEncodingException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
+
+import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.Building;
+
+import nl.tudelft.oopp.demo.views.BookingHistoryView;
+import nl.tudelft.oopp.demo.views.CancelBookingView;
+import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.RoomView;
 
 /**
  * Controller class for SearchView (JavaFX)
@@ -288,12 +287,12 @@ public class SearchViewController implements Initializable {
 
         // if the checkbox is selected it filters according to the checkbox.
         if (yesCheckBoxTeacherOnly.isSelected()) {
-            roomList = GeneralMethods.filterRoomByTeacher_only(roomList, true);
+            roomList = GeneralMethods.filterRoomByTeacherOnly(roomList, true);
         }
 
         // if the checkbox is selected it filters according to the checkbox.
         if (noCheckBoxTeacherOnly.isSelected()) {
-            roomList = GeneralMethods.filterRoomByTeacher_only(roomList, false);
+            roomList = GeneralMethods.filterRoomByTeacherOnly(roomList, false);
         }
 
         // if the combobox is selected on a value it filters for that value.

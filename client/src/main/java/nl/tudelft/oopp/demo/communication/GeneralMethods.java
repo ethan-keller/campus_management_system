@@ -3,14 +3,19 @@ package nl.tudelft.oopp.demo.communication;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Window;
+
+import java.io.UnsupportedEncodingException;
+
+import java.net.URLEncoder;
+
+import java.nio.charset.StandardCharsets;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -92,10 +97,10 @@ public class GeneralMethods {
      * filters the rooms that are teacher only or not teacher only. Depending on the given boolean.
      *
      * @param rooms list of rooms  to be filtered
-     * @param teacher_only if a room should be teacher only or not
+     * @param teacherOnly if a room should be teacher only or not
      * @return list of rooms that are all teacher only or not teacher only. Depending on the boolean given.
      */
-    public static List<Room> filterRoomByTeacher_only(List<Room> rooms, boolean teacher_only) {
+    public static List<Room> filterRoomByTeacherOnly(List<Room> rooms, boolean teacherOnly) {
         if (rooms == null) {
             return null;
         }
@@ -105,7 +110,7 @@ public class GeneralMethods {
         }
 
         for (int j = 0; j != rooms.size(); j++) {
-            if (rooms.get(j).getTeacherOnly().getValue() != teacher_only) {
+            if (rooms.get(j).getTeacherOnly().getValue() != teacherOnly) {
                 rooms.remove(rooms.get(j));
                 j--;
             }
@@ -132,7 +137,8 @@ public class GeneralMethods {
         }
 
         for (int i = 0; i != rooms.size(); i++) {
-            if (rooms.get(i).getRoomCapacity().getValue() > capMax || rooms.get(i).getRoomCapacity().getValue() < capMin) {
+            if (rooms.get(i).getRoomCapacity().getValue() > capMax
+                    || rooms.get(i).getRoomCapacity().getValue() < capMin) {
                 rooms.remove(rooms.get(i));
                 i--;
             }
