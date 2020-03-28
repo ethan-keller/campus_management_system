@@ -51,8 +51,14 @@ public class AdminFoodReservationViewController {
     private void initialize() {
         try {
             // Initialize the title of the table
-            usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
-            reservationIdLabel.setText(String.valueOf(AdminUserHistoryViewController.currentSelectedReservation.getId().get()));
+            if(AdminUserHistoryViewController.currentSelectedReservation != null){
+                usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
+                reservationIdLabel.setText(String.valueOf(AdminUserHistoryViewController.currentSelectedReservation.getId().get()));
+            }
+            if(AdminManageReservationViewController.currentSelectedReservation != null){
+                usernameLabel.setText(AdminManageReservationViewController.currentSelectedReservation.getUsername().get());
+                reservationIdLabel.setText(String.valueOf(AdminManageReservationViewController.currentSelectedReservation.getId().get()));
+            }
             // Initialize the booking table with the three columns.
             foodIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getFoodId().get())));
             foodNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(Food.getFoodById(cellData.getValue().getFoodId().get()).getFoodName().get()));

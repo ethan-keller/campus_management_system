@@ -147,10 +147,10 @@ public class AdminUserBikeViewController {
             UserBikeEditDialogView view = new UserBikeEditDialogView();
             view.start(stage);
             // Get the reservation from the pop up dialog.
-            BikeReservation tempBikeReservation = BikeEditDialogController.bikeReservation;
+            BikeReservation tempBikeReservation = UserBikeEditDialogController.bikeReservation;
             if (tempBikeReservation == null) return;
             // TODO: Check that reservation creation was successful before displaying alert
-            BikeReservationCommunication.createBikeReservation(tempBikeReservation.getBikeReservationBuilding().get(), tempBikeReservation.getBikeReservationUser().get(),
+            BikeReservationCommunication.createBikeReservation(tempBikeReservation.getBikeReservationBuilding().get(), AdminManageUserViewController.currentSelectedUser.getUsername().get(),
                     tempBikeReservation.getBikeReservationQuantity().get(), tempBikeReservation.getBikeReservationDate().get(), tempBikeReservation.getBikeReservationStartingTime().get(), tempBikeReservation.getBikeReservationEndingTime().get());
             refresh();
             // An alert pop up when a new reservation created.
@@ -178,11 +178,11 @@ public class AdminUserBikeViewController {
                 currentSelectedBikeReservation = selectedBikeReservation;
                 UserBikeEditDialogView view = new UserBikeEditDialogView();
                 view.start(stage);
-                BikeReservation tempBikeReservation = BikeEditDialogController.bikeReservation;
+                BikeReservation tempBikeReservation = UserBikeEditDialogController.bikeReservation;
 
                 if (tempBikeReservation == null) return;
                 // TODO: Check that building edit was successful before displaying alert
-                BikeReservationCommunication.updateBikeReservation(selectedBikeReservation.getBikeReservationId().get(), tempBikeReservation.getBikeReservationBuilding().get(), selectedBikeReservation.getBikeReservationUser().get(),
+                BikeReservationCommunication.updateBikeReservation(selectedBikeReservation.getBikeReservationId().get(), tempBikeReservation.getBikeReservationBuilding().get(), AdminManageUserViewController.currentSelectedUser.getUsername().get(),
                         tempBikeReservation.getBikeReservationQuantity().get(), tempBikeReservation.getBikeReservationDate().get(), tempBikeReservation.getBikeReservationStartingTime().get(), tempBikeReservation.getBikeReservationEndingTime().get());
                 refresh();
 
