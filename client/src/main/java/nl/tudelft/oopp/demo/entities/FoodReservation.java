@@ -55,12 +55,12 @@ public class FoodReservation {
      */
     public static ObservableList<FoodReservation> getUserReservationFood() throws JSONException {
         ObservableList<FoodReservation> foodReservation = FXCollections.observableArrayList();
-        JSONArray jsonArrayFoodReservation= new JSONArray(FoodServerCommunication.getFoodReservationByReservation(AdminUserHistoryViewController.currentSelectedReservation.getId().get()));
+        JSONArray jsonArrayFoodReservation= new JSONArray(FoodServerCommunication.getFoodReservationByReservation(358));
         for(int i=0; i<jsonArrayFoodReservation.length(); i++){
             FoodReservation fr = new FoodReservation();
             fr.setFoodId(2);
-            fr.setFoodId(jsonArrayFoodReservation.getJSONObject(i).getInt("food") );
-            fr.setReservationId(jsonArrayFoodReservation.getJSONObject(i).getInt("reservation") );
+            fr.setFoodId(jsonArrayFoodReservation.getJSONObject(i).getJSONObject("food").getInt("id"));
+            fr.setReservationId(jsonArrayFoodReservation.getJSONObject(i).getJSONObject("reservation").getInt("id"));
             fr.setFoodQuantity(jsonArrayFoodReservation.getJSONObject(i).getInt("quantity") );
             foodReservation.add(fr);
         }

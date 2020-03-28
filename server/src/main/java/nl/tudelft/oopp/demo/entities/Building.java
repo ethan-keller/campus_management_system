@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
@@ -37,7 +38,7 @@ public class Building implements Serializable {
     @Column(name = "max_bikes")
     private Integer maxBikes;
 
-    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
     private Set<FoodBuilding> foodBuilding;
 
