@@ -7,12 +7,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -104,7 +104,6 @@ public class RoomViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             grid.setMinWidth(reservationVbox.getWidth());
-            VBox.setMargin(grid, new Insets(0, 15, 0, 15));
 
             // initialize the Room object that contains the info about this room
             currentRoom = Room.getRoomById(currentRoomId);
@@ -157,15 +156,25 @@ public class RoomViewController implements Initializable {
 
     private void setFoodChoiceListeners() {
         foodChoice.valueProperty().addListener(((observable, oldValue, newValue) -> {
-            createNewFoodText(newValue);
+            if (newValue != null) {
+                createNewFoodText(newValue);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        foodChoice.getSelectionModel().clearSelection();
+                    }
+                });
+            }
         }));
     }
 
     private void createNewFoodText(Food food) {
-        for(int i = 0; i < grid.getChildren().size(); i++){
+        int rowCount = grid.getRowCount();
+
+        for (int i = 0; i < grid.getChildren().size(); i++) {
             String foodName = food.getFoodName().get();
             GridPane currentGrid = (GridPane) grid.getChildren().get(i);
-            if(getFoodNameByColumn(currentGrid).getText().equals(foodName)){
+            if (getFoodNameByColumn(currentGrid).getText().equals(foodName)) {
                 Text quantityText = getFoodQuantityByColumn(currentGrid);
                 int intQuantity = Character.getNumericValue(quantityText.getText().charAt(0));
                 quantityText.setText(intQuantity + 1 + "x");
@@ -173,37 +182,52 @@ public class RoomViewController implements Initializable {
             }
         }
 
+        if (rowCount >= 4) {
+            Alert alert = GeneralMethods.createAlert("Food restrictions",
+                    "You are not allowed to order more than 4 dishes per reservation",
+                    thisStage,
+                    Alert.AlertType.WARNING);
+            alert.showAndWait();
+            return;
+        }
+
         GridPane miniGrid = new GridPane();
         Text foodName = new Text(food.getFoodName().get());
         Text quantity = new Text("1x");
-        Text foodPrice = new Text(String.valueOf(food.getFoodId().get()));
+        Text foodPrice = new Text(String.valueOf(food.getFoodPrice().get()));
         Button remove = new Button("X");
         remove.setOnAction(e -> {
             grid.getChildren().remove(miniGrid);
         });
 
         miniGrid.setAlignment(Pos.CENTER);
-        miniGrid.setVgap(2);
-        ColumnConstraints constraints = new ColumnConstraints(10, 100, Region.USE_COMPUTED_SIZE,
+        ColumnConstraints constraints1 = new ColumnConstraints(10, 100, 200,
+                Priority.SOMETIMES, HPos.LEFT, true);
+        ColumnConstraints constraints2 = new ColumnConstraints(10, 100, 200,
+                Priority.SOMETIMES, HPos.CENTER, true);
+        ColumnConstraints constraints3 = new ColumnConstraints(10, 100, 200,
                 Priority.SOMETIMES, HPos.RIGHT, true);
-        miniGrid.getColumnConstraints().addAll(constraints, constraints, constraints, constraints);
 
-        int rowCount = grid.getRowCount();
+        miniGrid.getColumnConstraints().add(constraints1);
+        miniGrid.getColumnConstraints().add(constraints2);
+        miniGrid.getColumnConstraints().add(constraints3);
+        miniGrid.getColumnConstraints().add(constraints3);
+
+
         miniGrid.add(quantity, 0, rowCount + 1);
         miniGrid.add(foodName, 1, rowCount + 1);
         miniGrid.add(foodPrice, 2, rowCount + 1);
         miniGrid.add(remove, 3, rowCount + 1);
 
-        grid.setAlignment(Pos.CENTER);
-        grid.addRow(rowCount + 1, miniGrid);
+        grid.addRow(rowCount, miniGrid);
     }
 
-    private Text getFoodNameByColumn (GridPane gridPane) {
+    private Text getFoodNameByColumn(GridPane gridPane) {
         Node name = null;
         ObservableList<Node> children = gridPane.getChildren();
 
         for (Node node : children) {
-            if(GridPane.getColumnIndex(node) == 1) {
+            if (GridPane.getColumnIndex(node) == 1) {
                 name = node;
                 break;
             }
@@ -211,12 +235,12 @@ public class RoomViewController implements Initializable {
         return (Text) name;
     }
 
-    private Text getFoodQuantityByColumn (GridPane gridPane) {
+    private Text getFoodQuantityByColumn(GridPane gridPane) {
         Node quantity = null;
         ObservableList<Node> children = gridPane.getChildren();
 
         for (Node node : children) {
-            if(GridPane.getColumnIndex(node) == 0) {
+            if (GridPane.getColumnIndex(node) == 0) {
                 quantity = node;
                 break;
             }
@@ -226,6 +250,7 @@ public class RoomViewController implements Initializable {
 
     /**
      * Constructs a converter for the food ComboBox to only show the name of the foods.
+     *
      * @param foodList list of all foods
      * @return a StringConverter which converts food object to the food name
      */
@@ -234,7 +259,7 @@ public class RoomViewController implements Initializable {
             return new StringConverter<Food>() {
                 @Override
                 public String toString(Food object) {
-                    if(object != null){
+                    if (object != null) {
                         return object.getFoodName().get();
                     } else {
                         return null;
@@ -244,7 +269,7 @@ public class RoomViewController implements Initializable {
 
                 @Override
                 public Food fromString(String string) {
-                    if(string != null) {
+                    if (string != null) {
                         return foodList.stream()
                                 .filter(x -> x.getFoodName().get().equals(string))
                                 .collect(Collectors.toList()).get(0);
@@ -253,7 +278,7 @@ public class RoomViewController implements Initializable {
                     }
                 }
             };
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -606,6 +631,7 @@ public class RoomViewController implements Initializable {
 
     /**
      * Redirects the user back to the login page.
+     *
      * @param event ActionEvent
      */
     @FXML
