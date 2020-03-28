@@ -182,7 +182,7 @@ public class AdminManageBuildingViewController {
                 // Apparently the the maximum number of bikes in a building can't be edited.
                 BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
                         tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
-                        tempBuilding.getBuildingAddress().get());
+                        tempBuilding.getBuildingAddress().get(), tempBuilding.getBuildingMaxBikes().get());
                 refresh();
 
                 Alert alert = new Alert(AlertType.INFORMATION);
