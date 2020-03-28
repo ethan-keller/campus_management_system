@@ -14,10 +14,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Spinner;
 
@@ -29,12 +29,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javafx.util.Callback;
-import javafx.util.StringConverter;
-
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
@@ -42,7 +41,6 @@ import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.SearchView;
-
 
 import org.controlsfx.control.RangeSlider;
 
@@ -220,7 +218,7 @@ public class RentABikeController implements Initializable {
                     RentABikeView rbv = new RentABikeView();
                     rbv.start(stage);
 
-                 }
+                }
                 // do nothing if user selects no
             }
             // only case for insufficient bikes in the database for selected date and time slot
