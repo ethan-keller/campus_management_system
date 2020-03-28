@@ -1,9 +1,5 @@
 package nl.tudelft.oopp.demo.communication;
 
-import javafx.scene.control.Alert;
-import javafx.stage.Modality;
-import javafx.stage.Window;
-
 import java.io.UnsupportedEncodingException;
 
 import java.net.URLEncoder;
@@ -12,6 +8,10 @@ import java.nio.charset.StandardCharsets;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.scene.control.Alert;
+import javafx.stage.Modality;
+import javafx.stage.Window;
 
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;

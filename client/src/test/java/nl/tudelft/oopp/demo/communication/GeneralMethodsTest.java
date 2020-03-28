@@ -94,7 +94,7 @@ class GeneralMethodsTest {
         expected.add(r1);
         expected.add(r2);
 
-        assertEquals(expected, GeneralMethods.filterRoomByTeacher_only(rooms, false));
+        assertEquals(expected, GeneralMethods.filterRoomByTeacherOnly(rooms, false));
     }
 
     /**
