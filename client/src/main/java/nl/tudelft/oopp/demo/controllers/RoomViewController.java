@@ -12,14 +12,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -104,9 +103,8 @@ public class RoomViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            grid.setAlignment(Pos.CENTER);
             grid.setMinWidth(reservationVbox.getWidth());
-            grid.setGridLinesVisible(true);
+            VBox.setMargin(grid, new Insets(0, 15, 0, 15));
 
             // initialize the Room object that contains the info about this room
             currentRoom = Room.getRoomById(currentRoomId);
@@ -164,8 +162,18 @@ public class RoomViewController implements Initializable {
     }
 
     private void createNewFoodText(Food food) {
+        for(int i = 0; i < grid.getChildren().size(); i++){
+            String foodName = food.getFoodName().get();
+            GridPane currentGrid = (GridPane) grid.getChildren().get(i);
+            if(getFoodNameByColumn(currentGrid).getText().equals(foodName)){
+                Text quantityText = getFoodQuantityByColumn(currentGrid);
+                int intQuantity = Character.getNumericValue(quantityText.getText().charAt(0));
+                quantityText.setText(intQuantity + 1 + "x");
+                return;
+            }
+        }
+
         GridPane miniGrid = new GridPane();
-        miniGrid.setGridLinesVisible(true);
         Text foodName = new Text(food.getFoodName().get());
         Text quantity = new Text("1x");
         Text foodPrice = new Text(String.valueOf(food.getFoodId().get()));
@@ -175,12 +183,10 @@ public class RoomViewController implements Initializable {
         });
 
         miniGrid.setAlignment(Pos.CENTER);
-        miniGrid.setPrefWidth(grid.getWidth());
-        ColumnConstraints rightAligned = new ColumnConstraints();
-        rightAligned.setHalignment(HPos.RIGHT);
-        ColumnConstraints width = new ColumnConstraints();
-        width.setFillWidth(true);
-        miniGrid.getColumnConstraints().addAll(rightAligned, width);
+        miniGrid.setVgap(2);
+        ColumnConstraints constraints = new ColumnConstraints(10, 100, Region.USE_COMPUTED_SIZE,
+                Priority.SOMETIMES, HPos.RIGHT, true);
+        miniGrid.getColumnConstraints().addAll(constraints, constraints, constraints, constraints);
 
         int rowCount = grid.getRowCount();
         miniGrid.add(quantity, 0, rowCount + 1);
@@ -188,9 +194,34 @@ public class RoomViewController implements Initializable {
         miniGrid.add(foodPrice, 2, rowCount + 1);
         miniGrid.add(remove, 3, rowCount + 1);
 
-
         grid.setAlignment(Pos.CENTER);
         grid.addRow(rowCount + 1, miniGrid);
+    }
+
+    private Text getFoodNameByColumn (GridPane gridPane) {
+        Node name = null;
+        ObservableList<Node> children = gridPane.getChildren();
+
+        for (Node node : children) {
+            if(GridPane.getColumnIndex(node) == 1) {
+                name = node;
+                break;
+            }
+        }
+        return (Text) name;
+    }
+
+    private Text getFoodQuantityByColumn (GridPane gridPane) {
+        Node quantity = null;
+        ObservableList<Node> children = gridPane.getChildren();
+
+        for (Node node : children) {
+            if(GridPane.getColumnIndex(node) == 0) {
+                quantity = node;
+                break;
+            }
+        }
+        return (Text) quantity;
     }
 
     /**
