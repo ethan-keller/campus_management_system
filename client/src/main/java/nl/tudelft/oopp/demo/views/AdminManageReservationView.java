@@ -12,9 +12,16 @@ import javafx.stage.Stage;
 
 public class AdminManageReservationView extends Application {
 
+    /**.
+     * Constructor
+     */
     public AdminManageReservationView() {
     }
 
+    /**
+     * This method is to start the view.
+     * @param primaryStage - is passed as parameter
+     */
     public void start(Stage primaryStage) {
 
         try {
@@ -22,9 +29,8 @@ public class AdminManageReservationView extends Application {
             URL xmlUrl = getClass().getResource("/adminManageReservationView.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
-            /**
-             * Making sure that the page doesn't resize when we switch between scenes
-             */
+
+            //Making sure that the page doesn't resize when we switch between scenes
             Scene oldScene = primaryStage.getScene();
             primaryStage.setScene(oldScene == null
                     ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())

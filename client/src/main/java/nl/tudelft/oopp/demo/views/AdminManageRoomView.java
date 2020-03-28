@@ -12,9 +12,17 @@ import javafx.stage.Stage;
 
 public class AdminManageRoomView extends Application {
 
+    /**
+     * Constructor.
+     */
     public AdminManageRoomView() {
     }
 
+    /**
+     * This method is to start the view.
+     * @param primaryStage - is passed as parameter
+     * @throws IOException //TODO
+     */
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         URL xmlUrl = getClass().getResource("/adminManageRoomView.fxml");

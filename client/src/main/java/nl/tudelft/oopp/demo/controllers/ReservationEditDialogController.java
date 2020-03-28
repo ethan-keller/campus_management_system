@@ -25,6 +25,7 @@ import nl.tudelft.oopp.demo.entities.User;
 import org.controlsfx.control.RangeSlider;
 
 /**
+ * .
  * This controller class is invokes on the onclick of the newReservationButton/ editReservationButton
  * in the AdminManageReservationViewController class.
  * This controller class displays a dialog box for the admin to create/update reservations.
@@ -53,54 +54,58 @@ public class ReservationEditDialogController {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
+     * .
      * Default constructor of the ReservationEditDialogController class.
      */
     public ReservationEditDialogController() {
     }
 
     /**
+     * .
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
     @FXML
     private void initialize() {
         try {
-            Reservation reservation = AdminManageReservationViewController.currentSelectedReservation;
+            final Reservation reservation = AdminManageReservationViewController.currentSelectedReservation;
             date.setConverter(getDateConverter());
-            ObservableList<User> oL = User.getUserData();
-            ObservableList<Room> ol = Room.getRoomData();
+            final ObservableList<User> userObservableList = User.getUserData();
+            final ObservableList<Room> roomObservableList = Room.getRoomData();
+            //Initializing the observable list for the users available!!
+            //The admin can make a mistake in writing the name of the user.
+            username.setItems(userObservableList);
+            this.setUserComboBoxConverter(userObservableList);
 
             //This method sets up the slider which determines the time of reservation in the dialog view.
             configureRangeSlider();
             date.setDayCellFactory(getDayCellFactory());
 
-            //Initializing the observable list for the users available!!
-            //The admin can make a mistake in writing the name of the user.
-            username.setItems(oL);
-            this.setUserComboBoxConverter(oL);
-
             //Initializing the observable list for the rooms available!!
-            room.setItems(ol);
-            this.setRoomComboBoxConverter(ol);
+            room.setItems(roomObservableList);
+            this.setRoomComboBoxConverter(roomObservableList);
 
-            if(reservation != null){
-                username.getSelectionModel().select(oL.stream().filter(x -> x.getUsername().get().equals(reservation.getUsername().get().toLowerCase())).collect(Collectors.toList()).get(0));
+            if (reservation != null) {
+                username.getSelectionModel().select(
+                        userObservableList.stream().filter(x -> x.getUsername().get().equals(
+                        reservation.getUsername().get().toLowerCase())).collect(Collectors.toList()).get(0));
                 username.setDisable(true);
-                room.getSelectionModel().select(ol.stream().filter(x -> x.getRoomId().get() == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
+                room.getSelectionModel().select(roomObservableList.stream().filter(x -> x.getRoomId().get()
+                        == reservation.getRoom().get()).collect(Collectors.toList()).get(0));
                 date.setValue(LocalDate.parse(reservation.getDate().get(), formatter));
                 String[] startTimeSplit = reservation.getStartingTime().get().split(":");
-                timeslot.setLowValue(Double.parseDouble(startTimeSplit[0])*60.0 + Double.parseDouble(startTimeSplit[1]));
+                timeslot.setLowValue(Double.parseDouble(startTimeSplit[0]) * 60.0
+                        + Double.parseDouble(startTimeSplit[1]));
                 String[] endTimeSplit = reservation.getEndingTime().get().split(":");
-                timeslot.setHighValue(Double.parseDouble(endTimeSplit[0])*60.0 + Double.parseDouble(endTimeSplit[1]));
+                timeslot.setHighValue(Double.parseDouble(endTimeSplit[0]) * 60.0
+                        + Double.parseDouble(endTimeSplit[1]));
                 startTime.setText("Start: " + getRangeSliderConverter().toString(timeslot.getLowValue()));
                 endTime.setText("End: " + getRangeSliderConverter().toString(timeslot.getHighValue()));
-            }
-            else {
+            } else {
                 return;
             }
-        }
-        catch(Exception e) {
-                e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -117,7 +122,8 @@ public class ReservationEditDialogController {
                             super.updateItem(item, empty);
 
                             // Disable all days before today + weekend days
-                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY
+                                    || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
                                 // disable the 'button'
                                 setDisable(true);
                                 // make them red
@@ -232,37 +238,51 @@ public class ReservationEditDialogController {
         return null;
     }
 
-    public void setRoomComboBoxConverter(ObservableList<Room> ol) {
+    /**
+     * This method is to insert the various rooms present in the database into a comboBox.
+     *
+     * @param observableList - Observable list of Rooms.
+     */
+    public void setRoomComboBoxConverter(ObservableList<Room> observableList) {
         StringConverter<Room> converter = new StringConverter<Room>() {
             @Override
             public String toString(Room object) {
-                if (object == null)
+                if (object == null) {
                     return "";
-                else
+                } else {
                     return object.getRoomName().get();
+                }
             }
 
             @Override
             public Room fromString(String id) {
-                return ol.stream().filter(x -> String.valueOf(x.getRoomId()).equals(id)).collect(Collectors.toList()).get(0);
+                return observableList.stream().filter(x -> String.valueOf(x.getRoomId()).equals(id)).collect(
+                        Collectors.toList()).get(0);
             }
         };
         room.setConverter(converter);
     }
 
-    public void setUserComboBoxConverter(ObservableList<User> oL) {
+    /**
+     * This method helps insert the User's present in the database into a comboBox.
+     *
+     * @param observableList - Observable list of users
+     */
+    public void setUserComboBoxConverter(ObservableList<User> observableList) {
         StringConverter<User> converter = new StringConverter<User>() {
             @Override
             public String toString(User object) {
-                if (object == null)
+                if (object == null) {
                     return "";
-                else
+                } else {
                     return object.getUsername().get();
+                }
             }
 
             @Override
             public User fromString(String id) {
-                return oL.stream().filter(x -> String.valueOf(x.getUsername()).equals(id)).collect(Collectors.toList()).get(0);
+                return observableList.stream().filter(x -> String.valueOf(x.getUsername()).equals(id)).collect(
+                        Collectors.toList()).get(0);
             }
         };
         username.setConverter(converter);
@@ -273,13 +293,14 @@ public class ReservationEditDialogController {
     }
 
     /**
+     * .
      * Called when the OK button is clicked on the dialog box.
      * This causes the information input by the user to be stored in an object.
      *
-     * @param event
+     * @param event is passed
      */
     @FXML
-    public void OKClicked(ActionEvent event) {
+    public void okClicked(ActionEvent event) {
         LocalDate dateSelected = date.getValue();
         if (isInputValid()) {
             emptyReservation();
@@ -287,7 +308,8 @@ public class ReservationEditDialogController {
             reservation.setRoom(room.getSelectionModel().getSelectedItem().getRoomId().get());
             reservation.setDate(dateSelected.toString());
             reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
-            reservation.setEndingTime(endTime.getText().replace("End: ", "").equals("24:00") ? "23:59" : endTime.getText().replace("End: ", ""));
+            reservation.setEndingTime(endTime.getText().replace("End: ", "").equals("24:00")
+                    ? "23:59" : endTime.getText().replace("End: ", ""));
 
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
@@ -295,16 +317,18 @@ public class ReservationEditDialogController {
     }
 
     /**
+     * .
      * Called when the user clicks cancel.
      */
     @FXML
-    private void CancelClicked(ActionEvent event) {
+    private void cancelClicked(ActionEvent event) {
         reservation = null;
         this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         dialogStage.close();
     }
 
     /**
+     * .
      * Validates the user input in the text fields.
      *
      * @return true if the input is valid

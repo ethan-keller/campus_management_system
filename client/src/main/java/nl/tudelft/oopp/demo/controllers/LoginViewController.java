@@ -40,16 +40,16 @@ public class LoginViewController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         String loginResponse = LoginServerCommunication.sendLogin(username.getText(), password.getText());
-        if(loginResponse.equals("admin")){
+        if (loginResponse.equals("admin")) {
             CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 0);
             AdminHomePageView av = new AdminHomePageView();
             av.start(stage);
-        } else if(loginResponse.equals("student")){
+        } else if (loginResponse.equals("student")) {
             CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 2);
             //currentUser.setUsername(username.getText());
             SearchView sv = new SearchView();
             sv.start(stage);
-        } else if (loginResponse.equals("teacher")){
+        } else if (loginResponse.equals("teacher")) {
             CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 1);
             SearchView sv = new SearchView();
             sv.start(stage);
@@ -61,7 +61,7 @@ public class LoginViewController {
         }
     }
 
-    /**
+    /**.
      * Handles clicking the register link.
      */
     public void goToRegisterClicked(ActionEvent event) throws IOException {

@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.util.Objects;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -9,8 +11,6 @@ import javafx.collections.ObservableList;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.Objects;
 
 public class Item {
 
@@ -22,7 +22,19 @@ public class Item {
     private StringProperty endingTime;
     private StringProperty description;
 
-    public Item(int id, String user, String title, String date, String startingTime, String endingTime, String description) {
+    /**
+     * Constructor.
+     *
+     * @param id           int
+     * @param user         String
+     * @param title        String
+     * @param date         String
+     * @param startingTime String
+     * @param endingTime   String
+     * @param description  String
+     */
+    public Item(int id, String user, String title, String date,
+                String startingTime, String endingTime, String description) {
         this.id = new SimpleIntegerProperty(id);
         this.user = new SimpleStringProperty(user);
         this.title = new SimpleStringProperty(title);
@@ -32,6 +44,9 @@ public class Item {
         this.description = new SimpleStringProperty(description);
     }
 
+    /**
+     * Constructor with default values.
+     */
     public Item() {
         this.id = new SimpleIntegerProperty(-1);
         this.user = new SimpleStringProperty(null);
@@ -42,71 +57,155 @@ public class Item {
         this.description = new SimpleStringProperty(null);
     }
 
+    /**
+     * Getter.
+     *
+     * @return int, in the for of IntegerProperty
+     */
     public IntegerProperty getId() {
         return id;
     }
 
-
+    /**
+     * Setter.
+     *
+     * @param id int, new value
+     */
     public void setId(int id) {
         this.id.set(id);
     }
 
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
     public StringProperty getUser() {
         return user;
     }
 
+    /**
+     * Setter.
+     *
+     * @param user String, new value
+     */
     public void setUser(String user) {
         this.user.set(user);
     }
 
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
     public StringProperty getTitle() {
         return title;
     }
 
+    /**
+     * Setter.
+     *
+     * @param title String, new value
+     */
     public void setTitle(String title) {
         this.title.set(title);
     }
 
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
     public StringProperty getDate() {
         return date;
     }
 
+    /**
+     * Setter.
+     *
+     * @param date String, new value
+     */
     public void setDate(String date) {
         this.date.set(date);
     }
 
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
     public StringProperty getStartingTime() {
         return startingTime;
     }
 
+    /**
+     * Setter.
+     *
+     * @param startingTime String, new value.
+     */
     public void setStartingTime(String startingTime) {
         this.startingTime.set(startingTime);
     }
 
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
     public StringProperty getEndingTime() {
         return endingTime;
     }
 
+    /**
+     * Setter.
+     *
+     * @param endingTime String, new value.
+     */
     public void setEndingTime(String endingTime) {
         this.endingTime.set(endingTime);
     }
 
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
     public StringProperty getDescription() {
         return description;
     }
 
+    /**
+     * Setter.
+     *
+     * @param description String, new value
+     */
     public void setDescription(String description) {
         this.description.set(description);
     }
 
+    /**
+     * Equals.
+     *
+     * @param o Object to compare to "this"
+     * @return True if equal, False if not.
+     */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Item)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Item)) {
+            return false;
+        }
         Item item = (Item) o;
         return Objects.equals(getId(), item.getId());
     }
 
+    /**
+     * Getter.
+     *
+     * @return ObservableList with all items in the database.
+     */
     public static ObservableList<Item> getAllItems() {
         try {
             ObservableList<Item> itemData = FXCollections.observableArrayList();
@@ -129,6 +228,12 @@ public class Item {
         return null;
     }
 
+    /**
+     * Getter.
+     *
+     * @param id int
+     * @return Item object.
+     */
     public static Item getItem(int id) {
         try {
             JSONObject jsonObject = new JSONObject(ItemServerCommunication.getItem(id));
@@ -147,6 +252,12 @@ public class Item {
         return null;
     }
 
+    /**
+     * Getter.
+     *
+     * @param user String
+     * @return ObservableList with all the Items from user
+     */
     public static ObservableList<Item> getUserItems(String user) {
         try {
             ObservableList<Item> itemData = FXCollections.observableArrayList();

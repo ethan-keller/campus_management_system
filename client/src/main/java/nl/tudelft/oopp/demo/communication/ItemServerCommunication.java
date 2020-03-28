@@ -6,21 +6,21 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-/**
+/**.
  * Class that controls client-server communication for Item objects
  */
 public class ItemServerCommunication {
 
-    /**
+    /**.
      * HttpClient which sends and receives information to/from the server
      */
     private static HttpClient client = HttpClient.newBuilder().build();
 
-    /**
+    /**.
      * Gets all the items in the database
      * @return http response in JSON format
      */
-    public static String getAllItems(){
+    public static String getAllItems() {
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getAllItems")).build();
         HttpResponse<String> response = null;
         try {
@@ -34,17 +34,17 @@ public class ItemServerCommunication {
         return response.body();
     }
 
-    /**
+    /**.
      * Gets one Item with the given id
      * @param id id of the wanted Item
      * @return http response in JSON format
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
     public static String getItem(int id) throws UnsupportedEncodingException {
-        String params = "id="+id;
+        String params = "id=" + id;
         params = GeneralMethods.encodeCommunication(params);
 
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getItem?"+params)).build();
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getItem?" + params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -57,7 +57,7 @@ public class ItemServerCommunication {
         return response.body();
     }
 
-    /**
+    /**.
      * Create a new Item in the database
      * @param user user who item belongs to
      * @param title title of item
@@ -66,13 +66,16 @@ public class ItemServerCommunication {
      * @param endingTime endingTime of item
      * @param description description of item
      * @return http response in JSON format
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
-    public static boolean createItem(String user, String title, String date, String startingTime, String endingTime, String description) throws UnsupportedEncodingException {
-        String params = "user="+user+"&title="+title+"&date="+date+"&startingTime="+startingTime+"&endingTime="+endingTime+"&description="+description;
+    public static boolean createItem(String user, String title, String date, String startingTime,
+                                     String endingTime, String description) throws UnsupportedEncodingException {
+        String params = "user=" + user + "&title=" + title + "&date=" + date + "&starting_time=" + startingTime
+                + "&ending_time=" + endingTime + "&description=" + description;
+
         params = GeneralMethods.encodeCommunication(params);
 
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createItem?"+params)).build();
+        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createItem?" + params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -87,17 +90,17 @@ public class ItemServerCommunication {
         return true;
     }
 
-    /**
+    /**.
      * Deletes the Item identified by the given id
      * @param id id of item that must be deleted
      * @return http response in JSON format
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
     public static boolean deleteItem(int id) throws UnsupportedEncodingException {
-        String params = "id="+id;
+        String params = "id=" + id;
         params = GeneralMethods.encodeCommunication(params);
 
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/deleteItem?"+params)).build();
+        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/deleteItem?" + params)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -112,11 +115,11 @@ public class ItemServerCommunication {
         return true;
     }
 
-    /**
+    /**.
      * Gets the id of the last inserted item in the database
      * @return http response in JSON format
      */
-    public static String getCurrentId(){
+    public static String getCurrentId() {
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/currentId")).build();
         HttpResponse<String> response = null;
         try {
@@ -130,14 +133,14 @@ public class ItemServerCommunication {
         return response.body();
     }
 
-    /**
+    /**.
      * Gets all the items of a particular user
      * @param user user who's items are needed
      * @return http response in JSON format
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException is thrown
      */
     public static String getUserItems(String user) throws UnsupportedEncodingException {
-        String params = "user="+user;
+        String params = "user=" + user;
         params = GeneralMethods.encodeCommunication(params);
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getUserItems?" + params)).build();
         HttpResponse<String> response = null;
