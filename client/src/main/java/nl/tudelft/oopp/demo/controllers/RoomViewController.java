@@ -6,20 +6,19 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
-
-import javafx.collections.FXCollections;
+import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -29,6 +28,7 @@ import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
@@ -59,13 +59,15 @@ public class RoomViewController implements Initializable {
     @FXML
     private Text description;
     @FXML
-    private ComboBox foodChoice;
+    private ComboBox<Food> foodChoice;
     @FXML
     private Button bookButton;
     @FXML
     private Button bookBikesButton;
     @FXML
     private DatePicker datePicker;
+    @FXML
+    private GridPane grid;
     @FXML
     private VBox reservationVbox;
     @FXML
@@ -102,6 +104,10 @@ public class RoomViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            grid.setAlignment(Pos.CENTER);
+            grid.setMinWidth(reservationVbox.getWidth());
+            grid.setGridLinesVisible(true);
+
             // initialize the Room object that contains the info about this room
             currentRoom = Room.getRoomById(currentRoomId);
 
@@ -130,10 +136,11 @@ public class RoomViewController implements Initializable {
                 changeWidthConstraints(newVal);
             });
 
-            // TODO: adjust the options of this comboBox based on the available food dishes
-            ObservableList<String> foodList = FXCollections.observableArrayList();
-            foodList.addAll("Ham Sandwich", "Cheese Sandwich", "Pasta", "No Food");
+
+            ObservableList<Food> foodList = Food.getAllFoodData();
+            foodChoice.setConverter(getFoodChoiceConverter(foodList));
             foodChoice.setItems(foodList);
+            setFoodChoiceListeners();
 
             // set text info about the room
             name.setText("Name: " + currentRoom.getRoomName().get());
@@ -148,6 +155,77 @@ public class RoomViewController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void setFoodChoiceListeners() {
+        foodChoice.valueProperty().addListener(((observable, oldValue, newValue) -> {
+            createNewFoodText(newValue);
+        }));
+    }
+
+    private void createNewFoodText(Food food) {
+        GridPane miniGrid = new GridPane();
+        miniGrid.setGridLinesVisible(true);
+        Text foodName = new Text(food.getFoodName().get());
+        Text quantity = new Text("1x");
+        Text foodPrice = new Text(String.valueOf(food.getFoodId().get()));
+        Button remove = new Button("X");
+        remove.setOnAction(e -> {
+            grid.getChildren().remove(miniGrid);
+        });
+
+        miniGrid.setAlignment(Pos.CENTER);
+        miniGrid.setPrefWidth(grid.getWidth());
+        ColumnConstraints rightAligned = new ColumnConstraints();
+        rightAligned.setHalignment(HPos.RIGHT);
+        ColumnConstraints width = new ColumnConstraints();
+        width.setFillWidth(true);
+        miniGrid.getColumnConstraints().addAll(rightAligned, width);
+
+        int rowCount = grid.getRowCount();
+        miniGrid.add(quantity, 0, rowCount + 1);
+        miniGrid.add(foodName, 1, rowCount + 1);
+        miniGrid.add(foodPrice, 2, rowCount + 1);
+        miniGrid.add(remove, 3, rowCount + 1);
+
+
+        grid.setAlignment(Pos.CENTER);
+        grid.addRow(rowCount + 1, miniGrid);
+    }
+
+    /**
+     * Constructs a converter for the food ComboBox to only show the name of the foods.
+     * @param foodList list of all foods
+     * @return a StringConverter which converts food object to the food name
+     */
+    private StringConverter<Food> getFoodChoiceConverter(ObservableList<Food> foodList) {
+        try {
+            return new StringConverter<Food>() {
+                @Override
+                public String toString(Food object) {
+                    if(object != null){
+                        return object.getFoodName().get();
+                    } else {
+                        return null;
+                    }
+
+                }
+
+                @Override
+                public Food fromString(String string) {
+                    if(string != null) {
+                        return foodList.stream()
+                                .filter(x -> x.getFoodName().get().equals(string))
+                                .collect(Collectors.toList()).get(0);
+                    } else {
+                        return null;
+                    }
+                }
+            };
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -389,18 +467,17 @@ public class RoomViewController implements Initializable {
     @FXML
     private void bookClicked(ActionEvent event) {
         try {
-            // TODO: add food selection
             String selectedDate;
             String selectedStartTime;
             String selectedEndTime;
+            String selectedFood;
 
             // input is valid, assign corresponding values
             if (isInputValid()) {
+                selectedFood = foodChoice.getSelectionModel().getSelectedItem().getFoodName().get();
                 selectedDate = getDatePickerConverter().toString(datePicker.getValue());
                 selectedStartTime = getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
                 selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
-
-                System.out.println(selectedEndTime);
 
                 // if user confirms booking, reservations is sent to server
                 if (confirmBooking(selectedDate, selectedStartTime, selectedEndTime)) {
