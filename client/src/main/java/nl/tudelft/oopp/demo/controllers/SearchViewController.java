@@ -5,8 +5,11 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,9 +42,6 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import java.io.UnsupportedEncodingException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
