@@ -5,6 +5,10 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import javafx.collections.FXCollections;
 
@@ -29,10 +33,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javafx.util.Callback;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
@@ -220,9 +220,7 @@ public class RentABikeController implements Initializable {
 
                 }
                 // do nothing if user selects no
-            }
-            // only case for insufficient bikes in the database for selected date and time slot
-            else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Insufficient Bikes");
                 alert.setContentText("Insufficient Bikes Available. Please check the number of bikes available");
