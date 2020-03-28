@@ -128,18 +128,17 @@ public class RoomViewController implements Initializable {
             // Create ObservableList for combobox
             ObservableList<String> foodList = FXCollections.observableArrayList();
             //get building number
-            int bNumber = currentRoom.getRoomBuilding().get();
+            int buildNumber = currentRoom.getRoomBuilding().get();
             //get list of food from specific building
-            ObservableList<Food> FoodList = Food.getFoodByBuildingId(bNumber);
+            ObservableList<Food> FoodList = Food.getFoodByBuildingId(buildNumber);
 
             //add list of food to the list and an option for no food
             assert FoodList != null;
-            for(Food f: FoodList){
+            for (Food f: FoodList) {
                 foodList.add(f.getFoodName().get());
             }
 
             foodList.add("No food");
-
             //populate foodlist
             foodChoice.setItems(foodList);
 
@@ -147,7 +146,8 @@ public class RoomViewController implements Initializable {
             name.setText("Name: " + currentRoom.getRoomName().get());
             capacity.setText("Capacity: " + currentRoom.getRoomCapacity().get());
             building.setText("Building: "
-                    + Objects.requireNonNull(Building.getBuildingById(currentRoom.getRoomBuilding().get())).getBuildingName().get());
+                    + Objects.requireNonNull(
+                            Building.getBuildingById(currentRoom.getRoomBuilding().get())).getBuildingName().get());
             teacherOnly.setText("Teachers only: " + (currentRoom.getTeacherOnly().get() ? "yes" : "no"));
             type.setText("Type: " + currentRoom.getRoomType().get());
             description.setText("Description:\n" + currentRoom.getRoomDescription().get());
@@ -386,7 +386,6 @@ public class RoomViewController implements Initializable {
     }
 
     // TODO: add try catch everywhere
-
     /**
      * .
      * Method that executes when book button is clicked. It checks if fields are correctly filled.
@@ -404,7 +403,8 @@ public class RoomViewController implements Initializable {
             // input is valid, assign corresponding values
             if (isInputValid()) {
                 selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
-                selectedStartTime = Objects.requireNonNull(getRangeSliderConverter()).toString(timeSlotSlider.getLowValue());
+                selectedStartTime = Objects.requireNonNull(
+                        getRangeSliderConverter()).toString(timeSlotSlider.getLowValue());
                 selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
 
                 System.out.println(selectedEndTime);

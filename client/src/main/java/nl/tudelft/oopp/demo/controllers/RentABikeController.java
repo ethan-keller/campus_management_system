@@ -9,19 +9,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
 import javafx.scene.control.Spinner;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import javafx.util.Callback;
 import javafx.util.StringConverter;
@@ -33,8 +33,6 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
-import org.controlsfx.control.RangeSlider;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
@@ -45,6 +43,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+
+import org.controlsfx.control.RangeSlider;
+
 
 public class RentABikeController implements Initializable {
     @FXML
@@ -85,21 +86,21 @@ public class RentABikeController implements Initializable {
      */
     @FXML
     @Override
-    public void initialize(URL location, ResourceBundle resources){
+    public void initialize(URL location, ResourceBundle resources) {
         //Retrieving buildings into ObservableList
         ObservableList<Building> buildingList = Building.getBuildingData();
         //Creating Observable List for holding String values to apply to dropdownBox
-        ObservableList<String> bList = FXCollections.observableArrayList();
+        ObservableList<String> buildList = FXCollections.observableArrayList();
         //Ensure buildingLIst cannot be null
         assert buildingList != null;
 
         //Converting buildingName into String for each item and getting number of available bikes
         for (Building b : buildingList) {
-            bList.add(b.getBuildingName().get());
+            buildList.add(b.getBuildingName().get());
             BuildingBikes.getChildren().add(getEachBikes(b));
         }
         //Setting the values to comboBox
-        ComboBuilding.setItems(bList);
+        ComboBuilding.setItems(buildList);
 
         // make sure errors are not visible
         dateError.setVisible(false);
@@ -119,20 +120,20 @@ public class RentABikeController implements Initializable {
      *
      * @param b Building object
      */
-    private Text getEachBikes(Building b){
+    private Text getEachBikes(Building b) {
         // get buildingName in String
-        String bName = b.getBuildingName().get();
+        String buildName = b.getBuildingName().get();
         // get available number of bikes
-        int bBikes = b.getBuildingAvailableBikes().get();
+        int buildBikes = b.getBuildingAvailableBikes().get();
 
         // create new text object for each building object
         Text text = new Text();
         //set building name and bike number in text format
-        text.setText(bName+": "+bBikes);
+        text.setText(buildName + ": " + buildBikes);
         // set color of text
         text.setFill(Color.WHITE);
         // set font and size
-        text.setFont(Font.font ("System", 14));
+        text.setFont(Font.font("System", 14));
 
         return text;
     }
@@ -143,21 +144,15 @@ public class RentABikeController implements Initializable {
     /**
      * Checks whether if all the fields were filled in.
      */
-    public int isInputValid(){
+    public int isInputValid() {
         // If both datePicker and  ComboBuilding are null
-        if(datePicker.getValue()==null&&ComboBuilding.getSelectionModel().getSelectedItem() == null){
+        if (datePicker.getValue() == null && ComboBuilding.getSelectionModel().getSelectedItem() == null) {
             return 1;
-        }
-        // if ComboBuilding is null
-        else if(ComboBuilding.getSelectionModel().getSelectedItem() == null){
+        } else if(ComboBuilding.getSelectionModel().getSelectedItem() == null){
             return 2;
-        }
-        // if datePicker is null
-        else if(datePicker.getValue()==null){
+        } else if (datePicker.getValue() == null) {
             return 3;
-        }
-        // both are selected
-        else{
+        } else {
             return 4;
         }
     }
@@ -168,32 +163,35 @@ public class RentABikeController implements Initializable {
     @FXML
     private void reserveNowClicked(ActionEvent event) throws IOException {
         // set both text visible
-        if(isInputValid()==1){
+        if (isInputValid() == 1) {
             dateError.setVisible(true);
             BuildingError.setVisible(true);
         }
         // only sets buildingError visible
-        if(isInputValid()==2){
+        if (isInputValid() == 2) {
             BuildingError.setVisible(true);
         }
         // only sets datePicker visible
-        if(isInputValid()==3){
+        if (isInputValid() ==3 ) {
             dateError.setVisible(true);
         }
         // only the case when both are filled in
-        if(isInputValid()==4){
+        if (isInputValid() == 4) {
             /// retrieve date, bike number and time slot from the corresponding boxes
             String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
             int selectedBike = spinner.getValue();
-            String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter()).toString(timeSlotSlider.getLowValue());
+            String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
+                    .toString(timeSlotSlider.getLowValue());
             String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
             String selectedBuilding = ComboBuilding.getValue();
 
             // check to see enough bikes for selected building
-            if(checkBikeAvailability(selectedBuilding, selectedBike)){
+            if (checkBikeAvailability(selectedBuilding, selectedBike)) {
                 // create alert for confirmation with the user
-                Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "+selectedBike+" bikes" +
-                        " from "+selectedBuilding+" on "+selectedDate+"for "+selectedStartTime+"-"+selectedEndTime+ "?" , ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+                Alert alert = GeneralMethods.createAlert
+                        ("Your Bike Reservation", "Make reservation for " + selectedBike + " bikes" +
+                        " from " + selectedBuilding + " on " + selectedDate + "for " + selectedStartTime + "-" + selectedEndTime + "?",
+                                ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
                 assert alert != null;
                 //set alert size depending on the text length
                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -203,12 +201,14 @@ public class RentABikeController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
 
                 // if the user responds with OK
-                if(result.orElse(null) == ButtonType.OK){
+                if (result.orElse(null) == ButtonType.OK){
 
                     //send new reservation to the server
-                    BikeReservationCommunication.createBikeReservation(getBuildingNumber(selectedBuilding), CurrentUserManager.getUsername(), selectedBike,selectedDate, selectedStartTime, selectedEndTime );
+                    BikeReservationCommunication.createBikeReservation(getBuildingNumber(selectedBuilding),
+                            CurrentUserManager.getUsername(), selectedBike,selectedDate, selectedStartTime, selectedEndTime);
                     // inform the user for successful reservation
-                    Alert alert2 = GeneralMethods.createAlert("Room booked", "You successfully booked this room!", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+                    Alert alert2 = GeneralMethods.createAlert("Room booked", "You successfully booked this room!",
+                            ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
                     assert alert2 != null;
                     alert2.showAndWait();
 
@@ -222,7 +222,7 @@ public class RentABikeController implements Initializable {
                 // do nothing if user selects no
             }
             // only case for insufficient bikes in the database for selected date and time slot
-            else{
+             else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Insufficient Bikes");
                 alert.setContentText("Insufficient Bikes Available. Please check the number of bikes available");
@@ -233,13 +233,12 @@ public class RentABikeController implements Initializable {
         }
     }
 
-
-
     /**
      * Create cellFactory for the datePicker that disables all days before today and weekend days.
      * It also marks them red to make sure the user understands why they are disabled.
      *
-     * @return a CallBack object used to set the dayCellFactory for the datePicker in {@link #configureDatePicker()}
+     * @return a CallBack object used to set the dayCellFactory for the datePicker
+     * in {@link #configureDatePicker()}
      */
     private Callback<DatePicker, DateCell> getDayCellFactory() {
         try {
@@ -253,7 +252,8 @@ public class RentABikeController implements Initializable {
                             super.updateItem(item, empty);
 
                             // Disable all days before today + weekend days
-                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                            if (item.isBefore(LocalDate.now()) || item.getDayOfWeek() == DayOfWeek.SATURDAY
+                                    || item.getDayOfWeek() == DayOfWeek.SUNDAY) {
                                 // disable the 'button'
                                 setDisable(true);
                                 // make them red
@@ -263,7 +263,7 @@ public class RentABikeController implements Initializable {
                     };
                 }
             };
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -283,7 +283,7 @@ public class RentABikeController implements Initializable {
             StringConverter<LocalDate> converter = getDatePickerConverter();
             // set the converter
             datePicker.setConverter(converter);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -325,18 +325,18 @@ public class RentABikeController implements Initializable {
                     }
                 }
             };
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
     //Checks if there are sufficient bikes in the database
-    private Boolean checkBikeAvailability(String buildingName, int num){
+    private Boolean checkBikeAvailability(String buildingName, int num) {
         //get available building data
         ObservableList<Building> buildingList = Building.getBuildingData();
         // ensure the list cannot be null
-        Building building= null;
+        Building building = null;
         assert buildingList != null;
         //looks for same name of the building as buildingName
         for (Building b : buildingList) {
@@ -359,13 +359,13 @@ public class RentABikeController implements Initializable {
      *
      * @param name The selected Building Name
      */
-    private int getBuildingNumber(String name){
+    private int getBuildingNumber(String name) {
         int buildingNumber = 0;
         ObservableList<Building> buildingList = Building.getBuildingData();
         assert buildingList != null;
         //look for specific buildingID with the given String one by one
-        for(Building b: buildingList){
-            if(name.equals(b.getBuildingName().get())){
+        for (Building b: buildingList) {
+            if (name.equals(b.getBuildingName().get())) {
                 buildingNumber = b.getBuildingId().get();
                 break;
             }
