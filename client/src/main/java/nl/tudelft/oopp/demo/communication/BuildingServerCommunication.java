@@ -175,6 +175,7 @@ public class BuildingServerCommunication {
      * @param name - Name of the building
      * @param roomCount - Number of rooms the building has
      * @param address - Address of the building
+     * @param maxBikes - Maximum number of bikes available in the building
      * @return Boolean value which is used to display a message to the client if the building is updated.
      * @throws UnsupportedEncodingException is thrown
      */
