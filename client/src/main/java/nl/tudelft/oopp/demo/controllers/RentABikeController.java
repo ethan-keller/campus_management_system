@@ -58,7 +58,7 @@ public class RentABikeController implements Initializable {
 
 
     /**
-     * deal with the button clicking action
+     * deal with the button clicking action.
      */
     @FXML
     private void backButtonClicked(ActionEvent event) throws IOException {
@@ -69,14 +69,14 @@ public class RentABikeController implements Initializable {
     }
 
     /**
-     *Sets default values to populate the options
+     *Sets default values to populate the options.
      */
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        //Retriving buildings into ObservableList
+        //Retrieving buildings into ObservableList
         ObservableList<Building> buildingList = Building.getBuildingData();
-        //Creating ObeservableList for holding String values to apply to dropdownBox
+        //Creating Observable List for holding String values to apply to dropdownBox
         ObservableList<String> bList = FXCollections.observableArrayList();
         //Ensure buildingLIst cannot be null
         assert buildingList != null;
@@ -103,9 +103,9 @@ public class RentABikeController implements Initializable {
     /**
      * .
      * This method gets a building object and returns the available number
-     * of bikes together with corresponding builidng.
+     * of bikes together with corresponding building.
      *
-     * @param b Buidling object
+     * @param b Building object
      */
     private Text getEachBikes(Building b){
         // get buildingName in String
@@ -129,7 +129,7 @@ public class RentABikeController implements Initializable {
 
 
     /**
-     * Checks whether if all the fields were filled in
+     * Checks whether if all the fields were filled in.
      */
     public int isInputValid(){
         // If both datePicker and  ComboBuilding are null
@@ -151,7 +151,7 @@ public class RentABikeController implements Initializable {
     }
 
     /**
-     * Deals with reserve now button clicks
+     * Deals with reserve now button clicks.
      */
     @FXML
     private void reserveNowClicked(ActionEvent event) throws IOException {
@@ -209,7 +209,7 @@ public class RentABikeController implements Initializable {
                 }
                 // do nothing if user selects no
             }
-            // only case for insufficient bikes in the database for selected date and timeslot
+            // only case for insufficient bikes in the database for selected date and time slot
             else{
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Insufficient Bikes");
@@ -259,7 +259,7 @@ public class RentABikeController implements Initializable {
 
     /**
      * Methods that sets the dayCellFactory made in {@link #getDayCellFactory()}
-     * and the StringConverter made in {@link #getDatePickerConverter()}
+     * and the StringConverter made in {@link #getDatePickerConverter()}.
      */
     private void configureDatePicker() {
         try {
@@ -364,7 +364,7 @@ public class RentABikeController implements Initializable {
 
     /**
      * .
-     * Creates a StringConverter that converts the selected value to an actual time (in String format)
+     * Creates a StringConverter that converts the selected value to an actual time (in String format).
      *
      * @return a StringConverter object
      */
