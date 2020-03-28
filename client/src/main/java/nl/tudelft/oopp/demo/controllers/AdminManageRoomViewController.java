@@ -1,8 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,19 +25,19 @@ public class AdminManageRoomViewController {
     private TableView<Room> roomTable;
 
     @FXML
-    private TableColumn<Room, String> roomIdColumn;
+    private TableColumn<Room, Number> roomIdColumn;
 
     @FXML
     private TableColumn<Room, String> roomNameColumn;
 
     @FXML
-    private TableColumn<Room, String> roomBuildingColumn;
+    private TableColumn<Room, Number> roomBuildingColumn;
 
     @FXML
     private TableColumn<Room, String> roomOnlyTeachersColumn;
 
     @FXML
-    private TableColumn<Room, String> roomCapacityBuilding;
+    private TableColumn<Room, Number> roomCapacityBuilding;
 
     @FXML
     private TableColumn<Room, String> roomPhotoColumn;
@@ -63,15 +62,15 @@ public class AdminManageRoomViewController {
 
         try {
             // Initialize the room table with the eight columns.
-            roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
-                    cellData.getValue().getRoomId().get())));
+            roomIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
+                    cellData.getValue().getRoomId().get()));
             roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().getRoomName());
-            roomBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
-                    cellData.getValue().getRoomBuilding().get())));
+            roomBuildingColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
+                    cellData.getValue().getRoomBuilding().get()));
             roomOnlyTeachersColumn.setCellValueFactory(cell -> new SimpleStringProperty(
                     cell.getValue().getTeacherOnly().get() ? "yes" : "no"));
-            roomCapacityBuilding.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(
-                    cell.getValue().getRoomCapacity().get())));
+            roomCapacityBuilding.setCellValueFactory(cell -> new SimpleIntegerProperty(
+                    cell.getValue().getRoomCapacity().get()));
             roomPhotoColumn.setCellValueFactory(cell -> cell.getValue().getRoomPhoto());
             roomDescriptionColumn.setCellValueFactory(cell -> cell.getValue().getRoomDescription());
             roomTypeColumn.setCellValueFactory(cell -> cell.getValue().getRoomType());
