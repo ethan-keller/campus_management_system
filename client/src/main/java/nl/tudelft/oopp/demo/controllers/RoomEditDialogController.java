@@ -156,7 +156,7 @@ public class RoomEditDialogController {
             // if all fields are valid, fill Room object with the corresponding information given by the admin
             if (isInputValid()) {
                 // if the image has been updated delete the old one
-                if (changedImage) {
+                if (changedImage && !oldFileName.equals("placeholder.png")) {
                     // get the image file that is not used anymore
                     File fileToDelete = new File("client/src/main/resources/images/" + oldFileName);
                     // if not deleted properly, show alert
