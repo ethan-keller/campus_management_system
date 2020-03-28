@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,8 +45,8 @@ import java.io.UnsupportedEncodingException;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
 import nl.tudelft.oopp.demo.entities.Reservation;
-import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Room;
 
 import nl.tudelft.oopp.demo.views.BookingHistoryView;
 import nl.tudelft.oopp.demo.views.CancelBookingView;
