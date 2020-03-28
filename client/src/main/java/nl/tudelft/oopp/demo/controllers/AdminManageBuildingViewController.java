@@ -31,6 +31,9 @@ public class AdminManageBuildingViewController {
     private TableColumn<Building, String> buildingRoomCountColumn;
 
     @FXML
+    private TableColumn<Building, String> maxBikesColumn;
+
+    @FXML
     private TableColumn<Building, String> buildingAddressColumn;
 
 
@@ -51,6 +54,8 @@ public class AdminManageBuildingViewController {
             buildingNameColumn.setCellValueFactory(cell -> cell.getValue().getBuildingName());
             buildingRoomCountColumn.setCellValueFactory(cell ->
                     new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingRoomCount().get())));
+            maxBikesColumn.setCellValueFactory(cell ->
+                    new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingMaxBikes().get())));
             buildingAddressColumn.setCellValueFactory(cell -> cell.getValue().getBuildingAddress());
 
             // Add observable list data to the table
@@ -100,7 +105,7 @@ public class AdminManageBuildingViewController {
         try {
             if (selectedIndex >= 0) {
 
-                // TODO: Check that building deletion was succesful before displaying alert
+                // TODO: Check that building deletion was successful before displaying alert
                 BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
                 refresh();
                 Alert alert = new Alert(AlertType.INFORMATION);
@@ -136,10 +141,11 @@ public class AdminManageBuildingViewController {
                 return;
             }
 
-            // TODO: Check that building creation was succesful before displaying alert
+            // TODO: Check that building creation was successful before displaying alert
+            // Using the method which uses the max bikes as a parameter.
             BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
-                    tempBuilding.getBuildingRoomCount().get(),
-                    tempBuilding.getBuildingAddress().get());
+                    tempBuilding.getBuildingRoomCount().get(), tempBuilding.getBuildingAddress().get(),
+                    tempBuilding.getBuildingMaxBikes().get());
             refresh();
 
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -173,6 +179,7 @@ public class AdminManageBuildingViewController {
                 }
 
                 // TODO: Check that building edit was successful before displaying alert
+                // Apparently the the maximum number of bikes in a building can't be edited.
                 BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
                         tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
                         tempBuilding.getBuildingAddress().get());

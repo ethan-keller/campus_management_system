@@ -25,10 +25,10 @@ public class Building {
     public Building() {
         this.buildingId = new SimpleIntegerProperty(-1);
         this.buildingName = new SimpleStringProperty(null);
-        this.buildingRoomCount = new SimpleIntegerProperty(-1);
+        this.buildingRoomCount = new SimpleIntegerProperty(0);
         this.buildingAddress = new SimpleStringProperty(null);
         this.buildingAvailableBikes = new SimpleIntegerProperty(-1);
-        this.buildingMaxBikes = new SimpleIntegerProperty(-1);
+        this.buildingMaxBikes = new SimpleIntegerProperty(0);
     }
 
     /**
@@ -161,6 +161,7 @@ public class Building {
                 b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name"));
                 b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getString("address"));
                 b.setBuildingRoomCount(jsonArrayBuildings.getJSONObject(i).getInt("roomCount"));
+                b.setBuildingMaxBikes(jsonArrayBuildings.getJSONObject(i).getInt("maxBikes"));
                 buildingData.add(b);
             }
             return buildingData;
