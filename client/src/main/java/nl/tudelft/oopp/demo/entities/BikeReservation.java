@@ -179,6 +179,8 @@ public class BikeReservation {
                 b.setBikeReservationBuilding(jsonArrayBikeReservations.getJSONObject(i).getInt("building"));
                 b.setBikeReservationUser(jsonArrayBikeReservations.getJSONObject(i)
                         .getJSONObject("user").getString("username"));
+                b.setBikeReservationQuantity(jsonArrayBikeReservations.getJSONObject(i)
+                        .getInt("numBikes"));
                 b.setBikeReservationDate(jsonArrayBikeReservations.getJSONObject(i).getString("date"));
                 b.setBikeReservationStartingTime(jsonArrayBikeReservations
                         .getJSONObject(i).getString("startingTime"));
@@ -210,6 +212,8 @@ public class BikeReservation {
                         jsonArrayBikeReservations.getJSONObject(i).getInt("building"));
                 b.setBikeReservationUser(jsonArrayBikeReservations.getJSONObject(i)
                         .getJSONObject("user").getString("username"));
+                b.setBikeReservationQuantity(jsonArrayBikeReservations.getJSONObject(i)
+                        .getInt("numBikes"));
                 b.setBikeReservationDate(
                         jsonArrayBikeReservations.getJSONObject(i).getString("date"));
                 b.setBikeReservationStartingTime(jsonArrayBikeReservations
@@ -237,6 +241,7 @@ public class BikeReservation {
             b.setBikeReservationId(jsonObject.getInt("id"));
             b.setBikeReservationBuilding(jsonObject.getInt("building"));
             b.setBikeReservationUser(jsonObject.getJSONObject("user").getString("username"));
+            b.setBikeReservationQuantity(jsonObject.getInt("numBikes"));
             b.setBikeReservationDate(jsonObject.getString("date"));
             b.setBikeReservationStartingTime(jsonObject.getString("startingTime"));
             b.setBikeReservationEndingTime(jsonObject.getString("endingTime"));
@@ -266,6 +271,8 @@ public class BikeReservation {
                         .getJSONObject(i).getInt("building"));
                 b.setBikeReservationUser(jsonArrayBikeReservations.getJSONObject(i)
                         .getJSONObject("user").getString("username"));
+                b.setBikeReservationQuantity(jsonArrayBikeReservations.getJSONObject(i)
+                        .getInt("numBikes"));
                 b.setBikeReservationDate(jsonArrayBikeReservations
                         .getJSONObject(i).getString("date"));
                 b.setBikeReservationStartingTime(jsonArrayBikeReservations

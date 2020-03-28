@@ -112,7 +112,7 @@ public class FoodReservationEditDialogController {
             errorMessage += "No valid food selected!\n";
         }
         if (foodQuantityField.getText().equals("")) {
-            errorMessage += "No valid capacity!\n";
+            errorMessage += "No valid food quantity!\n";
         } else {
             try {
                 Integer.parseInt(foodQuantityField.getText());

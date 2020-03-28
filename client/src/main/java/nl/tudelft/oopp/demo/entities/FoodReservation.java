@@ -4,6 +4,8 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
+import nl.tudelft.oopp.demo.controllers.AdminManageReservationViewController;
+import nl.tudelft.oopp.demo.controllers.AdminManageUserViewController;
 import nl.tudelft.oopp.demo.controllers.AdminUserHistoryViewController;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,7 +57,13 @@ public class FoodReservation {
      */
     public static ObservableList<FoodReservation> getUserReservationFood() throws JSONException {
         ObservableList<FoodReservation> foodReservation = FXCollections.observableArrayList();
-        JSONArray jsonArrayFoodReservation= new JSONArray(FoodServerCommunication.getFoodReservationByReservation(358));
+        JSONArray jsonArrayFoodReservation = new JSONArray();
+        if(AdminUserHistoryViewController.currentSelectedReservation != null) {
+            jsonArrayFoodReservation = new JSONArray(FoodServerCommunication.getFoodReservationByReservation(AdminUserHistoryViewController.currentSelectedReservation.getId().get()));
+        }
+        if(AdminManageReservationViewController.currentSelectedReservation != null) {
+            jsonArrayFoodReservation = new JSONArray(FoodServerCommunication.getFoodReservationByReservation(AdminManageReservationViewController.currentSelectedReservation.getId().get()));
+        }
         for(int i=0; i<jsonArrayFoodReservation.length(); i++){
             FoodReservation fr = new FoodReservation();
             fr.setFoodId(2);
