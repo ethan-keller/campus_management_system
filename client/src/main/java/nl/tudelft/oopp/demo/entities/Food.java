@@ -104,29 +104,6 @@ public class Food {
     }
 
     /**
-     * Returns a list of Foods that have been added to a particular reservation.
-     * @param id The Reservation ID
-     * @return Returns a list of Food
-     */
-    public static ObservableList<Food> getFoodByReservationId(int id) {
-        try {
-            ObservableList<Food> foodData = FXCollections.observableArrayList();
-            JSONArray jsonArrayFood = new JSONArray(FoodServerCommunication.getFoodByReservation(id));
-            for (int i = 0; i < jsonArrayFood.length(); i++) {
-                Food f = new Food();
-                f.setFoodId(jsonArrayFood.getJSONObject(i).getInt("id"));
-                f.setFoodName(jsonArrayFood.getJSONObject(i).getString("name"));
-                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getInt("price"));
-                foodData.add(f);
-            }
-            return foodData;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
      * Returns all foods that are available at a particular building with ID.
      * @param id The building ID
      * @return Returns a list of Food

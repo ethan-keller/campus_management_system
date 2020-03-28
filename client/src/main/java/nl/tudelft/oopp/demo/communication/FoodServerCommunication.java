@@ -127,9 +127,9 @@ public class FoodServerCommunication {
      * @param reservation The reservation ID
      * @return Returns a JSON List
      */
-    public static String getFoodByReservation(int reservation) {
+    public static String getFoodReservationByReservation(int reservation) {
         String params = "reservation=" + reservation;
-        return sendGet("getFoodByReservation", params);
+        return sendGet("getFoodReservationByReservation", params);
     }
 
     /**

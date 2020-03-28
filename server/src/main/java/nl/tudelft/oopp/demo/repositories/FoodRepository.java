@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.repositories;
 
 import java.util.List;
 import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.entities.FoodReservations;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -32,9 +33,9 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
             nativeQuery = true)
     public List<Food> getFoodByBuildingId(@Param("id") int id);
 
-    @Query(value = "SELECT food.*, food_reservations.quantity FROM food INNER JOIN food_reservations"
-            + " ON food.id = food_reservations.food_id WHERE reservation_id = :reservation", nativeQuery = true)
-    public List<Food> getFoodByReservationId(@Param("reservation") int reservationId);
+    @Query(value = "SELECT * FROM food_reservations WHERE reservation_id = :reservation", nativeQuery = true)
+    public List<Object[]> getFoodReservationByReservationId(@Param("reservation") int reservationId);
+
 
     @Modifying
     @Transactional
