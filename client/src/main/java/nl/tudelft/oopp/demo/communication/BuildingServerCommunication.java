@@ -179,7 +179,8 @@ public class BuildingServerCommunication {
      */
     public static boolean updateBuilding(int id, String name, int roomCount, String address, int maxBikes)
             throws UnsupportedEncodingException {
-        String params = "id=" + id + "&name=" + name + "&roomCount=" + roomCount + "&address=" + address + "&maxBikes=" + maxBikes;
+        String params = "id=" + id + "&name=" + name + "&roomCount=" + roomCount + "&address=" + address
+                + "&maxBikes=" + maxBikes;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateBuilding?" + params)).build();
@@ -191,7 +192,7 @@ public class BuildingServerCommunication {
             return false;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            System.out.println("FAiled Status: " + response.statusCode() + response.body());
             return false;
         }
         return true;
