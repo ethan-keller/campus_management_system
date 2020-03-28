@@ -22,22 +22,16 @@ public class AdminUserHistoryViewController {
 
     @FXML
     private Label usernameLabel;
-
     @FXML
     private TableView<Reservation> bookingTable;
-
     @FXML
     private TableColumn<Reservation, Number> bookingIdColumn;
-
     @FXML
     private TableColumn<Reservation, String> bookingDateColumn;
-
     @FXML
     private TableColumn<Reservation, Number> bookingRoomColumn;
-
     @FXML
     private TableColumn<Reservation, String> bookingStartColumn;
-
     @FXML
     private TableColumn<Reservation, String> bookingEndColumn;
 
