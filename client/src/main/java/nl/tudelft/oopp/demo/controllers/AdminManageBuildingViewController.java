@@ -175,7 +175,7 @@ public class AdminManageBuildingViewController {
                 // TODO: Check that building edit was successful before displaying alert
                 BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
                         tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
-                        tempBuilding.getBuildingAddress().get());
+                        tempBuilding.getBuildingAddress().get(), tempBuilding.getBuildingMaxBikes().get());
                 refresh();
 
                 Alert alert = new Alert(AlertType.INFORMATION);
