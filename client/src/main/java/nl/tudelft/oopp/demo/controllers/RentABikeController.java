@@ -16,9 +16,9 @@ import javafx.scene.Node;
 
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Spinner;
 
 import javafx.scene.layout.Region;
@@ -31,6 +31,11 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
+import java.util.Objects;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
+
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
@@ -38,10 +43,6 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
 import org.controlsfx.control.RangeSlider;
 
@@ -188,9 +189,10 @@ public class RentABikeController implements Initializable {
             if (checkBikeAvailability(selectedBuilding, selectedBike)) {
                 // create alert for confirmation with the user
                 Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "
-                                + selectedBike + " bikes" +
-                        " from " + selectedBuilding + " on " + selectedDate + "for " + selectedStartTime + "-"
-                                + selectedEndTime + "?", ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+                                + selectedBike + " bikes"
+                        + " from " + selectedBuilding + " on " + selectedDate + "for " + selectedStartTime + "-"
+                                + selectedEndTime + "?", ((Node) event.getSource()).getScene().getWindow(),
+                        Alert.AlertType.CONFIRMATION);
                 assert alert != null;
                 //set alert size depending on the text length
                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -218,9 +220,9 @@ public class RentABikeController implements Initializable {
                     RentABikeView rbv = new RentABikeView();
                     rbv.start(stage);
 
-                }
+                 }
                 // do nothing if user selects no
-             }
+            }
             // only case for insufficient bikes in the database for selected date and time slot
             else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);

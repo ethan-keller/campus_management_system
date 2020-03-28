@@ -41,8 +41,8 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.BookingHistoryView;
 import nl.tudelft.oopp.demo.views.CancelBookingView;
-import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.CalendarPaneView;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.RoomView;
 
