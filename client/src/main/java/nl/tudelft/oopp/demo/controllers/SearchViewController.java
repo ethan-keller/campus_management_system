@@ -117,7 +117,6 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * .
      * Handles the bookingHistory Button onclick.
      * Redirects the user to the booking history page.
      *
@@ -132,7 +131,6 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * .
      * Handles the onclick of signOut Button.
      * Redirects the user back to the login page.
      *
@@ -147,7 +145,6 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * .
      * Handles the onclick of cancelBooking Button.
      * Redirects the user to the cancelBooking page.
      *
@@ -652,25 +649,27 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * Redirects to bookingHistory of the current user to see, edit or cancel bookings.
+     * Handles the bookingHistory Button onclick.
+     * Redirects the user to the booking history page.
      *
-     * @param event ActionEvent to get current Stage
+     * @param event is passed.
+     * @throws IOException is thrown.
      */
     @FXML
-    private void bookingHistoryClicked(ActionEvent event) {
+    private void bookingHistoryClicked(ActionEvent event) throws IOException {
         // get current Stage
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        // TODO: redirect to bookingHistory
+        BookingHistoryView bookingHistoryView = new BookingHistoryView();
+        bookingHistoryView.start(stage);
     }
 
     /**
      * Clears all the filters and sets them back to 'empty'.
      *
-     * @param event ActionEvent
      */
     @FXML
-    private void clearFiltersClicked(ActionEvent event) {
+    private void clearFiltersClicked() {
         try {
             // clear every filter and reload the cards
             datePicker.setValue(null);
