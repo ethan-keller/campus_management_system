@@ -8,6 +8,8 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.repositories.BikeReservationRepository;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,8 @@ public class BuildingController {
 
     @Autowired
     private BikeReservationRepository bikeResRepo;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Adds a building to the database.
@@ -46,8 +50,10 @@ public class BuildingController {
 
         try {
             buildingRepo.insertBuilding(name, roomCount, address, availableBikes, maxBikes);
+            logger.info("Building: -create- Name: " + name + " - Room count: " + roomCount
+                  + " - Address: " + address + " - Available Bikes: " + availableBikes + " - Max bikes: " + maxBikes);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Building: -create- ERROR", e);
         }
     }
 
@@ -103,8 +109,11 @@ public class BuildingController {
             buildingRepo.updateRoomCount(id, roomCount);
             buildingRepo.updateAvailableBikes(id, availableBikes);
             buildingRepo.updateMaxBikes(id, maxBikes);
+            logger.info("Building: -update- Building ID: " + id + " - NEW data -> Name: "
+                    + name + " - Room count: " + roomCount + " - Address: "
+                    + address + " - Available Bikes: " + availableBikes + " - Max bikes: " + maxBikes);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Building: -update- ERROR", e);
         }
     }
 
@@ -118,6 +127,7 @@ public class BuildingController {
     public void deleteBuilding(@RequestParam int id) {
         try {
             buildingRepo.deleteBuilding(id);
+            logger.info("Building: -delete- Building ID: " + id);
         } catch (Exception e) {
             e.printStackTrace();
         }

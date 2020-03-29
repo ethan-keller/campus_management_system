@@ -6,6 +6,8 @@ import java.util.List;
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,8 @@ public class RoomController {
 
     @Autowired
     private RoomRepository roomRepo;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Creates a Room entry in the database.
@@ -45,8 +49,12 @@ public class RoomController {
 
         try {
             roomRepo.insertRoom(name, building, teacherOnly, capacity, photos, description, type);
+            logger.info("Room: -create- Name: " + name + " - Building ID: " + building + " - Teacher only: "
+                    + String.valueOf(teacherOnly) + " - Capacity: " + capacity + " - Photo URL: " + photos
+                    + " - Type: " + type + " - Description: " + description);
+
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Room: -create- ERROR", e);
         }
     }
 
@@ -84,8 +92,11 @@ public class RoomController {
             roomRepo.updatePhotos(id, photos);
             roomRepo.updateTeacherOnly(id, teacherOnly);
             roomRepo.updateType(id, type);
+            logger.info("Room: -update- ID: " + id + " - NEW data -> Name: " + name + " - Building ID: "
+                    + building + " - Teacher only: " + String.valueOf(teacherOnly) + " - Capacity: "
+                    + capacity + " - Photo URL: " + photos + " - Type: " + type + " - Description: " + description);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Room: -update- ERROR", e);
         }
     }
 
@@ -99,8 +110,9 @@ public class RoomController {
     public void deleteRoom(@RequestParam int id) {
         try {
             roomRepo.deleteRoom(id);
+            logger.info("Room: -delete- ID: " + id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Room: -delete- ERROR", e);
         }
     }
 

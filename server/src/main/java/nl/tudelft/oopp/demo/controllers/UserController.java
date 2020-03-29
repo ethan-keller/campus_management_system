@@ -7,6 +7,8 @@ import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.encodehash.Hashing;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ public class UserController {
 
     @Value("${encryption.secretKey}")
     private String secretKey;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Creates a user entry in the database.
@@ -43,8 +47,9 @@ public class UserController {
         try {
             String encryptedPass = Hashing.hashIt(password);
             userRepo.insertUser(username, encryptedPass, type);
+            logger.info("User: -create- Username: " + username + " - Type: " + type);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("User: -create- ERROR", e);
         }
     }
 
@@ -68,8 +73,9 @@ public class UserController {
             String encryptedPass = Hashing.hashIt(password);
             userRepo.updatePassword(username, encryptedPass);
             userRepo.updateType(username, type);
+            logger.info("User: -update- Username: " + username + " - NEW data -> Password: ? - Type: " + type);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("User: -update- ERROR", e);
         }
     }
 
@@ -89,8 +95,9 @@ public class UserController {
 
         try {
             userRepo.updateType(username, type);
+            logger.info("User: -updateType- Username: " + username + " - NEW data ->  Type: " + type);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("User: -updateType- ERROR", e);
         }
     }
 
@@ -108,8 +115,9 @@ public class UserController {
 
         try {
             userRepo.deleteUser(username);
+            logger.info("User: -delete- Username: " + username);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("User: -delete- ERROR", e);
         }
     }
 
