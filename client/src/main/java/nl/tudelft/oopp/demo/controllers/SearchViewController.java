@@ -245,9 +245,6 @@ public class SearchViewController implements Initializable {
                 e.printStackTrace();
             }
         });
-        Date now = new Date();
-        String strDate = sdf.format(now);
-        System.out.println("initialize end: " + strDate);
     }
 
     /**
