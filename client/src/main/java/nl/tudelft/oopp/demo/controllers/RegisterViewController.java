@@ -85,7 +85,7 @@ public class RegisterViewController {
             usernameLabel.setText("The username is not allowed to have any spaces !");
             usernameLabel.setStyle("-fx-text-fill: red");
         } else if (space.matcher(passwordTxt).find()) {
-            passwordLabel.setText("The username is not allowed to have any spaces !");
+            passwordLabel.setText("The password is not allowed to have any spaces !");
             passwordLabel.setStyle("-fx-text-fill: red");
         } else if (characters.matcher(usernameTxt).find()) {
             usernameLabel.setText("The username is not allowed to have any punctuations !");
@@ -100,7 +100,6 @@ public class RegisterViewController {
             alert.showAndWait();
         }
     }
-
 
     /**.
      * On the click of the back button, the stage is redirected to the login page.
