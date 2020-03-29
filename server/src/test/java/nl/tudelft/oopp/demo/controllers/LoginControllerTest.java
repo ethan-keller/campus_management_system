@@ -20,7 +20,8 @@ class LoginControllerTest {
     /**
      * First deletes all the users if the are already in the database.
      * Creates the users.
-     * Tries to get the accounts and checks if the account gets returned or if the password is incorrect if it gives the right error.
+     * Tries to get the accounts and checks if the account gets returned
+     * or if the password is incorrect if it gives the right error.
      * @throws UnsupportedEncodingException
      */
     @Test
