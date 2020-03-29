@@ -1,5 +1,18 @@
 package nl.tudelft.oopp.demo.communication;
 
+<<<<<<< HEAD
+=======
+import java.io.BufferedWriter;
+import java.io.UnsupportedEncodingException;
+
+import java.net.URLEncoder;
+
+import java.nio.charset.StandardCharsets;
+
+import java.util.ArrayList;
+import java.util.List;
+
+>>>>>>> filtering_in_logic
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Window;
@@ -7,12 +20,17 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 import org.controlsfx.control.RangeSlider;
 
+<<<<<<< HEAD
 import java.io.BufferedWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+=======
+import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Room;
+>>>>>>> filtering_in_logic
 
 
 
@@ -30,6 +48,7 @@ public class GeneralMethods {
      * This method is to encode all communication across the data stream.
      *
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @param params are passed.
      * @return :Encoded parameters as string.
      * @throws UnsupportedEncodingException is thrown.
@@ -38,6 +57,12 @@ public class GeneralMethods {
      * @return Encoded parameters as string
      * @throws UnsupportedEncodingException is thrown
 >>>>>>> develop
+=======
+     * @param params are passed.
+     * @return :Encoded parameters as string.
+     * @throws UnsupportedEncodingException is thrown.
+>>>>>>> filtering
+>>>>>>> filtering_in_logic
      */
     public static String encodeCommunication(String params) throws UnsupportedEncodingException {
         params = URLEncoder.encode(params, StandardCharsets.UTF_8.toString());

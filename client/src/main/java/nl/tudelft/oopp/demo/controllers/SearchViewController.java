@@ -5,39 +5,36 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.views.CalendarPaneView;
+import nl.tudelft.oopp.demo.logic.SearchViewLogic;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomView;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+
+
 
 /**
  * Controller class for SearchView (JavaFX).
@@ -88,10 +85,27 @@ public class SearchViewController implements Initializable {
     private int capMin;
     private int capMax;
 
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
     /**
      * Default construct of searchView class.
      */
     public SearchViewController() {
+    }
+
+
+    /**
+     * Handles the onclick of signOut Button.
+     * Redirects the user back to the login page.
+     *
+     * @param event is passed
+     * @throws IOException is thrown
+     */
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
     }
 
     /**
@@ -200,6 +214,9 @@ public class SearchViewController implements Initializable {
                 e.printStackTrace();
             }
         });
+        Date now = new Date();
+        String strDate = sdf.format(now);
+        System.out.println("initialize end: " + strDate);
     }
 
     /**
@@ -209,6 +226,9 @@ public class SearchViewController implements Initializable {
      * @throws UnsupportedEncodingException when encoding fails.
      */
     public void loadCards() throws UnsupportedEncodingException {
+        Date now = new Date();
+        String strDate = sdf.format(now);
+        System.out.println("Filtering start: " + strDate);
         //load all rooms back in the roomlist to filter again
         roomList = new ArrayList<Room>();
         for (int i = 0; i != rooms.size(); i++) {
@@ -218,102 +238,37 @@ public class SearchViewController implements Initializable {
         //Check if there are any filters selected and if so filter the roomlist
         if (buildingComboBox.getValue() != null) {
             building = buildingComboBox.getValue().getBuildingId().getValue();
-            roomList = GeneralMethods.filterRoomByBuilding(roomList, building);
+            roomList = SearchViewLogic.filterRoomByBuilding(roomList, building);
         }
 
         // if the checkbox is selected it filters according to the checkbox.
         if (yesCheckBoxTeacherOnly.isSelected()) {
-            roomList = GeneralMethods.filterRoomByTeacherOnly(roomList, true);
+            roomList = SearchViewLogic.filterRoomByTeacherOnly(roomList, true);
         }
 
         // if the checkbox is selected it filters according to the checkbox.
         if (noCheckBoxTeacherOnly.isSelected()) {
-            roomList = GeneralMethods.filterRoomByTeacherOnly(roomList, false);
+            roomList = SearchViewLogic.filterRoomByTeacherOnly(roomList, false);
         }
 
         // if the combobox is selected on a value it filters for that value.
         if (capacityComboBox.getValue() != null) {
             String capacity = capacityComboBox.getValue();
-            switch (capacity) {
-                case "1-5":
-                    capMin = 1;
-                    capMax = 5;
-                    break;
-                case "5-10":
-                    capMin = 5;
-                    capMax = 10;
-                    break;
-                case "10-20":
-                    capMin = 10;
-                    capMax = 20;
-                    break;
-                case "20+":
-                    capMin = 20;
-                    capMax = 9999;
-                    break;
 
-                default:
-                    capMin = 0;
-                    capMax = 9999;
-
-            }
-
-            roomList = GeneralMethods.filterRoomByCapacity(roomList, capMax, capMin);
+            roomList = SearchViewLogic.filterRoomByCapacity(roomList, capacity);
         }
 
         // if a date is selected it filters out the rooms that are fully booked for that day.
+        Date now2 = new Date();
+        String strDate2 = sdf.format(now2);
+        System.out.println("Date Filtering start: " + strDate);
         if (datePicker.getValue() != null) {
-            // get all the reservations and only keeps the reservations that are from the selected date.
-            // the id of the rooms that are of the date are stored in roomsWithDate.
-            ObservableList<Reservation> reservations = Reservation.getReservation();
-            List<Integer> roomsWithDate = new ArrayList<Integer>();
             String date = datePicker.getValue().toString();
-            for (int i = 0; i != reservations.size(); i++) {
-                if (!reservations.get(i).getDate().getValue().equals(date)) {
-                    reservations.remove(i);
-                    i--;
-                } else {
-                    if (!roomsWithDate.contains(reservations.get(i).getRoom().getValue())) {
-                        roomsWithDate.add(reservations.get(i).getRoom().getValue());
-                    }
-                }
-            }
-
-            // for every room the total hours of bookings on the selected date is calculated
-            // if it is 16 the room is fully booked the room will be removed from the rooms to show
-            double totalHoursAvailable;
-            for (int q = 0; q != roomsWithDate.size(); q++) {
-                totalHoursAvailable = 16;
-                for (int z = 0; z != reservations.size(); z++) {
-                    if (reservations.get(z).getRoom().getValue().equals(roomsWithDate.get(q))) {
-                        double starting = Integer.parseInt(
-                                reservations.get(z).getStartingTime().getValue().substring(0, 2));
-                        double ending = Integer.parseInt(
-                                reservations.get(z).getEndingTime().getValue().substring(0, 2));
-                        if (reservations.get(z).getStartingTime().getValue().substring(3, 5).equals("30")) {
-                            starting = starting + 0.5;
-                        }
-                        if (reservations.get(z).getEndingTime().getValue().substring(3,5).equals("30")) {
-                            ending = ending + 0.5;
-                        }
-                        if (reservations.get(z).getEndingTime().getValue().equals("23:59:00")) {
-                            ending = 24;
-                        }
-                        if (ending == 0) {
-                            ending = 24;
-                        }
-                        totalHoursAvailable = totalHoursAvailable + starting - ending;
-                    }
-                }
-                if (totalHoursAvailable <= 0) {
-                    for (int y = 0; y != roomList.size(); y++) {
-                        if (roomList.get(y).getRoomId().getValue().equals(roomsWithDate.get(q))) {
-                            roomList.remove(y);
-                        }
-                    }
-                }
-            }
+            SearchViewLogic.filterRoomsByDate(roomList, date);
         }
+        Date now3 = new Date();
+        String strDate3 = sdf.format(now3);
+        System.out.println("Date filtering end: " + strDate);
 
         // value of the searchbar is put in searchBarInput
         // and is filtered on building name and room name.
@@ -322,9 +277,11 @@ public class SearchViewController implements Initializable {
         String searchBarInput = searchBar.getText();
         List<Room> roomsToShow = roomList;
         if (!searchBarInput.equals("")) {
-            roomsToShow = GeneralMethods.filterBySearch(roomList, searchBarInput, buildings);
+            roomsToShow = SearchViewLogic.filterBySearch(roomList, searchBarInput, buildings);
         }
-
+        Date now4 = new Date();
+        String strDate4 = sdf.format(now4);
+        System.out.println("ending filtering: " + strDate2);
         //Load the cards that need to be shown
         getCardsShown(roomsToShow);
 
@@ -336,18 +293,24 @@ public class SearchViewController implements Initializable {
      * @param roomList list of rooms that are going to be shown.
      */
     public void getCardsShown(List<Room> roomList) {
+        Date now2 = new Date();
+        String strDate2 = sdf.format(now2);
+        System.out.println("starting getCardsShown: " + strDate2);
         //Removes cards that are now in the view
         cardHolder.getChildren().clear();
 
         // create a 'card' showing some information of the room, for every room
         for (Room r : roomList) {
-            cardHolder.getChildren().add(createRoomCard(r));
+            cardHolder.getChildren().add(SearchViewLogic.createRoomCard(this, r));
         }
+        Date now = new Date();
+        String strDate = sdf.format(now);
+        System.out.println("ending getCardShown: " + strDate2);
     }
 
     /**
      * filters the rooms on the searchbar input. It searches for matches in the building name and room name.
-     * Makes a call to GeneralMethods.FilterBySearch.
+     * Makes a call to SearchViewLogic.FilterBySearch.
      *
      * @throws UnsupportedEncodingException when encoding fails.
      */
@@ -357,11 +320,13 @@ public class SearchViewController implements Initializable {
         if (searchBarInput == "") {
             loadCards();
         } else {
-            List<Room> roomsToShow = GeneralMethods.filterBySearch(roomList, searchBarInput, buildings);
+            List<Room> roomsToShow = SearchViewLogic.filterBySearch(roomList, searchBarInput, buildings);
             //Load the cards that need to be shown
             getCardsShown(roomsToShow);
         }
     }
+
+
 
     /**
      * Create cellFactory for the datePicker that disables all days before today and weekend days.
@@ -472,108 +437,11 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * Creates a new 'card' (HBox) which contains some information about the room.
-<<<<<<< HEAD
-=======
-     *
->>>>>>> develop
-     * @param r The Room that we have to show information from
-     * @return HBox which is the final 'card'
-     */
-    private HBox createRoomCard(Room r) {
-        try {
-            // initialize javafx components
-            final HBox newCard = new HBox();
-            final ImageView image = new ImageView();
-            final VBox roomInfo = new VBox();
-            final Text roomTitle = new Text();
-            final Text roomBuilding = new Text();
-            final Text roomCapacity = new Text();
-            final Text roomDescription = new Text();
-            final Text roomId = new Text();
-
-            // loading image from URL + setting size & properties
-            Image img = new Image("images/placeholder.png");
-            image.setImage(img);
-            image.setPreserveRatio(true);
-            image.setPickOnBounds(true);
-            image.setFitWidth(300);
-
-            // adding image margin
-            HBox.setMargin(image, new Insets(10, 5, 10, 10));
-
-            /* set the roomId visibility to false such that it is not visible for the user but still useful to
-               get the specific room information later in the RoomView
-             */
-            roomId.setText(String.valueOf(r.getRoomId().get()));
-            roomId.setVisible(false);
-
-            // setting title and text margin (+ properties)
-            roomTitle.setText(r.getRoomName().get());
-            roomTitle.setWrappingWidth(200);
-            roomTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
-            roomTitle.setStyle("-fx-fill: #0ebaf8;");
-            VBox.setMargin(roomTitle, new Insets(10, 10, 10, 15));
-
-            // setting building name and text margin
-            Building building = Building.getBuildingData().stream()
-                    .filter(x -> x.getBuildingId().get() == r.getRoomBuilding().get())
-                    .collect(Collectors.toList()).get(0);
-            roomBuilding.setText("Building: " + building.getBuildingName().get());
-            roomBuilding.setWrappingWidth(200);
-            roomBuilding.setFont(Font.font("System", 14));
-            VBox.setMargin(roomBuilding, new Insets(0, 0, 5, 15));
-
-            // setting capacity and text margin (+ properties)
-            roomCapacity.setText("Capacity: " + r.getRoomCapacity().get());
-            roomCapacity.setWrappingWidth(200);
-            roomCapacity.setFont(Font.font("System", 14));
-            VBox.setMargin(roomCapacity, new Insets(0, 0, 5, 15));
-
-            // setting description and text margin (+ properties)
-            roomDescription.setText("Description: " + r.getRoomDescription().get());
-            roomDescription.setWrappingWidth(310);
-            roomDescription.setFont(Font.font("System", 14));
-            VBox.setMargin(roomDescription, new Insets(0, 0, 5, 15));
-
-            // setting 'text box' size
-            roomInfo.setPrefSize(354, 378);
-
-            // adding components to their corresponding parent
-            roomInfo.getChildren().add(roomId);
-            roomInfo.getChildren().add(roomTitle);
-            roomInfo.getChildren().add(roomCapacity);
-            roomInfo.getChildren().add(roomBuilding);
-            roomInfo.getChildren().add(roomDescription);
-            newCard.getChildren().add(image);
-            newCard.getChildren().add(roomInfo);
-
-            // setting size
-            newCard.setPrefWidth(688);
-            newCard.setPrefHeight(145);
-
-            // add mouse click listener to individual cards
-            newCard.setOnMouseClicked(event -> {
-                try {
-                    cardClicked(event);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-            return newCard;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
      * When a card gets clicked, the RoomView gets loaded with all the corresponding room information.
      *
      * @param event MouseEvent
      */
-    private void cardClicked(MouseEvent event) {
+    public void cardClicked(MouseEvent event) {
         try {
             // get current Stage
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -617,41 +485,6 @@ public class SearchViewController implements Initializable {
             capacityComboBox.setValue(null);
             bikesAvailable.setValue(null);
             loadCards();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Loads the Calendar view with all the booking history.
-     * @param event event that triggered this method
-     */
-    @FXML
-    private void bookingHistoryClicked(ActionEvent event) {
-        try {
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            CalendarPaneController.thisStage = stage;
-            CalendarPaneView cpv = new CalendarPaneView();
-            cpv.start(stage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Handles the onclick of signOut Button.
-     * Redirects the user back to the login page.
-     *
-     * @param event event that triggered this method
-     */
-    @FXML
-    private void signOutButtonClicked(ActionEvent event) {
-        try {
-            // get current stage and load log in view
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            LoginView loginView = new LoginView();
-            loginView.start(stage);
         } catch (Exception e) {
             e.printStackTrace();
         }
