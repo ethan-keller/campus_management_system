@@ -9,8 +9,17 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * View class for the dialog box to add items to the calendar booking history.
+ */
 public class CalenderItemDialogView extends Application {
 
+    /**
+     * Starts the thread to load the fxml as a view in the given stage.
+     *
+     * @param primaryStage stage to load view in
+     * @throws Exception exception to be catched if something goes wrong
+     */
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -37,7 +46,12 @@ public class CalenderItemDialogView extends Application {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Main method.
+     *
+     * @param args command line parameters
+     */
     public static void main(String[] args) {
         launch(args);
     }

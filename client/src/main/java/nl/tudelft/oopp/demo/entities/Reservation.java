@@ -1,11 +1,15 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.controllers.AdminManageUserViewController;
@@ -155,6 +159,28 @@ public class Reservation {
 
     public void setEndingTime(String endingTime) {
         this.endingTime.set(endingTime);
+    }
+
+    /**
+     * Method that returns all reservations for a particular room on a particular date.
+     *
+     * @param roomId        the id of the room
+     * @param date          the date to be filtered on
+     * @param dateConverter converts date value to String format hh:mm
+     * @return List of filtered reservations
+     */
+    public static List<Reservation> getRoomReservationsOnDate(int roomId, LocalDate date,
+                                                              StringConverter<LocalDate> dateConverter) {
+        try {
+            List<Reservation> list = Reservation.getReservation().stream()
+                    .filter(x -> x.getRoom().get() == roomId)
+                    .filter(x -> x.getDate().get().equals(dateConverter.toString(date)))
+                    .collect(Collectors.toList());
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
