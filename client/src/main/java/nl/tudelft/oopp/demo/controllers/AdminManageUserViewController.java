@@ -1,11 +1,8 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
-import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Pattern;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

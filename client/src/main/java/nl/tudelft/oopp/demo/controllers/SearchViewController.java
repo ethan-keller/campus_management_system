@@ -1,16 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,15 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -38,19 +19,25 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
-
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
-
-import nl.tudelft.oopp.demo.views.BookingHistoryView;
-import nl.tudelft.oopp.demo.views.CancelBookingView;
+import nl.tudelft.oopp.demo.views.CalendarPaneView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomView;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * Controller class for SearchView (JavaFX).
@@ -61,8 +48,6 @@ public class SearchViewController implements Initializable {
      */
     @FXML
     private DatePicker datePicker;
-    @FXML
-    private ScrollPane scrollPane;
     @FXML
     private VBox cardHolder;
     @FXML
@@ -78,10 +63,7 @@ public class SearchViewController implements Initializable {
     @FXML
     private ComboBox<String> capacityComboBox;
     @FXML
-
     private Button clearFilters;
-    @FXML
-    private Button bookingHistoryButton;
     @FXML
     private TextField searchBar;
     @FXML
@@ -107,54 +89,10 @@ public class SearchViewController implements Initializable {
     private int capMax;
 
     /**
-     * .
      * Default construct of searchView class.
      */
     public SearchViewController() {
     }
-
-    /**
-     * Handles the bookingHistory Button onclick.
-     * Redirects the user to the booking history page.
-     *
-     * @param event is passed
-     * @throws IOException is thrown
-     */
-    public void bookingHistoryButtonClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        BookingHistoryView bookingHistoryView = new BookingHistoryView();
-        bookingHistoryView.start(stage);
-    }
-
-    /**
-     * Handles the onclick of signOut Button.
-     * Redirects the user back to the login page.
-     *
-     * @param event is passed
-     * @throws IOException is thrown
-     */
-    public void signOutButtonClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        LoginView loginView = new LoginView();
-        loginView.start(stage);
-    }
-
-    /**
-     * Handles the onclick of cancelBooking Button.
-     * Redirects the user to the cancelBooking page.
-     *
-     * @param event is passed
-     * @throws Exception is thrown
-     */
-    public void cancelBookingClicked(ActionEvent event) throws Exception {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        CancelBookingView cancelBookingView = new CancelBookingView();
-        cancelBookingView.start(stage);
-    }
-
 
     /**
      * Method that gets called when loading the view.
@@ -176,17 +114,17 @@ public class SearchViewController implements Initializable {
             buildingList = Building.getBuildingData();
             bikeList = FXCollections.observableArrayList();
 
-
             // the comboBox only shows 6 rows (more => scroll)
             buildingComboBox.setVisibleRowCount(6);
 
+            // configure the date picker
             datePicker.setConverter(getDatePickerStringConverter());
             datePicker.setDayCellFactory(getDayCellFactory());
 
             // assign values to the observable lists
             capacityList.addAll("1-5", "5-10", "10-20", "20+");
             buildingComboBox.setItems(buildingList);
-            buildingComboBox.setConverter(getbuildingComboBoxConverter());
+            buildingComboBox.setConverter(getBuildingComboBoxConverter());
             bikeList.addAll("1-5", "5-10", "10-20", "20+");
 
             // populating the choicebox
@@ -509,7 +447,7 @@ public class SearchViewController implements Initializable {
      *
      * @return StringConverter
      */
-    private StringConverter<Building> getbuildingComboBoxConverter() {
+    private StringConverter<Building> getBuildingComboBoxConverter() {
         try {
             StringConverter<Building> converter = new StringConverter<Building>() {
                 @Override
@@ -535,6 +473,10 @@ public class SearchViewController implements Initializable {
 
     /**
      * Creates a new 'card' (HBox) which contains some information about the room.
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> develop
      * @param r The Room that we have to show information from
      * @return HBox which is the final 'card'
      */
@@ -545,6 +487,7 @@ public class SearchViewController implements Initializable {
             final ImageView image = new ImageView();
             final VBox roomInfo = new VBox();
             final Text roomTitle = new Text();
+            final Text roomBuilding = new Text();
             final Text roomCapacity = new Text();
             final Text roomDescription = new Text();
             final Text roomId = new Text();
@@ -557,7 +500,7 @@ public class SearchViewController implements Initializable {
             image.setFitWidth(300);
 
             // adding image margin
-            newCard.setMargin(image, new Insets(10, 5, 10, 10));
+            HBox.setMargin(image, new Insets(10, 5, 10, 10));
 
             /* set the roomId visibility to false such that it is not visible for the user but still useful to
                get the specific room information later in the RoomView
@@ -570,19 +513,28 @@ public class SearchViewController implements Initializable {
             roomTitle.setWrappingWidth(200);
             roomTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
             roomTitle.setStyle("-fx-fill: #0ebaf8;");
-            roomInfo.setMargin(roomTitle, new Insets(10, 10, 10, 15));
+            VBox.setMargin(roomTitle, new Insets(10, 10, 10, 15));
+
+            // setting building name and text margin
+            Building building = Building.getBuildingData().stream()
+                    .filter(x -> x.getBuildingId().get() == r.getRoomBuilding().get())
+                    .collect(Collectors.toList()).get(0);
+            roomBuilding.setText("Building: " + building.getBuildingName().get());
+            roomBuilding.setWrappingWidth(200);
+            roomBuilding.setFont(Font.font("System", 14));
+            VBox.setMargin(roomBuilding, new Insets(0, 0, 5, 15));
 
             // setting capacity and text margin (+ properties)
             roomCapacity.setText("Capacity: " + r.getRoomCapacity().get());
             roomCapacity.setWrappingWidth(200);
             roomCapacity.setFont(Font.font("System", 14));
-            roomInfo.setMargin(roomCapacity, new Insets(0, 0, 5, 15));
+            VBox.setMargin(roomCapacity, new Insets(0, 0, 5, 15));
 
             // setting description and text margin (+ properties)
             roomDescription.setText("Description: " + r.getRoomDescription().get());
             roomDescription.setWrappingWidth(310);
             roomDescription.setFont(Font.font("System", 14));
-            roomInfo.setMargin(roomDescription, new Insets(0, 0, 0, 15));
+            VBox.setMargin(roomDescription, new Insets(0, 0, 5, 15));
 
             // setting 'text box' size
             roomInfo.setPrefSize(354, 378);
@@ -591,6 +543,7 @@ public class SearchViewController implements Initializable {
             roomInfo.getChildren().add(roomId);
             roomInfo.getChildren().add(roomTitle);
             roomInfo.getChildren().add(roomCapacity);
+            roomInfo.getChildren().add(roomBuilding);
             roomInfo.getChildren().add(roomDescription);
             newCard.getChildren().add(image);
             newCard.getChildren().add(roomInfo);
@@ -646,22 +599,6 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * Handles the bookingHistory Button onclick.
-     * Redirects the user to the booking history page.
-     *
-     * @param event is passed.
-     * @throws IOException is thrown.
-     */
-    @FXML
-    private void bookingHistoryClicked(ActionEvent event) throws IOException {
-        // get current Stage
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        BookingHistoryView bookingHistoryView = new BookingHistoryView();
-        bookingHistoryView.start(stage);
-    }
-
-    /**
      * Clears all the filters and sets them back to 'empty'.
      *
      */
@@ -680,6 +617,41 @@ public class SearchViewController implements Initializable {
             capacityComboBox.setValue(null);
             bikesAvailable.setValue(null);
             loadCards();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Loads the Calendar view with all the booking history.
+     * @param event event that triggered this method
+     */
+    @FXML
+    private void bookingHistoryClicked(ActionEvent event) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            CalendarPaneController.thisStage = stage;
+            CalendarPaneView cpv = new CalendarPaneView();
+            cpv.start(stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Handles the onclick of signOut Button.
+     * Redirects the user back to the login page.
+     *
+     * @param event event that triggered this method
+     */
+    @FXML
+    private void signOutButtonClicked(ActionEvent event) {
+        try {
+            // get current stage and load log in view
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            LoginView loginView = new LoginView();
+            loginView.start(stage);
         } catch (Exception e) {
             e.printStackTrace();
         }

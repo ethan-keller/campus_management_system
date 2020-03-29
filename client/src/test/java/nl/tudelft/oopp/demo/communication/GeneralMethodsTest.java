@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.communication;
 
+import javafx.scene.control.Alert;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 import org.junit.jupiter.api.Test;
@@ -8,16 +11,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GeneralMethodsTest {
 
-    /**
-     * Tests the encoding of a string.
-     * @throws UnsupportedEncodingException when the encoding method used is not supported.
-     */
     @Test
-    void encodeCommunication() throws UnsupportedEncodingException {
+    void encodeCommunicationTest() throws UnsupportedEncodingException {
         String input1 = "er staat een paard in de gang?!";
         String input2 = "It = a song & it is good";
         String res1 = "er+staat+een+paard+in+de+gang%3F%21";
@@ -26,6 +25,7 @@ class GeneralMethodsTest {
         assertEquals(res1, GeneralMethods.encodeCommunication(input1));
         assertEquals(res2, GeneralMethods.encodeCommunication(input2));
     }
+
 
     /**
      * Tests the filtering of a list of rooms by a building
@@ -124,5 +124,21 @@ class GeneralMethodsTest {
         expected.add(r2);
 
         assertEquals(expected, GeneralMethods.filterBySearch(rooms, "name2", buildings));
+    }
+
+    @Test
+    void createAlertTest(){
+        Stage stage = new Stage();
+
+        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+        alert1.setTitle("testTitle");
+        alert1.setContentText("This is a content text");
+        alert1.initOwner(stage);
+        alert1.initModality(Modality.WINDOW_MODAL);
+
+        Alert alert2 = GeneralMethods.createAlert("testTitle", "This is a content text",
+                stage, Alert.AlertType.WARNING);
+
+        assertEquals(alert1, alert2);
     }
 }

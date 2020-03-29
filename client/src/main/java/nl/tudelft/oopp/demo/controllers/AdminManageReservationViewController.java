@@ -17,6 +17,7 @@ import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
 
+
 public class AdminManageReservationViewController {
     /**
      * These are the FXML elements that inject some functionality into the application.
@@ -137,7 +138,7 @@ public class AdminManageReservationViewController {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            //currentSelectedReservation = null;
+            currentSelectedReservation = null;
             ReservationEditDialogView view = new ReservationEditDialogView();
             view.start(stage);
 
