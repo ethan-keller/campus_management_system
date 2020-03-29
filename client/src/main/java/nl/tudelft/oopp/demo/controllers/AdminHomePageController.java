@@ -4,7 +4,14 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.views.*;
+import nl.tudelft.oopp.demo.views.AdminBikeReservationView;
+import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
+import nl.tudelft.oopp.demo.views.AdminManageFoodView;
+import nl.tudelft.oopp.demo.views.AdminManageReservationView;
+import nl.tudelft.oopp.demo.views.AdminManageRoomView;
+import nl.tudelft.oopp.demo.views.AdminManageUserView;
+import nl.tudelft.oopp.demo.views.LoginView;
+
 
 public class AdminHomePageController {
     /**
@@ -77,8 +84,8 @@ public class AdminHomePageController {
      * This button would redirects the admin to a page where the admin can create/edit/delete
      * food information. This button also displays all the foods and information related to
      * them in a tabular view.
-     * @param event
-     * @throws IOException
+     * @param event is passed.
+     * @throws IOException is thrown.
      */
     public void manageFoodClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage)  ((Node) event.getSource()).getScene().getWindow();
@@ -91,8 +98,8 @@ public class AdminHomePageController {
      * This button would redirects the admin to a page where the admin can create/edit/delete
      * bike reservation information. This button also displays all the bike reservation information
      * in a tabular view.
-     * @param event
-     * @throws IOException
+     * @param event is passed.
+     * @throws IOException is thrown.
      */
     public void manageBikeClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage)  ((Node) event.getSource()).getScene().getWindow();

@@ -27,9 +27,11 @@ public class FoodEditDialogController {
     @FXML
     private void initialize() {
         Food food = AdminManageFoodViewController.currentSelectedFood;
-        if (food == null) return;
+        if (food == null) {
+            return;
+        }
         foodNameField.setText(food.getFoodName().get());
-        foodPriceField.setText(String.valueOf((double)Math.round((food.getFoodPrice().get())*100)/100));
+        foodPriceField.setText(String.valueOf((double)Math.round((food.getFoodPrice().get()) * 100) / 100));
     }
 
     private static void emptyFood() {

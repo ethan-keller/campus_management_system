@@ -1,5 +1,9 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,9 +15,7 @@ import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class BikeReservation {
     private IntegerProperty bikeReservationId;

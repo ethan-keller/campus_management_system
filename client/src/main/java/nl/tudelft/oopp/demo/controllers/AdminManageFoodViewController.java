@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +16,6 @@ import nl.tudelft.oopp.demo.views.AdminFoodBuildingView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.FoodEditDialogView;
 
-import java.io.IOException;
 
 public class AdminManageFoodViewController {
 
@@ -43,9 +43,11 @@ public class AdminManageFoodViewController {
     private void initialize() {
         try {
             // Initialize the food table with the three columns.
-            foodIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getFoodId().get())));
+            foodIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(
+                    String.valueOf(cell.getValue().getFoodId().get())));
             foodNameColumn.setCellValueFactory(cell -> cell.getValue().getFoodName());
-            foodPriceColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf((double)Math.round((cell.getValue().getFoodPrice().get())*100)/100)));
+            foodPriceColumn.setCellValueFactory(cell -> new SimpleStringProperty(
+                    String.valueOf((double)Math.round((cell.getValue().getFoodPrice().get()) * 100) / 100)));
             // Add observable list data to the table
             foodTable.setItems(Food.getAllFoodData());
         } catch (Exception e) {
@@ -54,7 +56,7 @@ public class AdminManageFoodViewController {
     }
 
     /**
-     * refresh the table when called
+     * Refresh the table when called.
      */
     public void refresh() {
         initialize();
@@ -119,7 +121,9 @@ public class AdminManageFoodViewController {
             view.start(stage);
             // Get the food from the pop up dialog.
             Food tempFood = FoodEditDialogController.food;
-            if (tempFood == null) return;
+            if (tempFood == null) {
+                return;
+            }
             // TODO: Check that building creation was successful before displaying alert
             FoodServerCommunication.createFood(tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
             refresh();
@@ -150,10 +154,12 @@ public class AdminManageFoodViewController {
                 view.start(stage);
                 // Get the food from the pop up dialog.
                 Food tempFood = FoodEditDialogController.food;
-                if (tempFood == null) return;
-
+                if (tempFood == null) {
+                    return;
+                }
                 // TODO: Check that building edit was successful before displaying alert
-                FoodServerCommunication.updateFood(selectedFood.getFoodId().get(), tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
+                FoodServerCommunication.updateFood(selectedFood.getFoodId().get(),
+                        tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
                 refresh();
                 // An alert pop up when a new food created.
                 Alert alert = new Alert(AlertType.INFORMATION);
@@ -175,8 +181,8 @@ public class AdminManageFoodViewController {
 
     /**
      * Show all the buildings which provide this food in a table.
-     * @param event
-     * @throws IOException
+     * @param event is passed.
+     * @throws IOException is thrown.
      */
     @FXML
     private void foodBuildingClicked(ActionEvent event) throws IOException {

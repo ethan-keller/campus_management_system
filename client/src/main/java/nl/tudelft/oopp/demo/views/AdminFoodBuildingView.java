@@ -1,20 +1,21 @@
 package nl.tudelft.oopp.demo.views;
 
+import java.io.IOException;
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
-
 public class AdminFoodBuildingView extends Application {
-    public AdminFoodBuildingView(){}
+    public AdminFoodBuildingView() {
+    }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        try{
+        try {
             FXMLLoader loader = new FXMLLoader();
             URL xmlUrl = getClass().getResource("/adminFoodBuildingView.fxml");
             loader.setLocation(xmlUrl);

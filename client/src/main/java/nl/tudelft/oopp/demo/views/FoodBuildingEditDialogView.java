@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.views;
 
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,9 +10,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import nl.tudelft.oopp.demo.controllers.FoodBuildingEditDialogController;
-import nl.tudelft.oopp.demo.controllers.FoodEditDialogController;
-
-import java.net.URL;
 
 public class FoodBuildingEditDialogView extends Application {
 
@@ -29,10 +28,8 @@ public class FoodBuildingEditDialogView extends Application {
             Scene scene = new Scene(root);
             dialogStage.setScene(scene);
             dialogStage.setResizable(false);
-            dialogStage.getScene().getWindow().addEventFilter(
-                    WindowEvent.WINDOW_CLOSE_REQUEST,
-                    event -> FoodBuildingEditDialogController.building = null
-            );
+            dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST,
+                event -> FoodBuildingEditDialogController.building = null);
 
             // Set the dialog stage properties
             // When the dialog box pops up, the admin can't click the page that is behind the dialog box.

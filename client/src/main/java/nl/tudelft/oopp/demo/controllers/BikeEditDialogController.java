@@ -1,19 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
-import nl.tudelft.oopp.demo.entities.*;
-import org.controlsfx.control.RangeSlider;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -25,6 +11,28 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.entities.BikeReservation;
+import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.User;
+import org.controlsfx.control.RangeSlider;
+
 
 public class BikeEditDialogController {
 
@@ -80,7 +88,8 @@ public class BikeEditDialogController {
     @FXML
     private void initialize() {
         try {
-            final BikeReservation bikeReservation = AdminBikeReservationViewController.currentSelectedBikeReservation;
+            final BikeReservation bikeReservation =
+                    AdminBikeReservationViewController.currentSelectedBikeReservation;
             this.bikeReservation = null;
 
             bikeDate.setConverter(getDateConverter());
@@ -118,7 +127,8 @@ public class BikeEditDialogController {
                     return;
                 }
                 bikeUsernameComboBox.getSelectionModel().select(olu.stream()
-                        .filter(x -> x.getUsername().get().equals(bikeReservation.getBikeReservationUser().get().toLowerCase()))
+                        .filter(x -> x.getUsername().get().equals(
+                                bikeReservation.getBikeReservationUser().get().toLowerCase()))
                         .collect(Collectors.toList()).get(0));
                 bikeUsernameComboBox.setDisable(true);
 
@@ -140,8 +150,10 @@ public class BikeEditDialogController {
                 timeslotSlider.setHighValue(Double.parseDouble(endTimeSplit[0]) * 60.0
                         + Double.parseDouble(endTimeSplit[1]));
 
-                bikeStartingTime.setText("Start: " + getRangeSliderConverter().toString(timeslotSlider.getLowValue()));
-                bikeEndingTime.setText("End: " + getRangeSliderConverter().toString(timeslotSlider.getHighValue()));
+                bikeStartingTime.setText("Start: " + getRangeSliderConverter()
+                        .toString(timeslotSlider.getLowValue()));
+                bikeEndingTime.setText("End: " + getRangeSliderConverter()
+                        .toString(timeslotSlider.getHighValue()));
             } else {
                 return;
             }
@@ -244,7 +256,8 @@ public class BikeEditDialogController {
                 return;
             }
             // get reservations for this room on the selected date
-            List<BikeReservation> bikeReservations = BikeReservation.getBikeReservationsOnDate(selectedBuilding.getBuildingId().get(),
+            List<BikeReservation> bikeReservations = BikeReservation.getBikeReservationsOnDate(
+                    selectedBuilding.getBuildingId().get(),
                     bikeDate.getValue(), getDateConverter());
 
             // sort them in ascending order
@@ -431,49 +444,57 @@ public class BikeEditDialogController {
     }
 
     /**
-     * Set the username combobox converter
+     * Set the username combobox converter.
      *
-     * @param olu
+     * @param olu an observable list of users.
      */
     public void setBikeUsernameComboBoxConverter(ObservableList<User> olu) {
         StringConverter<User> converter = new StringConverter<User>() {
             @Override
             public String toString(User object) {
-                if (object == null) return "";
-                else return object.getUsername().get();
+                if (object == null) {
+                    return "";
+                } else {
+                    return object.getUsername().get();
+                }
             }
 
             @Override
             public User fromString(String username) {
-                return olu.stream().filter(x -> String.valueOf(x.getUsername()).equals(username)).collect(Collectors.toList()).get(0);
+                return olu.stream().filter(x -> String.valueOf(x.getUsername()).equals(username))
+                        .collect(Collectors.toList()).get(0);
             }
         };
         bikeUsernameComboBox.setConverter(converter);
     }
 
     /**
-     * Set the building combobox converter
+     * Set the building combobox converter.
      *
-     * @param olb
+     * @param olb an observable list of buildings.
      */
     public void setBikeBuildingComboBoxConverter(ObservableList<Building> olb) {
         StringConverter<Building> converter = new StringConverter<Building>() {
             @Override
             public String toString(Building object) {
-                if (object == null) return "";
-                else return object.getBuildingName().get();
+                if (object == null) {
+                    return "";
+                } else {
+                    return object.getBuildingName().get();
+                }
             }
 
             @Override
             public Building fromString(String id) {
-                return olb.stream().filter(x -> String.valueOf(x.getBuildingId()) == id).collect(Collectors.toList()).get(0);
+                return olb.stream().filter(x -> String.valueOf(x.getBuildingId()) == id)
+                        .collect(Collectors.toList()).get(0);
             }
         };
         bikeBuildingComboBox.setConverter(converter);
     }
 
     /**
-     * Create a new bike reservation when called
+     * Create a new bike reservation when called.
      */
     private static void emptyReservation() {
         bikeReservation = new BikeReservation();
@@ -488,12 +509,16 @@ public class BikeEditDialogController {
         if (isInputValid()) {
             emptyReservation();
             // Set the user input to the reservation
-            bikeReservation.setBikeReservationUser(this.bikeUsernameComboBox.getSelectionModel().getSelectedItem().getUsername().get());
-            bikeReservation.setBikeReservationBuilding(this.bikeBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
+            bikeReservation.setBikeReservationUser(
+                    this.bikeUsernameComboBox.getSelectionModel().getSelectedItem().getUsername().get());
+            bikeReservation.setBikeReservationBuilding(
+                    this.bikeBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
             bikeReservation.setBikeReservationQuantity(Integer.parseInt(this.bikeQuantityField.getText()));
             bikeReservation.setBikeReservationDate(this.bikeDate.getValue().toString());
-            bikeReservation.setBikeReservationStartingTime(bikeStartingTime.getText().replace("Start: ", ""));
-            bikeReservation.setBikeReservationEndingTime(bikeEndingTime.getText().replace("End: ", "").equals("24:00")
+            bikeReservation.setBikeReservationStartingTime(
+                    bikeStartingTime.getText().replace("Start: ", ""));
+            bikeReservation.setBikeReservationEndingTime(
+                    bikeEndingTime.getText().replace("End: ", "").equals("24:00")
                     ? "23:59" : bikeEndingTime.getText().replace("End: ", ""));
 
             // Close the dialog window

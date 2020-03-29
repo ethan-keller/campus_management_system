@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,15 +11,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
-import nl.tudelft.oopp.demo.communication.UserServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Food;
-import nl.tudelft.oopp.demo.entities.User;
-import nl.tudelft.oopp.demo.views.*;
+import nl.tudelft.oopp.demo.views.AdminManageFoodView;
+import nl.tudelft.oopp.demo.views.FoodBuildingEditDialogView;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+
 
 public class AdminFoodBuildingViewController {
 
@@ -48,10 +45,12 @@ public class AdminFoodBuildingViewController {
             // Initialize the title of the table
             foodNameLabel.setText(AdminManageFoodViewController.currentSelectedFood.getFoodName().get());
             // Initialize the room table with the four columns.
-            foodBuildingIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingId().get())));
+            foodBuildingIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(
+                    String.valueOf(cell.getValue().getBuildingId().get())));
             foodBuildingNameColumn.setCellValueFactory(cell -> cell.getValue().getBuildingName());
             // Add observable list data to the table
-            foodBuildingTable.setItems(Building.getBuildingByFoodId(AdminManageFoodViewController.currentSelectedFood.getFoodId().get()));
+            foodBuildingTable.setItems(Building.getBuildingByFoodId(
+                    AdminManageFoodViewController.currentSelectedFood.getFoodId().get()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,7 +87,9 @@ public class AdminFoodBuildingViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that building deletion was successful before displaying alert
-                FoodServerCommunication.deleteFoodFromBuilding(AdminManageFoodViewController.currentSelectedFood.getFoodId().get(), selectedBuilding.getBuildingId().getValue());
+                FoodServerCommunication.deleteFoodFromBuilding(
+                        AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),
+                        selectedBuilding.getBuildingId().getValue());
                 refresh();
                 // An alert pop up when a building deleted successfully
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -123,9 +124,13 @@ public class AdminFoodBuildingViewController {
             FoodBuildingEditDialogView view = new FoodBuildingEditDialogView();
             view.start(stage);
             Building tempBuilding = FoodBuildingEditDialogController.building;
-            if (tempBuilding == null) return;
-            // TODO: Check that reservation creation was successful before displaying alert
-            else FoodServerCommunication.addFoodToBuilding(AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),tempBuilding.getBuildingId().get());
+            if (tempBuilding == null) {
+                return;
+            } else {
+                FoodServerCommunication.addFoodToBuilding(
+                        AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),
+                        tempBuilding.getBuildingId().get());
+            }
             refresh();
             // An alert pop up when a new building added.
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

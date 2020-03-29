@@ -1,14 +1,17 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import nl.tudelft.oopp.demo.entities.*;
-import java.util.stream.Collectors;
+import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.entities.FoodReservation;
 
 public class FoodReservationEditDialogController {
 
@@ -44,28 +47,32 @@ public class FoodReservationEditDialogController {
     }
 
     /**
-     * Set the food combobox converter
+     * Set the food combobox converter.
      *
-     * @param olf
+     * @param olf an observable list of foods.
      */
     public void setFoodComboBoxConverter(ObservableList<Food> olf) {
         StringConverter<Food> converter = new StringConverter<Food>() {
             @Override
             public String toString(Food object) {
-                if (object == null) return "";
-                else return object.getFoodName().get();
+                if (object == null) {
+                    return "";
+                } else {
+                    return object.getFoodName().get();
+                }
             }
 
             @Override
             public Food fromString(String id) {
-                return olf.stream().filter(x -> String.valueOf(x.getFoodId()) == id).collect(Collectors.toList()).get(0);
+                return olf.stream().filter(x -> String.valueOf(x.getFoodId()) == id)
+                        .collect(Collectors.toList()).get(0);
             }
         };
         foodComboBox.setConverter(converter);
     }
 
     /**
-     * Create a new reservation when called
+     * Create a new reservation when called.
      */
     private static void emptyFoodReservation() {
         foodReservation = new FoodReservation();
@@ -80,11 +87,13 @@ public class FoodReservationEditDialogController {
         if (isInputValid()) {
             emptyFoodReservation();
             // Set the user input to the reservation
-            if(AdminUserHistoryViewController.currentSelectedReservation != null) {
-                foodReservation.setReservationId(AdminUserHistoryViewController.currentSelectedReservation.getId().get());
+            if (AdminUserHistoryViewController.currentSelectedReservation != null) {
+                foodReservation.setReservationId(
+                        AdminUserHistoryViewController.currentSelectedReservation.getId().get());
             }
-            if(AdminManageReservationViewController.currentSelectedReservation != null) {
-                foodReservation.setReservationId(AdminManageReservationViewController.currentSelectedReservation.getId().get());
+            if (AdminManageReservationViewController.currentSelectedReservation != null) {
+                foodReservation.setReservationId(
+                        AdminManageReservationViewController.currentSelectedReservation.getId().get());
             }
             foodReservation.setFoodId(this.foodComboBox.getSelectionModel().getSelectedItem().getFoodId().get());
             foodReservation.setFoodQuantity(Integer.parseInt(this.foodQuantityField.getText()));
