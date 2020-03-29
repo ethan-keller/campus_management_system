@@ -18,7 +18,7 @@ import nl.tudelft.oopp.demo.views.FoodBuildingEditDialogView;
 
 
 
-public class AdminFoodBuildingViewController {
+public class AdminManageFoodBuildingViewController {
 
     @FXML
     private Label foodNameLabel;
@@ -34,7 +34,7 @@ public class AdminFoodBuildingViewController {
 
     public static Building currentSelectedFoodBuilding;
 
-    public AdminFoodBuildingViewController() {
+    public AdminManageFoodBuildingViewController() {
     }
 
     /**

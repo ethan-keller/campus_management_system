@@ -10,6 +10,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservation;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -44,7 +45,7 @@ public class FoodReservationEditDialogController {
                         AdminUserHistoryViewController.currentSelectedReservation.getRoom().get())
                         .getRoomBuilding().get());
             }
-            if (AdminManageReservationViewController.currentSelectedReservation != null){
+            if (AdminManageReservationViewController.currentSelectedReservation != null) {
                 olf = Food.getFoodByBuildingId(Room.getRoomById(
                         AdminManageReservationViewController.currentSelectedReservation.getRoom().get())
                         .getRoomBuilding().get());
@@ -151,11 +152,8 @@ public class FoodReservationEditDialogController {
             return true;
         } else {
             // Show the error message.
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invalid Fields");
-            alert.setHeaderText("Please correct invalid fields");
-            alert.setContentText(errorMessage);
-            alert.showAndWait();
+            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
+                    errorMessage, Alert.AlertType.ERROR);
 
             return false;
         }

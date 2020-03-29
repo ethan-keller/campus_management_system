@@ -22,7 +22,7 @@ import nl.tudelft.oopp.demo.views.BikeEditDialogView;
 
 
 
-public class AdminBikeReservationViewController {
+public class AdminManageBikeReservationViewController {
 
     @FXML
     private TableView<BikeReservation> bikeTable;
@@ -56,7 +56,7 @@ public class AdminBikeReservationViewController {
 
     public static BikeReservation currentSelectedBikeReservation;
 
-    public AdminBikeReservationViewController() {
+    public AdminManageBikeReservationViewController() {
 
     }
 

@@ -80,7 +80,7 @@ public class UserBikeEditDialogController {
     private void initialize() {
         try {
             final BikeReservation bikeReservation =
-                    AdminBikeReservationViewController.currentSelectedBikeReservation;
+                    AdminManageBikeReservationViewController.currentSelectedBikeReservation;
             this.bikeReservation = null;
 
             bikeDate.setConverter(getDateConverter());
@@ -272,7 +272,7 @@ public class UserBikeEditDialogController {
                 bw.write("#91ef99 0%, #91ef99 100%);\n");
             }
 
-            BikeReservation bres = AdminBikeReservationViewController.currentSelectedBikeReservation;
+            BikeReservation bres = AdminManageBikeReservationViewController.currentSelectedBikeReservation;
 
             // calculate and add green and red parts
             while (it.hasNext()) {
@@ -518,11 +518,8 @@ public class UserBikeEditDialogController {
             return true;
         } else {
             // Show the error message.
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invalid Fields");
-            alert.setHeaderText("Please correct invalid fields");
-            alert.setContentText(errorMessage);
-            alert.showAndWait();
+            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
+                    errorMessage, Alert.AlertType.ERROR);
 
             return false;
         }
@@ -558,7 +555,7 @@ public class UserBikeEditDialogController {
                 return true;
             }
 
-            BikeReservation bres = AdminBikeReservationViewController.currentSelectedBikeReservation;
+            BikeReservation bres = AdminManageBikeReservationViewController.currentSelectedBikeReservation;
 
             for (BikeReservation br : bikeReservations) {
                 // if reservation equals the one we are editing, don't consider it

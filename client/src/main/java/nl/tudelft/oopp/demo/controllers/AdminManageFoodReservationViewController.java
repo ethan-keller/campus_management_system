@@ -19,7 +19,7 @@ import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.FoodReservationEditDialogView;
 
 
-public class AdminFoodReservationViewController {
+public class AdminManageFoodReservationViewController {
 
     @FXML
     private Label usernameLabel;
@@ -42,7 +42,7 @@ public class AdminFoodReservationViewController {
 
     public static FoodReservation currentSelectedFoodReservation;
 
-    public AdminFoodReservationViewController() {
+    public AdminManageFoodReservationViewController() {
 
     }
 
