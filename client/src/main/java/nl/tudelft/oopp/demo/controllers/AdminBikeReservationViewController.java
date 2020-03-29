@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
@@ -119,17 +120,12 @@ public class AdminBikeReservationViewController {
                         selectedBikeReservation.getBikeReservationId().get());
                 refresh();
                 // An alert pop up when a reservation deleted successfully
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Delete bike reservation");
-                alert.setContentText("Bike reservation deleted!");
-                alert.showAndWait();
+                GeneralMethods.alertBox("Delete bike reservation", "",
+                        "Bike reservation deleted!", Alert.AlertType.INFORMATION);
             } else {
                 // An alert pop up when no bike reservation selected
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No bike reservation Selected");
-                alert.setContentText("Please select a bike reservation in the table.");
-                alert.showAndWait();
+                GeneralMethods.alertBox("No Selection", "No Bike Reservation Selected",
+                        "Please select a bike reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("delete bike reservation exception");
@@ -165,10 +161,8 @@ public class AdminBikeReservationViewController {
                     tempBikeReservation.getBikeReservationEndingTime().get());
             refresh();
             // An alert pop up when a new reservation created.
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("New bike reservation");
-            alert.setContentText("Added new bike reservation!");
-            alert.showAndWait();
+            GeneralMethods.alertBox("New bike reservation", "",
+                    "New bike reservation! added!", Alert.AlertType.INFORMATION);
         } catch (Exception e) {
             System.out.println("bike reservation creation exception");
             e.printStackTrace();
@@ -205,16 +199,13 @@ public class AdminBikeReservationViewController {
                         tempBikeReservation.getBikeReservationStartingTime().get(),
                         tempBikeReservation.getBikeReservationEndingTime().get());
                 refresh();
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Edit bike reservation");
-                alert.setContentText("edited bike reservation!");
+                // Creates an alert box to display the message.
+                GeneralMethods.alertBox("Edit bike reservation", "",
+                        "Bike Reservation edited!", Alert.AlertType.INFORMATION);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No bike reservation selected");
-                alert.setContentText("Please select a bike reservation in the table.");
-                alert.showAndWait();
+                // Creates an alert box.
+                GeneralMethods.alertBox("No Selection", "No Bike Reservation Selected",
+                        "Please select a bike reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("bike reservation edit exception");

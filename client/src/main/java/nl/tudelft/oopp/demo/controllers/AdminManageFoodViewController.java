@@ -11,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.views.AdminFoodBuildingView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
@@ -90,17 +91,12 @@ public class AdminManageFoodViewController {
                 FoodServerCommunication.deleteFood(selectedFood.getFoodId().getValue());
                 refresh();
                 // An alert pop up when a food deleted successfully
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Delete food");
-                alert.setContentText("Food deleted!");
-                alert.showAndWait();
+                GeneralMethods.alertBox("Delete food", "",
+                        "Food deleted!", AlertType.INFORMATION);
             } else {
                 // An alert pop up when no food selected
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No Food Selected");
-                alert.setContentText("Please select a food in the table.");
-                alert.showAndWait();
+                GeneralMethods.alertBox("No Selection", "No Food Selected",
+                        "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("delete food exception");
@@ -128,9 +124,7 @@ public class AdminManageFoodViewController {
             FoodServerCommunication.createFood(tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
             refresh();
             // An alert pop up when a new food created.
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("New food");
-            alert.setContentText("Added new food!");
+            GeneralMethods.alertBox("New food", "", "New Food added!", AlertType.INFORMATION);
         } catch (Exception e) {
             System.out.println("food creation exception");
             e.printStackTrace();
@@ -162,16 +156,11 @@ public class AdminManageFoodViewController {
                         tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
                 refresh();
                 // An alert pop up when a new food created.
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Edit food");
-                alert.setContentText("edited food!");
+                GeneralMethods.alertBox("Edit food", "", "Food edited!", AlertType.INFORMATION);
             } else {
                 // An alert pop up when no food selected
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No Food Selected");
-                alert.setContentText("Please select a food in the table.");
-                alert.showAndWait();
+                GeneralMethods.alertBox("No Selection", "No Food Selected",
+                        "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("food edit exception");
@@ -198,11 +187,8 @@ public class AdminManageFoodViewController {
                 afbv.start(stage);
             } else {
                 // An alert pop up when no food selected
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No Food Selected");
-                alert.setContentText("Please select a food in the table.");
-                alert.showAndWait();
+                GeneralMethods.alertBox("No Selection", "No Food Selected",
+                        "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("food edit exception");

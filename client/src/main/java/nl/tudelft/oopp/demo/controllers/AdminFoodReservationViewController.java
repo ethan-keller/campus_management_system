@@ -11,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservation;
 import nl.tudelft.oopp.demo.views.AdminManageReservationView;
@@ -85,6 +86,7 @@ public class AdminFoodReservationViewController {
 
     /**
      * Called when admin clicks a food reservation.
+     * @return the selected food reservation
      */
     public FoodReservation getSelectedFoodReservation() {
         if (foodReservationTable.getSelectionModel().getSelectedIndex() >= 0) {
@@ -121,17 +123,12 @@ public class AdminFoodReservationViewController {
 
                 refresh();
                 // An alert pop up when a reservation deleted successfully
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Delete food reservation");
-                alert.setContentText("Food reservation deleted!");
-                alert.showAndWait();
+                GeneralMethods.alertBox("Delete food reservation", "",
+                        "Food reservation deleted!", Alert.AlertType.INFORMATION);
             } else {
                 // An alert pop up when no reservation selected
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No food Selected");
-                alert.setContentText("Please select a food in the table.");
-                alert.showAndWait();
+                GeneralMethods.alertBox("No Selection", "No food Selected",
+                        "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("delete food reservation exception");
@@ -169,10 +166,8 @@ public class AdminFoodReservationViewController {
             }
             refresh();
             // An alert pop up when a new reservation created.
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("New food reservation");
-            alert.setContentText("Added new food reservation!");
-            alert.showAndWait();
+            GeneralMethods.alertBox("New food reservation", "",
+                    "Added new food reservation!", Alert.AlertType.INFORMATION);
         } catch (Exception e) {
             System.out.println("Food reservation creation exception");
             e.printStackTrace();

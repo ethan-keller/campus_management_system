@@ -223,11 +223,9 @@ public class AdminManageUserViewController {
                 AdminUserBikeView auhv = new AdminUserBikeView();
                 auhv.start(stage);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No User Selected");
-                alert.setContentText("Please select a user in the table.");
-                alert.showAndWait();
+                // Creates an alert box.
+                GeneralMethods.alertBox("No Selection", "No User Selected",
+                        "Please select a User in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("user edit exception");

@@ -11,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminManageFoodView;
 import nl.tudelft.oopp.demo.views.FoodBuildingEditDialogView;
@@ -92,17 +93,12 @@ public class AdminFoodBuildingViewController {
                         selectedBuilding.getBuildingId().getValue());
                 refresh();
                 // An alert pop up when a building deleted successfully
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Delete building");
-                alert.setContentText("Building deleted!");
-                alert.showAndWait();
+                GeneralMethods.alertBox("Delete building", "",
+                        "Building deleted!", Alert.AlertType.INFORMATION);
             } else {
                 // An alert pop up when no building selected
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No Building Selected");
-                alert.setContentText("Please select a building in the table.");
-                alert.showAndWait();
+                GeneralMethods.alertBox("No Selection", "No Building Selected",
+                        "Please select a building in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("delete user exception");
@@ -133,9 +129,8 @@ public class AdminFoodBuildingViewController {
             }
             refresh();
             // An alert pop up when a new building added.
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("New building");
-            alert.setContentText("Added new building!");
+            GeneralMethods.alertBox("New building", "",
+                    "New building added!", Alert.AlertType.INFORMATION);
         } catch (Exception e) {
             System.out.println("building adding exception");
             e.printStackTrace();
