@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.logic.SearchViewLogic;
 import nl.tudelft.oopp.demo.views.LoginView;
@@ -82,10 +83,8 @@ public class SearchViewController implements Initializable {
 
     private int building;
     private boolean teacherOnly;
-    private int capMin;
-    private int capMax;
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    SimpleDateFormat sdf = new SimpleDateFormat("mm:ss.SSS");
 
     /**
      * Default construct of searchView class.
@@ -177,9 +176,19 @@ public class SearchViewController implements Initializable {
         });
 
         // if a new filter is applied or an filter is removed filter again and load the cards again
+        bikesAvailable.setOnAction(event -> {
+            try {
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        // if a new filter is applied or an filter is removed filter again and load the cards again
         yesCheckBoxTeacherOnly.setOnAction(event -> {
             try {
                 yesCheckBoxTeacherOnly.setSelected(true);
+                noCheckBoxTeacherOnly.setSelected(false);
                 loadCards();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -190,6 +199,28 @@ public class SearchViewController implements Initializable {
         noCheckBoxTeacherOnly.setOnAction(event -> {
             try {
                 yesCheckBoxTeacherOnly.setSelected(false);
+                noCheckBoxTeacherOnly.setSelected(true);
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        yesCheckBoxFood.setOnAction(event -> {
+            try {
+                yesCheckBoxFood.setSelected(true);
+                noCheckBoxFood.setSelected(false);
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        // if a new filter is applied or an filter is removed filter again and load the cards again
+        noCheckBoxFood.setOnAction(event -> {
+            try {
+                yesCheckBoxFood.setSelected(false);
+                noCheckBoxFood.setSelected(true);
                 loadCards();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -251,11 +282,22 @@ public class SearchViewController implements Initializable {
             roomList = SearchViewLogic.filterRoomByTeacherOnly(roomList, false);
         }
 
+        if(yesCheckBoxFood.isSelected()){
+            roomList = SearchViewLogic.filterByFood(roomList, buildings);
+        }
+
         // if the combobox is selected on a value it filters for that value.
         if (capacityComboBox.getValue() != null) {
             String capacity = capacityComboBox.getValue();
 
             roomList = SearchViewLogic.filterRoomByCapacity(roomList, capacity);
+        }
+
+        // if the combobox is selected on a value it filters for that value.
+        if (bikesAvailable.getValue() != null) {
+            String bikes = bikesAvailable.getValue();
+
+            roomList = SearchViewLogic.filterByBike(roomList, buildings, bikes);
         }
 
         // if a date is selected it filters out the rooms that are fully booked for that day.
@@ -268,7 +310,7 @@ public class SearchViewController implements Initializable {
         }
         Date now3 = new Date();
         String strDate3 = sdf.format(now3);
-        System.out.println("Date filtering end: " + strDate);
+        System.out.println("Date filtering end: " + strDate3);
 
         // value of the searchbar is put in searchBarInput
         // and is filtered on building name and room name.
@@ -281,7 +323,7 @@ public class SearchViewController implements Initializable {
         }
         Date now4 = new Date();
         String strDate4 = sdf.format(now4);
-        System.out.println("ending filtering: " + strDate2);
+        System.out.println("ending filtering: " + strDate4);
         //Load the cards that need to be shown
         getCardsShown(roomsToShow);
 
@@ -301,11 +343,14 @@ public class SearchViewController implements Initializable {
 
         // create a 'card' showing some information of the room, for every room
         for (Room r : roomList) {
+            Date now7 = new Date();
+            String strDate7 = sdf.format(now7);
+            System.out.println("Going for card: " + strDate7);
             cardHolder.getChildren().add(SearchViewLogic.createRoomCard(this, r));
         }
         Date now = new Date();
         String strDate = sdf.format(now);
-        System.out.println("ending getCardShown: " + strDate2);
+        System.out.println("ending getCardShown: " + strDate);
     }
 
     /**

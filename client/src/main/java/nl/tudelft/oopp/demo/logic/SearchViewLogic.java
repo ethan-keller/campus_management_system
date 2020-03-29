@@ -10,10 +10,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import nl.tudelft.oopp.demo.controllers.SearchViewController;
-import nl.tudelft.oopp.demo.entities.Building;
-
-import nl.tudelft.oopp.demo.entities.Reservation;
-import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -338,5 +335,62 @@ public class SearchViewLogic {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static List<Room> filterByFood(List<Room> rooms, List<Building> buildings){
+        List<Integer> buildingsWithFood = new ArrayList<Integer>();
+        for(int i = 0; i != buildings.size(); i ++){
+            int buildingId = buildings.get(i).getBuildingId().getValue();
+            if(!Food.getFoodByBuildingId(buildingId).isEmpty()){
+                buildingsWithFood.add(buildings.get(i).getBuildingId().getValue());
+            }
+        }
+        for(int i = 0; i != rooms.size(); i++){
+            if(!buildingsWithFood.contains(rooms.get(i).getRoomBuilding().getValue())){
+                rooms.remove(i);
+                i--;
+            }
+        }
+        return rooms;
+    }
+
+    public static List<Room> filterByBike(List<Room> rooms, List<Building> buildings, String bikes){
+        int minBikes;
+        int maxBikes;
+        switch (bikes) {
+            case "1-5":
+                minBikes = 1;
+                maxBikes = 5;
+                break;
+            case "5-10":
+                minBikes = 5;
+                maxBikes = 10;
+                break;
+            case "10-20":
+                minBikes = 10;
+                maxBikes = 20;
+                break;
+            default:
+                minBikes = 20;
+                maxBikes = 99999;
+                break;
+
+
+
+        }
+        List<Integer> buildingsWithBike = new ArrayList<Integer>();
+        for(int i = 0; i != buildings.size(); i ++){
+            int buildingBike = buildings.get(i).getBuildingMaxBikes().getValue();
+            if(buildingBike >= minBikes && buildingBike <= maxBikes){
+                buildingsWithBike.add(buildings.get(i).getBuildingId().getValue());
+            }
+        }
+        for(int i = 0; i != rooms.size(); i++){
+            if(!buildingsWithBike.contains(rooms.get(i).getRoomBuilding().getValue())){
+                rooms.remove(i);
+                i--;
+            }
+        }
+        return rooms;
     }
 }

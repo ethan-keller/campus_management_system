@@ -1,36 +1,14 @@
 package nl.tudelft.oopp.demo.communication;
 
-<<<<<<< HEAD
-=======
-import java.io.BufferedWriter;
-import java.io.UnsupportedEncodingException;
-
-import java.net.URLEncoder;
-
-import java.nio.charset.StandardCharsets;
-
-import java.util.ArrayList;
-import java.util.List;
-
->>>>>>> filtering_in_logic
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Window;
-import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Room;
 import org.controlsfx.control.RangeSlider;
 
-<<<<<<< HEAD
 import java.io.BufferedWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-=======
-import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Room;
->>>>>>> filtering_in_logic
 
 
 
@@ -47,22 +25,10 @@ public class GeneralMethods {
     /**
      * This method is to encode all communication across the data stream.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
      * @param params are passed.
      * @return :Encoded parameters as string.
      * @throws UnsupportedEncodingException is thrown.
-=======
-     * @param params are passed
-     * @return Encoded parameters as string
-     * @throws UnsupportedEncodingException is thrown
->>>>>>> develop
-=======
-     * @param params are passed.
-     * @return :Encoded parameters as string.
-     * @throws UnsupportedEncodingException is thrown.
->>>>>>> filtering
->>>>>>> filtering_in_logic
+    >>>>>>> filtering
      */
     public static String encodeCommunication(String params) throws UnsupportedEncodingException {
         params = URLEncoder.encode(params, StandardCharsets.UTF_8.toString());
@@ -145,156 +111,6 @@ public class GeneralMethods {
     }
 
     /**
-<<<<<<< HEAD
-     * filters rooms by the id of the building.
-     *
-     * @param rooms list of rooms  to be filtered
-     * @param building id of the building the rooms should contain
-     * @return list of rooms with the building-id that is given.
-     */
-    public static List<Room> filterRoomByBuilding(List<Room> rooms, int building) {
-        if (rooms == null) {
-            return null;
-        }
-
-        if (rooms.size() == 0) {
-            return rooms;
-        }
-
-
-        for (int i = 0; i != rooms.size(); i++) {
-            if ((int) rooms.get(i).getRoomBuilding().getValue() != building) {
-                rooms.remove(rooms.get(i));
-                i--;
-            }
-        }
-
-        return rooms;
-    }
-
-    /**
-     * filters the rooms that are teacher only or not teacher only. Depending on the given boolean.
-     *
-     * @param rooms list of rooms  to be filtered
-     * @param teacherOnly if a room should be teacher only or not
-     * @return list of rooms that are all teacher only or not teacher only. Depending on the boolean given.
-     */
-    public static List<Room> filterRoomByTeacherOnly(List<Room> rooms, boolean teacherOnly) {
-        if (rooms == null) {
-            return null;
-        }
-
-        if (rooms.size() == 0) {
-            return rooms;
-        }
-
-        for (int j = 0; j != rooms.size(); j++) {
-            if (rooms.get(j).getTeacherOnly().getValue() != teacherOnly) {
-                rooms.remove(rooms.get(j));
-                j--;
-            }
-        }
-
-        return rooms;
-    }
-
-    /**
-     * filters room by a capacity between 2 ints.
-     *
-     * @param rooms list of rooms  to be filtered
-     * @param capMax maximum capacity wanted
-     * @param capMin minimum capacity wanted
-     * @return list of rooms that have a capacity between the two given ints.
-     */
-    public static List<Room> filterRoomByCapacity(List<Room> rooms, int capMax, int capMin) {
-        if (rooms == null) {
-            return null;
-        }
-
-        if (rooms.size() == 0) {
-            return rooms;
-        }
-
-        for (int i = 0; i != rooms.size(); i++) {
-            if (rooms.get(i).getRoomCapacity().getValue() > capMax
-                    || rooms.get(i).getRoomCapacity().getValue() < capMin) {
-                rooms.remove(rooms.get(i));
-                i--;
-            }
-        }
-
-        return rooms;
-    }
-
-    /**
-     * filters rooms with the building names and room names that contain the input.
-     *
-     * @param rooms list of rooms  to be filtered
-     * @param input input of the searchbar
-     * @param buildings buildings that are in the system
-     * @return lists of room with the building names and room names that contain the input.
-     */
-    public static List<Room> filterBySearch(List<Room> rooms, String input, List<Building> buildings) {
-        List<Room> roomsFilteredByRoom = filterRoomsBySearch(rooms, input);
-        List<Room> roomsFilteredByBuilding = filterBuildingsBySearch(rooms, input, buildings);
-        // makes a union of the 2 filtered lists and removes the doubled rooms.
-        for (int i = 0; i != roomsFilteredByRoom.size(); i++) {
-            if (!roomsFilteredByBuilding.contains(roomsFilteredByRoom.get(i))) {
-                roomsFilteredByBuilding.add(roomsFilteredByRoom.get(i));
-            }
-        }
-        return roomsFilteredByBuilding;
-    }
-
-    /**
-     * filters rooms with the room names that contain the input.
-     *
-     * @param rooms list of rooms  to be filtered
-     * @param input input from the searchbar
-     * @return a lists with rooms with the building names that contain the input.
-     */
-    public static List<Room> filterRoomsBySearch(List<Room> rooms, String input) {
-        List<Room> res = new ArrayList<Room>();
-        for (int j = 0; j != rooms.size(); j++) {
-            res.add(rooms.get(j));
-        }
-        input = input.toLowerCase();
-        for (int i = 0; i != res.size(); i++) {
-            String name = res.get(i).getRoomName().getValue().toLowerCase();
-            if (!name.contains(input)) {
-                res.remove(res.get(i));
-                i--;
-            }
-        }
-        return res;
-    }
-
-    /**
-     * filters rooms with the building names that contain the input.
-     *
-     * @param rooms list of rooms  to be filtered
-     * @param input input from the searchbar
-     * @param buildings buildings that are present in the database
-     * @return a list of rooms with the building names that contain the input.
-     */
-    public static List<Room> filterBuildingsBySearch(List<Room> rooms, String input, List<Building> buildings) {
-        List<Room> res = new ArrayList<Room>();
-        List<Integer> buildingIds = new ArrayList<Integer>();
-        input = input.toLowerCase();
-        for (int i = 0; i != buildings.size(); i++) {
-            if (buildings.get(i).getBuildingName().getValue().toLowerCase().contains(input)) {
-                buildingIds.add(buildings.get(i).getBuildingId().getValue());
-            }
-        }
-        for (int j = 0; j != rooms.size(); j++) {
-            if (buildingIds.contains(rooms.get(j).getRoomBuilding().getValue())) {
-                res.add(rooms.get(j));
-            }
-        }
-        return res;
-    }
-
-        /**
      * Sets the RangeSlider to a standard white track.
      *
      * @param rs the RangeSlider to configure
