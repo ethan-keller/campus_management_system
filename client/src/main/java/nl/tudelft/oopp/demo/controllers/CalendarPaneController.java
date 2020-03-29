@@ -5,15 +5,11 @@ import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.CalendarView;
 import com.mindfusion.scheduling.model.Appointment;
 import com.mindfusion.scheduling.model.Item;
-
 import java.awt.Color;
 import java.awt.Point;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
@@ -23,9 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import javax.swing.SwingUtilities;
-
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
@@ -39,19 +33,15 @@ import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
 /**
- * <<<<<<< HEAD
- * Class that controls the view which contains the calendar with booking history and custom calendar items.
- * =======
  * .
  * Class that controls the view which contains the calendar with booking history
  * and custom calendar items
- * >>>>>>> develop
  */
 public class CalendarPaneController implements Initializable {
 
     @FXML
     private AnchorPane pane;
-    private Calendar calendar;
+    private volatile Calendar calendar;
     public static Stage thisStage;
 
     /**
@@ -75,6 +65,7 @@ public class CalendarPaneController implements Initializable {
             // The calendar gets scrolled to 08:00 instead of 00:00
             // wait until calendar is initialized and then scroll
             while (calendar == null) {
+                Thread.onSpinWait();
             }
             calendar.setScrollPosition(new Point(0, 16));
 
