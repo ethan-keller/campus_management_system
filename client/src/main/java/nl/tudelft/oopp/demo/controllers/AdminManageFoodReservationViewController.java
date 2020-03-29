@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +19,9 @@ import nl.tudelft.oopp.demo.views.AdminManageReservationView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.FoodReservationEditDialogView;
 
-
+/**
+ * Class that controls the view where the admin can manage food reservations.
+ */
 public class AdminManageFoodReservationViewController {
 
     @FXML
@@ -31,13 +34,13 @@ public class AdminManageFoodReservationViewController {
     private TableView<FoodReservation> foodReservationTable;
 
     @FXML
-    private TableColumn<FoodReservation, String> foodIdColumn;
+    private TableColumn<FoodReservation, Number> foodIdColumn;
 
     @FXML
     private TableColumn<FoodReservation, String> foodNameColumn;
 
     @FXML
-    private TableColumn<FoodReservation, String> foodQuantityColumn;
+    private TableColumn<FoodReservation, Number> foodQuantityColumn;
 
 
     public static FoodReservation currentSelectedFoodReservation;
@@ -65,12 +68,12 @@ public class AdminManageFoodReservationViewController {
                         AdminManageReservationViewController.currentSelectedReservation.getId().get()));
             }
             // Initialize the booking table with the three columns.
-            foodIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
-                    String.valueOf(cellData.getValue().getFoodId().get())));
+            foodIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
+                    cellData.getValue().getFoodId().get()));
             foodNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                     Food.getFoodById(cellData.getValue().getFoodId().get()).getFoodName().get()));
-            foodQuantityColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
-                    String.valueOf(cellData.getValue().getFoodQuantity().get())));
+            foodQuantityColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
+                    cellData.getValue().getFoodQuantity().get()));
             foodReservationTable.setItems(FoodReservation.getUserReservationFood());
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,6 +89,7 @@ public class AdminManageFoodReservationViewController {
 
     /**
      * Called when admin clicks a food reservation.
+     *
      * @return the selected food reservation
      */
     public FoodReservation getSelectedFoodReservation() {
@@ -96,12 +100,19 @@ public class AdminManageFoodReservationViewController {
         }
     }
 
+    /**
+     * Gets the index of the currently selected iem in the table.
+     *
+     * @return int the index of the item
+     */
     public int getSelectedIndex() {
         return foodReservationTable.getSelectionModel().getSelectedIndex();
     }
 
     /**
      * Delete a food reservation.
+     *
+     * @param event the event that triggered this method
      */
     @FXML
     private void deleteFoodClicked(ActionEvent event) {
@@ -120,11 +131,10 @@ public class AdminManageFoodReservationViewController {
                             selectedFoodReservation.getFoodId().getValue(),
                             AdminManageReservationViewController.currentSelectedReservation.getId().get());
                 }
-
-                refresh();
                 // An alert pop up when a reservation deleted successfully
                 GeneralMethods.alertBox("Delete food reservation", "",
                         "Food reservation deleted!", Alert.AlertType.INFORMATION);
+                refresh();
             } else {
                 // An alert pop up when no reservation selected
                 GeneralMethods.alertBox("No Selection", "No food Selected",
@@ -139,6 +149,8 @@ public class AdminManageFoodReservationViewController {
     /**
      * Handles clicking the create new button.
      * Opens a dialog to creat a new food reservation.
+     *
+     * @param event event that triggered this method
      */
     @FXML
     private void createNewFoodClicked(ActionEvent event) {
@@ -164,10 +176,10 @@ public class AdminManageFoodReservationViewController {
                         AdminManageReservationViewController.currentSelectedReservation.getId().get(),
                         tempReservation.getFoodQuantity().get());
             }
-            refresh();
             // An alert pop up when a new reservation created.
             GeneralMethods.alertBox("New food reservation", "",
                     "Added new food reservation!", Alert.AlertType.INFORMATION);
+            refresh();
         } catch (Exception e) {
             System.out.println("Food reservation creation exception");
             e.printStackTrace();
@@ -176,6 +188,8 @@ public class AdminManageFoodReservationViewController {
 
     /**
      * Handles clicking the back button, redirect to the user reservation history view.
+     *
+     * @param event evnt that triggered this method
      */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {

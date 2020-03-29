@@ -1,17 +1,13 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +17,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -33,36 +30,29 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.User;
 import org.controlsfx.control.RangeSlider;
 
-
+/**
+ * Class that controls the dialog box when an admin edits or creates a bike reservation.
+ */
 public class BikeEditDialogController {
 
     @FXML
     private ComboBox<User> bikeUsernameComboBox;
-
     @FXML
     private ComboBox<Building> bikeBuildingComboBox;
-
     @FXML
-    private TextField bikeQuantityField;
-
+    private Spinner<Integer> quantity;
     @FXML
     private DatePicker bikeDate;
-
     @FXML
     private Text bikeStartingTime;
-
     @FXML
     private Text bikeEndingTime;
-
     @FXML
     private GridPane grid;
-
     @FXML
     private Label timeslot;
-
-    private ObservableList<User> olu;
-
-    private ObservableList<Building> olb;
+    @FXML
+    private Text availableBikes;
 
     private RangeSlider timeslotSlider;
 
@@ -92,19 +82,23 @@ public class BikeEditDialogController {
                     AdminManageBikeReservationViewController.currentSelectedBikeReservation;
             this.bikeReservation = null;
 
-            bikeDate.setConverter(getDateConverter());
+            // set the value factory for the quantity spinner
+            setQuantitySpinnerValueFactory();
+
             // Initialize the username combobox
-            olu = User.getUserData();
-            bikeUsernameComboBox.setItems(olu);
-            this.setBikeUsernameComboBoxConverter(olu);
+            ObservableList<User> userList = User.getUserData();
+            bikeUsernameComboBox.setItems(userList);
+            this.setBikeUsernameComboBoxConverter(userList);
+
+            // if reservation is being edited, disable the user combobox
             if (edit) {
                 bikeUsernameComboBox.setDisable(true);
             }
 
             // Initialize the building combobox
-            olb = Building.getBuildingData();
-            bikeBuildingComboBox.setItems(olb);
-            this.setBikeBuildingComboBoxConverter(olb);
+            ObservableList<Building> buildingList = Building.getBuildingData();
+            bikeBuildingComboBox.setItems(buildingList);
+            this.setBikeBuildingComboBoxConverter(buildingList);
 
             //This method sets up the slider which determines the time of reservation in the dialog view.
             configureRangeSlider();
@@ -112,55 +106,140 @@ public class BikeEditDialogController {
             // set stylesheet for range slider
             timeslotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
 
+            // sets the cell factory for the date picker
             bikeDate.setDayCellFactory(getDayCellFactory());
+            // set the string converter of the date picker
+            bikeDate.setConverter(getDateConverter());
 
-            // change CSS when date changes or room changes
+            // when date gets changed, adjust available bikes text
             bikeDate.valueProperty().addListener(((observable, oldValue, newValue) -> {
-                configureCss();
-            }));
-            bikeBuildingComboBox.valueProperty().addListener(((observable, oldValue, newValue) -> {
-                configureCss();
+                if (bikeBuildingComboBox.getValue() != null) {
+                    availableBikes.setText(String.valueOf(getAvailableBikes()));
+                }
             }));
 
+            // when selected building changes, adjust available bikes text
+            bikeBuildingComboBox.valueProperty().addListener(((observable, oldValue, newValue) -> {
+                if (bikeDate.getValue() != null) {
+                    availableBikes.setText(String.valueOf(getAvailableBikes()));
+                }
+            }));
+
+            // if admin is editing a reservation, fill all the fields with the reservation info
             if (bikeReservation != null) {
-                if (olu == null) {
+                if (userList == null) {
                     return;
                 }
-                bikeUsernameComboBox.getSelectionModel().select(olu.stream()
+                // set the user
+                bikeUsernameComboBox.getSelectionModel().select(userList.stream()
                         .filter(x -> x.getUsername().get().equals(
                                 bikeReservation.getBikeReservationUser().get().toLowerCase()))
                         .collect(Collectors.toList()).get(0));
+                // disbale the user combobox
                 bikeUsernameComboBox.setDisable(true);
 
-                bikeQuantityField.setText(String.valueOf(bikeReservation.getBikeReservationQuantity().get()));
+                // set the quantity
+                quantity.getValueFactory().setValue(bikeReservation.getBikeReservationQuantity().getValue());
 
-                if (olb == null) {
+                if (buildingList == null) {
                     return;
                 }
-                bikeBuildingComboBox.getSelectionModel().select(olb.stream()
+
+                // set the building
+                bikeBuildingComboBox.getSelectionModel().select(buildingList.stream()
                         .filter(x -> x.getBuildingId().get() == bikeReservation.getBikeReservationBuilding().get())
                         .collect(Collectors.toList()).get(0));
 
+                // set the date
                 bikeDate.setValue(LocalDate.parse(bikeReservation.getBikeReservationDate().get(), formatter));
                 String[] startTimeSplit = bikeReservation.getBikeReservationStartingTime().get().split(":");
 
+                // set the timeslot thumbs
                 timeslotSlider.setLowValue(Double.parseDouble(startTimeSplit[0]) * 60.0
                         + Double.parseDouble(startTimeSplit[1]));
                 String[] endTimeSplit = bikeReservation.getBikeReservationEndingTime().get().split(":");
                 timeslotSlider.setHighValue(Double.parseDouble(endTimeSplit[0]) * 60.0
                         + Double.parseDouble(endTimeSplit[1]));
 
+                // set the start and end time texts
                 bikeStartingTime.setText("Start: " + getRangeSliderConverter()
                         .toString(timeslotSlider.getLowValue()));
                 bikeEndingTime.setText("End: " + getRangeSliderConverter()
                         .toString(timeslotSlider.getHighValue()));
-            } else {
-                return;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * .
+     * Creates and assigns a Spinner Value Factory to the quantity spinner which restricts the
+     * minimum, maximum, initial value and step size
+     */
+    private void setQuantitySpinnerValueFactory() {
+        try {
+            // create new value factory
+            SpinnerValueFactory<Integer> factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(
+                    1, Integer.MAX_VALUE, 1, 1);
+            // set the factory
+            quantity.setValueFactory(factory);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * gets the amount of available bikes at a given moment (timeslot).
+     *
+     * @return int amount of available bikes
+     */
+    private int getAvailableBikes() {
+        try {
+            // get the amount of bikes that the chosen building has
+            int availableBikes = bikeBuildingComboBox.getValue().getBuildingMaxBikes().get();
+
+            // get all the bike reservations for the chosen building
+            int buildingId = bikeBuildingComboBox.getValue().getBuildingId().get();
+            ObservableList<BikeReservation> reservationsList =
+                    BikeReservation.getBikeReservationsByBuilding(buildingId);
+
+            // filter to keep reservations on chosen date
+            List<BikeReservation> filteredList = reservationsList.stream()
+                    .filter(x -> x.getBikeReservationDate().get()
+                            .equals(getDateConverter().toString(bikeDate.getValue())))
+                    .collect(Collectors.toList());
+
+            // get current slider values
+            double currentStart = timeslotSlider.getLowValue();
+            double currentEnd = timeslotSlider.getHighValue();
+
+            // subtract from availableBikes the bike quantity from
+            // all the reservations (if reservations falls in current timeslot)
+            for (BikeReservation br : filteredList) {
+                // if admin is editing a reservation don't subtract amount of the current reservation
+                if (edit && AdminManageBikeReservationViewController.currentSelectedBikeReservation
+                        .getBikeReservationId().get() == br.getBikeReservationId().get()) {
+                    continue;
+                }
+                // get start and end time
+                double startTime = (double) getRangeSliderConverter()
+                        .fromString(br.getBikeReservationStartingTime().get());
+                double endTime = (double) getRangeSliderConverter()
+                        .fromString(br.getBikeReservationEndingTime().get());
+
+                // check if timeslots overlap
+                if (!(startTime < currentStart && endTime < currentStart)
+                        && !(startTime > currentEnd && endTime > currentEnd)) {
+                    // subtract amount of bikes
+                    availableBikes -= br.getBikeReservationQuantity().get();
+                }
+            }
+            return availableBikes;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
@@ -213,9 +292,6 @@ public class BikeEditDialogController {
             timeslotSlider.setShowTickMarks(true);
             timeslotSlider.setMajorTickUnit(120);
 
-            // configure css of rangeslider to show user what timeslots are free
-            configureCss();
-
             // get and set the StringConverter to show hh:mm format
             StringConverter<Number> converter = getRangeSliderConverter();
             timeslotSlider.setLabelFormatter(converter);
@@ -224,132 +300,11 @@ public class BikeEditDialogController {
             configureRangeSliderListeners(converter);
 
             // initialize the Text objects with the current values of the thumbs
-            bikeStartingTime.setText(converter.toString(timeslotSlider.getLowValue()));
-            bikeEndingTime.setText(converter.toString(timeslotSlider.getHighValue()));
+            bikeStartingTime.setText("Start: " + converter.toString(timeslotSlider.getLowValue()));
+            bikeEndingTime.setText("End: " + converter.toString(timeslotSlider.getHighValue()));
 
             // inject the RangeSlider in the JavaFX layout
-            grid.add(timeslotSlider, 1, 4);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Configures the CSS of the RangeSlider.
-     * Configure (in CSS) the colors of the track of the range slider to show in green the available timeslots
-     * and in red the rest
-     */
-    private void configureCss() {
-        try {
-            // get currently selected builiding
-            Building selectedBuilding = bikeBuildingComboBox.getSelectionModel().getSelectedItem();
-            // get css file and delete its content to fill it again
-            File css = new File(getClass().getResource("/RangeSlider.css").getPath());
-            css.delete();
-            css.createNewFile();
-            BufferedWriter bw = new BufferedWriter(new FileWriter(css));
-
-            if (selectedBuilding == null) {
-                // make track completely white
-                GeneralMethods.setSliderDefaultCss(timeslotSlider, bw,
-                        getClass().getResource("/RangeSlider.css").toExternalForm());
-                return;
-            }
-            // get reservations for this room on the selected date
-            List<BikeReservation> bikeReservations = BikeReservation.getBikeReservationsOnDate(
-                    selectedBuilding.getBuildingId().get(),
-                    bikeDate.getValue(), getDateConverter());
-
-            // sort them in ascending order
-            bikeReservations.sort(new Comparator<BikeReservation>() {
-                @Override
-                public int compare(BikeReservation o1, BikeReservation o2) {
-                    // split time in hh:mm
-                    String[] o1StartSplit = o1.getBikeReservationStartingTime().get().split(":");
-                    int o1StartHour = Integer.parseInt(o1StartSplit[0]);
-                    int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
-
-                    String[] o2StartSplit = o2.getBikeReservationStartingTime().get().split(":");
-                    int o2StartHour = Integer.parseInt(o2StartSplit[0]);
-                    int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
-
-                    // compare hours and minutes
-                    if (o1StartHour < o2StartHour) {
-                        return -1;
-                    } else if (o1StartHour > o2StartHour) {
-                        return 1;
-                    }
-                    if (o1StartMinute < o2StartMinute) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
-                }
-            });
-
-            // first part of css
-            bw.write(".track {\n" + "\t-fx-background-color: linear-gradient(to right, ");
-
-            // iterator to loop over all the reservations
-            Iterator<BikeReservation> it = bikeReservations.iterator();
-
-            // if there are no reservations make the track completely green
-            if (!it.hasNext()) {
-                bw.write("#91ef99 0%, #91ef99 100%);\n");
-            }
-
-            BikeReservation bres = AdminManageBikeReservationViewController.currentSelectedBikeReservation;
-
-            // calculate and add green and red parts
-            while (it.hasNext()) {
-                BikeReservation br = it.next();
-                // split start and end times into hours and minutes
-                String[] startTime = br.getBikeReservationStartingTime().get().split(":");
-                String[] endTime = br.getBikeReservationEndingTime().get().split(":");
-
-                // calculate the percentage of the track that the reservation should cover
-                double startPercentage = ((Double.parseDouble(startTime[0]) - 8.0) * 60.0
-                        + Double.parseDouble(startTime[1])) / 9.60;
-                double endPercentage = ((Double.parseDouble(endTime[0]) - 8.0) * 60.0
-                        + Double.parseDouble(endTime[1])) / 9.60;
-                // if reservation is the one that is being edited, give it a light blue color
-                if (bres != null && bres.getBikeReservationId().get() == br.getBikeReservationId().get()) {
-                    bw.write("#91ef99 " + startPercentage + "%, ");
-                    bw.write("#70e5fa " + startPercentage + "%, ");
-                    bw.write("#70e5fa " + endPercentage + "%, ");
-                    bw.write("#91ef99 " + endPercentage + "%");
-                    if (!it.hasNext()) {
-                        bw.write(");\n");
-                    } else {
-                        bw.write(", ");
-                    }
-                    continue;
-                }
-                bw.write("#91ef99 " + startPercentage + "%, ");
-                bw.write("#ffc0cb " + startPercentage + "%, ");
-                bw.write("#ffc0cb " + endPercentage + "%, ");
-                bw.write("#91ef99 " + endPercentage + "%");
-                if (!it.hasNext()) {
-                    bw.write(");\n");
-                } else {
-                    bw.write(", ");
-                }
-            }
-
-            // last part of css (more configuration)
-            bw.write("\t-fx-background-insets: 0 0 -1 0, 0, 1;\n"
-                    + "\t-fx-background-radius: 0.25em, 0.25em, 0.166667em; /* 3 3 2 */\n"
-                    + "\t-fx-padding: 0.25em; /* 3 */\n"
-                    + "}\n\n" + ".range-bar {\n"
-                    + "\t-fx-background-color: rgba(0,0,0,0.3);\n"
-                    + "}");
-            // flush and close writer
-            bw.flush();
-            bw.close();
-            // remove current stylesheet
-            timeslotSlider.getStylesheets().remove(getClass().getResource("/RangeSlider.css").toExternalForm());
-            // add new stylesheet
-            timeslotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
+            grid.add(timeslotSlider, 1, 5);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -364,10 +319,32 @@ public class BikeEditDialogController {
     private void configureRangeSliderListeners(StringConverter<Number> converter) {
         try {
             // listeners to adjust start and end Text objects when thumbs get moved
-            timeslotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
-                    bikeEndingTime.setText("End: " + converter.toString(newValue)));
-            timeslotSlider.lowValueProperty().addListener((observable, oldValue, newValue) ->
-                    bikeStartingTime.setText("Start: " + converter.toString(newValue)));
+            timeslotSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
+                bikeEndingTime.setText("End: " + converter.toString(newValue));
+            });
+            timeslotSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
+                bikeStartingTime.setText("Start: " + converter.toString(newValue));
+            });
+
+            timeslotSlider.highValueChangingProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable,
+                                    Boolean wasChanging, Boolean changing) {
+                    if (!changing && bikeBuildingComboBox.getValue() != null && bikeDate.getValue() != null) {
+                        availableBikes.setText(String.valueOf(getAvailableBikes()));
+                    }
+                }
+            });
+
+            timeslotSlider.lowValueChangingProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable,
+                                    Boolean wasChanging, Boolean changing) {
+                    if (!changing && bikeBuildingComboBox.getValue() != null && bikeDate.getValue() != null) {
+                        availableBikes.setText(String.valueOf(getAvailableBikes()));
+                    }
+                }
+            });
 
             // listeners that make sure the user can only select intervals of 30 minutes
             timeslotSlider.lowValueProperty().addListener((observable, oldValue, newValue) ->
@@ -513,13 +490,13 @@ public class BikeEditDialogController {
                     this.bikeUsernameComboBox.getSelectionModel().getSelectedItem().getUsername().get());
             bikeReservation.setBikeReservationBuilding(
                     this.bikeBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
-            bikeReservation.setBikeReservationQuantity(Integer.parseInt(this.bikeQuantityField.getText()));
+            bikeReservation.setBikeReservationQuantity(quantity.getValue());
             bikeReservation.setBikeReservationDate(this.bikeDate.getValue().toString());
             bikeReservation.setBikeReservationStartingTime(
                     bikeStartingTime.getText().replace("Start: ", ""));
             bikeReservation.setBikeReservationEndingTime(
                     bikeEndingTime.getText().replace("End: ", "").equals("24:00")
-                    ? "23:59" : bikeEndingTime.getText().replace("End: ", ""));
+                            ? "23:59" : bikeEndingTime.getText().replace("End: ", ""));
 
             // Close the dialog window
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -552,22 +529,16 @@ public class BikeEditDialogController {
         if (bikeBuildingComboBox.getSelectionModel().getSelectedIndex() < 0) {
             errorMessage += "No valid building selected!\n";
         }
-        if (bikeQuantityField.getText().equals("")) {
-            errorMessage += "No valid bike quantity!\n";
-        } else {
-            try {
-                int q = Integer.parseInt(bikeQuantityField.getText());
-                if (q <= 0) {
-                    errorMessage += "No valid bike quantity (must be positive integer)!\n";
-                }
-            } catch (NumberFormatException e) {
-                errorMessage += "No valid bike quantity (must be an integer)!\n";
-            }
-        }
         if (bikeDate.getValue() == null) {
             errorMessage += "No valid date selected!\n";
         }
-        if (!checkTimeSlotValidity() || timeslotSlider.getLowValue() == timeslotSlider.getHighValue()) {
+        if (availableBikes.getText().equals("-")) {
+            // do nothing
+        } else if (Integer.parseInt(availableBikes.getText()) < quantity.getValue()) {
+            errorMessage += "You cannot book " + quantity.getValue() + " bike(s) when there are/is only "
+                    + availableBikes.getText() + " bike(s) left";
+        }
+        if (timeslotSlider.getLowValue() == timeslotSlider.getHighValue()) {
             errorMessage += "No valid timeslot selected!\n";
         }
         if (errorMessage.equals("")) {
@@ -581,64 +552,5 @@ public class BikeEditDialogController {
         }
     }
 
-    /**
-     * Method that checks if the chosen timeslot is free.
-     *
-     * @return true if the timeslot is free, false otherwise
-     */
-    private boolean checkTimeSlotValidity() {
-        try {
-            // get currently selected room
-            Building selectedBuilding = bikeBuildingComboBox.getSelectionModel().getSelectedItem();
-            if (selectedBuilding == null) {
-                return false;
-            }
-            // get all reservations for the current room on the chosen date
-            List<BikeReservation> bikeReservations = BikeReservation.getBikeReservationsOnDate(
-                    selectedBuilding.getBuildingId().get(),
-                    bikeDate.getValue(), getDateConverter());
-
-            // if something went wrong with the server communication return false
-            if (bikeReservations == null) {
-                return false;
-            }
-
-            // get converter to convert date value to String format hh:mm
-            StringConverter<Number> timeConverter = getRangeSliderConverter();
-
-            // if there are no reservations the timeslot is valid
-            if (bikeReservations.size() == 0) {
-                return true;
-            }
-
-            BikeReservation bres = AdminManageBikeReservationViewController.currentSelectedBikeReservation;
-
-            for (BikeReservation br : bikeReservations) {
-                // if reservation equals the one we are editing, don't consider it
-                if (bres != null) {
-                    if (br.getBikeReservationId().get() == bres.getBikeReservationId().get()) {
-                        continue;
-                    }
-                }
-
-                // get rangeslider values + reservation values
-                double currentStartValue = timeslotSlider.getLowValue();
-                double currentEndValue = timeslotSlider.getHighValue();
-                double startValue = (double) timeConverter.fromString(br.getBikeReservationStartingTime().get());
-                double endValue = (double) timeConverter.fromString(br.getBikeReservationEndingTime().get());
-
-                // check if the values overlap
-                if (!((currentStartValue <= startValue && currentEndValue <= startValue)
-                        || (currentStartValue >= endValue && currentEndValue >= endValue))) {
-                    return false;
-                }
-
-            }
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 
 }

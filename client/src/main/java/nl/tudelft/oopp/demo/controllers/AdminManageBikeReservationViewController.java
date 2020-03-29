@@ -1,10 +1,10 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.util.stream.Collectors;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -21,14 +21,13 @@ import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.BikeEditDialogView;
 
 
-
 public class AdminManageBikeReservationViewController {
 
     @FXML
     private TableView<BikeReservation> bikeTable;
 
     @FXML
-    private TableColumn<BikeReservation, String> bikeIdColumn;
+    private TableColumn<BikeReservation, Number> bikeIdColumn;
 
     @FXML
     private TableColumn<BikeReservation, String> bikeUsernameColumn;
@@ -37,7 +36,7 @@ public class AdminManageBikeReservationViewController {
     private TableColumn<BikeReservation, String> bikeBuildingColumn;
 
     @FXML
-    private TableColumn<BikeReservation, String> bikeQuantityColumn;
+    private TableColumn<BikeReservation, Number> bikeQuantityColumn;
 
     @FXML
     private TableColumn<BikeReservation, String> bikeDateColumn;
@@ -66,14 +65,18 @@ public class AdminManageBikeReservationViewController {
     @FXML
     private void initialize() {
         try {
+            ObservableList<Building> buildingList = Building.getBuildingData();
             // Initialize the bike reservation table with the six columns.
-            bikeIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
-                    String.valueOf(cellData.getValue().getBikeReservationId().get())));
+            bikeIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
+                    cellData.getValue().getBikeReservationId().get()));
             bikeUsernameColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationUser());
-            bikeBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(Building.getBuildingById(
-                    cellData.getValue().getBikeReservationBuilding().get()).getBuildingName().get()));
-            bikeQuantityColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
-                    String.valueOf(cellData.getValue().getBikeReservationQuantity().get())));
+            bikeBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                    buildingList.stream().filter(x -> x.getBuildingId().get()
+                            == cellData.getValue().getBikeReservationBuilding().get())
+                            .collect(Collectors.toList()).get(0).getBuildingName().get()
+            ));
+            bikeQuantityColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
+                    cellData.getValue().getBikeReservationQuantity().get()));
             bikeDateColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationDate());
             bikeStartingTimeColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationStartingTime());
             bikeEndingTimeColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationEndingTime());
@@ -92,11 +95,12 @@ public class AdminManageBikeReservationViewController {
 
     /**
      * Called when admin clicks a bike reservation.
+     *
+     * @return the bike reservation that is currently selected
      */
     public BikeReservation getSelectedBikeReservation() {
         if (bikeTable.getSelectionModel().getSelectedIndex() >= 0) {
-            BikeReservation br = bikeTable.getSelectionModel().getSelectedItem();
-            return br;
+            return bikeTable.getSelectionModel().getSelectedItem();
         } else {
             return null;
         }
@@ -108,6 +112,8 @@ public class AdminManageBikeReservationViewController {
 
     /**
      * Delete a bike reservation.
+     *
+     * @param event event that triggered this method
      */
     @FXML
     private void deleteBikeClicked(ActionEvent event) {
@@ -136,6 +142,8 @@ public class AdminManageBikeReservationViewController {
     /**
      * Handles clicking the create new button.
      * Opens a dialog to creat a new reservation.
+     *
+     * @param event event that triggered this method
      */
     @FXML
     private void createNewBikeClicked(ActionEvent event) {
@@ -162,7 +170,7 @@ public class AdminManageBikeReservationViewController {
             refresh();
             // An alert pop up when a new reservation created.
             GeneralMethods.alertBox("New bike reservation", "",
-                    "New bike reservation! added!", Alert.AlertType.INFORMATION);
+                    "Successfully added new bike reservation!", Alert.AlertType.INFORMATION);
         } catch (Exception e) {
             System.out.println("bike reservation creation exception");
             e.printStackTrace();
@@ -172,6 +180,8 @@ public class AdminManageBikeReservationViewController {
     /**
      * Called when the user clicks the edit button. Opens a dialog to edit
      * details for the selected bike reservation.
+     *
+     * @param event event that triggered this method
      */
     @FXML
     private void editBikeClicked(ActionEvent event) {
@@ -216,6 +226,9 @@ public class AdminManageBikeReservationViewController {
 
     /**
      * Handles clicking the back button, redirect to the admin home page view.
+     *
+     * @param event event that triggered this method
+     * @throws IOException exception that gets thrown if fails
      */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
@@ -223,26 +236,6 @@ public class AdminManageBikeReservationViewController {
 
         AdminHomePageView adminHomePageView = new AdminHomePageView();
         adminHomePageView.start(stage);
-    }
-
-    /**
-     * Get the selected bike reservation date.
-     */
-    private LocalDate getSelectedBikeReservationDate(String selectedDateString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        //convert String to LocalDate
-        LocalDate selectedDate = LocalDate.parse(selectedDateString, formatter);
-        return selectedDate;
-    }
-
-    /**
-     * Get the selected bike reservation time.
-     */
-    private LocalTime getSelectedBikeReservationTime(String selectedTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        //convert String to LocalTime
-        LocalTime selectedTime = LocalTime.parse(selectedTimeString, formatter);
-        return selectedTime;
     }
 
 }
