@@ -91,6 +91,7 @@ public class RoomViewController implements Initializable {
     // current room to show info about
     private static Room currentRoom;
     public static int currentRoomId;
+    private final String pathSeparator = File.separator;
 
     // current Stage
     public static Stage thisStage;
@@ -321,7 +322,8 @@ public class RoomViewController implements Initializable {
     private void configureCss() {
         try {
             // get css file and delete its content to fill it again
-            File css = new File(getClass().getResource("/RangeSlider.css").getPath());
+            File css = new File(getClass().getResource("/RangeSlider.css")
+                    .getPath().replace("/", pathSeparator));
             css.delete();
             css.createNewFile();
             BufferedWriter bw = new BufferedWriter(new FileWriter(css));
