@@ -34,7 +34,7 @@ public class FoodController {
      */
     @PostMapping("createFood")
     @ResponseBody
-    public void createFood(@RequestParam String name, @RequestParam int price)
+    public void createFood(@RequestParam String name, @RequestParam double price)
             throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
         try {
@@ -88,7 +88,7 @@ public class FoodController {
     @PostMapping("updateFood")
     @ResponseBody
     public void updateFood(@RequestParam int id, @RequestParam String name,
-                           @RequestParam int price) throws UnsupportedEncodingException {
+                           @RequestParam double price) throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
         try {
             foodRepo.updateName(id, name);

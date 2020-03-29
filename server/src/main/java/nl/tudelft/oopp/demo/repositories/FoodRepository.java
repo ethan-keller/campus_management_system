@@ -52,7 +52,7 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO food (name, price) VALUES (:name, :price)", nativeQuery = true)
-    public void insertFood(@Param("name") String name, @Param("price") int price);
+    public void insertFood(@Param("name") String name, @Param("price") double price);
 
     @Modifying
     @Transactional
@@ -86,5 +86,5 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE food SET price = :price WHERE id = :id", nativeQuery = true)
-    public void updatePrice(@Param("id") int id, @Param("price") int price);
+    public void updatePrice(@Param("id") int id, @Param("price") double price);
 }

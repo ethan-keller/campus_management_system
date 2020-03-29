@@ -98,7 +98,7 @@ public class Food {
                 Food f = new Food();
                 f.setFoodId(jsonArrayFood.getJSONObject(i).getInt("id"));
                 f.setFoodName(jsonArrayFood.getJSONObject(i).getString("name"));
-                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getInt("price"));
+                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getDouble("price"));
                 foodData.add(f);
             }
             return foodData;
@@ -121,7 +121,7 @@ public class Food {
                 Food f = new Food();
                 f.setFoodId(jsonArrayFood.getJSONObject(i).getInt("id"));
                 f.setFoodName(jsonArrayFood.getJSONObject(i).getString("name"));
-                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getInt("price"));
+                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getDouble("price"));
                 foodData.add(f);
             }
             return foodData;
@@ -144,7 +144,7 @@ public class Food {
                 Food f = new Food();
                 f.setFoodId(jsonArrayFood.getJSONObject(i).getInt("id"));
                 f.setFoodName(jsonArrayFood.getJSONObject(i).getString("name"));
-                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getInt("price"));
+                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getDouble("price"));
                 foodData.add(f);
             }
             return foodData;
@@ -165,7 +165,7 @@ public class Food {
             Food f = new Food();
             f.setFoodId(jsonObject.getInt("id"));
             f.setFoodName(jsonObject.getString("name"));
-            f.setFoodPrice(jsonObject.getInt("price"));
+            f.setFoodPrice(jsonObject.getDouble("price"));
             return f;
         } catch (Exception e) {
             e.printStackTrace();
