@@ -556,7 +556,10 @@ public class BikeEditDialogController {
             errorMessage += "No valid bike quantity!\n";
         } else {
             try {
-                Integer.parseInt(bikeQuantityField.getText());
+                int q = Integer.parseInt(bikeQuantityField.getText());
+                if (q <= 0) {
+                    errorMessage += "No valid bike quantity (must be positive integer)!\n";
+                }
             } catch (NumberFormatException e) {
                 errorMessage += "No valid bike quantity (must be an integer)!\n";
             }
