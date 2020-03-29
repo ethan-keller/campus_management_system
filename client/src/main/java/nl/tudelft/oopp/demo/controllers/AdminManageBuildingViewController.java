@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.logic.AdminManageBuildingLogic;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
@@ -104,7 +105,8 @@ public class AdminManageBuildingViewController {
             if (selectedIndex >= 0) {
 
                 // TODO: Check that building deletion was succesful before displaying alert
-                BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
+                AdminManageBuildingLogic.deleteBuildingLogic(selectedBuilding);
+//                BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
                 refresh();
                 // Create an alert box.
                 GeneralMethods.alertBox("Delete Building", "", "Building deleted!",
@@ -137,9 +139,10 @@ public class AdminManageBuildingViewController {
             }
 
             // TODO: Check that building creation was succesful before displaying alert
-            BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
-                    tempBuilding.getBuildingRoomCount().get(),
-                    tempBuilding.getBuildingAddress().get());
+            AdminManageBuildingLogic.createBuildingLogic(tempBuilding);
+//            BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
+//                    tempBuilding.getBuildingRoomCount().get(),
+//                    tempBuilding.getBuildingAddress().get());
             refresh();
             // Create an alert box.
             GeneralMethods.alertBox("New Building", "", "Added new building!",
@@ -173,9 +176,10 @@ public class AdminManageBuildingViewController {
                 }
 
                 // TODO: Check that building edit was successful before displaying alert
-                BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
-                        tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
-                        tempBuilding.getBuildingAddress().get());
+                AdminManageBuildingLogic.editBuildiingLogic(selectedBuilding, tempBuilding);
+//                BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
+//                        tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
+//                        tempBuilding.getBuildingAddress().get());
                 refresh();
                 // Create an alert box.
                 GeneralMethods.alertBox("Edit Building", "", "Edited building!",
