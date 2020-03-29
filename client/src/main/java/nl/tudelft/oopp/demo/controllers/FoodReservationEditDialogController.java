@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservation;
+import nl.tudelft.oopp.demo.entities.Room;
 
 public class FoodReservationEditDialogController {
 
@@ -38,7 +39,16 @@ public class FoodReservationEditDialogController {
     private void initialize() {
         try {
             // Initialize and add listener to the building combobox
-            olf = Food.getAllFoodData();
+            if (AdminUserHistoryViewController.currentSelectedReservation != null) {
+                olf = Food.getFoodByBuildingId(Room.getRoomById(
+                        AdminUserHistoryViewController.currentSelectedReservation.getRoom().get())
+                        .getRoomBuilding().get());
+            }
+            if (AdminManageReservationViewController.currentSelectedReservation != null){
+                olf = Food.getFoodByBuildingId(Room.getRoomById(
+                        AdminManageReservationViewController.currentSelectedReservation.getRoom().get())
+                        .getRoomBuilding().get());
+            }
             foodComboBox.setItems(olf);
             this.setFoodComboBoxConverter(olf);
         } catch (Exception e) {
@@ -129,7 +139,10 @@ public class FoodReservationEditDialogController {
             errorMessage += "No valid food quantity!\n";
         } else {
             try {
-                Integer.parseInt(foodQuantityField.getText());
+                int p = Integer.parseInt(foodQuantityField.getText());
+                if (p <= 0) {
+                    errorMessage += "No valid food quantity (must be positive integer)!\n";
+                }
             } catch (NumberFormatException e) {
                 errorMessage += "No valid food quantity (must be an integer)!\n";
             }
