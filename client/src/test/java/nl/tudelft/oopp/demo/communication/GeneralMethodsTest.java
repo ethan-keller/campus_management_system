@@ -1,8 +1,5 @@
 package nl.tudelft.oopp.demo.communication;
 
-import javafx.scene.control.Alert;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -43,6 +40,6 @@ class GeneralMethodsTest {
         assertEquals(alert1, alert2);
     }
      */
-    
+
 
 }
