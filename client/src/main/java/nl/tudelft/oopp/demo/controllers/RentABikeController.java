@@ -152,33 +152,31 @@ public class RentABikeController implements Initializable {
      * Checks if all the options are selected
      * @return true only when all the options are filled in
      */
-    public boolean isInputValid() {
-        try {
-            boolean input = false;
-            while (!input) {
-                // If both datePicker and  ComboBuilding are null
-                if (datePicker.getValue() == null && comboBuilding.getSelectionModel().getSelectedItem() == null) {
-                    // set both text visible
+        public boolean isInputValid() {
+            try {
+                // true if there are errors, false otherwise
+                boolean input = true;
+
+                // clear error messages
+                dateError.setVisible(false);
+                buildingError.setVisible(false);
+
+                if (datePicker.getValue() == null) {
                     dateError.setVisible(true);
-                    buildingError.setVisible(true);
-                    input = false;
-                } else if (comboBuilding.getSelectionModel().getSelectedItem() == null) {
-                    // only sets buildingError visible
-                    buildingError.setVisible(true);
-                    input = false;
-                } else if (datePicker.getValue() == null) {
-                    // only sets datePicker visible
-                    dateError.setVisible(true);
-                    input = false;
-                } else {
-                    return false;
+                   input =  false;
                 }
+                if (comboBuilding.getValue() == null) {
+                    buildingError.setVisible(true);
+                    input =  false;
+                }
+
+                // return true if no errors where triggered
+                return input;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            return false;
         }
-        return false;
-    }
 
     /**
      * Deals with Reserve Now button clicked
