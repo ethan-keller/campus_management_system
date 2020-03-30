@@ -5,35 +5,31 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
-
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Spinner;
-
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
@@ -41,10 +37,7 @@ import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.SearchView;
-
 import org.controlsfx.control.RangeSlider;
-
-
 
 
 public class RentABikeController implements Initializable {
@@ -79,7 +72,7 @@ public class RentABikeController implements Initializable {
     /**
      * Deals with the back button function.
      *
-     * @param event  ActionEvent
+     * @param event ActionEvent
      */
     @FXML
     private void backButtonClicked(ActionEvent event) throws IOException {
@@ -122,11 +115,12 @@ public class RentABikeController implements Initializable {
             thisStage.widthProperty().addListener((obs, oldVal, newVal) -> changeWidthConstraints(newVal));
 
             datePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
-              String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
+                String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
                 String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
                         .toString(timeSlotSlider.getLowValue());
                 String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
-                populateBuilding(selectedEndTime, selectedDate);  ;
+                populateBuilding(selectedEndTime, selectedDate);
+                ;
             });
 
         } catch (Exception e) {
@@ -137,6 +131,7 @@ public class RentABikeController implements Initializable {
 
     /**
      * Gets number of bikes available, and building number and adds to buildList.
+     *
      * @param b is passed to deal with Building object
      */
     private void setEachBuilding(Building b) {
@@ -161,6 +156,7 @@ public class RentABikeController implements Initializable {
 
     /**
      * Checks if all the options are selected.
+     *
      * @return true only when all the options are filled in
      */
     public boolean isInputValid() {
@@ -174,11 +170,11 @@ public class RentABikeController implements Initializable {
 
             if (datePicker.getValue() == null) {
                 dateError.setVisible(true);
-                input =  false;
+                input = false;
             }
             if (comboBuilding.getValue() == null) {
                 buildingError.setVisible(true);
-                input =  false;
+                input = false;
             }
 
             // return true if no errors where triggered
@@ -193,6 +189,7 @@ public class RentABikeController implements Initializable {
      * Deals with Reserve Now button clicked
      * Method that retrieves values from the functionalities and returns to the server  if all the.
      * requirements are met.
+     *
      * @param event ActionEvent
      * @throws IOException throws exception
      */
@@ -232,9 +229,13 @@ public class RentABikeController implements Initializable {
                     // if the user responds with OK
                     if (result.orElse(null) == ButtonType.OK) {
 
+                        if (selectedEndTime.contains("24")) {
+                            selectedEndTime = "23:59";
+                        }
+
                         //send new reservation to the server
                         BikeReservationCommunication.createBikeReservation(getBuildingNumber(selectedBuilding),
-                                CurrentUserManager.getUsername(), selectedBike,selectedDate,
+                                CurrentUserManager.getUsername(), selectedBike, selectedDate,
                                 selectedStartTime, selectedEndTime);
                         // inform the user for successful reservation
                         Alert alert2 = GeneralMethods.createAlert("Bike Reserved",
@@ -364,8 +365,9 @@ public class RentABikeController implements Initializable {
 
     /**
      * checks if there are enough bikes in the database.
+     *
      * @param buildingName name of the building
-     * @param num Number of bikes user wants to rent
+     * @param num          Number of bikes user wants to rent
      * @return true if sufficient bikes avilable
      */
     private Boolean checkBikeAvailability(String buildingName, int num) {
@@ -389,7 +391,7 @@ public class RentABikeController implements Initializable {
             if ((availableBikes - num) >= 0) {
                 return true;
             } else {
-                return  false;
+                return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -409,7 +411,7 @@ public class RentABikeController implements Initializable {
             int buildingNumber = 0;
 
             //look for specific buildingID with the given String one by one
-            for (Building b: buildingList) {
+            for (Building b : buildingList) {
                 if (name.equals(b.getBuildingName().get())) {
                     buildingNumber = b.getBuildingId().get();
                     break;
@@ -516,6 +518,7 @@ public class RentABikeController implements Initializable {
     /**
      * Getting value directly from the comboBox includes the number of available bikes, as well as the
      * building name, hence this method is used.
+     *
      * @param st Building Name
      * @return Name of the building
      */
@@ -539,6 +542,7 @@ public class RentABikeController implements Initializable {
 
     /**
      * Automatically resizes the image as the window size changes.
+     *
      * @param newWidth width of the window
      */
     private void changeWidthConstraints(Number newWidth) {
@@ -551,22 +555,34 @@ public class RentABikeController implements Initializable {
     }
 
     public void populateBuilding(String selectedTime, String selectedDate) {
-        ObservableList<String> buildList = FXCollections.observableArrayList();
-        for (int i = 0; i<buildingList.size(); i++) {
-            Building b = buildingList.get(i);
+        /*
+        Ryo you initialized an empty ObservableList and looped through it.
+        It think that's why you got weird errors.
+         */
+
+        // ObservableList<String> buildList = FXCollections.observableArrayList();
+
+        ObservableList<Building> buildingList = Building.getBuildingData();
+        ObservableList<BikeReservation> bikeReservationsList = BikeReservation.getBikeReservationData();
+
+        if (buildingList == null) {
+            return;
+        }
+
+        for (Building b : buildingList) {
             String result = b.getBuildingName().get() + ": ";
             int remainder = b.getBuildingMaxBikes().get();
 
-            ObservableList<BikeReservation> reservationList =
-                    BikeReservation.getBikeReservationsByBuilding(b.getBuildingId().get());
+            List<BikeReservation> filteredReservations = bikeReservationsList.stream()
+                    .filter(x -> x.getBikeReservationBuilding().get() == b.getBuildingId().get())
+                    .filter(x -> x.getBikeReservationDate().get().equals(selectedDate))
+                    .collect(Collectors.toList());
 
-            for(int j = 0; j < reservationList.size(); j++) {
-                BikeReservation br = reservationList.get(j);
-                if (br.getBikeReservationDate().get().equals(selectedDate)) {
-                    remainder = remainder - br.getBikeReservationQuantity().get();
-                    System.out.println(br.getBikeReservationQuantity().get());
-                }
+            for (BikeReservation br : filteredReservations) {
+                remainder = remainder - br.getBikeReservationQuantity().get();
+                System.out.println(br.getBikeReservationQuantity().get());
             }
+
             result = result + remainder;
             buildList.add(result);
         }
