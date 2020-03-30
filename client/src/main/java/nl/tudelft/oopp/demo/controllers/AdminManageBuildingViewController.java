@@ -106,7 +106,6 @@ public class AdminManageBuildingViewController {
 
                 // TODO: Check that building deletion was succesful before displaying alert
                 AdminManageBuildingLogic.deleteBuildingLogic(selectedBuilding);
-//                BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
                 refresh();
                 // Create an alert box.
                 GeneralMethods.alertBox("Delete Building", "", "Building deleted!",
@@ -140,9 +139,6 @@ public class AdminManageBuildingViewController {
 
             // TODO: Check that building creation was succesful before displaying alert
             AdminManageBuildingLogic.createBuildingLogic(tempBuilding);
-//            BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
-//                    tempBuilding.getBuildingRoomCount().get(),
-//                    tempBuilding.getBuildingAddress().get());
             refresh();
             // Create an alert box.
             GeneralMethods.alertBox("New Building", "", "Added new building!",
@@ -177,9 +173,6 @@ public class AdminManageBuildingViewController {
 
                 // TODO: Check that building edit was successful before displaying alert
                 AdminManageBuildingLogic.editBuildingLogic(selectedBuilding, tempBuilding);
-//                BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
-//                        tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
-//                        tempBuilding.getBuildingAddress().get());
                 refresh();
                 // Create an alert box.
                 GeneralMethods.alertBox("Edit Building", "", "Edited building!",

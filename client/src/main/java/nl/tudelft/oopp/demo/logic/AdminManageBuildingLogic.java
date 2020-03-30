@@ -1,9 +1,8 @@
 package nl.tudelft.oopp.demo.logic;
 
 import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
-import nl.tudelft.oopp.demo.entities.Building;
-
 import java.io.UnsupportedEncodingException;
+import nl.tudelft.oopp.demo.entities.Building;
 
 public class AdminManageBuildingLogic {
 
