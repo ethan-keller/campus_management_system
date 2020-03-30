@@ -30,10 +30,12 @@ import java.io.FileWriter;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -217,7 +219,7 @@ public class RoomViewController implements Initializable {
             // set the factory
             datePicker.setDayCellFactory(dayCellFactory);
             // converter to convert value to String and vice versa
-            StringConverter<LocalDate> converter = RoomViewLogic.getDatePickerConverter(datePicker);
+            StringConverter<LocalDate> converter = getDatePickerConverter(datePicker);
             // set the converter
             datePicker.setConverter(converter);
             // set value change listener to adjust css for available timeslots
@@ -286,7 +288,7 @@ public class RoomViewController implements Initializable {
             timeSlotSlider.setMinorTickCount(4);
 
             // get and set the StringConverter to show hh:mm format
-            StringConverter<Number> converter = RoomViewLogic.getRangeSliderConverter();
+            StringConverter<Number> converter = getRangeSliderConverter();
             timeSlotSlider.setLabelFormatter(converter);
 
             // add listeners to show the current thumb values in separate Text objects
@@ -327,7 +329,7 @@ public class RoomViewController implements Initializable {
             }
             // get reservations for this room on the selected date
             List<Reservation> reservations = Reservation.getRoomReservationsOnDate(currentRoomId,
-                    datePicker.getValue(), RoomViewLogic.getDatePickerConverter(datePicker));
+                    datePicker.getValue(), getDatePickerConverter(datePicker));
 
             if (reservations == null) {
                 return;
@@ -519,4 +521,81 @@ public class RoomViewController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Creates a StringConverter that converts the selected value to an actual time (in String format).
+     *
+     * @return a StringConverter object
+     */
+    public static StringConverter<Number> getRangeSliderConverter() {
+        try {
+            return new StringConverter<Number>() {
+                @Override
+                public String toString(Number n) {
+                    // calculate hours and remaining minutes to get a correct hh:mm format
+                    long minutes = n.longValue();
+                    long hours = TimeUnit.MINUTES.toHours(minutes);
+                    long remainingMinutes = minutes - TimeUnit.HOURS.toMinutes(hours);
+                    // '%02d' means that there will be a 0 in front if its only 1 number + it's a long number
+                    return String.format("%02d", hours) + ":" + String.format("%02d", remainingMinutes);
+                }
+
+                @Override
+                public Number fromString(String time) {
+                    if (time != null) {
+                        String[] split = time.split(":");
+                        return Double.parseDouble(split[0]) * 60 + Double.parseDouble(split[1]);
+                    }
+                    return null;
+                }
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Creates a StringConverter that converts the selected value to a usable Date (in String format).
+     *
+     * @return a StringConverter object
+     */
+    public static StringConverter<LocalDate> getDatePickerConverter(DatePicker datePicker) {
+        try {
+            return new StringConverter<LocalDate>() {
+                // set the wanted pattern (format)
+                String pattern = "yyyy-MM-dd";
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+
+                {
+                    // set placeholder text for the datePicker
+                    datePicker.setPromptText(pattern.toLowerCase());
+                }
+
+                @Override
+                public String toString(LocalDate date) {
+                    if (date != null) {
+                        // get correctly formatted String
+                        return dateFormatter.format(date);
+                    } else {
+                        return "";
+                    }
+                }
+
+                @Override
+                public LocalDate fromString(String string) {
+                    if (string != null && !string.isEmpty()) {
+                        // get correct LocalDate from String format
+                        return LocalDate.parse(string, dateFormatter);
+                    } else {
+                        return null;
+                    }
+                }
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
