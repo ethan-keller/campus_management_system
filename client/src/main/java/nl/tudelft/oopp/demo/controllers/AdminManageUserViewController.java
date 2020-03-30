@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.UserServerCommunication;
 import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.logic.AdminManageUserLogic;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.LoginView;
@@ -68,11 +69,7 @@ public class AdminManageUserViewController {
      * @return User selected.
      */
     public User getSelectedUser() {
-        if (userTable.getSelectionModel().getSelectedIndex() >= 0) {
-            return userTable.getSelectionModel().getSelectedItem();
-        } else {
-            return null;
-        }
+        return AdminManageUserLogic.getSelectedUser(userTable);
     }
 
     public int getSelectedIndex() {
@@ -89,7 +86,7 @@ public class AdminManageUserViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that building deletion was succesful before displaying alert
-                UserServerCommunication.deleteUser(selectedUser.getUsername().getValue());
+                AdminManageUserLogic.deleteUserLogic(selectedUser);
                 refresh();
                 // Creates an alert box for transparent communication.
                 GeneralMethods.alertBox("Delete user", "", "User deleted!", Alert.AlertType.INFORMATION);
@@ -122,8 +119,7 @@ public class AdminManageUserViewController {
 
                 // TODO: Check that user creation was successful before displaying alert
             } else {
-                UserServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(),
-                        tempUser.getUserType().get());
+                AdminManageUserLogic.createUserLogic(tempUser);
             }
             refresh();
             // Informing the admin through a alert box that a new user is created successfully.
@@ -155,13 +151,7 @@ public class AdminManageUserViewController {
                 if (tempUser == null) {
                     return;
                 }
-                if (tempUser.getUserPassword().get() == null) {
-                    UserServerCommunication.updateUser(tempUser.getUsername().get(),
-                            tempUser.getUserPassword().get(), tempUser.getUserType().get());
-                } else {
-                    UserServerCommunication.updateUser(tempUser.getUsername().get(),
-                            tempUser.getUserPassword().get(), tempUser.getUserType().get());
-                }
+                AdminManageUserLogic.editUserLogic(tempUser);
                 refresh();
                 // Creates an alert box for transparent communication.
                 GeneralMethods.alertBox("Edit user", "", "User edited!", Alert.AlertType.INFORMATION);
