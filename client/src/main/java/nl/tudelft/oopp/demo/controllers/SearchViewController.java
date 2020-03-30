@@ -6,35 +6,30 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.CalendarPaneView;
@@ -125,6 +120,7 @@ public class SearchViewController implements Initializable {
 
             // get all rooms from server
             ObservableList<Room> roomList = Room.getRoomData();
+
             // create a 'card' showing some information of the room, for every room
             for (Room r : roomList) {
                 cardHolder.getChildren().add(createRoomCard(r));
@@ -250,72 +246,25 @@ public class SearchViewController implements Initializable {
      */
     private HBox createRoomCard(Room r) {
         try {
-            // initialize javafx components
-            final HBox newCard = new HBox();
-            final ImageView image = new ImageView();
-            final VBox roomInfo = new VBox();
-            final Text roomTitle = new Text();
-            final Text roomBuilding = new Text();
-            final Text roomCapacity = new Text();
-            final Text roomDescription = new Text();
-            final Text roomId = new Text();
+            // load the 'skeleton of a new card
+            FXMLLoader loader = new FXMLLoader();
+            URL xmlUrl = getClass().getResource("/RoomCard.fxml");
+            loader.setLocation(xmlUrl);
 
-            // loading image from URL + setting size & properties
-            Image img = new Image("images/placeholder.png");
-            image.setImage(img);
-            image.setPreserveRatio(true);
-            image.setPickOnBounds(true);
-            image.setFitWidth(300);
+            HBox newCard = loader.load();
 
-            // adding image margin
-            HBox.setMargin(image, new Insets(10, 5, 10, 10));
+            // get the room image
+            Image roomImage = new Image("images/placeholder.png");
 
-            /* set the roomId visibility to false such that it is not visible for the user but still useful to
-               get the specific room information later in the RoomView
-             */
-            roomId.setText(String.valueOf(r.getRoomId().get()));
-            roomId.setVisible(false);
+            // use lookup to retrieve Nodes by their id and set their content
+            ((ImageView) newCard.lookup("#image")).setImage(roomImage);
+            ((Text) newCard.lookup("#idText")).setText(String.valueOf(r.getRoomId().get()));
+            ((Text) newCard.lookup("#titleText")).setText(r.getRoomName().get());
+            ((Text) newCard.lookup("#buildingText")).setText("Building: " + r.getRoomBuilding().get());
+            ((Text) newCard.lookup("#capacityText")).setText("Capacity: " + r.getRoomCapacity().get());
+            ((Text) newCard.lookup("#descriptionText")).setText("Description: " + r.getRoomDescription().get());
 
-            // setting title and text margin (+ properties)
-            roomTitle.setText(r.getRoomName().get());
-            roomTitle.setWrappingWidth(200);
-            roomTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
-            roomTitle.setStyle("-fx-fill: #0ebaf8;");
-            VBox.setMargin(roomTitle, new Insets(10, 10, 10, 15));
-
-            // setting building name and text margin
-            Building building = Building.getBuildingData().stream()
-                    .filter(x -> x.getBuildingId().get() == r.getRoomBuilding().get())
-                    .collect(Collectors.toList()).get(0);
-            roomBuilding.setText("Building: " + building.getBuildingName().get());
-            roomBuilding.setWrappingWidth(200);
-            roomBuilding.setFont(Font.font("System", 14));
-            VBox.setMargin(roomBuilding, new Insets(0, 0, 5, 15));
-
-            // setting capacity and text margin (+ properties)
-            roomCapacity.setText("Capacity: " + r.getRoomCapacity().get());
-            roomCapacity.setWrappingWidth(200);
-            roomCapacity.setFont(Font.font("System", 14));
-            VBox.setMargin(roomCapacity, new Insets(0, 0, 5, 15));
-
-            // setting description and text margin (+ properties)
-            roomDescription.setText("Description: " + r.getRoomDescription().get());
-            roomDescription.setWrappingWidth(310);
-            roomDescription.setFont(Font.font("System", 14));
-            VBox.setMargin(roomDescription, new Insets(0, 0, 5, 15));
-
-            // setting 'text box' size
-            roomInfo.setPrefSize(354, 378);
-
-            // adding components to their corresponding parent
-            roomInfo.getChildren().addAll(roomId, roomTitle, roomCapacity, roomDescription);
-            newCard.getChildren().addAll(image, roomInfo);
-
-            // setting size
-            newCard.setPrefWidth(688);
-            newCard.setPrefHeight(145);
-
-            // add mouse click listener to individual cards
+            // set mouse clicked event on card (to redirect to room view)
             newCard.setOnMouseClicked(event -> {
                 try {
                     cardClicked(event);
@@ -323,6 +272,9 @@ public class SearchViewController implements Initializable {
                     e.printStackTrace();
                 }
             });
+
+            // set space between the cards
+            VBox.setMargin(newCard, new Insets(0, 0, 25, 0));
 
             return newCard;
         } catch (Exception e) {
