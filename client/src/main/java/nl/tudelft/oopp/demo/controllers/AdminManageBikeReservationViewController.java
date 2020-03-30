@@ -87,7 +87,7 @@ public class AdminManageBikeReservationViewController {
     }
 
     /**
-     * refresh the table when called.
+     * Used to initialize the view everytime something new is created, edited or deleted.
      */
     public void refresh() {
         initialize();
@@ -95,7 +95,6 @@ public class AdminManageBikeReservationViewController {
 
     /**
      * Called when admin clicks a bike reservation.
-     *
      * @return the bike reservation that is currently selected
      */
     public BikeReservation getSelectedBikeReservation() {
@@ -106,13 +105,16 @@ public class AdminManageBikeReservationViewController {
         }
     }
 
+    /**
+     * Gets a number representing the index of the selected bike reservation.
+     * @return int
+     */
     public int getSelectedIndex() {
         return bikeTable.getSelectionModel().getSelectedIndex();
     }
 
     /**
      * Delete a bike reservation.
-     *
      * @param event event that triggered this method
      */
     @FXML

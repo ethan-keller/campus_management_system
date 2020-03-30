@@ -41,6 +41,7 @@ public class FoodEditDialogController {
 
     /**
      * Called when the user clicks ok.
+     * @param event is passed
      */
     @FXML
     private void handleOkClicked(ActionEvent event) {
@@ -55,6 +56,7 @@ public class FoodEditDialogController {
 
     /**
      * Called when the user clicks cancel.
+     * @param event is passed
      */
     @FXML
     private void handleCancelClicked(ActionEvent event) {

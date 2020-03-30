@@ -57,6 +57,9 @@ public class AdminManageFoodBuildingViewController {
         }
     }
 
+    /**
+     * Used to initialize the view everytime something new is created, edited or deleted.
+     */
     public void refresh() {
         initialize();
     }
@@ -73,12 +76,17 @@ public class AdminManageFoodBuildingViewController {
         }
     }
 
+    /**
+     * Gets a number representing the index of the selected food.
+     * @return int
+     */
     public int getSelectedIndex() {
         return foodBuildingTable.getSelectionModel().getSelectedIndex();
     }
 
     /**
      * Delete a building.
+     * @param event is passed
      */
     @FXML
     private void deleteFoodBuildingClicked(ActionEvent event) {
@@ -108,7 +116,8 @@ public class AdminManageFoodBuildingViewController {
 
     /**
      * Handles clicking the add button.
-     * A new dialog pop up to select
+     * Opens a dialog to edit details for the new food.
+     * @param event is passed
      */
     @FXML
     private void addFoodBuildingClicked(ActionEvent event) {
@@ -139,6 +148,8 @@ public class AdminManageFoodBuildingViewController {
 
     /**
      * Handles clicking the back button, redirect to the food view.
+     * @param event
+     * @throws IOException is thrown
      */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {

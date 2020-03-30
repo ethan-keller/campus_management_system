@@ -57,7 +57,7 @@ public class AdminManageFoodViewController {
     }
 
     /**
-     * Refresh the table when called.
+     * Used to initialize the view everytime something new is created, edited or deleted.
      */
     public void refresh() {
         initialize();
@@ -65,6 +65,7 @@ public class AdminManageFoodViewController {
 
     /**
      * Called when admin clicks a food.
+     * @return a Food object
      */
     public Food getSelectedFood() {
         if (foodTable.getSelectionModel().getSelectedIndex() >= 0) {
@@ -74,12 +75,17 @@ public class AdminManageFoodViewController {
         }
     }
 
+    /**
+     * Gets a number representing the index of the selected food.
+     * @return int
+     */
     public int getSelectedIndex() {
         return foodTable.getSelectionModel().getSelectedIndex();
     }
 
     /**
      * Delete a food.
+     * @param event event that triggered this method
      */
     @FXML
     private void deleteFoodClicked(ActionEvent event) {
@@ -105,7 +111,9 @@ public class AdminManageFoodViewController {
     }
 
     /**
-     * Handles clicking the create new button.
+     * Handles clicking the create new button.Opens a dialog to edit
+     * details for the new food.
+     * @param event is passed
      */
     @FXML
     private void createNewFoodClicked(ActionEvent event) {
@@ -134,6 +142,7 @@ public class AdminManageFoodViewController {
     /**
      * Called when the user clicks the edit button. Opens a dialog to edit
      * details for the selected food.
+     * @param event is passed
      */
     @FXML
     private void editFoodClicked(ActionEvent event) {
@@ -198,6 +207,8 @@ public class AdminManageFoodViewController {
 
     /**
      * Handles clicking the back button, redirect to the admin home page.
+     * @param event
+     * @throws IOException is thrown
      */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {

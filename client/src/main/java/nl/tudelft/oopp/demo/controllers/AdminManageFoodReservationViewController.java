@@ -81,7 +81,7 @@ public class AdminManageFoodReservationViewController {
     }
 
     /**
-     * refresh the table when called.
+     * Used to initialize the view everytime something new is created, edited or deleted.
      */
     public void refresh() {
         initialize();

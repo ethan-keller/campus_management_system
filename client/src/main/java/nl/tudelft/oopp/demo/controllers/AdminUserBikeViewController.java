@@ -109,6 +109,7 @@ public class AdminUserBikeViewController {
 
     /**
      * Delete a bike reservation.
+     * @param event event that triggered this method
      */
     @FXML
     private void deleteBikeClicked(ActionEvent event) {
@@ -137,6 +138,7 @@ public class AdminUserBikeViewController {
     /**
      * Handles clicking the create new button.
      * Opens a dialog to creat a new reservation.
+     * @param event is passed
      */
     @FXML
     private void createNewBikeClicked(ActionEvent event) {
@@ -172,6 +174,7 @@ public class AdminUserBikeViewController {
     /**
      * Called when the user clicks the edit button. Opens a dialog to edit
      * details for the selected bike reservation.
+     * @param event is passed
      */
     @FXML
     private void editBikeClicked(ActionEvent event) {
@@ -215,6 +218,8 @@ public class AdminUserBikeViewController {
 
     /**
      * Handles clicking the back button, redirect to the admin home page view.
+     * @param event
+     * @throws IOException is thrown
      */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {

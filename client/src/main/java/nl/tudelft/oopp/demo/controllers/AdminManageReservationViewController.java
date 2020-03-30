@@ -224,6 +224,8 @@ public class AdminManageReservationViewController {
 
     /**
      * Handles clicking the food button, redirect to the food reservation view.
+     * @param event is passed as a parameter.
+     * @throws IOException is thrown.
      */
     @FXML
     private void foodReservationClicked(ActionEvent event) throws IOException {
@@ -237,11 +239,8 @@ public class AdminManageReservationViewController {
                 AdminFoodReservationView afrv = new AdminFoodReservationView();
                 afrv.start(stage);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No Reservation Selected");
-                alert.setContentText("Please select a reservation in the table.");
-                alert.showAndWait();
+                GeneralMethods.alertBox("No Selection", "No Reservation Selected",
+                        "Please select a reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("Food reservation edit exception");
