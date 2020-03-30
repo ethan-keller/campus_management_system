@@ -55,7 +55,7 @@ public class RoomViewLogic {
     }
 
     /**
-     *
+     * makes a reservation.
      * @param currentRoomId Room selected.
      * @param datePicker datepicker on the screen.
      * @param timeSlotSlider time slot slider on the screen.

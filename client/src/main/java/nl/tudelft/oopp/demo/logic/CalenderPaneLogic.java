@@ -9,6 +9,11 @@ import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.controllers.CalenderItemDialogController;
 
 public class CalenderPaneLogic {
+    /**
+     * Makes a item.
+     * @return the item made
+     * @throws UnsupportedEncodingException when something goes wrong with encoding.
+     */
     public static Appointment makeItem() throws UnsupportedEncodingException {
         Appointment app = CalenderItemDialogController.item;
         // get date and time in correct format for database
