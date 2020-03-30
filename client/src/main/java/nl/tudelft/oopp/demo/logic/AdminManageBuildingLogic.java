@@ -6,8 +6,6 @@ import javafx.scene.control.TableView;
 import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
 
-import javax.swing.text.TabableView;
-
 public class AdminManageBuildingLogic {
 
     /**.
