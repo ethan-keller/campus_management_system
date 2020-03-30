@@ -2,9 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
 import nl.tudelft.oopp.demo.views.LoginView;
-import nl.tudelft.oopp.demo.views.RegisterView;
 
 
 public class RegisterViewController {
@@ -85,7 +82,7 @@ public class RegisterViewController {
             usernameLabel.setText("The username is not allowed to have any spaces !");
             usernameLabel.setStyle("-fx-text-fill: red");
         } else if (space.matcher(passwordTxt).find()) {
-            passwordLabel.setText("The username is not allowed to have any spaces !");
+            passwordLabel.setText("The password is not allowed to have any spaces !");
             passwordLabel.setStyle("-fx-text-fill: red");
         } else if (characters.matcher(usernameTxt).find()) {
             usernameLabel.setText("The username is not allowed to have any punctuations !");
@@ -100,7 +97,6 @@ public class RegisterViewController {
             alert.showAndWait();
         }
     }
-
 
     /**.
      * On the click of the back button, the stage is redirected to the login page.

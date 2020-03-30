@@ -1,7 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.util.stream.Collectors;
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,10 +13,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 
-
+/**
+ * Class that controls dialog box to edit a room.
+ */
 public class RoomEditDialogController {
 
     @FXML
@@ -43,11 +45,14 @@ public class RoomEditDialogController {
 
     private Stage dialogStage;
 
-
+    /**
+     * Default constructor.
+     */
     public RoomEditDialogController() {
     }
 
     /**
+     * .
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
@@ -63,8 +68,12 @@ public class RoomEditDialogController {
                 return;
             }
             roomNameField.setText(room.getRoomName().get());
-            roomBuildingComboBox.getSelectionModel().select(ol.stream().filter(x -> x.getBuildingId().get()
-                    == room.getRoomBuilding().get()).collect(Collectors.toList()).get(0));
+            if (ol == null) {
+                return;
+            }
+            roomBuildingComboBox.getSelectionModel().select(ol.stream()
+                    .filter(x -> x.getBuildingId().get() == room.getRoomBuilding().get())
+                    .collect(Collectors.toList()).get(0));
             if (room.getTeacherOnly().get()) {
                 radioButtonYes.setSelected(true);
             } else {
@@ -116,9 +125,10 @@ public class RoomEditDialogController {
         if (isInputValid()) {
             emptyRoom();
             room.setRoomName(this.roomNameField.getText());
-            room.setRoomBuilding(
-                    this.roomBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
-            room.setTeacherOnly(this.radioButtonYes.isSelected() ? true : false);
+            room.setRoomBuilding(this.roomBuildingComboBox.getSelectionModel()
+                    .getSelectedItem().getBuildingId().get());
+            room.setTeacherOnly(this.radioButtonYes.isSelected());
+
             room.setRoomCapacity(Integer.parseInt(this.roomCapacityField.getText()));
             room.setRoomType(this.roomTypeField.getText());
             room.setRoomDescription(this.roomDescriptionField.getText());
@@ -177,11 +187,8 @@ public class RoomEditDialogController {
             return true;
         } else {
             // Show the error message.
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invalid Fields");
-            alert.setHeaderText("Please correct invalid fields");
-            alert.setContentText(errorMessage);
-            alert.showAndWait();
+            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
+                    errorMessage, Alert.AlertType.ERROR);
 
             return false;
         }

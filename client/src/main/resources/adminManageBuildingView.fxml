@@ -21,7 +21,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#editBuildingClicked" prefHeight="35.0" prefWidth="95.0" text="Edit" textFill="#0ebaf8">
+            <Button mnemonicParsing="false" onAction="#editBuildingClicked" prefHeight="35.0" prefWidth="93.0" text="Edit" textFill="#0ebaf8">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>
@@ -29,7 +29,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#deleteBuildingClicked" prefHeight="35.0" prefWidth="87.0" text="Delete" textFill="#0ebaf8">
+            <Button mnemonicParsing="false" onAction="#deleteBuildingClicked" prefHeight="35.0" prefWidth="93.0" text="Delete" textFill="#0ebaf8">
                <font>
                   <Font size="18.0" />
                </font>
@@ -38,6 +38,14 @@
                </HBox.margin>
             </Button>
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#backClicked" prefHeight="35.0" prefWidth="93.0" text="Back" textFill="#0ebaf8">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#signOutButtonClicked" prefHeight="35.0" prefWidth="96.0" text="Sign Out" textFill="#0ebaf8">
                <font>
                   <Font size="18.0" />
                </font>

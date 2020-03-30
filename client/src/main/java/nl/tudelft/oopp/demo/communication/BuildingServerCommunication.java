@@ -53,6 +53,26 @@ public class BuildingServerCommunication {
     }
 
     /**
+     * Returns a list of buildings in JSON from the database based on the food ID.
+     * @param id The food id
+     * @return Returns a JSON list
+     */
+    public static String getBuildingByFoodId(int id) {
+        String params = "id=" + id;
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getBuildingByFoodId?" + params)).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode() + response.body());
+        }
+        return response.body();
+    }
+
+    /**
      * This is a client-server communication method which is used to create a new building using the attributes.
      * Attributes are the parameters.
      * @param name - Name of the building
