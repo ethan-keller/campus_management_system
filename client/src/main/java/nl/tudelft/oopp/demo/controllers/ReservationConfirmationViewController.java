@@ -38,7 +38,6 @@ public class ReservationConfirmationViewController implements Initializable {
 
     /**
      * Method that gets called before everything (mostly to initialize nodes etc.).
-
      * JavaFX standard.
      *
      * @param location  is passed
@@ -53,6 +52,11 @@ public class ReservationConfirmationViewController implements Initializable {
         confirmationText.setText(confirmationString);
     }
 
+    /**
+     * Method that constructs the confirmation text for the dialog box.
+     *
+     * @return String the confirmation text
+     */
     private String getConfirmationString() {
         double totalPrice = 0.0;
 
@@ -73,12 +77,18 @@ public class ReservationConfirmationViewController implements Initializable {
         return confirmationString;
     }
 
-    private String formatPriceString(double foodPrice){
+    /**
+     * Method that formats a price (double) to a String value of the price with 2 decimals.
+     *
+     * @param foodPrice the double value of the price
+     * @return a String containing the price in the right format
+     */
+    private String formatPriceString(double foodPrice) {
         String[] splitPrice = String.valueOf(foodPrice).split("\\.");
 
         splitPrice[1] = String.valueOf((Math.round(Double.parseDouble(splitPrice[1]))));
 
-        while (splitPrice[1].length() < 2){
+        while (splitPrice[1].length() < 2) {
             splitPrice[1] += "0";
         }
 

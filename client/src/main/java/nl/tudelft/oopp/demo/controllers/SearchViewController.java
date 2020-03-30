@@ -385,6 +385,7 @@ public class SearchViewController implements Initializable {
 
     /**
      * Loads the Calendar view with all the booking history.
+     *
      * @param event event that triggered this method
      */
     @FXML

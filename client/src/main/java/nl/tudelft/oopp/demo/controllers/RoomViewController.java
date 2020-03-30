@@ -249,9 +249,9 @@ public class RoomViewController implements Initializable {
 
         selectedFoodList.add(food);
         GridPane miniGrid = new GridPane();
-        Text foodName = new Text(food.getFoodName().get());
-        Text quantity = new Text("1x");
-        Text foodPrice = new Text(String.valueOf(food.getFoodPrice().get()));
+        final Text foodName = new Text(food.getFoodName().get());
+        final Text quantity = new Text("1x");
+        final Text foodPrice = new Text(String.valueOf(food.getFoodPrice().get()));
         Button remove = new Button("X");
         remove.setStyle("-fx-fill: rgba(0, 0, 0, 0); -fx-stroke: 0");
         remove.setOnAction(e -> {
@@ -788,15 +788,16 @@ public class RoomViewController implements Initializable {
                 // if user confirms booking, reservations is sent to server
                 if (confirmBooking(selectedDate, selectedStartTime, selectedEndTime)) {
                     // send new reservation to server
-                    if(ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
+                    if (ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
                             currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24")
-                                    ? "23:59" : selectedEndTime)){
+                                    ? "23:59" : selectedEndTime)) {
                         // get id of the new reservation (last inserted reservation)
                         int currentId = Integer.parseInt(ReservationServerCommunication.getCurrentId()) - 1;
 
                         // link food to reservation
-                        for(Food f: selectedFoodList){
-                            FoodServerCommunication.addFoodToReservation(f.getFoodId().get(), currentId, foodMap.get(f));
+                        for (Food f : selectedFoodList) {
+                            FoodServerCommunication.addFoodToReservation(f.getFoodId().get(),
+                                    currentId, foodMap.get(f));
                         }
 
                         // create confirmation Alert

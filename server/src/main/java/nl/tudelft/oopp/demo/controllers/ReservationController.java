@@ -47,7 +47,7 @@ public class ReservationController {
     }
 
     /**
-     * Gets the id of the last created reservation
+     * Gets the id of the last created reservation.
      * @return int the id of the reservation
      */
     @GetMapping("currentReservationId")
