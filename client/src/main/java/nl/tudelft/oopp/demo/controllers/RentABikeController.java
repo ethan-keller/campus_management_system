@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -122,31 +124,14 @@ public class RentABikeController implements Initializable {
                 populateBuilding(selectedStartTime, selectedEndTime, selectedDate);
             });
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+            timeSlotSlider.setOnMouseReleased(event -> {
+                String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
+                String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
+                        .toString(timeSlotSlider.getLowValue());
+                String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
+                populateBuilding(selectedStartTime, selectedEndTime, selectedDate);
+            });
 
-
-    /**
-     * Gets number of bikes available, and building number and adds to buildList.
-     *
-     * @param b is passed to deal with Building object
-     */
-    private void setEachBuilding(Building b) {
-        try {
-            //Get the name of respective Building
-            String buildName = b.getBuildingName().get();
-            //Get number of bikes available in the Building
-            int buildNumber = b.getBuildingAvailableBikes().get();
-            if (buildNumber < 0) {
-                buildNumber = 0;
-            }
-            //Set up in the String for
-            String result = buildName + ": " + buildNumber;
-
-            //Add String to the ObservableList
-            buildList.add(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -207,9 +192,11 @@ public class RentABikeController implements Initializable {
                 String selectedBuilding = getSelectedBuilding(selectedBuildingAndBike);
                 Integer selectedBike = spinner.getValue();
 
+                int buildNumber = getBuildingNumber(selectedBuilding);
+                Building b = Building.getBuildingById(buildNumber);
 
                 // check to see enough bikes for selected building
-                if (checkBikeAvailability(selectedBuilding, selectedBike)) {
+                if (getRemainder(b, selectedDate, selectedEndTime, selectedStartTime) - selectedBike >= 0) {
                     // create alert for confirmation with the user
                     Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "
                                     + selectedBike + " bikes"
@@ -360,42 +347,6 @@ public class RentABikeController implements Initializable {
             e.printStackTrace();
         }
         return null;
-    }
-
-    /**
-     * checks if there are enough bikes in the database.
-     *
-     * @param buildingName name of the building
-     * @param num          Number of bikes user wants to rent
-     * @return true if sufficient bikes avilable
-     */
-    private Boolean checkBikeAvailability(String buildingName, int num) {
-        try {
-
-            // ensure the list cannot be null
-            Building building = null;
-            //looks for same name of the building as buildingName
-            for (Building b : buildingList) {
-                if (b.getBuildingName().get().equals(buildingName)) {
-                    building = b;
-                    //stops for loop as soon as it is found
-                    break;
-                }
-            }
-
-            int id = building.getBuildingId().get();
-            Building selectedBuilding = Building.getBuildingById(id);
-            int availableBikes = selectedBuilding.getBuildingAvailableBikes().get();
-
-            if ((availableBikes - num) >= 0) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     /**
@@ -553,31 +504,102 @@ public class RentABikeController implements Initializable {
         }
     }
 
+    /**
+     * populates buildingComboBox based on passed values.
+     * @param selectedStart start of rent time
+     * @param selectedEnd end of rent time
+     * @param selectedDate date of rent
+     */
     public void populateBuilding(String selectedStart, String selectedEnd, String selectedDate) {
-
-        ObservableList<Building> buildingList = Building.getBuildingData();
-        ObservableList<BikeReservation> bikeReservationsList = BikeReservation.getBikeReservationData();
-
-        if (buildingList == null) {
+        ///Ensures comboBox is not loaded unless date is selected
+        if (selectedDate.equals(null)) {
             return;
-        }
+        } else {
+            //get building data
+            ObservableList<Building> buildingList = Building.getBuildingData();
+            //create observaleList to at to combobox
+            ObservableList<String> buildList = FXCollections.observableArrayList();
+            //empties combox before it loads
+            comboBuilding.getItems().clear();
 
-        for (Building b : buildingList) {
-            String result = b.getBuildingName().get() + ": ";
+            //Set up the string for each building object
+            for (Building b: buildingList) {
+                String result =
+                        b.getBuildingName().get() + ": " + getRemainder(b, selectedDate, selectedEnd, selectedStart);
+                buildList.add(result);
+            }
+            //populate comboBuilding box
+            comboBuilding.setItems(buildList);
+        }
+    }
+
+    /**
+     * Parses time into hours. Deals with both the formats.
+     * @param time Provided time
+     * @return only hour of given string.
+     */
+    public double parseTime(String time) {
+        try {
+            double hour =0;
+            int minute = 0;
+            //Checks the format of given String
+            if (time.length() == 5) {
+                //create localtime object in the given form
+                LocalTime localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
+                hour = localTime.get(ChronoField.CLOCK_HOUR_OF_DAY);
+                minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
+            } else if (time.length() == 8) {
+                LocalTime localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss"));
+                hour = localTime.get(ChronoField.CLOCK_HOUR_OF_DAY);
+                minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
+            }
+            //Slider is compatible til 30 minutes checks if minutes is 30
+            if (minute == 30) {
+                hour = hour + 0.5;
+            }
+
+            return hour;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    /**
+     * Gets remaining number of bikes by reducing bikes rented from maximum bike of a building.
+     * @param b given object
+     * @param selectedDate given date
+     * @param selectedEnd given end time of rent
+     * @param selectedStart give start time of rent
+     * @return
+     */
+    private int getRemainder(Building b, String selectedDate, String selectedEnd, String selectedStart) {
+        try {
+
+            ObservableList<BikeReservation> bikeReservationsList = BikeReservation.getBikeReservationData();
             int remainder = b.getBuildingMaxBikes().get();
 
+            //Using stream to filter out given conditions
             List<BikeReservation> filteredReservations = bikeReservationsList.stream()
                     .filter(x -> x.getBikeReservationBuilding().get() == b.getBuildingId().get())
                     .filter(x -> x.getBikeReservationDate().get().equals(selectedDate))
+                    .filter(x -> parseTime(x.getBikeReservationStartingTime().get()) < parseTime(selectedEnd))
+                    .filter(x -> parseTime(x.getBikeReservationEndingTime().get()) > parseTime(selectedStart))
                     .collect(Collectors.toList());
 
+            //Go through the list one by one and subtract from total
             for (BikeReservation br : filteredReservations) {
                 remainder = remainder - br.getBikeReservationQuantity().get();
             }
+            //Accidentally made bike number negative in the developping process
+            if (remainder < 0) {
+                remainder = 0;
+            }
+            return remainder;
 
-            result = result + remainder;
-            buildList.add(result);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        comboBuilding.setItems(buildList);
+        return 0;
     }
 }
