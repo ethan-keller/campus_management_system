@@ -48,6 +48,21 @@ public class ReservationController {
     }
 
     /**
+     * Gets the id of the last created reservation
+     * @return int the id of the reservation
+     */
+    @GetMapping("currentReservationId")
+    @ResponseBody
+    public int getCurrentId() {
+        try {
+            return reservationsRepo.getCurrentId();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    /**
      * Replaces the existing info with the newly provided info.
      *
      * @param id           The reservation being updated.

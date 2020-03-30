@@ -4,6 +4,10 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -15,14 +19,23 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
@@ -78,8 +91,6 @@ public class RoomViewController implements Initializable {
     @FXML
     private Text dateError;
     @FXML
-    private Text foodError;
-    @FXML
     private Text teacherOnlyError;
     // double thumb slider
     private RangeSlider timeSlotSlider;
@@ -87,13 +98,15 @@ public class RoomViewController implements Initializable {
     // current room to show info about
     private static Room currentRoom;
     public static int currentRoomId;
+    private List<Food> selectedFoodList;
+    private Map<Food, Integer> foodMap;
 
     // current Stage
     public static Stage thisStage;
 
+
     /**
-     * .
-     * Method that gets called before everything (mostly to initialize nodes etc.)
+     * Method that gets called before everything (mostly to initialize nodes etc.).
      * JavaFX standard.
      *
      * @param location  is passed
@@ -103,6 +116,8 @@ public class RoomViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            selectedFoodList = new ArrayList<>();
+
             grid.setMinWidth(reservationVbox.getWidth());
 
             // initialize the Room object that contains the info about this room
@@ -114,7 +129,6 @@ public class RoomViewController implements Initializable {
 
             // make sure errors are not visible
             dateError.setVisible(false);
-            foodError.setVisible(false);
 
             // if user is a student and the room is teacher only => disable book button and show error
             if (CurrentUserManager.getType() == 2 && currentRoom.getTeacherOnly().get()) {
@@ -137,6 +151,7 @@ public class RoomViewController implements Initializable {
             ObservableList<Food> foodList = Food.getAllFoodData();
             foodChoice.setConverter(getFoodChoiceConverter(foodList));
             foodChoice.setItems(foodList);
+            foodChoice.setButtonCell(getButtonCell());
             setFoodChoiceListeners();
 
             // set text info about the room
@@ -154,6 +169,25 @@ public class RoomViewController implements Initializable {
         }
     }
 
+    private ListCell<Food> getButtonCell() {
+        try {
+            return new ListCell<Food>() {
+                @Override
+                protected void updateItem(Food item, boolean btl) {
+                    super.updateItem(item, btl);
+                    if (item != null) {
+                        setText(item.getFoodName().get());
+                    } else {
+                        setText("Food choice:");
+                    }
+                }
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private void setFoodChoiceListeners() {
         foodChoice.valueProperty().addListener(((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -162,6 +196,7 @@ public class RoomViewController implements Initializable {
                     @Override
                     public void run() {
                         foodChoice.getSelectionModel().clearSelection();
+                        foodChoice.show();
                     }
                 });
             }
@@ -191,13 +226,16 @@ public class RoomViewController implements Initializable {
             return;
         }
 
+        selectedFoodList.add(food);
         GridPane miniGrid = new GridPane();
         Text foodName = new Text(food.getFoodName().get());
         Text quantity = new Text("1x");
         Text foodPrice = new Text(String.valueOf(food.getFoodPrice().get()));
         Button remove = new Button("X");
+        remove.setStyle("-fx-fill: rgba(0, 0, 0, 0); -fx-stroke: 0");
         remove.setOnAction(e -> {
-            grid.getChildren().remove(miniGrid);
+            selectedFoodList.remove(food);
+            removeRowFromGrid(miniGrid);
         });
 
         miniGrid.setAlignment(Pos.CENTER);
@@ -214,12 +252,25 @@ public class RoomViewController implements Initializable {
         miniGrid.getColumnConstraints().add(constraints3);
 
 
-        miniGrid.add(quantity, 0, rowCount + 1);
-        miniGrid.add(foodName, 1, rowCount + 1);
-        miniGrid.add(foodPrice, 2, rowCount + 1);
-        miniGrid.add(remove, 3, rowCount + 1);
+        miniGrid.add(quantity, 0, 0);
+        miniGrid.add(foodName, 1, 0);
+        miniGrid.add(foodPrice, 2, 0);
+        miniGrid.add(remove, 3, 0);
 
         grid.addRow(rowCount, miniGrid);
+    }
+
+    private void removeRowFromGrid(GridPane miniGrid) {
+        List<Node> children = new ArrayList<>(grid.getChildren());
+        grid.getChildren().clear();
+
+        int currentRow = 0;
+        for (int i = 0; i < children.size(); i++) {
+            GridPane childGrid = (GridPane) children.get(i);
+            if (childGrid != miniGrid) {
+                grid.add(childGrid, 0, currentRow++);
+            }
+        }
     }
 
     private Text getFoodNameByColumn(GridPane gridPane) {
@@ -530,7 +581,6 @@ public class RoomViewController implements Initializable {
 
             // input is valid, assign corresponding values
             if (isInputValid()) {
-                selectedFood = foodChoice.getSelectionModel().getSelectedItem().getFoodName().get();
                 selectedDate = getDatePickerConverter().toString(datePicker.getValue());
                 selectedStartTime = getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
                 selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
@@ -541,6 +591,14 @@ public class RoomViewController implements Initializable {
                     ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
                             currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24")
                                     ? "23:59" : selectedEndTime);
+                    // get id of the new reservation (last inserted reservation)
+                    int currentId = Integer.parseInt(ReservationServerCommunication.getCurrentId()) - 1;
+
+                    // link food to reservation
+                    for(Food f: selectedFoodList){
+                        FoodServerCommunication.addFoodToReservation(f.getFoodId().get(), currentId, foodMap.get(f));
+                    }
+
                     // create confirmation Alert
                     Alert alert = GeneralMethods.createAlert("Room booked",
                             "You successfully booked this room!",
@@ -575,11 +633,24 @@ public class RoomViewController implements Initializable {
      */
     private boolean confirmBooking(String date, String startTime, String endTime) {
         try {
+            if (selectedFoodList.size() <= 0) {
+                ReservationConfirmationViewController.foodChosen = false;
+            } else {
+                ReservationConfirmationViewController.foodChosen = true;
+            }
             // set all fields to the current reservation details
             ReservationConfirmationViewController.room = currentRoom;
             ReservationConfirmationViewController.date = date;
             ReservationConfirmationViewController.startTime = startTime;
             ReservationConfirmationViewController.endTime = endTime;
+            ReservationConfirmationViewController.foodList = selectedFoodList;
+            foodMap = new HashMap<>();
+            for (int i = 0; i < selectedFoodList.size(); i++) {
+                GridPane miniGrid = (GridPane) grid.getChildren().get(i);
+                int quantity = Integer.parseInt(((Text) miniGrid.getChildren().get(0)).getText().replace("x", ""));
+                foodMap.put(selectedFoodList.get(i), quantity);
+            }
+            ReservationConfirmationViewController.foodMap = foodMap;
             // load confirmation pop up stage
             ReservationConfirmationView rcv = new ReservationConfirmationView();
             rcv.start(thisStage);
@@ -605,15 +676,10 @@ public class RoomViewController implements Initializable {
 
             // clear error messages
             dateError.setVisible(false);
-            foodError.setVisible(false);
 
             // set error messages if necessary
             if (datePicker.getValue() == null) {
                 dateError.setVisible(true);
-                errors = true;
-            }
-            if (foodChoice.getSelectionModel().getSelectedItem() == null) {
-                foodError.setVisible(true);
                 errors = true;
             }
 

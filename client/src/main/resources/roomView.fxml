@@ -139,7 +139,6 @@
                   <VBox alignment="CENTER">
                      <children>
                         <ComboBox fx:id="foodChoice" prefWidth="150.0" promptText="Food choice" />
-                        <Text fx:id="foodError" fill="#ed0d0d" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select a food option" />
                      </children>
                   </VBox>
                   <GridPane fx:id="grid" alignment="CENTER" prefHeight="25.0" prefWidth="210.0" vgap="2.0">
