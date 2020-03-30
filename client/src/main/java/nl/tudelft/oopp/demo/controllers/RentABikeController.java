@@ -549,6 +549,7 @@ public class RentABikeController implements Initializable {
             e.printStackTrace();
         }
     }
+
     public void populateBuilding(String selectedTime, String selectedDate) {
         ObservableList<String> buildList = FXCollections.observableArrayList();
         for (int i = 0; i<buildingList.size(); i++) {
@@ -563,6 +564,7 @@ public class RentABikeController implements Initializable {
                 BikeReservation br = reservationList.get(j);
                 if (br.getBikeReservationDate().get().equals(selectedDate)) {
                     remainder = remainder - br.getBikeReservationQuantity().get();
+                    System.out.println(br.getBikeReservationQuantity().get());
                 }
             }
             result = result + remainder;
