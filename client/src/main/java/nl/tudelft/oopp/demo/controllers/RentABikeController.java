@@ -37,6 +37,7 @@ import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
+import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.SearchView;
@@ -104,11 +105,6 @@ public class RentABikeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-            for (Building b: buildingList) {
-                setEachBuilding(b);
-            }
-            //Converting buildingName into String for each item and getting number of available bikes
-            comboBuilding.setItems(buildList);
             comboBuilding.setVisibleRowCount(8);
             // make sure errors are not visible
             dateError.setVisible(false);
@@ -124,6 +120,15 @@ public class RentABikeController implements Initializable {
 
             // listener that adjusts layout when width of stage changes
             thisStage.widthProperty().addListener((obs, oldVal, newVal) -> changeWidthConstraints(newVal));
+
+            datePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
+              String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
+                String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
+                        .toString(timeSlotSlider.getLowValue());
+                String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
+                populateBuilding(selectedEndTime, selectedDate);  ;
+            });
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -543,5 +548,26 @@ public class RentABikeController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void populateBuilding(String selectedTime, String selectedDate) {
+        ObservableList<String> buildList = FXCollections.observableArrayList();
+        for (int i = 0; i<buildingList.size(); i++) {
+            Building b = buildingList.get(i);
+            String result = b.getBuildingName().get() + ": ";
+            int remainder = b.getBuildingMaxBikes().get();
+
+            ObservableList<BikeReservation> reservationList =
+                    BikeReservation.getBikeReservationsByBuilding(b.getBuildingId().get());
+
+            for(int j = 0; j < reservationList.size(); j++) {
+                BikeReservation br = reservationList.get(j);
+                if (br.getBikeReservationDate().get().equals(selectedDate)) {
+                    remainder = remainder - br.getBikeReservationQuantity().get();
+                }
+            }
+            result = result + remainder;
+            buildList.add(result);
+        }
+        comboBuilding.setItems(buildList);
     }
 }
