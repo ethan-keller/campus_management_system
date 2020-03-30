@@ -142,17 +142,28 @@ public class RentABikeController implements Initializable {
     /**
      * Checks whether if all the fields were filled in.
      */
-    public int isInputValid() {
-        // If both datePicker and  ComboBuilding are null
-        if (datePicker.getValue() == null && comboBuilding.getSelectionModel().getSelectedItem() == null) {
-            return 1;
-        } else if (comboBuilding.getSelectionModel().getSelectedItem() == null) {
-            return 2;
-        } else if (datePicker.getValue() == null) {
-            return 3;
-        } else {
-            return 4;
+    public boolean isInputValid() {
+        boolean input = false;
+        while (!input) {
+            // If both datePicker and  ComboBuilding are null
+            if (datePicker.getValue() == null && comboBuilding.getSelectionModel().getSelectedItem() == null) {
+                // set both text visible
+                dateError.setVisible(true);
+                buildingError.setVisible(true);
+                input = false;
+            } else if (comboBuilding.getSelectionModel().getSelectedItem() == null) {
+                // only sets buildingError visible
+                buildingError.setVisible(true);
+                input = false;
+            } else if (datePicker.getValue() == null) {
+                // only sets datePicker visible
+                dateError.setVisible(true);
+                input = false;
+            } else {
+                input = true;
+            }
         }
+        return true;
     }
 
     /**
@@ -160,21 +171,8 @@ public class RentABikeController implements Initializable {
      */
     @FXML
     private void reserveNowClicked(ActionEvent event) throws IOException {
-        // set both text visible
-        if (isInputValid() == 1) {
-            dateError.setVisible(true);
-            buildingError.setVisible(true);
-        }
-        // only sets buildingError visible
-        if (isInputValid() == 2) {
-            buildingError.setVisible(true);
-        }
-        // only sets datePicker visible
-        if (isInputValid() == 3) {
-            dateError.setVisible(true);
-        }
         // only the case when both are filled in
-        if (isInputValid() == 4) {
+        if (isInputValid()) {
             /// retrieve date, bike number and time slot from the corresponding boxes
             String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
             int selectedBike = spinner.getValue();
@@ -221,9 +219,9 @@ public class RentABikeController implements Initializable {
                 }
                 // do nothing if user selects no
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Insufficient Bikes");
-                alert.setContentText("Insufficient Bikes Available. Please check the number of bikes available");
+                Alert alert = GeneralMethods.createAlert("Insufficient Bikes",
+                        "Insufficient Bikes Available. Please check the number of bikes available",
+                        ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.WARNING);
                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
                 alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
                 alert.showAndWait();
@@ -344,9 +342,15 @@ public class RentABikeController implements Initializable {
             }
         }
 
-        assert building != null;
-        // return false if not found
-        return building.getBuildingAvailableBikes().get() - num >= 0;
+        int id = building.getBuildingId().get();
+        Building selectedBuilding = Building.getBuildingById(id);
+        int availableBikes = selectedBuilding.getBuildingAvailableBikes().get();
+
+        if ((availableBikes - num) >= 0) {
+            return true;
+        } else {
+            return  false;
+        }
     }
 
     /**

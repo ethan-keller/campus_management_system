@@ -82,11 +82,7 @@
                      </Text>
                      <ComboBox fx:id="bikesAvailable" prefHeight="31.2" prefWidth="178.4" />
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-<<<<<<< HEAD
-                        <Button fx:id="BookingHistoryButton" layoutX="93.0" layoutY="8.0" mnemonicParsing="false" onAction="#bookingHistoryClicked" prefHeight="52.0" prefWidth="64.0" style="-fx-background-radius: 8;" text="Booking History">
-=======
                         <Button fx:id="bookingHistoryButton" layoutX="93.0" layoutY="8.0" mnemonicParsing="false" onAction="#bookingHistoryClicked" prefHeight="52.0" prefWidth="64.0" text="Booking History">
->>>>>>> develop
                            <font>
                               <Font size="7.0" />
                            </font>

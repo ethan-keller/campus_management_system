@@ -7,7 +7,12 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -89,6 +94,7 @@ public class RoomViewController implements Initializable {
     // current room to show info about
     private static Room currentRoom;
     public static int currentRoomId;
+    private final String pathSeparator = File.separator;
 
     // current Stage
     public static Stage thisStage;
@@ -161,7 +167,10 @@ public class RoomViewController implements Initializable {
             // sets all the room info text fields (+ image)
             name.setText("Name: " + currentRoom.getRoomName().get());
             capacity.setText("Capacity: " + currentRoom.getRoomCapacity().get());
-
+            //building.setText("Building: "
+            //        + Objects.requireNonNull(
+            //                Building.getBuildingById(
+            //                        currentRoom.getRoomBuilding().get())).getBuildingName().get());
             building.setText("Building: " + Building.getBuildingById(currentRoom.getRoomBuilding().get())
                     .getBuildingName().get());
             teacherOnly.setText("Teachers only: " + (currentRoom.getTeacherOnly().get() ? "yes" : "no"));
@@ -330,7 +339,8 @@ public class RoomViewController implements Initializable {
     private void configureCss() {
         try {
             // get css file and delete its content to fill it again
-            File css = new File(getClass().getResource("/RangeSlider.css").getPath());
+            File css = new File(getClass().getResource("/RangeSlider.css")
+                    .getPath().replace("/", pathSeparator));
             css.delete();
             css.createNewFile();
             BufferedWriter bw = new BufferedWriter(new FileWriter(css));
@@ -582,6 +592,7 @@ public class RoomViewController implements Initializable {
         }
     }
 
+    // TODO: add try catch everywhere
     /**
      * Method that executes when book button is clicked. It checks if fields are correctly filled.
      *
@@ -605,6 +616,18 @@ public class RoomViewController implements Initializable {
                 // if user confirms booking, reservations is sent to server
                 if (confirmBooking(selectedDate, selectedStartTime, selectedEndTime)) {
                     // send new reservation to server
+
+
+                    //ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
+                    //        currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24")
+                    //                ? "23:59" : selectedEndTime);
+                    // create confirmation Alert
+                    //Alert alert = GeneralMethods.createAlert("Room booked",
+                    //        "You successfully booked this room!",
+                    //        ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+                    //assert alert != null;
+                    //alert.showAndWait();
+
                     if (ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
                             currentRoomId, selectedDate, selectedStartTime,
                             selectedEndTime.contains("24") ? "23:59" : selectedEndTime)) {
@@ -693,11 +716,12 @@ public class RoomViewController implements Initializable {
                 foodError.setVisible(true);
                 errors = true;
             }
+
+            // check if errors were triggered
             if (!checkTimeSlotValidity() || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
                 timeSlotError.setVisible(true);
                 errors = true;
             }
-
             // return true if no errors where triggered
             return !errors;
         } catch (Exception e) {
@@ -720,7 +744,5 @@ public class RoomViewController implements Initializable {
             e.printStackTrace();
         }
     }
-
-
 }
 
