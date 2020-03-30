@@ -5,6 +5,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
@@ -46,6 +48,9 @@ import nl.tudelft.oopp.demo.views.RoomView;
  * Controller class for SearchView (JavaFX).
  */
 public class SearchViewController implements Initializable {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -130,7 +135,7 @@ public class SearchViewController implements Initializable {
                 cardHolder.getChildren().add(createRoomCard(r));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -165,7 +170,7 @@ public class SearchViewController implements Initializable {
             };
             return dayCellFactory;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -208,7 +213,7 @@ public class SearchViewController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -237,7 +242,7 @@ public class SearchViewController implements Initializable {
             };
             return converter;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -325,13 +330,13 @@ public class SearchViewController implements Initializable {
                 try {
                     cardClicked(event);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, e.toString());
                 }
             });
 
             return newCard;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -362,7 +367,7 @@ public class SearchViewController implements Initializable {
             RoomView rv = new RoomView();
             rv.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -384,7 +389,7 @@ public class SearchViewController implements Initializable {
             capacityComboBox.setValue(null);
             bikesAvailable.setValue(null);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -400,7 +405,7 @@ public class SearchViewController implements Initializable {
             CalendarPaneView cpv = new CalendarPaneView();
             cpv.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -419,7 +424,7 @@ public class SearchViewController implements Initializable {
             LoginView loginView = new LoginView();
             loginView.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +23,8 @@ import nl.tudelft.oopp.demo.entities.Room;
  * Class that controls dialog box to edit a room.
  */
 public class RoomEditDialogController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private TextField roomNameField;
@@ -83,7 +87,7 @@ public class RoomEditDialogController {
             roomTypeField.setText(room.getRoomType().get());
             roomDescriptionField.setText(room.getRoomDescription().get());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

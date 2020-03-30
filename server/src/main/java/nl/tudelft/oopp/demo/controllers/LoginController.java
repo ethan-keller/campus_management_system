@@ -48,22 +48,22 @@ public class LoginController {
         String hashedPassword = Hashing.hashIt(password);
         User user = userRepo.getUser(username);
         if (user == null) {
-            logger.info("Login: " + username + " not found");
+            logger.info("Login: '" + username + "' not found");
             return "not_found";
         } else if (!user.getPassword().equals(hashedPassword)) {
-            logger.info("Login: " + username + " wrong password");
+            logger.info("Login: '" + username + "' wrong password");
             return "wrong_password";
         } else if (user.getType() == 0) {
-            logger.info("Login: " + username + " logged in as admin");
+            logger.info("Login: '" + username + "' logged in as admin");
             return "admin";
         } else if (user.getType() == 1) {
-            logger.info("Login: " + username + " logged in as teacher");
+            logger.info("Login: '" + username + "' logged in as teacher");
             return "teacher";
         } else if (user.getType() == 2) {
-            logger.info("Login: " + username + " logged in as student");
+            logger.info("Login: '" + username + "' logged in as student");
             return "student";
         }
-        logger.warn("Login: " + username + " login failed for unknown reason");
+        logger.warn("Login: '" + username + "' login failed for unknown reason");
         return "error";
     }
 }

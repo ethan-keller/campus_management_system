@@ -1,6 +1,9 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +21,8 @@ import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 
 public class AdminManageBuildingViewController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private TableView<Building> buildingTable;
@@ -59,7 +64,7 @@ public class AdminManageBuildingViewController {
             // Add observable list data to the table
             buildingTable.setItems(Building.getBuildingData());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -115,8 +120,7 @@ public class AdminManageBuildingViewController {
                         + " select a building in the table", AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete building exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -146,8 +150,7 @@ public class AdminManageBuildingViewController {
                     AlertType.INFORMATION);
 
         } catch (Exception e) {
-            System.out.println("building creation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -187,8 +190,7 @@ public class AdminManageBuildingViewController {
                         "Please select a building in the table.", AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("building edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

@@ -10,7 +10,12 @@ import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Building {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     private IntegerProperty buildingId;
     private StringProperty buildingName;
@@ -167,7 +172,7 @@ public class Building {
             }
             return buildingData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -189,7 +194,7 @@ public class Building {
             b.setBuildingMaxBikes(jsonObject.getInt("maxBikes"));
             return b;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -216,7 +221,7 @@ public class Building {
             }
             return buildingData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

@@ -10,6 +10,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,6 +33,8 @@ import nl.tudelft.oopp.demo.entities.Room;
 import org.controlsfx.control.RangeSlider;
 
 public class BookingEditDialogController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private GridPane grid;
@@ -98,7 +102,7 @@ public class BookingEditDialogController {
             configureDatePicker();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -135,7 +139,7 @@ public class BookingEditDialogController {
             // inject the RangeSlider in the JavaFX layout
             grid.add(timeSlotSlider, 1, 3);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -238,7 +242,7 @@ public class BookingEditDialogController {
             timeSlotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css")
                     .toExternalForm());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -265,7 +269,7 @@ public class BookingEditDialogController {
             timeSlotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeSlotSlider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -297,7 +301,7 @@ public class BookingEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -393,11 +397,11 @@ public class BookingEditDialogController {
                 try {
                     configureCss();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, e.toString());
                 }
             }));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -433,7 +437,7 @@ public class BookingEditDialogController {
             };
             return dayCellFactory;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -588,7 +592,7 @@ public class BookingEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

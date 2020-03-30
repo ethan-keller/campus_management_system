@@ -12,6 +12,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,6 +49,9 @@ import org.controlsfx.control.RangeSlider;
  * Controller class for the Room view (JavaFX).
  */
 public class RoomViewController implements Initializable {
+    
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -141,7 +147,7 @@ public class RoomViewController implements Initializable {
             // set text and image info about the room
             configureRoomInfoTexts();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -161,7 +167,7 @@ public class RoomViewController implements Initializable {
             // TODO: change to room's image
             image.setImage(new Image("images/placeholder.png"));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -176,7 +182,7 @@ public class RoomViewController implements Initializable {
             timeSlotSlider.setDisable(true);
             datePicker.setDisable(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -190,7 +196,7 @@ public class RoomViewController implements Initializable {
             foodError.setVisible(false);
             timeSlotError.setVisible(false);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -207,7 +213,7 @@ public class RoomViewController implements Initializable {
             reservationVbox.setPrefWidth((newWidth.doubleValue() - 188) / 3.3969);
             timeSlotSlider.setMaxWidth((newWidth.doubleValue() - 188) / 5);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -231,11 +237,11 @@ public class RoomViewController implements Initializable {
                 try {
                     configureCss();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, e.toString());
                 }
             }));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -271,7 +277,7 @@ public class RoomViewController implements Initializable {
             };
             return dayCellFactory;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -308,7 +314,7 @@ public class RoomViewController implements Initializable {
             // inject the RangeSlider in the JavaFX layout
             reservationVbox.getChildren().add(2, timeSlotSlider);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -414,7 +420,7 @@ public class RoomViewController implements Initializable {
             timeSlotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css")
                     .toExternalForm());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -442,7 +448,7 @@ public class RoomViewController implements Initializable {
             timeSlotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeSlotSlider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -519,7 +525,7 @@ public class RoomViewController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -552,7 +558,7 @@ public class RoomViewController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -570,7 +576,7 @@ public class RoomViewController implements Initializable {
             SearchView sv = new SearchView();
             sv.start(thisStage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -621,7 +627,7 @@ public class RoomViewController implements Initializable {
                 alert.showAndWait();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             // create error Alert
             Alert alert = GeneralMethods.createAlert("Something went wrong",
                     "Sorry, something went wrong on our end. We're fixing it now!",
@@ -651,7 +657,7 @@ public class RoomViewController implements Initializable {
             // return true if confirmed, false otherwise
             return ReservationConfirmationViewController.confirmed;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return false;
     }
@@ -690,7 +696,7 @@ public class RoomViewController implements Initializable {
             // return true if no errors where triggered
             return !errors;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return false;
     }
@@ -706,7 +712,7 @@ public class RoomViewController implements Initializable {
             LoginView loginView = new LoginView();
             loginView.start(thisStage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

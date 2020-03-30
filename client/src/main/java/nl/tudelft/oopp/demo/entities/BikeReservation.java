@@ -10,7 +10,13 @@ import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class BikeReservation {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     private IntegerProperty bikeReservationId;
     private IntegerProperty bikeReservationBuilding;
     private StringProperty bikeReservationUser;
@@ -187,7 +193,7 @@ public class BikeReservation {
             }
             return bikeReservationData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -220,7 +226,7 @@ public class BikeReservation {
             }
             return bikeReservationData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -242,7 +248,7 @@ public class BikeReservation {
             b.setBikeReservationEndingTime(jsonObject.getString("endingTime"));
             return b;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -276,7 +282,7 @@ public class BikeReservation {
             }
             return bikeReservationData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

@@ -10,7 +10,12 @@ import nl.tudelft.oopp.demo.communication.UserServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class User {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     private StringProperty username;
     private StringProperty userPassword;
@@ -110,7 +115,7 @@ public class User {
             }
             return userData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

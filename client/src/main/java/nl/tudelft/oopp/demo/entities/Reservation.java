@@ -2,6 +2,8 @@ package nl.tudelft.oopp.demo.entities;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -17,6 +19,9 @@ import org.json.JSONArray;
 
 
 public class Reservation {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+    
     private IntegerProperty id;
     private StringProperty username;
     //Room means the room-id of the particular room.
@@ -178,7 +183,7 @@ public class Reservation {
                     .collect(Collectors.toList());
             return list;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -205,7 +210,7 @@ public class Reservation {
             }
             return reservationList;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -232,7 +237,7 @@ public class Reservation {
             }
             return reservationList;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -260,7 +265,7 @@ public class Reservation {
             }
             return reservationList;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
