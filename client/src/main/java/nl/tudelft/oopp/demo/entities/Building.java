@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,8 +12,6 @@ import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Building {
 

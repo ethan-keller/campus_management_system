@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -11,9 +13,6 @@ import javafx.collections.ObservableList;
 import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Room {
 

@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -12,8 +14,6 @@ import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Food {
 

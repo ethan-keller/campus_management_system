@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.logging.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
@@ -24,18 +28,17 @@ public class GeneralMethods {
 
     /**
      * Sets up and returns the standard logger for this application.
-     *
-     * @return Returns a logger.
      */
     public static void loggerSetup() {
         try {
-            Logger logger = Logger.getLogger("GlobalLogger");
             LogManager.getLogManager().reset();
             FileHandler handler = new FileHandler("logs/client.log", true);
             handler.setFormatter(new SimpleFormatter());
             handler.setLevel(Level.INFO);
+
+            Logger logger = Logger.getLogger("GlobalLogger");
             logger.addHandler(handler);
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
