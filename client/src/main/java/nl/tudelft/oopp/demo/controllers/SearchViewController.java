@@ -311,7 +311,7 @@ public class SearchViewController implements Initializable {
 
             // setting title and text margin (+ properties)
             roomTitle.setText(r.getRoomName().get());
-            roomTitle.setWrappingWidth(thisStage.getWidth()/2.0);
+            roomTitle.setWrappingWidth(thisStage.getWidth() / 2.0);
             roomTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
             roomTitle.setStyle("-fx-fill: #0ebaf8;");
 
@@ -322,20 +322,20 @@ public class SearchViewController implements Initializable {
                     .filter(x -> x.getBuildingId().get() == r.getRoomBuilding().get())
                     .collect(Collectors.toList()).get(0);
             roomBuilding.setText("Building: " + building.getBuildingName().get());
-            roomBuilding.setWrappingWidth(thisStage.getWidth()/2.0);
+            roomBuilding.setWrappingWidth(thisStage.getWidth() / 2.0);
             roomBuilding.setFont(Font.font("System", 14));
             VBox.setMargin(roomBuilding, new Insets(0, 0, 5, 15));
 
             // setting capacity and text margin (+ properties)
             roomCapacity.setText("Capacity: " + r.getRoomCapacity().get());
-            roomCapacity.setWrappingWidth(thisStage.getWidth()/2.0);
+            roomCapacity.setWrappingWidth(thisStage.getWidth() / 2.0);
             roomCapacity.setFont(Font.font("System", 14));
 
             VBox.setMargin(roomCapacity, new Insets(0, 0, 5, 15));
 
             // setting description and text margin (+ properties)
             roomDescription.setText("Description: " + r.getRoomDescription().get());
-            roomDescription.setWrappingWidth(thisStage.getWidth()/2.0);
+            roomDescription.setWrappingWidth(thisStage.getWidth() / 2.0);
             roomDescription.setFont(Font.font("System", 14));
 
             VBox.setMargin(roomDescription, new Insets(0, 0, 0, 15));
