@@ -25,18 +25,19 @@ public class BikeReservationController {
     /**
      * Adds a bike reservation to the database.
      *
-     * @param building The Building id to which the bikes belong
-     * @param user The username of the user making the reservation
-     * @param numBikes The number of bikes reserved
-     * @param date The date of the reservation
+     * @param building     The Building id to which the bikes belong
+     * @param user         The username of the user making the reservation
+     * @param numBikes     The number of bikes reserved
+     * @param date         The date of the reservation
      * @param startingTime The starting time of the reservation
-     * @param endingTime The ending time of the reservation
+     * @param endingTime   The ending time of the reservation
+     * @return boolean true if database query was successful, false otherwise
      */
     @PostMapping("createBikeReservation")
     @ResponseBody
-    public void createBikeReservation(@RequestParam int building, @RequestParam String user,
-                                      @RequestParam int numBikes, @RequestParam String date,
-                                      @RequestParam String startingTime, @RequestParam String endingTime) {
+    public boolean createBikeReservation(@RequestParam int building, @RequestParam String user,
+                                         @RequestParam int numBikes, @RequestParam String date,
+                                         @RequestParam String startingTime, @RequestParam String endingTime) {
         try {
             user = CommunicationMethods.decodeCommunication(user);
             date = CommunicationMethods.decodeCommunication(date);
@@ -46,26 +47,29 @@ public class BikeReservationController {
             buildingControl.addBikeReservation(building, numBikes);
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
      * Updates a previously made bike reservation.
      *
-     * @param id The id of the reservation
-     * @param building The new building of the reservation
-     * @param user The new user of the reservation
-     * @param numBikes The new number of bikes reserved
-     * @param date The new date of the reservation
+     * @param id           The id of the reservation
+     * @param building     The new building of the reservation
+     * @param user         The new user of the reservation
+     * @param numBikes     The new number of bikes reserved
+     * @param date         The new date of the reservation
      * @param startingTime The new starting time of the reservation
-     * @param endingTime The new ending time of the reservation
+     * @param endingTime   The new ending time of the reservation
+     * @return boolean true if database query was successful, false otherwise
      */
     @PostMapping("updateBikeReservation")
     @ResponseBody
-    public void updateBikeReservation(@RequestParam int id, @RequestParam int building,
-                                      @RequestParam String user, @RequestParam int numBikes,
-                                      @RequestParam String date, @RequestParam String startingTime,
-                                      @RequestParam String endingTime) {
+    public boolean updateBikeReservation(@RequestParam int id, @RequestParam int building,
+                                         @RequestParam String user, @RequestParam int numBikes,
+                                         @RequestParam String date, @RequestParam String startingTime,
+                                         @RequestParam String endingTime) {
         try {
             buildingControl.removeBikeReservation(id);
 
@@ -83,7 +87,9 @@ public class BikeReservationController {
             buildingControl.addBikeReservation(building, numBikes);
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
 
@@ -91,16 +97,19 @@ public class BikeReservationController {
      * Deletes a bike reservation from the database.
      *
      * @param id The id of the bike reservation
+     * @return boolean true if database query was successful, false otherwise
      */
     @PostMapping("deleteBikeReservation")
     @ResponseBody
-    public void deleteBikeReservation(@RequestParam int id) {
+    public boolean deleteBikeReservation(@RequestParam int id) {
         try {
             buildingControl.removeBikeReservation(id);
             bikeResRepo.deleteBikeReservation(id);
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -158,6 +167,7 @@ public class BikeReservationController {
 
     /**
      * Retrieves all bike reservations that have been made by a user.
+     *
      * @param user The username of the particular user
      * @return Returns a list of bike reservations
      */

@@ -21,10 +21,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.SwingUtilities;
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
+import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
+import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -72,6 +74,7 @@ public class CalendarPaneController implements Initializable {
             // Add all reservations and items from database to the calendar
             addReservationsToCalendar();
             addItemsToCalendar();
+            addBikeReservationsToCalendar();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -176,6 +179,46 @@ public class CalendarPaneController implements Initializable {
             e.printStackTrace();
         }
     }
+
+
+    private void addBikeReservationsToCalendar() {
+        try {
+            ObservableList<BikeReservation> reservationList =
+                    BikeReservation.getUserBikeReservations(CurrentUserManager.getUsername());
+            ObservableList<Building> buildingList = Building.getBuildingData();
+
+            for (BikeReservation br: reservationList) {
+                Appointment app = new Appointment();
+                Building building = buildingList.stream()
+                        .filter(x -> x.getBuildingId().get() == br.getBikeReservationBuilding().get())
+                        .collect(Collectors.toList()).get(0);
+                app.setHeaderText("Bike booking");
+                app.setId(String.valueOf(br.getBikeReservationId().get()));
+                String[] start = br.getBikeReservationStartingTime().get().split(":");
+                String[] end = br.getBikeReservationEndingTime().get().split(":");
+                String[] date = br.getBikeReservationDate().get().split("-");
+                app.setStartTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
+                        Integer.parseInt(date[2]), Integer.parseInt(start[0]), Integer.parseInt(start[1]),
+                        Integer.parseInt(start[2])));
+                app.setEndTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
+                        Integer.parseInt(date[2]), Integer.parseInt(end[0]), Integer.parseInt(end[1]),
+                        Integer.parseInt(end[2])));
+
+                app.setDescriptionText(building.getBuildingName().get() + "\n"
+                + start[0] + ":" + start[1] + " - " + end[0] + ":" + end[1] + "\n"
+                + br.getBikeReservationQuantity().get() + " bike(s)");
+
+                app.setLocked(true);
+                app.setAllowMove(false);
+                app.getStyle().setFillColor(Color.MAGENTA);
+
+                calendar.getSchedule().getItems().add(app);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Initializes the SwingNode with Swing components. This needs to happen in a separate thread.
@@ -285,6 +328,15 @@ public class CalendarPaneController implements Initializable {
     @FXML
     private void cancelReservationClicked() {
         try {
+            Alert alertConfirm = GeneralMethods.createAlert("Cancel confirmation",
+                    "Your reservation has succesfully been canceled", thisStage,
+                    Alert.AlertType.INFORMATION);
+
+            Alert alertError = GeneralMethods.createAlert("Cancel error",
+                    "Something went wrong, your reservation has not been canceled."
+                            + " Please try again.",
+                    thisStage, Alert.AlertType.ERROR);
+
             // get all selected items from the calendar
             Item[] items = calendar.getItemSelection().getItems();
             if (items.length == 0) {
@@ -298,17 +350,18 @@ public class CalendarPaneController implements Initializable {
                     if (ReservationServerCommunication.deleteReservation(Integer.parseInt(x.getId()))) {
                         // delete reservation from database and calendar
                         calendar.getSchedule().getItems().remove(x);
-                        Alert alert = GeneralMethods.createAlert("Cancel confirmation",
-                                "Your reservation has succesfully been canceled", thisStage,
-                                Alert.AlertType.INFORMATION);
-                        alert.showAndWait();
+                        alertConfirm.showAndWait();
                     } else {
                         // alert user that there was an error
-                        Alert alert = GeneralMethods.createAlert("Cancel error",
-                                "Something went wrong, your reservation has not been canceled."
-                                        + " Please try again.",
-                                thisStage, Alert.AlertType.ERROR);
-                        alert.showAndWait();
+                        alertError.showAndWait();
+                    }
+                } else if (x.getStyle().getFillColor().equals(Color.MAGENTA)){
+                    if (BikeReservationCommunication.deleteBikeReservation(Integer.parseInt(x.getId()))){
+                        // delete reservation from database and calendar
+                        calendar.getSchedule().getItems().remove(x);
+                        alertConfirm.showAndWait();
+                    } else {
+                        alertError.showAndWait();
                     }
                 }
             }
