@@ -1,7 +1,10 @@
 package nl.tudelft.oopp.demo.logic;
 
+import java.io.UnsupportedEncodingException;
+
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -16,15 +19,13 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;
 import org.controlsfx.control.RangeSlider;
-import org.w3c.dom.ranges.Range;
 
-import java.awt.*;
-import java.io.UnsupportedEncodingException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.w3c.dom.ranges.Range;
 
 public class RoomViewLogic {
 
@@ -35,12 +36,14 @@ public class RoomViewLogic {
      * @param timeSlotSlider
      * @return true if the user confirms, false otherwise
      */
-    public static boolean confirmBooking(Room currentRoom, Stage thisStage, DatePicker datePicker, RangeSlider timeSlotSlider) {
+    public static boolean confirmBooking(Room currentRoom, Stage thisStage, DatePicker datePicker,
+                                         RangeSlider timeSlotSlider) {
         try {
             // TODO: add food selection
 
             String date = RoomViewController.getDatePickerConverter(datePicker).toString(datePicker.getValue());
-            String startTime = RoomViewController.getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
+            String startTime = RoomViewController.getRangeSliderConverter().toString(
+                    timeSlotSlider.getLowValue());
             String endTime = RoomViewController.getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
             // set all fields to the current reservation details
             ReservationConfirmationViewController.room = currentRoom;
@@ -58,7 +61,8 @@ public class RoomViewLogic {
         return false;
     }
 
-    public static boolean createReservation(int currentRoomId, DatePicker datePicker, RangeSlider timeSlotSlider) throws UnsupportedEncodingException {
+    public static boolean createReservation(int currentRoomId, DatePicker datePicker, RangeSlider timeSlotSlider)
+            throws UnsupportedEncodingException {
         String date = RoomViewController.getDatePickerConverter(datePicker).toString(datePicker.getValue());
         String startTime = RoomViewController.getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
         String endTime = RoomViewController.getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
@@ -75,7 +79,9 @@ public class RoomViewLogic {
      *
      * @return true if everything is filled in correctly, false otherwise
      */
-    public static boolean isInputValid(Text dateError, Text foodError, Text timeSlotError, DatePicker datePicker, ComboBox<String> foodChoice, int currentRoomId, RoomViewController rvc, RangeSlider timeSlotSlider) {
+    public static boolean isInputValid(Text dateError, Text foodError, Text timeSlotError, DatePicker datePicker,
+                                       ComboBox<String> foodChoice, int currentRoomId, RoomViewController rvc,
+                                       RangeSlider timeSlotSlider) {
         try {
             // true if there are errors, false otherwise
             boolean errors = false;
@@ -94,7 +100,8 @@ public class RoomViewLogic {
                 foodError.setVisible(true);
                 errors = true;
             }
-            if (!checkTimeSlotValidity(currentRoomId, datePicker, timeSlotSlider) || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
+            if (!checkTimeSlotValidity(currentRoomId, datePicker, timeSlotSlider) ||
+                    timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
                 timeSlotError.setVisible(true);
                 errors = true;
             }
@@ -112,7 +119,8 @@ public class RoomViewLogic {
      *
      * @return true if the timeslot is free, false otherwise
      */
-    private static boolean checkTimeSlotValidity(int currentRoomId, DatePicker datePicker, RangeSlider timeSlotSlider) {
+    private static boolean checkTimeSlotValidity(int currentRoomId, DatePicker datePicker,
+                                                 RangeSlider timeSlotSlider) {
         // get all reservations for the current room on the chosen date
         List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(currentRoomId,
                 datePicker.getValue(), RoomViewController.getDatePickerConverter(datePicker));

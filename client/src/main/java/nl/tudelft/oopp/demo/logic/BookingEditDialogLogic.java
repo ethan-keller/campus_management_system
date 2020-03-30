@@ -7,12 +7,11 @@ import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
-import org.controlsfx.control.RangeSlider;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.controlsfx.control.RangeSlider;
 
 public class BookingEditDialogLogic {
 
@@ -33,7 +32,7 @@ public class BookingEditDialogLogic {
         }
         if (!checkTimeSlotValidity(bookingRoomComboBox, bookingDate, reservation, timeSlotSlider)
                 || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
-            errorMessage += "No valid timeslot selected!\n";
+            errorMessage += "No valid time slot selected!\n";
         }
         if (errorMessage.equals("")) {
             return true;
@@ -45,10 +44,11 @@ public class BookingEditDialogLogic {
             return false;
         }
     }
+
     /**
-     * Method that checks if the chosen timeslot is free.
+     * Method that checks if the chosen time slot is free.
      *
-     * @return true if the timeslot is free, false otherwise
+     * @return true if the time slot is free, false otherwise
      */
     public static boolean checkTimeSlotValidity(ComboBox<Room> bookingRoomComboBox, DatePicker bookingDate,
                                           Reservation reservation, RangeSlider timeSlotSlider) {

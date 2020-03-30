@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.logic.BuildingEditDialogLogic;
 
 public class BuildingEditDialogController {
 
@@ -72,33 +73,8 @@ public class BuildingEditDialogController {
      * @return true if the input is valid
      */
     private boolean isInputValid() {
-        String errorMessage = "";
-
-        if (buildingNameField.getText().equals("")) {
-            errorMessage += "No valid building name!\n";
-        }
-        if (buildingAddressField.getText().equals("")) {
-            errorMessage += "No valid building address!\n";
-        }
-        if (buildingRoomCountField.getText().equals("")) {
-            errorMessage += "No valid capacity!\n";
-        } else {
-            try {
-                Integer.parseInt(buildingRoomCountField.getText());
-            } catch (NumberFormatException e) {
-                errorMessage += "No valid room count (must be an integer)!\n";
-            }
-        }
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-
-            return false;
-        }
-
+        return BuildingEditDialogLogic.isValidInput(buildingNameField, buildingAddressField,
+                buildingRoomCountField);
     }
 
 }
