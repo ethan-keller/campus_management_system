@@ -23,7 +23,7 @@ public class FoodReservationEditDialogController {
     @FXML
     private TextField foodQuantityField;
 
-    private ObservableList<Food> olf;
+    public static ObservableList<Food> olf;
 
     public static FoodReservation foodReservation;
 

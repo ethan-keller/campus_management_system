@@ -172,4 +172,22 @@ public class Food {
         }
         return null;
     }
+
+    /**
+     * The equals method of food.
+     * @param o food
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Food food = (Food) o;
+        return foodId.get() == (food.getFoodId().get());
+    }
+
 }

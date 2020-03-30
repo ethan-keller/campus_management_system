@@ -1,8 +1,14 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,6 +21,7 @@ import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservation;
+import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminManageReservationView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.FoodReservationEditDialogView;
@@ -56,22 +63,17 @@ public class AdminManageFoodReservationViewController {
     private void initialize() {
         try {
             // Initialize the title of the table
-            if (AdminUserHistoryViewController.currentSelectedReservation != null) {
-                usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
-                reservationIdLabel.setText(String.valueOf(
-                        AdminUserHistoryViewController.currentSelectedReservation.getId().get()));
-            }
-            if (AdminManageReservationViewController.currentSelectedReservation != null) {
-                usernameLabel.setText(
-                        AdminManageReservationViewController.currentSelectedReservation.getUsername().get());
-                reservationIdLabel.setText(String.valueOf(
-                        AdminManageReservationViewController.currentSelectedReservation.getId().get()));
-            }
+            usernameLabel.setText(this.getReservation().getUsername().get());
+            reservationIdLabel.setText(String.valueOf(this.getReservation().getId().get()));
             // Initialize the booking table with the three columns.
             foodIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getFoodId().get()));
             foodNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                     Food.getFoodById(cellData.getValue().getFoodId().get()).getFoodName().get()));
+            //ObservableList<Food> olf = Food.getAllFoodData();
+            //foodNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+            //       olf.stream().filter(x -> x.getFoodId() == cellData.getValue().getFoodId())
+            //               .collect(Collectors.toList()).get(0).getFoodName().get()));
             foodQuantityColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getFoodQuantity().get()));
             foodReservationTable.setItems(FoodReservation.getUserReservationFood());
@@ -110,6 +112,22 @@ public class AdminManageFoodReservationViewController {
     }
 
     /**
+     * Get the id of reservation.
+     *
+     * @return int the id of reservation
+     */
+    public Reservation getReservation() {
+        Reservation r = new Reservation();
+        if (AdminUserHistoryViewController.currentSelectedReservation != null) {
+            r = AdminUserHistoryViewController.currentSelectedReservation;
+        }
+        if (AdminManageReservationViewController.currentSelectedReservation != null) {
+            r =  AdminManageReservationViewController.currentSelectedReservation;
+        }
+        return r;
+    }
+
+    /**
      * Delete a food reservation.
      *
      * @param event the event that triggered this method
@@ -121,16 +139,8 @@ public class AdminManageFoodReservationViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that food reservation deletion was successful before displaying alert
-                if (AdminUserHistoryViewController.currentSelectedReservation != null) {
-                    FoodServerCommunication.deleteFoodFromReservation(
-                            selectedFoodReservation.getFoodId().getValue(),
-                            AdminUserHistoryViewController.currentSelectedReservation.getId().get());
-                }
-                if (AdminManageReservationViewController.currentSelectedReservation != null) {
-                    FoodServerCommunication.deleteFoodFromReservation(
-                            selectedFoodReservation.getFoodId().getValue(),
-                            AdminManageReservationViewController.currentSelectedReservation.getId().get());
-                }
+                FoodServerCommunication.deleteFoodFromReservation(selectedFoodReservation.getFoodId().getValue(),
+                        this.getReservation().getId().get());
                 // An alert pop up when a reservation deleted successfully
                 GeneralMethods.alertBox("Delete food reservation", "",
                         "Food reservation deleted!", Alert.AlertType.INFORMATION);
@@ -165,16 +175,13 @@ public class AdminManageFoodReservationViewController {
             if (tempReservation == null) {
                 return;
             }
-            // TODO: Check that reservation creation was successful before displaying alert
-            if (AdminUserHistoryViewController.currentSelectedReservation != null) {
+            if (this.getAllFoodInReservation().contains(Food.getFoodById(tempReservation.getFoodId().get()))) {
+                FoodServerCommunication.updateFoodReservationQuantity(tempReservation.getFoodId().get(),
+                    this.getReservation().getId().get(), (tempReservation.getFoodQuantity().get()
+                        + this.getFoodOldQuantity(tempReservation.getFoodId().get())));
+            } else {
                 FoodServerCommunication.addFoodToReservation(tempReservation.getFoodId().get(),
-                        AdminUserHistoryViewController.currentSelectedReservation.getId().get(),
-                        tempReservation.getFoodQuantity().get());
-            }
-            if (AdminManageReservationViewController.currentSelectedReservation != null) {
-                FoodServerCommunication.addFoodToReservation(tempReservation.getFoodId().get(),
-                        AdminManageReservationViewController.currentSelectedReservation.getId().get(),
-                        tempReservation.getFoodQuantity().get());
+                        this.getReservation().getId().get(), tempReservation.getFoodQuantity().get());
             }
             // An alert pop up when a new reservation created.
             GeneralMethods.alertBox("New food reservation", "",
@@ -204,6 +211,34 @@ public class AdminManageFoodReservationViewController {
             AdminManageReservationView amrv = new AdminManageReservationView();
             amrv.start(stage);
         }
+    }
+
+    /**
+     * Return the quantity of current food reservation.
+     * @param foodId id
+     * @return the quantity of food
+     */
+    private int getFoodOldQuantity(int foodId) {
+        ObservableList<FoodReservation> olfr = FoodReservation.getUserReservationFood();
+        List<FoodReservation> filteredFoodReservation = olfr.stream().filter(x -> x.getFoodId().get()
+                == foodId).collect(Collectors.toList());
+        FoodReservation fr = filteredFoodReservation.get(0);
+        return fr.getFoodQuantity().get();
+    }
+
+    /**
+     * Return a list of foods in the reservations.
+     * @return A list of foods
+     */
+    private List<Food> getAllFoodInReservation() {
+        ObservableList<FoodReservation> olfr = FoodReservation.getUserReservationFood();
+        ObservableList<Food> olf = Food.getAllFoodData();
+        List<Food> f = new ArrayList<>();
+        for (FoodReservation fr : olfr) {
+            int id = fr.getFoodId().get();
+            f.add(olf.stream().filter(x -> x.getFoodId().get() == id).collect(Collectors.toList()).get(0));
+        }
+        return f;
     }
 
 }

@@ -215,6 +215,7 @@ public class AdminManageReservationViewController {
      */
     @FXML
     private void backButtonClicked(ActionEvent event) throws IOException {
+        currentSelectedReservation = null;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This loads up a new admin home page.

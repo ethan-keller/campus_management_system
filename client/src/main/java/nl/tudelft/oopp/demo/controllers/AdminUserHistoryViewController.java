@@ -147,6 +147,7 @@ public class AdminUserHistoryViewController {
 
     /**
      * Handles clicking the food button, redirect to the food reservation view.
+     * @param event is passed
      */
     @FXML
     private void foodClicked(ActionEvent event) throws IOException {
@@ -174,6 +175,7 @@ public class AdminUserHistoryViewController {
 
     /**
      * Handles clicking the back button, redirect to the user view.
+     * @param event is passed
      */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
