@@ -18,7 +18,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Spinner;
+
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
@@ -153,37 +159,37 @@ public class RentABikeController implements Initializable {
      * @return true only when all the options are filled in
      */
         public boolean isInputValid() {
-            try {
-                // true if there are errors, false otherwise
-                boolean input = true;
+        try {
+            // true if there are errors, false otherwise
+            boolean input = true;
 
-                // clear error messages
-                dateError.setVisible(false);
-                buildingError.setVisible(false);
+            // clear error messages
+            dateError.setVisible(false);
+            buildingError.setVisible(false);
 
-                if (datePicker.getValue() == null) {
-                    dateError.setVisible(true);
-                   input =  false;
-                }
-                if (comboBuilding.getValue() == null) {
-                    buildingError.setVisible(true);
-                    input =  false;
-                }
-
-                // return true if no errors where triggered
-                return input;
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (datePicker.getValue() == null) {
+                dateError.setVisible(true);
+                input =  false;
             }
-            return false;
+            if (comboBuilding.getValue() == null) {
+                buildingError.setVisible(true);
+                input =  false;
+            }
+
+            // return true if no errors where triggered
+            return input;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return false;
+    }
 
     /**
      * Deals with Reserve Now button clicked
-     * Method that retrieves values from the functionalities and returns to the server  if all the
-     * requirements are met
+     * Method that retrieves values from the functionalities and returns to the server  if all the.
+     * requirements are met.
      * @param event ActionEvent
-     * @throws IOException
+     * @throws IOException throws exception
      */
     @FXML
     private void reserveNowClicked(ActionEvent event) throws IOException {
@@ -191,7 +197,8 @@ public class RentABikeController implements Initializable {
             // only the case when both are filled in
             if (isInputValid()) {
                 /// retrieve date, bike number and time slot from the corresponding boxes
-                String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
+                String selectedDate =
+                        Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
                 String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
                         .toString(timeSlotSlider.getLowValue());
                 String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
@@ -205,7 +212,8 @@ public class RentABikeController implements Initializable {
                     // create alert for confirmation with the user
                     Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "
                                     + selectedBike + " bikes"
-                                    + " from " + selectedBuilding + " on " + selectedDate + " for " + selectedStartTime + "-"
+                                    + " from " + selectedBuilding +
+                                    " on " + selectedDate + " for " + selectedStartTime + "-"
                                     + selectedEndTime + "?", ((Node) event.getSource()).getScene().getWindow(),
                             Alert.AlertType.CONFIRMATION);
                     assert alert != null;
@@ -350,8 +358,8 @@ public class RentABikeController implements Initializable {
     }
 
     /**
-     * checks if there are enough bikes in the database
-     * @param buildingName
+     * checks if there are enough bikes in the database.
+     * @param buildingName name of the building
      * @param num Number of bikes user wants to rent
      * @return true if sufficient bikes avilable
      */
@@ -508,8 +516,8 @@ public class RentABikeController implements Initializable {
      */
     public String getSelectedBuilding(String st) {
         try {
-            String result="";
-            for(int i = 0; i<buildingList.size(); i++) {
+            String result ="";
+            for (int i = 0; i < buildingList.size(); i++) {
                 if (st.contains(buildingList.get(i).getBuildingName().get())) {
                     result = buildingList.get(i).getBuildingName().get();
                     currentBuilding = i;
@@ -525,8 +533,8 @@ public class RentABikeController implements Initializable {
     }
 
     /**
-     * Automatically resizes the image as the window size changes
-     * @param newWidth
+     * Automatically resizes the image as the window size changes.
+     * @param newWidth width of the window
      */
     private void changeWidthConstraints(Number newWidth) {
         try {
