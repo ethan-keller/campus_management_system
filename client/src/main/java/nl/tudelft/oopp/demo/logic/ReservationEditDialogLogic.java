@@ -1,9 +1,9 @@
 package nl.tudelft.oopp.demo.logic;
 
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDate;
-import java.util.concurrent.TimeUnit;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;

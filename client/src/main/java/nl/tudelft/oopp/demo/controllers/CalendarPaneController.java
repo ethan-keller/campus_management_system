@@ -22,6 +22,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import javax.swing.SwingUtilities;
+
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
@@ -34,9 +36,6 @@ import nl.tudelft.oopp.demo.logic.CalenderPaneLogic;
 import nl.tudelft.oopp.demo.views.CalenderItemDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
-
-import javax.swing.*;
-
 
 /**
  * Class that controls the view which contains the calendar with booking history.

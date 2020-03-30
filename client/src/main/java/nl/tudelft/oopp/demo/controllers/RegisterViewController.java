@@ -61,6 +61,7 @@ public class RegisterViewController {
             rePasswordLabel.setText("The password needs to be the same !");
             rePasswordLabel.setStyle("-fx-text-fill: red");
         }
+
         //Server connection is established.
         else {
             alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt));

@@ -1,17 +1,20 @@
 package nl.tudelft.oopp.demo.logic;
 
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.concurrent.TimeUnit;
+import java.util.List;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 import org.controlsfx.control.RangeSlider;
 
 public class BookingEditDialogLogic {
@@ -168,7 +171,11 @@ public class BookingEditDialogLogic {
         return null;
     }
 
-    public static void sortReservations(List<Reservation> reservations){
+    /**
+     * sorts the reservation given.
+     * @param reservations list of reservations to be sorted.
+     */
+    public static void sortReservations(List<Reservation> reservations) {
         reservations.sort(new Comparator<Reservation>() {
             @Override
             public int compare(Reservation o1, Reservation o2) {

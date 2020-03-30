@@ -1,11 +1,12 @@
 package nl.tudelft.oopp.demo.logic;
 
 import com.mindfusion.scheduling.model.Appointment;
+
+import java.io.UnsupportedEncodingException;
+
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.controllers.CalenderItemDialogController;
-
-import java.io.UnsupportedEncodingException;
 
 public class CalenderPaneLogic {
     public static Appointment makeItem() throws UnsupportedEncodingException {
