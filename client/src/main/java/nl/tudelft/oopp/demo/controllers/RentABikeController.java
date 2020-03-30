@@ -119,8 +119,7 @@ public class RentABikeController implements Initializable {
                 String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
                         .toString(timeSlotSlider.getLowValue());
                 String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
-                populateBuilding(selectedEndTime, selectedDate);
-                ;
+                populateBuilding(selectedStartTime, selectedEndTime, selectedDate);
             });
 
         } catch (Exception e) {
@@ -554,13 +553,7 @@ public class RentABikeController implements Initializable {
         }
     }
 
-    public void populateBuilding(String selectedTime, String selectedDate) {
-        /*
-        Ryo you initialized an empty ObservableList and looped through it.
-        It think that's why you got weird errors.
-         */
-
-        // ObservableList<String> buildList = FXCollections.observableArrayList();
+    public void populateBuilding(String selectedStart, String selectedEnd, String selectedDate) {
 
         ObservableList<Building> buildingList = Building.getBuildingData();
         ObservableList<BikeReservation> bikeReservationsList = BikeReservation.getBikeReservationData();
@@ -580,7 +573,6 @@ public class RentABikeController implements Initializable {
 
             for (BikeReservation br : filteredReservations) {
                 remainder = remainder - br.getBikeReservationQuantity().get();
-                System.out.println(br.getBikeReservationQuantity().get());
             }
 
             result = result + remainder;

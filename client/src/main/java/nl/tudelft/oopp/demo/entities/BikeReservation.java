@@ -183,6 +183,7 @@ public class BikeReservation {
                 b.setBikeReservationStartingTime(jsonArrayBikeReservations
                         .getJSONObject(i).getString("startingTime"));
                 b.setBikeReservationEndingTime(jsonArrayBikeReservations.getJSONObject(i).getString("endingTime"));
+                b.setBikeReservationQuantity(jsonArrayBikeReservations.getJSONObject(i).getInt("numBikes"));
                 bikeReservationData.add(b);
             }
             return bikeReservationData;
