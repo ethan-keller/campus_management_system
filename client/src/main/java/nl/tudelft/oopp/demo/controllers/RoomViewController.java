@@ -7,10 +7,11 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import javafx.collections.FXCollections;
@@ -166,10 +167,10 @@ public class RoomViewController implements Initializable {
             // sets all the room info text fields (+ image)
             name.setText("Name: " + currentRoom.getRoomName().get());
             capacity.setText("Capacity: " + currentRoom.getRoomCapacity().get());
-//            building.setText("Building: "
-//                    + Objects.requireNonNull(
-//                            Building.getBuildingById(
-//                                    currentRoom.getRoomBuilding().get())).getBuildingName().get());
+            //building.setText("Building: "
+            //        + Objects.requireNonNull(
+            //                Building.getBuildingById(
+            //                        currentRoom.getRoomBuilding().get())).getBuildingName().get());
             building.setText("Building: " + Building.getBuildingById(currentRoom.getRoomBuilding().get())
                     .getBuildingName().get());
             teacherOnly.setText("Teachers only: " + (currentRoom.getTeacherOnly().get() ? "yes" : "no"));
@@ -616,15 +617,15 @@ public class RoomViewController implements Initializable {
                 if (confirmBooking(selectedDate, selectedStartTime, selectedEndTime)) {
                     // send new reservation to server
 
-//                    ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
-//                            currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24")
-//                                    ? "23:59" : selectedEndTime);
-//                    // create confirmation Alert
-//                    Alert alert = GeneralMethods.createAlert("Room booked",
-//                            "You successfully booked this room!",
-//                            ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
-//                    assert alert != null;
-//                    alert.showAndWait();
+                    //ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
+                    //        currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24")
+                    //                ? "23:59" : selectedEndTime);
+                    // create confirmation Alert
+                    //Alert alert = GeneralMethods.createAlert("Room booked",
+                    //        "You successfully booked this room!",
+                    //        ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+                    //assert alert != null;
+                    //alert.showAndWait();
 
                     if (ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
                             currentRoomId, selectedDate, selectedStartTime,

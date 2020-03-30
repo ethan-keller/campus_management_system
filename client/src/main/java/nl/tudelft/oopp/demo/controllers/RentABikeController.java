@@ -346,7 +346,7 @@ public class RentABikeController implements Initializable {
         Building selectedBuilding = Building.getBuildingById(id);
         int availableBikes = selectedBuilding.getBuildingAvailableBikes().get();
 
-        if ((availableBikes-num) >= 0) {
+        if ((availableBikes - num) >= 0) {
             return true;
         } else {
             return  false;
