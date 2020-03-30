@@ -259,6 +259,7 @@ public class SearchViewController implements Initializable {
             // use lookup to retrieve Nodes by their id and set their content
             ImageView image = ((ImageView) newCard.lookup("#image"));
             image.setImage(roomImage);
+            // set the correct width
             image.setFitWidth(300);
 
             ((Text) newCard.lookup("#idText")).setText(String.valueOf(r.getRoomId().get()));
