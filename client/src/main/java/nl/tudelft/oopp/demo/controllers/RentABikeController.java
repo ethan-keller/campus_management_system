@@ -18,17 +18,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Spinner;
+import javafx.scene.control.*;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -45,6 +39,7 @@ import nl.tudelft.oopp.demo.views.SearchView;
 import org.controlsfx.control.RangeSlider;
 
 
+
 public class RentABikeController implements Initializable {
     @FXML
     private DatePicker datePicker;
@@ -57,15 +52,21 @@ public class RentABikeController implements Initializable {
     @FXML
     private Spinner<Integer> spinner;
     @FXML
-    private VBox buildingBikes;
-    @FXML
     private Text endTime;
     @FXML
     private VBox reservationVbox;
     @FXML
     private Text startTime;
+    @FXML
+    private ImageView image;
 
     private RangeSlider timeSlotSlider;
+
+    public static Stage thisStage;
+
+    public ObservableList<Building> buildingList = Building.getBuildingData();
+    private static int currentBuilding=0;
+    ObservableList<String> buildList = FXCollections.observableArrayList();
 
 
     /**
@@ -85,21 +86,14 @@ public class RentABikeController implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //Retrieving buildings into ObservableList
-        ObservableList<Building> buildingList = Building.getBuildingData();
-        //Creating Observable List for holding String values to apply to dropdownBox
-        ObservableList<String> buildList = FXCollections.observableArrayList();
-        //Ensure buildingLIst cannot be null
-        assert buildingList != null;
 
-        //Converting buildingName into String for each item and getting number of available bikes
-        for (Building b : buildingList) {
-            buildList.add(b.getBuildingName().get());
-            buildingBikes.getChildren().add(getEachBikes(b));
+
+        for(Building b: buildingList) {
+            setEachBuilding(b);
         }
-        //Setting the values to comboBox
+        //Converting buildingName into String for each item and getting number of available bikes
         comboBuilding.setItems(buildList);
-
+        comboBuilding.setVisibleRowCount(8);
         // make sure errors are not visible
         dateError.setVisible(false);
         buildingError.setVisible(false);
@@ -109,32 +103,25 @@ public class RentABikeController implements Initializable {
         configureRangeSlider();
 
 
+        changeWidthConstraints(thisStage.getWidth());
+        image.setFitHeight(100000);
+
+        // listener that adjusts layout when width of stage changes
+        thisStage.widthProperty().addListener((obs, oldVal, newVal) -> changeWidthConstraints(newVal));
     }
 
-    /**
-     * .
-     * This method gets a building object and returns the available number
-     * of bikes together with corresponding building.
-     *
-     * @param b Building object
-     */
-    private Text getEachBikes(Building b) {
-        // get buildingName in String
+    private void setEachBuilding(Building b) {
         String buildName = b.getBuildingName().get();
-        // get available number of bikes
-        int buildBikes = b.getBuildingAvailableBikes().get();
+        int buildNumber = b.getBuildingAvailableBikes().get();
+        if (buildNumber < 0) {
+            buildNumber = 0;
+        }
 
-        // create new text object for each building object
-        Text text = new Text();
-        //set building name and bike number in text format
-        text.setText(buildName + ": " + buildBikes);
-        // set color of text
-        text.setFill(Color.WHITE);
-        // set font and size
-        text.setFont(Font.font("System", 14));
+        String result = buildName + ": " + buildNumber;
 
-        return text;
+        buildList.add(result);
     }
+
 
 
 
@@ -175,18 +162,20 @@ public class RentABikeController implements Initializable {
         if (isInputValid()) {
             /// retrieve date, bike number and time slot from the corresponding boxes
             String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
-            int selectedBike = spinner.getValue();
             String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
                     .toString(timeSlotSlider.getLowValue());
             String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
-            String selectedBuilding = comboBuilding.getValue();
+            String selectedBuildingAndBike = comboBuilding.getValue();
+            String selectedBuilding = getSelectedBuilding(selectedBuildingAndBike);
+            Integer selectedBike = spinner.getValue();
+
 
             // check to see enough bikes for selected building
             if (checkBikeAvailability(selectedBuilding, selectedBike)) {
                 // create alert for confirmation with the user
                 Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "
                                 + selectedBike + " bikes"
-                        + " from " + selectedBuilding + " on " + selectedDate + "for " + selectedStartTime + "-"
+                        + " from " + selectedBuilding + " on " + selectedDate + " for " + selectedStartTime + "-"
                                 + selectedEndTime + "?", ((Node) event.getSource()).getScene().getWindow(),
                         Alert.AlertType.CONFIRMATION);
                 assert alert != null;
@@ -205,7 +194,8 @@ public class RentABikeController implements Initializable {
                             CurrentUserManager.getUsername(), selectedBike,selectedDate,
                             selectedStartTime, selectedEndTime);
                     // inform the user for successful reservation
-                    Alert alert2 = GeneralMethods.createAlert("Room booked", "You successfully booked this room!",
+                    Alert alert2 = GeneralMethods.createAlert("Bike Reserved",
+                            "You successfully reserved the bike(s)!",
                             ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
                     assert alert2 != null;
                     alert2.showAndWait();
@@ -328,11 +318,8 @@ public class RentABikeController implements Initializable {
 
     //Checks if there are sufficient bikes in the database
     private Boolean checkBikeAvailability(String buildingName, int num) {
-        //get available building data
-        ObservableList<Building> buildingList = Building.getBuildingData();
         // ensure the list cannot be null
         Building building = null;
-        assert buildingList != null;
         //looks for same name of the building as buildingName
         for (Building b : buildingList) {
             if (b.getBuildingName().get().equals(buildingName)) {
@@ -362,8 +349,7 @@ public class RentABikeController implements Initializable {
      */
     private int getBuildingNumber(String name) {
         int buildingNumber = 0;
-        ObservableList<Building> buildingList = Building.getBuildingData();
-        assert buildingList != null;
+
         //look for specific buildingID with the given String one by one
         for (Building b: buildingList) {
             if (name.equals(b.getBuildingName().get())) {
@@ -465,6 +451,28 @@ public class RentABikeController implements Initializable {
         }
     }
 
+    public String getSelectedBuilding(String st) {
+        String result="";
+        for(int i = 0; i<buildingList.size(); i++) {
+            if (st.contains(buildingList.get(i).getBuildingName().get())) {
+                result = buildingList.get(i).getBuildingName().get();
+                currentBuilding = i;
+                break;
+            }
+        }
+        return result;
+    }
 
-
+    private void changeWidthConstraints(Number newWidth) {
+        try {
+            // set the width of some nodes based on the calculated ratio between their width and the stages width
+            image.setFitWidth((newWidth.doubleValue() - 188) / 1.41550696);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
+
+

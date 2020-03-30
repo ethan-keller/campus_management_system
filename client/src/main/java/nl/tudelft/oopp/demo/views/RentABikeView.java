@@ -10,12 +10,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.controllers.RentABikeController;
+import nl.tudelft.oopp.demo.controllers.RoomViewController;
 import nl.tudelft.oopp.demo.views.AdminManageRoomView;
 
 public class RentABikeView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        RentABikeController.thisStage = primaryStage;
         FXMLLoader loader = new FXMLLoader();
         URL xmlUrl = getClass().getResource("/RentABikeView.fxml");
         loader.setLocation(xmlUrl);
