@@ -3,8 +3,8 @@ package nl.tudelft.oopp.demo.logic;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.views.SearchView;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -35,8 +35,11 @@ class SearchViewLogicTest {
     private static Reservation rs4;
 
 
-    @BeforeAll
-    public static void makeRooms() {
+    /**
+     * makes a List of rooms to filter on.
+     */
+    @BeforeEach
+    public void makeRooms() {
         rooms = new ArrayList<Room>();
         r1 = new Room(1, "Room 1", 1, true, 4, "picture.jpg", "nice room", "lecture hall");
         r2 = new Room(2, "Room 2", 1, true, 12, "picture.jpg", "nice room", "lecture hall");
@@ -51,6 +54,10 @@ class SearchViewLogicTest {
         rooms.add(r5);
     }
 
+    /**
+     * makes buildings to filter on.
+     * @return
+     */
     public List<Building> makeBuildings(){
         buildings = new ArrayList<>();
         b1 = new Building(1, "Building 1", 2, "BuildingStreet 1", 5, 5);
@@ -64,6 +71,10 @@ class SearchViewLogicTest {
         return buildings;
     }
 
+    /**
+     * Makes a list of reservations to filter on.
+     * @return
+     */
     public List<Reservation> makeReservations(){
         reservations = new ArrayList<Reservation>();
 
@@ -80,8 +91,9 @@ class SearchViewLogicTest {
         return reservations;
     }
 
-
-
+    /**
+     * tests the filtering of rooms by buildingId.
+     */
     @Test
     void filterRoomByBuilding() {
         List<Room> expected = new ArrayList<Room>();
@@ -93,6 +105,9 @@ class SearchViewLogicTest {
 
     }
 
+    /**
+     * tests the filtering of rooms by if they are teacherOnly.
+     */
     @Test
     void filterRoomByTeacherOnly() {
         List<Room> expected = new ArrayList<Room>();
@@ -103,6 +118,9 @@ class SearchViewLogicTest {
         assertEquals(expected, SearchViewLogic.filterRoomByTeacherOnly(rooms, true));
     }
 
+    /**
+     * tests the filtering of rooms by capacity.
+     */
     @Test
     void filterRoomByCapacity() {
         List<Room> expected1 = new ArrayList<Room>();
@@ -128,9 +146,13 @@ class SearchViewLogicTest {
         assertEquals(expected4, SearchViewLogic.filterRoomByCapacity(rooms, "20+"));
     }
 
+    /**
+     * tests the filtering of rooms and buildings by searchInput.
+     */
     @Test
     void filterBySearch() {
         makeBuildings();
+        makeRooms();
 
         List<Room> expected = new ArrayList<Room>();
         expected.add(r5);
@@ -139,6 +161,9 @@ class SearchViewLogicTest {
         assertEquals(expected, SearchViewLogic.filterBySearch(rooms, "3", buildings));
     }
 
+    /**
+     * tests the filtering of rooms by if they are available on given date.
+     */
     @Test
     void filterRoomsByDate() {
         makeBuildings();
@@ -153,6 +178,9 @@ class SearchViewLogicTest {
         assertEquals(expected, rooms);
     }
 
+    /**
+     * tests the filtering of rooms by if there are enough bikes on the building.
+     */
     @Test
     void filterByBike() {
         makeBuildings();
