@@ -1,5 +1,14 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,14 +28,6 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.logic.BookingEditDialogLogic;
 import org.controlsfx.control.RangeSlider;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class BookingEditDialogController {
 

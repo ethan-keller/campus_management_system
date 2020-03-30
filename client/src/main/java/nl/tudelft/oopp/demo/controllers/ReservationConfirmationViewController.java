@@ -1,5 +1,9 @@
 package nl.tudelft.oopp.demo.controllers;
 
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,9 +12,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Room;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * Class that controls the dialog pop up that asks for a reservation confirmation.

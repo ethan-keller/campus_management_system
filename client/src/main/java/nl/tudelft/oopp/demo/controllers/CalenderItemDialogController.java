@@ -2,6 +2,14 @@ package nl.tudelft.oopp.demo.controllers;
 
 import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.model.Appointment;
+
+import java.awt.Color;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,15 +22,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
+
 import org.controlsfx.control.RangeSlider;
 
-import java.awt.*;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Class that controls the dialog box to add a calendar item to the users calendar.

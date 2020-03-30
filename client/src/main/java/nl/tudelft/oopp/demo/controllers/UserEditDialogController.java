@@ -7,6 +7,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.logic.UserEditDialogLogic;
 

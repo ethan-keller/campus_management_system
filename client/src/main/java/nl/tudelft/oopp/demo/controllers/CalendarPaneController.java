@@ -5,6 +5,13 @@ import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.CalendarView;
 import com.mindfusion.scheduling.model.Appointment;
 import com.mindfusion.scheduling.model.Item;
+
+import java.awt.Color;
+import java.awt.Point;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
@@ -14,6 +21,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
@@ -28,10 +36,7 @@ import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
 import javax.swing.*;
-import java.awt.*;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
+
 
 /**
  * Class that controls the view which contains the calendar with booking history.

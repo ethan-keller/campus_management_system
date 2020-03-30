@@ -1,5 +1,9 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,9 +20,6 @@ import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.UserEditDialogView;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 
 public class AdminManageUserViewController {

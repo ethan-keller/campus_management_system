@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -11,10 +14,6 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
 import nl.tudelft.oopp.demo.logic.RegisterViewLogic;
 import nl.tudelft.oopp.demo.views.LoginView;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
 
 public class RegisterViewController {
 
