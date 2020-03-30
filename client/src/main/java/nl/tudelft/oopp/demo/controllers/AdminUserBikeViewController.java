@@ -218,7 +218,7 @@ public class AdminUserBikeViewController {
 
     /**
      * Handles clicking the back button, redirect to the admin home page view.
-     * @param event
+     * @param event is passed
      * @throws IOException is thrown
      */
     @FXML

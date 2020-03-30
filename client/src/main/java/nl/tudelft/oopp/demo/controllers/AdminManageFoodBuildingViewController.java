@@ -148,7 +148,7 @@ public class AdminManageFoodBuildingViewController {
 
     /**
      * Handles clicking the back button, redirect to the food view.
-     * @param event
+     * @param event is passed
      * @throws IOException is thrown
      */
     @FXML
