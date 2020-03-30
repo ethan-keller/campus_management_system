@@ -525,8 +525,8 @@ public class RentABikeController implements Initializable {
             //Set up the string for each building object
             for (Building b: buildingList) {
                 String result =
-                        b.getBuildingName().get() + ": " +
-                                getRemainder(b, selectedDate, selectedEnd, selectedStart);
+                        b.getBuildingName().get() + ": "
+                                + getRemainder(b, selectedDate, selectedEnd, selectedStart);
                 buildList.add(result);
             }
             //populate comboBuilding box
