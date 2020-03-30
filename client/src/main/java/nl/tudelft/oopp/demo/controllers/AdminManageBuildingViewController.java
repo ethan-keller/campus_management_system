@@ -77,11 +77,7 @@ public class AdminManageBuildingViewController {
      * @return a Building object
      */
     public Building getSelectedBuilding() {
-        if (buildingTable.getSelectionModel().getSelectedIndex() >= 0) {
-            return buildingTable.getSelectionModel().getSelectedItem();
-        } else {
-            return null;
-        }
+        return AdminManageBuildingLogic.getSelectedBuildingLogic(buildingTable);
     }
 
     /**

@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.logic.AdminManageReservationLogic;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
@@ -84,15 +85,7 @@ public class AdminManageReservationViewController {
      * @return Returns the selected reservation.
      */
     public Reservation getSelectedReservation() {
-
-        // If reservation selection is valid:
-        if (listReservations.getSelectionModel().getSelectedIndex() >= 0) {
-            // Returns the item ( of type Reservation ) back to the user.
-            return listReservations.getSelectionModel().getSelectedItem();
-        } else {
-            // If no item is selected, then null is returned.
-            return null;
-        }
+        return AdminManageReservationLogic.getSelectedReservation(listReservations);
     }
 
     /**
@@ -113,10 +106,13 @@ public class AdminManageReservationViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
+
                 //TODO: Check that Reservation deletion was successful before displaying alert message.
-                ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
+                AdminManageReservationLogic.deleteReservationLogic(selectedReservation);
+
                 // To update the tabular view after removing the reservation.
                 refresh();
+
                 // Displaying a message to the admin for clearer communication through an alert box.
                 GeneralMethods.alertBox("Delete Reservation", "", "Reservation deleted!",
                         Alert.AlertType.INFORMATION);
@@ -148,9 +144,7 @@ public class AdminManageReservationViewController {
                 //TODO: Checking if the reservation creating was successful before displaying the alert.
             } else {
                 Reservation tempReservation = ReservationEditDialogController.reservation;
-                ReservationServerCommunication.createReservation(tempReservation.getUsername().get(),
-                        tempReservation.getRoom().get(), tempReservation.getDate().get(),
-                        tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
+                AdminManageReservationLogic.createReservationLogic(tempReservation);
                 refresh();
 
                 // Displaying a message to the admin for clearer communication through an alert box.
@@ -178,17 +172,15 @@ public class AdminManageReservationViewController {
 
                 ReservationEditDialogView view = new ReservationEditDialogView();
                 view.start(stage);
-                Reservation tempResevation = ReservationEditDialogController.reservation;
+                Reservation tempReservation = ReservationEditDialogController.reservation;
 
-                if (tempResevation == null) {
+                if (tempReservation == null) {
                     return;
                 }
 
                 //TODO: Making sure that the reservation is created properly, before displaying the alert box.
 
-                ReservationServerCommunication.updateReservation(selectedReservation.getId().get(),
-                        tempResevation.getRoom().get(), tempResevation.getDate().get(),
-                        tempResevation.getStartingTime().get(), tempResevation.getEndingTime().get());
+                AdminManageReservationLogic.editReservationLogic(selectedReservation, tempReservation);
                 refresh();
 
                 // Displaying a message to the admin for clearer communication through an alert box.

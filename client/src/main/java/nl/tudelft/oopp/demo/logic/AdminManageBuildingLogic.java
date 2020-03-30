@@ -1,10 +1,28 @@
 package nl.tudelft.oopp.demo.logic;
 
 import java.io.UnsupportedEncodingException;
+
+import javafx.scene.control.TableView;
 import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
 
+import javax.swing.text.TabableView;
+
 public class AdminManageBuildingLogic {
+
+    /**.
+     * This method is used to select a building from the tabular view of the buildings
+     * Constraints are added; if the building index is less than 0, null is returned.
+     * @param buildingTableView - TableView of Buildings
+     * @return - Building
+     */
+    public static Building getSelectedBuildingLogic(TableView<Building> buildingTableView) {
+        if (buildingTableView.getSelectionModel().getSelectedIndex() >= 0) {
+            return buildingTableView.getSelectionModel().getSelectedItem();
+        } else {
+            return null;
+        }
+    }
 
     /**.
      * This method is used in the adminManageBuildingViewController class to communicate with the server to
