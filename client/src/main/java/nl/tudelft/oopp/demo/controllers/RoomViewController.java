@@ -93,8 +93,6 @@ public class RoomViewController implements Initializable {
     @FXML
     private Text dateError;
     @FXML
-    private Text foodError;
-    @FXML
     private Text timeSlotError;
     @FXML
     private Text teacherOnlyError;
@@ -425,7 +423,6 @@ public class RoomViewController implements Initializable {
         try {
             // hide each error message
             dateError.setVisible(false);
-            foodError.setVisible(false);
             timeSlotError.setVisible(false);
         } catch (Exception e) {
             e.printStackTrace();

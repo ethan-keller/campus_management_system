@@ -140,9 +140,8 @@ public class GeneralMethods {
      */
     public static String formatPriceString(double foodPrice) {
         try {
+            foodPrice = (double) Math.round(foodPrice * 100.0) / 100.0;
             String[] splitPrice = String.valueOf(foodPrice).split("\\.");
-
-            splitPrice[1] = String.valueOf((Math.round(Double.parseDouble(splitPrice[1]))));
 
             while (splitPrice[1].length() < 2) {
                 splitPrice[1] += "0";
