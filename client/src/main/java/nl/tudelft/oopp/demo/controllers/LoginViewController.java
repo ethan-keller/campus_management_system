@@ -17,6 +17,7 @@ import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.logic.LoginViewLogic;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.RegisterView;
 import nl.tudelft.oopp.demo.views.SearchView;
@@ -75,23 +76,7 @@ public class LoginViewController {
      * @return Boolean value to indicate whether the above condition is fullfilled.
      */
     private boolean isValidInput() {
-
-        while (true) {
-            // Checks whether the password username field is left empty or not.
-            if (username.getText().trim().isEmpty()) {
-                usernameLabel.setText("The username field cannot be left empty !");
-                usernameLabel.setStyle("-fx-text-fill: red");
-                return false;
-            } else if (password.getText().trim().isEmpty()) {
-                // Checks whether the password field is left empty.
-                passwordLabel.setText("The password field cannot be left empty !");
-                passwordLabel.setStyle("-fx-text-fill: red");
-                return false;
-            } else {
-                // This boolean value means that all the fields are filled.
-                return true;
-            }
-        }
+        return LoginViewLogic.isValidInput(username, usernameLabel, password, passwordLabel);
     }
 
     /**.
@@ -102,6 +87,5 @@ public class LoginViewController {
 
         RegisterView rv = new RegisterView();
         rv.start(stage);
-
     }
 }
