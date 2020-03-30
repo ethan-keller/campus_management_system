@@ -1,28 +1,12 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -31,15 +15,25 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
-import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.logic.RoomViewLogic;
 import nl.tudelft.oopp.demo.views.LoginView;
-import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;
 import org.controlsfx.control.RangeSlider;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ResourceBundle;
 
 
 /**
@@ -214,7 +208,7 @@ public class RoomViewController implements Initializable {
     /**
      * .
      * Methods that sets the dayCellFactory made in {@link #getDayCellFactory()}
-     * and the StringConverter made in {@link #getDatePickerConverter()}
+     * and the StringConverter made in getDatePickerConverter
      */
     private void configureDatePicker() {
         try {
@@ -223,7 +217,7 @@ public class RoomViewController implements Initializable {
             // set the factory
             datePicker.setDayCellFactory(dayCellFactory);
             // converter to convert value to String and vice versa
-            StringConverter<LocalDate> converter = getDatePickerConverter();
+            StringConverter<LocalDate> converter = RoomViewLogic.getDatePickerConverter(datePicker);
             // set the converter
             datePicker.setConverter(converter);
             // set value change listener to adjust css for available timeslots
@@ -292,7 +286,7 @@ public class RoomViewController implements Initializable {
             timeSlotSlider.setMinorTickCount(4);
 
             // get and set the StringConverter to show hh:mm format
-            StringConverter<Number> converter = getRangeSliderConverter();
+            StringConverter<Number> converter = RoomViewLogic.getRangeSliderConverter();
             timeSlotSlider.setLabelFormatter(converter);
 
             // add listeners to show the current thumb values in separate Text objects
@@ -333,7 +327,7 @@ public class RoomViewController implements Initializable {
             }
             // get reservations for this room on the selected date
             List<Reservation> reservations = Reservation.getRoomReservationsOnDate(currentRoomId,
-                    datePicker.getValue(), getDatePickerConverter());
+                    datePicker.getValue(), RoomViewLogic.getDatePickerConverter(datePicker));
 
             if (reservations == null) {
                 return;
@@ -424,7 +418,7 @@ public class RoomViewController implements Initializable {
      * The listeners make sure that the user jumps intervals of
      * 30 minutes and sets the texts with the correct value.
      *
-     * @param converter String converter that is created in {@link #getRangeSliderConverter()}
+     * @param converter String converter that is created in getRangeSliderConverter
      */
     private void configureRangeSliderListeners(StringConverter<Number> converter) {
         try {
@@ -444,117 +438,6 @@ public class RoomViewController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Method that checks if the chosen timeslot is free.
-     *
-     * @return true if the timeslot is free, false otherwise
-     */
-    private boolean checkTimeSlotValidity() {
-        // get all reservations for the current room on the chosen date
-        List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(currentRoomId,
-                datePicker.getValue(), getDatePickerConverter());
-
-        // get converter to convert date value to String format hh:mm
-        StringConverter<Number> timeConverter = getRangeSliderConverter();
-
-        // if there are no reservations the timeslot is valid
-        if (roomReservations.size() == 0) {
-            return true;
-        }
-
-        for (Reservation r : roomReservations) {
-            // get rangeslider values + reservation values
-            double currentStartValue = timeSlotSlider.getLowValue();
-            double currentEndValue = timeSlotSlider.getHighValue();
-            double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
-            double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
-
-            // check if the values overlap
-            if (!((currentStartValue <= startValue && currentEndValue <= startValue)
-                    || (currentStartValue >= endValue && currentEndValue >= endValue))) {
-                return false;
-            }
-
-        }
-        return true;
-    }
-
-    /**
-     * Creates a StringConverter that converts the selected value to a usable Date (in String format).
-     *
-     * @return a StringConverter object
-     */
-    private StringConverter<LocalDate> getDatePickerConverter() {
-        try {
-            return new StringConverter<LocalDate>() {
-                // set the wanted pattern (format)
-                String pattern = "yyyy-MM-dd";
-                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-
-                {
-                    // set placeholder text for the datePicker
-                    datePicker.setPromptText(pattern.toLowerCase());
-                }
-
-                @Override
-                public String toString(LocalDate date) {
-                    if (date != null) {
-                        // get correctly formatted String
-                        return dateFormatter.format(date);
-                    } else {
-                        return "";
-                    }
-                }
-
-                @Override
-                public LocalDate fromString(String string) {
-                    if (string != null && !string.isEmpty()) {
-                        // get correct LocalDate from String format
-                        return LocalDate.parse(string, dateFormatter);
-                    } else {
-                        return null;
-                    }
-                }
-            };
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Creates a StringConverter that converts the selected value to an actual time (in String format).
-     *
-     * @return a StringConverter object
-     */
-    private StringConverter<Number> getRangeSliderConverter() {
-        try {
-            return new StringConverter<Number>() {
-                @Override
-                public String toString(Number n) {
-                    // calculate hours and remaining minutes to get a correct hh:mm format
-                    long minutes = n.longValue();
-                    long hours = TimeUnit.MINUTES.toHours(minutes);
-                    long remainingMinutes = minutes - TimeUnit.HOURS.toMinutes(hours);
-                    // '%02d' means that there will be a 0 in front if its only 1 number + it's a long number
-                    return String.format("%02d", hours) + ":" + String.format("%02d", remainingMinutes);
-                }
-
-                @Override
-                public Number fromString(String time) {
-                    if (time != null) {
-                        String[] split = time.split(":");
-                        return Double.parseDouble(split[0]) * 60 + Double.parseDouble(split[1]);
-                    }
-                    return null;
-                }
-            };
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 
@@ -582,23 +465,14 @@ public class RoomViewController implements Initializable {
     @FXML
     private void bookClicked(ActionEvent event) {
         try {
-            // TODO: add food selection
-            String selectedDate;
-            String selectedStartTime;
-            String selectedEndTime;
 
             // input is valid, assign corresponding values
-            if (isInputValid()) {
-                selectedDate = getDatePickerConverter().toString(datePicker.getValue());
-                selectedStartTime = getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
-                selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
+            if (RoomViewLogic.isInputValid(dateError, foodError, timeSlotError, datePicker, foodChoice, currentRoomId, this, timeSlotSlider)) {
 
                 // if user confirms booking, reservations is sent to server
-                if (confirmBooking(selectedDate, selectedStartTime, selectedEndTime)) {
+                if (RoomViewLogic.confirmBooking(currentRoom, thisStage, datePicker, timeSlotSlider)) {
                     // send new reservation to server
-                    if (ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
-                            currentRoomId, selectedDate, selectedStartTime,
-                            selectedEndTime.contains("24") ? "23:59" : selectedEndTime)) {
+                    if (RoomViewLogic.createReservation(currentRoomId, datePicker, timeSlotSlider)) {
                         // create confirmation Alert
                         Alert alert = GeneralMethods.createAlert("Room booked",
                                 "You successfully booked this room!",
@@ -631,72 +505,8 @@ public class RoomViewController implements Initializable {
     }
 
     /**
-     * Loads a little pop up stage that shows all information about the booking and asks for confirmation.
-     *
-     * @param date      day of the booking
-     * @param startTime starting time of the booking
-     * @param endTime   ending time of the booking
-     * @return true if the user confirms, false otherwise
-     */
-    private boolean confirmBooking(String date, String startTime, String endTime) {
-        try {
-            // set all fields to the current reservation details
-            ReservationConfirmationViewController.room = currentRoom;
-            ReservationConfirmationViewController.date = date;
-            ReservationConfirmationViewController.startTime = startTime;
-            ReservationConfirmationViewController.endTime = endTime;
-            // load confirmation pop up stage
-            ReservationConfirmationView rcv = new ReservationConfirmationView();
-            rcv.start(thisStage);
-            // return true if confirmed, false otherwise
-            return ReservationConfirmationViewController.confirmed;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    /**
-     * Validator.
-     * Checks if fields are correctly filled and shows errors and warnings if
-     * the user forgot some fields.
-     *
-     * @return true if everything is filled in correctly, false otherwise
-     */
-    public boolean isInputValid() {
-        try {
-            // true if there are errors, false otherwise
-            boolean errors = false;
-
-            // clear error messages
-            dateError.setVisible(false);
-            foodError.setVisible(false);
-            timeSlotError.setVisible(false);
-
-            // set error messages if necessary
-            if (datePicker.getValue() == null) {
-                dateError.setVisible(true);
-                errors = true;
-            }
-            if (foodChoice.getSelectionModel().getSelectedItem() == null) {
-                foodError.setVisible(true);
-                errors = true;
-            }
-            if (!checkTimeSlotValidity() || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
-                timeSlotError.setVisible(true);
-                errors = true;
-            }
-
-            // return true if no errors where triggered
-            return !errors;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    /**
      * Redirects the user back to the login page.
+     *
      * @param event ActionEvent
      */
     @FXML
@@ -709,7 +519,4 @@ public class RoomViewController implements Initializable {
             e.printStackTrace();
         }
     }
-
-
 }
-
