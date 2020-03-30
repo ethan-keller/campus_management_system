@@ -109,7 +109,7 @@ public class BuildingController {
             buildingRepo.updateMaxBikes(id, maxBikes);
             logger.info("Building: -update- Building ID: " + id + " - NEW data -> Name: "
                     + name + " - Room count: " + roomCount + " - Address: "
-                    + address + " - Available Bikes: " + availableBikes + " - Max bikes: " + maxBikes);
+                    + address + " - Max bikes: " + maxBikes);
         } catch (Exception e) {
             logger.error("Building: -update- ERROR", e);
         }

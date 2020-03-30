@@ -125,7 +125,7 @@ public class RoomController {
     public void deleteRoom(@RequestParam int id) {
         try {
             int buildingId = roomRepo.getRoom(id).getBuilding();
-            roomRepo.deleteRoom(id);a
+            roomRepo.deleteRoom(id);
             int roomCount = roomRepo.getRoomByBuilding(buildingId).size();
             buildingRepo.updateRoomCount(buildingId, roomCount);
             
