@@ -124,6 +124,7 @@ public class RoomViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            // initialize the list with all the selected foods
             selectedFoodList = new ArrayList<>();
 
             grid.setMinWidth(reservationVbox.getWidth());
@@ -190,6 +191,10 @@ public class RoomViewController implements Initializable {
         }
     }
 
+    /**
+     * Makes sure that when the user has selected an item in the food combobox, the prompt text resets.
+     * @return ListCell that correctly updates the value.
+     */
     private ListCell<Food> getButtonCell() {
         try {
             return new ListCell<Food>() {
@@ -199,6 +204,7 @@ public class RoomViewController implements Initializable {
                     if (item != null) {
                         setText(item.getFoodName().get());
                     } else {
+                        // if item is null, show prompt text
                         setText("Food choice:");
                     }
                 }
@@ -209,27 +215,41 @@ public class RoomViewController implements Initializable {
         return null;
     }
 
+    /**
+     * Method that sets the listeners for the food combobox.
+     */
     private void setFoodChoiceListeners() {
+        // when new food gets chosen, the selection gets cleared
         foodChoice.valueProperty().addListener(((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 createNewFoodText(newValue);
+                // has to be done in separate runnable because otherwise
+                // it would interfere with the listener.
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
                         foodChoice.getSelectionModel().clearSelection();
-                        foodChoice.show();
                     }
                 });
             }
         }));
     }
 
+    /**
+     * Method that creates a new food section when a new food is selected.
+     * @param food food that got selected
+     */
     private void createNewFoodText(Food food) {
+        // get the amount of rows int he grid
         int rowCount = grid.getRowCount();
 
+        // get name of the selected food
+        String foodName = food.getFoodName().get();
+
         for (int i = 0; i < grid.getChildren().size(); i++) {
-            String foodName = food.getFoodName().get();
+            // get child
             GridPane currentGrid = (GridPane) grid.getChildren().get(i);
+            // if foods are the same, increment the food quantity
             if (getFoodNameByColumn(currentGrid).getText().equals(foodName)) {
                 Text quantityText = getFoodQuantityByColumn(currentGrid);
                 int intQuantity = Character.getNumericValue(quantityText.getText().charAt(0));
@@ -238,6 +258,7 @@ public class RoomViewController implements Initializable {
             }
         }
 
+        // if 4 foods have been chosen you cannot select more
         if (rowCount >= 4) {
             Alert alert = GeneralMethods.createAlert("Food restrictions",
                     "You are not allowed to order more than 4 dishes per reservation",
@@ -247,19 +268,23 @@ public class RoomViewController implements Initializable {
             return;
         }
 
+        // add the food to the selected food list
         selectedFoodList.add(food);
+
+        // make the new food section
         GridPane miniGrid = new GridPane();
-        final Text foodName = new Text(food.getFoodName().get());
+        final Text foodText = new Text(food.getFoodName().get());
         final Text quantity = new Text("1x");
-        final Text foodPrice = new Text(String.valueOf(food.getFoodPrice().get()));
+        final Text foodPrice = new Text(GeneralMethods.formatPriceString(food.getFoodPrice().get()));
         Button remove = new Button("X");
-        remove.setStyle("-fx-fill: rgba(0, 0, 0, 0); -fx-stroke: 0");
+        // when button clicked, remove the food section
         remove.setOnAction(e -> {
             selectedFoodList.remove(food);
             removeRowFromGrid(miniGrid);
         });
 
         miniGrid.setAlignment(Pos.CENTER);
+        // correctly align the values in each column
         ColumnConstraints constraints1 = new ColumnConstraints(10, 100, 200,
                 Priority.SOMETIMES, HPos.LEFT, true);
         ColumnConstraints constraints2 = new ColumnConstraints(10, 100, 200,
@@ -267,38 +292,53 @@ public class RoomViewController implements Initializable {
         ColumnConstraints constraints3 = new ColumnConstraints(10, 100, 200,
                 Priority.SOMETIMES, HPos.RIGHT, true);
 
-        miniGrid.getColumnConstraints().add(constraints1);
-        miniGrid.getColumnConstraints().add(constraints2);
-        miniGrid.getColumnConstraints().add(constraints3);
-        miniGrid.getColumnConstraints().add(constraints3);
+        // set the column constraints for the 4 columns
+        miniGrid.getColumnConstraints().addAll(constraints1, constraints2, constraints3, constraints3);
 
-
+        // add all the components to the food section
         miniGrid.add(quantity, 0, 0);
-        miniGrid.add(foodName, 1, 0);
+        miniGrid.add(foodText, 1, 0);
         miniGrid.add(foodPrice, 2, 0);
         miniGrid.add(remove, 3, 0);
 
+        // add the food section to the big grid
         grid.addRow(rowCount, miniGrid);
     }
 
+    /**
+     * Method that removes a food section from the big grid.
+     * @param miniGrid the food section to remove
+     */
     private void removeRowFromGrid(GridPane miniGrid) {
+        // get all children
         List<Node> children = new ArrayList<>(grid.getChildren());
+        // remove all children
         grid.getChildren().clear();
 
         int currentRow = 0;
-        for (int i = 0; i < children.size(); i++) {
-            GridPane childGrid = (GridPane) children.get(i);
+        for (Node child : children) {
+            // get food section
+            GridPane childGrid = (GridPane) child;
+            // if food section is same as the one that should get deleted, don't add it back
             if (childGrid != miniGrid) {
+                // add back the food section
                 grid.add(childGrid, 0, currentRow++);
             }
         }
     }
 
+    /**
+     * Method that gets the name of the food from a food section.
+     * @param gridPane the food section
+     * @return Text the food name
+     */
     private Text getFoodNameByColumn(GridPane gridPane) {
         Node name = null;
+        // get the children
         ObservableList<Node> children = gridPane.getChildren();
 
         for (Node node : children) {
+            // get component at column index 1
             if (GridPane.getColumnIndex(node) == 1) {
                 name = node;
                 break;
@@ -307,11 +347,18 @@ public class RoomViewController implements Initializable {
         return (Text) name;
     }
 
+    /**
+     * Method that gets the food quantity text from a food section.
+     * @param gridPane food section
+     * @return Text the food quantity
+     */
     private Text getFoodQuantityByColumn(GridPane gridPane) {
         Node quantity = null;
+        // get children
         ObservableList<Node> children = gridPane.getChildren();
 
         for (Node node : children) {
+            // get component at column index 0
             if (GridPane.getColumnIndex(node) == 0) {
                 quantity = node;
                 break;

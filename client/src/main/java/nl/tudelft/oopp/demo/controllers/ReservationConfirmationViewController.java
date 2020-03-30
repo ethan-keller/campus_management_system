@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -65,35 +66,19 @@ public class ReservationConfirmationViewController implements Initializable {
                 + "You ordered:\n\n";
         for (Food f : foodList) {
             double foodPrice = f.getFoodPrice().get();
-            String price = formatPriceString(foodPrice);
+            String price = GeneralMethods.formatPriceString(foodPrice);
             int amount = foodMap.get(f);
             totalPrice += (((double) amount) * foodPrice);
             confirmationString += "- " + amount + "x " + f.getFoodName().get()
                     + "            (" + amount + "x " + price + " euro(s))\n";
         }
-        confirmationString += "\nTotal price: " + formatPriceString(totalPrice) + " euro(s)";
+        confirmationString += "\nTotal price: " + GeneralMethods.formatPriceString(totalPrice) + " euro(s)";
         confirmationString += "\nWould you like to confirm that?\n";
 
         return confirmationString;
     }
 
-    /**
-     * Method that formats a price (double) to a String value of the price with 2 decimals.
-     *
-     * @param foodPrice the double value of the price
-     * @return a String containing the price in the right format
-     */
-    private String formatPriceString(double foodPrice) {
-        String[] splitPrice = String.valueOf(foodPrice).split("\\.");
 
-        splitPrice[1] = String.valueOf((Math.round(Double.parseDouble(splitPrice[1]))));
-
-        while (splitPrice[1].length() < 2) {
-            splitPrice[1] += "0";
-        }
-
-        return splitPrice[0] + "." + splitPrice[1];
-    }
 
     /**
      * When user clicks 'confirm' reservation goes through.

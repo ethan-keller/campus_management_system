@@ -36,10 +36,10 @@ public class GeneralMethods {
     /**
      * Creates a pop up, aka an alert.
      *
-     * @param title String
+     * @param title   String
      * @param content String containing the text to show to the user.
-     * @param owner Window
-     * @param type AlertType
+     * @param owner   Window
+     * @param type    AlertType
      * @return Alert An alert containing the provided information.
      */
     public static Alert createAlert(String title, String content, Window owner, Alert.AlertType type) {
@@ -70,10 +70,10 @@ public class GeneralMethods {
     /**
      * Creates an alert box with a separate set of features compared to the above method.
      *
-     * @param title - Title of the alert box (String)
-     * @param header - Header of the alert box (String)
+     * @param title   - Title of the alert box (String)
+     * @param header  - Header of the alert box (String)
      * @param content - Content of the alert box (String)
-     * @param type - AlertType
+     * @param type    - AlertType
      * @return Alert  An alert containing the provided information.
      */
     public static Alert alertBox(String title, String header, String content, Alert.AlertType type) {
@@ -108,8 +108,8 @@ public class GeneralMethods {
     /**
      * Sets the RangeSlider to a standard white track.
      *
-     * @param rs the RangeSlider to configure
-     * @param bw the BufferedWriter which writes to the CSS file
+     * @param rs  the RangeSlider to configure
+     * @param bw  the BufferedWriter which writes to the CSS file
      * @param css the css file that is written to
      */
     public static void setSliderDefaultCss(RangeSlider rs, BufferedWriter bw, String css) {
@@ -130,5 +130,28 @@ public class GeneralMethods {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Method that formats a price (double) to a String value of the price with 2 decimals.
+     *
+     * @param foodPrice the double value of the price
+     * @return a String containing the price in the right format
+     */
+    public static String formatPriceString(double foodPrice) {
+        try {
+            String[] splitPrice = String.valueOf(foodPrice).split("\\.");
+
+            splitPrice[1] = String.valueOf((Math.round(Double.parseDouble(splitPrice[1]))));
+
+            while (splitPrice[1].length() < 2) {
+                splitPrice[1] += "0";
+            }
+
+            return splitPrice[0] + "." + splitPrice[1];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
