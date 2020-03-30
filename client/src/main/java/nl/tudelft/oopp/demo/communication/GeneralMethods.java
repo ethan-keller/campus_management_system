@@ -2,8 +2,8 @@ package nl.tudelft.oopp.demo.communication;
 
 import java.io.BufferedWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
