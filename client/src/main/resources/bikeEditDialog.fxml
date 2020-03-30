@@ -34,11 +34,12 @@
             <ComboBox fx:id="bikeUsernameComboBox" layoutX="169.0" layoutY="51.0" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" />
             <Label text="Building:" GridPane.rowIndex="1" />
             <ComboBox fx:id="bikeBuildingComboBox" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Available bikes:" GridPane.rowIndex="2" />
-            <Text fx:id="availableBikes" strokeType="OUTSIDE" strokeWidth="0.0" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label layoutX="10.0" layoutY="56.0" text="Date:" GridPane.rowIndex="3" />
-            <DatePicker fx:id="bikeDate" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Quantity:" GridPane.rowIndex="4" />
+            <Label layoutX="10.0" layoutY="56.0" text="Date:" GridPane.rowIndex="2" />
+            <DatePicker fx:id="bikeDate" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Quantity:" GridPane.rowIndex="3" />
+            <Spinner fx:id="quantity" editable="true" prefHeight="26.0" prefWidth="201.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Available bikes:" GridPane.rowIndex="4" />
+            <Text fx:id="availableBikes" strokeType="OUTSIDE" strokeWidth="0.0" text="-" wrappingWidth="71.99883890151978" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label fx:id="timeslot" text="Timeslot:" GridPane.rowIndex="5" />
             <HBox alignment="CENTER" prefHeight="37.0" prefWidth="235.0" spacing="70.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
@@ -46,7 +47,6 @@
                    <Text fx:id="bikeEndingTime" strokeType="OUTSIDE" strokeWidth="0.0" text="End: " />
                </children>
             </HBox>
-            <Spinner fx:id="quantity" editable="true" prefHeight="26.0" prefWidth="201.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
         </children>
     </GridPane>
     <ButtonBar layoutX="176.0" layoutY="233.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="10.0">
