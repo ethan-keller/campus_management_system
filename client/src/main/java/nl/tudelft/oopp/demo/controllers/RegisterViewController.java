@@ -6,13 +6,12 @@ import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
 import nl.tudelft.oopp.demo.views.LoginView;
+
+import javax.swing.*;
 
 
 public class RegisterViewController {
@@ -34,6 +33,22 @@ public class RegisterViewController {
 
     @FXML
     private Label usernameLabel;
+
+    @FXML
+    private RadioButton student;
+
+    @FXML
+    private RadioButton teacher;
+
+    @FXML
+    private Label radioLabel;
+
+    public void initialize() {
+        // This toggle group is created such that the user can't select both the radio boxes.
+        ToggleGroup group = new ToggleGroup();
+        student.setToggleGroup(group);
+        teacher.setToggleGroup(group);
+    }
 
     /**.
      * Handles clicking the button.
@@ -92,8 +107,17 @@ public class RegisterViewController {
             passwordLabel.setStyle("-fx-text-fill: red");
 
             //Server connection is established.
+        } else if (!student.isSelected() && !teacher.isSelected()) {
+            radioLabel.setText("Please select your role !");
+            radioLabel.setStyle("-fx-text-fill: red");
         } else {
-            alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt));
+            int userType = 0;
+            if (student.isSelected()) {
+                userType = 1;
+            } else {
+                userType = 2;
+            }
+            alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt, userType));
             alert.showAndWait();
         }
     }
