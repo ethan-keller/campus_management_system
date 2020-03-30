@@ -70,7 +70,6 @@ public class RentABikeController implements Initializable {
     private static int currentBuilding = 0;
     ObservableList<String> buildList = FXCollections.observableArrayList();
 
-
     /**
      * Deals with the back button function.
      *
@@ -109,7 +108,6 @@ public class RentABikeController implements Initializable {
             configureDatePicker();
             configureRangeSlider();
 
-
             changeWidthConstraints(thisStage.getWidth());
             image.setFitHeight(100000);
 
@@ -117,7 +115,8 @@ public class RentABikeController implements Initializable {
             thisStage.widthProperty().addListener((obs, oldVal, newVal) -> changeWidthConstraints(newVal));
 
             datePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
-                String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
+                String selectedDate =
+                        Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
                 String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
                         .toString(timeSlotSlider.getLowValue());
                 String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
@@ -125,7 +124,8 @@ public class RentABikeController implements Initializable {
             });
 
             timeSlotSlider.setOnMouseReleased(event -> {
-                String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
+                String selectedDate =
+                        Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
                 String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
                         .toString(timeSlotSlider.getLowValue());
                 String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
@@ -525,7 +525,8 @@ public class RentABikeController implements Initializable {
             //Set up the string for each building object
             for (Building b: buildingList) {
                 String result =
-                        b.getBuildingName().get() + ": " + getRemainder(b, selectedDate, selectedEnd, selectedStart);
+                        b.getBuildingName().get() + ": " +
+                                getRemainder(b, selectedDate, selectedEnd, selectedStart);
                 buildList.add(result);
             }
             //populate comboBuilding box
@@ -540,7 +541,7 @@ public class RentABikeController implements Initializable {
      */
     public double parseTime(String time) {
         try {
-            double hour =0;
+            double hour = 0;
             int minute = 0;
             //Checks the format of given String
             if (time.length() == 5) {
