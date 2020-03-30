@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.logic.AdminManageReservationLogic;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.BookingEditDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
@@ -74,11 +75,7 @@ public class AdminUserHistoryViewController {
      * Called when admin clicks a reservation.
      */
     public Reservation getSelectedReservation() {
-        if (bookingTable.getSelectionModel().getSelectedIndex() >= 0) {
-            return bookingTable.getSelectionModel().getSelectedItem();
-        } else {
-            return null;
-        }
+        return AdminManageReservationLogic.getSelectedReservation(bookingTable);
     }
 
     public int getSelectedIndex() {
@@ -95,7 +92,7 @@ public class AdminUserHistoryViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that reservation deletion was successful before displaying alert
-                ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
+                AdminManageReservationLogic.deleteReservationLogic(selectedReservation);
                 refresh();
                 // An alert pop up when a reservation deleted successfully
                 GeneralMethods.alertBox("Delete Reservation", "", "Reservation deleted!",
@@ -129,9 +126,7 @@ public class AdminUserHistoryViewController {
                 return;
             }
             // TODO: Check that reservation creation was successful before displaying alert
-            ReservationServerCommunication.createReservation(tempReservation.getUsername().get(),
-                    tempReservation.getRoom().get(), tempReservation.getDate().get(),
-                    tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
+            AdminManageReservationLogic.createReservationLogic(tempReservation);
             refresh();
             // An alert pop up when a new reservation created.
             GeneralMethods.alertBox("New Reservation", "", "New Reservation added!",
