@@ -1,5 +1,9 @@
 package nl.tudelft.oopp.demo.logic;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.List;
+
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -9,13 +13,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import nl.tudelft.oopp.demo.controllers.SearchViewController;
-import nl.tudelft.oopp.demo.entities.*;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import nl.tudelft.oopp.demo.controllers.SearchViewController;
+import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.entities.Room;
 
 public class SearchViewLogic {
     /**
@@ -191,10 +194,15 @@ public class SearchViewLogic {
         return res;
     }
 
-    public static void filterRoomsByDate(List<Room> roomList, String date){
+    /**
+     * filters the given roomlist and keeps only the rooms that have a free spot.
+     * The free spot is on the day of the date given.
+     * @param roomList list of rooms to filter.
+     * @param date date where there should be a spot free.
+     */
+    public static void filterRoomsByDate(List<Room> roomList, String date, List<Reservation> reservations) {
         // get all the reservations and only keeps the reservations that are from the selected date.
         // the id of the rooms that are of the date are stored in roomsWithDate.
-        ObservableList<Reservation> reservations = Reservation.getReservation();
         List<Integer> roomsWithDate = new ArrayList<Integer>();
         for (int i = 0; i != reservations.size(); i++) {
             if (!reservations.get(i).getDate().getValue().equals(date)) {
@@ -337,7 +345,13 @@ public class SearchViewLogic {
         return null;
     }
 
-    public static List<Room> filterByFood(List<Room> rooms, List<Building> buildings){
+    /**
+     * Filters the rooms given by if they have food you can order.
+     * @param rooms rooms to be filtered.
+     * @param buildings list of buildings the rooms are in.
+     * @return a list of rooms where you can order food.
+     */
+    public static List<Room> filterByFood(List<Room> rooms, List<Building> buildings) {
         List<Integer> buildingsWithFood = new ArrayList<Integer>();
         for(int i = 0; i != buildings.size(); i ++){
             int buildingId = buildings.get(i).getBuildingId().getValue();
@@ -354,25 +368,32 @@ public class SearchViewLogic {
         return rooms;
     }
 
-    public static List<Room> filterByBike(List<Room> rooms, List<Building> buildings, String bikes){
+    /**
+     * filters the given rooms so that all the building of the rooms have the amount of bikes given.
+     * @param rooms list of rooms to filter.
+     * @param buildings list of all buildings.
+     * @param bikes String of the amount of bikes there should be.
+     * @return a list of rooms where the building has enough bikes.
+     */
+    public static List<Room> filterByBike(List<Room> rooms, List<Building> buildings, String bikes) {
         int minBikes;
-        int maxBikes;
         switch (bikes) {
-            case "1-5":
+            case "1+":
                 minBikes = 1;
-                maxBikes = 5;
                 break;
-            case "5-10":
+            case "5+":
                 minBikes = 5;
-                maxBikes = 10;
                 break;
-            case "10-20":
+            case "10+":
                 minBikes = 10;
-                maxBikes = 20;
                 break;
-            default:
+
+            case "20+":
                 minBikes = 20;
-                maxBikes = 99999;
+                break;
+
+            default:
+                minBikes = 1;
                 break;
 
 
@@ -381,7 +402,7 @@ public class SearchViewLogic {
         List<Integer> buildingsWithBike = new ArrayList<Integer>();
         for(int i = 0; i != buildings.size(); i ++){
             int buildingBike = buildings.get(i).getBuildingMaxBikes().getValue();
-            if(buildingBike >= minBikes && buildingBike <= maxBikes){
+            if(buildingBike >= minBikes){
                 buildingsWithBike.add(buildings.get(i).getBuildingId().getValue());
             }
         }

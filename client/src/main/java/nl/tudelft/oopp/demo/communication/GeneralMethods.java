@@ -1,14 +1,15 @@
 package nl.tudelft.oopp.demo.communication;
 
+import java.io.BufferedWriter;
+import java.nio.charset.StandardCharsets;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Window;
-import org.controlsfx.control.RangeSlider;
 
-import java.io.BufferedWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import org.controlsfx.control.RangeSlider;
 
 
 

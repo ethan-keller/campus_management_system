@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.logic.SearchViewLogic;
 import nl.tudelft.oopp.demo.views.LoginView;
@@ -138,7 +139,7 @@ public class SearchViewController implements Initializable {
             capacityList.addAll("1-5", "5-10", "10-20", "20+");
             buildingComboBox.setItems(buildingList);
             buildingComboBox.setConverter(getBuildingComboBoxConverter());
-            bikeList.addAll("1-5", "5-10", "10-20", "20+");
+            bikeList.addAll("1+", "5+", "10+", "20+");
 
             // populating the choicebox
             capacityComboBox.setItems(capacityList);
@@ -279,7 +280,7 @@ public class SearchViewController implements Initializable {
             roomList = SearchViewLogic.filterRoomByTeacherOnly(roomList, false);
         }
 
-        if(yesCheckBoxFood.isSelected()){
+        if(yesCheckBoxFood.isSelected()) {
             roomList = SearchViewLogic.filterByFood(roomList, buildings);
         }
 
@@ -303,7 +304,8 @@ public class SearchViewController implements Initializable {
         System.out.println("Date Filtering start: " + strDate);
         if (datePicker.getValue() != null) {
             String date = datePicker.getValue().toString();
-            SearchViewLogic.filterRoomsByDate(roomList, date);
+            ObservableList<Reservation> reservations = Reservation.getReservation();
+            SearchViewLogic.filterRoomsByDate(roomList, date, reservations);
         }
         Date now3 = new Date();
         String strDate3 = sdf.format(now3);
