@@ -113,7 +113,7 @@ public class ReservationController {
         try {
             return reservationsRepo.getReservation(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Reservation: -get- ERROR", e);
         }
         return null;
     }
@@ -129,7 +129,7 @@ public class ReservationController {
         try {
             return reservationsRepo.getAllReservations();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Reservation: -getAllReservations- ERROR", e);
         }
         return null;
     }
@@ -146,7 +146,7 @@ public class ReservationController {
         try {
             return reservationsRepo.getUserReservations(username);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Reservation: -getUserReservations- ERROR", e);
         }
         return null;
     }

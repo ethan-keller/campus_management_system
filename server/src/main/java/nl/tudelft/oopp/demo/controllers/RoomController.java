@@ -128,7 +128,7 @@ public class RoomController {
         try {
             return roomRepo.getRoom(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Room: -get- ERROR", e);
         }
         return null;
     }
@@ -144,7 +144,7 @@ public class RoomController {
         try {
             return roomRepo.getAllRooms();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Room: -getAllRooms- ERROR", e);
         }
         return null;
     }

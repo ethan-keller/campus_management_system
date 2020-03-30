@@ -145,7 +145,7 @@ public class BuildingController {
         try {
             return buildingRepo.getBuilding(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Building -get- ERROR", e);
         }
         return null;
     }
@@ -162,7 +162,7 @@ public class BuildingController {
         try {
             return buildingRepo.getBuildingByName(name);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Building -getBuildingByName- ERROR", e);
         }
         return null;
     }
@@ -178,7 +178,7 @@ public class BuildingController {
         try {
             return buildingRepo.getBuildingByFoodId(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Building -getBuildingByFoodId- ERROR", e);
         }
         return null;
     }
@@ -194,7 +194,7 @@ public class BuildingController {
         try {
             return buildingRepo.getAllBuildings();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Building -getAll- ERROR", e);
         }
         return null;
     }

@@ -181,7 +181,7 @@ public class FoodController {
         try {
             return foodRepo.getFood(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food: -get- ERROR", e);
         }
         return null;
     }
@@ -200,7 +200,7 @@ public class FoodController {
         try {
             return foodRepo.getFoodByName(name);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food: -getFoodByName- ERROR", e);
         }
         return null;
     }
@@ -217,7 +217,7 @@ public class FoodController {
         try {
             return foodRepo.getFoodByReservationId(reservation);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food: -getFoodByReservation- ERROR", e);
         }
         return null;
     }
@@ -234,7 +234,7 @@ public class FoodController {
         try {
             return foodRepo.getFoodByBuildingId(building);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food: -getFoodByBuildingId- ERROR", e);
         }
         return null;
     }
@@ -252,7 +252,7 @@ public class FoodController {
             name = CommunicationMethods.decodeCommunication(name);
             return foodRepo.getFoodByBuildingName(name);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food: -getFoodByBuildingName- ERROR", e);
         }
         return null;
     }
@@ -268,7 +268,7 @@ public class FoodController {
         try {
             return foodRepo.getAllFood();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food: -getAllFood- ERROR", e);
         }
         return null;
     }

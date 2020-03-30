@@ -105,8 +105,8 @@ public class ItemController {
             return true;
         } catch (Exception e) {
             logger.error("Calender Item: -delete- ERROR", e);
+            return false;
         }
-        return false;
     }
 
     /**
@@ -120,7 +120,7 @@ public class ItemController {
         try {
             return itemRepo.getCurrentId();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Calender Item: -getCurrentId- ERROR", e);
         }
         return -1;
     }
@@ -137,7 +137,7 @@ public class ItemController {
         try {
             return itemRepo.getUserItems(user);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Calender Item: -getUserItems- ERROR", e);
         }
         return null;
     }

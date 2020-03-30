@@ -124,7 +124,7 @@ public class BikeReservationController {
         try {
             return bikeResRepo.getBikeReservation(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Bike Reservation -get- ERROR", e);
         }
         return null;
     }
@@ -137,11 +137,11 @@ public class BikeReservationController {
      */
     @GetMapping("getAllBikeReservation")
     @ResponseBody
-    public List<BikeReservation> getBikeReservation() {
+    public List<BikeReservation> getAllBikeReservation() {
         try {
             return bikeResRepo.getAllBikeReservations();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Bike Reservation -getAll- ERROR", e);
         }
         return null;
     }
@@ -159,7 +159,7 @@ public class BikeReservationController {
         try {
             return bikeResRepo.getBuildingBikeReservations(building);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Bike Reservation -getBuildingBikeReservations- ERROR", e);
         }
         return null;
     }
@@ -177,7 +177,7 @@ public class BikeReservationController {
             user = CommunicationMethods.decodeCommunication(user);
             return bikeResRepo.getUserBikeReservations(user);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Bike Reservation -getUserBikeReservations- ERROR", e);
         }
         return null;
     }

@@ -137,7 +137,7 @@ public class UserController {
         try {
             return userRepo.getUser(username);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("User: -get- ERROR", e);
         }
         return null;
     }
@@ -153,7 +153,7 @@ public class UserController {
         try {
             return userRepo.getAllUsers();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("User: -getAllUsers- ERROR", e);
         }
         return null;
     }
