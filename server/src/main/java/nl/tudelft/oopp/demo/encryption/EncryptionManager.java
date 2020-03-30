@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.encryption;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -11,6 +14,8 @@ import javax.crypto.spec.SecretKeySpec;
 public class EncryptionManager {
     private static SecretKeySpec secretKey;
     private static byte[] key;
+
+    private static Logger logger = LoggerFactory.getLogger("n.t.o.d.encryption.EncryptionManager");
 
     /**
      * Configures myKey to a SecretKeySpec and set's secretKey to that.
@@ -25,10 +30,8 @@ public class EncryptionManager {
             key = sha.digest(key);
             key = Arrays.copyOf(key, 16);
             secretKey = new SecretKeySpec(key, "AES");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error("Encryption: -setKey- ERROR", e);
         }
     }
 
@@ -46,7 +49,7 @@ public class EncryptionManager {
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
         } catch (Exception e) {
-            System.out.println("Error while encrypting: " + e.toString());
+            logger.error("Encryption: -encrypt- ERROR", e);
         }
         return null;
     }
@@ -65,7 +68,7 @@ public class EncryptionManager {
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         } catch (Exception e) {
-            System.out.println("Error while decrypting: " + e.toString());
+            logger.error("Encryption: -decrypt- ERROR", e);
         }
         return null;
     }
