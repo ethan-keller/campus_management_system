@@ -70,152 +70,187 @@ public class RentABikeController implements Initializable {
 
 
     /**
-     * deal with the button clicking action.
+     * Deals with the back button function
+     *
+     * @param event  ActionEvent
      */
     @FXML
     private void backButtonClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        SearchView sv = new SearchView();
-        sv.start(stage);
+            SearchView sv = new SearchView();
+            sv.start(stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
-     *Sets default values to populate the options.
+     * Used to initialize nodes and populate elements
+     * Gets called before anything
+     *
+     * @param location  passed
+     * @param resources passed
      */
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        try {
+            for (Building b: buildingList) {
+                setEachBuilding(b);
+            }
+            //Converting buildingName into String for each item and getting number of available bikes
+            comboBuilding.setItems(buildList);
+            comboBuilding.setVisibleRowCount(8);
+            // make sure errors are not visible
+            dateError.setVisible(false);
+            buildingError.setVisible(false);
 
-        for(Building b: buildingList) {
-            setEachBuilding(b);
+            // set up the date picker and date slider
+            configureDatePicker();
+            configureRangeSlider();
+
+
+            changeWidthConstraints(thisStage.getWidth());
+            image.setFitHeight(100000);
+
+            // listener that adjusts layout when width of stage changes
+            thisStage.widthProperty().addListener((obs, oldVal, newVal) -> changeWidthConstraints(newVal));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        //Converting buildingName into String for each item and getting number of available bikes
-        comboBuilding.setItems(buildList);
-        comboBuilding.setVisibleRowCount(8);
-        // make sure errors are not visible
-        dateError.setVisible(false);
-        buildingError.setVisible(false);
-
-        // set up the date picker and date slider
-        configureDatePicker();
-        configureRangeSlider();
-
-
-        changeWidthConstraints(thisStage.getWidth());
-        image.setFitHeight(100000);
-
-        // listener that adjusts layout when width of stage changes
-        thisStage.widthProperty().addListener((obs, oldVal, newVal) -> changeWidthConstraints(newVal));
     }
-
-    private void setEachBuilding(Building b) {
-        String buildName = b.getBuildingName().get();
-        int buildNumber = b.getBuildingAvailableBikes().get();
-        if (buildNumber < 0) {
-            buildNumber = 0;
-        }
-
-        String result = buildName + ": " + buildNumber;
-
-        buildList.add(result);
-    }
-
-
-
 
 
     /**
-     * Checks whether if all the fields were filled in.
+     * Gets number of bikes available, and building number and adds to buildList
+     * @param b is passed to deal with Building object
+     */
+    private void setEachBuilding(Building b) {
+        try {
+            //Get the name of respective Building
+            String buildName = b.getBuildingName().get();
+            //Get number of bikes available in the Building
+            int buildNumber = b.getBuildingAvailableBikes().get();
+            if (buildNumber < 0) {
+                buildNumber = 0;
+            }
+            //Set up in the String for
+            String result = buildName + ": " + buildNumber;
+
+            //Add String to the ObservableList
+            buildList.add(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Checks if all the options are selected
+     * @return true only when all the options are filled in
      */
     public boolean isInputValid() {
-        boolean input = false;
-        while (!input) {
-            // If both datePicker and  ComboBuilding are null
-            if (datePicker.getValue() == null && comboBuilding.getSelectionModel().getSelectedItem() == null) {
-                // set both text visible
-                dateError.setVisible(true);
-                buildingError.setVisible(true);
-                input = false;
-            } else if (comboBuilding.getSelectionModel().getSelectedItem() == null) {
-                // only sets buildingError visible
-                buildingError.setVisible(true);
-                input = false;
-            } else if (datePicker.getValue() == null) {
-                // only sets datePicker visible
-                dateError.setVisible(true);
-                input = false;
-            } else {
-                input = true;
+        try {
+            boolean input = false;
+            while (!input) {
+                // If both datePicker and  ComboBuilding are null
+                if (datePicker.getValue() == null && comboBuilding.getSelectionModel().getSelectedItem() == null) {
+                    // set both text visible
+                    dateError.setVisible(true);
+                    buildingError.setVisible(true);
+                    input = false;
+                } else if (comboBuilding.getSelectionModel().getSelectedItem() == null) {
+                    // only sets buildingError visible
+                    buildingError.setVisible(true);
+                    input = false;
+                } else if (datePicker.getValue() == null) {
+                    // only sets datePicker visible
+                    dateError.setVisible(true);
+                    input = false;
+                } else {
+                    return false;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return true;
+        return false;
     }
 
     /**
-     * Deals with reserve now button clicks.
+     * Deals with Reserve Now button clicked
+     * Method that retrieves values from the functionalities and returns to the server  if all the
+     * requirements are met
+     * @param event ActionEvent
+     * @throws IOException
      */
     @FXML
     private void reserveNowClicked(ActionEvent event) throws IOException {
-        // only the case when both are filled in
-        if (isInputValid()) {
-            /// retrieve date, bike number and time slot from the corresponding boxes
-            String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
-            String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
-                    .toString(timeSlotSlider.getLowValue());
-            String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
-            String selectedBuildingAndBike = comboBuilding.getValue();
-            String selectedBuilding = getSelectedBuilding(selectedBuildingAndBike);
-            Integer selectedBike = spinner.getValue();
+        try {
+            // only the case when both are filled in
+            if (isInputValid()) {
+                /// retrieve date, bike number and time slot from the corresponding boxes
+                String selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
+                String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
+                        .toString(timeSlotSlider.getLowValue());
+                String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
+                String selectedBuildingAndBike = comboBuilding.getValue();
+                String selectedBuilding = getSelectedBuilding(selectedBuildingAndBike);
+                Integer selectedBike = spinner.getValue();
 
 
-            // check to see enough bikes for selected building
-            if (checkBikeAvailability(selectedBuilding, selectedBike)) {
-                // create alert for confirmation with the user
-                Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "
-                                + selectedBike + " bikes"
-                        + " from " + selectedBuilding + " on " + selectedDate + " for " + selectedStartTime + "-"
-                                + selectedEndTime + "?", ((Node) event.getSource()).getScene().getWindow(),
-                        Alert.AlertType.CONFIRMATION);
-                assert alert != null;
-                //set alert size depending on the text length
-                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+                // check to see enough bikes for selected building
+                if (checkBikeAvailability(selectedBuilding, selectedBike)) {
+                    // create alert for confirmation with the user
+                    Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "
+                                    + selectedBike + " bikes"
+                                    + " from " + selectedBuilding + " on " + selectedDate + " for " + selectedStartTime + "-"
+                                    + selectedEndTime + "?", ((Node) event.getSource()).getScene().getWindow(),
+                            Alert.AlertType.CONFIRMATION);
+                    assert alert != null;
+                    //set alert size depending on the text length
+                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
 
-                // allow for different responses of the alert
-                Optional<ButtonType> result = alert.showAndWait();
+                    // allow for different responses of the alert
+                    Optional<ButtonType> result = alert.showAndWait();
 
-                // if the user responds with OK
-                if (result.orElse(null) == ButtonType.OK) {
+                    // if the user responds with OK
+                    if (result.orElse(null) == ButtonType.OK) {
 
-                    //send new reservation to the server
-                    BikeReservationCommunication.createBikeReservation(getBuildingNumber(selectedBuilding),
-                            CurrentUserManager.getUsername(), selectedBike,selectedDate,
-                            selectedStartTime, selectedEndTime);
-                    // inform the user for successful reservation
-                    Alert alert2 = GeneralMethods.createAlert("Bike Reserved",
-                            "You successfully reserved the bike(s)!",
-                            ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
-                    assert alert2 != null;
-                    alert2.showAndWait();
+                        //send new reservation to the server
+                        BikeReservationCommunication.createBikeReservation(getBuildingNumber(selectedBuilding),
+                                CurrentUserManager.getUsername(), selectedBike,selectedDate,
+                                selectedStartTime, selectedEndTime);
+                        // inform the user for successful reservation
+                        Alert alert2 = GeneralMethods.createAlert("Bike Reserved",
+                                "You successfully reserved the bike(s)!",
+                                ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+                        assert alert2 != null;
+                        alert2.showAndWait();
 
-                    // re-open the scene to update new number of bikes left
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        // re-open the scene to update new number of bikes left
+                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-                    RentABikeView rbv = new RentABikeView();
-                    rbv.start(stage);
+                        RentABikeView rbv = new RentABikeView();
+                        rbv.start(stage);
 
+                    }
+                    // do nothing if user selects no
+                } else {
+                    Alert alert = GeneralMethods.createAlert("Insufficient Bikes",
+                            "Insufficient Bikes Available. Please check the number of bikes available",
+                            ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.WARNING);
+                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+                    alert.showAndWait();
                 }
-                // do nothing if user selects no
-            } else {
-                Alert alert = GeneralMethods.createAlert("Insufficient Bikes",
-                        "Insufficient Bikes Available. Please check the number of bikes available",
-                        ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.WARNING);
-                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
-                alert.showAndWait();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -316,28 +351,39 @@ public class RentABikeController implements Initializable {
         return null;
     }
 
-    //Checks if there are sufficient bikes in the database
+    /**
+     * checks if there are enough bikes in the database
+     * @param buildingName
+     * @param num Number of bikes user wants to rent
+     * @return true if sufficient bikes avilable
+     */
     private Boolean checkBikeAvailability(String buildingName, int num) {
-        // ensure the list cannot be null
-        Building building = null;
-        //looks for same name of the building as buildingName
-        for (Building b : buildingList) {
-            if (b.getBuildingName().get().equals(buildingName)) {
-                building = b;
-                //stops for loop as soon as it is found
-                break;
+        try {
+
+            // ensure the list cannot be null
+            Building building = null;
+            //looks for same name of the building as buildingName
+            for (Building b : buildingList) {
+                if (b.getBuildingName().get().equals(buildingName)) {
+                    building = b;
+                    //stops for loop as soon as it is found
+                    break;
+                }
             }
-        }
 
-        int id = building.getBuildingId().get();
-        Building selectedBuilding = Building.getBuildingById(id);
-        int availableBikes = selectedBuilding.getBuildingAvailableBikes().get();
+            int id = building.getBuildingId().get();
+            Building selectedBuilding = Building.getBuildingById(id);
+            int availableBikes = selectedBuilding.getBuildingAvailableBikes().get();
 
-        if ((availableBikes - num) >= 0) {
-            return true;
-        } else {
-            return  false;
+            if ((availableBikes - num) >= 0) {
+                return true;
+            } else {
+                return  false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return false;
     }
 
     /**
@@ -348,17 +394,22 @@ public class RentABikeController implements Initializable {
      * @param name The selected Building Name
      */
     private int getBuildingNumber(String name) {
-        int buildingNumber = 0;
+        try {
+            int buildingNumber = 0;
 
-        //look for specific buildingID with the given String one by one
-        for (Building b: buildingList) {
-            if (name.equals(b.getBuildingName().get())) {
-                buildingNumber = b.getBuildingId().get();
-                break;
+            //look for specific buildingID with the given String one by one
+            for (Building b: buildingList) {
+                if (name.equals(b.getBuildingName().get())) {
+                    buildingNumber = b.getBuildingId().get();
+                    break;
+                }
             }
-        }
-        return buildingNumber;
+            return buildingNumber;
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
@@ -451,18 +502,34 @@ public class RentABikeController implements Initializable {
         }
     }
 
+    /**
+     * Getting value directly from the comboBox includes the number of available bikes, as well as the
+     * building name, hence this method is used.
+     * @param st Building Name
+     * @return Name of the building
+     */
     public String getSelectedBuilding(String st) {
-        String result="";
-        for(int i = 0; i<buildingList.size(); i++) {
-            if (st.contains(buildingList.get(i).getBuildingName().get())) {
-                result = buildingList.get(i).getBuildingName().get();
-                currentBuilding = i;
-                break;
+        try {
+            String result="";
+            for(int i = 0; i<buildingList.size(); i++) {
+                if (st.contains(buildingList.get(i).getBuildingName().get())) {
+                    result = buildingList.get(i).getBuildingName().get();
+                    currentBuilding = i;
+                    break;
+                }
             }
+            return result;
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
+    /**
+     * Automatically resizes the image as the window size changes
+     * @param newWidth
+     */
     private void changeWidthConstraints(Number newWidth) {
         try {
             // set the width of some nodes based on the calculated ratio between their width and the stages width
@@ -472,7 +539,3 @@ public class RentABikeController implements Initializable {
         }
     }
 }
-
-
-
-
