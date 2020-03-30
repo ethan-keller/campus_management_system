@@ -6,13 +6,15 @@ import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
 import nl.tudelft.oopp.demo.views.LoginView;
-
-import javax.swing.*;
-
 
 public class RegisterViewController {
 
@@ -43,6 +45,9 @@ public class RegisterViewController {
     @FXML
     private Label radioLabel;
 
+    /**
+     * Initializing the radio buttons into toggle groups.
+     */
     public void initialize() {
         // This toggle group is created such that the user can't select both the radio boxes.
         ToggleGroup group = new ToggleGroup();
