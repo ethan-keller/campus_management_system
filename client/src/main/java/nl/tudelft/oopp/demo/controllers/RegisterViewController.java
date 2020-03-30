@@ -119,9 +119,9 @@ public class RegisterViewController {
         } else {
             int userType = 0;
             if (student.isSelected()) {
-                userType = 1;
-            } else {
                 userType = 2;
+            } else {
+                userType = 1;
             }
             alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt, userType));
             alert.showAndWait();

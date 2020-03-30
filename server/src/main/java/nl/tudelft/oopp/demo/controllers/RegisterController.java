@@ -34,14 +34,15 @@ public class RegisterController {
     @PostMapping("register")
     @ResponseBody
     public String register(@RequestParam String username,
-                           @RequestParam String password) throws UnsupportedEncodingException {
+                           @RequestParam String password,
+                           @RequestParam int userType) throws UnsupportedEncodingException {
         username = CommunicationMethods.decodeCommunication(username);
         password = CommunicationMethods.decodeCommunication(password);
 
         String encryptedPassword = Hashing.hashIt(password);
 
         if (userRepo.getUser(username) == null) {
-            userRepo.insertUser(username, encryptedPassword, 2);
+            userRepo.insertUser(username, encryptedPassword, userType);
             return "Your account is created";
         }
         return "This username already exists!";
