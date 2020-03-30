@@ -5,15 +5,11 @@ import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.CalendarView;
 import com.mindfusion.scheduling.model.Appointment;
 import com.mindfusion.scheduling.model.Item;
-
 import java.awt.Color;
 import java.awt.Point;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
@@ -23,9 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import javax.swing.SwingUtilities;
-
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
@@ -47,7 +41,7 @@ public class CalendarPaneController implements Initializable {
 
     @FXML
     private AnchorPane pane;
-    private Calendar calendar;
+    private volatile Calendar calendar;
     public static Stage thisStage;
 
     /**
@@ -69,10 +63,13 @@ public class CalendarPaneController implements Initializable {
             pane.getChildren().add(node);
 
             // The calendar gets scrolled to 08:00 instead of 00:00
-            // Waiting for the calender to be loaded, else the code would give a NPE.
-            while (calendar != null) {
-                calendar.setScrollPosition(new Point(0, 16));
+            // wait until calendar is initialized and then scroll
+            while (calendar == null) {
+                Thread.onSpinWait();
             }
+            calendar.setScrollPosition(new Point(0, 16));
+
+            // Add all reservations and items from database to the calendar
             addReservationsToCalendar();
             addItemsToCalendar();
         } catch (Exception e) {
@@ -124,8 +121,7 @@ public class CalendarPaneController implements Initializable {
     }
 
     /**
-     * .
-     * Adds all the reservations in the database that belong to the current user to the calendar
+     * Adds all the reservations in the database that belong to the current user to the calendar.
      */
     private void addReservationsToCalendar() {
         try {
@@ -133,19 +129,24 @@ public class CalendarPaneController implements Initializable {
             ObservableList<Reservation> reservationList = Reservation.getUserReservation();
             ObservableList<Room> roomList = Room.getRoomData();
             ObservableList<Building> buildingList = Building.getBuildingData();
+
             if (reservationList == null || roomList == null || buildingList == null) {
                 return;
             }
+
 
             // make an Appointment object for every reservation to inject in calendar
             for (Reservation r : reservationList) {
                 Appointment app = new Appointment();
                 // get the room that is booked
-                Room room = roomList.stream().filter(x -> x.getRoomId().get() == r.getRoom().get()).collect(
-                        Collectors.toList()).get(0);
+                Room room = roomList.stream()
+                        .filter(x -> x.getRoomId().get() == r.getRoom().get())
+                        .collect(Collectors.toList()).get(0);
                 // get building that contains the room that is booked
-                Building building = buildingList.stream().filter(x -> x.getBuildingId().get()
-                        == room.getRoomBuilding().get()).collect(Collectors.toList()).get(0);
+                Building building = buildingList.stream()
+                        .filter(x -> x.getBuildingId().get() == room.getRoomBuilding().get())
+                        .collect(Collectors.toList()).get(0);
+
                 app.setHeaderText("Reservation");
                 // split date in [yyyy, MM, dd]
                 String[] date = r.getDate().get().split("-");
@@ -177,7 +178,7 @@ public class CalendarPaneController implements Initializable {
     }
 
     /**
-     * Initializes the SwingNode with Swing components. This needs to happen in a separate thread
+     * Initializes the SwingNode with Swing components. This needs to happen in a separate thread.
      *
      * @param node the node that needs to be configured
      */
@@ -241,8 +242,7 @@ public class CalendarPaneController implements Initializable {
     }
 
     /**
-     * .
-     * Method that deletes an item from the calendar and database
+     * Method that deletes an item from the calendar and database.
      */
     @FXML
     private void cancelItemClicked() {
@@ -250,8 +250,8 @@ public class CalendarPaneController implements Initializable {
             // get all the selected items in the calendar
             Item[] items = calendar.getItemSelection().getItems();
             if (items.length == 0) {
-                Alert alert = GeneralMethods.createAlert("No selection", "You didn't select any item to delete",
-                        thisStage, Alert.AlertType.WARNING);
+                Alert alert = GeneralMethods.createAlert("No selection",
+                        "You didn't select any item to delete", thisStage, Alert.AlertType.WARNING);
                 alert.showAndWait();
             }
             for (Item x : items) {
@@ -261,15 +261,15 @@ public class CalendarPaneController implements Initializable {
                     if (ItemServerCommunication.deleteItem(Integer.parseInt(x.getId()))) {
                         // delete from calendar and confirm deletion
                         calendar.getSchedule().getItems().remove(x);
-                        Alert alert = GeneralMethods.createAlert("Deletion confirmation", "Your item has"
-                                        + " successfully been deleted from your schedule", thisStage,
-                                Alert.AlertType.INFORMATION);
+                        Alert alert = GeneralMethods.createAlert("Deletion confirmation",
+                                "Your item has successfully been deleted from your schedule",
+                                thisStage, Alert.AlertType.INFORMATION);
                         alert.showAndWait();
                     } else {
                         // alert the user that something went wrong
-                        Alert alert = GeneralMethods.createAlert("Deletion error", "Something went wrong,"
-                                        + " your item has not been deleted. Please try again", thisStage,
-                                Alert.AlertType.ERROR);
+                        Alert alert = GeneralMethods.createAlert("Deletion error",
+                                "Something went wrong, your item has not been deleted. Please try again",
+                                thisStage, Alert.AlertType.ERROR);
                         alert.showAndWait();
                     }
                 }
@@ -280,8 +280,7 @@ public class CalendarPaneController implements Initializable {
     }
 
     /**
-     * .
-     * Method that cancels a reservation and deletes it from the database
+     * Method that cancels a reservation and deletes it from the database.
      */
     @FXML
     private void cancelReservationClicked() {
@@ -289,8 +288,8 @@ public class CalendarPaneController implements Initializable {
             // get all selected items from the calendar
             Item[] items = calendar.getItemSelection().getItems();
             if (items.length == 0) {
-                Alert alert = GeneralMethods.createAlert("No selection", "You didn't select any reservation"
-                        + " to delete", thisStage, Alert.AlertType.WARNING);
+                Alert alert = GeneralMethods.createAlert("No selection",
+                        "You didn't select any reservation to delete", thisStage, Alert.AlertType.WARNING);
                 alert.showAndWait();
             }
             for (Item x : items) {
@@ -299,14 +298,16 @@ public class CalendarPaneController implements Initializable {
                     if (ReservationServerCommunication.deleteReservation(Integer.parseInt(x.getId()))) {
                         // delete reservation from database and calendar
                         calendar.getSchedule().getItems().remove(x);
-                        Alert alert = GeneralMethods.createAlert("Cancel confirmation", "Your reservation"
-                                + " has succesfully been canceled", thisStage, Alert.AlertType.INFORMATION);
+                        Alert alert = GeneralMethods.createAlert("Cancel confirmation",
+                                "Your reservation has succesfully been canceled", thisStage,
+                                Alert.AlertType.INFORMATION);
                         alert.showAndWait();
                     } else {
                         // alert user that there was an error
-                        Alert alert = GeneralMethods.createAlert("Cancel error", "Something went wrong,"
-                                        + " your reservation has not been canceled. Please try again.", thisStage,
-                                Alert.AlertType.ERROR);
+                        Alert alert = GeneralMethods.createAlert("Cancel error",
+                                "Something went wrong, your reservation has not been canceled."
+                                        + " Please try again.",
+                                thisStage, Alert.AlertType.ERROR);
                         alert.showAndWait();
                     }
                 }
@@ -317,8 +318,7 @@ public class CalendarPaneController implements Initializable {
     }
 
     /**
-     * .
-     * Switches the calendar to a 7-day week view
+     * Switches the calendar to a 7-day week view.
      */
     @FXML
     private void weeklyViewClicked() {
@@ -330,8 +330,7 @@ public class CalendarPaneController implements Initializable {
     }
 
     /**
-     * .
-     * Switches the calendar to a month view
+     * Switches the calendar to a month view.
      */
     @FXML
     private void monthlyViewClicked() {
@@ -343,8 +342,7 @@ public class CalendarPaneController implements Initializable {
     }
 
     /**
-     * .
-     * Loads the login view (logs the user out)
+     * Loads the login view (logs the user out).
      *
      * @param event is passed
      */

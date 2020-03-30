@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -21,7 +20,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 
 import javafx.scene.image.Image;
@@ -39,27 +37,20 @@ import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.views.BookingHistoryView;
 import nl.tudelft.oopp.demo.views.CalendarPaneView;
-import nl.tudelft.oopp.demo.views.CancelBookingView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomView;
 
 
-
 /**
- * .
- * Controller class for SearchView (JavaFX)
+ * Controller class for SearchView (JavaFX).
  */
 public class SearchViewController implements Initializable {
     /**
-     * .
      * These are the FXML elements that inject some functionality into the application.
      */
     @FXML
     private DatePicker datePicker;
-    @FXML
-    private ScrollPane scrollPane;
     @FXML
     private VBox cardHolder;
     @FXML
@@ -75,10 +66,7 @@ public class SearchViewController implements Initializable {
     @FXML
     private ComboBox<String> capacityComboBox;
     @FXML
-
     private Button clearFilters;
-    @FXML
-    private Button bookingHistoryButton;
     @FXML
     private TextField searchBar;
     @FXML
@@ -93,61 +81,14 @@ public class SearchViewController implements Initializable {
     private ObservableList<String> bikeList;
 
     /**
-     * .
      * Default construct of searchView class.
      */
     public SearchViewController() {
     }
 
-    /**
-     * .
-     * Handles the bookingHistory Button onclick.
-     * Redirects the user to the booking history page.
-     *
-     * @param event is passed
-     * @throws IOException is thrown
-     */
-    public void bookingHistoryButtonClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        BookingHistoryView bookingHistoryView = new BookingHistoryView();
-        bookingHistoryView.start(stage);
-    }
 
     /**
-     * .
-     * Handles the onclick of signOut Button.
-     * Redirects the user back to the login page.
-     *
-     * @param event is passed
-     * @throws IOException is thrown
-     */
-    public void signOutButtonClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        LoginView loginView = new LoginView();
-        loginView.start(stage);
-    }
-
-    /**
-     * .
-     * Handles the onclick of cancelBooking Button.
-     * Redirects the user to the cancelBooking page.
-     *
-     * @param event is passed
-     * @throws Exception is thrown
-     */
-    public void cancelBookingClicked(ActionEvent event) throws Exception {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        CancelBookingView cancelBookingView = new CancelBookingView();
-        cancelBookingView.start(stage);
-    }
-
-
-    /**
-     * .
-     * Method that gets called before everything (mostly to initialize nodes etc.)
+     * Method that gets called before everything (mostly to initialize nodes etc.).
      * JavaFX standard.
      *
      * @param location  is passed
@@ -164,17 +105,17 @@ public class SearchViewController implements Initializable {
             buildingList = Building.getBuildingData();
             bikeList = FXCollections.observableArrayList();
 
-
             // the comboBox only shows 6 rows (more => scroll)
             buildingComboBox.setVisibleRowCount(6);
 
+            // configure the date picker
             datePicker.setConverter(getDatePickerStringConverter());
             datePicker.setDayCellFactory(getDayCellFactory());
 
             // assign values to the observable lists
             capacityList.addAll("1-5", "5-10", "10-20", "20+");
             buildingComboBox.setItems(buildingList);
-            buildingComboBox.setConverter(getbuildingComboBoxConverter());
+            buildingComboBox.setConverter(getBuildingComboBoxConverter());
             bikeList.addAll("1-5", "5-10", "10-20", "20+");
 
             // populating the choicebox
@@ -194,7 +135,6 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * .
      * Create cellFactory for the datePicker that disables all days before today and weekend days.
      * It also marks them red to make sure the user understands why they are disabled.
      *
@@ -274,12 +214,11 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * .
      * Create a StringConverter that shows the name of the building for each building in the comboBox.
      *
      * @return StringConverter
      */
-    private StringConverter<Building> getbuildingComboBoxConverter() {
+    private StringConverter<Building> getBuildingComboBoxConverter() {
         try {
             StringConverter<Building> converter = new StringConverter<Building>() {
                 @Override
@@ -304,8 +243,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * .
-     * Creates a new 'card' (HBox) which contains some information about the room
+     * Creates a new 'card' (HBox) which contains some information about the room.
      *
      * @param r The Room that we have to show information from
      * @return HBox which is the final 'card'
@@ -317,6 +255,7 @@ public class SearchViewController implements Initializable {
             final ImageView image = new ImageView();
             final VBox roomInfo = new VBox();
             final Text roomTitle = new Text();
+            final Text roomBuilding = new Text();
             final Text roomCapacity = new Text();
             final Text roomDescription = new Text();
             final Text roomId = new Text();
@@ -329,7 +268,7 @@ public class SearchViewController implements Initializable {
             image.setFitWidth(300);
 
             // adding image margin
-            newCard.setMargin(image, new Insets(10, 5, 10, 10));
+            HBox.setMargin(image, new Insets(10, 5, 10, 10));
 
             /* set the roomId visibility to false such that it is not visible for the user but still useful to
                get the specific room information later in the RoomView
@@ -342,19 +281,28 @@ public class SearchViewController implements Initializable {
             roomTitle.setWrappingWidth(200);
             roomTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
             roomTitle.setStyle("-fx-fill: #0ebaf8;");
-            roomInfo.setMargin(roomTitle, new Insets(10, 10, 10, 15));
+            VBox.setMargin(roomTitle, new Insets(10, 10, 10, 15));
+
+            // setting building name and text margin
+            Building building = Building.getBuildingData().stream()
+                    .filter(x -> x.getBuildingId().get() == r.getRoomBuilding().get())
+                    .collect(Collectors.toList()).get(0);
+            roomBuilding.setText("Building: " + building.getBuildingName().get());
+            roomBuilding.setWrappingWidth(200);
+            roomBuilding.setFont(Font.font("System", 14));
+            VBox.setMargin(roomBuilding, new Insets(0, 0, 5, 15));
 
             // setting capacity and text margin (+ properties)
             roomCapacity.setText("Capacity: " + r.getRoomCapacity().get());
             roomCapacity.setWrappingWidth(200);
             roomCapacity.setFont(Font.font("System", 14));
-            roomInfo.setMargin(roomCapacity, new Insets(0, 0, 5, 15));
+            VBox.setMargin(roomCapacity, new Insets(0, 0, 5, 15));
 
             // setting description and text margin (+ properties)
             roomDescription.setText("Description: " + r.getRoomDescription().get());
             roomDescription.setWrappingWidth(310);
             roomDescription.setFont(Font.font("System", 14));
-            roomInfo.setMargin(roomDescription, new Insets(0, 0, 0, 15));
+            VBox.setMargin(roomDescription, new Insets(0, 0, 5, 15));
 
             // setting 'text box' size
             roomInfo.setPrefSize(354, 378);
@@ -384,8 +332,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * .
-     * When a card gets clicked, the RoomView gets loaded with all the corresponding room information
+     * When a card gets clicked, the RoomView gets loaded with all the corresponding room information.
      *
      * @param event MouseEvent
      */
@@ -415,8 +362,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * .
-     * Clears all the filters and sets them back to 'empty'
+     * Clears all the filters and sets them back to 'empty'.
      *
      * @param event ActionEvent
      */
@@ -437,6 +383,10 @@ public class SearchViewController implements Initializable {
         }
     }
 
+    /**
+     * Loads the Calendar view with all the booking history.
+     * @param event event that triggered this method
+     */
     @FXML
     private void bookingHistoryClicked(ActionEvent event) {
         try {
@@ -444,6 +394,25 @@ public class SearchViewController implements Initializable {
             CalendarPaneController.thisStage = stage;
             CalendarPaneView cpv = new CalendarPaneView();
             cpv.start(stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Handles the onclick of signOut Button.
+     * Redirects the user back to the login page.
+     *
+     * @param event event that triggered this method
+     */
+    @FXML
+    private void signOutButtonClicked(ActionEvent event) {
+        try {
+            // get current stage and load log in view
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            LoginView loginView = new LoginView();
+            loginView.start(stage);
         } catch (Exception e) {
             e.printStackTrace();
         }

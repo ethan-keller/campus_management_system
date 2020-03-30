@@ -1,8 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
-
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -23,22 +22,16 @@ public class AdminUserHistoryViewController {
 
     @FXML
     private Label usernameLabel;
-
     @FXML
     private TableView<Reservation> bookingTable;
-
     @FXML
-    private TableColumn<Reservation, String> bookingIdColumn;
-
+    private TableColumn<Reservation, Number> bookingIdColumn;
     @FXML
     private TableColumn<Reservation, String> bookingDateColumn;
-
     @FXML
-    private TableColumn<Reservation, String> bookingRoomColumn;
-
+    private TableColumn<Reservation, Number> bookingRoomColumn;
     @FXML
     private TableColumn<Reservation, String> bookingStartColumn;
-
     @FXML
     private TableColumn<Reservation, String> bookingEndColumn;
 
@@ -57,10 +50,10 @@ public class AdminUserHistoryViewController {
             // Initialize the title of the table
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             // Initialize the booking table with the five columns.
-            bookingIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
-                    cellData.getValue().getId().get())));
-            bookingRoomColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
-                    cellData.getValue().getRoom().get())));
+            bookingIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
+                    cellData.getValue().getId().get()));
+            bookingRoomColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
+                    cellData.getValue().getRoom().get()));
             bookingDateColumn.setCellValueFactory(cell -> cell.getValue().getDate());
             bookingStartColumn.setCellValueFactory(cell -> cell.getValue().getStartingTime());
             bookingEndColumn.setCellValueFactory(cell -> cell.getValue().getEndingTime());

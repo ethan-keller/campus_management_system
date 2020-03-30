@@ -1,8 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +17,7 @@ import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
 
+
 public class AdminManageReservationViewController {
     /**
      * These are the FXML elements that inject some functionality into the application.
@@ -25,7 +25,7 @@ public class AdminManageReservationViewController {
     @FXML
     private TableView<Reservation> listReservations;
     @FXML
-    private TableColumn<Reservation, String> id;
+    private TableColumn<Reservation, Number> id;
     @FXML
     private TableColumn<Reservation, String> username;
     @FXML
@@ -33,9 +33,9 @@ public class AdminManageReservationViewController {
     @FXML
     private TableColumn<Reservation, String> date;
     @FXML
-    private TableColumn<Reservation,String> startingTime;
+    private TableColumn<Reservation, String> startingTime;
     @FXML
-    private TableColumn<Reservation,String> endingTime;
+    private TableColumn<Reservation, String> endingTime;
 
     public static Reservation currentSelectedReservation;
 
@@ -55,8 +55,8 @@ public class AdminManageReservationViewController {
             //Initializing all the columns created in the table view to inhibit the data passed
             // down through the server.
 
-            id.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
-                    cellData.getValue().getId().get())));
+            id.setCellValueFactory(cellData -> new SimpleIntegerProperty(
+                    cellData.getValue().getId().get()));
             username.setCellValueFactory(cell -> cell.getValue().getUsername());
             room.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
                     cellData.getValue().getRoom().get())));
@@ -138,7 +138,7 @@ public class AdminManageReservationViewController {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            //currentSelectedReservation = null;
+            currentSelectedReservation = null;
             ReservationEditDialogView view = new ReservationEditDialogView();
             view.start(stage);
 

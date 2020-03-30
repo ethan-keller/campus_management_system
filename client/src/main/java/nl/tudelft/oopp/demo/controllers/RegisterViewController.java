@@ -2,9 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
 import nl.tudelft.oopp.demo.views.LoginView;
-import nl.tudelft.oopp.demo.views.RegisterView;
 
 
 public class RegisterViewController {
