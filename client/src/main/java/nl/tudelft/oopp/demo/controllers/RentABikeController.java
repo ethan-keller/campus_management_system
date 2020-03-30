@@ -25,7 +25,6 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Spinner;
 
-
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -43,6 +42,7 @@ import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
 import org.controlsfx.control.RangeSlider;
+
 
 
 
@@ -71,12 +71,12 @@ public class RentABikeController implements Initializable {
     public static Stage thisStage;
 
     public ObservableList<Building> buildingList = Building.getBuildingData();
-    private static int currentBuilding=0;
+    private static int currentBuilding = 0;
     ObservableList<String> buildList = FXCollections.observableArrayList();
 
 
     /**
-     * Deals with the back button function
+     * Deals with the back button function.
      *
      * @param event  ActionEvent
      */
@@ -93,8 +93,8 @@ public class RentABikeController implements Initializable {
     }
 
     /**
-     * Used to initialize nodes and populate elements
-     * Gets called before anything
+     * Used to initialize nodes and populate elements.
+     * Gets called before anything.
      *
      * @param location  passed
      * @param resources passed
@@ -131,7 +131,7 @@ public class RentABikeController implements Initializable {
 
 
     /**
-     * Gets number of bikes available, and building number and adds to buildList
+     * Gets number of bikes available, and building number and adds to buildList.
      * @param b is passed to deal with Building object
      */
     private void setEachBuilding(Building b) {
@@ -155,10 +155,10 @@ public class RentABikeController implements Initializable {
 
 
     /**
-     * Checks if all the options are selected
+     * Checks if all the options are selected.
      * @return true only when all the options are filled in
      */
-        public boolean isInputValid() {
+    public boolean isInputValid() {
         try {
             // true if there are errors, false otherwise
             boolean input = true;
@@ -212,8 +212,8 @@ public class RentABikeController implements Initializable {
                     // create alert for confirmation with the user
                     Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "
                                     + selectedBike + " bikes"
-                                    + " from " + selectedBuilding +
-                                    " on " + selectedDate + " for " + selectedStartTime + "-"
+                                    + " from " + selectedBuilding
+                                    + " on " + selectedDate + " for " + selectedStartTime + "-"
                                     + selectedEndTime + "?", ((Node) event.getSource()).getScene().getWindow(),
                             Alert.AlertType.CONFIRMATION);
                     assert alert != null;
@@ -516,7 +516,7 @@ public class RentABikeController implements Initializable {
      */
     public String getSelectedBuilding(String st) {
         try {
-            String result ="";
+            String result = "";
             for (int i = 0; i < buildingList.size(); i++) {
                 if (st.contains(buildingList.get(i).getBuildingName().get())) {
                     result = buildingList.get(i).getBuildingName().get();
