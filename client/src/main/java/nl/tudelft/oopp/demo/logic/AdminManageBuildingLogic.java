@@ -43,7 +43,7 @@ public class AdminManageBuildingLogic {
      * @param selectedBuilding - The selected building from the tabular view passed as a parameter.
      * @param tempBuilding - The features of the building are passed through this variable.
      */
-    public static void editBuildiingLogic(Building selectedBuilding, Building tempBuilding) {
+    public static void editBuildingLogic(Building selectedBuilding, Building tempBuilding) {
         try {
             // Communication with the server.
             BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
