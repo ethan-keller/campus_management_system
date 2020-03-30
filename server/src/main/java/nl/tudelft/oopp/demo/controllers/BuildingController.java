@@ -89,7 +89,6 @@ public class BuildingController {
      * @param name            The new name of the building
      * @param roomCount      the new room count of the building
      * @param address         the new address of the building //TODO add address format
-     * @param availableBikes The number of available bikes, int
      * @param maxBikes       The max number of bikes, int
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding
      */
@@ -98,7 +97,6 @@ public class BuildingController {
 
     public void updateBuilding(@RequestParam int id, @RequestParam String name,
                                @RequestParam int roomCount, @RequestParam String address,
-                               @RequestParam int availableBikes,
                                @RequestParam int maxBikes) throws UnsupportedEncodingException {
 
         name = CommunicationMethods.decodeCommunication(name);
@@ -108,7 +106,6 @@ public class BuildingController {
             buildingRepo.updateAddress(id, address);
             buildingRepo.updateName(id, name);
             buildingRepo.updateRoomCount(id, roomCount);
-            buildingRepo.updateAvailableBikes(id, availableBikes);
             buildingRepo.updateMaxBikes(id, maxBikes);
             logger.info("Building: -update- Building ID: " + id + " - NEW data -> Name: "
                     + name + " - Room count: " + roomCount + " - Address: "

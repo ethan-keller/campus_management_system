@@ -202,12 +202,14 @@ public class BuildingServerCommunication {
      * @param name - Name of the building
      * @param roomCount - Number of rooms the building has
      * @param address - Address of the building
+     * @param maxBikes - Maximum number of bikes available in the building
      * @return Boolean value which is used to display a message to the client if the building is updated.
      * @throws UnsupportedEncodingException is thrown
      */
-    public static boolean updateBuilding(int id, String name, int roomCount, String address)
+    public static boolean updateBuilding(int id, String name, int roomCount, String address, int maxBikes)
             throws UnsupportedEncodingException {
-        String params = "id=" + id + "&name=" + name + "&roomCount=" + roomCount + "&address=" + address;
+        String params = "id=" + id + "&name=" + name + "&roomCount=" + roomCount + "&address=" + address
+                + "&maxBikes=" + maxBikes;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateBuilding?" + params)).build();

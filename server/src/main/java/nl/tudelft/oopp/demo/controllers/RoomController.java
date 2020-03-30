@@ -2,9 +2,9 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.repositories.BuildingRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 @Controller
 public class RoomController {
 
@@ -22,6 +23,9 @@ public class RoomController {
     private RoomRepository roomRepo;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+    
+    @Autowired
+    private BuildingRepository buildingRepo;
 
     /**
      * Creates a Room entry in the database.
@@ -49,10 +53,12 @@ public class RoomController {
 
         try {
             roomRepo.insertRoom(name, building, teacherOnly, capacity, photos, description, type);
+            int count = roomRepo.getRoomByBuilding(building).size();
+            buildingRepo.updateRoomCount(building, count);
+            
             logger.info("Room: -create- Name: " + name + " - Building ID: " + building + " - Teacher only: "
                     + String.valueOf(teacherOnly) + " - Capacity: " + capacity + " - Photo URL: " + photos
                     + " - Type: " + type + " - Description: " + description);
-
         } catch (Exception e) {
             logger.error("Room: -create- ERROR", e);
         }
@@ -85,6 +91,14 @@ public class RoomController {
         type = CommunicationMethods.decodeCommunication(type);
 
         try {
+            int oldBuilding = roomRepo.getRoom(id).getBuilding();
+            if (oldBuilding != building) {
+                int count = roomRepo.getRoomByBuilding(oldBuilding).size();
+                buildingRepo.updateRoomCount(oldBuilding, count - 1);
+
+                count = roomRepo.getRoomByBuilding(building).size();
+                buildingRepo.updateRoomCount(building, count + 1);
+            }
             roomRepo.updateCapacity(id, capacity);
             roomRepo.updateDescription(id, description);
             roomRepo.updateBuilding(id, building);
@@ -110,7 +124,11 @@ public class RoomController {
     @ResponseBody
     public void deleteRoom(@RequestParam int id) {
         try {
-            roomRepo.deleteRoom(id);
+            int buildingId = roomRepo.getRoom(id).getBuilding();
+            roomRepo.deleteRoom(id);a
+            int roomCount = roomRepo.getRoomByBuilding(buildingId).size();
+            buildingRepo.updateRoomCount(buildingId, roomCount);
+            
             logger.info("Room: -delete- ID: " + id);
         } catch (Exception e) {
             logger.error("Room: -delete- ERROR", e);
