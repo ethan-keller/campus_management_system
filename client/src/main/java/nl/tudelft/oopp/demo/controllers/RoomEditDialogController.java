@@ -16,6 +16,7 @@ import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.logic.RoomEditDialogLogic;
 
 /**
  * Class that controls dialog box to edit a room.
@@ -156,42 +157,8 @@ public class RoomEditDialogController {
      * @return true if the input is valid
      */
     private boolean isInputValid() {
-        String errorMessage = "";
-
-        if (roomNameField.getText().equals("")) {
-            errorMessage += "No valid room name!\n";
-        }
-        if (roomBuildingComboBox.getSelectionModel().getSelectedIndex() < 0) {
-            errorMessage += "No valid building selected!\n";
-        }
-        if (!radioButtonYes.isSelected() && !radioButtonNo.isSelected()) {
-            errorMessage += "No teacher only button selected!\n";
-        }
-        if (roomCapacityField.getText().equals("")) {
-            errorMessage += "No valid capacity!\n";
-        } else {
-            try {
-                Integer.parseInt(roomCapacityField.getText());
-            } catch (NumberFormatException e) {
-                errorMessage += "No valid room count (must be an integer)!\n";
-            }
-        }
-        if (roomTypeField.getText().equals("")) {
-            errorMessage += "No valid room type!\n";
-        }
-        if (roomDescriptionField.getText().equals("")) {
-            errorMessage += "No valid room description!\n";
-        }
-
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-
-            return false;
-        }
+        return RoomEditDialogLogic.isValidInput(roomNameField, roomBuildingComboBox, radioButtonYes,
+                radioButtonNo, roomCapacityField, roomTypeField, roomDescriptionField);
     }
 
     public void uploadImage(ActionEvent event) {
