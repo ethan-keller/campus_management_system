@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -32,6 +33,9 @@ public class AdminManageBuildingViewController {
     private TableColumn<Building, Number> buildingRoomCountColumn;
 
     @FXML
+    private TableColumn<Building, String> maxBikesColumn;
+
+    @FXML
     private TableColumn<Building, String> buildingAddressColumn;
 
     @FXML
@@ -54,6 +58,8 @@ public class AdminManageBuildingViewController {
             buildingNameColumn.setCellValueFactory(cell -> cell.getValue().getBuildingName());
             buildingRoomCountColumn.setCellValueFactory(cell ->
                     new SimpleIntegerProperty(cell.getValue().getBuildingRoomCount().get()));
+            maxBikesColumn.setCellValueFactory(cell ->
+                    new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingMaxBikes().get())));
             buildingAddressColumn.setCellValueFactory(cell -> cell.getValue().getBuildingAddress());
 
             // Add observable list data to the table
@@ -103,7 +109,7 @@ public class AdminManageBuildingViewController {
         try {
             if (selectedIndex >= 0) {
 
-                // TODO: Check that building deletion was succesful before displaying alert
+                // TODO: Check that building deletion was successful before displaying alert
                 BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
                 refresh();
                 // Create an alert box.
@@ -136,10 +142,11 @@ public class AdminManageBuildingViewController {
                 return;
             }
 
-            // TODO: Check that building creation was succesful before displaying alert
+            // TODO: Check that building creation was successful before displaying alert
+            // Using the method which uses the max bikes as a parameter.
             BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
-                    tempBuilding.getBuildingRoomCount().get(),
-                    tempBuilding.getBuildingAddress().get());
+                    tempBuilding.getBuildingRoomCount().get(), tempBuilding.getBuildingAddress().get(),
+                    tempBuilding.getBuildingMaxBikes().get());
             refresh();
             // Create an alert box.
             GeneralMethods.alertBox("New Building", "", "Added new building!",
@@ -175,7 +182,7 @@ public class AdminManageBuildingViewController {
                 // TODO: Check that building edit was successful before displaying alert
                 BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
                         tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
-                        tempBuilding.getBuildingAddress().get());
+                        tempBuilding.getBuildingAddress().get(), tempBuilding.getBuildingMaxBikes().get());
                 refresh();
                 // Create an alert box.
                 GeneralMethods.alertBox("Edit Building", "", "Edited building!",
