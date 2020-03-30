@@ -1,15 +1,12 @@
 package nl.tudelft.oopp.demo.encryption;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EncryptionManager {
     private static SecretKeySpec secretKey;

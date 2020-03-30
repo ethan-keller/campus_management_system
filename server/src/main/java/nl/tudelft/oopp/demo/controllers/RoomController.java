@@ -94,7 +94,8 @@ public class RoomController {
             roomRepo.updateType(id, type);
             logger.info("Room: -update- ID: " + id + " - NEW data -> Name: " + name + " - Building ID: "
                     + building + " - Teacher only: " + String.valueOf(teacherOnly) + " - Capacity: "
-                    + capacity + " - Photo URL: " + photos + " - Type: " + type + " - Description: " + description);
+                    + capacity + " - Photo URL: " + photos + " - Type: " + type
+                    + " - Description: " + description);
         } catch (Exception e) {
             logger.error("Room: -update- ERROR", e);
         }

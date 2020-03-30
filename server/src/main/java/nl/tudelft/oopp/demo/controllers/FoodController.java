@@ -112,7 +112,8 @@ public class FoodController {
     public void deleteFoodFromReservation(@RequestParam int food, @RequestParam int reservation) {
         try {
             foodRepo.deleteFoodReservation(reservation, food);
-            logger.info("Food: -deleteFoodFromReservation- Food ID: " + food + " - Reservation ID: " + reservation);
+            logger.info("Food: -deleteFoodFromReservation- Food ID: " + food
+                    + " - Reservation ID: " + reservation);
         } catch (Exception e) {
             logger.error("Food -deleteFoodFromReservation- ERROR", e);
         }
@@ -148,8 +149,8 @@ public class FoodController {
                                               @RequestParam int quantity) {
         try {
             foodRepo.updateFoodReservationQuantity(reservation, food, quantity);
-            logger.info("Food: -updateFoodReservationQuantity- Food ID: " + food + " - Reservation ID" + reservation
-                        + " - NEW data -> quantity: " + quantity);
+            logger.info("Food: -updateFoodReservationQuantity- Food ID: " + food + " - Reservation ID"
+                    + reservation + " - NEW data -> quantity: " + quantity);
         } catch (Exception e) {
             logger.error("Food -updateFoodReservationQuantity- ERROR", e);
         }

@@ -27,6 +27,7 @@ public class DbConfig {
     private Environment environment;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     /**
      * Set up the connection to the database.
      */

@@ -86,7 +86,7 @@ public class BikeReservationController {
             bikeResRepo.updateStartingTime(id, startingTime);
             bikeResRepo.updateEndingTime(id, endingTime);
             buildingControl.addBikeReservation(building, numBikes);
-            logger.info("Bike Reservation: -update- BikeReservation ID: "+ id + " - NEW data -> Building ID"
+            logger.info("Bike Reservation: -update- BikeReservation ID: " + id + " - NEW data -> Building ID"
                     + building + " - User: " + user + " - Number of bikes: " + numBikes + " - date: "
                     + date + " - Starting time: " + startingTime + " - Ending time: " + endingTime);
         } catch (Exception e) {

@@ -51,7 +51,8 @@ public class BuildingController {
         try {
             buildingRepo.insertBuilding(name, roomCount, address, availableBikes, maxBikes);
             logger.info("Building: -create- Name: " + name + " - Room count: " + roomCount
-                  + " - Address: " + address + " - Available Bikes: " + availableBikes + " - Max bikes: " + maxBikes);
+                    + " - Address: " + address + " - Available Bikes: "
+                    + availableBikes + " - Max bikes: " + maxBikes);
         } catch (Exception e) {
             logger.error("Building: -create- ERROR", e);
         }
