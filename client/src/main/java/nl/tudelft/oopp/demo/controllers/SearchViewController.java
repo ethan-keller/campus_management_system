@@ -257,7 +257,10 @@ public class SearchViewController implements Initializable {
             Image roomImage = new Image("images/placeholder.png");
 
             // use lookup to retrieve Nodes by their id and set their content
-            ((ImageView) newCard.lookup("#image")).setImage(roomImage);
+            ImageView image = ((ImageView) newCard.lookup("#image"));
+            image.setImage(roomImage);
+            image.setFitWidth(300);
+
             ((Text) newCard.lookup("#idText")).setText(String.valueOf(r.getRoomId().get()));
             ((Text) newCard.lookup("#titleText")).setText(r.getRoomName().get());
             ((Text) newCard.lookup("#buildingText")).setText("Building: " + r.getRoomBuilding().get());
@@ -274,7 +277,7 @@ public class SearchViewController implements Initializable {
             });
 
             // set space between the cards
-            VBox.setMargin(newCard, new Insets(0, 0, 25, 0));
+            VBox.setMargin(newCard, new Insets(0, 0, 70, 0));
 
             return newCard;
         } catch (Exception e) {
