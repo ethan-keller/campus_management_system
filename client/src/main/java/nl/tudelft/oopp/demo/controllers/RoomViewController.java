@@ -1,19 +1,32 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.Node;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -27,18 +40,6 @@ import nl.tudelft.oopp.demo.logic.RoomViewLogic;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 import org.controlsfx.control.RangeSlider;
 
 
@@ -473,7 +474,8 @@ public class RoomViewController implements Initializable {
         try {
 
             // input is valid, assign corresponding values
-            if (RoomViewLogic.isInputValid(dateError, foodError, timeSlotError, datePicker, foodChoice, currentRoomId, this, timeSlotSlider)) {
+            if (RoomViewLogic.isInputValid(dateError, foodError, timeSlotError,
+                    datePicker, foodChoice, currentRoomId, this, timeSlotSlider)) {
 
                 // if user confirms booking, reservations is sent to server
                 if (RoomViewLogic.confirmBooking(currentRoom, thisStage, datePicker, timeSlotSlider)) {

@@ -1,20 +1,22 @@
 package nl.tudelft.oopp.demo.logic;
 
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.util.concurrent.TimeUnit;
+import java.util.List;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.controllers.AdminManageReservationViewController;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
-import org.controlsfx.control.RangeSlider;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import org.controlsfx.control.RangeSlider;
 
 public class ReservationEditDialogLogic {
 
@@ -36,8 +38,8 @@ public class ReservationEditDialogLogic {
         if (date.getValue() == null) {
             errorMessage += "No date provided!\n";
         }
-        if (!checkTimeSlotValidity(room, date, formatter, timeslotSlider) ||
-                timeslotSlider.getLowValue() == timeslotSlider.getHighValue()) {
+        if (!checkTimeSlotValidity(room, date, formatter, timeslotSlider)
+                || timeslotSlider.getLowValue() == timeslotSlider.getHighValue()) {
             errorMessage += "No valid timeslot selected!\n";
         }
 

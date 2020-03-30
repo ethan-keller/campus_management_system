@@ -2,7 +2,15 @@ package nl.tudelft.oopp.demo.logic;
 
 import java.util.regex.Pattern;
 
+
+
 public class RegisterViewLogic {
+
+    /**
+     * Checks for any input that is invalid for the username.
+     * @param usernameTxt the input of the user.
+     * @return A string with the invalidation or Good! if there is none.
+     */
     public static String checkUsername(String usernameTxt) {
         Pattern upperCasePattern = Pattern.compile("[A-Z]");
         Pattern characters = Pattern.compile("[!@#$%^&*`~<,>./?:;'{|+=_-]");
@@ -23,6 +31,11 @@ public class RegisterViewLogic {
         return "Good!";
     }
 
+    /**
+     * Checks for any input that is invalid for the password.
+     * @param passwordTxt the input of the user.
+     * @return A string with the invalidation or Good! if there is none.
+     */
     public static String checkPassword(String passwordTxt) {
         Pattern upperCasePattern = Pattern.compile("[A-Z]");
         Pattern characters = Pattern.compile("[!@#$%^&*`~<,>./?:;'{|+=_-]");
@@ -56,6 +69,12 @@ public class RegisterViewLogic {
         return "Good!";
     }
 
+    /**
+     * Checks if the two entered passwords are the same.
+     * @param passwordTxt first entered password.
+     * @param rePasswordTxt second entered password.
+     * @return The password needs to be the same ! or Good! if there is no mistake
+     */
     public static String checkRePassword(String passwordTxt, String rePasswordTxt) {
         //Checks whether the password matches the repeat password field
         if (!passwordTxt.equals(rePasswordTxt)) {
