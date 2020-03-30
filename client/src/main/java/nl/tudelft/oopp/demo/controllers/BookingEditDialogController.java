@@ -28,6 +28,7 @@ import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.logic.BookingEditDialogLogic;
 import org.controlsfx.control.RangeSlider;
 
 public class BookingEditDialogController {
@@ -119,7 +120,7 @@ public class BookingEditDialogController {
             timeSlotSlider.setMinorTickCount(4);
 
             // get and set the StringConverter to show hh:mm format
-            StringConverter<Number> converter = getRangeSliderConverter();
+            StringConverter<Number> converter = BookingEditDialogLogic.getRangeSliderConverter();
             timeSlotSlider.setLabelFormatter(converter);
 
             // add listeners to show the current thumb values in separate Text objects
@@ -160,8 +161,7 @@ public class BookingEditDialogController {
             }
             // get reservations for this room on the selected date
             List<Reservation> reservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
-                    bookingDate.getValue(),
-                    getDatePickerConverter());
+                    bookingDate.getValue(), BookingEditDialogLogic.getDatePickerConverter(bookingDate));
 
             // sort them in ascending order
             reservations.sort(new Comparator<Reservation>() {
@@ -247,7 +247,7 @@ public class BookingEditDialogController {
      * Configure the rangeSlider listeners. The listeners make sure that the user jumps
      * intervals of an hour and sets the texts with the correct value.
      *
-     * @param converter String converter that is created in {@link #getRangeSliderConverter()}
+     * @param converter String converter that is created in
      */
     private void configureRangeSliderListeners(StringConverter<Number> converter) {
         try {
@@ -267,39 +267,6 @@ public class BookingEditDialogController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Creates a StringConverter that converts the selected value to an actual time (in String format).
-     *
-     * @return a StringConverter object
-     */
-    private StringConverter<Number> getRangeSliderConverter() {
-        try {
-            return new StringConverter<Number>() {
-                @Override
-                public String toString(Number n) {
-                    // calculate hours and remaining minutes to get a correct hh:mm format
-                    long minutes = n.longValue();
-                    long hours = TimeUnit.MINUTES.toHours(minutes);
-                    long remainingMinutes = minutes - TimeUnit.HOURS.toMinutes(hours);
-                    // '%02d' means that there will be a 0 in front if its only 1 number + it's a long number
-                    return String.format("%02d", hours) + ":" + String.format("%02d", remainingMinutes);
-                }
-
-                @Override
-                public Number fromString(String time) {
-                    if (time != null) {
-                        String[] split = time.split(":");
-                        return Double.parseDouble(split[0]) * 60 + Double.parseDouble(split[1]);
-                    }
-                    return null;
-                }
-            };
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     /**
@@ -376,7 +343,7 @@ public class BookingEditDialogController {
     /**
      * .
      * Methods that sets the dayCellFactory made in {@link #getDayCellFactory()}
-     * and the StringConverter made in {@link #getDatePickerConverter()}
+     * and the StringConverter made in
      */
     private void configureDatePicker() {
         try {
@@ -385,7 +352,7 @@ public class BookingEditDialogController {
             // set the factory
             bookingDate.setDayCellFactory(dayCellFactory);
             // converter to convert value to String and vice versa
-            StringConverter<LocalDate> converter = getDatePickerConverter();
+            StringConverter<LocalDate> converter = BookingEditDialogLogic.getDatePickerConverter(bookingDate);
             // set the converter
             bookingDate.setConverter(converter);
             // reset css when date changes
@@ -452,7 +419,7 @@ public class BookingEditDialogController {
     @FXML
     private void handleOkClicked(ActionEvent event) {
         // Check the validity of user input
-        if (isInputValid()) {
+        if (BookingEditDialogLogic.isInputValid(bookingRoomComboBox, bookingDate, timeSlotSlider, reservation)) {
             emptyReservation();
             // Set the user input to the reservation
             reservation.setUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
@@ -476,121 +443,4 @@ public class BookingEditDialogController {
         this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         dialogStage.close();
     }
-
-    /**
-     * Validates the user input.
-     *
-     * @return true if the input is valid
-     */
-    private boolean isInputValid() {
-        String errorMessage = "";
-
-        if (bookingRoomComboBox.getSelectionModel().getSelectedIndex() < 0) {
-            errorMessage += "No valid room selected!\n";
-        }
-        if (bookingDate.getValue() == null) {
-            errorMessage += "No valid date selected!\n";
-        }
-        if (!checkTimeSlotValidity() || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
-            errorMessage += "No valid timeslot selected!\n";
-        }
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-
-            return false;
-        }
-    }
-
-    /**
-     * Method that checks if the chosen timeslot is free.
-     *
-     * @return true if the timeslot is free, false otherwise
-     */
-    private boolean checkTimeSlotValidity() {
-        // get currently selected room
-        Room selectedRoom = bookingRoomComboBox.getSelectionModel().getSelectedItem();
-        if (selectedRoom == null) {
-            return false;
-        }
-        // get all reservations for the current room on the chosen date
-        List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
-                bookingDate.getValue(), getDatePickerConverter());
-
-        // get converter to convert date value to String format hh:mm
-        StringConverter<Number> timeConverter = getRangeSliderConverter();
-
-        // if there are no reservations the timeslot is valid
-        if (roomReservations.size() == 0) {
-            return true;
-        }
-
-        for (Reservation r : roomReservations) {
-            // if reservation equals the one we are editing, don't consider it
-            if (r.getId().get() == reservation.getId().get()) {
-                continue;
-            }
-
-            // get rangeslider values + reservation values
-            double currentStartValue = timeSlotSlider.getLowValue();
-            double currentEndValue = timeSlotSlider.getHighValue();
-            double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
-            double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
-
-            // check if the values overlap
-            if (!((currentStartValue <= startValue && currentEndValue <= startValue)
-                    || (currentStartValue >= endValue && currentEndValue >= endValue))) {
-                return false;
-            }
-
-        }
-        return true;
-    }
-
-    /**
-     * Creates a StringConverter that converts the selected value to a usable Date (in String format).
-     *
-     * @return a StringConverter object
-     */
-    private StringConverter<LocalDate> getDatePickerConverter() {
-        try {
-            return new StringConverter<LocalDate>() {
-                // set the wanted pattern (format)
-                String pattern = "yyyy-MM-dd";
-                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-
-                {
-                    // set placeholder text for the datePicker
-                    bookingDate.setPromptText(pattern.toLowerCase());
-                }
-
-                @Override
-                public String toString(LocalDate date) {
-                    if (date != null) {
-                        // get correctly formatted String
-                        return dateFormatter.format(date);
-                    } else {
-                        return "";
-                    }
-                }
-
-                @Override
-                public LocalDate fromString(String string) {
-                    if (string != null && !string.isEmpty()) {
-                        // get correct LocalDate from String format
-                        return LocalDate.parse(string, dateFormatter);
-                    } else {
-                        return null;
-                    }
-                }
-            };
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 }
