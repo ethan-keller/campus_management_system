@@ -1,12 +1,10 @@
 package nl.tudelft.oopp.demo.logic;
 
+import java.io.UnsupportedEncodingException;
 import javafx.scene.control.TableView;
 import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import nl.tudelft.oopp.demo.entities.Room;
 
-import java.io.UncheckedIOException;
-import java.io.UnsupportedEncodingException;
-import java.rmi.UnexpectedException;
 
 public class AdminManageRoomLogic {
 
