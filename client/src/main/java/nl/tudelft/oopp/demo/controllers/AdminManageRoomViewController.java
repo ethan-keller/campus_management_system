@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomEditDialogView;
 
 
@@ -32,19 +34,19 @@ public class AdminManageRoomViewController {
     private TableView<Room> roomTable;
 
     @FXML
-    private TableColumn<Room, String> roomIdColumn;
+    private TableColumn<Room, Number> roomIdColumn;
 
     @FXML
     private TableColumn<Room, String> roomNameColumn;
 
     @FXML
-    private TableColumn<Room, String> roomBuildingColumn;
+    private TableColumn<Room, Number> roomBuildingColumn;
 
     @FXML
     private TableColumn<Room, String> roomOnlyTeachersColumn;
 
     @FXML
-    private TableColumn<Room, String> roomCapacityBuilding;
+    private TableColumn<Room, Number> roomCapacityBuilding;
 
     @FXML
     private TableColumn<Room, String> roomPhotoColumn;
@@ -74,15 +76,15 @@ public class AdminManageRoomViewController {
 
         try {
             // Initialize the room table with the eight columns.
-            roomIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
-                    cellData.getValue().getRoomId().get())));
+            roomIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
+                    cellData.getValue().getRoomId().get()));
             roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().getRoomName());
-            roomBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
-                    cellData.getValue().getRoomBuilding().get())));
+            roomBuildingColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
+                    cellData.getValue().getRoomBuilding().get()));
             roomOnlyTeachersColumn.setCellValueFactory(cell -> new SimpleStringProperty(
                     cell.getValue().getTeacherOnly().get() ? "yes" : "no"));
-            roomCapacityBuilding.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(
-                    cell.getValue().getRoomCapacity().get())));
+            roomCapacityBuilding.setCellValueFactory(cell -> new SimpleIntegerProperty(
+                    cell.getValue().getRoomCapacity().get()));
             roomPhotoColumn.setCellValueFactory(cell -> cell.getValue().getRoomPhoto());
             roomDescriptionColumn.setCellValueFactory(cell -> cell.getValue().getRoomDescription());
             roomTypeColumn.setCellValueFactory(cell -> cell.getValue().getRoomType());
@@ -178,14 +180,12 @@ public class AdminManageRoomViewController {
                 // TODO: Check that room deletion was successful before displaying alert
                 RoomServerCommunication.deleteRoom(selectedRoom.getRoomId().getValue());
                 refresh();
-                Alert alert = GeneralMethods.createAlert("Delete room", "Room deleted succesfully!",
-                        stage, AlertType.INFORMATION);
-                alert.showAndWait();
+                // Creates an alert box to display the message.
+                GeneralMethods.alertBox("Delete room", "", "Room deleted!", AlertType.INFORMATION);
             } else {
-                Alert alert = GeneralMethods.createAlert("No selection", "Please select a room!",
-                        stage, AlertType.WARNING);
-                alert.setHeaderText("No room Selected");
-                alert.showAndWait();
+                // Creates an alert box.
+                GeneralMethods.alertBox("No Selection", "No Room Selected",
+                        "Please select a Room in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             System.out.println("delete room exception");
@@ -224,6 +224,7 @@ public class AdminManageRoomViewController {
                         "An error occurred, please try again!", stage, AlertType.ERROR);
                 alert.showAndWait();
             }
+
         } catch (Exception e) {
             System.out.println("room creation exception");
             e.printStackTrace();
@@ -252,7 +253,6 @@ public class AdminManageRoomViewController {
                     return;
                 }
 
-
                 if (RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(),
                         tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
                         tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
@@ -280,9 +280,9 @@ public class AdminManageRoomViewController {
     }
 
     /**
-     * Redirects the admin to tha admin home view.
-     *
-     * @param event event that triggered this method
+     * This button redirects the user back to the login page.
+     * @param event is passed.
+     * @throws IOException is thrown.
      */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
@@ -294,6 +294,20 @@ public class AdminManageRoomViewController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This redirects the admin back to the login page.
+     * @param event is passed.
+     * @throws IOException is thrown.
+     */
+    @FXML
+    private void signOutClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // This open up a new login page.
+        LoginView loginView = new LoginView();
+        loginView.start(stage);
     }
 
 }

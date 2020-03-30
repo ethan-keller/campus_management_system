@@ -3,7 +3,6 @@ package nl.tudelft.oopp.demo.controllers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.UnsupportedEncodingException;
-
 import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
@@ -50,7 +49,7 @@ class ReservationControllerTest {
         int roomId = roomRepo.getRoomByName("4testing").getId();
 
         roomRepo.insertRoom("5testing", id3, false, 35, "/photos/test", "Very nice room i think", "Study room");
-        int roomId2 = roomRepo.getRoomByName("4testing").getId();
+        int roomId2 = roomRepo.getRoomByName("5testing").getId();
 
         reservationCont.createReservation("6testing", roomId, "2020-09-09", "12:00:00", "14:00:00");
         int id = reservationRepo.getReservationByRoomAndDateAndStartingTime(
@@ -58,7 +57,7 @@ class ReservationControllerTest {
         Reservations r1 = new Reservations(id, "6testing", roomId, "2020-09-09", "12:00:00", "14:00:00");
         assertEquals(r1, reservationCont.getReservation(id));
 
-        reservationCont.updateReservation(id, "6testing", roomId2, "2020-09-10", "13:00:00", "15:00:00");
+        reservationCont.updateReservation(id, roomId2, "2020-09-10", "13:00:00", "15:00:00");
         Reservations r2 = new Reservations(id, "6testing", roomId2, "2020-09-10", "13:00:00", "15:00:00");
         assertEquals(r2, reservationCont.getReservation(id));
 

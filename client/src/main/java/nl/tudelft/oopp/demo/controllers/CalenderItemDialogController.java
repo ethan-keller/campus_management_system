@@ -32,8 +32,7 @@ import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import org.controlsfx.control.RangeSlider;
 
 /**
- * .
- * Class that controls the dialog box to add a calendar item to the users calendar
+ * Class that controls the dialog box to add a calendar item to the users calendar.
  */
 public class CalenderItemDialogController implements Initializable {
 
@@ -55,8 +54,7 @@ public class CalenderItemDialogController implements Initializable {
     public static Stage dialogStage;
 
     /**
-     * .
-     * default constructor needed by JavaFX
+     * default constructor needed by JavaFX.
      */
     public CalenderItemDialogController() {
     }
@@ -79,8 +77,7 @@ public class CalenderItemDialogController implements Initializable {
     }
 
     /**
-     * .
-     * Method that configures the RangeSlider and returns it ready to use
+     * Method that configures the RangeSlider and returns it ready to use.
      *
      * @return ready to use RangeSlider
      */
@@ -110,8 +107,7 @@ public class CalenderItemDialogController implements Initializable {
     }
 
     /**
-     * .
-     * Configures the listeners of the RangeSlider needed for the start and end texts
+     * Configures the listeners of the RangeSlider needed for the start and end texts.
      *
      * @param converter converts RangeSlider values to hh:mm format
      * @param slider    the RangeSlider that needs configuration
@@ -135,8 +131,7 @@ public class CalenderItemDialogController implements Initializable {
     }
 
     /**
-     * .
-     * Method that constructs and returns a ready to use RangeSlider converter for the time format hh:mm
+     * Method that constructs and returns a ready to use RangeSlider converter for the time format hh:mm.
      *
      * @return the completed StringConverter
      */
@@ -197,8 +192,7 @@ public class CalenderItemDialogController implements Initializable {
     }
 
     /**
-     * .
-     * Configures the date picker to show valid dates and format the dates as needed
+     * Configures the date picker to show valid dates and format the dates as needed.
      */
     private void configureDatePicker() {
         try {
@@ -216,8 +210,7 @@ public class CalenderItemDialogController implements Initializable {
     }
 
     /**
-     * .
-     * Constructs the StringConverter for the datepicker to format the date to yyyy-MM-dd
+     * Constructs the StringConverter for the datepicker to format the date to yyyy-MM-dd.
      *
      * @return StringConverter
      */
@@ -260,8 +253,7 @@ public class CalenderItemDialogController implements Initializable {
     }
 
     /**
-     * .
-     * Constructs a DayCellFactory for the calendar that only validates future dates
+     * Constructs a DayCellFactory for the calendar that only validates future dates.
      *
      * @return
      */
@@ -295,8 +287,7 @@ public class CalenderItemDialogController implements Initializable {
     }
 
     /**
-     * .
-     * Cancels the item creation
+     * Cancels the item creation.
      *
      * @param event to get current stage
      */
@@ -308,8 +299,7 @@ public class CalenderItemDialogController implements Initializable {
     }
 
     /**
-     * .
-     * Confirms item creation and sets the class attribute
+     * Confirms item creation and sets the class attribute.
      *
      * @param event to get current stage
      */
@@ -331,8 +321,9 @@ public class CalenderItemDialogController implements Initializable {
 
             // split time in [hh:mm:ss]
             String[] startSplit = startText.getText().replace("Start: ", "").split(":");
-            String[] endSplit = endText.getText().replace("End: ", "").split(":")[0].equals("24")
-                    ? new String[]{"23", "59"} : endText.getText().replace("End: ", "").split(":");
+            String[] endSplit = endText.getText().replace("End: ", "")
+                    .split(":")[0].equals("24") ? new String[]{"23", "59"} : endText.getText()
+                    .replace("End: ", "").split(":");
 
             app.setStartTime(new DateTime(year, month, day, Integer.parseInt(startSplit[0]),
                     Integer.parseInt(startSplit[1]), 0));

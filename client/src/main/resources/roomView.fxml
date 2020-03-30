@@ -17,7 +17,7 @@
    <left>
       <AnchorPane>
          <children>
-            <VBox fx:id="roomDetailsVbox" prefWidth="188.0" spacing="20.0" style="-fx-background-color: #0ebaf8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox fx:id="roomDetailsVbox" prefHeight="507.0" prefWidth="188.0" spacing="20.0" style="-fx-background-color: #0ebaf8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Room details">
                      <font>
@@ -69,7 +69,8 @@
                   </Text>
                </children>
             </VBox>
-            <Button layoutX="15.0" layoutY="465.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="26.0" prefWidth="87.0" style="-fx-background-color: #1473d2;" text="Back" textFill="WHITE" AnchorPane.bottomAnchor="15.79999999999999" AnchorPane.leftAnchor="15.0" />
+            <Button layoutX="15.0" layoutY="465.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="26.0" prefWidth="65.0" style="-fx-background-color: #1473d2;" text="Back" textFill="WHITE" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="15.0" />
+            <Button fx:id="signOut" layoutX="105.0" layoutY="465.0" mnemonicParsing="false" onAction="#signOutButtonClicked" prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #1473d2;" text="Sign Out" textFill="WHITE" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="100.0" />
          </children>
       </AnchorPane>
    </left>

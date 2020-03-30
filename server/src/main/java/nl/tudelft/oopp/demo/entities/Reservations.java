@@ -1,14 +1,20 @@
 package nl.tudelft.oopp.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "reservation")
+@Table(name = "reservations")
 public class Reservations {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +30,15 @@ public class Reservations {
     @Column(name = "date")
     private String date;
 
-    @Column(name = "startingTime")
+    @Column(name = "starting_time")
     private String startingTime;
 
-    @Column(name = "endingTime")
+    @Column(name = "ending_time")
     private String endingTime;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
+    private Set<FoodReservations> foodReservations;
 
     public Reservations() {
     }
@@ -49,7 +59,7 @@ public class Reservations {
         this.date = date;
         this.startingTime = startingTime;
         this.endingTime = endingTime;
-
+        this.foodReservations = new HashSet<>();
     }
 
     /**
@@ -104,6 +114,10 @@ public class Reservations {
      */
     public String getEndingTime() {
         return endingTime;
+    }
+
+    public Set<FoodReservations> getFoodReservations() {
+        return foodReservations;
     }
 
     /**

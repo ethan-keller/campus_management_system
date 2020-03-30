@@ -53,6 +53,26 @@ public class BuildingServerCommunication {
     }
 
     /**
+     * Returns a list of buildings in JSON from the database based on the food ID.
+     * @param id The food id
+     * @return Returns a JSON list
+     */
+    public static String getBuildingByFoodId(int id) {
+        String params = "id=" + id;
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getBuildingByFoodId?" + params)).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode() + response.body());
+        }
+        return response.body();
+    }
+
+    /**
      * This is a client-server communication method which is used to create a new building using the attributes.
      * Attributes are the parameters.
      * @param name - Name of the building
@@ -63,7 +83,8 @@ public class BuildingServerCommunication {
      */
     public static boolean createBuilding(String name, int roomCount, String address)
             throws UnsupportedEncodingException {
-        String params = "name=" + name + "&roomCount=" + roomCount + "&address=" + address;
+        String params = "name=" + name + "&roomCount=" + roomCount + "&address=" + address
+                + "&availableBikes=0&maxBikes=0";
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createBuilding?" + params)).build();
         HttpResponse<String> response = null;
@@ -174,12 +195,14 @@ public class BuildingServerCommunication {
      * @param name - Name of the building
      * @param roomCount - Number of rooms the building has
      * @param address - Address of the building
+     * @param maxBikes - Maximum number of bikes available in the building
      * @return Boolean value which is used to display a message to the client if the building is updated.
      * @throws UnsupportedEncodingException is thrown
      */
-    public static boolean updateBuilding(int id, String name, int roomCount, String address)
+    public static boolean updateBuilding(int id, String name, int roomCount, String address, int maxBikes)
             throws UnsupportedEncodingException {
-        String params = "id=" + id + "&name=" + name + "&roomCount=" + roomCount + "&address=" + address;
+        String params = "id=" + id + "&name=" + name + "&roomCount=" + roomCount + "&address=" + address
+                + "&maxBikes=" + maxBikes;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateBuilding?" + params)).build();
@@ -191,7 +214,7 @@ public class BuildingServerCommunication {
             return false;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            System.out.println("FAiled Status: " + response.statusCode() + response.body());
             return false;
         }
         return true;

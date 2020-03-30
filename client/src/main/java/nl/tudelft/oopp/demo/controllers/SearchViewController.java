@@ -22,7 +22,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -49,13 +48,10 @@ import nl.tudelft.oopp.demo.views.RoomView;
  */
 public class SearchViewController implements Initializable {
     /**
-     * .
      * These are the FXML elements that inject some functionality into the application.
      */
     @FXML
     private DatePicker datePicker;
-    @FXML
-    private ScrollPane scrollPane;
     @FXML
     private VBox cardHolder;
     @FXML
@@ -73,13 +69,13 @@ public class SearchViewController implements Initializable {
     @FXML
     private Button clearFilters;
     @FXML
-    private Button bookingHistoryButton;
-    @FXML
     private TextField searchBar;
     @FXML
     private ComboBox<String> bikesAvailable;
     @FXML
     private AnchorPane pane;
+
+    public static Stage thisStage;
 
     // Declaring the observable list for buildings, capacity and bikes to be inserted into the comboBox
     // This is necessary due to the format of inserting items into a comboBox.
@@ -93,24 +89,9 @@ public class SearchViewController implements Initializable {
     public SearchViewController() {
     }
 
-    /**
-     * Handles the onclick of signOut Button.
-     * Redirects the user back to the login page.
-     *
-     * @param event is passed
-     * @throws IOException is thrown
-     */
-    public void signOutButtonClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        LoginView loginView = new LoginView();
-        loginView.start(stage);
-    }
-
 
     /**
-     * .
-     * Method that gets called before everything (mostly to initialize nodes etc.)
+     * Method that gets called before everything (mostly to initialize nodes etc.).
      * JavaFX standard.
      *
      * @param location  is passed
@@ -127,17 +108,17 @@ public class SearchViewController implements Initializable {
             buildingList = Building.getBuildingData();
             bikeList = FXCollections.observableArrayList();
 
-
             // the comboBox only shows 6 rows (more => scroll)
             buildingComboBox.setVisibleRowCount(6);
 
+            // configure the date picker
             datePicker.setConverter(getDatePickerStringConverter());
             datePicker.setDayCellFactory(getDayCellFactory());
 
             // assign values to the observable lists
             capacityList.addAll("1-5", "5-10", "10-20", "20+");
             buildingComboBox.setItems(buildingList);
-            buildingComboBox.setConverter(getbuildingComboBoxConverter());
+            buildingComboBox.setConverter(getBuildingComboBoxConverter());
             bikeList.addAll("1-5", "5-10", "10-20", "20+");
 
             // populating the choicebox
@@ -240,7 +221,7 @@ public class SearchViewController implements Initializable {
      *
      * @return StringConverter
      */
-    private StringConverter<Building> getbuildingComboBoxConverter() {
+    private StringConverter<Building> getBuildingComboBoxConverter() {
         try {
             StringConverter<Building> converter = new StringConverter<Building>() {
                 @Override
@@ -278,6 +259,7 @@ public class SearchViewController implements Initializable {
             final ImageView image = new ImageView();
             final VBox roomInfo = new VBox();
             final Text roomTitle = new Text();
+            final Text roomBuilding = new Text();
             final Text roomCapacity = new Text();
             final Text roomDescription = new Text();
             final Text roomId = new Text();
@@ -288,6 +270,7 @@ public class SearchViewController implements Initializable {
             // set width to 300 (height will follow)
             image.setFitWidth(300);
             // adding image margin
+
             HBox.setMargin(image, new Insets(8, 5, 8, 10));
             try {
                 // get path of room image
@@ -319,6 +302,7 @@ public class SearchViewController implements Initializable {
                     ex.printStackTrace();
                 }
             }
+
             /* set the roomId visibility to false such that it is not visible for the user but still useful to
                get the specific room information later in the RoomView
              */
@@ -327,22 +311,34 @@ public class SearchViewController implements Initializable {
 
             // setting title and text margin (+ properties)
             roomTitle.setText(r.getRoomName().get());
-            roomTitle.setWrappingWidth(200);
+            roomTitle.setWrappingWidth(thisStage.getWidth()/2.0);
             roomTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
             roomTitle.setStyle("-fx-fill: #0ebaf8;");
-            HBox.setMargin(roomTitle, new Insets(10, 10, 10, 15));
+
+            VBox.setMargin(roomTitle, new Insets(10, 10, 10, 15));
+
+            // setting building name and text margin
+            Building building = Building.getBuildingData().stream()
+                    .filter(x -> x.getBuildingId().get() == r.getRoomBuilding().get())
+                    .collect(Collectors.toList()).get(0);
+            roomBuilding.setText("Building: " + building.getBuildingName().get());
+            roomBuilding.setWrappingWidth(thisStage.getWidth()/2.0);
+            roomBuilding.setFont(Font.font("System", 14));
+            VBox.setMargin(roomBuilding, new Insets(0, 0, 5, 15));
 
             // setting capacity and text margin (+ properties)
             roomCapacity.setText("Capacity: " + r.getRoomCapacity().get());
-            roomCapacity.setWrappingWidth(200);
+            roomCapacity.setWrappingWidth(thisStage.getWidth()/2.0);
             roomCapacity.setFont(Font.font("System", 14));
-            HBox.setMargin(roomCapacity, new Insets(0, 0, 5, 15));
+
+            VBox.setMargin(roomCapacity, new Insets(0, 0, 5, 15));
 
             // setting description and text margin (+ properties)
             roomDescription.setText("Description: " + r.getRoomDescription().get());
-            roomDescription.setWrappingWidth(310);
+            roomDescription.setWrappingWidth(thisStage.getWidth()/2.0);
             roomDescription.setFont(Font.font("System", 14));
-            HBox.setMargin(roomDescription, new Insets(0, 0, 0, 15));
+
+            VBox.setMargin(roomDescription, new Insets(0, 0, 0, 15));
 
             // setting 'text box' size
             roomInfo.setPrefSize(354, 378);
@@ -351,6 +347,7 @@ public class SearchViewController implements Initializable {
             roomInfo.getChildren().add(roomId);
             roomInfo.getChildren().add(roomTitle);
             roomInfo.getChildren().add(roomCapacity);
+            roomInfo.getChildren().add(roomBuilding);
             roomInfo.getChildren().add(roomDescription);
             newCard.getChildren().add(image);
             newCard.getChildren().add(roomInfo);
@@ -439,6 +436,25 @@ public class SearchViewController implements Initializable {
             CalendarPaneController.thisStage = stage;
             CalendarPaneView cpv = new CalendarPaneView();
             cpv.start(stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Handles the onclick of signOut Button.
+     * Redirects the user back to the login page.
+     *
+     * @param event event that triggered this method
+     */
+    @FXML
+    private void signOutButtonClicked(ActionEvent event) {
+        try {
+            // get current stage and load log in view
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            LoginView loginView = new LoginView();
+            loginView.start(stage);
         } catch (Exception e) {
             e.printStackTrace();
         }

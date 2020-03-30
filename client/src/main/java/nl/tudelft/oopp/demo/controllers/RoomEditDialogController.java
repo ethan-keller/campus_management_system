@@ -58,6 +58,9 @@ public class RoomEditDialogController {
     private boolean changedImage = false;
 
 
+    /**
+     * Default constructor.
+     */
     public RoomEditDialogController() {
     }
 
@@ -92,6 +95,7 @@ public class RoomEditDialogController {
                 return;
             }
             roomNameField.setText(room.getRoomName().get());
+
             roomBuildingComboBox.getSelectionModel().select(ol.stream()
                     .filter(x -> x.getBuildingId().get() == room.getRoomBuilding().get())
                     .collect(Collectors.toList()).get(0));
@@ -266,10 +270,9 @@ public class RoomEditDialogController {
             return true;
         } else {
             // Show the error message.
-            Alert alert = GeneralMethods.createAlert("Please correct the invalid fields",
-                    errorMessage,
-                    dialogStage, Alert.AlertType.ERROR);
-            alert.showAndWait();
+            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
+                    errorMessage, Alert.AlertType.ERROR);
+
             return false;
         }
     }

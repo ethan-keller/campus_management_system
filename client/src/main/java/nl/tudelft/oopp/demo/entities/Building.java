@@ -25,10 +25,10 @@ public class Building {
     public Building() {
         this.buildingId = new SimpleIntegerProperty(-1);
         this.buildingName = new SimpleStringProperty(null);
-        this.buildingRoomCount = new SimpleIntegerProperty(-1);
+        this.buildingRoomCount = new SimpleIntegerProperty(0);
         this.buildingAddress = new SimpleStringProperty(null);
         this.buildingAvailableBikes = new SimpleIntegerProperty(-1);
-        this.buildingMaxBikes = new SimpleIntegerProperty(-1);
+        this.buildingMaxBikes = new SimpleIntegerProperty(0);
     }
 
     /**
@@ -161,6 +161,8 @@ public class Building {
                 b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name"));
                 b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getString("address"));
                 b.setBuildingRoomCount(jsonArrayBuildings.getJSONObject(i).getInt("roomCount"));
+                b.setBuildingAvailableBikes(jsonArrayBuildings.getJSONObject(i).getInt("availableBikes"));
+                b.setBuildingMaxBikes(jsonArrayBuildings.getJSONObject(i).getInt("maxBikes"));
                 buildingData.add(b);
             }
             return buildingData;
@@ -192,4 +194,30 @@ public class Building {
         return null;
     }
 
+
+    /**
+     * Getter by food id.
+     * @param foodId int food ID
+     * @return Returns a list of Buildings that sell a food
+     */
+    public static ObservableList<Building> getBuildingByFoodId(int foodId) {
+        try {
+            ObservableList<Building> buildingData = FXCollections.observableArrayList();
+            JSONArray jsonArrayBuildings = new JSONArray(BuildingServerCommunication.getBuildingByFoodId(foodId));
+            for (int i = 0; i < jsonArrayBuildings.length(); i++) {
+                Building b = new Building();
+                b.setBuildingId(jsonArrayBuildings.getJSONObject(i).getInt("id"));
+                b.setBuildingName(jsonArrayBuildings.getJSONObject(i).getString("name"));
+                b.setBuildingAddress(jsonArrayBuildings.getJSONObject(i).getString("address"));
+                b.setBuildingRoomCount(jsonArrayBuildings.getJSONObject(i).getInt("roomCount"));
+                b.setBuildingAvailableBikes(jsonArrayBuildings.getJSONObject(i).getInt("availableBikes"));
+                b.setBuildingMaxBikes(jsonArrayBuildings.getJSONObject(i).getInt("maxBikes"));
+                buildingData.add(b);
+            }
+            return buildingData;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

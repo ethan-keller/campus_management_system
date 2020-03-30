@@ -96,18 +96,22 @@ public class User {
      * Convert server response into an ObservableList of rooms.
      *
      * @return ObservableList containing all users.
-     * @throws JSONException //TODO/
      */
     public static ObservableList<User> getUserData() throws JSONException {
-        ObservableList<User> userData = FXCollections.observableArrayList();
-        JSONArray jsonArrayUsers = new JSONArray(UserServerCommunication.getAllUsers());
-        for (int i = 0; i < jsonArrayUsers.length(); i++) {
-            User u = new User();
-            u.setUsername(jsonArrayUsers.getJSONObject(i).getString("username"));
-            u.setUserPassword(jsonArrayUsers.getJSONObject(i).getString("password"));
-            u.setUserType(jsonArrayUsers.getJSONObject(i).getInt("type"));
-            userData.add(u);
+        try {
+            ObservableList<User> userData = FXCollections.observableArrayList();
+            JSONArray jsonArrayUsers = new JSONArray(UserServerCommunication.getAllUsers());
+            for (int i = 0; i < jsonArrayUsers.length(); i++) {
+                User u = new User();
+                u.setUsername(jsonArrayUsers.getJSONObject(i).getString("username"));
+                u.setUserPassword(jsonArrayUsers.getJSONObject(i).getString("password"));
+                u.setUserType(jsonArrayUsers.getJSONObject(i).getInt("type"));
+                userData.add(u);
+            }
+            return userData;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return userData;
+        return null;
     }
 }

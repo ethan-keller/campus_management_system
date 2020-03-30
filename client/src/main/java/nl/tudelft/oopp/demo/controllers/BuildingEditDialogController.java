@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 
 public class BuildingEditDialogController {
@@ -15,7 +16,7 @@ public class BuildingEditDialogController {
     @FXML
     private TextField buildingAddressField;
     @FXML
-    private TextField buildingRoomCountField;
+    private TextField maxBikesField;
 
     public static Building building;
 
@@ -33,7 +34,7 @@ public class BuildingEditDialogController {
         }
         buildingNameField.setText(building.getBuildingName().get());
         buildingAddressField.setText(building.getBuildingAddress().get());
-        buildingRoomCountField.setText(String.valueOf(building.getBuildingRoomCount().get()));
+        maxBikesField.setText(String.valueOf(building.getBuildingMaxBikes().get()));
     }
 
     private static void emptyBuilding() {
@@ -48,7 +49,7 @@ public class BuildingEditDialogController {
         if (isInputValid()) {
             emptyBuilding();
             building.setBuildingName(buildingNameField.getText());
-            building.setBuildingRoomCount(Integer.parseInt(buildingRoomCountField.getText()));
+            building.setBuildingMaxBikes(Integer.parseInt(maxBikesField.getText()));
             building.setBuildingAddress(buildingAddressField.getText());
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
@@ -79,11 +80,11 @@ public class BuildingEditDialogController {
         if (buildingAddressField.getText().equals("")) {
             errorMessage += "No valid building address!\n";
         }
-        if (buildingRoomCountField.getText().equals("")) {
+        if (maxBikesField.getText().equals("")) {
             errorMessage += "No valid capacity!\n";
         } else {
             try {
-                Integer.parseInt(buildingRoomCountField.getText());
+                Integer.parseInt(maxBikesField.getText());
             } catch (NumberFormatException e) {
                 errorMessage += "No valid room count (must be an integer)!\n";
             }
@@ -92,11 +93,8 @@ public class BuildingEditDialogController {
             return true;
         } else {
             // Show the error message.
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invalid Fields");
-            alert.setHeaderText("Please correct invalid fields");
-            alert.setContentText(errorMessage);
-            alert.showAndWait();
+            GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
+                    errorMessage, Alert.AlertType.ERROR);
 
             return false;
         }

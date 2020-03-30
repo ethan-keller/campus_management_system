@@ -2,7 +2,6 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +11,9 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Room;
 
-
+/**
+ * Class that controls the dialog pop up that asks for a reservation confirmation.
+ */
 public class ReservationConfirmationViewController implements Initializable {
 
     @FXML
@@ -29,8 +30,8 @@ public class ReservationConfirmationViewController implements Initializable {
     // confirmation state
     public static boolean confirmed = false;
 
-    /**.
-     * Method that gets called before everything (mostly to initialize nodes etc.)
+    /**
+     * Method that gets called before everything (mostly to initialize nodes etc.).
      * JavaFX standard.
      *
      * @param location is passed
@@ -41,12 +42,16 @@ public class ReservationConfirmationViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // TODO: add food choice into confirmation text
         confirmationText.setText("You (" + CurrentUserManager.getUsername() + ") would like to book the "
-                + room.getRoomName().get() + " on "
-                + date + " from " + startTime + " until " + endTime + ". Would you like to confirm that?");
+                + room.getRoomName().get() + " on " + date + " from " + startTime + " until "
+                + endTime + ". Would you like to confirm that?");
     }
 
-    ;
 
+    /**
+     * When user clicks 'confirm' reservation goes through.
+     *
+     * @param event event that triggered this method
+     */
     @FXML
     private void confirmClicked(ActionEvent event) {
         // set confirmed state
@@ -57,6 +62,11 @@ public class ReservationConfirmationViewController implements Initializable {
         thisStage.close();
     }
 
+    /**
+     * When user clicks 'cancel' reservation does not go through.
+     *
+     * @param event event that triggered this method
+     */
     @FXML
     private void cancelClicked(ActionEvent event) {
         // set confirmed state
