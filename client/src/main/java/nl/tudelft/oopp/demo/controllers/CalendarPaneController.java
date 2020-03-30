@@ -5,15 +5,6 @@ import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.CalendarView;
 import com.mindfusion.scheduling.model.Appointment;
 import com.mindfusion.scheduling.model.Item;
-
-import java.awt.Color;
-import java.awt.Point;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
@@ -23,9 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import javax.swing.SwingUtilities;
-
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
@@ -34,18 +22,20 @@ import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.logic.CalenderPaneLogic;
 import nl.tudelft.oopp.demo.views.CalenderItemDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
+import javax.swing.*;
+import java.awt.*;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
 /**
- * <<<<<<< HEAD
- * Class that controls the view which contains the calendar with booking history and custom calendar items.
- * =======
- * .
- * Class that controls the view which contains the calendar with booking history
+ * Class that controls the view which contains the calendar with booking history.
  * and custom calendar items
- * >>>>>>> develop
  */
 public class CalendarPaneController implements Initializable {
 
@@ -55,8 +45,7 @@ public class CalendarPaneController implements Initializable {
     public static Stage thisStage;
 
     /**
-     * .
-     * Custom initialization of JavaFX components. This method is automatically called
+     * Custom initialization of JavaFX components. This method is automatically called.
      * after the fxml file has been loaded.
      *
      * @param location  is passed
@@ -87,7 +76,6 @@ public class CalendarPaneController implements Initializable {
     }
 
     /**
-     * .
      * Adds all the items in the database that belong to the current user to the calendar.
      */
     private void addItemsToCalendar() {
@@ -231,17 +219,7 @@ public class CalendarPaneController implements Initializable {
             if (CalenderItemDialogController.item == null) {
                 return;
             } else {
-                Appointment app = CalenderItemDialogController.item;
-                // get date and time in correct format for database
-                String date = app.getStartTime().getYear() + "-" + app.getStartTime().getMonth() + "-"
-                        + app.getStartTime().getDay();
-                String startTime = app.getStartTime().getHour() + ":" + app.getStartTime().getMinute() + ":00";
-                String endTime = app.getEndTime().getHour() + ":" + app.getEndTime().getMinute() + ":00";
-                // send info to server
-                ItemServerCommunication.createItem(CurrentUserManager.getUsername(), app.getHeaderText(), date,
-                        startTime, endTime, app.getDescriptionText());
-                // get the id of the last inserted item to assign it to the Appointment object
-                app.setId(String.valueOf(Integer.parseInt(ItemServerCommunication.getCurrentId()) - 1));
+                Appointment app = CalenderPaneLogic.makeItem();
                 // add the item to the calendar
                 calendar.getSchedule().getItems().add(app);
             }

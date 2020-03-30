@@ -7,7 +7,7 @@ import nl.tudelft.oopp.demo.controllers.CalenderItemDialogController;
 
 import java.io.UnsupportedEncodingException;
 
-public class CalanderPaneLogic {
+public class CalenderPaneLogic {
     public static Appointment makeItem() throws UnsupportedEncodingException {
         Appointment app = CalenderItemDialogController.item;
         // get date and time in correct format for database

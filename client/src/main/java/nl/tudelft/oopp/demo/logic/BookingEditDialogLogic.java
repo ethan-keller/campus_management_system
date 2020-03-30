@@ -9,6 +9,7 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.controlsfx.control.RangeSlider;
@@ -166,4 +167,33 @@ public class BookingEditDialogLogic {
         }
         return null;
     }
+
+    public static void sortReservations(List<Reservation> reservations){
+        reservations.sort(new Comparator<Reservation>() {
+            @Override
+            public int compare(Reservation o1, Reservation o2) {
+                // split time in hh:mm
+                String[] o1StartSplit = o1.getStartingTime().get().split(":");
+                int o1StartHour = Integer.parseInt(o1StartSplit[0]);
+                int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
+
+                String[] o2StartSplit = o2.getStartingTime().get().split(":");
+                int o2StartHour = Integer.parseInt(o2StartSplit[0]);
+                int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
+
+                // compare hours and minutes
+                if (o1StartHour < o2StartHour) {
+                    return -1;
+                } else if (o1StartHour > o2StartHour) {
+                    return 1;
+                }
+                if (o1StartMinute < o2StartMinute) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        });
+    }
+
 }

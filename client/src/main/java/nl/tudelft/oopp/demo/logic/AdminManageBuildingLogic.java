@@ -1,10 +1,10 @@
 package nl.tudelft.oopp.demo.logic;
 
-import java.io.UnsupportedEncodingException;
-
 import javafx.scene.control.TableView;
 import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import nl.tudelft.oopp.demo.entities.Building;
+
+import java.io.UnsupportedEncodingException;
 
 public class AdminManageBuildingLogic {
 

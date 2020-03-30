@@ -1,14 +1,13 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.views.RegisterView;
 import nl.tudelft.oopp.demo.views.SearchView;
+
+import java.io.IOException;
 
 public class UserHomePageController {
 
@@ -19,7 +18,7 @@ public class UserHomePageController {
     private Rectangle bookingHistory;
 
     /**
-     * //TODO.
+     * .
      *
      * @param event //TODO.
      * @throws IOException //TODO.
