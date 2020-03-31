@@ -3,11 +3,11 @@ package nl.tudelft.oopp.demo.controllers;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
-import nl.tudelft.oopp.demo.entities.BikeReservation;
-import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.entities.*;
 import nl.tudelft.oopp.demo.repositories.BikeReservationRepository;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
+import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
+import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,12 @@ public class BuildingController {
 
     @Autowired
     private BikeReservationRepository bikeResRepo;
+
+    @Autowired
+    private RoomRepository roomRepo;
+
+    @Autowired
+    private ReservationsRepository reservationsRepo;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -56,30 +62,6 @@ public class BuildingController {
         } catch (Exception e) {
             logger.error("Building: -create- ERROR", e);
         }
-    }
-
-    /**
-     * Updates available bikes when a bike reservation is removed.
-     * @param bikeResId The bike reservation id
-     */
-    public void removeBikeReservation(int bikeResId) {
-        BikeReservation bikeRes = bikeResRepo.getBikeReservation(bikeResId);
-        buildingRepo.removeBikeReservation(bikeRes.getBuilding(), bikeRes.getNumBikes());
-    }
-
-
-    /**
-     * Updates available bikes for the specified building.
-     * @param building The building ID
-     * @param numBikes The amount of bikes the are reserved
-     */
-    public void addBikeReservation(int building, int numBikes) {
-        List<BikeReservation> reservations = bikeResRepo.getBuildingBikeReservations(building);
-        int count = buildingRepo.getBuilding(building).getMaxBikes();
-        for (int x = 0; x < reservations.size(); x++) {
-            count -= reservations.get(x).getNumBikes();
-        }
-        buildingRepo.updateAvailableBikes(building, count);
     }
 
     /**
@@ -124,10 +106,27 @@ public class BuildingController {
     @ResponseBody
     public void deleteBuilding(@RequestParam int id) {
         try {
+            final List<Room> rooms = roomRepo.getRoomByBuilding(id);
+            final List<BikeReservation> bikeReservations = bikeResRepo.getBuildingBikeReservations(id);
+
+            int counter;
+            for (counter = 0; counter < rooms.size(); counter++) {
+                int roomID = rooms.get(counter).getId();
+                logger.info("Room -delete- Room ID: " + roomID);
+                final List<Reservations> reservations = reservationsRepo.getReservationByRoom(roomID);
+                for (int counter2 = 0; counter2 < reservations.size(); counter2++) {
+                    logger.info("Reservation: -delete- ID: " + reservations.get(counter2).getId());
+                }
+            }
+
+            for (counter = 0; counter < bikeReservations.size(); counter++) {
+                logger.info("Bike Reservation: -delete- ID: " + bikeReservations.get(counter).getId());
+            }
+
             buildingRepo.deleteBuilding(id);
             logger.info("Building: -delete- Building ID: " + id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Building -delete- ERROR", e);
         }
     }
 

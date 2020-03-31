@@ -19,6 +19,9 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
     @Query(value = "SELECT * FROM reservations WHERE id = :id", nativeQuery = true)
     public Reservations getReservation(@Param("id") int id);
 
+    @Query(value = "SELECT * FROM reservations WHERE room = :id", nativeQuery = true)
+    public List<Reservations> getReservationByRoom(@Param("id") int id);
+
     @Query(value = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES"
             + " WHERE TABLE_SCHEMA = 'OOPP38' AND TABLE_NAME = 'reservations'", nativeQuery = true)
     public int getCurrentId();

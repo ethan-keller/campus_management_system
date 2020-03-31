@@ -46,7 +46,6 @@ public class BikeReservationController {
             startingTime = CommunicationMethods.decodeCommunication(startingTime);
             endingTime = CommunicationMethods.decodeCommunication(endingTime);
             bikeResRepo.insertBikeReservation(building, user, numBikes, date, startingTime, endingTime);
-            buildingControl.addBikeReservation(building, numBikes);
             logger.info("Bike Reservation: -create- Building: " + building + " - User: " + user
                     + " - Number of bikes: " + numBikes + " - date: " + date + " - Starting time: " + startingTime
                     + " - Ending time: " + endingTime);
@@ -73,8 +72,6 @@ public class BikeReservationController {
                                       @RequestParam String date, @RequestParam String startingTime,
                                       @RequestParam String endingTime) {
         try {
-            buildingControl.removeBikeReservation(id);
-
             user = CommunicationMethods.decodeCommunication(user);
             date = CommunicationMethods.decodeCommunication(date);
             startingTime = CommunicationMethods.decodeCommunication(startingTime);
@@ -85,7 +82,6 @@ public class BikeReservationController {
             bikeResRepo.updateDate(id, date);
             bikeResRepo.updateStartingTime(id, startingTime);
             bikeResRepo.updateEndingTime(id, endingTime);
-            buildingControl.addBikeReservation(building, numBikes);
             logger.info("Bike Reservation: -update- BikeReservation ID: " + id + " - NEW data -> Building ID"
                     + building + " - User: " + user + " - Number of bikes: " + numBikes + " - date: "
                     + date + " - Starting time: " + startingTime + " - Ending time: " + endingTime);
@@ -104,7 +100,6 @@ public class BikeReservationController {
     @ResponseBody
     public void deleteBikeReservation(@RequestParam int id) {
         try {
-            buildingControl.removeBikeReservation(id);
             bikeResRepo.deleteBikeReservation(id);
             logger.info("Bike Reservation: -delete- ID: " + id);
         } catch (Exception e) {

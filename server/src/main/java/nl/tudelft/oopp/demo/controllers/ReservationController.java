@@ -62,7 +62,7 @@ public class ReservationController {
         try {
             return reservationsRepo.getCurrentId();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Reservation: -getCurrentId- ERROR", e);
         }
         return -1;
     }

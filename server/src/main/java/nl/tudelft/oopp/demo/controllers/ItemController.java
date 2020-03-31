@@ -4,6 +4,7 @@ import java.util.List;
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Item;
 import nl.tudelft.oopp.demo.repositories.ItemRepository;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class ItemController {
     @Autowired
     private ItemRepository itemRepo;
 
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
@@ -36,7 +38,7 @@ public class ItemController {
             id = Integer.parseInt(CommunicationMethods.decodeCommunication(String.valueOf(id)));
             return itemRepo.getItem(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Calender Item: -get- ERROR", e);
         }
         return null;
     }
@@ -52,7 +54,7 @@ public class ItemController {
         try {
             return itemRepo.getAllItems();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Calender Item: -getAll- ERROR", e);
         }
         return null;
     }

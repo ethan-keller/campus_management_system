@@ -27,6 +27,8 @@ import org.controlsfx.control.RangeSlider;
  */
 public class GeneralMethods {
 
+    private static Logger logger;
+
     /**
      * Sets up and returns the standard logger for this application.
      */
@@ -37,8 +39,9 @@ public class GeneralMethods {
             handler.setFormatter(new SimpleFormatter());
             handler.setLevel(Level.INFO);
 
-            Logger logger = Logger.getLogger("GlobalLogger");
-            logger.addHandler(handler);
+            Logger logr = Logger.getLogger("GlobalLogger");
+            logr.addHandler(handler);
+            GeneralMethods.logger = logr;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,7 +90,7 @@ public class GeneralMethods {
             // Return the alert object.
             return alert;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -125,7 +128,7 @@ public class GeneralMethods {
             // return the alert object
             return alert;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -153,7 +156,7 @@ public class GeneralMethods {
             bw.flush();
             bw.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -174,7 +177,7 @@ public class GeneralMethods {
 
             return splitPrice[0] + "." + splitPrice[1];
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

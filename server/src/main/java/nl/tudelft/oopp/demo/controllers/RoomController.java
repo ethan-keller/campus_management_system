@@ -3,8 +3,10 @@ package nl.tudelft.oopp.demo.controllers;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
+import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
+import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +23,14 @@ public class RoomController {
 
     @Autowired
     private RoomRepository roomRepo;
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     @Autowired
     private BuildingRepository buildingRepo;
+
+    @Autowired
+    private ReservationsRepository reservationRepo;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Creates a Room entry in the database.
@@ -124,12 +129,16 @@ public class RoomController {
     @ResponseBody
     public void deleteRoom(@RequestParam int id) {
         try {
+            final List<Reservations> reservations = reservationRepo.getReservationByRoom(id);
             int buildingId = roomRepo.getRoom(id).getBuilding();
             roomRepo.deleteRoom(id);
             int roomCount = roomRepo.getRoomByBuilding(buildingId).size();
             buildingRepo.updateRoomCount(buildingId, roomCount);
-            
             logger.info("Room: -delete- ID: " + id);
+
+            for (int counter = 0; counter < reservations.size(); counter++) {
+                logger.info("Reservation: -delete- ID: " + reservations.get(counter).getId());
+            }
         } catch (Exception e) {
             logger.error("Room: -delete- ERROR", e);
         }
