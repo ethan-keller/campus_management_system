@@ -9,16 +9,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -39,6 +39,8 @@ import org.controlsfx.control.RangeSlider;
  * This controller class displays a dialog box for the admin to create/update reservations.
  */
 public class ReservationEditDialogController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private ComboBox<User> username;
@@ -141,7 +143,7 @@ public class ReservationEditDialogController {
                 return;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -176,7 +178,7 @@ public class ReservationEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -213,7 +215,7 @@ public class ReservationEditDialogController {
             // inject the RangeSlider in the JavaFX layout
             grid.add(timeslotSlider, 1, 3);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -237,6 +239,7 @@ public class ReservationEditDialogController {
                 // make track completely white
                 GeneralMethods.setSliderDefaultCss(timeslotSlider, bw,
                         getClass().getResource("/RangeSlider.css").toExternalForm());
+                System.out.println(1);
                 return;
             }
             // get reservations for this room on the selected date
@@ -272,6 +275,7 @@ public class ReservationEditDialogController {
 
             // first part of css
             bw.write(".track {\n" + "\t-fx-background-color: linear-gradient(to right, ");
+            System.out.println(2);
 
             // iterator to loop over all the reservations
             Iterator<Reservation> it = reservations.iterator();
@@ -279,12 +283,14 @@ public class ReservationEditDialogController {
             // if there are no reservations make the track completely green
             if (!it.hasNext()) {
                 bw.write("#91ef99 0%, #91ef99 100%);\n");
+                System.out.println(3);
             }
 
             Reservation res = AdminManageReservationViewController.currentSelectedReservation;
 
             // calculate and add green and red parts
             while (it.hasNext()) {
+                System.out.println(4);
                 Reservation r = it.next();
                 // split start and end times into hours and minutes
                 String[] startTime = r.getStartingTime().get().split(":");
@@ -297,6 +303,7 @@ public class ReservationEditDialogController {
                         + Double.parseDouble(endTime[1])) / 9.60;
                 // if reservation is the one that is being edited, give it a light blue color
                 if (res != null && res.getId().get() == r.getId().get()) {
+                    System.out.println(5);
                     bw.write("#91ef99 " + startPercentage + "%, ");
                     bw.write("#70e5fa " + startPercentage + "%, ");
                     bw.write("#70e5fa " + endPercentage + "%, ");
@@ -308,6 +315,7 @@ public class ReservationEditDialogController {
                     }
                     continue;
                 }
+                System.out.println(6);
                 bw.write("#91ef99 " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + endPercentage + "%, ");
@@ -326,6 +334,7 @@ public class ReservationEditDialogController {
                     + "}\n\n" + ".range-bar {\n"
                     + "\t-fx-background-color: rgba(0,0,0,0.3);\n"
                     + "}");
+            System.out.println(7);
             // flush and close writer
             bw.flush();
             bw.close();
@@ -334,7 +343,7 @@ public class ReservationEditDialogController {
             // add new stylesheet
             timeslotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -358,7 +367,7 @@ public class ReservationEditDialogController {
             timeslotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeslotSlider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -368,7 +377,32 @@ public class ReservationEditDialogController {
      * @return constructed StringConverter
      */
     private StringConverter<Number> getRangeSliderConverter() {
-        return ReservationEditDialogLogic.getRangeSliderConverter();
+//        return ReservationEditDialogLogic.getRangeSliderConverter();
+        try {
+            return new StringConverter<Number>() {
+                @Override
+                public String toString(Number n) {
+                    // calculate hours and remaining minutes to get a correct hh:mm format
+                    long minutes = n.longValue();
+                    long hours = TimeUnit.MINUTES.toHours(minutes);
+                    long remainingMinutes = minutes - TimeUnit.HOURS.toMinutes(hours);
+                    // '%02d' means that there will be a 0 in front if its only 1 number + it's a long number
+                    return String.format("%02d", hours) + ":" + String.format("%02d", remainingMinutes);
+                }
+
+
+                @Override
+                public Number fromString(String string) {
+                    String[] split = string.split(":");
+                    double hours = Double.parseDouble(split[0]);
+                    double minutes = Double.parseDouble(split[1]);
+                    return hours * 60 + minutes;
+                }
+            };
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 
     /**
@@ -377,7 +411,29 @@ public class ReservationEditDialogController {
      * @return constructed StringConverter
      */
     private StringConverter<LocalDate> getDateConverter() {
-        return ReservationEditDialogLogic.getDateConverter(formatter);
+        try {
+            return new StringConverter<LocalDate>() {
+                @Override
+                public String toString(LocalDate dateSelected) {
+                    if (dateSelected != null) {
+                        return formatter.format(dateSelected);
+                    }
+                    return "null";
+                }
+
+                @Override
+                public LocalDate fromString(String string) {
+                    // The date is formatted in yyyy-MM-dd format from the datePicker.
+                    if (string != null && !string.trim().isEmpty()) {
+                        return LocalDate.parse(string, formatter);
+                    }
+                    return null;
+                }
+            };
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 
     /**
@@ -474,7 +530,7 @@ public class ReservationEditDialogController {
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -484,6 +540,89 @@ public class ReservationEditDialogController {
      * @return true if the input is valid
      */
     private boolean isInputValid() {
-        return ReservationEditDialogLogic.isInputValid(username, room, date, timeslotSlider, formatter);
+        String errorMessage = "";
+
+        if (username.getSelectionModel().getSelectedItem() == null) {
+            errorMessage += "No valid username provided!\n";
+        }
+        if (room.getSelectionModel().getSelectedItem() == null) {
+            errorMessage += "No valid Room provided! \n";
+        }
+        if (date.getValue() == null) {
+            errorMessage += "No date provided!\n";
+        }
+        if (!checkTimeSlotValidity() || timeslotSlider.getLowValue() == timeslotSlider.getHighValue()) {
+            errorMessage += "No valid timeslot selected!\n";
+        }
+
+        // If all the fields are valid, then true is returned.
+        if (errorMessage.equals("")) {
+            return true;
+        } else {
+            // Show the error message.
+            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
+                    errorMessage, Alert.AlertType.ERROR);
+            return false;
+        }
+    }
+
+    /**
+     * Method that checks if the chosen timeslot is free.
+     *
+     * @return true if the timeslot is free, false otherwise
+     */
+    private boolean checkTimeSlotValidity() {
+        try {
+            // get currently selected room
+            Room selectedRoom = room.getSelectionModel().getSelectedItem();
+            if (selectedRoom == null) {
+                return false;
+            }
+            // get all reservations for the current room on the chosen date
+            List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(
+                    selectedRoom.getRoomId().get(),
+                    date.getValue(), getDateConverter());
+
+            // if something went wrong with the server communication return false
+            if (roomReservations == null) {
+                return false;
+            }
+
+            // get converter to convert date value to String format hh:mm
+            StringConverter<Number> timeConverter = getRangeSliderConverter();
+
+            // if there are no reservations the timeslot is valid
+            if (roomReservations.size() == 0) {
+                return true;
+            }
+
+            Reservation res = AdminManageReservationViewController.currentSelectedReservation;
+
+            for (Reservation r : roomReservations) {
+                // if reservation equals the one we are editing, don't consider it
+                if (res != null) {
+                    if (r.getId().get() == res.getId().get()) {
+                        continue;
+                    }
+                }
+
+                // get rangeslider values + reservation values
+                double currentStartValue = timeslotSlider.getLowValue();
+                double currentEndValue = timeslotSlider.getHighValue();
+                double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
+                double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
+
+                // check if the values overlap
+                if (!((currentStartValue <= startValue && currentEndValue <= startValue)
+                        || (currentStartValue >= endValue && currentEndValue >= endValue))) {
+                    return false;
+                }
+
+            }
+            return true;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
     }
 }

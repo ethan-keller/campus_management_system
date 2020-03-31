@@ -1,7 +1,8 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,13 +15,18 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.logic.AdminManageReservationLogic;
+import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
+import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.BookingEditDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 
 
 
 public class AdminUserHistoryViewController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private Label usernameLabel;
@@ -61,7 +67,7 @@ public class AdminUserHistoryViewController {
             bookingEndColumn.setCellValueFactory(cell -> cell.getValue().getEndingTime());
             bookingTable.setItems(Reservation.getSelectedUserReservation());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -104,8 +110,7 @@ public class AdminUserHistoryViewController {
                         "Please select a reservation", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete reservation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -133,16 +138,45 @@ public class AdminUserHistoryViewController {
             GeneralMethods.alertBox("New Reservation", "", "New Reservation added!",
                     Alert.AlertType.INFORMATION);
         } catch (Exception e) {
-            System.out.println("reservation creation exception");
+            logger.log(Level.SEVERE, e.toString());
+        }
+    }
+
+    /**
+     * Handles clicking the food button, redirect to the food reservation view.
+     * @param event is passed
+     */
+    @FXML
+    private void foodClicked(ActionEvent event) throws IOException {
+        Reservation selectedReservation = getSelectedReservation();
+        int selectedIndex = getSelectedIndex();
+        try {
+            if (selectedIndex >= 0) {
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentSelectedReservation = selectedReservation;
+
+                AdminFoodReservationView afrv = new AdminFoodReservationView();
+                afrv.start(stage);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("No Selection");
+                alert.setHeaderText("No Reservation Selected");
+                alert.setContentText("Please select a reservation in the table.");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            System.out.println("Food reservation edit exception");
             e.printStackTrace();
         }
     }
 
     /**
      * Handles clicking the back button, redirect to the user view.
+     * @param event is passed
      */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
+        currentSelectedReservation = null;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         AdminManageUserView amuv = new AdminManageUserView();

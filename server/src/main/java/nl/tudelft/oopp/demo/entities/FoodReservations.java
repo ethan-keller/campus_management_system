@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,13 +18,13 @@ import javax.persistence.Table;
 public class FoodReservations implements Serializable {
     @Id
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
     @JoinColumn
     private Food food;
 
     @Id
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
     @JoinColumn
     private Reservations reservation;
 

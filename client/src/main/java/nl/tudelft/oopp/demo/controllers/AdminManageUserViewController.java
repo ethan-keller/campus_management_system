@@ -3,7 +3,8 @@ package nl.tudelft.oopp.demo.controllers;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.logic.AdminManageUserLogic;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.AdminUserBikeView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.UserEditDialogView;
@@ -23,6 +25,8 @@ import nl.tudelft.oopp.demo.views.UserEditDialogView;
 
 
 public class AdminManageUserViewController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private TableView<User> userTable;
@@ -56,7 +60,7 @@ public class AdminManageUserViewController {
             // Add observable list data to the table
             userTable.setItems(User.getUserData());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -97,8 +101,7 @@ public class AdminManageUserViewController {
                         "Please select a User in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete user exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -126,8 +129,7 @@ public class AdminManageUserViewController {
             // Informing the admin through a alert box that a new user is created successfully.
             GeneralMethods.alertBox("New user", "", "New User created!", Alert.AlertType.INFORMATION);
         } catch (Exception e) {
-            System.out.println("user creation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -162,8 +164,7 @@ public class AdminManageUserViewController {
                         "Please select an User in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("user edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -190,8 +191,7 @@ public class AdminManageUserViewController {
                         "Please select a User in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("user edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -201,6 +201,28 @@ public class AdminManageUserViewController {
      * @param event is passed
      * @throws IOException is thrown
      */
+    @FXML
+    private void bikeClicked(ActionEvent event) throws IOException {
+        User selectedUser = getSelectedUser();
+        int selectedIndex = getSelectedIndex();
+        try {
+            if (selectedIndex >= 0) {
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentSelectedUser = selectedUser;
+
+                AdminUserBikeView auhv = new AdminUserBikeView();
+                auhv.start(stage);
+            } else {
+                // Creates an alert box.
+                GeneralMethods.alertBox("No Selection", "No User Selected",
+                        "Please select a User in the table.", Alert.AlertType.WARNING);
+            }
+        } catch (Exception e) {
+            System.out.println("user edit exception");
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

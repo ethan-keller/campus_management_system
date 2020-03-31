@@ -9,6 +9,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,6 +48,9 @@ import nl.tudelft.oopp.demo.views.RoomView;
  * Controller class for SearchView (JavaFX).
  */
 public class SearchViewController implements Initializable {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -147,7 +152,7 @@ public class SearchViewController implements Initializable {
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
 
         // if a new filter is applied or an filter is removed filter again and load the cards again
@@ -375,7 +380,7 @@ public class SearchViewController implements Initializable {
             };
             return dayCellFactory;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -418,7 +423,7 @@ public class SearchViewController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -448,11 +453,10 @@ public class SearchViewController implements Initializable {
             };
             return converter;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
-
 
     /**
      * When a card gets clicked, the RoomView gets loaded with all the corresponding room information.
@@ -480,7 +484,7 @@ public class SearchViewController implements Initializable {
             RoomView rv = new RoomView();
             rv.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -503,7 +507,7 @@ public class SearchViewController implements Initializable {
             bikesAvailable.setValue(null);
             loadCards();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -520,7 +524,7 @@ public class SearchViewController implements Initializable {
             CalendarPaneView cpv = new CalendarPaneView();
             cpv.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -539,7 +543,7 @@ public class SearchViewController implements Initializable {
             LoginView loginView = new LoginView();
             loginView.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 }

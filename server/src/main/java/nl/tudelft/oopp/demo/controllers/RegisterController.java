@@ -5,6 +5,8 @@ import java.io.UnsupportedEncodingException;
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.encodehash.Hashing;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,8 @@ public class RegisterController {
 
     @Value("${encryption.secretKey}")
     private String secretKey;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Puts a new user into the database. /n
@@ -40,11 +44,17 @@ public class RegisterController {
 
         String encryptedPassword = Hashing.hashIt(password);
 
-        if (userRepo.getUser(username) == null) {
-            userRepo.insertUser(username, encryptedPassword, 2);
-            return "Your account is created";
+        try {
+            if (userRepo.getUser(username) == null) {
+                userRepo.insertUser(username, encryptedPassword, 2);
+                logger.info("Register: Account created for username '" + username + "'");
+                return "Your account is created";
+            }
+            logger.warn("Register: Account with the username '" + username + "' already exists");
+            return "This username already exists!";
+        } catch (Exception e) {
+            logger.error("Register: ERROR", e);
+            return "error";
         }
-        return "This username already exists!";
     }
-
 }

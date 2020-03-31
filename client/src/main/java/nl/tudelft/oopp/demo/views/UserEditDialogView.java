@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.views;
 
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +13,8 @@ import javafx.stage.Stage;
 
 
 public class UserEditDialogView extends Application {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -36,7 +40,7 @@ public class UserEditDialogView extends Application {
             dialogStage.showAndWait();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

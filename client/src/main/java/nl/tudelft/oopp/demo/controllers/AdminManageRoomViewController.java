@@ -2,7 +2,8 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -29,6 +30,8 @@ import nl.tudelft.oopp.demo.views.RoomEditDialogView;
  * The admin can create, edit and delete rooms
  */
 public class AdminManageRoomViewController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private TableView<Room> roomTable;
@@ -107,7 +110,7 @@ public class AdminManageRoomViewController {
 
             roomTable.setItems(Room.getRoomData());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -184,8 +187,7 @@ public class AdminManageRoomViewController {
                         "Please select a Room in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete room exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -218,8 +220,7 @@ public class AdminManageRoomViewController {
             }
 
         } catch (Exception e) {
-            System.out.println("room creation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -261,8 +262,7 @@ public class AdminManageRoomViewController {
                 alert.showAndWait();
             }
         } catch (Exception e) {
-            System.out.println("room edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

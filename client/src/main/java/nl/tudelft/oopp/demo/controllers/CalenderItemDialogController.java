@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +36,8 @@ import org.controlsfx.control.RangeSlider;
  * Class that controls the dialog box to add a calendar item to the users calendar.
  */
 public class CalenderItemDialogController implements Initializable {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private TextField header;
@@ -125,7 +129,7 @@ public class CalenderItemDialogController implements Initializable {
             slider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     slider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -153,7 +157,7 @@ public class CalenderItemDialogController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -204,7 +208,7 @@ public class CalenderItemDialogController implements Initializable {
             // set the converter
             date.setConverter(converter);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -246,7 +250,7 @@ public class CalenderItemDialogController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -280,7 +284,7 @@ public class CalenderItemDialogController implements Initializable {
             };
             return dayCellFactory;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

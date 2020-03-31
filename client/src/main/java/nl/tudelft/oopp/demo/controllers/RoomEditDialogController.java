@@ -2,6 +2,8 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
@@ -23,6 +25,8 @@ import nl.tudelft.oopp.demo.logic.RoomEditDialogLogic;
  * Class that controls the dialog box for admins to create or edit rooms.
  */
 public class RoomEditDialogController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private TextField roomNameField;
@@ -106,7 +110,7 @@ public class RoomEditDialogController {
             roomDescriptionField.setText(room.getRoomDescription().get());
             oldFileName = room.getRoomPhoto().get();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
