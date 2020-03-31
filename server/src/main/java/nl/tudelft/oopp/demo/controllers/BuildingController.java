@@ -3,7 +3,11 @@ package nl.tudelft.oopp.demo.controllers;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
-import nl.tudelft.oopp.demo.entities.*;
+
+import nl.tudelft.oopp.demo.entities.BikeReservation;
+import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Reservations;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.BikeReservationRepository;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
 import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
