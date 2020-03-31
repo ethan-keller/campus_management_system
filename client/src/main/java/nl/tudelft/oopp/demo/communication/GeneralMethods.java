@@ -11,6 +11,8 @@ import javafx.stage.Window;
 
 import org.controlsfx.control.RangeSlider;
 
+
+
 /**
  * This method encodes all communication that occurs between the server and the client.
  * This method is used in all the communication classes that need to send or receive information
@@ -24,9 +26,10 @@ public class GeneralMethods {
     /**
      * This method is to encode all communication across the data stream.
      *
-     * @param params are passed
-     * @return Encoded parameters as string
-     * @throws UnsupportedEncodingException is thrown
+     * @param params are passed.
+     * @return :Encoded parameters as string.
+     * @throws UnsupportedEncodingException is thrown.
+    >>>>>>> filtering
      */
     public static String encodeCommunication(String params) throws UnsupportedEncodingException {
         params = URLEncoder.encode(params, StandardCharsets.UTF_8.toString());
@@ -34,6 +37,7 @@ public class GeneralMethods {
         params = params.replaceAll("%3D", "=");
         return params;
     }
+
 
     /**
      * Creates a pop up, aka an alert.

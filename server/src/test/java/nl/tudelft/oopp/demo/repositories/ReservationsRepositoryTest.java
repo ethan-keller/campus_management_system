@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.repositories;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import nl.tudelft.oopp.demo.entities.Reservations;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -70,5 +71,7 @@ class ReservationsRepositoryTest {
         userRepo.deleteUser("4testing");
         reservationsRepo.deleteReservation(id);
         buildingRepo.deleteBuilding(id3);
+        roomRepo.deleteRoom(roomId);
+        roomRepo.deleteRoom(roomId2);
     }
 }
