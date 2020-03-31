@@ -7,7 +7,7 @@ import nl.tudelft.oopp.demo.communication.GeneralMethods;
 public class BuildingEditDialogLogic {
 
     public static boolean isValidInput(TextField buildingNameField, TextField buildingAddressField,
-                                       TextField buildingRoomCountField) {
+                                       TextField maxBikesField) {
         String errorMessage = "";
 
         if (buildingNameField.getText().equals("")) {
@@ -16,11 +16,11 @@ public class BuildingEditDialogLogic {
         if (buildingAddressField.getText().equals("")) {
             errorMessage += "No valid building address!\n";
         }
-        if (buildingRoomCountField.getText().equals("")) {
+        if (maxBikesField.getText().equals("")) {
             errorMessage += "No valid capacity!\n";
         } else {
             try {
-                Integer.parseInt(buildingRoomCountField.getText());
+                Integer.parseInt(maxBikesField.getText());
             } catch (NumberFormatException e) {
                 errorMessage += "No valid room count (must be an integer)!\n";
             }

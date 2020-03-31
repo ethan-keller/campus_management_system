@@ -56,6 +56,7 @@ public class BookingEditDialogController {
     private RangeSlider timeSlotSlider;
 
     private Stage dialogStage;
+    private final String pathSeparator = File.separator;
 
     public BookingEditDialogController() {
     }
@@ -150,7 +151,8 @@ public class BookingEditDialogController {
             // get currently selected room
             Room selectedRoom = bookingRoomComboBox.getSelectionModel().getSelectedItem();
             // get css file and delete its content to fill it again
-            File css = new File(getClass().getResource("/RangeSlider.css").getPath());
+            File css = new File(getClass().getResource("/RangeSlider.css")
+                    .getPath().replace("/", pathSeparator));
             css.delete();
             css.createNewFile();
             BufferedWriter bw = new BufferedWriter(new FileWriter(css));

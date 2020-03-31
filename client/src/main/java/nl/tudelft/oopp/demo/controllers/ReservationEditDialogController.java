@@ -62,6 +62,7 @@ public class ReservationEditDialogController {
     public static Stage dialogStage;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final String pathSeparator = File.separator;
 
     /**
      * .
@@ -226,7 +227,8 @@ public class ReservationEditDialogController {
             // get currently selected room
             Room selectedRoom = room.getSelectionModel().getSelectedItem();
             // get css file and delete its content to fill it again
-            File css = new File(getClass().getResource("/RangeSlider.css").getPath());
+            File css = new File(getClass().getResource("/RangeSlider.css")
+                    .getPath().replace("/", pathSeparator));
             css.delete();
             css.createNewFile();
             BufferedWriter bw = new BufferedWriter(new FileWriter(css));

@@ -4,9 +4,11 @@ import java.io.BufferedWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Window;
+
 import org.controlsfx.control.RangeSlider;
 
 /**
@@ -36,10 +38,10 @@ public class GeneralMethods {
     /**
      * Creates a pop up, aka an alert.
      *
-     * @param title String
+     * @param title   String
      * @param content String containing the text to show to the user.
-     * @param owner Window
-     * @param type AlertType
+     * @param owner   Window
+     * @param type    AlertType
      * @return Alert An alert containing the provided information.
      */
     public static Alert createAlert(String title, String content, Window owner, Alert.AlertType type) {
@@ -70,10 +72,10 @@ public class GeneralMethods {
     /**
      * Creates an alert box with a separate set of features compared to the above method.
      *
-     * @param title - Title of the alert box (String)
-     * @param header - Header of the alert box (String)
+     * @param title   - Title of the alert box (String)
+     * @param header  - Header of the alert box (String)
      * @param content - Content of the alert box (String)
-     * @param type - AlertType
+     * @param type    - AlertType
      * @return Alert  An alert containing the provided information.
      */
     public static Alert alertBox(String title, String header, String content, Alert.AlertType type) {
@@ -108,8 +110,8 @@ public class GeneralMethods {
     /**
      * Sets the RangeSlider to a standard white track.
      *
-     * @param rs the RangeSlider to configure
-     * @param bw the BufferedWriter which writes to the CSS file
+     * @param rs  the RangeSlider to configure
+     * @param bw  the BufferedWriter which writes to the CSS file
      * @param css the css file that is written to
      */
     public static void setSliderDefaultCss(RangeSlider rs, BufferedWriter bw, String css) {
