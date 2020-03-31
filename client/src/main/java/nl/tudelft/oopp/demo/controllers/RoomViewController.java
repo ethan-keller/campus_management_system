@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -25,6 +26,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -42,6 +44,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import javax.imageio.ImageIO;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
@@ -80,7 +83,6 @@ public class RoomViewController implements Initializable {
     private ImageView image;
     @FXML
     private Text description;
-    // TODO: change String to Food entity
     @FXML
     private ComboBox<Food> foodChoice;
     @FXML
@@ -98,7 +100,7 @@ public class RoomViewController implements Initializable {
     @FXML
     private Text dateError;
     @FXML
-    private Text timeSlotError;
+    private Text timeslotError;
     @FXML
     private Text teacherOnlyError;
 
@@ -187,8 +189,7 @@ public class RoomViewController implements Initializable {
             teacherOnly.setText("Teachers only: " + (currentRoom.getTeacherOnly().get() ? "yes" : "no"));
             type.setText("Type: " + currentRoom.getRoomType().get());
             description.setText("Description:\n" + currentRoom.getRoomDescription().get());
-            // TODO: change to room's image
-            image.setImage(new Image("images/placeholder.png"));
+            configureRoomImage();
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -196,6 +197,7 @@ public class RoomViewController implements Initializable {
 
     /**
      * Makes sure that when the user has selected an item in the food combobox, the prompt text resets.
+     *
      * @return ListCell that correctly updates the value.
      */
     private ListCell<Food> getButtonCell() {
@@ -240,6 +242,7 @@ public class RoomViewController implements Initializable {
 
     /**
      * Method that creates a new food section when a new food is selected.
+     *
      * @param food food that got selected
      */
     private void createNewFoodText(Food food) {
@@ -310,6 +313,7 @@ public class RoomViewController implements Initializable {
 
     /**
      * Method that removes a food section from the big grid.
+     *
      * @param miniGrid the food section to remove
      */
     private void removeRowFromGrid(GridPane miniGrid) {
@@ -332,6 +336,7 @@ public class RoomViewController implements Initializable {
 
     /**
      * Method that gets the name of the food from a food section.
+     *
      * @param gridPane the food section
      * @return Text the food name
      */
@@ -352,6 +357,7 @@ public class RoomViewController implements Initializable {
 
     /**
      * Method that gets the food quantity text from a food section.
+     *
      * @param gridPane food section
      * @return Text the food quantity
      */
@@ -407,6 +413,41 @@ public class RoomViewController implements Initializable {
     }
 
     /**
+     * Method that configures the ImageView which contains the image of the room.
+     */
+    private void configureRoomImage() {
+        try {
+            File resourceImage = new File("client/src/main/resources/images/"
+                    + currentRoom.getRoomPhoto().get());
+            // get path to the room image
+            String path = resourceImage.getAbsolutePath();
+
+            // get the room image
+            BufferedImage roomPhoto = ImageIO.read(resourceImage);
+
+            // set the image in the ImageView
+            image.setImage(new Image("file:" + path));
+
+            // crop the image to show in proportion with the standard room picture size
+            Rectangle2D viewPort = new Rectangle2D(0, 0, roomPhoto.getWidth(),
+                    roomPhoto.getWidth() * (336.9 / 503.0));
+            image.setViewport(viewPort);
+
+        } catch (Exception e) {
+            try {
+                // set the default image in the ImageView
+                image.setImage(new Image(getClass().getResource("/images/placeholder.png")
+                        .toExternalForm()));
+                // make sure the image is correctly resized in proportion to the current stage width
+                changeWidthConstraints(thisStage.getWidth());
+                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * Method that disables all the components needed to book a reservation.
      */
     private void disableReservationComponents() {
@@ -428,7 +469,7 @@ public class RoomViewController implements Initializable {
         try {
             // hide each error message
             dateError.setVisible(false);
-            timeSlotError.setVisible(false);
+            timeslotError.setVisible(false);
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -446,6 +487,7 @@ public class RoomViewController implements Initializable {
             image.setFitWidth((newWidth.doubleValue() - 188) / 1.41550696);
             reservationVbox.setPrefWidth((newWidth.doubleValue() - 188) / 3.3969);
             timeSlotSlider.setMaxWidth((newWidth.doubleValue() - 188) / 5);
+            description.setWrappingWidth((newWidth.doubleValue() - 188) / 1.564835);
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -454,7 +496,7 @@ public class RoomViewController implements Initializable {
     /**
      * .
      * Methods that sets the dayCellFactory made in {@link #getDayCellFactory()}
-     * and the StringConverter made in {@link #getDatePickerConverter()}
+     * and the StringConverter made in {@link #getDatePickerConverter()}.
      */
     private void configureDatePicker() {
         try {
@@ -931,11 +973,15 @@ public class RoomViewController implements Initializable {
 
             // clear error messages
             dateError.setVisible(false);
-            timeSlotError.setVisible(false);
+            timeslotError.setVisible(false);
 
             // set error messages if necessary
             if (datePicker.getValue() == null) {
                 dateError.setVisible(true);
+                errors = true;
+            }
+            if (!checkTimeSlotValidity() || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
+                timeslotError.setVisible(true);
                 errors = true;
             }
 
