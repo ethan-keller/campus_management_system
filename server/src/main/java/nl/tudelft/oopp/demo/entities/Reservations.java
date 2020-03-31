@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.HashSet;
@@ -36,7 +37,7 @@ public class Reservations {
     @Column(name = "ending_time")
     private String endingTime;
 
-    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
     private Set<FoodReservations> foodReservations;
 

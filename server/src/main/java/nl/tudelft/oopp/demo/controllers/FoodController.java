@@ -1,10 +1,14 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.entities.FoodReservations;
+import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.repositories.FoodRepository;
+import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +25,11 @@ public class FoodController {
     @Autowired
     private FoodRepository foodRepo;
 
+    @Autowired
+    private ReservationsRepository reservationRepo;
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     /**
      * If it receives an HTTP request, it executes the SQL commands to create a food in the database.
@@ -31,7 +39,7 @@ public class FoodController {
      */
     @PostMapping("createFood")
     @ResponseBody
-    public void createFood(@RequestParam String name, @RequestParam int price)
+    public void createFood(@RequestParam String name, @RequestParam double price)
             throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
         try {
@@ -89,7 +97,7 @@ public class FoodController {
     @PostMapping("updateFood")
     @ResponseBody
     public void updateFood(@RequestParam int id, @RequestParam String name,
-                           @RequestParam int price) throws UnsupportedEncodingException {
+                           @RequestParam double price) throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
         try {
             foodRepo.updateName(id, name);
@@ -212,15 +220,32 @@ public class FoodController {
      * @param reservation The reservation ID
      * @return Returns a list of Food entities
      */
-    @GetMapping("getFoodByReservation")
+    @GetMapping("getFoodReservationByReservation")
     @ResponseBody
-    public List<Food> getFoodByReservation(@RequestParam int reservation)  {
+    public List<FoodReservations> getFoodReservationByReservation(@RequestParam int reservation)  {
         try {
-            return foodRepo.getFoodByReservationId(reservation);
+            List<Object[]> result = foodRepo.getFoodReservationByReservationId(reservation);
+            return mapFoodReservation(result);
         } catch (Exception e) {
             logger.error("Food: -getFoodByReservation- ERROR", e);
         }
         return null;
+    }
+
+    /**
+     * Maps the query from getFoodByReservation to the proper Objects.
+     * @param obj The query result
+     * @return Returns a list of FoodReservations
+     */
+    public List<FoodReservations> mapFoodReservation(List<Object[]> obj) {
+        List<FoodReservations> result = new ArrayList<>();
+        for (int x = 0; x < obj.size(); x++) {
+            Reservations reservation = reservationRepo.getReservation((Integer) obj.get(x)[0]);
+            Food food = foodRepo.getFood((Integer) obj.get(x)[1]);
+            int quantity = (int)obj.get(x)[2];
+            result.add(new FoodReservations(food, reservation, quantity));
+        }
+        return result;
     }
 
     /**

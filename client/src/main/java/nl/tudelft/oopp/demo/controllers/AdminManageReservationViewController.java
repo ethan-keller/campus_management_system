@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
@@ -217,11 +218,38 @@ public class AdminManageReservationViewController {
      */
     @FXML
     private void backButtonClicked(ActionEvent event) throws IOException {
+        currentSelectedReservation = null;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This loads up a new admin home page.
         AdminHomePageView ahpv = new AdminHomePageView();
         ahpv.start(stage);
+    }
+
+    /**
+     * Handles clicking the food button, redirect to the food reservation view.
+     * @param event is passed as a parameter.
+     * @throws IOException is thrown.
+     */
+    @FXML
+    private void foodReservationClicked(ActionEvent event) throws IOException {
+        Reservation selectedReservation = getSelectedReservation();
+        int selectedIndex = getSelectedIndex();
+        try {
+            if (selectedIndex >= 0) {
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentSelectedReservation = selectedReservation;
+
+                AdminFoodReservationView afrv = new AdminFoodReservationView();
+                afrv.start(stage);
+            } else {
+                GeneralMethods.alertBox("No Selection", "No Reservation Selected",
+                        "Please select a reservation in the table.", Alert.AlertType.WARNING);
+            }
+        } catch (Exception e) {
+            System.out.println("Food reservation edit exception");
+            e.printStackTrace();
+        }
     }
 
     /**

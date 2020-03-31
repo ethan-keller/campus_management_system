@@ -43,7 +43,7 @@ public class BikeReservationCommunication {
      * @param endingTime The new ending time of the reservation
      */
     public static void updateBikeReservation(int id, int building, String user, int numBikes, String date,
-                                      String startingTime, String endingTime) {
+                                             String startingTime, String endingTime) {
         String params = "id=" + id + "&building=" + building + "&user=" + user
                 + "&numBikes=" + numBikes + "&date=" + date
                 + "&startingTime=" + startingTime + "&endingTime=" + endingTime;

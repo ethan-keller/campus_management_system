@@ -18,6 +18,7 @@ import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.UserServerCommunication;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.AdminUserBikeView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.UserEditDialogView;
@@ -211,6 +212,28 @@ public class AdminManageUserViewController {
      * @param event is passed
      * @throws IOException is thrown
      */
+    @FXML
+    private void bikeClicked(ActionEvent event) throws IOException {
+        User selectedUser = getSelectedUser();
+        int selectedIndex = getSelectedIndex();
+        try {
+            if (selectedIndex >= 0) {
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentSelectedUser = selectedUser;
+
+                AdminUserBikeView auhv = new AdminUserBikeView();
+                auhv.start(stage);
+            } else {
+                // Creates an alert box.
+                GeneralMethods.alertBox("No Selection", "No User Selected",
+                        "Please select a User in the table.", Alert.AlertType.WARNING);
+            }
+        } catch (Exception e) {
+            System.out.println("user edit exception");
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
