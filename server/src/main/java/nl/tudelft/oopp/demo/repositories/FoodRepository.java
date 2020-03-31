@@ -19,14 +19,6 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     @Query(value = "SELECT * FROM food WHERE id = :id", nativeQuery = true)
     public Food getFood(@Param("id") int id);
 
-    @Query(value = "SELECT * FROM food WHERE name = :name", nativeQuery = true)
-    public Food getFoodByName(@Param("name") String name);
-
-    @Query(value = "SELECT food.* FROM food INNER JOIN food_building ON food.id = food_building.food_id "
-            + "INNER JOIN building ON building.id = food_building.building_id WHERE building.name = :name",
-            nativeQuery = true)
-    public List<Food> getFoodByBuildingName(@Param("name") String name);
-
     @Query(value = "SELECT food.* FROM food INNER JOIN food_building ON "
             + "food.id = food_building.food_id WHERE building_id = :id",
             nativeQuery = true)
@@ -51,7 +43,7 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO food (name, price) VALUES (:name, :price)", nativeQuery = true)
-    public void insertFood(@Param("name") String name, @Param("price") int price);
+    public void insertFood(@Param("name") String name, @Param("price") double price);
 
     @Modifying
     @Transactional
@@ -85,5 +77,5 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE food SET price = :price WHERE id = :id", nativeQuery = true)
-    public void updatePrice(@Param("id") int id, @Param("price") int price);
+    public void updatePrice(@Param("id") int id, @Param("price") double price);
 }

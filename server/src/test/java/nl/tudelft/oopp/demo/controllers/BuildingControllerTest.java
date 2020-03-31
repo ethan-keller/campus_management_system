@@ -1,32 +1,147 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+import java.util.List;
 
 import nl.tudelft.oopp.demo.entities.Building;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-
-@SpringBootTest
+/**
+ * Test class that tests the building controller.
+ * It makes use of Mockito MVC which is a part of the Mockito framework.
+ */
+@WebMvcTest(BuildingController.class)
 class BuildingControllerTest {
 
     @Autowired
-    private BuildingController buildingCont;
+    private MockMvc mvc;
 
+    @MockBean
+    private BuildingController controller;
+
+    private Building b1;
+    private Building b2;
+    private Building b3;
+    private List<Building> buildingList;
+
+    /**
+     * Set up before each test.
+     */
+    @BeforeEach
+    void setUp() {
+        b1 = new Building(1, "TEST", 130, "TestStreet 18",
+                201, 201);
+        b2 = new Building(2, "CIVIL", 230, "TestStreet 48",
+                3, 201);
+        b3 = new Building(3, "AeroSpace", 80, "TestStreet 98",
+                4, 43);
+        buildingList = Arrays.asList(b1, b2, b3);
+    }
+
+    /**
+     * Test for createBuilding method.
+     */
     @Test
-    void testAllMethods() throws UnsupportedEncodingException {
-        buildingCont.createBuilding("buildingcontrollertest", 20, "teststreet", 1, 5);
-        int id = buildingCont.getBuildingByName("buildingcontrollertest").getId();
-        Building b1 = new Building(id, "buildingcontrollertest", 20, "teststreet", 1, 5);
-        assertEquals(b1, buildingCont.getBuilding(id));
+    void createBuildingTest() throws Exception {
+        mvc.perform(post("/createBuilding?name=test&roomCount=200&"
+                + "address=street5&availableBikes=90&maxBikes=200")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 
-        buildingCont.updateBuilding(id, "buildingcontrollertest2", 21, "teststreet2", 2);
-        Building b2 = new Building(id, "buildingcontrollertest2", 21, "teststreet2", 2, 6);
-        assertEquals(b2, buildingCont.getBuilding(id));
+    /**
+     * Test for removeBikeReservation method.
+     */
+    @Test
+    void removeBikeReservationTest() throws Exception {
+        mvc.perform(post("/removeBikeReservation?bikeResId=9")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 
-        buildingCont.deleteBuilding(id);
+    /**
+     * Test for addBikeReservation method.
+     */
+    @Test
+    void addBikeReservationTest() throws Exception {
+        mvc.perform(post("/addBikeReservation?building=2&numBikes=20")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    /**
+     * Test for updateBuilding method.
+     */
+    @Test
+    void updateBuildingTest() throws Exception {
+        mvc.perform(post("/updateBuilding?id=9&name=test&roomCount=66&address=street2&maxBikes=7")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    /**
+     * Test for deleteBuilding method.
+     */
+    @Test
+    void deleteBuildingTest() throws Exception {
+        mvc.perform(post("/deleteBuilding?id=20")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    /**
+     * Test for getBuilding method.
+     */
+    @Test
+    void getBuildingTest() throws Exception {
+        when(controller.getBuilding(anyInt())).thenReturn(b1);
+
+        mvc.perform(get("/getBuilding?id=2")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(b1.getName())));
+    }
+
+    /**
+     * Test for getBuildingByFoodId method.
+     */
+    @Test
+    void getBuildingByFoodIdTest() throws Exception {
+        when(controller.getBuildingByFoodId(anyInt())).thenReturn(Arrays.asList(b2, b3));
+
+        mvc.perform(get("/getBuildingByFoodId?id=2")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name", is(b2.getName())));
+    }
+
+    /**
+     * Test for getAllBuildings method.
+     */
+    @Test
+    void getAllBuildingsTest() throws Exception {
+        when(controller.getAllBuildings()).thenReturn(buildingList);
+
+        mvc.perform(get("/getAllBuildings")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[2].name", is(b3.getName())));
     }
 }

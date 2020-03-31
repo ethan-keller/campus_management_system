@@ -5,7 +5,6 @@ import java.util.List;
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.repositories.BikeReservationRepository;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +54,9 @@ public class BuildingController {
      * Updates available bikes when a bike reservation is removed.
      * @param bikeResId The bike reservation id
      */
-    public void removeBikeReservation(int bikeResId) {
+    @PostMapping("removeBikeReservation")
+    @ResponseBody
+    public void removeBikeReservation(@RequestParam int bikeResId) {
         BikeReservation bikeRes = bikeResRepo.getBikeReservation(bikeResId);
         buildingRepo.removeBikeReservation(bikeRes.getBuilding(), bikeRes.getNumBikes());
     }
@@ -66,11 +67,13 @@ public class BuildingController {
      * @param building The building ID
      * @param numBikes The amount of bikes the are reserved
      */
-    public void addBikeReservation(int building, int numBikes) {
+    @PostMapping("addBikeReservation")
+    @ResponseBody
+    public void addBikeReservation(@RequestParam int building, @RequestParam int numBikes) {
         List<BikeReservation> reservations = bikeResRepo.getBuildingBikeReservations(building);
         int count = buildingRepo.getBuilding(building).getMaxBikes();
-        for (int x = 0; x < reservations.size(); x++) {
-            count -= reservations.get(x).getNumBikes();
+        for (BikeReservation reservation : reservations) {
+            count -= reservation.getNumBikes();
         }
         buildingRepo.updateAvailableBikes(building, count);
     }
@@ -87,7 +90,6 @@ public class BuildingController {
      */
     @PostMapping("updateBuilding")
     @ResponseBody
-
     public void updateBuilding(@RequestParam int id, @RequestParam String name,
                                @RequestParam int roomCount, @RequestParam String address,
                                @RequestParam int maxBikes) throws UnsupportedEncodingException {
@@ -131,23 +133,6 @@ public class BuildingController {
     public Building getBuilding(@RequestParam int id) {
         try {
             return buildingRepo.getBuilding(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Returns the building with the provided name.
-     *
-     * @param name The name of the building you're trying to find.
-     * @return A Building in Json.
-     */
-    @GetMapping("getBuildingByName")
-    @ResponseBody
-    public Building getBuildingByName(@RequestParam String name) {
-        try {
-            return buildingRepo.getBuildingByName(name);
         } catch (Exception e) {
             e.printStackTrace();
         }

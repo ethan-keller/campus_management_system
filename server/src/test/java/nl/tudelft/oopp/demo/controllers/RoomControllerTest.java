@@ -1,48 +1,113 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+import java.util.List;
+
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.repositories.BuildingRepository;
-import nl.tudelft.oopp.demo.repositories.RoomRepository;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest
+/**
+ * Test class that tests the room controller.
+ * It makes use of Mockito MVC which is a part of the Mockito framework.
+ */
+@WebMvcTest(RoomController.class)
 class RoomControllerTest {
 
     @Autowired
-    private RoomController roomCont;
+    private MockMvc mvc;
 
-    @Autowired
-    private RoomRepository roomRepo;
+    @MockBean
+    private RoomController controller;
 
-    @Autowired
-    private BuildingRepository buildingRepo;
+    private Room r1;
+    private Room r2;
+    private Room r3;
+    private List<Room> roomList;
 
+    /**
+     * Set up before each test.
+     */
+    @BeforeEach
+    void setUp() {
+        r1 = new Room(1, "room1", 22, true, 20, "photo1.jpg",
+                "description", "Project room");
+        r2 = new Room(2, "room2", 22, false, 10, "photo2.jpg",
+                "description", "Project room");
+        r3 = new Room(3, "room3", 24, false, 2, "photo3.jpg",
+                "description", "Project room");
+        roomList = Arrays.asList(r1, r2, r3);
+    }
+
+    /**
+     * Test for createRoom method.
+     */
     @Test
-    void testAllMethods() throws UnsupportedEncodingException {
-        buildingRepo.insertBuilding("4testing", 24, "4TestingStreet 34", 5, 5);
-        int buildingId = buildingRepo.getBuildingByName("4testing").getId();
+    void createRoomTest() throws Exception {
+        mvc.perform(post("/createRoom?name=room1&building=2&teacherOnly=true&capacity=30"
+                + "&photos=photo.png&description=hello&type=type")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 
-        buildingRepo.insertBuilding("5testing", 24, "4TestingStreet 34", 5, 5);
-        int buildingId2 = buildingRepo.getBuildingByName("5testing").getId();
+    /**
+     * Test for updateRoom method.
+     */
+    @Test
+    void updateRoomTest() throws Exception {
+        mvc.perform(post("/updateRoom?id=3&name=room1&building=2&teacherOnly=true&capacity=30"
+                + "&photos=photo.png&description=hello&type=type")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 
-        roomCont.createRoom("4testing", buildingId, true, 30, "url", "very nice", "testingRoom");
-        int id = roomRepo.getRoomByName("4testing").getId();
+    /**
+     * Test for deleteRoom method.
+     */
+    @Test
+    void deleteRoomTest() throws Exception {
+        mvc.perform(post("/deleteRoom?id=1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 
-        Room r1 = new Room(id, "4testing", buildingId, true, 30, "url", "very nice", "testingRoom");
-        assertEquals(r1, roomCont.getRoom(id));
+    /**
+     * Test for getRoom method.
+     */
+    @Test
+    void getRoomTest() throws Exception {
+        when(controller.getRoom(anyInt())).thenReturn(r2);
 
-        roomCont.updateRoom(id, "5testing", buildingId2, false, 25, "url2", "not nice", "testingRoom2");
-        Room r2 = new Room(id, "5testing", buildingId2, false, 25, "url2", "not nice", "testingRoom2");
-        assertEquals(r2, roomCont.getRoom(id));
+        mvc.perform(get("/getRoom?id=3")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(r2.getName())));
+    }
 
-        roomCont.deleteRoom(id);
-        buildingRepo.deleteBuilding(buildingId);
-        buildingRepo.deleteBuilding(buildingId2);
+    /**
+     * Test for getAllRooms method.
+     */
+    @Test
+    void getAllRoomsTest() throws Exception {
+        when(controller.getAllRooms()).thenReturn(roomList);
 
+        mvc.perform(get("/getAllRooms")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[1].name", is(r2.getName())));
     }
 }

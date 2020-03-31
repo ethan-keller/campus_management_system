@@ -1,47 +1,56 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.UnsupportedEncodingException;
+import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest
+/**
+ * Test class that tests the login controller.
+ * It makes use of Mockito MVC which is a part of the Mockito framework.
+ */
+@WebMvcTest(LoginController.class)
 class LoginControllerTest {
 
     @Autowired
-    private LoginController loginCont;
+    private MockMvc mvc;
 
-    @Autowired
-    private UserController userCont;
+    @Mock
+    private UserRepository userRepo;
 
+    @MockBean
+    private LoginController controller;
+
+    /**
+     * Set up before each test.
+     */
+    @BeforeEach
+    void setUp() {
+
+    }
+
+    /**
+     * Test for getUser method.
+     */
     @Test
-    void getUser() throws UnsupportedEncodingException {
-        userCont.deleteUser("logintest");
-        userCont.deleteUser("logintest2");
-        userCont.deleteUser("logintest3");
-        userCont.deleteUser("logintest4");
+    void getUserTest() throws Exception {
+        when(userRepo.getUser(anyString())).thenReturn(new User("test", "pass", 0));
+        when(controller.getUser(anyString(), anyString())).thenReturn("admin");
 
-        userCont.createUser("logintest", "login", 2);
-        assertEquals("student", loginCont.getUser("logintest", "login"));
-        userCont.createUser("logintest2", "login", 1);
-        assertEquals("teacher", loginCont.getUser("logintest2", "login"));
-        userCont.createUser("logintest3", "login", 0);
-        assertEquals("admin", loginCont.getUser("logintest3", "login"));
-
-        assertEquals("not_found", loginCont.getUser("thisDoesNotExist", "pizza"));
-        assertEquals("wrong_password", loginCont.getUser("logintest", "wrong"));
-
-        userCont.createUser("logintest4", "login", -2);
-        assertEquals("error", loginCont.getUser("logintest4", "login"));
-
-        userCont.deleteUser("logintest");
-        userCont.deleteUser("logintest2");
-        userCont.deleteUser("logintest3");
-        userCont.deleteUser("logintest4");
-
-
+        mvc.perform(post("/login?username=test&password=pass")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

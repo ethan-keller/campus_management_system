@@ -1,9 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -24,7 +22,7 @@ public class FoodBuilding implements Serializable {
     private Building building;
 
     /**
-     * Empty contructor.
+     * Default constructor.
      */
     public FoodBuilding() {
     }
@@ -48,27 +46,11 @@ public class FoodBuilding implements Serializable {
     }
 
     /**
-     * Sets the Food variable.
-     * @param food The new Food entity
-     */
-    public void setFood(Food food) {
-        this.food = food;
-    }
-
-    /**
      * Returns Building entity.
      * @return Returns building entity
      */
     public Building getBuilding() {
         return building;
-    }
-
-    /**
-     * Sets the Building variable.
-     * @param building The new Building entity
-     */
-    public void setBuilding(Building building) {
-        this.building = building;
     }
 
     /**
@@ -90,12 +72,5 @@ public class FoodBuilding implements Serializable {
         return true;
     }
 
-    /**
-     * The hash method.
-     * @return Returns a unique hashcode for the object
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(food.getId(), building.getId());
-    }
 }
+

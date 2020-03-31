@@ -27,7 +27,7 @@ public class FoodController {
      */
     @PostMapping("createFood")
     @ResponseBody
-    public void createFood(@RequestParam String name, @RequestParam int price)
+    public void createFood(@RequestParam String name, @RequestParam double price)
             throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
         try {
@@ -81,7 +81,7 @@ public class FoodController {
     @PostMapping("updateFood")
     @ResponseBody
     public void updateFood(@RequestParam int id, @RequestParam String name,
-                           @RequestParam int price) throws UnsupportedEncodingException {
+                           @RequestParam double price) throws UnsupportedEncodingException {
         name = CommunicationMethods.decodeCommunication(name);
         try {
             foodRepo.updateName(id, name);
@@ -173,25 +173,6 @@ public class FoodController {
 
     /**
      * If it receives an HTTP request, it executes the SQL command to<br>
-     * retrieve a food in the database based on its name.
-     * @param name The food name
-     * @return Returns a food entity
-     * @throws UnsupportedEncodingException Throws when it can't decode the parameter
-     */
-    @GetMapping("getFoodByName")
-    @ResponseBody
-    public Food getFoodByName(@RequestParam String name) throws UnsupportedEncodingException {
-        name = CommunicationMethods.decodeCommunication(name);
-        try {
-            return foodRepo.getFoodByName(name);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * If it receives an HTTP request, it executes the SQL command to<br>
      * retrieve the foods that are ordered with a reservation based on the reservationID.
      * @param reservation The reservation ID
      * @return Returns a list of Food entities
@@ -218,24 +199,6 @@ public class FoodController {
     public List<Food> getFoodByBuildingId(@RequestParam int building)  {
         try {
             return foodRepo.getFoodByBuildingId(building);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * If it receives an HTTP request, it executes the SQL command to retrieve the foods that<br>
-     *  are available at a building based on the building name.
-     * @param name The building name
-     * @return Returns a list of Foods
-     */
-    @GetMapping("getFoodByBuildingName")
-    @ResponseBody
-    public List<Food> getFoodByBuildingName(@RequestParam String name)  {
-        try {
-            name = CommunicationMethods.decodeCommunication(name);
-            return foodRepo.getFoodByBuildingName(name);
         } catch (Exception e) {
             e.printStackTrace();
         }

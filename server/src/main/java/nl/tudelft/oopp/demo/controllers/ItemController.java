@@ -126,7 +126,7 @@ public class ItemController {
      */
     @GetMapping("getUserItems")
     @ResponseBody
-    public List<Item> getUserItems(String user) {
+    public List<Item> getUserItems(@RequestParam String user) {
         try {
             return itemRepo.getUserItems(user);
         } catch (Exception e) {

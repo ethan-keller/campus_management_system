@@ -1,9 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -91,12 +89,4 @@ public class FoodReservations implements Serializable {
         return true;
     }
 
-    /**
-     * Generates the hashcode for this object.
-     * @return Returns the hashcode
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(reservation.getId(), food.getId(), quantity);
-    }
 }

@@ -128,7 +128,7 @@ public class BikeReservationController {
      */
     @GetMapping("getAllBikeReservation")
     @ResponseBody
-    public List<BikeReservation> getBikeReservation() {
+    public List<BikeReservation> getBikeReservations() {
         try {
             return bikeResRepo.getAllBikeReservations();
         } catch (Exception e) {

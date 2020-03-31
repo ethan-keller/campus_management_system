@@ -81,14 +81,6 @@ public class Food implements Serializable {
         return price;
     }
 
-    public Set<FoodReservations> getFoodReservations() {
-        return foodReservations;
-    }
-
-    public Set<FoodBuilding> getFoodBuilding() {
-        return foodBuilding;
-    }
-
 
     /**
      * Equals method.

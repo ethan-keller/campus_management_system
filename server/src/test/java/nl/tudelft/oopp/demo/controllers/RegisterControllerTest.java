@@ -1,32 +1,55 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.UnsupportedEncodingException;
+import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-
-@SpringBootTest
+/**
+ * Test class that tests the register controller.
+ * It makes use of Mockito MVC which is a part of the Mockito framework.
+ */
+@WebMvcTest(RegisterController.class)
 class RegisterControllerTest {
 
     @Autowired
-    private RegisterController registerCont;
+    private MockMvc mvc;
 
-    @Autowired
-    private UserController userCont;
+    @Mock
+    private UserRepository userRepo;
 
+    @MockBean
+    private RegisterController controller;
 
+    /**
+     * Set up before each test.
+     */
+    @BeforeEach
+    void setUp() {
+    }
+
+    /**
+     * Test for register method.
+     */
     @Test
-    void register() throws UnsupportedEncodingException {
-        userCont.deleteUser("registertest");
-        assertEquals("Your account is created", registerCont.register("registertest", "password"));
-        assertEquals("This username already exists!", registerCont.register("registertest", "password"));
+    void registerTest() throws Exception {
+        when(controller.register(anyString(), anyString())).thenReturn("Your account is created");
+        when(userRepo.getUser(anyString())).thenReturn(new User("test", "pass", 2));
 
-        userCont.deleteUser("registertest");
-
-
+        mvc.perform(post("/register?username=test&password=pass")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

@@ -88,15 +88,6 @@ public class Item {
     }
 
     /**
-     * setter for the id field.
-     *
-     * @param id id of item
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
      * getter for the user field.
      *
      * @return user of item
@@ -105,14 +96,6 @@ public class Item {
         return user;
     }
 
-    /**
-     * setter for the user field.
-     *
-     * @param user user of item
-     */
-    public void setUser(String user) {
-        this.user = user;
-    }
 
     /**
      * getter for the title field.
@@ -123,14 +106,6 @@ public class Item {
         return title;
     }
 
-    /**
-     * setter for the title field.
-     *
-     * @param title title of item
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     /**
      * getter for the date field.
@@ -141,14 +116,6 @@ public class Item {
         return date;
     }
 
-    /**
-     * setter for the date field.
-     *
-     * @param date date of item
-     */
-    public void setDate(String date) {
-        this.date = date;
-    }
 
     /**
      * getter for the startingTime field.
@@ -159,14 +126,6 @@ public class Item {
         return startingTime;
     }
 
-    /**
-     * setter for the startingTime field.
-     *
-     * @param startingTime startingTime of item
-     */
-    public void setStartingTime(String startingTime) {
-        this.startingTime = startingTime;
-    }
 
     /**
      * getter for the endingTime field.
@@ -177,14 +136,6 @@ public class Item {
         return endingTime;
     }
 
-    /**
-     * setter for the endingTime field.
-     *
-     * @param endingTime endingTime of item
-     */
-    public void setEndingTime(String endingTime) {
-        this.endingTime = endingTime;
-    }
 
     /**
      * getter for the description field.
@@ -195,12 +146,4 @@ public class Item {
         return description;
     }
 
-    /**
-     * setter for the description field.
-     *
-     * @param description description of item
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

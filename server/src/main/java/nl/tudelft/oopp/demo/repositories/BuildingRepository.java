@@ -67,7 +67,4 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
     @Transactional
     @Query(value = "UPDATE building SET max_bikes = :max_bikes WHERE id = :id", nativeQuery = true)
     public void updateMaxBikes(@Param("id") int id, @Param("max_bikes") int maxBikes);
-
-    @Query(value = "SELECT * FROM building WHERE name = :name", nativeQuery = true)
-    public Building getBuildingByName(@Param("name") String name);
 }
