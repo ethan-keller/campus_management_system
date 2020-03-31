@@ -55,7 +55,7 @@
                         </ImageView>
                     </children>
                 </VBox>
-                <VBox fx:id="reservationVbox" alignment="TOP_CENTER" layoutX="519.0" prefHeight="507.0" prefWidth="209.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <VBox fx:id="reservationVbox" alignment="CENTER" layoutX="519.0" prefHeight="507.0" prefWidth="209.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <Text fill="#0ebaf8" strokeType="OUTSIDE" strokeWidth="0.0" text="Make a reservation">
                             <font>
