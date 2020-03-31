@@ -69,6 +69,7 @@ public class RentABikeController implements Initializable {
     public ObservableList<Building> buildingList = Building.getBuildingData();
     private static int currentBuilding = 0;
     ObservableList<String> buildList = FXCollections.observableArrayList();
+    public ObservableList<BikeReservation> bikeReservationsList = BikeReservation.getBikeReservationData();
 
     /**
      * Deals with the back button function.
@@ -577,7 +578,6 @@ public class RentABikeController implements Initializable {
     private int getRemainder(Building b, String selectedDate, String selectedEnd, String selectedStart) {
         try {
 
-            ObservableList<BikeReservation> bikeReservationsList = BikeReservation.getBikeReservationData();
             int remainder = b.getBuildingMaxBikes().get();
 
             //Using stream to filter out given conditions
