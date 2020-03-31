@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
