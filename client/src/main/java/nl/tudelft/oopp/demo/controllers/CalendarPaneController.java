@@ -9,6 +9,10 @@ import java.awt.Color;
 import java.awt.Point;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
@@ -38,6 +42,8 @@ import nl.tudelft.oopp.demo.views.SearchView;
  * and custom calendar items
  */
 public class CalendarPaneController implements Initializable {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private AnchorPane pane;
@@ -73,7 +79,7 @@ public class CalendarPaneController implements Initializable {
             addReservationsToCalendar();
             addItemsToCalendar();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -116,7 +122,7 @@ public class CalendarPaneController implements Initializable {
                 calendar.getSchedule().getItems().add(app);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -173,7 +179,7 @@ public class CalendarPaneController implements Initializable {
                 calendar.getSchedule().getItems().add(app);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -237,7 +243,7 @@ public class CalendarPaneController implements Initializable {
                 calendar.getSchedule().getItems().add(app);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -275,7 +281,7 @@ public class CalendarPaneController implements Initializable {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -313,7 +319,7 @@ public class CalendarPaneController implements Initializable {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -325,7 +331,7 @@ public class CalendarPaneController implements Initializable {
         try {
             calendar.setCurrentView(CalendarView.Timetable);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -337,7 +343,7 @@ public class CalendarPaneController implements Initializable {
         try {
             calendar.setCurrentView(CalendarView.SingleMonth);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -356,7 +362,7 @@ public class CalendarPaneController implements Initializable {
             LoginView loginView = new LoginView();
             loginView.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -375,7 +381,7 @@ public class CalendarPaneController implements Initializable {
             SearchView searchView = new SearchView();
             searchView.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

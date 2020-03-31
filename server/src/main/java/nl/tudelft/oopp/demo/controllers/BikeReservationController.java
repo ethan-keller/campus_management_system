@@ -4,6 +4,8 @@ import java.util.List;
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.repositories.BikeReservationRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,7 @@ public class BikeReservationController {
     @Autowired
     private BuildingController buildingControl;
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Adds a bike reservation to the database.
@@ -43,9 +46,11 @@ public class BikeReservationController {
             startingTime = CommunicationMethods.decodeCommunication(startingTime);
             endingTime = CommunicationMethods.decodeCommunication(endingTime);
             bikeResRepo.insertBikeReservation(building, user, numBikes, date, startingTime, endingTime);
-            buildingControl.addBikeReservation(building, numBikes);
+            logger.info("Bike Reservation: -create- Building: " + building + " - User: " + user
+                    + " - Number of bikes: " + numBikes + " - date: " + date + " - Starting time: " + startingTime
+                    + " - Ending time: " + endingTime);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Bike Reservation: -create- ERROR", e);
         }
     }
 
@@ -67,8 +72,6 @@ public class BikeReservationController {
                                       @RequestParam String date, @RequestParam String startingTime,
                                       @RequestParam String endingTime) {
         try {
-            buildingControl.removeBikeReservation(id);
-
             user = CommunicationMethods.decodeCommunication(user);
             date = CommunicationMethods.decodeCommunication(date);
             startingTime = CommunicationMethods.decodeCommunication(startingTime);
@@ -79,10 +82,11 @@ public class BikeReservationController {
             bikeResRepo.updateDate(id, date);
             bikeResRepo.updateStartingTime(id, startingTime);
             bikeResRepo.updateEndingTime(id, endingTime);
-
-            buildingControl.addBikeReservation(building, numBikes);
+            logger.info("Bike Reservation: -update- BikeReservation ID: " + id + " - NEW data -> Building ID"
+                    + building + " - User: " + user + " - Number of bikes: " + numBikes + " - date: "
+                    + date + " - Starting time: " + startingTime + " - Ending time: " + endingTime);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Bike Reservation: -update- ERROR", e);
         }
     }
 
@@ -96,10 +100,10 @@ public class BikeReservationController {
     @ResponseBody
     public void deleteBikeReservation(@RequestParam int id) {
         try {
-            buildingControl.removeBikeReservation(id);
             bikeResRepo.deleteBikeReservation(id);
+            logger.info("Bike Reservation: -delete- ID: " + id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Bike Reservation: - delete- ERROR", e);
         }
     }
 
@@ -115,7 +119,7 @@ public class BikeReservationController {
         try {
             return bikeResRepo.getBikeReservation(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Bike Reservation -get- ERROR", e);
         }
         return null;
     }
@@ -128,11 +132,11 @@ public class BikeReservationController {
      */
     @GetMapping("getAllBikeReservation")
     @ResponseBody
-    public List<BikeReservation> getBikeReservation() {
+    public List<BikeReservation> getAllBikeReservation() {
         try {
             return bikeResRepo.getAllBikeReservations();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Bike Reservation -getAll- ERROR", e);
         }
         return null;
     }
@@ -150,7 +154,7 @@ public class BikeReservationController {
         try {
             return bikeResRepo.getBuildingBikeReservations(building);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Bike Reservation -getBuildingBikeReservations- ERROR", e);
         }
         return null;
     }
@@ -168,7 +172,7 @@ public class BikeReservationController {
             user = CommunicationMethods.decodeCommunication(user);
             return bikeResRepo.getUserBikeReservations(user);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Bike Reservation -getUserBikeReservations- ERROR", e);
         }
         return null;
     }

@@ -10,6 +10,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,6 +40,8 @@ import org.controlsfx.control.RangeSlider;
  * This controller class displays a dialog box for the admin to create/update reservations.
  */
 public class ReservationEditDialogController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private ComboBox<User> username;
@@ -140,7 +144,7 @@ public class ReservationEditDialogController {
                 return;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -175,7 +179,7 @@ public class ReservationEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -212,7 +216,7 @@ public class ReservationEditDialogController {
             // inject the RangeSlider in the JavaFX layout
             grid.add(timeslotSlider, 1, 3);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -333,7 +337,7 @@ public class ReservationEditDialogController {
             // add new stylesheet
             timeslotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -357,7 +361,7 @@ public class ReservationEditDialogController {
             timeslotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeslotSlider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -389,7 +393,7 @@ public class ReservationEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -420,7 +424,7 @@ public class ReservationEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -519,7 +523,7 @@ public class ReservationEditDialogController {
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -610,7 +614,7 @@ public class ReservationEditDialogController {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return false;
     }

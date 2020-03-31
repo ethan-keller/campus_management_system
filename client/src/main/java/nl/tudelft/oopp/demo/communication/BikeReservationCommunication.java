@@ -5,9 +5,13 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BikeReservationCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * Adds a bike reservation to the database.
@@ -108,7 +112,8 @@ public class BikeReservationCommunication {
         try {
             params = GeneralMethods.encodeCommunication(params);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return null;
         }
         HttpRequest request = HttpRequest.newBuilder().GET()
                 .uri(URI.create("http://localhost:8080/" + url + "?" + params)).build();
@@ -116,10 +121,11 @@ public class BikeReservationCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return null;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
         }
         return response.body();
     }
@@ -134,7 +140,8 @@ public class BikeReservationCommunication {
         try {
             params = GeneralMethods.encodeCommunication(params);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return;
         }
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody())
                 .uri(URI.create("http://localhost:8080/" + url + "?" + params)).build();
@@ -142,10 +149,11 @@ public class BikeReservationCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
         }
     }
 }

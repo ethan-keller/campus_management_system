@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -12,7 +14,11 @@ import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 public class Food {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     private IntegerProperty foodId;
     private StringProperty foodName;
     private DoubleProperty foodPrice;
@@ -103,7 +109,7 @@ public class Food {
             }
             return foodData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -126,7 +132,7 @@ public class Food {
             }
             return foodData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -149,7 +155,7 @@ public class Food {
             }
             return foodData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -172,7 +178,7 @@ public class Food {
             }
             return foodData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -191,7 +197,7 @@ public class Food {
             f.setFoodPrice(jsonObject.getDouble("price"));
             return f;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

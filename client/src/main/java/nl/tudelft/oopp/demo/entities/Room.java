@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -13,6 +15,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Room {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     private IntegerProperty roomId;
     private StringProperty roomName;
     private IntegerProperty roomBuilding;
@@ -229,7 +234,7 @@ public class Room {
             }
             return roomData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -254,7 +259,7 @@ public class Room {
             r.setRoomType(jsonObject.getString("type"));
             return r;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

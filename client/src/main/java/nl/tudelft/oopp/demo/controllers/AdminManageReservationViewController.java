@@ -1,6 +1,9 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -19,6 +22,9 @@ import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
 
 
 public class AdminManageReservationViewController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -67,7 +73,7 @@ public class AdminManageReservationViewController {
             //Adding the Observable List Data to the tableView created.
             listReservations.setItems(Reservation.getReservation());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -125,8 +131,7 @@ public class AdminManageReservationViewController {
                         "Please select a Reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete reservation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -158,8 +163,7 @@ public class AdminManageReservationViewController {
                         Alert.AlertType.INFORMATION);
             }
         } catch (Exception e) {
-            System.out.println("Reservation creation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -201,8 +205,7 @@ public class AdminManageReservationViewController {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
             }
         } catch (Exception e) {
-            System.out.println("Reservation edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

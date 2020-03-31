@@ -5,9 +5,13 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RoomServerCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * This client-server method is used to create a new room using the attributes passed as
@@ -35,11 +39,11 @@ public class RoomServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
             return false;
         }
         return true;
@@ -71,11 +75,11 @@ public class RoomServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
             return false;
         }
         return true;
@@ -96,11 +100,11 @@ public class RoomServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
             return false;
         }
         return true;
@@ -121,10 +125,11 @@ public class RoomServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return null;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
         }
         return response.body();
     }
@@ -139,10 +144,11 @@ public class RoomServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return null;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
         }
         return response.body();
     }
