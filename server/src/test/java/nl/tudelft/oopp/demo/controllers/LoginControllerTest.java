@@ -43,6 +43,7 @@ class LoginControllerTest {
 
     /**
      * Test for getUser method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getUserTest() throws Exception {

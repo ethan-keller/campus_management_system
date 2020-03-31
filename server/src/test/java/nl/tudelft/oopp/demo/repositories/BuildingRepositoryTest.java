@@ -56,6 +56,7 @@ class BuildingRepositoryTest {
     /**
      * Test for getAllBuildings method.
      */
+
     @Test
     void getAllBuildingsTest() {
         when(buildingRepo.getAllBuildings()).thenReturn(buildingList);

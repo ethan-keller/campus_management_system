@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.repositories;
 import java.util.List;
 
 import nl.tudelft.oopp.demo.entities.Room;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -71,7 +72,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Query(value = "SELECT * FROM room WHERE building = :buildingId", nativeQuery = true)
     public List<Room> getRoomByBuilding(@Param("buildingId") int buildingId);
-
 
 
 }

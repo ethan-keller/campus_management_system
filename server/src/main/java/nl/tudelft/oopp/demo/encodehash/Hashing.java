@@ -1,8 +1,13 @@
 package nl.tudelft.oopp.demo.encodehash;
 
 import java.security.MessageDigest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Hashing {
+
+    private static Logger logger = LoggerFactory.getLogger("n.t.o.d.encodehash.Hashing");
+
     /**
      * Hashes the string using the SHA-256 algorithm.
      *
@@ -27,7 +32,7 @@ public class Hashing {
 
             return res;
         } catch (Exception e) {
-            System.out.println("Error while hashing: " + e.toString());
+            logger.error("Hashing: -hashIt- ERROR", e);
         }
         return null;
     }

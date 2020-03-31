@@ -42,6 +42,7 @@ class RegisterControllerTest {
 
     /**
      * Test for register method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void registerTest() throws Exception {

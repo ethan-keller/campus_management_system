@@ -56,6 +56,7 @@ class BuildingControllerTest {
 
     /**
      * Test for createBuilding method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void createBuildingTest() throws Exception {
@@ -67,6 +68,7 @@ class BuildingControllerTest {
 
     /**
      * Test for removeBikeReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void removeBikeReservationTest() throws Exception {
@@ -77,6 +79,7 @@ class BuildingControllerTest {
 
     /**
      * Test for addBikeReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void addBikeReservationTest() throws Exception {
@@ -87,6 +90,7 @@ class BuildingControllerTest {
 
     /**
      * Test for updateBuilding method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void updateBuildingTest() throws Exception {
@@ -97,6 +101,7 @@ class BuildingControllerTest {
 
     /**
      * Test for deleteBuilding method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void deleteBuildingTest() throws Exception {
@@ -107,6 +112,7 @@ class BuildingControllerTest {
 
     /**
      * Test for getBuilding method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getBuildingTest() throws Exception {
@@ -120,6 +126,7 @@ class BuildingControllerTest {
 
     /**
      * Test for getBuildingByFoodId method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getBuildingByFoodIdTest() throws Exception {
@@ -133,6 +140,7 @@ class BuildingControllerTest {
 
     /**
      * Test for getAllBuildings method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getAllBuildingsTest() throws Exception {

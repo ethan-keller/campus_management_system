@@ -2,11 +2,19 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Reservations;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.BikeReservationRepository;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
+import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
+import nl.tudelft.oopp.demo.repositories.RoomRepository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +31,14 @@ public class BuildingController {
 
     @Autowired
     private BikeReservationRepository bikeResRepo;
+
+    @Autowired
+    private RoomRepository roomRepo;
+
+    @Autowired
+    private ReservationsRepository reservationsRepo;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Adds a building to the database.
@@ -45,13 +61,17 @@ public class BuildingController {
 
         try {
             buildingRepo.insertBuilding(name, roomCount, address, availableBikes, maxBikes);
+            logger.info("Building: -create- Name: " + name + " - Room count: " + roomCount
+                    + " - Address: " + address + " - Available Bikes: "
+                    + availableBikes + " - Max bikes: " + maxBikes);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Building: -create- ERROR", e);
         }
     }
 
     /**
      * Updates available bikes when a bike reservation is removed.
+     *
      * @param bikeResId The bike reservation id
      */
     @PostMapping("removeBikeReservation")
@@ -64,6 +84,7 @@ public class BuildingController {
 
     /**
      * Updates available bikes for the specified building.
+     *
      * @param building The building ID
      * @param numBikes The amount of bikes the are reserved
      */
@@ -81,11 +102,11 @@ public class BuildingController {
     /**
      * Changes the existing building with the provided ID in the database with the provides parameters.
      *
-     * @param id              The building ID, this is the building that is going to get changed.
-     * @param name            The new name of the building
-     * @param roomCount      the new room count of the building
-     * @param address         the new address of the building //TODO add address format
-     * @param maxBikes       The max number of bikes, int
+     * @param id        The building ID, this is the building that is going to get changed.
+     * @param name      The new name of the building
+     * @param roomCount the new room count of the building
+     * @param address   the new address of the building //TODO add address format
+     * @param maxBikes  The max number of bikes, int
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding
      */
     @PostMapping("updateBuilding")
@@ -102,8 +123,11 @@ public class BuildingController {
             buildingRepo.updateName(id, name);
             buildingRepo.updateRoomCount(id, roomCount);
             buildingRepo.updateMaxBikes(id, maxBikes);
+            logger.info("Building: -update- Building ID: " + id + " - NEW data -> Name: "
+                    + name + " - Room count: " + roomCount + " - Address: "
+                    + address + " - Max bikes: " + maxBikes);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Building: -update- ERROR", e);
         }
     }
 
@@ -116,9 +140,27 @@ public class BuildingController {
     @ResponseBody
     public void deleteBuilding(@RequestParam int id) {
         try {
+            final List<Room> rooms = roomRepo.getRoomByBuilding(id);
+            final List<BikeReservation> bikeReservations = bikeResRepo.getBuildingBikeReservations(id);
+
+            int counter;
+            for (counter = 0; counter < rooms.size(); counter++) {
+                int roomID = rooms.get(counter).getId();
+                logger.info("Room -delete- Room ID: " + roomID);
+                final List<Reservations> reservations = reservationsRepo.getReservationByRoom(roomID);
+                for (int counter2 = 0; counter2 < reservations.size(); counter2++) {
+                    logger.info("Reservation: -delete- ID: " + reservations.get(counter2).getId());
+                }
+            }
+
+            for (counter = 0; counter < bikeReservations.size(); counter++) {
+                logger.info("Bike Reservation: -delete- ID: " + bikeReservations.get(counter).getId());
+            }
+
             buildingRepo.deleteBuilding(id);
+            logger.info("Building: -delete- Building ID: " + id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Building -delete- ERROR", e);
         }
     }
 
@@ -134,13 +176,14 @@ public class BuildingController {
         try {
             return buildingRepo.getBuilding(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Building -get- ERROR", e);
         }
         return null;
     }
 
     /**
      * Returns a list of buildings that sell a particular food.
+     *
      * @param id the Food id.
      * @return Returns a list
      */
@@ -150,7 +193,7 @@ public class BuildingController {
         try {
             return buildingRepo.getBuildingByFoodId(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Building -getBuildingByFoodId- ERROR", e);
         }
         return null;
     }
@@ -166,7 +209,7 @@ public class BuildingController {
         try {
             return buildingRepo.getAllBuildings();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Building -getAll- ERROR", e);
         }
         return null;
     }

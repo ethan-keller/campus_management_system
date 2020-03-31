@@ -1,10 +1,16 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.entities.FoodReservations;
+import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.repositories.FoodRepository;
+import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +25,12 @@ public class FoodController {
     @Autowired
     private FoodRepository foodRepo;
 
+    @Autowired
+    private ReservationsRepository reservationRepo;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+
     /**
      * If it receives an HTTP request, it executes the SQL commands to create a food in the database.
      * @param name The name of the new food
@@ -32,8 +44,9 @@ public class FoodController {
         name = CommunicationMethods.decodeCommunication(name);
         try {
             foodRepo.insertFood(name, price);
+            logger.info("Food: -create- Name: " + name + " - Price: " + price);
         } catch  (Exception e) {
-            e.printStackTrace();
+            logger.error("Food: -create- ERROR", e);
         }
     }
 
@@ -48,8 +61,9 @@ public class FoodController {
     public void addFoodToBuilding(@RequestParam int food, @RequestParam int building) {
         try {
             foodRepo.addFoodToBuilding(food, building);
+            logger.info("Food: -addFoodToBuilding- Food ID: " + food + " - Building ID: " + building);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food -addFoodToBuilding- ERROR", e);
         }
     }
 
@@ -66,8 +80,10 @@ public class FoodController {
                                      @RequestParam int quantity) {
         try {
             foodRepo.addFoodToReservation(reservation, food, quantity);
+            logger.info("Food: -addFoodToReservation- Food ID: " + food + " - Reservation ID: " + reservation
+                        + " - Quantity: " + quantity);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food -addFoodToReservation- ERROR", e);
         }
     }
 
@@ -86,8 +102,10 @@ public class FoodController {
         try {
             foodRepo.updateName(id, name);
             foodRepo.updatePrice(id, price);
+            logger.info("Food: -update- ID: " + id + " - NEW data -> name: " + name
+                    + " - Price: " + price);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food -update- ERROR", e);
         }
     }
 
@@ -102,8 +120,10 @@ public class FoodController {
     public void deleteFoodFromReservation(@RequestParam int food, @RequestParam int reservation) {
         try {
             foodRepo.deleteFoodReservation(reservation, food);
+            logger.info("Food: -deleteFoodFromReservation- Food ID: " + food
+                    + " - Reservation ID: " + reservation);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food -deleteFoodFromReservation- ERROR", e);
         }
     }
 
@@ -118,8 +138,9 @@ public class FoodController {
     public void deleteFoodFromBuilding(@RequestParam int food, @RequestParam int building) {
         try {
             foodRepo.deleteFoodBuilding(building, food);
+            logger.info("Food: -deleteFoodFromBuilding- Food ID: " + food + " - Building ID: " + building);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food -deleteFoodFromBuilding- ERROR", e);
         }
     }
 
@@ -136,8 +157,10 @@ public class FoodController {
                                               @RequestParam int quantity) {
         try {
             foodRepo.updateFoodReservationQuantity(reservation, food, quantity);
+            logger.info("Food: -updateFoodReservationQuantity- Food ID: " + food + " - Reservation ID"
+                    + reservation + " - NEW data -> quantity: " + quantity);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food -updateFoodReservationQuantity- ERROR", e);
         }
     }
 
@@ -150,8 +173,9 @@ public class FoodController {
     public void deleteFood(@RequestParam int id) {
         try {
             foodRepo.deleteFood(id);
+            logger.info("Food: -delete- Food ID: " + id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food -delete- ERROR", e);
         }
     }
 
@@ -166,27 +190,11 @@ public class FoodController {
         try {
             return foodRepo.getFood(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food: -get- ERROR", e);
         }
         return null;
     }
 
-    /**
-     * If it receives an HTTP request, it executes the SQL command to<br>
-     * retrieve the foods that are ordered with a reservation based on the reservationID.
-     * @param reservation The reservation ID
-     * @return Returns a list of Food entities
-     */
-    @GetMapping("getFoodByReservation")
-    @ResponseBody
-    public List<Food> getFoodByReservation(@RequestParam int reservation)  {
-        try {
-            return foodRepo.getFoodByReservationId(reservation);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     /**
      * If it receives an HTTP request, it executes the SQL command to retrieve the foods that<br>
@@ -200,10 +208,28 @@ public class FoodController {
         try {
             return foodRepo.getFoodByBuildingId(building);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food: -getFoodByBuildingId- ERROR", e);
         }
         return null;
     }
+
+    /**
+     * If it receives an HTTP request, it executes the SQL command to retrieve the foods that<br>
+     * are ordered in a given reservation.
+     * @param reservation The reservation ID
+     * @return Returns a list of Foods
+     */
+    @GetMapping("getFoodByReservation")
+    @ResponseBody
+    public List<Food> getFoodByReservation(@RequestParam int reservation)  {
+        try {
+            return foodRepo.getFoodByReservationId(reservation);
+        } catch (Exception e) {
+            logger.error("Food: -getFoodByReservationId- ERROR", e);
+        }
+        return null;
+    }
+
 
     /**
      * If it receives an HTTP request, it executes the SQL command<br>
@@ -216,7 +242,7 @@ public class FoodController {
         try {
             return foodRepo.getAllFood();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Food: -getAllFood- ERROR", e);
         }
         return null;
     }

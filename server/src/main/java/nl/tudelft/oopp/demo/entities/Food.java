@@ -1,9 +1,11 @@
 package nl.tudelft.oopp.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,11 +30,11 @@ public class Food implements Serializable {
     @Column(name = "price")
     private double price;
 
-    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
     private Set<FoodReservations> foodReservations;
 
-    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
     private Set<FoodBuilding> foodBuilding;
 

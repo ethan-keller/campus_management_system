@@ -57,6 +57,7 @@ class ReservationControllerTest {
 
     /**
      * Test for createReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void createReservationTest() throws Exception {
@@ -68,6 +69,7 @@ class ReservationControllerTest {
 
     /**
      * Test for getCurrentId method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getCurrentIdTest() throws Exception {
@@ -81,6 +83,7 @@ class ReservationControllerTest {
 
     /**
      * Test for updateReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void updateReservationTest() throws Exception {
@@ -92,6 +95,7 @@ class ReservationControllerTest {
 
     /**
      * Test for deleteReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void deleteReservationTest() throws Exception {
@@ -102,6 +106,7 @@ class ReservationControllerTest {
 
     /**
      * Test for getReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getReservationTest() throws Exception {
@@ -115,6 +120,7 @@ class ReservationControllerTest {
 
     /**
      * Test for getAllReservations method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getAllReservationsTest() throws Exception {
@@ -129,6 +135,7 @@ class ReservationControllerTest {
 
     /**
      * Test for getUserReservations method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getUserReservationsTest() throws Exception {

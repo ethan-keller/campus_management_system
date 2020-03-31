@@ -58,6 +58,7 @@ class ItemControllerTest {
 
     /**
      * Test for getItem method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getItemTest() throws Exception {
@@ -71,6 +72,7 @@ class ItemControllerTest {
 
     /**
      * Test for getAllItems method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getAllItemsTest() throws Exception {
@@ -85,6 +87,7 @@ class ItemControllerTest {
 
     /**
      * Test for createItem method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void createItemTest() throws Exception {
@@ -96,6 +99,7 @@ class ItemControllerTest {
 
     /**
      * Test for deleteItem method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void deleteItemTest() throws Exception {
@@ -106,6 +110,7 @@ class ItemControllerTest {
 
     /**
      * Test for getCurrentId method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getCurrentIdTest() throws Exception {
@@ -119,6 +124,7 @@ class ItemControllerTest {
 
     /**
      * Test for getUserItems method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getUserItemsTest() throws Exception {

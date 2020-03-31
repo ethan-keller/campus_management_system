@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.repositories;
 
 import java.util.List;
 import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.entities.FoodReservations;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -78,4 +79,6 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     @Transactional
     @Query(value = "UPDATE food SET price = :price WHERE id = :id", nativeQuery = true)
     public void updatePrice(@Param("id") int id, @Param("price") double price);
+
 }
+

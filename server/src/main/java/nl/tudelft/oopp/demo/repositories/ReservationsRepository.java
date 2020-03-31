@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.repositories;
 import java.util.List;
 
 import nl.tudelft.oopp.demo.entities.Reservations;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,9 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
 
     @Query(value = "SELECT * FROM reservations WHERE id = :id", nativeQuery = true)
     public Reservations getReservation(@Param("id") int id);
+
+    @Query(value = "SELECT * FROM reservations WHERE room = :id", nativeQuery = true)
+    public List<Reservations> getReservationByRoom(@Param("id") int id);
 
     @Query(value = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES"
             + " WHERE TABLE_SCHEMA = 'OOPP38' AND TABLE_NAME = 'reservations'", nativeQuery = true)
@@ -64,5 +68,4 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
 
     @Query(value = "SELECT * FROM reservations WHERE username = LOWER(:username)", nativeQuery = true)
     public List<Reservations> getUserReservations(@Param("username") String username);
-
 }

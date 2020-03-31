@@ -53,6 +53,7 @@ class FoodControllerTest {
 
     /**
      * Test for createFood method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void createFoodTest() throws Exception {
@@ -63,6 +64,7 @@ class FoodControllerTest {
 
     /**
      * Test for addFoodToBuilding method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void addFoodToBuildingTest() throws Exception {
@@ -73,6 +75,7 @@ class FoodControllerTest {
 
     /**
      * Test for addFoodToReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void addFoodToReservationTest() throws Exception {
@@ -83,6 +86,7 @@ class FoodControllerTest {
 
     /**
      * Test for updateFood method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void updateFoodTest() throws Exception {
@@ -93,6 +97,7 @@ class FoodControllerTest {
 
     /**
      * Test for deleteFoodFromReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void deleteFoodFromReservationTest() throws Exception {
@@ -103,6 +108,7 @@ class FoodControllerTest {
 
     /**
      * Test for deleteFoodFromBuilding method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void deleteFoodFromBuildingTest() throws Exception {
@@ -113,6 +119,7 @@ class FoodControllerTest {
 
     /**
      * Test for updateFoodReservationQuantity method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void updateFoodReservationQuantityTest() throws Exception {
@@ -123,6 +130,7 @@ class FoodControllerTest {
 
     /**
      * Test for deleteFood method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void deleteFoodTest() throws Exception {
@@ -133,6 +141,7 @@ class FoodControllerTest {
 
     /**
      * Test for getFood method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getFoodTest() throws Exception {
@@ -145,6 +154,7 @@ class FoodControllerTest {
 
     /**
      * Test for getFoodByReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getFoodByReservationTest() throws Exception {
@@ -158,6 +168,7 @@ class FoodControllerTest {
 
     /**
      * Test for getFoodByBuildingId method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getFoodByBuildingIdTest() throws Exception {
@@ -171,6 +182,7 @@ class FoodControllerTest {
 
     /**
      * Test for getAllFood method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getAllFoodTest() throws Exception {

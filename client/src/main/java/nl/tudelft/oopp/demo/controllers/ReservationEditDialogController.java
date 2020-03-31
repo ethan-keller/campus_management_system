@@ -10,6 +10,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,6 +40,8 @@ import org.controlsfx.control.RangeSlider;
  * This controller class displays a dialog box for the admin to create/update reservations.
  */
 public class ReservationEditDialogController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private ComboBox<User> username;
@@ -140,7 +144,7 @@ public class ReservationEditDialogController {
                 return;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -175,7 +179,7 @@ public class ReservationEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -212,7 +216,7 @@ public class ReservationEditDialogController {
             // inject the RangeSlider in the JavaFX layout
             grid.add(timeslotSlider, 1, 3);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -236,6 +240,7 @@ public class ReservationEditDialogController {
                 // make track completely white
                 GeneralMethods.setSliderDefaultCss(timeslotSlider, bw,
                         getClass().getResource("/RangeSlider.css").toExternalForm());
+                System.out.println(1);
                 return;
             }
             // get reservations for this room on the selected date
@@ -271,6 +276,7 @@ public class ReservationEditDialogController {
 
             // first part of css
             bw.write(".track {\n" + "\t-fx-background-color: linear-gradient(to right, ");
+            System.out.println(2);
 
             // iterator to loop over all the reservations
             Iterator<Reservation> it = reservations.iterator();
@@ -278,12 +284,14 @@ public class ReservationEditDialogController {
             // if there are no reservations make the track completely green
             if (!it.hasNext()) {
                 bw.write("#91ef99 0%, #91ef99 100%);\n");
+                System.out.println(3);
             }
 
             Reservation res = AdminManageReservationViewController.currentSelectedReservation;
 
             // calculate and add green and red parts
             while (it.hasNext()) {
+                System.out.println(4);
                 Reservation r = it.next();
                 // split start and end times into hours and minutes
                 String[] startTime = r.getStartingTime().get().split(":");
@@ -296,6 +304,7 @@ public class ReservationEditDialogController {
                         + Double.parseDouble(endTime[1])) / 9.60;
                 // if reservation is the one that is being edited, give it a light blue color
                 if (res != null && res.getId().get() == r.getId().get()) {
+                    System.out.println(5);
                     bw.write("#91ef99 " + startPercentage + "%, ");
                     bw.write("#70e5fa " + startPercentage + "%, ");
                     bw.write("#70e5fa " + endPercentage + "%, ");
@@ -307,6 +316,7 @@ public class ReservationEditDialogController {
                     }
                     continue;
                 }
+                System.out.println(6);
                 bw.write("#91ef99 " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + endPercentage + "%, ");
@@ -325,6 +335,7 @@ public class ReservationEditDialogController {
                     + "}\n\n" + ".range-bar {\n"
                     + "\t-fx-background-color: rgba(0,0,0,0.3);\n"
                     + "}");
+            System.out.println(7);
             // flush and close writer
             bw.flush();
             bw.close();
@@ -333,7 +344,7 @@ public class ReservationEditDialogController {
             // add new stylesheet
             timeslotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -357,7 +368,7 @@ public class ReservationEditDialogController {
             timeslotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeslotSlider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -389,7 +400,7 @@ public class ReservationEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -420,7 +431,7 @@ public class ReservationEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -519,7 +530,7 @@ public class ReservationEditDialogController {
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -610,7 +621,7 @@ public class ReservationEditDialogController {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return false;
     }

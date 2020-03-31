@@ -41,14 +41,30 @@
                   <Font size="14.0" />
                </font>
             </Button>
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="234.0" layoutY="275.0" mnemonicParsing="false" onAction="#manageFoodClicked" prefWidth="180.0" text="Foods" textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+               </VBox.margin>
+            </Button>
 
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="180.0" onAction="#addReservationClicked" text="Reservations" textAlignment="CENTER">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addReservationClicked" prefWidth="180.0" text="Reservations" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </VBox.margin>
                <font>
                   <Font size="14.0" />
                </font>
+            </Button>
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="234.0" layoutY="275.0" mnemonicParsing="false" onAction="#manageBikeClicked" prefWidth="180.0" text="Bike Reservations" textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+               </VBox.margin>
             </Button>
             <Button fx:id="signOutButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#signOutButtonClicked" prefHeight="26.0" prefWidth="120.0" text="Sign out" textAlignment="CENTER">
                <VBox.margin>

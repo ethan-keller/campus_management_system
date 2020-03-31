@@ -53,6 +53,7 @@ class UserControllerTest {
 
     /**
      * Test for createUser method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void createUserTest() throws Exception {
@@ -63,6 +64,7 @@ class UserControllerTest {
 
     /**
      * Test for updateUser method (with password).
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void updateUserWithPasswordTest() throws Exception {
@@ -73,6 +75,7 @@ class UserControllerTest {
 
     /**
      * Test for updateUser method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void updateUserTest() throws Exception {
@@ -83,6 +86,7 @@ class UserControllerTest {
 
     /**
      * Test for deleteUser method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void deleteUserTest() throws Exception {
@@ -93,6 +97,7 @@ class UserControllerTest {
 
     /**
      * Test for getUser method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getUserTest() throws Exception {
@@ -106,6 +111,7 @@ class UserControllerTest {
 
     /**
      * Test for getAllUsers method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getAllUsers() throws Exception {

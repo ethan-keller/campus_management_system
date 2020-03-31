@@ -55,6 +55,7 @@ class RoomControllerTest {
 
     /**
      * Test for createRoom method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void createRoomTest() throws Exception {
@@ -66,6 +67,7 @@ class RoomControllerTest {
 
     /**
      * Test for updateRoom method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void updateRoomTest() throws Exception {
@@ -77,6 +79,7 @@ class RoomControllerTest {
 
     /**
      * Test for deleteRoom method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void deleteRoomTest() throws Exception {
@@ -87,6 +90,7 @@ class RoomControllerTest {
 
     /**
      * Test for getRoom method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getRoomTest() throws Exception {
@@ -100,6 +104,7 @@ class RoomControllerTest {
 
     /**
      * Test for getAllRooms method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getAllRoomsTest() throws Exception {

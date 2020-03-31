@@ -1,7 +1,9 @@
 package nl.tudelft.oopp.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,13 +17,13 @@ import javax.persistence.Table;
 public class FoodReservations implements Serializable {
     @Id
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
     @JoinColumn
     private Food food;
 
     @Id
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
     @JoinColumn
     private Reservations reservation;
 
@@ -36,9 +38,10 @@ public class FoodReservations implements Serializable {
 
     /**
      * Constructor to initialize the variables.
-     * @param food The new food entity
+     *
+     * @param food        The new food entity
      * @param reservation The new Reservation entity
-     * @param quantity The quantity of the food that is ordered
+     * @param quantity    The quantity of the food that is ordered
      */
     public FoodReservations(Food food, Reservations reservation, int quantity) {
         this.food = food;
@@ -48,6 +51,7 @@ public class FoodReservations implements Serializable {
 
     /**
      * Returns the Food entity.
+     *
      * @return Returns the Food entity
      */
     public Food getFood() {
@@ -56,6 +60,7 @@ public class FoodReservations implements Serializable {
 
     /**
      * Returns the Reservation entity.
+     *
      * @return Returns the Reservation entity
      */
     public Reservations getReservation() {
@@ -64,6 +69,7 @@ public class FoodReservations implements Serializable {
 
     /**
      * Returns the quantity of the food ordered.
+     *
      * @return Returns the quantity
      */
     public int getQuantity() {
@@ -72,6 +78,7 @@ public class FoodReservations implements Serializable {
 
     /**
      * The equals method to compare this object with other objects.
+     *
      * @param o The other object
      * @return Returns if they are equal in a boolean
      */
@@ -79,7 +86,7 @@ public class FoodReservations implements Serializable {
         if (!(o instanceof FoodReservations)) {
             return false;
         }
-        FoodReservations temp = (FoodReservations)o;
+        FoodReservations temp = (FoodReservations) o;
         if (food != temp.getFood()) {
             return false;
         }

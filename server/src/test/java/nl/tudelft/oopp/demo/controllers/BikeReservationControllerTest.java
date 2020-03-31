@@ -58,6 +58,7 @@ class BikeReservationControllerTest {
 
     /**
      * Test for createBikeReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void createBikeReservationTest() throws Exception {
@@ -69,6 +70,7 @@ class BikeReservationControllerTest {
 
     /**
      * Test for updateBikeReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void updateBikeReservationTest() throws Exception {
@@ -80,6 +82,7 @@ class BikeReservationControllerTest {
 
     /**
      * Test for deleteBikeReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void deleteBikeReservationTest() throws Exception {
@@ -90,6 +93,7 @@ class BikeReservationControllerTest {
 
     /**
      * Test for getBikeReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getBikeReservationTest() throws Exception {
@@ -103,6 +107,7 @@ class BikeReservationControllerTest {
 
     /**
      * Test for getBikeReservations method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getBikeReservationsTest() throws Exception {
@@ -117,6 +122,7 @@ class BikeReservationControllerTest {
 
     /**
      * Test for getBuildingBikeReservation method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getBuildingBikeReservationTest() throws Exception {
@@ -131,6 +137,7 @@ class BikeReservationControllerTest {
 
     /**
      * Test for getUserBikeReservations method.
+     * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getUserBikeReservationsTest() throws Exception {
