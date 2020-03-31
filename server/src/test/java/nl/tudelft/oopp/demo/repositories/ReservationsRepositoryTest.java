@@ -65,6 +65,9 @@ class ReservationsRepositoryTest {
         Reservations r2 = new Reservations(id, "4testing", roomId2, "2020-06-29", "10:00:00", "15:00:00");
         assertEquals(r2, reservationsRepo.getReservation(id));
 
+        buildingRepo.deleteBuilding(id3);
+        roomRepo.deleteRoom(roomId);
+        roomRepo.deleteRoom(roomId2);
         userRepo.deleteUser("4testing");
         reservationsRepo.deleteReservation(id);
         buildingRepo.deleteBuilding(id3);

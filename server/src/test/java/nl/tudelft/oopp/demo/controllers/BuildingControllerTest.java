@@ -28,7 +28,7 @@ class BuildingControllerTest {
         Building b1 = new Building(id, "buildingcontrollertest", 20, "teststreet", 1, 5);
         assertEquals(b1, buildingCont.getBuilding(id));
 
-        buildingCont.updateBuilding(id, "buildingcontrollertest2", 21, "teststreet2", 2, 6);
+        buildingCont.updateBuilding(id, "buildingcontrollertest2", 21, "teststreet2", 2);
         Building b2 = new Building(id, "buildingcontrollertest2", 21, "teststreet2", 2, 6);
         assertEquals(b2, buildingCont.getBuilding(id));
 

@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.controllers;
 import java.io.IOException;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -34,6 +35,9 @@ public class AdminManageBuildingViewController {
     private TableColumn<Building, Number> buildingRoomCountColumn;
 
     @FXML
+    private TableColumn<Building, String> maxBikesColumn;
+
+    @FXML
     private TableColumn<Building, String> buildingAddressColumn;
 
     @FXML
@@ -56,6 +60,8 @@ public class AdminManageBuildingViewController {
             buildingNameColumn.setCellValueFactory(cell -> cell.getValue().getBuildingName());
             buildingRoomCountColumn.setCellValueFactory(cell ->
                     new SimpleIntegerProperty(cell.getValue().getBuildingRoomCount().get()));
+            maxBikesColumn.setCellValueFactory(cell ->
+                    new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingMaxBikes().get())));
             buildingAddressColumn.setCellValueFactory(cell -> cell.getValue().getBuildingAddress());
 
             // Add observable list data to the table
@@ -104,7 +110,6 @@ public class AdminManageBuildingViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-
                 // TODO: Check that building deletion was succesful before displaying alert
                 AdminManageBuildingLogic.deleteBuildingLogic(selectedBuilding);
                 //BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
@@ -177,7 +182,7 @@ public class AdminManageBuildingViewController {
                 }
 
                 // TODO: Check that building edit was successful before displaying alert
-                AdminManageBuildingLogic.editBuildiingLogic(selectedBuilding, tempBuilding);
+                AdminManageBuildingLogic.editBuildingLogic(selectedBuilding, tempBuilding);
                 //BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
                 //tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
                 //tempBuilding.getBuildingAddress().get());

@@ -37,6 +37,7 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.logic.SearchViewLogic;
+import nl.tudelft.oopp.demo.views.CalendarPaneView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomView;
 
@@ -94,21 +95,6 @@ public class SearchViewController implements Initializable {
      * Default construct of searchView class.
      */
     public SearchViewController() {
-    }
-
-
-    /**
-     * Handles the onclick of signOut Button.
-     * Redirects the user back to the login page.
-     *
-     * @param event is passed
-     * @throws IOException is thrown
-     */
-    public void signOutButtonClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        LoginView loginView = new LoginView();
-        loginView.start(stage);
     }
 
     /**
@@ -258,9 +244,6 @@ public class SearchViewController implements Initializable {
      * @throws UnsupportedEncodingException when encoding fails.
      */
     public void loadCards() throws UnsupportedEncodingException {
-        Date now = new Date();
-        String strDate = sdf.format(now);
-        System.out.println("Filtering start: " + strDate);
         //load all rooms back in the roomlist to filter again
         roomList = new ArrayList<Room>();
         for (int i = 0; i != rooms.size(); i++) {
@@ -302,17 +285,11 @@ public class SearchViewController implements Initializable {
         }
 
         // if a date is selected it filters out the rooms that are fully booked for that day.
-        Date now2 = new Date();
-        String strDate2 = sdf.format(now2);
-        System.out.println("Date Filtering start: " + strDate);
         if (datePicker.getValue() != null) {
             String date = datePicker.getValue().toString();
             ObservableList<Reservation> reservations = Reservation.getReservation();
             SearchViewLogic.filterRoomsByDate(roomList, date, reservations);
         }
-        Date now3 = new Date();
-        String strDate3 = sdf.format(now3);
-        System.out.println("Date filtering end: " + strDate3);
 
         // value of the searchbar is put in searchBarInput
         // and is filtered on building name and room name.
@@ -323,9 +300,7 @@ public class SearchViewController implements Initializable {
         if (!searchBarInput.equals("")) {
             roomsToShow = SearchViewLogic.filterBySearch(roomList, searchBarInput, buildings);
         }
-        Date now4 = new Date();
-        String strDate4 = sdf.format(now4);
-        System.out.println("ending filtering: " + strDate4);
+
         //Load the cards that need to be shown
         getCardsShown(roomsToShow);
 
@@ -337,22 +312,14 @@ public class SearchViewController implements Initializable {
      * @param roomList list of rooms that are going to be shown.
      */
     public void getCardsShown(List<Room> roomList) {
-        Date now2 = new Date();
-        String strDate2 = sdf.format(now2);
-        System.out.println("starting getCardsShown: " + strDate2);
+
         //Removes cards that are now in the view
         cardHolder.getChildren().clear();
 
         // create a 'card' showing some information of the room, for every room
         for (Room r : roomList) {
-            Date now7 = new Date();
-            String strDate7 = sdf.format(now7);
-            System.out.println("Going for card: " + strDate7);
             cardHolder.getChildren().add(SearchViewLogic.createRoomCard(this, r));
         }
-        Date now = new Date();
-        String strDate = sdf.format(now);
-        System.out.println("ending getCardShown: " + strDate);
     }
 
     /**
@@ -530,6 +497,42 @@ public class SearchViewController implements Initializable {
             capacityComboBox.setValue(null);
             bikesAvailable.setValue(null);
             loadCards();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Loads the Calendar view with all the booking history.
+     *
+     * @param event event that triggered this method
+     */
+    @FXML
+    private void bookingHistoryClicked(ActionEvent event) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            CalendarPaneController.thisStage = stage;
+            CalendarPaneView cpv = new CalendarPaneView();
+            cpv.start(stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Handles the onclick of signOut Button.
+     * Redirects the user back to the login page.
+     *
+     * @param event event that triggered this method
+     */
+    @FXML
+    private void signOutButtonClicked(ActionEvent event) {
+        try {
+            // get current stage and load log in view
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            LoginView loginView = new LoginView();
+            loginView.start(stage);
         } catch (Exception e) {
             e.printStackTrace();
         }
