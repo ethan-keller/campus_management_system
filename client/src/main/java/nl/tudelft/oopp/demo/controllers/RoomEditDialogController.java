@@ -1,9 +1,9 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

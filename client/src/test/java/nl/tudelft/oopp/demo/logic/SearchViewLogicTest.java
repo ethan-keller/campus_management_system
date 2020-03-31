@@ -1,16 +1,15 @@
 package nl.tudelft.oopp.demo.logic;
 
-import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Reservation;
-import nl.tudelft.oopp.demo.entities.Room;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.entities.Room;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 
@@ -58,7 +57,7 @@ class SearchViewLogicTest {
      * makes buildings to filter on.
      * @return
      */
-    public List<Building> makeBuildings(){
+    public List<Building> makeBuildings() {
         buildings = new ArrayList<>();
         b1 = new Building(1, "Building 1", 2, "BuildingStreet 1", 5, 5);
         b2 = new Building(2, "Building 2", 2, "BuildingStreet 2", 10, 10);
@@ -75,7 +74,7 @@ class SearchViewLogicTest {
      * Makes a list of reservations to filter on.
      * @return
      */
-    public List<Reservation> makeReservations(){
+    public List<Reservation> makeReservations() {
         reservations = new ArrayList<Reservation>();
 
         rs1 = new Reservation(1, "Test", 1, "2020-05-05", "08:00:00", "23:59:00");
@@ -124,22 +123,21 @@ class SearchViewLogicTest {
     @Test
     void filterRoomByCapacity() {
         List<Room> expected1 = new ArrayList<Room>();
-        List<Room> expected2 = new ArrayList<Room>();
-        List<Room> expected3 = new ArrayList<Room>();
-        List<Room> expected4 = new ArrayList<Room>();
-
         expected1.add(r1);
         assertEquals(expected1, SearchViewLogic.filterRoomByCapacity(rooms, "1-5"));
 
+        List<Room> expected2 = new ArrayList<Room>();
         makeRooms();
         expected2.add(r3);
         assertEquals(expected2, SearchViewLogic.filterRoomByCapacity(rooms, "5-10"));
 
+        List<Room> expected3 = new ArrayList<Room>();
         makeRooms();
         expected3.add(r2);
         expected3.add(r4);
         assertEquals(expected3, SearchViewLogic.filterRoomByCapacity(rooms, "10-20"));
 
+        List<Room> expected4 = new ArrayList<Room>();
         makeRooms();
         expected4.add(r4);
         expected4.add(r5);
