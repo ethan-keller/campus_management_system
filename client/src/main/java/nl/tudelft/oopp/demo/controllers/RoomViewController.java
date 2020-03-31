@@ -8,30 +8,41 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
-import javafx.collections.FXCollections;
+import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
@@ -68,11 +79,13 @@ public class RoomViewController implements Initializable {
     private Text description;
     // TODO: change String to Food entity
     @FXML
-    private ComboBox<String> foodChoice;
+    private ComboBox<Food> foodChoice;
     @FXML
     private Button bookButton;
     @FXML
     private DatePicker datePicker;
+    @FXML
+    private GridPane grid;
     @FXML
     private VBox reservationVbox;
     @FXML
@@ -81,8 +94,6 @@ public class RoomViewController implements Initializable {
     private Text endTime;
     @FXML
     private Text dateError;
-    @FXML
-    private Text foodError;
     @FXML
     private Text timeSlotError;
     @FXML
@@ -94,10 +105,13 @@ public class RoomViewController implements Initializable {
     // current room to show info about
     private static Room currentRoom;
     public static int currentRoomId;
+    private List<Food> selectedFoodList;
+    private Map<Food, Integer> foodMap;
     private final String pathSeparator = File.separator;
 
     // current Stage
     public static Stage thisStage;
+
 
     /**
      * Method that gets called before everything (mostly to initialize nodes etc.).
@@ -110,6 +124,11 @@ public class RoomViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            // initialize the list with all the selected foods
+            selectedFoodList = new ArrayList<>();
+
+            grid.setMinWidth(reservationVbox.getWidth());
+
             // initialize the Room object that contains the info about this room
             currentRoom = Room.getRoomById(currentRoomId);
 
@@ -119,6 +138,7 @@ public class RoomViewController implements Initializable {
 
             // make sure errors are not visible
             hideErrors();
+
 
             // if user is a student and the room is teacher only => disable all components
             if (CurrentUserManager.getType() == 2 && currentRoom.getTeacherOnly().get()) {
@@ -135,22 +155,13 @@ public class RoomViewController implements Initializable {
             // listener that adjusts layout when width of stage changes
             thisStage.widthProperty().addListener((obs, oldVal, newVal) -> changeWidthConstraints(newVal));
 
-            // Create ObservableList for combobox
-            ObservableList<String> foodList = FXCollections.observableArrayList();
-            //get building number
-            int buildNumber = currentRoom.getRoomBuilding().get();
-            //get list of food from specific building
-            ObservableList<Food> fooodList = Food.getFoodByBuildingId(buildNumber);
 
-            //add list of food to the list and an option for no food
-            assert fooodList != null;
-            for (Food f: fooodList) {
-                foodList.add(f.getFoodName().get());
-            }
 
-            foodList.add("No food");
-            //populate foodlist
+            ObservableList<Food> foodList = Food.getAllFoodData();
+            foodChoice.setConverter(getFoodChoiceConverter(foodList));
             foodChoice.setItems(foodList);
+            foodChoice.setButtonCell(getButtonCell());
+            setFoodChoiceListeners();
 
             // set text and image info about the room
             configureRoomInfoTexts();
@@ -184,6 +195,218 @@ public class RoomViewController implements Initializable {
     }
 
     /**
+     * Makes sure that when the user has selected an item in the food combobox, the prompt text resets.
+     * @return ListCell that correctly updates the value.
+     */
+    private ListCell<Food> getButtonCell() {
+        try {
+            return new ListCell<Food>() {
+                @Override
+                protected void updateItem(Food item, boolean btl) {
+                    super.updateItem(item, btl);
+                    if (item != null) {
+                        setText(item.getFoodName().get());
+                    } else {
+                        // if item is null, show prompt text
+                        setText("Food choice:");
+                    }
+                }
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Method that sets the listeners for the food combobox.
+     */
+    private void setFoodChoiceListeners() {
+        // when new food gets chosen, the selection gets cleared
+        foodChoice.valueProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                createNewFoodText(newValue);
+                // has to be done in separate runnable because otherwise
+                // it would interfere with the listener.
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        foodChoice.getSelectionModel().clearSelection();
+                    }
+                });
+            }
+        }));
+    }
+
+    /**
+     * Method that creates a new food section when a new food is selected.
+     * @param food food that got selected
+     */
+    private void createNewFoodText(Food food) {
+        // get the amount of rows int he grid
+        int rowCount = grid.getRowCount();
+
+        // get name of the selected food
+        String foodName = food.getFoodName().get();
+
+        for (int i = 0; i < grid.getChildren().size(); i++) {
+            // get child
+            GridPane currentGrid = (GridPane) grid.getChildren().get(i);
+            // if foods are the same, increment the food quantity
+            if (getFoodNameByColumn(currentGrid).getText().equals(foodName)) {
+                Text quantityText = getFoodQuantityByColumn(currentGrid);
+                int intQuantity = Character.getNumericValue(quantityText.getText().charAt(0));
+                quantityText.setText(intQuantity + 1 + "x");
+                return;
+            }
+        }
+
+        // if 4 foods have been chosen you cannot select more
+        if (rowCount >= 4) {
+            Alert alert = GeneralMethods.createAlert("Food restrictions",
+                    "You are not allowed to order more than 4 dishes per reservation",
+                    thisStage,
+                    Alert.AlertType.WARNING);
+            alert.showAndWait();
+            return;
+        }
+
+        // add the food to the selected food list
+        selectedFoodList.add(food);
+
+        // make the new food section
+        GridPane miniGrid = new GridPane();
+        final Text foodText = new Text(food.getFoodName().get());
+        final Text quantity = new Text("1x");
+        final Text foodPrice = new Text(GeneralMethods.formatPriceString(food.getFoodPrice().get()));
+        Button remove = new Button("X");
+        // when button clicked, remove the food section
+        remove.setOnAction(e -> {
+            selectedFoodList.remove(food);
+            removeRowFromGrid(miniGrid);
+        });
+
+        miniGrid.setAlignment(Pos.CENTER);
+        // correctly align the values in each column
+        ColumnConstraints constraints1 = new ColumnConstraints(10, 100, 200,
+                Priority.SOMETIMES, HPos.LEFT, true);
+        ColumnConstraints constraints2 = new ColumnConstraints(10, 100, 200,
+                Priority.SOMETIMES, HPos.CENTER, true);
+        ColumnConstraints constraints3 = new ColumnConstraints(10, 100, 200,
+                Priority.SOMETIMES, HPos.RIGHT, true);
+
+        // set the column constraints for the 4 columns
+        miniGrid.getColumnConstraints().addAll(constraints1, constraints2, constraints3, constraints3);
+
+        // add all the components to the food section
+        miniGrid.add(quantity, 0, 0);
+        miniGrid.add(foodText, 1, 0);
+        miniGrid.add(foodPrice, 2, 0);
+        miniGrid.add(remove, 3, 0);
+
+        // add the food section to the big grid
+        grid.addRow(rowCount, miniGrid);
+    }
+
+    /**
+     * Method that removes a food section from the big grid.
+     * @param miniGrid the food section to remove
+     */
+    private void removeRowFromGrid(GridPane miniGrid) {
+        // get all children
+        List<Node> children = new ArrayList<>(grid.getChildren());
+        // remove all children
+        grid.getChildren().clear();
+
+        int currentRow = 0;
+        for (Node child : children) {
+            // get food section
+            GridPane childGrid = (GridPane) child;
+            // if food section is same as the one that should get deleted, don't add it back
+            if (childGrid != miniGrid) {
+                // add back the food section
+                grid.add(childGrid, 0, currentRow++);
+            }
+        }
+    }
+
+    /**
+     * Method that gets the name of the food from a food section.
+     * @param gridPane the food section
+     * @return Text the food name
+     */
+    private Text getFoodNameByColumn(GridPane gridPane) {
+        Node name = null;
+        // get the children
+        ObservableList<Node> children = gridPane.getChildren();
+
+        for (Node node : children) {
+            // get component at column index 1
+            if (GridPane.getColumnIndex(node) == 1) {
+                name = node;
+                break;
+            }
+        }
+        return (Text) name;
+    }
+
+    /**
+     * Method that gets the food quantity text from a food section.
+     * @param gridPane food section
+     * @return Text the food quantity
+     */
+    private Text getFoodQuantityByColumn(GridPane gridPane) {
+        Node quantity = null;
+        // get children
+        ObservableList<Node> children = gridPane.getChildren();
+
+        for (Node node : children) {
+            // get component at column index 0
+            if (GridPane.getColumnIndex(node) == 0) {
+                quantity = node;
+                break;
+            }
+        }
+        return (Text) quantity;
+    }
+
+    /**
+     * Constructs a converter for the food ComboBox to only show the name of the foods.
+     *
+     * @param foodList list of all foods
+     * @return a StringConverter which converts food object to the food name
+     */
+    private StringConverter<Food> getFoodChoiceConverter(ObservableList<Food> foodList) {
+        try {
+            return new StringConverter<Food>() {
+                @Override
+                public String toString(Food object) {
+                    if (object != null) {
+                        return object.getFoodName().get();
+                    } else {
+                        return null;
+                    }
+
+                }
+
+                @Override
+                public Food fromString(String string) {
+                    if (string != null) {
+                        return foodList.stream()
+                                .filter(x -> x.getFoodName().get().equals(string))
+                                .collect(Collectors.toList()).get(0);
+                    } else {
+                        return null;
+                    }
+                }
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * Method that disables all the components needed to book a reservation.
      */
     private void disableReservationComponents() {
@@ -205,7 +428,6 @@ public class RoomViewController implements Initializable {
         try {
             // hide each error message
             dateError.setVisible(false);
-            foodError.setVisible(false);
             timeSlotError.setVisible(false);
         } catch (Exception e) {
             e.printStackTrace();
@@ -601,10 +823,10 @@ public class RoomViewController implements Initializable {
     @FXML
     private void bookClicked(ActionEvent event) {
         try {
-            // TODO: add food selection
             String selectedDate;
             String selectedStartTime;
             String selectedEndTime;
+            String selectedFood;
 
             // input is valid, assign corresponding values
             if (isInputValid()) {
@@ -629,15 +851,22 @@ public class RoomViewController implements Initializable {
                     //alert.showAndWait();
 
                     if (ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
-                            currentRoomId, selectedDate, selectedStartTime,
-                            selectedEndTime.contains("24") ? "23:59" : selectedEndTime)) {
+                            currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24")
+                                    ? "23:59" : selectedEndTime)) {
+                        // get id of the new reservation (last inserted reservation)
+                        int currentId = Integer.parseInt(ReservationServerCommunication.getCurrentId()) - 1;
+
+                        // link food to reservation
+                        for (Food f : selectedFoodList) {
+                            FoodServerCommunication.addFoodToReservation(f.getFoodId().get(),
+                                    currentId, foodMap.get(f));
+                        }
+
                         // create confirmation Alert
                         Alert alert = GeneralMethods.createAlert("Room booked",
                                 "You successfully booked this room!",
-                                ((Node) event.getSource()).getScene().getWindow(),
-                                Alert.AlertType.CONFIRMATION);
+                                ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
                         alert.showAndWait();
-                        // go back to search view
                         SearchView sv = new SearchView();
                         sv.start(thisStage);
                     } else {
@@ -674,11 +903,24 @@ public class RoomViewController implements Initializable {
      */
     private boolean confirmBooking(String date, String startTime, String endTime) {
         try {
+            if (selectedFoodList.size() <= 0) {
+                ReservationConfirmationViewController.foodChosen = false;
+            } else {
+                ReservationConfirmationViewController.foodChosen = true;
+            }
             // set all fields to the current reservation details
             ReservationConfirmationViewController.room = currentRoom;
             ReservationConfirmationViewController.date = date;
             ReservationConfirmationViewController.startTime = startTime;
             ReservationConfirmationViewController.endTime = endTime;
+            ReservationConfirmationViewController.foodList = selectedFoodList;
+            foodMap = new HashMap<>();
+            for (int i = 0; i < selectedFoodList.size(); i++) {
+                GridPane miniGrid = (GridPane) grid.getChildren().get(i);
+                int quantity = Integer.parseInt(((Text) miniGrid.getChildren().get(0)).getText().replace("x", ""));
+                foodMap.put(selectedFoodList.get(i), quantity);
+            }
+            ReservationConfirmationViewController.foodMap = foodMap;
             // load confirmation pop up stage
             ReservationConfirmationView rcv = new ReservationConfirmationView();
             rcv.start(thisStage);
@@ -704,7 +946,6 @@ public class RoomViewController implements Initializable {
 
             // clear error messages
             dateError.setVisible(false);
-            foodError.setVisible(false);
             timeSlotError.setVisible(false);
 
             // set error messages if necessary
@@ -712,16 +953,8 @@ public class RoomViewController implements Initializable {
                 dateError.setVisible(true);
                 errors = true;
             }
-            if (foodChoice.getSelectionModel().getSelectedItem() == null) {
-                foodError.setVisible(true);
-                errors = true;
-            }
 
-            // check if errors were triggered
-            if (!checkTimeSlotValidity() || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
-                timeSlotError.setVisible(true);
-                errors = true;
-            }
+
             // return true if no errors where triggered
             return !errors;
         } catch (Exception e) {
@@ -732,6 +965,7 @@ public class RoomViewController implements Initializable {
 
     /**
      * Redirects the user back to the login page.
+     *
      * @param event ActionEvent
      */
     @FXML

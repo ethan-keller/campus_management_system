@@ -25,10 +25,10 @@ public class Building {
     public Building() {
         this.buildingId = new SimpleIntegerProperty(-1);
         this.buildingName = new SimpleStringProperty(null);
-        this.buildingRoomCount = new SimpleIntegerProperty(-1);
+        this.buildingRoomCount = new SimpleIntegerProperty(0);
         this.buildingAddress = new SimpleStringProperty(null);
         this.buildingAvailableBikes = new SimpleIntegerProperty(-1);
-        this.buildingMaxBikes = new SimpleIntegerProperty(-1);
+        this.buildingMaxBikes = new SimpleIntegerProperty(0);
     }
 
     /**

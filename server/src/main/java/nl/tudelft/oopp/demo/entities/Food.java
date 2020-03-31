@@ -26,7 +26,7 @@ public class Food implements Serializable {
     private String name;
 
     @Column(name = "price")
-    private int price;
+    private double price;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
@@ -44,9 +44,9 @@ public class Food implements Serializable {
      *
      * @param id int
      * @param name String
-     * @param price int
+     * @param price double
      */
-    public Food(int id, String name, int price) {
+    public Food(int id, String name, double price) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -75,9 +75,9 @@ public class Food implements Serializable {
     /**
      * Retrieves the price of the food from the database.
      *
-     * @return Returns the int value room_count.
+     * @return Returns the double value price.
      */
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
