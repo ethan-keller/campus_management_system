@@ -182,7 +182,7 @@ public class RentABikeController implements Initializable {
         try {
             // only the case when both are filled in
             if (isInputValid()) {
-                /// retrieve date, bike number and time slot from the corresponding boxes
+                // retrieve date, bike number and time slot from the corresponding boxes
                 String selectedDate =
                         Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
                 String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
@@ -511,7 +511,7 @@ public class RentABikeController implements Initializable {
      * @param selectedDate date of rent
      */
     public void populateBuilding(String selectedStart, String selectedEnd, String selectedDate) {
-        ///Ensures comboBox is not loaded unless date is selected
+        //Ensures comboBox is not loaded unless date is selected
         if (selectedDate == null) {
             return;
         } else {
