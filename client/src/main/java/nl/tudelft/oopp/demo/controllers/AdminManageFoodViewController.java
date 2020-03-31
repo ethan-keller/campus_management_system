@@ -1,6 +1,9 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
+
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,13 +27,13 @@ public class AdminManageFoodViewController {
     private TableView<Food> foodTable;
 
     @FXML
-    private TableColumn<Food, String> foodIdColumn;
+    private TableColumn<Food, Number> foodIdColumn;
 
     @FXML
     private TableColumn<Food, String> foodNameColumn;
 
     @FXML
-    private TableColumn<Food, String> foodPriceColumn;
+    private TableColumn<Food, Number> foodPriceColumn;
 
     public static Food currentSelectedFood;
 
@@ -44,11 +47,10 @@ public class AdminManageFoodViewController {
     private void initialize() {
         try {
             // Initialize the food table with the three columns.
-            foodIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(
-                    String.valueOf(cell.getValue().getFoodId().get())));
+            foodIdColumn.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getFoodId().get()));
             foodNameColumn.setCellValueFactory(cell -> cell.getValue().getFoodName());
-            foodPriceColumn.setCellValueFactory(cell -> new SimpleStringProperty(
-                    String.valueOf((double)Math.round((cell.getValue().getFoodPrice().get()) * 100) / 100)));
+            foodPriceColumn.setCellValueFactory(cell -> new SimpleDoubleProperty(
+                    (double)Math.round((cell.getValue().getFoodPrice().get()) * 100) / 100));
             // Add observable list data to the table
             foodTable.setItems(Food.getAllFoodData());
         } catch (Exception e) {

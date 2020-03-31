@@ -62,18 +62,17 @@ public class AdminManageFoodReservationViewController {
     @FXML
     private void initialize() {
         try {
+            Reservation roomReservation = this.getReservation();
             // Initialize the title of the table
-            usernameLabel.setText(this.getReservation().getUsername().get());
-            reservationIdLabel.setText(String.valueOf(this.getReservation().getId().get()));
+            usernameLabel.setText(roomReservation.getUsername().get());
+            reservationIdLabel.setText(String.valueOf(roomReservation.getId().get()));
             // Initialize the booking table with the three columns.
             foodIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getFoodId().get()));
+            ObservableList<Food> foodObservableList = Food.getAllFoodData();
             foodNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
-                    Food.getFoodById(cellData.getValue().getFoodId().get()).getFoodName().get()));
-            //ObservableList<Food> olf = Food.getAllFoodData();
-            //foodNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
-            //       olf.stream().filter(x -> x.getFoodId() == cellData.getValue().getFoodId())
-            //               .collect(Collectors.toList()).get(0).getFoodName().get()));
+                    foodObservableList.stream().filter(x -> x.getFoodId().get() == cellData.getValue().getFoodId().get())
+                            .collect(Collectors.toList()).get(0).getFoodName().get()));
             foodQuantityColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getFoodQuantity().get()));
             foodReservationTable.setItems(FoodReservation.getUserReservationFood());
@@ -112,9 +111,9 @@ public class AdminManageFoodReservationViewController {
     }
 
     /**
-     * Get the id of reservation.
+     * Get the original room reservation.
      *
-     * @return int the id of reservation
+     * @return Reservation
      */
     public Reservation getReservation() {
         Reservation r = new Reservation();
@@ -219,11 +218,11 @@ public class AdminManageFoodReservationViewController {
      * @return the quantity of food
      */
     private int getFoodOldQuantity(int foodId) {
-        ObservableList<FoodReservation> olfr = FoodReservation.getUserReservationFood();
-        List<FoodReservation> filteredFoodReservation = olfr.stream().filter(x -> x.getFoodId().get()
+        ObservableList<FoodReservation> foodReservationObservableList = FoodReservation.getUserReservationFood();
+        List<FoodReservation> filteredFoodReservation = foodReservationObservableList.stream().filter(x -> x.getFoodId().get()
                 == foodId).collect(Collectors.toList());
-        FoodReservation fr = filteredFoodReservation.get(0);
-        return fr.getFoodQuantity().get();
+        FoodReservation foodReservation = filteredFoodReservation.get(0);
+        return foodReservation.getFoodQuantity().get();
     }
 
     /**
@@ -231,14 +230,14 @@ public class AdminManageFoodReservationViewController {
      * @return A list of foods
      */
     private List<Food> getAllFoodInReservation() {
-        ObservableList<FoodReservation> olfr = FoodReservation.getUserReservationFood();
-        ObservableList<Food> olf = Food.getAllFoodData();
-        List<Food> f = new ArrayList<>();
-        for (FoodReservation fr : olfr) {
-            int id = fr.getFoodId().get();
-            f.add(olf.stream().filter(x -> x.getFoodId().get() == id).collect(Collectors.toList()).get(0));
+        ObservableList<FoodReservation> foodReservationObservableList = FoodReservation.getUserReservationFood();
+        ObservableList<Food> foodObservableList = Food.getAllFoodData();
+        List<Food> foods = new ArrayList<>();
+        for (FoodReservation foodReservation : foodReservationObservableList) {
+            int id = foodReservation.getFoodId().get();
+            foods.add(foodObservableList.stream().filter(x -> x.getFoodId().get() == id).collect(Collectors.toList()).get(0));
         }
-        return f;
+        return foods;
     }
 
 }

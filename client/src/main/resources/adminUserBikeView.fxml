@@ -55,8 +55,8 @@
                 <TableColumn fx:id="bikeBuildingColumn" maxWidth="160.0" minWidth="70.0" prefWidth="140.0" text="Building" />
                 <TableColumn fx:id="bikeQuantityColumn" maxWidth="100.0" minWidth="90.0" prefWidth="90.0" text="Quantity" />
             <TableColumn fx:id="bikeDateColumn" maxWidth="250.0" minWidth="80.0" text="Date" />
-            <TableColumn fx:id="bikeStartingTimeColumn" maxWidth="250.0" minWidth="149.0" prefWidth="221.0" text="Starting Time" />
-            <TableColumn fx:id="bikeEndingTimeColumn" maxWidth="250.0" minWidth="150.0" prefWidth="262.0" text="Ending Time" />
+            <TableColumn fx:id="bikeStartingTimeColumn" maxWidth="500.0" minWidth="149.0" prefWidth="221.0" text="Starting Time" />
+            <TableColumn fx:id="bikeEndingTimeColumn" maxWidth="500.0" minWidth="150.0" prefWidth="262.0" text="Ending Time" />
             </columns>
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

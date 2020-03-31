@@ -80,8 +80,8 @@ public class FoodEditDialogController {
             errorMessage += "No valid price!\n";
         } else {
             try {
-                Double d = Double.parseDouble(foodPriceField.getText());
-                String[] splitter = d.toString().split("\\.");
+                double d = Double.parseDouble(foodPriceField.getText());
+                String[] splitter = String.valueOf(d).split("\\.");
                 int decimalLength = splitter[1].length();
                 if (decimalLength != 2) {
                     errorMessage += "No valid price (must be in two decimals)!\n";

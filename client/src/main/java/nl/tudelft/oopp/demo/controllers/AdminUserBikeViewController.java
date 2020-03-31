@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.stream.Collectors;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -31,13 +35,13 @@ public class AdminUserBikeViewController {
     private TableView<BikeReservation> userBikeTable;
 
     @FXML
-    private TableColumn<BikeReservation, String> bikeIdColumn;
+    private TableColumn<BikeReservation, Number> bikeIdColumn;
 
     @FXML
     private TableColumn<BikeReservation, String> bikeBuildingColumn;
 
     @FXML
-    private TableColumn<BikeReservation, String> bikeQuantityColumn;
+    private TableColumn<BikeReservation, Number> bikeQuantityColumn;
 
     @FXML
     private TableColumn<BikeReservation, String> bikeDateColumn;
@@ -66,14 +70,18 @@ public class AdminUserBikeViewController {
     @FXML
     private void initialize() {
         try {
+            ObservableList<Building> buildingList = Building.getBuildingData();
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             // Initialize the bike reservation table with the five columns.
-            bikeIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
-                    String.valueOf(cellData.getValue().getBikeReservationId().get())));
-            bikeBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(Building.getBuildingById(
-                    cellData.getValue().getBikeReservationBuilding().get()).getBuildingName().get()));
-            bikeQuantityColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
-                    String.valueOf(cellData.getValue().getBikeReservationQuantity().get())));
+            bikeIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
+                    cellData.getValue().getBikeReservationId().get()));
+            bikeBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                    buildingList.stream().filter(x -> x.getBuildingId().get()
+                            == cellData.getValue().getBikeReservationBuilding().get())
+                            .collect(Collectors.toList()).get(0).getBuildingName().get()
+            ));
+            bikeQuantityColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
+                    cellData.getValue().getBikeReservationQuantity().get()));
             bikeDateColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationDate());
             bikeStartingTimeColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationStartingTime());
             bikeEndingTimeColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationEndingTime());
@@ -93,6 +101,7 @@ public class AdminUserBikeViewController {
 
     /**
      * Called when admin clicks a bike reservation.
+     * @return the bike reservation that is currently selected
      */
     public BikeReservation getSelectedBikeReservation() {
         if (userBikeTable.getSelectionModel().getSelectedIndex() >= 0) {
@@ -103,6 +112,10 @@ public class AdminUserBikeViewController {
         }
     }
 
+    /**
+     * Gets a number representing the index of the selected bike reservation.
+     * @return int
+     */
     public int getSelectedIndex() {
         return userBikeTable.getSelectionModel().getSelectedIndex();
     }
@@ -146,6 +159,7 @@ public class AdminUserBikeViewController {
             // Booking edit dialog pop up.
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentSelectedBikeReservation = null;
+            UserBikeEditDialogController.edit = false;
             UserBikeEditDialogView view = new UserBikeEditDialogView();
             view.start(stage);
             // Get the reservation from the pop up dialog.
@@ -164,7 +178,7 @@ public class AdminUserBikeViewController {
             refresh();
             // An alert pop up when a new reservation created.
             GeneralMethods.alertBox("New bike reservation", "",
-                    "New bike reservation! added!", Alert.AlertType.INFORMATION);
+                    "Successfully added new bike reservation!", Alert.AlertType.INFORMATION);
         } catch (Exception e) {
             System.out.println("bike reservation creation exception");
             e.printStackTrace();
@@ -174,7 +188,7 @@ public class AdminUserBikeViewController {
     /**
      * Called when the user clicks the edit button. Opens a dialog to edit
      * details for the selected bike reservation.
-     * @param event is passed
+     * @param event event that triggered this method
      */
     @FXML
     private void editBikeClicked(ActionEvent event) {
@@ -184,6 +198,7 @@ public class AdminUserBikeViewController {
             if (selectedIndex >= 0) {
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentSelectedBikeReservation = selectedBikeReservation;
+                UserBikeEditDialogController.edit = true;
                 UserBikeEditDialogView view = new UserBikeEditDialogView();
                 view.start(stage);
                 BikeReservation tempBikeReservation = UserBikeEditDialogController.bikeReservation;
@@ -191,7 +206,7 @@ public class AdminUserBikeViewController {
                 if (tempBikeReservation == null) {
                     return;
                 }
-                // TODO: Check that building edit was successful before displaying alert
+                // TODO: Check that reservation edit was successful before displaying alert
                 BikeReservationCommunication.updateBikeReservation(
                         selectedBikeReservation.getBikeReservationId().get(),
                         tempBikeReservation.getBikeReservationBuilding().get(),
@@ -227,30 +242,6 @@ public class AdminUserBikeViewController {
 
         AdminManageUserView amuv = new AdminManageUserView();
         amuv.start(stage);
-    }
-
-    /**
-     * get the selected bike reservation date.
-     * @param selectedDateString is passed.
-     * @return the date of selected bike reservation.
-     */
-    private LocalDate getSelectedBikeReservationDate(String selectedDateString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        //convert String to LocalDate
-        LocalDate selectedDate = LocalDate.parse(selectedDateString, formatter);
-        return selectedDate;
-    }
-
-    /**
-     * get the selected bike reservation time.
-     * @param selectedTimeString is passed.
-     * @return the time of selected bike reservation.
-     */
-    private LocalTime getSelectedBikeReservationTime(String selectedTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        //convert String to LocalTime
-        LocalTime selectedTime = LocalTime.parse(selectedTimeString, formatter);
-        return selectedTime;
     }
 
 }
