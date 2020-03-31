@@ -63,7 +63,7 @@ public class ReservationConfirmationViewController implements Initializable {
 
         String confirmationString = "You (" + CurrentUserManager.getUsername() + ") would like to book the "
                 + room.getRoomName().get() + " on " + date + " from " + startTime + " until " + endTime + ".\n"
-                + "You ordered:\n\n";
+                + "Food ordered:\n\n";
         for (Food f : foodList) {
             double foodPrice = f.getFoodPrice().get();
             String price = GeneralMethods.formatPriceString(foodPrice);

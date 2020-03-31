@@ -1,6 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.IOException;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -8,11 +8,9 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,14 +23,17 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -81,6 +82,9 @@ public class SearchViewController implements Initializable {
 
     // Declaring the observable list for buildings, capacity and bikes
     // to be inserted into the comboBox.
+
+    public static Stage thisStage;
+
     // This is necessary due to the format of inserting items into a comboBox.
     private ObservableList<String> capacityList;
     private ObservableList<Building> buildingList;
@@ -438,8 +442,9 @@ public class SearchViewController implements Initializable {
 
                 @Override
                 public Building fromString(String id) {
-                    return buildingList.stream().filter(x -> String.valueOf(
-                            x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
+                    return buildingList.stream()
+                            .filter(x -> String.valueOf(x.getBuildingId()).equals(id))
+                            .collect(Collectors.toList()).get(0);
                 }
             };
             return converter;
@@ -448,6 +453,7 @@ public class SearchViewController implements Initializable {
         }
         return null;
     }
+
 
     /**
      * When a card gets clicked, the RoomView gets loaded with all the corresponding room information.
@@ -503,7 +509,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * Loads the Calendar view with all the booking history.
+     * Loads the calendar view with all the booking history of the current user.
      *
      * @param event event that triggered this method
      */
