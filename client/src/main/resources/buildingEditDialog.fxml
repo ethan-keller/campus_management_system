@@ -27,10 +27,10 @@
         <children>
             <Label text="Building Name:" />
             <Label text="Building Address:" GridPane.rowIndex="1" />
-            <Label text="Building Capacity:" GridPane.rowIndex="2" />
+            <Label text="Max Bikes:" GridPane.rowIndex="2" />
             <TextField fx:id="buildingNameField" GridPane.columnIndex="1" />
             <TextField fx:id="buildingAddressField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="buildingRoomCountField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="maxBikesField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         </children>
     </GridPane>
     <ButtonBar layoutX="176.0" layoutY="233.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">

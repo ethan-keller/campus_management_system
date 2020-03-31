@@ -46,7 +46,7 @@ public class Food implements Serializable {
      *
      * @param id int
      * @param name String
-     * @param price int
+     * @param price double
      */
     public Food(int id, String name, double price) {
         this.id = id;
@@ -77,7 +77,7 @@ public class Food implements Serializable {
     /**
      * Retrieves the price of the food from the database.
      *
-     * @return Returns the int value room_count.
+     * @return Returns the double value price.
      */
     public double getPrice() {
         return price;
