@@ -167,7 +167,7 @@ public class AdminUserBikeViewController {
             if (tempBikeReservation == null) {
                 return;
             }
-            // TODO: Check that reservation creation was successful before displaying alert
+            // TODO: Check that bike reservation creation was successful before displaying alert
             BikeReservationCommunication.createBikeReservation(
                     tempBikeReservation.getBikeReservationBuilding().get(),
                     AdminManageUserViewController.currentSelectedUser.getUsername().get(),
@@ -206,7 +206,7 @@ public class AdminUserBikeViewController {
                 if (tempBikeReservation == null) {
                     return;
                 }
-                // TODO: Check that reservation edit was successful before displaying alert
+                // TODO: Check that bike reservation edit was successful before displaying alert
                 BikeReservationCommunication.updateBikeReservation(
                         selectedBikeReservation.getBikeReservationId().get(),
                         tempBikeReservation.getBikeReservationBuilding().get(),
