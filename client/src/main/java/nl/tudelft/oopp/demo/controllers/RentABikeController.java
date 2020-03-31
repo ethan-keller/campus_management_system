@@ -68,7 +68,6 @@ public class RentABikeController implements Initializable {
 
     public ObservableList<Building> buildingList = Building.getBuildingData();
     private static int currentBuilding = 0;
-    ObservableList<String> buildList = FXCollections.observableArrayList();
     public ObservableList<BikeReservation> bikeReservationsList = BikeReservation.getBikeReservationData();
 
     /**
@@ -516,8 +515,7 @@ public class RentABikeController implements Initializable {
         if (selectedDate == null) {
             return;
         } else {
-            //get building data
-            ObservableList<Building> buildingList = Building.getBuildingData();
+
             //create observaleList to at to combobox
             ObservableList<String> buildList = FXCollections.observableArrayList();
             //empties combox before it loads
