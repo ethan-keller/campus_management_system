@@ -15,7 +15,6 @@ import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.controllers.ReservationConfirmationViewController;
-import nl.tudelft.oopp.demo.controllers.RoomViewController;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
