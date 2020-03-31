@@ -512,7 +512,7 @@ public class RentABikeController implements Initializable {
      */
     public void populateBuilding(String selectedStart, String selectedEnd, String selectedDate) {
         ///Ensures comboBox is not loaded unless date is selected
-        if (selectedDate==null) {
+        if (selectedDate == null) {
             return;
         } else {
             //get building data
