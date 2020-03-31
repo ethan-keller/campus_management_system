@@ -1,10 +1,10 @@
 package nl.tudelft.oopp.demo.logic;
 
 import java.io.UnsupportedEncodingException;
-
 import javafx.scene.control.TableView;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
+
 
 public class AdminManageReservationLogic {
 

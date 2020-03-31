@@ -28,6 +28,7 @@ import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.logic.CalenderPaneLogic;
 import nl.tudelft.oopp.demo.views.CalenderItemDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
@@ -45,8 +46,7 @@ public class CalendarPaneController implements Initializable {
     public static Stage thisStage;
 
     /**
-     * .
-     * Custom initialization of JavaFX components. This method is automatically called
+     * Custom initialization of JavaFX components. This method is automatically called.
      * after the fxml file has been loaded.
      *
      * @param location  is passed
@@ -78,7 +78,6 @@ public class CalendarPaneController implements Initializable {
     }
 
     /**
-     * .
      * Adds all the items in the database that belong to the current user to the calendar.
      */
     private void addItemsToCalendar() {
@@ -222,17 +221,7 @@ public class CalendarPaneController implements Initializable {
             if (CalenderItemDialogController.item == null) {
                 return;
             } else {
-                Appointment app = CalenderItemDialogController.item;
-                // get date and time in correct format for database
-                String date = app.getStartTime().getYear() + "-" + app.getStartTime().getMonth() + "-"
-                        + app.getStartTime().getDay();
-                String startTime = app.getStartTime().getHour() + ":" + app.getStartTime().getMinute() + ":00";
-                String endTime = app.getEndTime().getHour() + ":" + app.getEndTime().getMinute() + ":00";
-                // send info to server
-                ItemServerCommunication.createItem(CurrentUserManager.getUsername(), app.getHeaderText(), date,
-                        startTime, endTime, app.getDescriptionText());
-                // get the id of the last inserted item to assign it to the Appointment object
-                app.setId(String.valueOf(Integer.parseInt(ItemServerCommunication.getCurrentId()) - 1));
+                Appointment app = CalenderPaneLogic.makeItem();
                 // add the item to the calendar
                 calendar.getSchedule().getItems().add(app);
             }

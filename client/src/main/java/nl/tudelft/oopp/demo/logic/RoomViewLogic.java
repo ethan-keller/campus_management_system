@@ -1,15 +1,14 @@
 package nl.tudelft.oopp.demo.logic;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
-import javafx.scene.Node;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.controllers.ReservationConfirmationViewController;
@@ -17,24 +16,18 @@ import nl.tudelft.oopp.demo.controllers.RoomViewController;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
-import nl.tudelft.oopp.demo.views.SearchView;
-import org.controlsfx.control.RangeSlider;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import org.w3c.dom.ranges.Range;
+import org.controlsfx.control.RangeSlider;
 
 public class RoomViewLogic {
 
     /**
-     * @param currentRoom
-     * @param thisStage
-     * @param datePicker
-     * @param timeSlotSlider
-     * @return true if the user confirms, false otherwise
+     * confirms the booking of a room.
+     * @param currentRoom room that is selected.
+     * @param thisStage stage to start.
+     * @param datePicker datepicker on the screen.
+     * @param timeSlotSlider time slot slider on the screen.
+     * @return true if the user confirms, false otherwise.
      */
     public static boolean confirmBooking(Room currentRoom, Stage thisStage, DatePicker datePicker,
                                          RangeSlider timeSlotSlider) {
@@ -42,14 +35,14 @@ public class RoomViewLogic {
             // TODO: add food selection
 
             String date = RoomViewController.getDatePickerConverter(datePicker).toString(datePicker.getValue());
+            ReservationConfirmationViewController.date = date;
             String startTime = RoomViewController.getRangeSliderConverter().toString(
                     timeSlotSlider.getLowValue());
+            ReservationConfirmationViewController.startTime = startTime;
             String endTime = RoomViewController.getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
+            ReservationConfirmationViewController.endTime = endTime;
             // set all fields to the current reservation details
             ReservationConfirmationViewController.room = currentRoom;
-            ReservationConfirmationViewController.date = date;
-            ReservationConfirmationViewController.startTime = startTime;
-            ReservationConfirmationViewController.endTime = endTime;
             // load confirmation pop up stage
             ReservationConfirmationView rcv = new ReservationConfirmationView();
             rcv.start(thisStage);
@@ -61,6 +54,14 @@ public class RoomViewLogic {
         return false;
     }
 
+    /**
+     * makes a reservation.
+     * @param currentRoomId Room selected.
+     * @param datePicker datepicker on the screen.
+     * @param timeSlotSlider time slot slider on the screen.
+     * @return true if a reservation is created, false if not.
+     * @throws UnsupportedEncodingException if something goes wrong with encoding.
+     */
     public static boolean createReservation(int currentRoomId, DatePicker datePicker, RangeSlider timeSlotSlider)
             throws UnsupportedEncodingException {
         String date = RoomViewController.getDatePickerConverter(datePicker).toString(datePicker.getValue());
@@ -100,8 +101,8 @@ public class RoomViewLogic {
                 foodError.setVisible(true);
                 errors = true;
             }
-            if (!checkTimeSlotValidity(currentRoomId, datePicker, timeSlotSlider) ||
-                    timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
+            if (!checkTimeSlotValidity(currentRoomId, datePicker, timeSlotSlider)
+                    || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
                 timeSlotError.setVisible(true);
                 errors = true;
             }

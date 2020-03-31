@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.views.RegisterView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
 public class UserHomePageController {
@@ -19,7 +18,7 @@ public class UserHomePageController {
     private Rectangle bookingHistory;
 
     /**
-     * //TODO.
+     * .
      *
      * @param event //TODO.
      * @throws IOException //TODO.

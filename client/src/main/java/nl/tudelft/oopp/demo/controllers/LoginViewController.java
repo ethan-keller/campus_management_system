@@ -1,13 +1,12 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
-
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -21,6 +20,7 @@ import nl.tudelft.oopp.demo.logic.LoginViewLogic;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.RegisterView;
 import nl.tudelft.oopp.demo.views.SearchView;
+
 
 
 

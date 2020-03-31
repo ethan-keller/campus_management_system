@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DateCell;
@@ -22,7 +21,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
@@ -30,6 +28,7 @@ import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
 import org.controlsfx.control.RangeSlider;
+
 
 /**
  * Class that controls the dialog box to add a calendar item to the users calendar.

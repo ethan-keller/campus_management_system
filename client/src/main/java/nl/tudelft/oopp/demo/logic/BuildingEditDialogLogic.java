@@ -6,6 +6,13 @@ import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
 public class BuildingEditDialogLogic {
 
+    /**
+     * Checks if the input is valid.
+     * @param buildingNameField entered building name.
+     * @param buildingAddressField entered building address.
+     * @param buildingRoomCountField entered building roomCount.
+     * @return true if valid otherwise false.
+     */
     public static boolean isValidInput(TextField buildingNameField, TextField buildingAddressField,
                                        TextField maxBikesField) {
         String errorMessage = "";
