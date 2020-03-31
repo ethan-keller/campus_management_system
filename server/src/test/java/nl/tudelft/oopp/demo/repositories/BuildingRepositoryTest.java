@@ -14,7 +14,6 @@ class BuildingRepositoryTest {
     @Autowired
     private BuildingRepository buildingRepo;
 
-
     @Test
     void testAllMethods() {
         //This test is logically incorrect because two buildings with the same building id

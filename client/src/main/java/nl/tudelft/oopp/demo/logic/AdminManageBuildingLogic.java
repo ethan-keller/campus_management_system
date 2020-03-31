@@ -1,7 +1,6 @@
 package nl.tudelft.oopp.demo.logic;
 
 import java.io.UnsupportedEncodingException;
-
 import javafx.scene.control.TableView;
 
 import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
@@ -27,6 +26,18 @@ public class AdminManageBuildingLogic {
     /**.
      * This method is used in the adminManageBuildingViewController class to communicate with the server to
      * command them to delete the selected building.
+=======
+import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
+import nl.tudelft.oopp.demo.entities.Building;
+
+public class AdminManageBuildingLogic {
+
+    /**
+     * .
+     * This method is used in the adminManageBuildingViewController class to communicate with the server to
+     * command them to delete the selected building.
+     *
+>>>>>>> develop
      * @param selectedBuilding - The selected building from the tabular view passed as a parameter.
      */
     public static void deleteBuildingLogic(Building selectedBuilding) {

@@ -107,8 +107,7 @@ public class AdminManageBuildingViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-
-                // TODO: Check that building deletion was succesful before displaying alert
+                // TODO: Check that building deletion was successful before displaying alert
                 AdminManageBuildingLogic.deleteBuildingLogic(selectedBuilding);
                 refresh();
                 // Create an alert box.
@@ -141,7 +140,7 @@ public class AdminManageBuildingViewController {
                 return;
             }
 
-            // TODO: Check that building creation was succesful before displaying alert
+            // TODO: Check that building creation was successful before displaying alert
             AdminManageBuildingLogic.createBuildingLogic(tempBuilding);
             refresh();
             // Create an alert box.
@@ -193,8 +192,10 @@ public class AdminManageBuildingViewController {
         }
     }
 
-    /**.
+    /**
+     * .
      * Back button is clicked which redirects the admin back to admin home page.
+     *
      * @param event is passed
      * @throws IOException is thrown
      */

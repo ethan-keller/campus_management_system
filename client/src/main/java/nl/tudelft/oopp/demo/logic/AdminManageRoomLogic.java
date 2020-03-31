@@ -40,14 +40,19 @@ public class AdminManageRoomLogic {
      * command them to create a new room.
      * @param tempRoom - A room with all the required features to be created.
      */
-    public static void createRoomLogic(Room tempRoom) {
+    public static boolean createRoomLogic(Room tempRoom) {
         try {
-            RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
+            if (RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
                     tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
                     tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
-                    tempRoom.getRoomType().get());
+                    tempRoom.getRoomType().get())) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();;
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -57,15 +62,20 @@ public class AdminManageRoomLogic {
      * @param selectedRoom - This is used to get the id of the selected room.
      * @param tempRoom - These are the edited features of the room object passed as parameter.
      */
-    public static void editRoomLogic(Room selectedRoom, Room tempRoom) {
+    public static boolean editRoomLogic(Room selectedRoom, Room tempRoom) {
         try {
-            RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(), tempRoom.getRoomName().get(),
-                    tempRoom.getRoomBuilding().get(), tempRoom.getTeacherOnly().get(),
-                    tempRoom.getRoomCapacity().get(),
+            if (RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(),
+                    tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
+                    tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
                     tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
-                    tempRoom.getRoomType().get());
+                    tempRoom.getRoomType().get())) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }

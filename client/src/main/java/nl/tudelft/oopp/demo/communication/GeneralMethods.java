@@ -24,9 +24,9 @@ public class GeneralMethods {
     /**
      * This method is to encode all communication across the data stream.
      *
-     * @param params are passed
-     * @return Encoded parameters as string
-     * @throws UnsupportedEncodingException is thrown
+     * @param params are passed.
+     * @return :Encoded parameters as string.
+     * @throws UnsupportedEncodingException is thrown.
      */
     public static String encodeCommunication(String params) throws UnsupportedEncodingException {
         params = URLEncoder.encode(params, StandardCharsets.UTF_8.toString());
@@ -34,6 +34,7 @@ public class GeneralMethods {
         params = params.replaceAll("%3D", "=");
         return params;
     }
+
 
     /**
      * Creates a pop up, aka an alert.
@@ -132,5 +133,27 @@ public class GeneralMethods {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Method that formats a price (double) to a String value of the price with 2 decimals.
+     *
+     * @param foodPrice the double value of the price
+     * @return a String containing the price in the right format
+     */
+    public static String formatPriceString(double foodPrice) {
+        try {
+            foodPrice = (double) Math.round(foodPrice * 100.0) / 100.0;
+            String[] splitPrice = String.valueOf(foodPrice).split("\\.");
+
+            while (splitPrice[1].length() < 2) {
+                splitPrice[1] += "0";
+            }
+
+            return splitPrice[0] + "." + splitPrice[1];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

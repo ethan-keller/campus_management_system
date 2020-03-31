@@ -1,7 +1,10 @@
 package nl.tudelft.oopp.demo.logic;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -34,12 +37,12 @@ public class RoomViewLogic {
         try {
             // TODO: add food selection
 
-            String date = RoomViewController.getDatePickerConverter(datePicker).toString(datePicker.getValue());
+            String date = getDatePickerConverter(datePicker).toString(datePicker.getValue());
             ReservationConfirmationViewController.date = date;
-            String startTime = RoomViewController.getRangeSliderConverter().toString(
+            String startTime = getRangeSliderConverter().toString(
                     timeSlotSlider.getLowValue());
             ReservationConfirmationViewController.startTime = startTime;
-            String endTime = RoomViewController.getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
+            String endTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
             ReservationConfirmationViewController.endTime = endTime;
             // set all fields to the current reservation details
             ReservationConfirmationViewController.room = currentRoom;
@@ -64,9 +67,9 @@ public class RoomViewLogic {
      */
     public static boolean createReservation(int currentRoomId, DatePicker datePicker, RangeSlider timeSlotSlider)
             throws UnsupportedEncodingException {
-        String date = RoomViewController.getDatePickerConverter(datePicker).toString(datePicker.getValue());
-        String startTime = RoomViewController.getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
-        String endTime = RoomViewController.getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
+        String date = getDatePickerConverter(datePicker).toString(datePicker.getValue());
+        String startTime = getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
+        String endTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
 
         return ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
                 currentRoomId, date, startTime,
@@ -120,14 +123,14 @@ public class RoomViewLogic {
      *
      * @return true if the timeslot is free, false otherwise
      */
-    private static boolean checkTimeSlotValidity(int currentRoomId, DatePicker datePicker,
+    public static boolean checkTimeSlotValidity(int currentRoomId, DatePicker datePicker,
                                                  RangeSlider timeSlotSlider) {
         // get all reservations for the current room on the chosen date
         List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(currentRoomId,
-                datePicker.getValue(), RoomViewController.getDatePickerConverter(datePicker));
+                datePicker.getValue(), getDatePickerConverter(datePicker));
 
         // get converter to convert date value to String format hh:mm
-        StringConverter<Number> timeConverter = RoomViewController.getRangeSliderConverter();
+        StringConverter<Number> timeConverter = getRangeSliderConverter();
 
         // if there are no reservations the timeslot is valid
         if (roomReservations.size() == 0) {
@@ -149,5 +152,103 @@ public class RoomViewLogic {
 
         }
         return true;
+    }
+
+    /**
+     * Creates a StringConverter that converts the selected value to a usable Date (in String format).
+     *
+     * @return a StringConverter object
+     */
+    public static StringConverter<LocalDate> getDatePickerConverter (DatePicker datePicker){
+        try {
+            return new StringConverter<LocalDate>() {
+                // set the wanted pattern (format)
+                String pattern = "yyyy-MM-dd";
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+
+                {
+                    // set placeholder text for the datePicker
+                    datePicker.setPromptText(pattern.toLowerCase());
+                }
+
+                @Override
+                public String toString(LocalDate date) {
+                    if (date != null) {
+                        // get correctly formatted String
+                        return dateFormatter.format(date);
+                    } else {
+                        return "";
+                    }
+                }
+
+                @Override
+                public LocalDate fromString(String string) {
+                    if (string != null && !string.isEmpty()) {
+                        // get correct LocalDate from String format
+                        return LocalDate.parse(string, dateFormatter);
+                    } else {
+                        return null;
+                    }
+                }
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Creates a StringConverter that converts the selected value to an actual time (in String format).
+     *
+     * @return a StringConverter object
+     */
+    public static StringConverter<Number> getRangeSliderConverter () {
+        try {
+            return new StringConverter<Number>() {
+                @Override
+                public String toString(Number n) {
+                    // calculate hours and remaining minutes to get a correct hh:mm format
+                    long minutes = n.longValue();
+                    long hours = TimeUnit.MINUTES.toHours(minutes);
+                    long remainingMinutes = minutes - TimeUnit.HOURS.toMinutes(hours);
+                    // '%02d' means that there will be a 0 in front if its only 1 number + it's a long number
+                    return String.format("%02d", hours) + ":" + String.format("%02d", remainingMinutes);
+                }
+                //                    // true if there are errors, false otherwise
+//                    boolean errors = false;
+//
+//                    // clear error messages
+//            dateError.setVisible(false);
+//            timeslotError.setVisible(false);
+//
+//                    // set error messages if necessary
+//            if(datePicker.getValue()==null)
+//
+//                    {
+//                        dateError.setVisible(true);
+//                        errors = true;
+//                    }
+//            if(!
+//
+//                    checkTimeSlotValidity() ||timeSlotSlider.getLowValue()==timeSlotSlider.getHighValue())
+//
+//                    {
+//                        timeslotError.setVisible(true);
+//                        errors = true;
+//                    }
+                @Override
+
+                public Number fromString(String time) {
+                    if (time != null) {
+                        String[] split = time.split(":");
+                        return Double.parseDouble(split[0]) * 60 + Double.parseDouble(split[1]);
+                    }
+                    return null;
+                }
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
