@@ -1,27 +1,28 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -34,7 +35,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-
+import javax.imageio.ImageIO;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.CalendarPaneView;
@@ -73,6 +74,8 @@ public class SearchViewController implements Initializable {
     private ComboBox<String> bikesAvailable;
     @FXML
     private AnchorPane pane;
+
+    public static Stage thisStage;
 
     // Declaring the observable list for buildings, capacity and bikes to be inserted into the comboBox
     // This is necessary due to the format of inserting items into a comboBox.
@@ -231,8 +234,9 @@ public class SearchViewController implements Initializable {
 
                 @Override
                 public Building fromString(String id) {
-                    return buildingList.stream().filter(x -> String.valueOf(
-                            x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
+                    return buildingList.stream()
+                            .filter(x -> String.valueOf(x.getBuildingId()).equals(id))
+                            .collect(Collectors.toList()).get(0);
                 }
             };
             return converter;
@@ -260,15 +264,44 @@ public class SearchViewController implements Initializable {
             final Text roomDescription = new Text();
             final Text roomId = new Text();
 
-            // loading image from URL + setting size & properties
-            Image img = new Image("images/placeholder.png");
-            image.setImage(img);
+            // keep aspect ration of the image
             image.setPreserveRatio(true);
             image.setPickOnBounds(true);
+            // set width to 300 (height will follow)
             image.setFitWidth(300);
-
             // adding image margin
-            HBox.setMargin(image, new Insets(10, 5, 10, 10));
+
+            HBox.setMargin(image, new Insets(8, 5, 8, 10));
+            try {
+                // get path of room image
+                File resourceImage = new File("client/src/main/resources/images/" + r.getRoomPhoto().get());
+
+                String path = resourceImage.getAbsolutePath();
+                // set the ImageView to show the room image
+                image.setImage(new Image("file:" + path));
+                // get the room image in a BufferedImage object for later use
+                BufferedImage roomPhoto = ImageIO.read(resourceImage);
+                // crop image in proportion to image size in a standard room card
+                image.setViewport(new Rectangle2D(0, 0, roomPhoto.getWidth(),
+                        roomPhoto.getWidth() * (168.75 / 300.0)));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                try {
+                    // get default placeholder image
+                    File resourceImage = new File("client/src/main/resources/images/placeholder.png");
+                    String path = resourceImage.getAbsolutePath();
+                    // set the ImageView to show the placeholder image
+                    image.setImage(new Image("file:" + path));
+                    // get the placeholder image in a BufferedImage object for later use
+                    BufferedImage placeHolder = ImageIO.read(resourceImage);
+                    // crop image in proportion to image size in a standard room card
+                    image.setViewport(new Rectangle2D(0, 0, placeHolder.getWidth(),
+                            placeHolder.getWidth() * (168.75 / 300.0)));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
 
             /* set the roomId visibility to false such that it is not visible for the user but still useful to
                get the specific room information later in the RoomView
@@ -278,9 +311,10 @@ public class SearchViewController implements Initializable {
 
             // setting title and text margin (+ properties)
             roomTitle.setText(r.getRoomName().get());
-            roomTitle.setWrappingWidth(200);
+            roomTitle.setWrappingWidth(thisStage.getWidth() / 2.0);
             roomTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
             roomTitle.setStyle("-fx-fill: #0ebaf8;");
+
             VBox.setMargin(roomTitle, new Insets(10, 10, 10, 15));
 
             // setting building name and text margin
@@ -288,21 +322,23 @@ public class SearchViewController implements Initializable {
                     .filter(x -> x.getBuildingId().get() == r.getRoomBuilding().get())
                     .collect(Collectors.toList()).get(0);
             roomBuilding.setText("Building: " + building.getBuildingName().get());
-            roomBuilding.setWrappingWidth(200);
+            roomBuilding.setWrappingWidth(thisStage.getWidth() / 2.0);
             roomBuilding.setFont(Font.font("System", 14));
             VBox.setMargin(roomBuilding, new Insets(0, 0, 5, 15));
 
             // setting capacity and text margin (+ properties)
             roomCapacity.setText("Capacity: " + r.getRoomCapacity().get());
-            roomCapacity.setWrappingWidth(200);
+            roomCapacity.setWrappingWidth(thisStage.getWidth() / 2.0);
             roomCapacity.setFont(Font.font("System", 14));
+
             VBox.setMargin(roomCapacity, new Insets(0, 0, 5, 15));
 
             // setting description and text margin (+ properties)
             roomDescription.setText("Description: " + r.getRoomDescription().get());
-            roomDescription.setWrappingWidth(310);
+            roomDescription.setWrappingWidth(thisStage.getWidth() / 2.0);
             roomDescription.setFont(Font.font("System", 14));
-            VBox.setMargin(roomDescription, new Insets(0, 0, 5, 15));
+
+            VBox.setMargin(roomDescription, new Insets(0, 0, 0, 15));
 
             // setting 'text box' size
             roomInfo.setPrefSize(354, 378);
@@ -384,7 +420,7 @@ public class SearchViewController implements Initializable {
     }
 
     /**
-     * Loads the Calendar view with all the booking history.
+     * Loads the calendar view with all the booking history of the current user.
      *
      * @param event event that triggered this method
      */

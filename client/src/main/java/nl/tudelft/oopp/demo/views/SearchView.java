@@ -6,8 +6,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.controllers.SearchViewController;
 
 /**
  * View class for the search view.
@@ -22,10 +22,7 @@ public class SearchView extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-
-        SplitPane splitPane = new SplitPane();
-        splitPane.setDividerPosition(248, 0.248);
-
+        SearchViewController.thisStage = primaryStage;
         FXMLLoader loader = new FXMLLoader();
         URL xmlUrl = getClass().getResource("/SearchView.fxml");
         loader.setLocation(xmlUrl);
@@ -37,6 +34,7 @@ public class SearchView extends Application {
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
         primaryStage.setMinHeight(510);
         primaryStage.setMinWidth(840);
+
         primaryStage.show();
     }
 
