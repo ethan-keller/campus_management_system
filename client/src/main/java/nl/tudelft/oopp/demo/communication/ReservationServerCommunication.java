@@ -176,4 +176,23 @@ public class ReservationServerCommunication {
         return response.body();
     }
 
+    /**
+     * This client-server method is used to get the id of the last reservation inserted in the database.
+     * @return String containing the integer value of the id
+     * @throws UnsupportedEncodingException is thrown
+     */
+    public static String getCurrentId() throws UnsupportedEncodingException {
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/currentReservationId")).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode() + response.body());
+        }
+        return response.body();
+    }
+
 }

@@ -156,4 +156,26 @@ public class GeneralMethods {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Method that formats a price (double) to a String value of the price with 2 decimals.
+     *
+     * @param foodPrice the double value of the price
+     * @return a String containing the price in the right format
+     */
+    public static String formatPriceString(double foodPrice) {
+        try {
+            foodPrice = (double) Math.round(foodPrice * 100.0) / 100.0;
+            String[] splitPrice = String.valueOf(foodPrice).split("\\.");
+
+            while (splitPrice[1].length() < 2) {
+                splitPrice[1] += "0";
+            }
+
+            return splitPrice[0] + "." + splitPrice[1];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

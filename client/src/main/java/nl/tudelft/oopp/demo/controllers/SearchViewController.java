@@ -313,13 +313,8 @@ public class SearchViewController implements Initializable {
             roomInfo.setPrefSize(354, 378);
 
             // adding components to their corresponding parent
-            roomInfo.getChildren().add(roomId);
-            roomInfo.getChildren().add(roomTitle);
-            roomInfo.getChildren().add(roomCapacity);
-            roomInfo.getChildren().add(roomBuilding);
-            roomInfo.getChildren().add(roomDescription);
-            newCard.getChildren().add(image);
-            newCard.getChildren().add(roomInfo);
+            roomInfo.getChildren().addAll(roomId, roomTitle, roomCapacity, roomDescription);
+            newCard.getChildren().addAll(image, roomInfo);
 
             // setting size
             newCard.setPrefWidth(688);
@@ -395,6 +390,7 @@ public class SearchViewController implements Initializable {
 
     /**
      * Loads the Calendar view with all the booking history.
+     *
      * @param event event that triggered this method
      */
     @FXML
