@@ -19,7 +19,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -34,8 +39,6 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.logic.SearchViewLogic;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomView;
-
-
 
 
 /**
@@ -280,7 +283,7 @@ public class SearchViewController implements Initializable {
             roomList = SearchViewLogic.filterRoomByTeacherOnly(roomList, false);
         }
 
-        if(yesCheckBoxFood.isSelected()) {
+        if (yesCheckBoxFood.isSelected()) {
             roomList = SearchViewLogic.filterByFood(roomList, buildings);
         }
 
@@ -369,7 +372,6 @@ public class SearchViewController implements Initializable {
             getCardsShown(roomsToShow);
         }
     }
-
 
 
     /**
@@ -512,7 +514,6 @@ public class SearchViewController implements Initializable {
 
     /**
      * Clears all the filters and sets them back to 'empty'.
-     *
      */
     @FXML
     private void clearFiltersClicked() {

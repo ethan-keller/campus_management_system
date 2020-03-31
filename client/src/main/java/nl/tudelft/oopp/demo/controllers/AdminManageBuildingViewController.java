@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -196,8 +197,10 @@ public class AdminManageBuildingViewController {
         }
     }
 
-    /**.
+    /**
+     * .
      * Back button is clicked which redirects the admin back to admin home page.
+     *
      * @param event is passed
      * @throws IOException is thrown
      */

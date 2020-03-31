@@ -1,10 +1,9 @@
 package nl.tudelft.oopp.demo.logic;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +23,7 @@ public class SearchViewLogic {
     /**
      * filters rooms by the id of the building.
      *
-     * @param rooms list of rooms  to be filtered
+     * @param rooms    list of rooms  to be filtered
      * @param building id of the building the rooms should contain
      * @return list of rooms with the building-id that is given.
      */
@@ -51,7 +50,7 @@ public class SearchViewLogic {
     /**
      * filters the rooms that are teacher only or not teacher only. Depending on the given boolean.
      *
-     * @param rooms list of rooms  to be filtered
+     * @param rooms       list of rooms  to be filtered
      * @param teacherOnly if a room should be teacher only or not
      * @return list of rooms that are all teacher only or not teacher only. Depending on the boolean given.
      */
@@ -77,7 +76,7 @@ public class SearchViewLogic {
     /**
      * filters room by a capacity between 2 ints.
      *
-     * @param rooms list of rooms  to be filtered.
+     * @param rooms    list of rooms  to be filtered.
      * @param capacity a String that holds the selection of the capacity combobox.
      * @return list of rooms that have a capacity between the two given ints.
      */
@@ -129,8 +128,8 @@ public class SearchViewLogic {
     /**
      * filters rooms with the building names and room names that contain the input.
      *
-     * @param rooms list of rooms  to be filtered
-     * @param input input of the searchbar
+     * @param rooms     list of rooms  to be filtered
+     * @param input     input of the searchbar
      * @param buildings buildings that are in the system
      * @return lists of room with the building names and room names that contain the input.
      */
@@ -172,8 +171,8 @@ public class SearchViewLogic {
     /**
      * filters rooms with the building names that contain the input.
      *
-     * @param rooms list of rooms  to be filtered
-     * @param input input from the searchbar
+     * @param rooms     list of rooms  to be filtered
+     * @param input     input from the searchbar
      * @param buildings buildings that are present in the database
      * @return a list of rooms with the building names that contain the input.
      */
@@ -197,8 +196,9 @@ public class SearchViewLogic {
     /**
      * filters the given roomlist and keeps only the rooms that have a free spot.
      * The free spot is on the day of the date given.
+     *
      * @param roomList list of rooms to filter.
-     * @param date date where there should be a spot free.
+     * @param date     date where there should be a spot free.
      */
     public static void filterRoomsByDate(List<Room> roomList, String date, List<Reservation> reservations) {
         // get all the reservations and only keeps the reservations that are from the selected date.
@@ -229,7 +229,7 @@ public class SearchViewLogic {
                     if (reservations.get(z).getStartingTime().getValue().substring(3, 5).equals("30")) {
                         starting = starting + 0.5;
                     }
-                    if (reservations.get(z).getEndingTime().getValue().substring(3,5).equals("30")) {
+                    if (reservations.get(z).getEndingTime().getValue().substring(3, 5).equals("30")) {
                         ending = ending + 0.5;
                     }
                     if (reservations.get(z).getEndingTime().getValue().equals("23:59:00")) {
@@ -253,7 +253,7 @@ public class SearchViewLogic {
 
     /**
      * Creates a new 'card' (HBox) which contains some information about the room.
-
+     *
      * @param r The Room that we have to show information from
      * @return HBox which is the final 'card'
      */
@@ -347,20 +347,21 @@ public class SearchViewLogic {
 
     /**
      * Filters the rooms given by if they have food you can order.
-     * @param rooms rooms to be filtered.
+     *
+     * @param rooms     rooms to be filtered.
      * @param buildings list of buildings the rooms are in.
      * @return a list of rooms where you can order food.
      */
     public static List<Room> filterByFood(List<Room> rooms, List<Building> buildings) {
         List<Integer> buildingsWithFood = new ArrayList<Integer>();
-        for(int i = 0; i != buildings.size(); i ++){
+        for (int i = 0; i != buildings.size(); i++) {
             int buildingId = buildings.get(i).getBuildingId().getValue();
-            if(!Food.getFoodByBuildingId(buildingId).isEmpty()){
+            if (!Food.getFoodByBuildingId(buildingId).isEmpty()) {
                 buildingsWithFood.add(buildings.get(i).getBuildingId().getValue());
             }
         }
-        for(int i = 0; i != rooms.size(); i++){
-            if(!buildingsWithFood.contains(rooms.get(i).getRoomBuilding().getValue())){
+        for (int i = 0; i != rooms.size(); i++) {
+            if (!buildingsWithFood.contains(rooms.get(i).getRoomBuilding().getValue())) {
                 rooms.remove(i);
                 i--;
             }
@@ -370,9 +371,10 @@ public class SearchViewLogic {
 
     /**
      * filters the given rooms so that all the building of the rooms have the amount of bikes given.
-     * @param rooms list of rooms to filter.
+     *
+     * @param rooms     list of rooms to filter.
      * @param buildings list of all buildings.
-     * @param bikes String of the amount of bikes there should be.
+     * @param bikes     String of the amount of bikes there should be.
      * @return a list of rooms where the building has enough bikes.
      */
     public static List<Room> filterByBike(List<Room> rooms, List<Building> buildings, String bikes) {
@@ -397,17 +399,16 @@ public class SearchViewLogic {
                 break;
 
 
-
         }
         List<Integer> buildingsWithBike = new ArrayList<Integer>();
-        for(int i = 0; i != buildings.size(); i ++){
+        for (int i = 0; i != buildings.size(); i++) {
             int buildingBike = buildings.get(i).getBuildingMaxBikes().getValue();
-            if(buildingBike >= minBikes){
+            if (buildingBike >= minBikes) {
                 buildingsWithBike.add(buildings.get(i).getBuildingId().getValue());
             }
         }
-        for(int i = 0; i != rooms.size(); i++){
-            if(!buildingsWithBike.contains(rooms.get(i).getRoomBuilding().getValue())){
+        for (int i = 0; i != rooms.size(); i++) {
+            if (!buildingsWithBike.contains(rooms.get(i).getRoomBuilding().getValue())) {
                 rooms.remove(i);
                 i--;
             }
