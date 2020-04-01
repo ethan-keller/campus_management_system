@@ -1,11 +1,20 @@
 package nl.tudelft.oopp.demo.logic;
 
-import javafx.scene.control.TableView;
-import nl.tudelft.oopp.demo.communication.*;
-import nl.tudelft.oopp.demo.controllers.AdminManageFoodViewController;
-import nl.tudelft.oopp.demo.entities.*;
-
 import java.io.UnsupportedEncodingException;
+
+import javafx.scene.control.TableView;
+import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
+import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
+import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
+import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
+import nl.tudelft.oopp.demo.communication.UserServerCommunication;
+import nl.tudelft.oopp.demo.controllers.AdminManageFoodViewController;
+import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.entities.FoodReservation;
+import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.User;
 
 public class AdminLogic {
 
