@@ -19,6 +19,7 @@ import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.BikeEditDialogView;
+import nl.tudelft.oopp.demo.views.LoginView;
 
 
 public class AdminManageBikeReservationViewController {
@@ -49,9 +50,12 @@ public class AdminManageBikeReservationViewController {
 
     @FXML
     private Button editBikeButton;
-
     @FXML
     private Button deleteBikeButton;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
 
     public static BikeReservation currentSelectedBikeReservation;
 
@@ -65,6 +69,10 @@ public class AdminManageBikeReservationViewController {
     @FXML
     private void initialize() {
         try {
+            signOutButton.getStyleClass().clear();
+            backButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
+            backButton.getStyleClass().add("back-button");
             ObservableList<Building> buildingList = Building.getBuildingData();
             // Initialize the bike reservation table with the six columns.
             bikeIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
@@ -233,11 +241,24 @@ public class AdminManageBikeReservationViewController {
      * @throws IOException exception that gets thrown if fails
      */
     @FXML
-    private void backClicked(ActionEvent event) throws IOException {
+    public void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         AdminHomePageView adminHomePageView = new AdminHomePageView();
         adminHomePageView.start(stage);
     }
 
+    /**
+     * Handles clicking the sign out button, redirect to the log in view.
+     *
+     * @param event event that triggered this method
+     * @throws IOException exception that gets thrown if fails
+     */
+    @FXML
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        LoginView view = new LoginView();
+        view.start(stage);
+    }
 }

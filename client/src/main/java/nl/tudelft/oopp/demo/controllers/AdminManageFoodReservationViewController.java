@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,10 +12,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Food;
@@ -25,6 +26,7 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.views.AdminManageReservationView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.FoodReservationEditDialogView;
+import nl.tudelft.oopp.demo.views.LoginView;
 
 /**
  * Class that controls the view where the admin can manage food reservations.
@@ -52,6 +54,11 @@ public class AdminManageFoodReservationViewController {
 
     public static FoodReservation currentSelectedFoodReservation;
 
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
+
     public AdminManageFoodReservationViewController() {
 
     }
@@ -62,6 +69,10 @@ public class AdminManageFoodReservationViewController {
     @FXML
     private void initialize() {
         try {
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
             Reservation roomReservation = this.getReservation();
             // Initialize the title of the table
             usernameLabel.setText(roomReservation.getUsername().get());
@@ -200,7 +211,7 @@ public class AdminManageFoodReservationViewController {
      * @param event evnt that triggered this method
      */
     @FXML
-    private void backClicked(ActionEvent event) throws IOException {
+    public void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         if (AdminUserHistoryViewController.currentSelectedReservation != null) {
@@ -242,6 +253,20 @@ public class AdminManageFoodReservationViewController {
                     .collect(Collectors.toList()).get(0));
         }
         return foods;
+    }
+
+    /**
+     * Handles clicking the sign out button, redirect to the log in view.
+     *
+     * @param event event that triggered this method
+     * @throws IOException exception that gets thrown if fails
+     */
+    @FXML
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        LoginView view = new LoginView();
+        view.start(stage);
     }
 
 }

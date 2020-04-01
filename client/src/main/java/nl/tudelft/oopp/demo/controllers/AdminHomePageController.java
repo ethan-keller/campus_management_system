@@ -1,9 +1,13 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
+
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.views.AdminBikeReservationView;
 import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
 import nl.tudelft.oopp.demo.views.AdminManageFoodView;
@@ -14,6 +18,16 @@ import nl.tudelft.oopp.demo.views.LoginView;
 
 
 public class AdminHomePageController {
+
+    @FXML
+    private Button signOutButton;
+
+    @FXML
+    public void initialize(){
+        signOutButton.getStyleClass().clear();
+        signOutButton.getStyleClass().add("signout-button");
+    }
+
     /**
      * This button lets the admin sign out and redirects the admin back to the login page.
      * @param event is passed

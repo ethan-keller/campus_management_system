@@ -1,38 +1,41 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminManageFoodView;
 import nl.tudelft.oopp.demo.views.FoodBuildingEditDialogView;
-
+import nl.tudelft.oopp.demo.views.LoginView;
 
 
 public class AdminManageFoodBuildingViewController {
 
+    public static Building currentSelectedFoodBuilding;
     @FXML
     private Label foodNameLabel;
-
     @FXML
     private TableView<Building> foodBuildingTable;
-
     @FXML
     private TableColumn<Building, String> foodBuildingIdColumn;
-
     @FXML
     private TableColumn<Building, String> foodBuildingNameColumn;
-
-    public static Building currentSelectedFoodBuilding;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
 
     public AdminManageFoodBuildingViewController() {
     }
@@ -43,6 +46,10 @@ public class AdminManageFoodBuildingViewController {
     @FXML
     private void initialize() {
         try {
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
             // Initialize the title of the table
             foodNameLabel.setText(AdminManageFoodViewController.currentSelectedFood.getFoodName().get());
             // Initialize the room table with the four columns.
@@ -66,6 +73,7 @@ public class AdminManageFoodBuildingViewController {
 
     /**
      * Called when a building is selected.
+     *
      * @return Building
      */
     public Building getSelectedBuilding() {
@@ -78,6 +86,7 @@ public class AdminManageFoodBuildingViewController {
 
     /**
      * Gets a number representing the index of the selected food.
+     *
      * @return int
      */
     public int getSelectedIndex() {
@@ -86,6 +95,7 @@ public class AdminManageFoodBuildingViewController {
 
     /**
      * Delete a building.
+     *
      * @param event is passed
      */
     @FXML
@@ -117,6 +127,7 @@ public class AdminManageFoodBuildingViewController {
     /**
      * Handles clicking the add button.
      * Opens a dialog to edit details for the new food.
+     *
      * @param event is passed
      */
     @FXML
@@ -148,14 +159,28 @@ public class AdminManageFoodBuildingViewController {
 
     /**
      * Handles clicking the back button, redirect to the food view.
+     *
      * @param event is passed
      * @throws IOException is thrown
      */
     @FXML
-    private void backClicked(ActionEvent event) throws IOException {
+    public void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         AdminManageFoodView amfv = new AdminManageFoodView();
         amfv.start(stage);
+    }
+
+    /**
+     * Handles clicking the login button, redirect to the login view.
+     *
+     * @param event is passed
+     * @throws IOException is thrown
+     */
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        LoginView view = new LoginView();
+        view.start(stage);
     }
 }

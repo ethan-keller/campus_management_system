@@ -21,6 +21,7 @@ public class AdminManageFoodView extends Application {
             URL xmlUrl = getClass().getResource("/adminManageFoodView.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
             /*
              * Making sure that the page doesn't resize when we switch between scenes

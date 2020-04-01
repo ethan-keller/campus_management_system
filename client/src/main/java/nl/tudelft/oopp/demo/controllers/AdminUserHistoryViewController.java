@@ -9,17 +9,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
-import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
-import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.BookingEditDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 
@@ -43,6 +43,11 @@ public class AdminUserHistoryViewController {
     @FXML
     private TableColumn<Reservation, String> bookingEndColumn;
 
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
+
     public static Reservation currentSelectedReservation;
 
     public AdminUserHistoryViewController() {
@@ -55,6 +60,10 @@ public class AdminUserHistoryViewController {
     @FXML
     private void initialize() {
         try {
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
             // Initialize the title of the table
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             // Initialize the booking table with the five columns.
@@ -181,7 +190,7 @@ public class AdminUserHistoryViewController {
      * @param event is passed
      */
     @FXML
-    private void backClicked(ActionEvent event) throws IOException {
+    public void backClicked(ActionEvent event) throws IOException {
         currentSelectedReservation = null;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -195,12 +204,13 @@ public class AdminUserHistoryViewController {
      * @throws IOException is thrown.
      */
     @FXML
-    private void signOutClicked(ActionEvent event) throws IOException {
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This opens up a new login page.
         LoginView loginView = new LoginView();
         loginView.start(stage);
     }
+
 
 }

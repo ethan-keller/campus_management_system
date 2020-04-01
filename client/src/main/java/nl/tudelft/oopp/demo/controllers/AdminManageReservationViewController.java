@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -46,6 +47,11 @@ public class AdminManageReservationViewController {
 
     public static Reservation currentSelectedReservation;
 
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
+
     /**
      * Default constructor of the class.
      */
@@ -58,7 +64,10 @@ public class AdminManageReservationViewController {
     @FXML
     private void initialize() {
         try {
-
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
             //Initializing all the columns created in the table view to inhibit the data passed
             // down through the server.
 
@@ -258,11 +267,20 @@ public class AdminManageReservationViewController {
      * @throws IOException is thrown.
      */
     @FXML
-    private void signOutButtonClicked(ActionEvent event) throws IOException {
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This loads up a new login page.
         LoginView loginView = new LoginView();
         loginView.start(stage);
+    }
+
+    @FXML
+    public void backClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // This starts a new admin home page view.
+        AdminHomePageView ahpv = new AdminHomePageView();
+        ahpv.start(stage);
     }
 }
