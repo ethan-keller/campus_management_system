@@ -5,15 +5,16 @@ import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.CalendarView;
 import com.mindfusion.scheduling.model.Appointment;
 import com.mindfusion.scheduling.model.Item;
+
 import java.awt.Color;
 import java.awt.Point;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
@@ -23,7 +24,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
 import javax.swing.SwingUtilities;
+
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
@@ -32,6 +35,8 @@ import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.entities.FoodReservation;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.CalenderItemDialogView;
@@ -45,12 +50,11 @@ import nl.tudelft.oopp.demo.views.SearchView;
  */
 public class CalendarPaneController implements Initializable {
 
+    public static Stage thisStage;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
     @FXML
     private AnchorPane pane;
     private volatile Calendar calendar;
-    public static Stage thisStage;
 
     /**
      * .
@@ -143,7 +147,7 @@ public class CalendarPaneController implements Initializable {
                 return;
             }
 
-
+            List<Food> foodList = Food.getAllFoodData();
             // make an Appointment object for every reservation to inject in calendar
             for (Reservation r : reservationList) {
                 Appointment app = new Appointment();
@@ -168,9 +172,22 @@ public class CalendarPaneController implements Initializable {
                 app.setEndTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
                         Integer.parseInt(date[2]), Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1]),
                         Integer.parseInt(endTime[2])));
+
+                String description = room.getRoomName().get() + "\n" + building.getBuildingName().get() + "\n"
+                        + startTime[0] + ":" + startTime[1] + " - " + endTime[0] + ":" + endTime[1] + "\n";
+                List<FoodReservation> frList = FoodReservation.getUserReservationFood(r);
+                double totalPrice = 0;
+                for (FoodReservation fr : frList) {
+                    Food f = foodList.stream()
+                            .filter(x -> x.getFoodId().get() == fr.getFoodId().get())
+                            .collect(Collectors.toList()).get(0);
+                    description += fr.getFoodQuantity().get() + "x " + f.getFoodName().get() + "\n";
+                    totalPrice += fr.getFoodQuantity().get() * f.getFoodPrice().get();
+                }
+                description += "total price = " + Math.round(totalPrice * 100.0) / 100.0;
+
                 // add description with info about the reservation
-                app.setDescriptionText(room.getRoomName().get() + "\n" + building.getBuildingName().get() + "\n"
-                        + startTime[0] + ":" + startTime[1] + " - " + endTime[0] + ":" + endTime[1]);
+                app.setDescriptionText(description);
                 // make sure the user cannot move around the reservations in the calendar
                 app.setLocked(true);
                 app.setAllowMove(false);
@@ -193,7 +210,7 @@ public class CalendarPaneController implements Initializable {
                     BikeReservation.getUserBikeReservations(CurrentUserManager.getUsername());
             ObservableList<Building> buildingList = Building.getBuildingData();
 
-            for (BikeReservation br: reservationList) {
+            for (BikeReservation br : reservationList) {
                 Appointment app = new Appointment();
                 Building building = buildingList.stream()
                         .filter(x -> x.getBuildingId().get() == br.getBikeReservationBuilding().get())
@@ -211,8 +228,8 @@ public class CalendarPaneController implements Initializable {
                         Integer.parseInt(end[2])));
 
                 app.setDescriptionText(building.getBuildingName().get() + "\n"
-                + start[0] + ":" + start[1] + " - " + end[0] + ":" + end[1] + "\n"
-                + br.getBikeReservationQuantity().get() + " bike(s)");
+                        + start[0] + ":" + start[1] + " - " + end[0] + ":" + end[1] + "\n"
+                        + br.getBikeReservationQuantity().get() + " bike(s)");
 
                 app.setLocked(true);
                 app.setAllowMove(false);
@@ -361,8 +378,8 @@ public class CalendarPaneController implements Initializable {
                         // alert user that there was an error
                         alertError.showAndWait();
                     }
-                } else if (x.getStyle().getFillColor().equals(Color.MAGENTA)){
-                    if (BikeReservationCommunication.deleteBikeReservation(Integer.parseInt(x.getId()))){
+                } else if (x.getStyle().getFillColor().equals(Color.MAGENTA)) {
+                    if (BikeReservationCommunication.deleteBikeReservation(Integer.parseInt(x.getId()))) {
                         // delete reservation from database and calendar
                         calendar.getSchedule().getItems().remove(x);
                         alertConfirm.showAndWait();
