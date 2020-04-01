@@ -196,11 +196,12 @@ public class SearchViewLogic {
     /**
      * filters the given roomlist and keeps only the rooms that have a free spot.
      * The free spot is on the day of the date given.
-     *
-     * @param roomList list of rooms to filter.
-     * @param date     date where there should be a spot free.
+     * @param roomList list of all rooms to filter.
+     * @param date date that is selected.
+     * @param reservations all reservations.
+     * @param buildings all buildings.
      */
-    public static void filterRoomsByDate(List<Room> roomList, String date, List<Reservation> reservations) {
+    public static void filterRoomsByDate(List<Room> roomList, String date, List<Reservation> reservations, List<Building> buildings) {
         // get all the reservations and only keeps the reservations that are from the selected date.
         // the id of the rooms that are of the date are stored in roomsWithDate.
         List<Integer> roomsWithDate = new ArrayList<Integer>();
@@ -215,37 +216,59 @@ public class SearchViewLogic {
             }
         }
 
-        // for every room the total hours of bookings on the selected date is calculated
-        // if it is 16 the room is fully booked the room will be removed from the rooms to show
+        // for every room the total hours of bookings on the selected date is calculated.
+        // if it is closing time - opening time then hours available is 0.
         double totalHoursAvailable;
-        for (int q = 0; q != roomsWithDate.size(); q++) {
-            totalHoursAvailable = 16;
-            for (int z = 0; z != reservations.size(); z++) {
-                if (reservations.get(z).getRoom().getValue().equals(roomsWithDate.get(q))) {
-                    double starting = Integer.parseInt(
-                            reservations.get(z).getStartingTime().getValue().substring(0, 2));
-                    double ending = Integer.parseInt(
-                            reservations.get(z).getEndingTime().getValue().substring(0, 2));
-                    if (reservations.get(z).getStartingTime().getValue().substring(3, 5).equals("30")) {
-                        starting = starting + 0.5;
+        //gets the room that are in roomsWithDate.
+        for (int q = 0; q != roomList.size(); q++) {
+            System.out.println(roomList.get(q).getRoomName().get());
+            if(roomsWithDate.contains(roomList.get(q).getRoomId().getValue())) {
+                Room room = roomList.get(q);
+                Building building = null;
+                //Gets the building of the room.
+                for(int i = 0; i != buildings.size(); i++){
+                    if(buildings.get(i).getBuildingId().get() == room.getRoomBuilding().get()){
+                        building = buildings.get(i);
                     }
-                    if (reservations.get(z).getEndingTime().getValue().substring(3, 5).equals("30")) {
-                        ending = ending + 0.5;
-                    }
-                    if (reservations.get(z).getEndingTime().getValue().equals("23:59:00")) {
-                        ending = 24;
-                    }
-                    if (ending == 0) {
-                        ending = 24;
-                    }
-                    totalHoursAvailable = totalHoursAvailable + starting - ending;
                 }
-            }
-            if (totalHoursAvailable <= 0) {
-                for (int y = 0; y != roomList.size(); y++) {
-                    if (roomList.get(y).getRoomId().getValue().equals(roomsWithDate.get(q))) {
-                        roomList.remove(y);
+                double openingTime = Integer.parseInt(
+                        building.getOpeningTime().get().substring(0, 2));
+                double closingTime = Integer.parseInt(
+                        building.getClosingTime().get().substring(0, 2));
+                //If there are half an hours involved the starting time gets +0.5
+                //Same for the closing time.
+                if (building.getOpeningTime().get().substring(3, 5).equals("30")) {
+                    openingTime = openingTime + 0.5;
+                }
+                if (building.getClosingTime().get().substring(3, 5).equals("30")) {
+                    closingTime = closingTime + 0.5;
+                }
+                totalHoursAvailable = closingTime - openingTime;
+                // Gets all the reservations that are in the room on the selected date.
+                for (int z = 0; z != reservations.size(); z++) {
+                    System.out.println(roomList.get(q).getRoomName().get());
+                    if (reservations.get(z).getRoom().getValue().equals(roomList.get(q).getRoomId().get())) {
+                        double starting = Integer.parseInt(
+                                reservations.get(z).getStartingTime().getValue().substring(0, 2));
+                        double ending = Integer.parseInt(
+                                reservations.get(z).getEndingTime().getValue().substring(0, 2));
+                        if (reservations.get(z).getStartingTime().getValue().substring(3, 5).equals("30")) {
+                            starting = starting + 0.5;
+                        }
+                        if (reservations.get(z).getEndingTime().getValue().substring(3, 5).equals("30")) {
+                            ending = ending + 0.5;
+                        }
+                        if (reservations.get(z).getEndingTime().getValue().equals("23:59:00")) {
+                            ending = 24;
+                        }
+                        if (ending == 0) {
+                            ending = 24;
+                        }
+                        totalHoursAvailable = totalHoursAvailable + starting - ending;
                     }
+                }
+                if (totalHoursAvailable <= 0) {
+                    roomList.remove(q);
                 }
             }
         }
