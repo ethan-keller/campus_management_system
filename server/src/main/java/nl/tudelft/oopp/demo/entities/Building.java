@@ -1,10 +1,11 @@
 package nl.tudelft.oopp.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,13 +32,16 @@ public class Building implements Serializable {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "available_bikes")
-    private Integer availableBikes;
+    @Column(name = "openingTime")
+    private String openingTime;
 
-    @Column(name = "max_bikes")
+    @Column(name = "closingTime")
+    private String closingTime;
+
+    @Column(name = "maxBikes")
     private Integer maxBikes;
 
-    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
     private Set<FoodBuilding> foodBuilding;
 
@@ -47,20 +51,23 @@ public class Building implements Serializable {
     /**
      * Constructor with optional fields availableBikes and maxBikes.
      *
-     * @param id             int
-     * @param name           String
-     * @param roomCount      int
-     * @param address        String
-     * @param availableBikes int
-     * @param maxBikes       int  //TODO exact format
+     * @param id          int
+     * @param name        String
+     * @param roomCount   int
+     * @param address     String
+     * @param maxBikes    int
+     * @param openingTime  String
+     * @param closingTime String
      */
-    public Building(int id, String name, int roomCount, String address, int availableBikes, int maxBikes) {
+    public Building(int id, String name, int roomCount, String address, int maxBikes,
+                    String openingTime, String closingTime) {
         this.id = id;
         this.name = name;
         this.roomCount = roomCount;
         this.address = address;
-        this.availableBikes = availableBikes;
         this.maxBikes = maxBikes;
+        this.openingTime = openingTime;
+        this.closingTime = closingTime;
         this.foodBuilding = new HashSet<>();
     }
 
@@ -100,14 +107,6 @@ public class Building implements Serializable {
         return address;
     }
 
-    /**
-     * Retrieves the available bikes for this building from the database.
-     *
-     * @return Returns the int value availableBikes
-     */
-    public int getAvailableBikes() {
-        return availableBikes;
-    }
 
     /**
      * Retrieves the maximum amount of bikes for this building from the database.
@@ -118,8 +117,22 @@ public class Building implements Serializable {
         return maxBikes;
     }
 
-    public Set<FoodBuilding> getFoodBuilding() {
-        return foodBuilding;
+    /**
+     * Retrieves the opening time for this building from the database.
+     *
+     * @return Returns the int value maxBikes
+     */
+    public String getOpeningTime() {
+        return openingTime;
+    }
+
+    /**
+     * Retrieves the closing time for this building from the database.
+     *
+     * @return Returns the int value maxBikes
+     */
+    public String getClosingTime() {
+        return closingTime;
     }
 
     /**

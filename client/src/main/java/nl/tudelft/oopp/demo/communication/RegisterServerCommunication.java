@@ -7,10 +7,14 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RegisterServerCommunication {
 
     private static HttpClient client = HttpClient.newBuilder().build();
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * The sendRegister method encodes the information that is passed to the server in line 26
@@ -32,11 +36,11 @@ public class RegisterServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return "Communication with server failed";
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
         }
         return response.body();
     }

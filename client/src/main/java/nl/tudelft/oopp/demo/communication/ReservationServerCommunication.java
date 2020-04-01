@@ -5,9 +5,13 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ReservationServerCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * This client-server method is used to create a new reservation using the attributes
@@ -33,11 +37,11 @@ public class ReservationServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
             return false;
         }
         return true;
@@ -66,11 +70,11 @@ public class ReservationServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
         if (response.statusCode() != 200) {
-            System.out.println("FAILED Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
             return false;
         }
         return true;
@@ -93,11 +97,11 @@ public class ReservationServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
             return false;
         }
         return true;
@@ -119,10 +123,11 @@ public class ReservationServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return null;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
         }
         return response.body();
     }
@@ -138,10 +143,11 @@ public class ReservationServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return null;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
         }
         return response.body();
     }
@@ -161,10 +167,31 @@ public class ReservationServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return null;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
+        }
+        return response.body();
+    }
+
+    /**
+     * This client-server method is used to get the id of the last reservation inserted in the database.
+     * @return String containing the integer value of the id
+     * @throws UnsupportedEncodingException is thrown
+     */
+    public static String getCurrentId() throws UnsupportedEncodingException {
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/currentReservationId")).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+            return null;
+        }
+        if (response.statusCode() != 200) {
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
         }
         return response.body();
     }

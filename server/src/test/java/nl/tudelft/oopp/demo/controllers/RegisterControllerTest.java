@@ -18,6 +18,11 @@ class RegisterControllerTest {
     @Autowired
     private UserController userCont;
 
+    /**
+     * Deletes the user if it already exists and then creates the account.
+     * and tries to create it again but got the right error message.
+     * @throws UnsupportedEncodingException if something goes wrong with encoding
+     */
 
     @Test
     void register() throws UnsupportedEncodingException {

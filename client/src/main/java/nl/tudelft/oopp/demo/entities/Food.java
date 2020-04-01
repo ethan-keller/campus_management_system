@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -12,7 +14,11 @@ import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 public class Food {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     private IntegerProperty foodId;
     private StringProperty foodName;
     private DoubleProperty foodPrice;
@@ -98,35 +104,12 @@ public class Food {
                 Food f = new Food();
                 f.setFoodId(jsonArrayFood.getJSONObject(i).getInt("id"));
                 f.setFoodName(jsonArrayFood.getJSONObject(i).getString("name"));
-                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getInt("price"));
+                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getDouble("price"));
                 foodData.add(f);
             }
             return foodData;
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Returns a list of Foods that have been added to a particular reservation.
-     * @param id The Reservation ID
-     * @return Returns a list of Food
-     */
-    public static ObservableList<Food> getFoodByReservationId(int id) {
-        try {
-            ObservableList<Food> foodData = FXCollections.observableArrayList();
-            JSONArray jsonArrayFood = new JSONArray(FoodServerCommunication.getFoodByReservation(id));
-            for (int i = 0; i < jsonArrayFood.length(); i++) {
-                Food f = new Food();
-                f.setFoodId(jsonArrayFood.getJSONObject(i).getInt("id"));
-                f.setFoodName(jsonArrayFood.getJSONObject(i).getString("name"));
-                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getInt("price"));
-                foodData.add(f);
-            }
-            return foodData;
-        } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -144,12 +127,12 @@ public class Food {
                 Food f = new Food();
                 f.setFoodId(jsonArrayFood.getJSONObject(i).getInt("id"));
                 f.setFoodName(jsonArrayFood.getJSONObject(i).getString("name"));
-                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getInt("price"));
+                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getDouble("price"));
                 foodData.add(f);
             }
             return foodData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -167,12 +150,12 @@ public class Food {
                 Food f = new Food();
                 f.setFoodId(jsonArrayFood.getJSONObject(i).getInt("id"));
                 f.setFoodName(jsonArrayFood.getJSONObject(i).getString("name"));
-                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getInt("price"));
+                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getDouble("price"));
                 foodData.add(f);
             }
             return foodData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -188,11 +171,29 @@ public class Food {
             Food f = new Food();
             f.setFoodId(jsonObject.getInt("id"));
             f.setFoodName(jsonObject.getString("name"));
-            f.setFoodPrice(jsonObject.getInt("price"));
+            f.setFoodPrice(jsonObject.getDouble("price"));
             return f;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
+
+    /**
+     * The equals method of food.
+     * @param o food
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Food food = (Food) o;
+        return foodId.get() == (food.getFoodId().get());
+    }
+
 }

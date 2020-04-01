@@ -1,13 +1,23 @@
 package nl.tudelft.oopp.demo.communication;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Window;
+
 import org.controlsfx.control.RangeSlider;
+
+
 
 /**
  * This method encodes all communication that occurs between the server and the client.
@@ -19,12 +29,33 @@ import org.controlsfx.control.RangeSlider;
  */
 public class GeneralMethods {
 
+    private static Logger logger;
+
+    /**
+     * Sets up and returns the standard logger for this application.
+     */
+    public static void loggerSetup() {
+        try {
+            LogManager.getLogManager().reset();
+            FileHandler handler = new FileHandler("logs/client.log", true);
+            handler.setFormatter(new SimpleFormatter());
+            handler.setLevel(Level.INFO);
+
+            Logger logr = Logger.getLogger("GlobalLogger");
+            logr.addHandler(handler);
+            GeneralMethods.logger = logr;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * This method is to encode all communication across the data stream.
      *
-     * @param params are passed
-     * @return Encoded parameters as string
-     * @throws UnsupportedEncodingException is thrown
+     * @param params are passed.
+     * @return :Encoded parameters as string.
+     * @throws UnsupportedEncodingException is thrown.
+    >>>>>>> filtering
      */
     public static String encodeCommunication(String params) throws UnsupportedEncodingException {
         params = URLEncoder.encode(params, StandardCharsets.UTF_8.toString());
@@ -33,13 +64,14 @@ public class GeneralMethods {
         return params;
     }
 
+
     /**
      * Creates a pop up, aka an alert.
      *
-     * @param title String
+     * @param title   String
      * @param content String containing the text to show to the user.
-     * @param owner Window
-     * @param type AlertType
+     * @param owner   Window
+     * @param type    AlertType
      * @return Alert An alert containing the provided information.
      */
     public static Alert createAlert(String title, String content, Window owner, Alert.AlertType type) {
@@ -62,7 +94,7 @@ public class GeneralMethods {
             // Return the alert object.
             return alert;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -70,10 +102,10 @@ public class GeneralMethods {
     /**
      * Creates an alert box with a separate set of features compared to the above method.
      *
-     * @param title - Title of the alert box (String)
-     * @param header - Header of the alert box (String)
+     * @param title   - Title of the alert box (String)
+     * @param header  - Header of the alert box (String)
      * @param content - Content of the alert box (String)
-     * @param type - AlertType
+     * @param type    - AlertType
      * @return Alert  An alert containing the provided information.
      */
     public static Alert alertBox(String title, String header, String content, Alert.AlertType type) {
@@ -100,7 +132,7 @@ public class GeneralMethods {
             // return the alert object
             return alert;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -108,8 +140,8 @@ public class GeneralMethods {
     /**
      * Sets the RangeSlider to a standard white track.
      *
-     * @param rs the RangeSlider to configure
-     * @param bw the BufferedWriter which writes to the CSS file
+     * @param rs  the RangeSlider to configure
+     * @param bw  the BufferedWriter which writes to the CSS file
      * @param css the css file that is written to
      */
     public static void setSliderDefaultCss(RangeSlider rs, BufferedWriter bw, String css) {
@@ -128,7 +160,29 @@ public class GeneralMethods {
             bw.flush();
             bw.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
+    }
+
+    /**
+     * Method that formats a price (double) to a String value of the price with 2 decimals.
+     *
+     * @param foodPrice the double value of the price
+     * @return a String containing the price in the right format
+     */
+    public static String formatPriceString(double foodPrice) {
+        try {
+            foodPrice = (double) Math.round(foodPrice * 100.0) / 100.0;
+            String[] splitPrice = String.valueOf(foodPrice).split("\\.");
+
+            while (splitPrice[1].length() < 2) {
+                splitPrice[1] += "0";
+            }
+
+            return splitPrice[0] + "." + splitPrice[1];
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 }

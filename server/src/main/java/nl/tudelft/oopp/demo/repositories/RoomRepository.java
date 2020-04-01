@@ -70,19 +70,18 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     public void deleteRoom(@Param("id") int id);
 
     @Query(value = "SELECT * FROM room WHERE building = :buildingId", nativeQuery = true)
-    public Room getRoomByBuilding(@Param("buildingId") int buildingId);
+    public List<Room> getRoomByBuilding(@Param("buildingId") int buildingId);
 
     @Query(value = "SELECT * FROM room WHERE capacity <= :capMin AND capacity >= :capMax ", nativeQuery = true)
-    public Room getRoomByCapacity(@Param("capMin") int capMin, @Param("capMax") int capMax);
+    public List<Room> getRoomByCapacity(@Param("capMin") int capMin, @Param("capMax") int capMax);
 
     @Query(value = "SELECT * FROM room WHERE capacity = :capacity", nativeQuery = true)
-    public Room getRoomByCapacity(@Param("capacity") String capacity);
+    public List<Room> getRoomByCapacity(@Param("capacity") String capacity);
 
     @Query(value = "SELECT * FROM room WHERE type = :role", nativeQuery = true)
-    public Room getRoomByRole(@Param("role") String role);
+    public List<Room> getRoomByRole(@Param("role") String role);
 
     @Query(value = "SELECT * FROM room WHERE name = :name", nativeQuery = true)
     public Room getRoomByName(@Param("name") String name);
-
 
 }

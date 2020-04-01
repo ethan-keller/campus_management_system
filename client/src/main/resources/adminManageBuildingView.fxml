@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
@@ -37,19 +38,6 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#backClicked" prefHeight="35.0" prefWidth="93.0" text="Back" textFill="#0ebaf8">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#signOutButtonClicked" prefHeight="35.0" prefWidth="96.0" text="Sign Out" textFill="#0ebaf8">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -59,10 +47,13 @@
    <center>
       <TableView fx:id="buildingTable" prefHeight="500.0" prefWidth="900.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="buildingIdColumn" minWidth="100.0" prefWidth="-1.0" text="ID" />
-          <TableColumn fx:id="buildingNameColumn" minWidth="200.0" prefWidth="279.1999816894531" text="Name" />
-            <TableColumn fx:id="buildingRoomCountColumn" minWidth="90.0" prefWidth="170.4000244140625" text="Room count" />
-            <TableColumn fx:id="buildingAddressColumn" minWidth="200.0" prefWidth="329.59991455078125" text="Address" />
+          <TableColumn fx:id="buildingIdColumn" maxWidth="88.80001831054688" minWidth="40.0" prefWidth="69.60000610351562" text="ID" />
+          <TableColumn fx:id="buildingNameColumn" maxWidth="200.0" minWidth="80.0" prefWidth="132.0" text="Name" />
+            <TableColumn fx:id="buildingRoomCountColumn" maxWidth="180.0" minWidth="80.0" prefWidth="100.0" text="Room count" />
+            <TableColumn fx:id="maxBikesColumn" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Bike amount" />
+            <TableColumn fx:id="openingTimeColumn" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="Opening time" />
+            <TableColumn fx:id="closingTimeColumn" maxWidth="200.0" minWidth="130.0" prefWidth="150.0" text="Closing time" />
+            <TableColumn fx:id="buildingAddressColumn" minWidth="187.0" prefWidth="187.0" text="Address" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -70,10 +61,24 @@
       </TableView>
    </center>
    <top>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="54.0" prefWidth="150.0" text="Buildings" textAlignment="CENTER" textFill="#0ebaf8" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="380.0" prefHeight="54.0" prefWidth="150.0" text="Buildings" textAlignment="CENTER" textFill="#0ebaf8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="380.0" AnchorPane.rightAnchor="380.80000000000007" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="signOutButton" layoutX="801.0" layoutY="7.0" mnemonicParsing="false" onAction="#signOutButtonClicked" prefHeight="35.0" prefWidth="96.0" text="Sign Out" textFill="#0ebaf8" AnchorPane.bottomAnchor="8.199999999999996" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="7.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="backButton" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#backClicked" prefHeight="35.0" prefWidth="93.0" text="&lt; Back" textFill="#0ebaf8" AnchorPane.bottomAnchor="8.199999999999996" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="7.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
    </top>
 </BorderPane>

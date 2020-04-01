@@ -5,8 +5,16 @@ import java.util.List;
 
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.encodehash.Hashing;
+import nl.tudelft.oopp.demo.entities.BikeReservation;
+import nl.tudelft.oopp.demo.entities.Item;
+import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.repositories.BikeReservationRepository;
+import nl.tudelft.oopp.demo.repositories.ItemRepository;
+import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,8 +29,19 @@ public class UserController {
     @Autowired
     private UserRepository userRepo;
 
+    @Autowired
+    private ReservationsRepository reservationRepo;
+
+    @Autowired
+    private ItemRepository itemRepo;
+
+    @Autowired
+    private BikeReservationRepository bikeResRepo;
+
     @Value("${encryption.secretKey}")
     private String secretKey;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Creates a user entry in the database.
@@ -43,8 +62,9 @@ public class UserController {
         try {
             String encryptedPass = Hashing.hashIt(password);
             userRepo.insertUser(username, encryptedPass, type);
+            logger.info("User: -create- Username: " + username + " - Type: " + type);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("User: -create- ERROR", e);
         }
     }
 
@@ -68,8 +88,9 @@ public class UserController {
             String encryptedPass = Hashing.hashIt(password);
             userRepo.updatePassword(username, encryptedPass);
             userRepo.updateType(username, type);
+            logger.info("User: -update- Username: " + username + " - NEW data -> Password: ? - Type: " + type);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("User: -update- ERROR", e);
         }
     }
 
@@ -89,8 +110,9 @@ public class UserController {
 
         try {
             userRepo.updateType(username, type);
+            logger.info("User: -updateType- Username: " + username + " - NEW data ->  Type: " + type);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("User: -updateType- ERROR", e);
         }
     }
 
@@ -107,9 +129,26 @@ public class UserController {
         username = CommunicationMethods.decodeCommunication(username);
 
         try {
+            final List<Reservations> reservations = reservationRepo.getUserReservations(username);
+            final List<Item> items = itemRepo.getUserItems(username);
+            final List<BikeReservation> bikeReservations = bikeResRepo.getUserBikeReservations(username);
             userRepo.deleteUser(username);
+            logger.info("User: -delete- Username: " + username);
+
+            int counter;
+            for (counter = 0; counter < reservations.size(); counter++) {
+                logger.info("Reservation: -delete- ID: " + reservations.get(counter).getId());
+            }
+
+            for (counter = 0; counter < items.size(); counter++) {
+                logger.info("Calender Item: -delete- ID: " + items.get(counter).getId());
+            }
+
+            for (counter = 0; counter < bikeReservations.size(); counter++) {
+                logger.info("Bike Reservation: -delete- ID: " + bikeReservations.get(counter).getId());
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("User: -delete- ERROR", e);
         }
     }
 
@@ -129,7 +168,7 @@ public class UserController {
         try {
             return userRepo.getUser(username);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("User: -get- ERROR", e);
         }
         return null;
     }
@@ -145,7 +184,7 @@ public class UserController {
         try {
             return userRepo.getAllUsers();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("User: -getAllUsers- ERROR", e);
         }
         return null;
     }

@@ -4,6 +4,9 @@ import java.util.List;
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Item;
 import nl.tudelft.oopp.demo.repositories.ItemRepository;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +22,9 @@ public class ItemController {
     @Autowired
     private ItemRepository itemRepo;
 
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     /**
      * Endpoint to get item by id from database.
      *
@@ -32,7 +38,7 @@ public class ItemController {
             id = Integer.parseInt(CommunicationMethods.decodeCommunication(String.valueOf(id)));
             return itemRepo.getItem(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Calender Item: -get- ERROR", e);
         }
         return null;
     }
@@ -48,7 +54,7 @@ public class ItemController {
         try {
             return itemRepo.getAllItems();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Calender Item: -getAll- ERROR", e);
         }
         return null;
     }
@@ -77,9 +83,11 @@ public class ItemController {
             endingTime = CommunicationMethods.decodeCommunication(endingTime);
             description = CommunicationMethods.decodeCommunication(description);
             itemRepo.insertItem(user, title, date, startingTime, endingTime, description);
+            logger.info("Calender Item: -create- User: " + user + " - Title: " + title + " - Date: "
+                    + date + " - Starting Time: " + startingTime + " - Ending time: " + endingTime);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Calender Item: -create- ERROR", e);
             return false;
         }
     }
@@ -95,11 +103,12 @@ public class ItemController {
     public boolean deleteItem(@RequestParam int id) {
         try {
             itemRepo.deleteItem(id);
+            logger.info("Calender Item: -delete- ID: " + id);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Calender Item: -delete- ERROR", e);
+            return false;
         }
-        return false;
     }
 
     /**
@@ -113,7 +122,7 @@ public class ItemController {
         try {
             return itemRepo.getCurrentId();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Calender Item: -getCurrentId- ERROR", e);
         }
         return -1;
     }
@@ -130,7 +139,7 @@ public class ItemController {
         try {
             return itemRepo.getUserItems(user);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Calender Item: -getUserItems- ERROR", e);
         }
         return null;
     }

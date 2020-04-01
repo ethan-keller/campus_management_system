@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.entities;
 
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -15,6 +17,8 @@ import org.json.JSONArray;
  * Entity class for calendar items.
  */
 public class Item {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     private IntegerProperty id;
     private StringProperty user;
@@ -224,7 +228,7 @@ public class Item {
             }
             return itemData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -252,7 +256,7 @@ public class Item {
             }
             return itemData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
