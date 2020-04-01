@@ -2,8 +2,8 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 
+import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservations;
@@ -12,6 +12,7 @@ import nl.tudelft.oopp.demo.repositories.BikeReservationRepository;
 import nl.tudelft.oopp.demo.repositories.BuildingRepository;
 import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,27 +43,31 @@ public class BuildingController {
     /**
      * Adds a building to the database.
      *
-     * @param name           The name of the building.
-     * @param roomCount      The amount of of rooms inside the building.
-     * @param address        The address of the building. //TODO format of address!!
-     * @param availableBikes The number of available bikes, int
-     * @param maxBikes       The max number of bikes, int
+     * @param name        The name of the building.
+     * @param roomCount   The amount of of rooms inside the building.
+     * @param address     The address of the building.
+     * @param maxBikes    The max number of bikes, int.
+     * @param openingTime the opening time of the building, String.
+     * @param closingTime the closing time of the building, String.
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("createBuilding")
     @ResponseBody
     public void createBuilding(@RequestParam String name, @RequestParam int roomCount,
-                               @RequestParam String address, @RequestParam int availableBikes,
-                               @RequestParam int maxBikes) throws UnsupportedEncodingException {
+                               @RequestParam String address, @RequestParam int maxBikes,
+                               @RequestParam String openingTime, @RequestParam String closingTime)
+            throws UnsupportedEncodingException {
 
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);
+        openingTime = CommunicationMethods.decodeCommunication(openingTime);
+        closingTime = CommunicationMethods.decodeCommunication(closingTime);
 
         try {
-            buildingRepo.insertBuilding(name, roomCount, address, availableBikes, maxBikes);
+            buildingRepo.insertBuilding(name, roomCount, address, maxBikes, openingTime, closingTime);
             logger.info("Building: -create- Name: " + name + " - Room count: " + roomCount
-                    + " - Address: " + address + " - Available Bikes: "
-                    + availableBikes + " - Max bikes: " + maxBikes);
+                    + " - Address: " + address + " - Max bikes: " + maxBikes
+                    + " - Opening hours: " + openingTime + " - " + closingTime);
         } catch (Exception e) {
             logger.error("Building: -create- ERROR", e);
         }
@@ -71,11 +76,12 @@ public class BuildingController {
     /**
      * Changes the existing building with the provided ID in the database with the provides parameters.
      *
-     * @param id              The building ID, this is the building that is going to get changed.
-     * @param name            The new name of the building
-     * @param roomCount      the new room count of the building
-     * @param address         the new address of the building //TODO add address format
-     * @param maxBikes       The max number of bikes, int
+     * @param name        The name of the building.
+     * @param roomCount   The amount of of rooms inside the building.
+     * @param address     The address of the building.
+     * @param maxBikes    The max number of bikes, int.
+     * @param openingTime the opening time of the building, String.
+     * @param closingTime the closing time of the building, String.
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding
      */
     @PostMapping("updateBuilding")
@@ -83,19 +89,24 @@ public class BuildingController {
 
     public void updateBuilding(@RequestParam int id, @RequestParam String name,
                                @RequestParam int roomCount, @RequestParam String address,
-                               @RequestParam int maxBikes) throws UnsupportedEncodingException {
+                               @RequestParam int maxBikes, @RequestParam String openingTime,
+                               @RequestParam String closingTime) throws UnsupportedEncodingException {
 
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);
+        openingTime = CommunicationMethods.decodeCommunication(openingTime);
+        closingTime = CommunicationMethods.decodeCommunication(closingTime);
 
         try {
             buildingRepo.updateAddress(id, address);
             buildingRepo.updateName(id, name);
             buildingRepo.updateRoomCount(id, roomCount);
             buildingRepo.updateMaxBikes(id, maxBikes);
+            buildingRepo.updateOpeningHours(id, openingTime, closingTime);
             logger.info("Building: -update- Building ID: " + id + " - NEW data -> Name: "
                     + name + " - Room count: " + roomCount + " - Address: "
-                    + address + " - Max bikes: " + maxBikes);
+                    + address + " - Max bikes: " + maxBikes + " - Opening hours: "
+                    + openingTime + " - " + closingTime);
         } catch (Exception e) {
             logger.error("Building: -update- ERROR", e);
         }
@@ -152,24 +163,8 @@ public class BuildingController {
     }
 
     /**
-     * Returns the building with the provided name.
-     *
-     * @param name The name of the building you're trying to find.
-     * @return A Building in Json.
-     */
-    @GetMapping("getBuildingByName")
-    @ResponseBody
-    public Building getBuildingByName(@RequestParam String name) {
-        try {
-            return buildingRepo.getBuildingByName(name);
-        } catch (Exception e) {
-            logger.error("Building -getBuildingByName- ERROR", e);
-        }
-        return null;
-    }
-
-    /**
      * Returns a list of buildings that sell a particular food.
+     *
      * @param id the Food id.
      * @return Returns a list
      */

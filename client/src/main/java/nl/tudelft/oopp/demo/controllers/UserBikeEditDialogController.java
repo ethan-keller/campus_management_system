@@ -25,9 +25,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
+
 import org.controlsfx.control.RangeSlider;
 
 public class UserBikeEditDialogController {
@@ -97,8 +99,6 @@ public class UserBikeEditDialogController {
             //This method sets up the slider which determines the time of reservation in the dialog view.
             configureRangeSlider();
 
-            // set stylesheet for range slider
-            timeslotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
 
             // sets the cell factory for the date picker
             bikeDate.setDayCellFactory(getDayCellFactory());
@@ -114,6 +114,7 @@ public class UserBikeEditDialogController {
 
             // when selected building changes, adjust available bikes text
             bikeBuildingComboBox.valueProperty().addListener(((observable, oldValue, newValue) -> {
+                setTimeSlotSlider();
                 if (bikeDate.getValue() != null) {
                     availableBikes.setText(String.valueOf(getAvailableBikes()));
                 }
@@ -149,6 +150,31 @@ public class UserBikeEditDialogController {
                         .toString(timeslotSlider.getLowValue()));
                 bikeEndingTime.setText("End: " + getRangeSliderConverter()
                         .toString(timeslotSlider.getHighValue()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setTimeSlotSlider() {
+        try {
+            Building selectedBuilding = bikeBuildingComboBox.getSelectionModel().getSelectedItem();
+            StringConverter<Number> converter = getRangeSliderConverter();
+
+            double opening;
+            double closing;
+
+            if (selectedBuilding != null) {
+                opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
+                closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());
+                if(closing == 1439){
+                    timeslotSlider.setMax(1440);
+                    timeslotSlider.setMajorTickUnit((1440 - opening) / 3);
+                } else {
+                    timeslotSlider.setMax(closing);
+                    timeslotSlider.setMajorTickUnit((closing - opening) / 3);
+                }
+                timeslotSlider.setMin(opening);
             }
         } catch (Exception e) {
             e.printStackTrace();
