@@ -159,7 +159,7 @@ public class RoomViewLogic {
      *
      * @return a StringConverter object
      */
-    public static StringConverter<LocalDate> getDatePickerConverter (DatePicker datePicker){
+    public static StringConverter<LocalDate> getDatePickerConverter(DatePicker datePicker) {
         try {
             return new StringConverter<LocalDate>() {
                 // set the wanted pattern (format)
@@ -202,7 +202,7 @@ public class RoomViewLogic {
      *
      * @return a StringConverter object
      */
-    public static StringConverter<Number> getRangeSliderConverter () {
+    public static StringConverter<Number> getRangeSliderConverter() {
         try {
             return new StringConverter<Number>() {
                 @Override
@@ -215,29 +215,28 @@ public class RoomViewLogic {
                     return String.format("%02d", hours) + ":" + String.format("%02d", remainingMinutes);
                 }
                 //                    // true if there are errors, false otherwise
-//                    boolean errors = false;
-//
-//                    // clear error messages
-//            dateError.setVisible(false);
-//            timeslotError.setVisible(false);
-//
-//                    // set error messages if necessary
-//            if(datePicker.getValue()==null)
-//
-//                    {
-//                        dateError.setVisible(true);
-//                        errors = true;
-//                    }
-//            if(!
-//
-//                    checkTimeSlotValidity() ||timeSlotSlider.getLowValue()==timeSlotSlider.getHighValue())
-//
-//                    {
-//                        timeslotError.setVisible(true);
-//                        errors = true;
-//                    }
+                //                    boolean errors = false;
+                //
+                //                    // clear error messages
+                //            dateError.setVisible(false);
+                //            timeslotError.setVisible(false);
+                //
+                //                    // set error messages if necessary
+                //            if(datePicker.getValue()==null)
+                //
+                //                    {
+                //                        dateError.setVisible(true);
+                //                        errors = true;
+                //                    }
+                //            if(!
+                //
+                //                    checkTimeSlotValidity() ||timeSlotSlider.getLowValue()==timeSlotSlider.getHighValue())
+                //
+                //                    {
+                //                        timeslotError.setVisible(true);
+                //                        errors = true;
+                //                    }
                 @Override
-
                 public Number fromString(String time) {
                     if (time != null) {
                         String[] split = time.split(":");

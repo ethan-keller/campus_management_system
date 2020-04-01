@@ -18,7 +18,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -32,7 +36,6 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.logic.ReservationEditDialogLogic;
 import org.controlsfx.control.RangeSlider;
-
 
 /**
  * .
@@ -392,7 +395,6 @@ public class ReservationEditDialogController {
      * @return constructed StringConverter
      */
     private StringConverter<Number> getRangeSliderConverter() {
-//        return ReservationEditDialogLogic.getRangeSliderConverter();
         try {
             return new StringConverter<Number>() {
                 @Override

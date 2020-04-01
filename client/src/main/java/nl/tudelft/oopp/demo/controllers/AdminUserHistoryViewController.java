@@ -14,8 +14,9 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
-import nl.tudelft.oopp.demo.logic.AdminManageReservationLogic;
 import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.logic.AdminManageReservationLogic;
+
 import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
