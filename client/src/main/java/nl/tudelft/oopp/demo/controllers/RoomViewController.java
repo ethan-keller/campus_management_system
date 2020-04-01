@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -44,7 +45,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import javax.imageio.ImageIO;
+
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
@@ -56,6 +59,7 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;
+
 import org.controlsfx.control.RangeSlider;
 
 
@@ -140,6 +144,8 @@ public class RoomViewController implements Initializable {
             // configure the string converters and custom properties (like disabling some dates in the datePicker)
             configureDatePicker();
             configureRangeSlider();
+
+            setTimeSlotSlider();
 
             // make sure errors are not visible
             hideErrors();
@@ -660,15 +666,20 @@ public class RoomViewController implements Initializable {
                 bw.write("#91ef99 0%, #91ef99 100%);\n");
             }
 
+            Building selectedBuilding = Building.getBuildingById(currentRoomId);
+            StringConverter<Number> converter = getRangeSliderConverter();
+            double opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
+            double closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());
+
+            Reservation res = AdminManageReservationViewController.currentSelectedReservation;
+
             // calculate and add green and red parts
             while (it.hasNext()) {
                 Reservation r = it.next();
-                String[] startTime = r.getStartingTime().get().split(":");
-                String[] endTime = r.getEndingTime().get().split(":");
-                double startPercentage = ((Double.parseDouble(startTime[0]) - 8.0) * 60.0
-                        + Double.parseDouble(startTime[1])) / 9.60;
-                double endPercentage = ((Double.parseDouble(endTime[0]) - 8.0) * 60.0
-                        + Double.parseDouble(endTime[1])) / 9.60;
+                double startTime = (double) converter.fromString(r.getStartingTime().get());
+                double endTime = (double) converter.fromString(r.getEndingTime().get());
+                double startPercentage = ((startTime - opening) / (closing - opening)) * 100.0;
+                double endPercentage = ((endTime - opening) / (closing - opening)) * 100.0;
                 bw.write("#91ef99 " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + endPercentage + "%, ");
@@ -698,6 +709,31 @@ public class RoomViewController implements Initializable {
                     .toExternalForm());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
+        }
+    }
+
+    private void setTimeSlotSlider() {
+        try {
+            Building selectedBuilding = Building.getBuildingById(currentRoom.getRoomBuilding().get());
+            StringConverter<Number> converter = getRangeSliderConverter();
+
+            double opening;
+            double closing;
+
+            if (selectedBuilding != null) {
+                opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
+                closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());
+                if (closing == 1439) {
+                    timeSlotSlider.setMax(1440);
+                    timeSlotSlider.setMajorTickUnit((1440 - opening) / 3);
+                } else {
+                    timeSlotSlider.setMax(closing);
+                    timeSlotSlider.setMajorTickUnit((closing - opening) / 3);
+                }
+                timeSlotSlider.setMin(opening);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
