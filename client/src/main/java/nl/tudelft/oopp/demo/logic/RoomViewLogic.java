@@ -230,12 +230,14 @@ public class RoomViewLogic {
                 //                    }
                 //            if(!
                 //
-                //                    checkTimeSlotValidity() ||timeSlotSlider.getLowValue()==timeSlotSlider.getHighValue())
+                //                    checkTimeSlotValidity() ||timeSlotSlider.getLowValue()==
+                //                    timeSlotSlider.getHighValue())
                 //
                 //                    {
                 //                        timeslotError.setVisible(true);
                 //                        errors = true;
                 //                    }
+                
                 @Override
                 public Number fromString(String time) {
                     if (time != null) {
