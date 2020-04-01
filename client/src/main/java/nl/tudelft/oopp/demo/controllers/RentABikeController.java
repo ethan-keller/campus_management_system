@@ -260,7 +260,7 @@ public class RentABikeController implements Initializable {
                                 BikeReservationCommunication
                                         .createBikeReservation(getBuildingNumber(selectedBuilding),
                                         CurrentUserManager.getUsername(), selectedBike, selectedDate,
-                                        selectedStartTime, selectedEndTime);
+                                        b.getOpeningTime().get(), selectedEndTime);
                                 confirmAlert(event);
 
                             }
@@ -281,7 +281,7 @@ public class RentABikeController implements Initializable {
                                 BikeReservationCommunication
                                         .createBikeReservation(getBuildingNumber(selectedBuilding),
                                         CurrentUserManager.getUsername(), selectedBike, selectedDate,
-                                        selectedStartTime, selectedEndTime);
+                                        b.getOpeningTime().get(), b.getClosingTime().get());
                                 confirmAlert(event);
 
                             }
