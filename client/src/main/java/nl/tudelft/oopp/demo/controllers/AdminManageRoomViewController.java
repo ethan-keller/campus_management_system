@@ -20,7 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.logic.AdminManageRoomLogic;
+import nl.tudelft.oopp.demo.logic.AdminLogic;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomEditDialogView;
@@ -151,7 +151,7 @@ public class AdminManageRoomViewController {
      * @return Room object of the selected room
      */
     public Room getSelectedRoom() {
-        return AdminManageRoomLogic.getSelectedRoom(roomTable);
+        return AdminLogic.getSelectedRoom(roomTable);
     }
 
     /**
@@ -177,7 +177,7 @@ public class AdminManageRoomViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that room deletion was successful before displaying alert
-                AdminManageRoomLogic.deleteRoomLogic(selectedRoom);
+                AdminLogic.deleteRoomLogic(selectedRoom);
                 refresh();
                 // Creates an alert box to display the message.
                 GeneralMethods.alertBox("Delete room", "", "Room deleted!", AlertType.INFORMATION);
@@ -209,7 +209,7 @@ public class AdminManageRoomViewController {
                 return;
             }
             // TODO: Check that room creation was successful before displaying alert
-            if (AdminManageRoomLogic.createRoomLogic(tempRoom)) {
+            if (AdminLogic.createRoomLogic(tempRoom)) {
                 refresh();
                 // Creates an alert box to display the message.
                 GeneralMethods.alertBox("New room", "", "New Room added!", AlertType.INFORMATION);
@@ -246,7 +246,7 @@ public class AdminManageRoomViewController {
                     return;
                 }
                 // TODO: Check that building edit was successful before displaying alert
-                if (AdminManageRoomLogic.editRoomLogic(selectedRoom, tempRoom)) {
+                if (AdminLogic.editRoomLogic(selectedRoom, tempRoom)) {
                     refresh();
                     // Creates an alert box to display the message.
                     GeneralMethods.alertBox("Edit room", "", "Room edited!", AlertType.INFORMATION);

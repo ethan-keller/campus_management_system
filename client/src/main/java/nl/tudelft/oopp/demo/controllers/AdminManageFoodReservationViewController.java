@@ -22,6 +22,7 @@ import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservation;
 import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.logic.AdminLogic;
 import nl.tudelft.oopp.demo.views.AdminManageReservationView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.FoodReservationEditDialogView;
@@ -95,11 +96,7 @@ public class AdminManageFoodReservationViewController {
      * @return the selected food reservation
      */
     public FoodReservation getSelectedFoodReservation() {
-        if (foodReservationTable.getSelectionModel().getSelectedIndex() >= 0) {
-            return foodReservationTable.getSelectionModel().getSelectedItem();
-        } else {
-            return null;
-        }
+        return AdminLogic.getSelectedFoodReservation(foodReservationTable);
     }
 
     /**

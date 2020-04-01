@@ -237,7 +237,7 @@ public class RoomViewLogic {
                 //                        timeslotError.setVisible(true);
                 //                        errors = true;
                 //                    }
-                
+
                 @Override
                 public Number fromString(String time) {
                     if (time != null) {

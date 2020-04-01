@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.logic.AdminLogic;
 import nl.tudelft.oopp.demo.views.AdminManageFoodView;
 import nl.tudelft.oopp.demo.views.FoodBuildingEditDialogView;
 
@@ -69,11 +70,7 @@ public class AdminManageFoodBuildingViewController {
      * @return Building
      */
     public Building getSelectedBuilding() {
-        if (foodBuildingTable.getSelectionModel().getSelectedIndex() >= 0) {
-            return foodBuildingTable.getSelectionModel().getSelectedItem();
-        } else {
-            return null;
-        }
+        return AdminLogic.getSelectedBuildingLogic(foodBuildingTable);
     }
 
     /**
@@ -96,9 +93,7 @@ public class AdminManageFoodBuildingViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that building deletion was successful before displaying alert
-                FoodServerCommunication.deleteFoodFromBuilding(
-                        AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),
-                        selectedBuilding.getBuildingId().getValue());
+                AdminLogic.deleteFoodReservationLogic(selectedBuilding);
                 refresh();
                 // An alert pop up when a building deleted successfully
                 GeneralMethods.alertBox("Delete building", "",
@@ -132,9 +127,7 @@ public class AdminManageFoodBuildingViewController {
             if (tempBuilding == null) {
                 return;
             } else {
-                FoodServerCommunication.addFoodToBuilding(
-                        AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),
-                        tempBuilding.getBuildingId().get());
+                AdminLogic.addFoodReservationLogic(tempBuilding);
             }
             refresh();
             // An alert pop up when a new building added.

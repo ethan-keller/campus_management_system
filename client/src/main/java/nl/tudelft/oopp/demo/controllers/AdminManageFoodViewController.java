@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.logic.AdminLogic;
 import nl.tudelft.oopp.demo.views.AdminFoodBuildingView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.FoodEditDialogView;
@@ -70,11 +71,7 @@ public class AdminManageFoodViewController {
      * @return a Food object
      */
     public Food getSelectedFood() {
-        if (foodTable.getSelectionModel().getSelectedIndex() >= 0) {
-            return foodTable.getSelectionModel().getSelectedItem();
-        } else {
-            return null;
-        }
+        return AdminLogic.getSelectedFood(foodTable);
     }
 
     /**
@@ -96,7 +93,7 @@ public class AdminManageFoodViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that food deletion was successful before displaying alert
-                FoodServerCommunication.deleteFood(selectedFood.getFoodId().getValue());
+                AdminLogic.deleteFoodLogic(selectedFood);
                 refresh();
                 // An alert pop up when a food deleted successfully
                 GeneralMethods.alertBox("Delete food", "",
@@ -131,7 +128,7 @@ public class AdminManageFoodViewController {
                 return;
             }
             // TODO: Check that building creation was successful before displaying alert
-            FoodServerCommunication.createFood(tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
+            AdminLogic.addFoodLogic(tempFood);
             refresh();
             // An alert pop up when a new food created.
             GeneralMethods.alertBox("New food", "", "New Food added!", AlertType.INFORMATION);
@@ -163,8 +160,7 @@ public class AdminManageFoodViewController {
                     return;
                 }
                 // TODO: Check that building edit was successful before displaying alert
-                FoodServerCommunication.updateFood(selectedFood.getFoodId().get(),
-                        tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
+                AdminLogic.updateFoodLogic(selectedFood, tempFood);
                 refresh();
                 // An alert pop up when a new food created.
                 GeneralMethods.alertBox("Edit food", "", "Food edited!", AlertType.INFORMATION);

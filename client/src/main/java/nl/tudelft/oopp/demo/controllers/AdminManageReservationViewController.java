@@ -15,7 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
-import nl.tudelft.oopp.demo.logic.AdminManageReservationLogic;
+import nl.tudelft.oopp.demo.logic.AdminLogic;
 import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;
@@ -90,7 +90,7 @@ public class AdminManageReservationViewController {
      * @return Returns the selected reservation.
      */
     public Reservation getSelectedReservation() {
-        return AdminManageReservationLogic.getSelectedReservation(listReservations);
+        return AdminLogic.getSelectedReservation(listReservations);
     }
 
     /**
@@ -113,7 +113,7 @@ public class AdminManageReservationViewController {
             if (selectedIndex >= 0) {
 
                 //TODO: Check that Reservation deletion was successful before displaying alert message.
-                AdminManageReservationLogic.deleteReservationLogic(selectedReservation);
+                AdminLogic.deleteReservationLogic(selectedReservation);
                 // To update the tabular view after removing the reservation.
                 refresh();
 
@@ -147,7 +147,7 @@ public class AdminManageReservationViewController {
                 //TODO: Checking if the reservation creating was successful before displaying the alert.
             } else {
                 Reservation tempReservation = ReservationEditDialogController.reservation;
-                AdminManageReservationLogic.createReservationLogic(tempReservation);
+                AdminLogic.createReservationLogic(tempReservation);
                 refresh();
 
                 // Displaying a message to the admin for clearer communication through an alert box.
@@ -182,7 +182,7 @@ public class AdminManageReservationViewController {
 
                 //TODO: Making sure that the reservation is created properly, before displaying the alert box.
 
-                AdminManageReservationLogic.editReservationLogic(selectedReservation, tempReservation);
+                AdminLogic.editReservationLogic(selectedReservation, tempReservation);
                 refresh();
 
                 // Displaying a message to the admin for clearer communication through an alert box.

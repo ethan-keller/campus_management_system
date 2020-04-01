@@ -14,12 +14,10 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
-import nl.tudelft.oopp.demo.entities.User;
-import nl.tudelft.oopp.demo.logic.AdminManageReservationLogic;
 
+import nl.tudelft.oopp.demo.logic.AdminLogic;
 import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
-import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.BookingEditDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 
@@ -83,7 +81,7 @@ public class AdminUserHistoryViewController {
      * Called when admin clicks a reservation.
      */
     public Reservation getSelectedReservation() {
-        return AdminManageReservationLogic.getSelectedReservation(bookingTable);
+        return AdminLogic.getSelectedReservation(bookingTable);
     }
 
     public int getSelectedIndex() {
@@ -100,7 +98,7 @@ public class AdminUserHistoryViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that reservation deletion was successful before displaying alert
-                AdminManageReservationLogic.deleteReservationLogic(selectedReservation);
+                AdminLogic.deleteReservationLogic(selectedReservation);
                 refresh();
                 // An alert pop up when a reservation deleted successfully
                 GeneralMethods.alertBox("Delete Reservation", "", "Reservation deleted!",
@@ -133,7 +131,7 @@ public class AdminUserHistoryViewController {
                 return;
             }
             // TODO: Check that reservation creation was successful before displaying alert
-            AdminManageReservationLogic.createReservationLogic(tempReservation);
+            AdminLogic.createReservationLogic(tempReservation);
             refresh();
             // An alert pop up when a new reservation created.
             GeneralMethods.alertBox("New Reservation", "", "New Reservation added!",

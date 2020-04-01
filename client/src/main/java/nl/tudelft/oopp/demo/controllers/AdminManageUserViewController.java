@@ -15,7 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.User;
-import nl.tudelft.oopp.demo.logic.AdminManageUserLogic;
+import nl.tudelft.oopp.demo.logic.AdminLogic;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminUserBikeView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
@@ -74,7 +74,7 @@ public class AdminManageUserViewController {
      * @return User selected.
      */
     public User getSelectedUser() {
-        return AdminManageUserLogic.getSelectedUser(userTable);
+        return AdminLogic.getSelectedUser(userTable);
     }
 
     public int getSelectedIndex() {
@@ -91,7 +91,7 @@ public class AdminManageUserViewController {
         try {
             if (selectedIndex >= 0) {
                 // TODO: Check that building deletion was succesful before displaying alert
-                AdminManageUserLogic.deleteUserLogic(selectedUser);
+                AdminLogic.deleteUserLogic(selectedUser);
                 refresh();
                 // Creates an alert box for transparent communication.
                 GeneralMethods.alertBox("Delete user", "", "User deleted!", Alert.AlertType.INFORMATION);
@@ -123,7 +123,7 @@ public class AdminManageUserViewController {
 
                 // TODO: Check that user creation was successful before displaying alert
             } else {
-                AdminManageUserLogic.createUserLogic(tempUser);
+                AdminLogic.createUserLogic(tempUser);
             }
             refresh();
             // Informing the admin through a alert box that a new user is created successfully.
@@ -154,7 +154,7 @@ public class AdminManageUserViewController {
                 if (tempUser == null) {
                     return;
                 }
-                AdminManageUserLogic.editUserLogic(tempUser);
+                AdminLogic.editUserLogic(tempUser);
                 refresh();
                 // Creates an alert box for transparent communication.
                 GeneralMethods.alertBox("Edit user", "", "User edited!", Alert.AlertType.INFORMATION);
