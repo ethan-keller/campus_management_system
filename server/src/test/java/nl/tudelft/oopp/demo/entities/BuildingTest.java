@@ -65,7 +65,7 @@ class BuildingTest {
      */
     @Test
     void getMaxBikesTest() {
-        assertEquals(5, b1.getMaxBikes());
+        assertEquals(4, b1.getMaxBikes());
     }
 
     /**

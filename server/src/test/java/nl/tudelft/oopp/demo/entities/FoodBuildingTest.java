@@ -24,9 +24,9 @@ class FoodBuildingTest {
         f1 = new Food(1, "Pizza", 10.99);
         f2 = new Food(2, "Water", 0.88);
         b1 = new Building(1, "Name", 5, "drebbelweg aan zee",
-                4, 5);
+                4, "08:00", "22:00");
         b2 = new Building(2, "Name", 5, "drebbelweg aan zee",
-                4, 5);
+                4, "08:00", "22:00");
         fb1 = new FoodBuilding(f1, b2);
         fb2 = new FoodBuilding(f1, b2);
         fb3 = new FoodBuilding(f2, b1);

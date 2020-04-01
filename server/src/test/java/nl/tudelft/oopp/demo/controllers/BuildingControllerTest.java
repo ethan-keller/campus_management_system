@@ -61,29 +61,7 @@ class BuildingControllerTest {
     @Test
     void createBuildingTest() throws Exception {
         mvc.perform(post("/createBuilding?name=test&roomCount=200&"
-                + "address=street5&availableBikes=90&maxBikes=200")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
-    /**
-     * Test for removeBikeReservation method.
-     * @throws Exception if any exception with the connection (or other) occurs
-     */
-    @Test
-    void removeBikeReservationTest() throws Exception {
-        mvc.perform(post("/removeBikeReservation?bikeResId=9")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
-    /**
-     * Test for addBikeReservation method.
-     * @throws Exception if any exception with the connection (or other) occurs
-     */
-    @Test
-    void addBikeReservationTest() throws Exception {
-        mvc.perform(post("/addBikeReservation?building=2&numBikes=20")
+                + "address=street5&maxBikes=200&openingTime=08:00&closingTime=22:00")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -94,7 +72,8 @@ class BuildingControllerTest {
      */
     @Test
     void updateBuildingTest() throws Exception {
-        mvc.perform(post("/updateBuilding?id=9&name=test&roomCount=66&address=street2&maxBikes=7")
+        mvc.perform(post("/updateBuilding?id=9&name=test&roomCount=66&address=street2&maxBikes=7 "
+                + "&openingTime=08:00&closingTime=22:00")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
