@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,7 +12,10 @@ import nl.tudelft.oopp.demo.communication.UserServerCommunication;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+
 public class User {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     private StringProperty username;
     private StringProperty userPassword;
@@ -110,7 +115,7 @@ public class User {
             }
             return userData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

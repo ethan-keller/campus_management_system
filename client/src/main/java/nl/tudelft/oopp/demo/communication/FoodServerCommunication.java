@@ -5,16 +5,20 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FoodServerCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * Creates an HTTP request to add a food in the database.
      * @param name The name of the new food
      * @param price The price of the new food
      */
-    public static void createFood(String name, int price) {
+    public static void createFood(String name, double price) {
         String params = "name=" + name + "&price=" + price;
         sendPost("createFood", params);
     }
@@ -56,7 +60,7 @@ public class FoodServerCommunication {
      * @param name The new name of the food
      * @param price The new price of the food
      */
-    public static void updateFood(int id, String name, int price) {
+    public static void updateFood(int id, String name, double price) {
         String params = "id=" + id + "&name=" + name + "&price=" + price;
         sendPost("updateFood", params);
     }
@@ -127,9 +131,9 @@ public class FoodServerCommunication {
      * @param reservation The reservation ID
      * @return Returns a JSON List
      */
-    public static String getFoodByReservation(int reservation) {
+    public static String getFoodReservationByReservation(int reservation) {
         String params = "reservation=" + reservation;
-        return sendGet("getFoodByReservation", params);
+        return sendGet("getFoodReservationByReservation", params);
     }
 
     /**
@@ -159,7 +163,8 @@ public class FoodServerCommunication {
      * @return Returns a JSON List
      */
     public static String getAllFood() {
-        return sendGet("getAllFood", "");
+        String a = sendGet("getAllFood", "");
+        return a;
     }
 
     /**
@@ -172,7 +177,8 @@ public class FoodServerCommunication {
         try {
             params = GeneralMethods.encodeCommunication(params);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return null;
         }
         HttpRequest request = HttpRequest.newBuilder().GET()
                 .uri(URI.create("http://localhost:8080/" + url + "?" + params)).build();
@@ -180,10 +186,11 @@ public class FoodServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return null;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
         }
         return response.body();
     }
@@ -197,7 +204,8 @@ public class FoodServerCommunication {
         try {
             params = GeneralMethods.encodeCommunication(params);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return;
         }
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody())
                 .uri(URI.create("http://localhost:8080/" + url + "?" + params)).build();
@@ -205,10 +213,11 @@ public class FoodServerCommunication {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return;
         }
         if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
+            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
         }
     }
 }

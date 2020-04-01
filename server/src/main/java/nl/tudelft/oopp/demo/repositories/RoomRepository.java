@@ -84,5 +84,4 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query(value = "SELECT * FROM room WHERE name = :name", nativeQuery = true)
     public Room getRoomByName(@Param("name") String name);
 
-
 }

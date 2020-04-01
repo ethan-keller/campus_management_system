@@ -1,6 +1,9 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -11,37 +14,39 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
+
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.logic.AdminManageBuildingLogic;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 
 public class AdminManageBuildingViewController {
 
+    public static Building currentSelectedBuilding;
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     @FXML
     private TableView<Building> buildingTable;
-
     @FXML
     private TableColumn<Building, Number> buildingIdColumn;
-
     @FXML
     private TableColumn<Building, String> buildingNameColumn;
-
     @FXML
     private TableColumn<Building, Number> buildingRoomCountColumn;
-
     @FXML
     private TableColumn<Building, String> maxBikesColumn;
-
+    @FXML
+    private TableColumn<Building, String> openingTimeColumn;
+    @FXML
+    private TableColumn<Building, String> closingTimeColumn;
     @FXML
     private TableColumn<Building, String> buildingAddressColumn;
-
     @FXML
     private Button signOutButton;
-
-    public static Building currentSelectedBuilding;
+    @FXML
+    private Button backButton;
 
     public AdminManageBuildingViewController() {
     }
@@ -60,12 +65,16 @@ public class AdminManageBuildingViewController {
                     new SimpleIntegerProperty(cell.getValue().getBuildingRoomCount().get()));
             maxBikesColumn.setCellValueFactory(cell ->
                     new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingMaxBikes().get())));
+            openingTimeColumn.setCellValueFactory(cell -> new SimpleStringProperty(
+                    cell.getValue().getOpeningTime().get()));
+            closingTimeColumn.setCellValueFactory(cell -> new SimpleStringProperty(
+                    cell.getValue().getClosingTime().get()));
             buildingAddressColumn.setCellValueFactory(cell -> cell.getValue().getBuildingAddress());
 
             // Add observable list data to the table
             buildingTable.setItems(Building.getBuildingData());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -108,9 +117,9 @@ public class AdminManageBuildingViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-
-                // TODO: Check that building deletion was successful before displaying alert
-                BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
+                // TODO: Check that building deletion was succesful before displaying alert
+                AdminManageBuildingLogic.deleteBuildingLogic(selectedBuilding);
+                //BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
                 refresh();
                 // Create an alert box.
                 GeneralMethods.alertBox("Delete Building", "", "Building deleted!",
@@ -121,8 +130,7 @@ public class AdminManageBuildingViewController {
                         + " select a building in the table", AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete building exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -142,19 +150,18 @@ public class AdminManageBuildingViewController {
                 return;
             }
 
-            // TODO: Check that building creation was successful before displaying alert
-            // Using the method which uses the max bikes as a parameter.
-            BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
-                    tempBuilding.getBuildingRoomCount().get(), tempBuilding.getBuildingAddress().get(),
-                    tempBuilding.getBuildingMaxBikes().get());
+            // TODO: Check that building creation was succesful before displaying alert
+            AdminManageBuildingLogic.createBuildingLogic(tempBuilding);
+            //BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
+            //tempBuilding.getBuildingRoomCount().get(),
+            //tempBuilding.getBuildingAddress().get());
             refresh();
             // Create an alert box.
             GeneralMethods.alertBox("New Building", "", "Added new building!",
                     AlertType.INFORMATION);
 
         } catch (Exception e) {
-            System.out.println("building creation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -180,9 +187,10 @@ public class AdminManageBuildingViewController {
                 }
 
                 // TODO: Check that building edit was successful before displaying alert
-                BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
-                        tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
-                        tempBuilding.getBuildingAddress().get(), tempBuilding.getBuildingMaxBikes().get());
+                AdminManageBuildingLogic.editBuildingLogic(selectedBuilding, tempBuilding);
+                //BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
+                //tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
+                //tempBuilding.getBuildingAddress().get());
                 refresh();
                 // Create an alert box.
                 GeneralMethods.alertBox("Edit Building", "", "Edited building!",
@@ -194,13 +202,13 @@ public class AdminManageBuildingViewController {
                         "Please select a building in the table.", AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("building edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
-    /**.
+    /**
      * Back button is clicked which redirects the admin back to admin home page.
+     *
      * @param event is passed
      * @throws IOException is thrown
      */

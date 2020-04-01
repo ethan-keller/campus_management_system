@@ -1,6 +1,9 @@
 package nl.tudelft.oopp.demo.views;
 
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +16,8 @@ import javafx.stage.Stage;
  * View class for the dialog pop up which asks for reservation confirmation.
  */
 public class ReservationConfirmationView extends Application {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * Starts the thread to load the fxml as a view in the given stage.
@@ -44,7 +49,7 @@ public class ReservationConfirmationView extends Application {
             stage.showAndWait();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

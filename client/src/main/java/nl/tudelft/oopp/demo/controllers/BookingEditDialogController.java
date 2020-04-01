@@ -10,7 +10,10 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,13 +27,19 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+
 import org.controlsfx.control.RangeSlider;
 
 public class BookingEditDialogController {
+
+    public static Reservation reservation;
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+    private final String pathSeparator = File.separator;
 
     @FXML
     private GridPane grid;
@@ -46,18 +55,20 @@ public class BookingEditDialogController {
     private Text endTime;
 
     private ObservableList<Building> olb;
-
     private ObservableList<Room> olr;
-
-    public static Reservation reservation;
-
     // double thumb slider
     private RangeSlider timeSlotSlider;
-
     private Stage dialogStage;
-    private final String pathSeparator = File.separator;
 
     public BookingEditDialogController() {
+    }
+
+    /**
+     * .
+     * Create a new reservation when called
+     */
+    private static void emptyReservation() {
+        reservation = new Reservation();
     }
 
     /**
@@ -71,44 +82,52 @@ public class BookingEditDialogController {
             // configure the range slider
             configureRangeSlider();
 
-            // add stylesheet to rangeslider
-            timeSlotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
-
             // Initialize and add listener to the building combobox
             olb = Building.getBuildingData();
             bookingBuildingComboBox.setItems(olb);
             this.setBookingBuildingComboBoxConverter(olb);
             bookingBuildingComboBox.valueProperty().addListener(((observable, oldValue, newValue) -> {
                 buildingSelected(newValue);
+                setTimeSlotSlider();
+                if (bookingRoomComboBox.getSelectionModel().getSelectedIndex() >= 0) {
+                    configureCss();
+                }
             }));
 
-            // Initialize the room combobox
-            olr = Room.getRoomData();
-            bookingRoomComboBox.setItems(olr);
+            // Initialize the room combobox converter
             this.setBookingRoomComboBoxConverter(olr);
 
             // change css of slider if date or room change
             bookingRoomComboBox.valueProperty().addListener(((observable, oldValue, newValue) -> {
-                configureCss();
+                if (bookingBuildingComboBox.getSelectionModel().getSelectedIndex() >= 0) {
+                    configureCss();
+                }
             }));
             bookingDate.valueProperty().addListener((observable, oldValue, newValue) -> {
-                configureCss();
+                if (bookingRoomComboBox.getSelectionModel().getSelectedIndex() >= 0
+                        && bookingBuildingComboBox.getSelectionModel().getSelectedIndex() >= 0) {
+                    configureCss();
+                }
             });
 
             // Configure the string converters and custom properties (like disabling some dates in the datePicker)
             configureDatePicker();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
-
 
     /**
      * Create a range slider (slider with two 'thumbs') adjusted to hours and minutes.
      */
     private void configureRangeSlider() {
         try {
+            timeSlotSlider = new RangeSlider();
+
+            // get and set the StringConverter to show hh:mm format
+            final StringConverter<Number> converter = getRangeSliderConverter();
+
             // initialize the RangeSlider (values are handled as minutes) and the positions of the thumbs
             timeSlotSlider = new RangeSlider(480, 1440, 600, 1080);
             timeSlotSlider.setLowValue(600);
@@ -117,17 +136,11 @@ public class BookingEditDialogController {
             timeSlotSlider.setShowTickLabels(true);
             timeSlotSlider.setShowTickMarks(true);
             timeSlotSlider.setMajorTickUnit(120);
-            timeSlotSlider.setMinorTickCount(4);
 
-            // get and set the StringConverter to show hh:mm format
-            StringConverter<Number> converter = getRangeSliderConverter();
             timeSlotSlider.setLabelFormatter(converter);
 
             // add listeners to show the current thumb values in separate Text objects
             configureRangeSliderListeners(converter);
-
-            // configure css of rangeslider to show user what timeslots are free
-            configureCss();
 
             // initialize the Text objects with the current values of the thumbs
             startTime.setText("Start: " + converter.toString(timeSlotSlider.getLowValue()));
@@ -135,6 +148,31 @@ public class BookingEditDialogController {
 
             // inject the RangeSlider in the JavaFX layout
             grid.add(timeSlotSlider, 1, 3);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+    }
+
+    private void setTimeSlotSlider() {
+        try {
+            Building selectedBuilding = bookingBuildingComboBox.getSelectionModel().getSelectedItem();
+            StringConverter<Number> converter = getRangeSliderConverter();
+
+            double opening;
+            double closing;
+
+            if (selectedBuilding != null) {
+                opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
+                closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());
+                if (closing == 1439) {
+                    timeSlotSlider.setMax(1440);
+                    timeSlotSlider.setMajorTickUnit((1440 - opening) / 3);
+                } else {
+                    timeSlotSlider.setMax(closing);
+                    timeSlotSlider.setMajorTickUnit((closing - opening) / 3);
+                }
+                timeSlotSlider.setMin(opening);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -203,19 +241,40 @@ public class BookingEditDialogController {
                 bw.write("#91ef99 0%, #91ef99 100%);\n");
             }
 
+            Building selectedBuilding = Building.getBuildingById(selectedRoom.getRoomBuilding().getValue());
+            StringConverter<Number> converter = getRangeSliderConverter();
+            double opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
+            double closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());
+
+            Reservation res = AdminManageReservationViewController.currentSelectedReservation;
+
             // calculate and add green and red parts
             while (it.hasNext()) {
                 Reservation r = it.next();
-                String[] startTime = r.getStartingTime().get().split(":");
-                String[] endTime = r.getEndingTime().get().split(":");
-                double startPercentage = ((Double.parseDouble(startTime[0]) - 8.0) * 60.0
-                        + Double.parseDouble(startTime[1])) / 9.60;
-                double endPercentage = ((Double.parseDouble(endTime[0]) - 8.0) * 60.0
-                        + Double.parseDouble(endTime[1])) / 9.60;
+                double startTime = (double) converter.fromString(r.getStartingTime().get());
+                double endTime = (double) converter.fromString(r.getEndingTime().get());
+                double startPercentage = ((startTime - opening) / (closing - opening)) * 100.0;
+                double endPercentage = ((endTime - opening) / (closing - opening)) * 100.0;
+
                 bw.write("#91ef99 " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + endPercentage + "%, ");
                 bw.write("#91ef99 " + endPercentage + "%");
+
+                // if reservation is the one that is being edited, give it a light blue color
+                if (res != null && res.getId().get() == r.getId().get()) {
+                    bw.write("#91ef99 " + startPercentage + "%, ");
+                    bw.write("#70e5fa " + startPercentage + "%, ");
+                    bw.write("#70e5fa " + endPercentage + "%, ");
+                    bw.write("#91ef99 " + endPercentage + "%");
+                    if (!it.hasNext()) {
+                        bw.write(");\n");
+                    } else {
+                        bw.write(", ");
+                    }
+                    continue;
+                }
+
                 if (!it.hasNext()) {
                     bw.write(");\n");
                 } else {
@@ -240,7 +299,7 @@ public class BookingEditDialogController {
             timeSlotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css")
                     .toExternalForm());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -267,7 +326,7 @@ public class BookingEditDialogController {
             timeSlotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeSlotSlider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -299,7 +358,7 @@ public class BookingEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -360,18 +419,22 @@ public class BookingEditDialogController {
      * The room combobox only shows the rooms of the selected building
      */
     public void buildingSelected(Building newBuilding) {
-        if (bookingBuildingComboBox.getValue() != null) {
-            //Get all the rooms
-            olr = Room.getRoomData();
-            //Create a list of rooms only belongs to the selected building
-            List<Room> filteredRooms = olr.stream().filter(x -> x.getRoomBuilding().get()
-                    == newBuilding.getBuildingId().get()).collect(Collectors.toList());
-            olr.clear();
-            //Add the filtered rooms to the observable list
-            for (Room r : filteredRooms) {
-                olr.add(r);
+        try {
+            if (bookingBuildingComboBox.getValue() != null) {
+                //Get all the rooms
+                olr = Room.getRoomData();
+                //Create a list of rooms only belongs to the selected building
+                List<Room> filteredRooms = olr.stream().filter(x -> x.getRoomBuilding().get()
+                        == newBuilding.getBuildingId().get()).collect(Collectors.toList());
+                olr.clear();
+                //Add the filtered rooms to the observable list
+                for (Room r : filteredRooms) {
+                    olr.add(r);
+                }
+                bookingRoomComboBox.setItems(olr);
             }
-            bookingRoomComboBox.setItems(olr);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -395,11 +458,11 @@ public class BookingEditDialogController {
                 try {
                     configureCss();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, e.toString());
                 }
             }));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -435,17 +498,9 @@ public class BookingEditDialogController {
             };
             return dayCellFactory;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
-    }
-
-    /**
-     * .
-     * Create a new reservation when called
-     */
-    private static void emptyReservation() {
-        reservation = new Reservation();
     }
 
     /**
@@ -487,6 +542,9 @@ public class BookingEditDialogController {
     private boolean isInputValid() {
         String errorMessage = "";
 
+        if (bookingBuildingComboBox.getSelectionModel().getSelectedIndex() < 0) {
+            errorMessage += "No valid building selected!\n";
+        }
         if (bookingRoomComboBox.getSelectionModel().getSelectedIndex() < 0) {
             errorMessage += "No valid room selected!\n";
         }
@@ -530,10 +588,14 @@ public class BookingEditDialogController {
             return true;
         }
 
+        Reservation res = AdminUserHistoryViewController.currentSelectedReservation;
+
         for (Reservation r : roomReservations) {
-            // if reservation equals the one we are editing, don't consider it
-            if (r.getId().get() == reservation.getId().get()) {
-                continue;
+            if (res != null) {
+                // if reservation equals the one we are editing, don't consider it
+                if (r.getId().get() == res.getId().get()) {
+                    continue;
+                }
             }
 
             // get rangeslider values + reservation values
@@ -590,7 +652,7 @@ public class BookingEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

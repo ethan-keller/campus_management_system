@@ -1,6 +1,9 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -13,12 +16,16 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
 
 
 public class AdminManageReservationViewController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -67,7 +74,7 @@ public class AdminManageReservationViewController {
             //Adding the Observable List Data to the tableView created.
             listReservations.setItems(Reservation.getReservation());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -114,7 +121,7 @@ public class AdminManageReservationViewController {
         try {
             if (selectedIndex >= 0) {
                 //TODO: Check that Reservation deletion was successful before displaying alert message.
-                ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
+                ReservationServerCommunication.deleteReservation(selectedReservation.getId().get());
                 // To update the tabular view after removing the reservation.
                 refresh();
                 // Displaying a message to the admin for clearer communication through an alert box.
@@ -125,8 +132,7 @@ public class AdminManageReservationViewController {
                         "Please select a Reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete reservation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -158,8 +164,7 @@ public class AdminManageReservationViewController {
                         Alert.AlertType.INFORMATION);
             }
         } catch (Exception e) {
-            System.out.println("Reservation creation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -201,8 +206,7 @@ public class AdminManageReservationViewController {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
             }
         } catch (Exception e) {
-            System.out.println("Reservation edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -214,11 +218,38 @@ public class AdminManageReservationViewController {
      */
     @FXML
     private void backButtonClicked(ActionEvent event) throws IOException {
+        currentSelectedReservation = null;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This loads up a new admin home page.
         AdminHomePageView ahpv = new AdminHomePageView();
         ahpv.start(stage);
+    }
+
+    /**
+     * Handles clicking the food button, redirect to the food reservation view.
+     * @param event is passed as a parameter.
+     * @throws IOException is thrown.
+     */
+    @FXML
+    private void foodReservationClicked(ActionEvent event) throws IOException {
+        Reservation selectedReservation = getSelectedReservation();
+        int selectedIndex = getSelectedIndex();
+        try {
+            if (selectedIndex >= 0) {
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentSelectedReservation = selectedReservation;
+
+                AdminFoodReservationView afrv = new AdminFoodReservationView();
+                afrv.start(stage);
+            } else {
+                GeneralMethods.alertBox("No Selection", "No Reservation Selected",
+                        "Please select a reservation in the table.", Alert.AlertType.WARNING);
+            }
+        } catch (Exception e) {
+            System.out.println("Food reservation edit exception");
+            e.printStackTrace();
+        }
     }
 
     /**
