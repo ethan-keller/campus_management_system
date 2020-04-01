@@ -196,10 +196,11 @@ public class SearchViewLogic {
     /**
      * filters the given roomlist and keeps only the rooms that have a free spot.
      * The free spot is on the day of the date given.
-     * @param roomList list of all rooms to filter.
-     * @param date date that is selected.
+     *
+     * @param roomList     list of all rooms to filter.
+     * @param date         date that is selected.
      * @param reservations all reservations.
-     * @param buildings all buildings.
+     * @param buildings    all buildings.
      */
     public static void filterRoomsByDate(List<Room> roomList, String date, List<Reservation> reservations, List<Building> buildings) {
         // get all the reservations and only keeps the reservations that are from the selected date.
@@ -222,12 +223,12 @@ public class SearchViewLogic {
         //gets the room that are in roomsWithDate.
         for (int q = 0; q != roomList.size(); q++) {
             System.out.println(roomList.get(q).getRoomName().get());
-            if(roomsWithDate.contains(roomList.get(q).getRoomId().getValue())) {
+            if (roomsWithDate.contains(roomList.get(q).getRoomId().getValue())) {
                 Room room = roomList.get(q);
                 Building building = null;
                 //Gets the building of the room.
-                for(int i = 0; i != buildings.size(); i++){
-                    if(buildings.get(i).getBuildingId().get() == room.getRoomBuilding().get()){
+                for (int i = 0; i != buildings.size(); i++) {
+                    if (buildings.get(i).getBuildingId().get() == room.getRoomBuilding().get()) {
                         building = buildings.get(i);
                     }
                 }
