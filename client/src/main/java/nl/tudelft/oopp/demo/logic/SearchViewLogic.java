@@ -222,7 +222,6 @@ public class SearchViewLogic {
         double totalHoursAvailable;
         //gets the room that are in roomsWithDate.
         for (int q = 0; q != roomList.size(); q++) {
-            System.out.println(roomList.get(q).getRoomName().get());
             if (roomsWithDate.contains(roomList.get(q).getRoomId().getValue())) {
                 Room room = roomList.get(q);
                 Building building = null;
@@ -247,7 +246,6 @@ public class SearchViewLogic {
                 totalHoursAvailable = closingTime - openingTime;
                 // Gets all the reservations that are in the room on the selected date.
                 for (int z = 0; z != reservations.size(); z++) {
-                    System.out.println(roomList.get(q).getRoomName().get());
                     if (reservations.get(z).getRoom().getValue().equals(roomList.get(q).getRoomId().get())) {
                         double starting = Integer.parseInt(
                                 reservations.get(z).getStartingTime().getValue().substring(0, 2));

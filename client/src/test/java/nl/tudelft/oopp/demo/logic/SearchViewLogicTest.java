@@ -175,7 +175,7 @@ class SearchViewLogicTest {
         expected.add(r4);
         expected.add(r5);
 
-        SearchViewLogic.filterRoomsByDate(rooms, "2020-05-05", reservations);
+        SearchViewLogic.filterRoomsByDate(rooms, "2020-05-05", reservations, buildings);
         assertEquals(expected, rooms);
     }
 
