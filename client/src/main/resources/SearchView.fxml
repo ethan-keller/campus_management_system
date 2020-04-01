@@ -84,7 +84,7 @@
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                         <Button fx:id="clearFilters" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" onAction="#clearFiltersClicked" prefHeight="52.0" prefWidth="64.0" text="Clear filters">
                            <font>
-                              <Font size="7.0" />
+                              <Font size="10.0" />
                            </font>
                         </Button>
                         <Button fx:id="rentABikeClicked" layoutX="95.0" layoutY="8.0" mnemonicParsing="false" onAction="#rentABikeClicked" prefHeight="52.0" prefWidth="64.0" text="Rent a Bike">
