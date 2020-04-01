@@ -202,7 +202,8 @@ public class SearchViewLogic {
      * @param reservations all reservations.
      * @param buildings    all buildings.
      */
-    public static void filterRoomsByDate(List<Room> roomList, String date, List<Reservation> reservations, List<Building> buildings) {
+    public static void filterRoomsByDate(
+            List<Room> roomList, String date, List<Reservation> reservations, List<Building> buildings) {
         // get all the reservations and only keeps the reservations that are from the selected date.
         // the id of the rooms that are of the date are stored in roomsWithDate.
         List<Integer> roomsWithDate = new ArrayList<Integer>();
