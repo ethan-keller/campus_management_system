@@ -306,9 +306,8 @@ public class RentABikeController implements Initializable {
     /**
      * Sends cofirmation alert to the user.
      * @param event handles event
-     * @throws IOException
      */
-    public void confirmAlert(ActionEvent event) throws IOException {
+    public void confirmAlert(ActionEvent event) {
         try {
             // inform the user for successful reservation
             Alert alert = GeneralMethods.createAlert("Bike Reserved",
