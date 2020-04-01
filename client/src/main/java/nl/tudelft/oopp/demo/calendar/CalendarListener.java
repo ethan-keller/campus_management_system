@@ -39,8 +39,8 @@ public class CalendarListener extends CalendarAdapter {
             // open the new dialog box
             CalendarItemDialog dialog = new CalendarItemDialog();
             // get current stage
-            Stage stage = (Stage) Stage.getWindows().stream().
-                    filter(Window::isShowing)
+            Stage stage = (Stage) Stage.getWindows().stream()
+                    .filter(Window::isShowing)
                     .collect(Collectors.toList()).get(0);
             dialog.start(stage);
         } catch (Exception e) {

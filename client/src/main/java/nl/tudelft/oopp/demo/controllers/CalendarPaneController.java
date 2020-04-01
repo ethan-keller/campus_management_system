@@ -46,10 +46,10 @@ import nl.tudelft.oopp.demo.views.SearchView;
 public class CalendarPaneController implements Initializable {
 
     public static Stage thisStage;
+    public static volatile Calendar calendar;
     private static Logger logger = Logger.getLogger("GlobalLogger");
     @FXML
     private AnchorPane pane;
-    public static volatile Calendar calendar;
 
     /**
      * .
@@ -179,7 +179,7 @@ public class CalendarPaneController implements Initializable {
                     description += fr.getFoodQuantity().get() + "x " + f.getFoodName().get() + "\n";
                     totalPrice += fr.getFoodQuantity().get() * f.getFoodPrice().get();
                 }
-                if(frList.size() != 0){
+                if (frList.size() != 0) {
                     description += "total price = " + Math.round(totalPrice * 100.0) / 100.0 + " euro(s)";
                 }
 
