@@ -101,7 +101,6 @@ public class FoodReservation {
 
         for (int i = 0; i < jsonArrayFoodReservation.length(); i++) {
             FoodReservation fr = new FoodReservation();
-            fr.setFoodId(jsonArrayFoodReservation.getJSONObject(i).getInt("id"));
             fr.setFoodId(jsonArrayFoodReservation.getJSONObject(i).getJSONObject("food").getInt("id"));
             fr.setReservationId(jsonArrayFoodReservation.getJSONObject(i).getJSONObject("reservation")
                     .getInt("id"));

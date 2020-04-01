@@ -4,7 +4,6 @@ import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.CalendarView;
 import com.mindfusion.scheduling.model.Appointment;
-import com.mindfusion.scheduling.model.Item;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -21,17 +20,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import javax.swing.SwingUtilities;
 
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
-import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
-import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
@@ -39,7 +34,7 @@ import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservation;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.views.CalenderItemDialogView;
+import nl.tudelft.oopp.demo.views.CalenderEditItemDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
@@ -54,7 +49,7 @@ public class CalendarPaneController implements Initializable {
     private static Logger logger = Logger.getLogger("GlobalLogger");
     @FXML
     private AnchorPane pane;
-    private volatile Calendar calendar;
+    public static volatile Calendar calendar;
 
     /**
      * .
@@ -184,7 +179,9 @@ public class CalendarPaneController implements Initializable {
                     description += fr.getFoodQuantity().get() + "x " + f.getFoodName().get() + "\n";
                     totalPrice += fr.getFoodQuantity().get() * f.getFoodPrice().get();
                 }
-                description += "total price = " + Math.round(totalPrice * 100.0) / 100.0;
+                if(frList.size() != 0){
+                    description += "total price = " + Math.round(totalPrice * 100.0) / 100.0 + " euro(s)";
+                }
 
                 // add description with info about the reservation
                 app.setDescriptionText(description);
@@ -204,6 +201,9 @@ public class CalendarPaneController implements Initializable {
     }
 
 
+    /**
+     * Adds all the bike reservations in the database that belong to the current user to the calendar.
+     */
     private void addBikeReservationsToCalendar() {
         try {
             ObservableList<BikeReservation> reservationList =
@@ -281,14 +281,14 @@ public class CalendarPaneController implements Initializable {
             thisStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             // load and start the dialog box
-            CalenderItemDialogView iv = new CalenderItemDialogView();
+            CalenderEditItemDialogView iv = new CalenderEditItemDialogView();
             iv.start(thisStage);
 
             // if no item was created (e.g. cancel clicked) return
-            if (CalenderItemDialogController.item == null) {
+            if (CalenderEditItemDialogController.item == null) {
                 return;
             } else {
-                Appointment app = CalenderItemDialogController.item;
+                Appointment app = CalenderEditItemDialogController.item;
                 // get date and time in correct format for database
                 String date = app.getStartTime().getYear() + "-" + app.getStartTime().getMonth() + "-"
                         + app.getStartTime().getDay();
@@ -307,91 +307,6 @@ public class CalendarPaneController implements Initializable {
         }
     }
 
-    /**
-     * Method that deletes an item from the calendar and database.
-     */
-    @FXML
-    private void cancelItemClicked() {
-        try {
-            // get all the selected items in the calendar
-            Item[] items = calendar.getItemSelection().getItems();
-            if (items.length == 0) {
-                Alert alert = GeneralMethods.createAlert("No selection",
-                        "You didn't select any item to delete", thisStage, Alert.AlertType.WARNING);
-                alert.showAndWait();
-            }
-            for (Item x : items) {
-                // if color is other than orange it is not an item
-                if (x.getStyle().getFillColor().equals(Color.ORANGE)) {
-                    // server method to delete item in database
-                    if (ItemServerCommunication.deleteItem(Integer.parseInt(x.getId()))) {
-                        // delete from calendar and confirm deletion
-                        calendar.getSchedule().getItems().remove(x);
-                        Alert alert = GeneralMethods.createAlert("Deletion confirmation",
-                                "Your item has successfully been deleted from your schedule",
-                                thisStage, Alert.AlertType.INFORMATION);
-                        alert.showAndWait();
-                    } else {
-                        // alert the user that something went wrong
-                        Alert alert = GeneralMethods.createAlert("Deletion error",
-                                "Something went wrong, your item has not been deleted. Please try again",
-                                thisStage, Alert.AlertType.ERROR);
-                        alert.showAndWait();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-        }
-    }
-
-    /**
-     * Method that cancels a reservation and deletes it from the database.
-     */
-    @FXML
-    private void cancelReservationClicked() {
-        try {
-            Alert alertConfirm = GeneralMethods.createAlert("Cancel confirmation",
-                    "Your reservation has succesfully been canceled", thisStage,
-                    Alert.AlertType.INFORMATION);
-
-            Alert alertError = GeneralMethods.createAlert("Cancel error",
-                    "Something went wrong, your reservation has not been canceled."
-                            + " Please try again.",
-                    thisStage, Alert.AlertType.ERROR);
-
-            // get all selected items from the calendar
-            Item[] items = calendar.getItemSelection().getItems();
-            if (items.length == 0) {
-                Alert alert = GeneralMethods.createAlert("No selection",
-                        "You didn't select any reservation to delete", thisStage, Alert.AlertType.WARNING);
-                alert.showAndWait();
-            }
-            for (Item x : items) {
-                // if color is other than cyan it's not a reservation
-                if (x.getStyle().getFillColor().equals(Color.CYAN)) {
-                    if (ReservationServerCommunication.deleteReservation(Integer.parseInt(x.getId()))) {
-                        // delete reservation from database and calendar
-                        calendar.getSchedule().getItems().remove(x);
-                        alertConfirm.showAndWait();
-                    } else {
-                        // alert user that there was an error
-                        alertError.showAndWait();
-                    }
-                } else if (x.getStyle().getFillColor().equals(Color.MAGENTA)) {
-                    if (BikeReservationCommunication.deleteBikeReservation(Integer.parseInt(x.getId()))) {
-                        // delete reservation from database and calendar
-                        calendar.getSchedule().getItems().remove(x);
-                        alertConfirm.showAndWait();
-                    } else {
-                        alertError.showAndWait();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-        }
-    }
 
     /**
      * Switches the calendar to a 7-day week view.
