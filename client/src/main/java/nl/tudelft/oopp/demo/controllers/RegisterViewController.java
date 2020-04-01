@@ -76,15 +76,15 @@ public class RegisterViewController {
         if (username.getText().trim().isEmpty()) {
             usernameLabel.setText("This field cannot be left empty !");
             usernameLabel.setStyle("-fx-text-fill: red");
-        
+
             //Checks whether the password field is left empty.
         } else if (password.getText().trim().isEmpty()) {
             passwordLabel.setText("This field cannot be left empty !");
             passwordLabel.setStyle("-fx-text-fill: red");
 
-            //Checks whether the password field is atleast 8 characters long.
+            //Checks whether the password field is at least 8 characters long.
         } else if (password.getText().length() < 8) {
-            passwordLabel.setText("The password needs to have atleast 8 characters !");
+            passwordLabel.setText("The password needs to have at least 8 characters !");
             passwordLabel.setStyle("-fx-text-fill: red");
 
             //Checks whether the password matches the repeat password field
@@ -92,16 +92,19 @@ public class RegisterViewController {
             rePasswordLabel.setText("The password needs to be the same !");
             rePasswordLabel.setStyle("-fx-text-fill: red");
 
-            //Checks whether the password contains atleast one numeric value
+            //Checks whether the password contains at least one numeric value
         } else if (!passwordTxt.matches(".*\\d.*")) {
-            passwordLabel.setText("The password needs to have atleast 1 numeric value !");
+            passwordLabel.setText("The password needs to have at least 1 numeric value !");
             passwordLabel.setStyle("-fx-text-fill: red");
+
         } else if (!upperCasePattern.matcher(passwordTxt).find()) {
-            passwordLabel.setText("The password needs to have atleast 1 Upper Case letter !");
+            passwordLabel.setText("The password needs to have at least 1 Upper Case letter !");
             passwordLabel.setStyle("-fx-text-fill: red");
+
         } else if (space.matcher(usernameTxt).find()) {
             usernameLabel.setText("The username is not allowed to have any spaces !");
             usernameLabel.setStyle("-fx-text-fill: red");
+
         } else if (space.matcher(passwordTxt).find()) {
             passwordLabel.setText("The password is not allowed to have any spaces !");
             passwordLabel.setStyle("-fx-text-fill: red");
@@ -120,7 +123,8 @@ public class RegisterViewController {
             int userType = 0;
             if (student.isSelected()) {
                 userType = 2;
-            } else {
+            }
+            if (teacher.isSelected()) {
                 userType = 1;
             }
             alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt, userType));
