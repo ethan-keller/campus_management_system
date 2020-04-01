@@ -47,7 +47,7 @@ public class RegisterController {
 
         try {
             if (userRepo.getUser(username) == null) {
-                userRepo.insertUser(username, encryptedPassword, 2);
+                userRepo.insertUser(username, encryptedPassword, userType);
                 logger.info("Register: Account created for username '" + username + "'");
                 return "Your account is created";
             }
