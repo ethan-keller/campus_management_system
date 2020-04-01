@@ -1,20 +1,23 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
@@ -22,21 +25,20 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.logic.SearchViewLogic;
 import nl.tudelft.oopp.demo.views.CalendarPaneView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomView;
@@ -46,6 +48,9 @@ import nl.tudelft.oopp.demo.views.RoomView;
  * Controller class for SearchView (JavaFX).
  */
 public class SearchViewController implements Initializable {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -71,14 +76,28 @@ public class SearchViewController implements Initializable {
     private TextField searchBar;
     @FXML
     private ComboBox<String> bikesAvailable;
+
+    private List<Building> buildings;
+    private List<Room> roomList;
+    private ObservableList<Room> rooms;
+
     @FXML
     private AnchorPane pane;
 
-    // Declaring the observable list for buildings, capacity and bikes to be inserted into the comboBox
+    // Declaring the observable list for buildings, capacity and bikes
+    // to be inserted into the comboBox.
+
+    public static Stage thisStage;
+
     // This is necessary due to the format of inserting items into a comboBox.
     private ObservableList<String> capacityList;
     private ObservableList<Building> buildingList;
     private ObservableList<String> bikeList;
+
+    private int building;
+    private boolean teacherOnly;
+
+    SimpleDateFormat sdf = new SimpleDateFormat("mm:ss.SSS");
 
     /**
      * Default construct of searchView class.
@@ -86,9 +105,10 @@ public class SearchViewController implements Initializable {
     public SearchViewController() {
     }
 
-
     /**
-     * Method that gets called before everything (mostly to initialize nodes etc.).
+     * Method that gets called when loading the view.
+     * Loads the buildings and rooms from the database
+     * sets actions for when a filter is selected.
      * JavaFX standard.
      *
      * @param location  is passed
@@ -116,23 +136,218 @@ public class SearchViewController implements Initializable {
             capacityList.addAll("1-5", "5-10", "10-20", "20+");
             buildingComboBox.setItems(buildingList);
             buildingComboBox.setConverter(getBuildingComboBoxConverter());
-            bikeList.addAll("1-5", "5-10", "10-20", "20+");
+            bikeList.addAll("1+", "5+", "10+", "20+");
 
             // populating the choicebox
             capacityComboBox.setItems(capacityList);
             buildingComboBox.setItems(buildingList);
             bikesAvailable.setItems(bikeList);
 
-            // get all rooms from server
-            ObservableList<Room> roomList = Room.getRoomData();
-            // create a 'card' showing some information of the room, for every room
-            for (Room r : roomList) {
-                cardHolder.getChildren().add(createRoomCard(r));
-            }
+            // get all rooms and buildings from server
+            rooms = Room.getRoomData();
+            buildings = Building.getBuildingData();
+
+            // load all the cards
+            loadCards();
+
+
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+        }
+
+        // if a new filter is applied or an filter is removed filter again and load the cards again
+        buildingComboBox.setOnAction(event -> {
+            try {
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        // if a new filter is applied or an filter is removed filter again and load the cards again
+        capacityComboBox.setOnAction(event -> {
+            try {
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        // if a new filter is applied or an filter is removed filter again and load the cards again
+        bikesAvailable.setOnAction(event -> {
+            try {
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        // if a new filter is applied or an filter is removed filter again and load the cards again
+        yesCheckBoxTeacherOnly.setOnAction(event -> {
+            try {
+                yesCheckBoxTeacherOnly.setSelected(true);
+                noCheckBoxTeacherOnly.setSelected(false);
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        // if a new filter is applied or an filter is removed filter again and load the cards again
+        noCheckBoxTeacherOnly.setOnAction(event -> {
+            try {
+                yesCheckBoxTeacherOnly.setSelected(false);
+                noCheckBoxTeacherOnly.setSelected(true);
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        yesCheckBoxFood.setOnAction(event -> {
+            try {
+                yesCheckBoxFood.setSelected(true);
+                noCheckBoxFood.setSelected(false);
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        // if a new filter is applied or an filter is removed filter again and load the cards again
+        noCheckBoxFood.setOnAction(event -> {
+            try {
+                yesCheckBoxFood.setSelected(false);
+                noCheckBoxFood.setSelected(true);
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        // if a key is released only the searchbar gets filtered again.
+        // the rest stays the same and the list of the rooms of the other filters is used again.
+        searchBar.setOnKeyReleased(event -> {
+            try {
+                searchbarChanges();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        // if a new filter is applied or an filter is removed filter again and load the cards again
+        datePicker.setOnAction(event -> {
+            try {
+                loadCards();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * Filters the rooms according to the filters selected.
+     * Makes a call to getCardsShown() to show the cards on the view.
+     *
+     * @throws UnsupportedEncodingException when encoding fails.
+     */
+    public void loadCards() throws UnsupportedEncodingException {
+        //load all rooms back in the roomlist to filter again
+        roomList = new ArrayList<Room>();
+        for (int i = 0; i != rooms.size(); i++) {
+            roomList.add(rooms.get(i));
+        }
+
+        //Check if there are any filters selected and if so filter the roomlist
+        if (buildingComboBox.getValue() != null) {
+            building = buildingComboBox.getValue().getBuildingId().getValue();
+            roomList = SearchViewLogic.filterRoomByBuilding(roomList, building);
+        }
+
+        // if the checkbox is selected it filters according to the checkbox.
+        if (yesCheckBoxTeacherOnly.isSelected()) {
+            roomList = SearchViewLogic.filterRoomByTeacherOnly(roomList, true);
+        }
+
+        // if the checkbox is selected it filters according to the checkbox.
+        if (noCheckBoxTeacherOnly.isSelected()) {
+            roomList = SearchViewLogic.filterRoomByTeacherOnly(roomList, false);
+        }
+
+        if (yesCheckBoxFood.isSelected()) {
+            roomList = SearchViewLogic.filterByFood(roomList, buildings);
+        }
+
+        // if the combobox is selected on a value it filters for that value.
+        if (capacityComboBox.getValue() != null) {
+            String capacity = capacityComboBox.getValue();
+
+            roomList = SearchViewLogic.filterRoomByCapacity(roomList, capacity);
+        }
+
+        // if the combobox is selected on a value it filters for that value.
+        if (bikesAvailable.getValue() != null) {
+            String bikes = bikesAvailable.getValue();
+
+            roomList = SearchViewLogic.filterByBike(roomList, buildings, bikes);
+        }
+
+        // if a date is selected it filters out the rooms that are fully booked for that day.
+        if (datePicker.getValue() != null) {
+            String date = datePicker.getValue().toString();
+            ObservableList<Reservation> reservations = Reservation.getReservation();
+            SearchViewLogic.filterRoomsByDate(roomList, date, reservations);
+        }
+
+        // value of the searchbar is put in searchBarInput
+        // and is filtered on building name and room name.
+        // the list is put in a new List
+        // so if a other key is pressed the other filters don't have to be applied again.
+        String searchBarInput = searchBar.getText();
+        List<Room> roomsToShow = roomList;
+        if (!searchBarInput.equals("")) {
+            roomsToShow = SearchViewLogic.filterBySearch(roomList, searchBarInput, buildings);
+        }
+
+        //Load the cards that need to be shown
+        getCardsShown(roomsToShow);
+
+    }
+
+    /**
+     * Clears all the cards currently shown in the view and shows the cards that are filtered.
+     *
+     * @param roomList list of rooms that are going to be shown.
+     */
+    public void getCardsShown(List<Room> roomList) {
+
+        //Removes cards that are now in the view
+        cardHolder.getChildren().clear();
+
+        // create a 'card' showing some information of the room, for every room
+        for (Room r : roomList) {
+            cardHolder.getChildren().add(SearchViewLogic.createRoomCard(this, r));
         }
     }
+
+    /**
+     * filters the rooms on the searchbar input. It searches for matches in the building name and room name.
+     * Makes a call to SearchViewLogic.FilterBySearch.
+     *
+     * @throws UnsupportedEncodingException when encoding fails.
+     */
+    public void searchbarChanges() throws UnsupportedEncodingException {
+        // filters the rooms on the searchbar input. It searches for matches in the building name and room name.
+        String searchBarInput = searchBar.getText();
+        if (searchBarInput == "") {
+            loadCards();
+        } else {
+            List<Room> roomsToShow = SearchViewLogic.filterBySearch(roomList, searchBarInput, buildings);
+            //Load the cards that need to be shown
+            getCardsShown(roomsToShow);
+        }
+    }
+
 
     /**
      * Create cellFactory for the datePicker that disables all days before today and weekend days.
@@ -165,7 +380,7 @@ public class SearchViewController implements Initializable {
             };
             return dayCellFactory;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -208,7 +423,7 @@ public class SearchViewController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -231,102 +446,14 @@ public class SearchViewController implements Initializable {
 
                 @Override
                 public Building fromString(String id) {
-                    return buildingList.stream().filter(x -> String.valueOf(
-                            x.getBuildingId()).equals(id)).collect(Collectors.toList()).get(0);
+                    return buildingList.stream()
+                            .filter(x -> String.valueOf(x.getBuildingId()).equals(id))
+                            .collect(Collectors.toList()).get(0);
                 }
             };
             return converter;
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Creates a new 'card' (HBox) which contains some information about the room.
-     *
-     * @param r The Room that we have to show information from
-     * @return HBox which is the final 'card'
-     */
-    private HBox createRoomCard(Room r) {
-        try {
-            // initialize javafx components
-            final HBox newCard = new HBox();
-            final ImageView image = new ImageView();
-            final VBox roomInfo = new VBox();
-            final Text roomTitle = new Text();
-            final Text roomBuilding = new Text();
-            final Text roomCapacity = new Text();
-            final Text roomDescription = new Text();
-            final Text roomId = new Text();
-
-            // loading image from URL + setting size & properties
-            Image img = new Image("images/placeholder.png");
-            image.setImage(img);
-            image.setPreserveRatio(true);
-            image.setPickOnBounds(true);
-            image.setFitWidth(300);
-
-            // adding image margin
-            HBox.setMargin(image, new Insets(10, 5, 10, 10));
-
-            /* set the roomId visibility to false such that it is not visible for the user but still useful to
-               get the specific room information later in the RoomView
-             */
-            roomId.setText(String.valueOf(r.getRoomId().get()));
-            roomId.setVisible(false);
-
-            // setting title and text margin (+ properties)
-            roomTitle.setText(r.getRoomName().get());
-            roomTitle.setWrappingWidth(200);
-            roomTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
-            roomTitle.setStyle("-fx-fill: #0ebaf8;");
-            VBox.setMargin(roomTitle, new Insets(10, 10, 10, 15));
-
-            // setting building name and text margin
-            Building building = Building.getBuildingData().stream()
-                    .filter(x -> x.getBuildingId().get() == r.getRoomBuilding().get())
-                    .collect(Collectors.toList()).get(0);
-            roomBuilding.setText("Building: " + building.getBuildingName().get());
-            roomBuilding.setWrappingWidth(200);
-            roomBuilding.setFont(Font.font("System", 14));
-            VBox.setMargin(roomBuilding, new Insets(0, 0, 5, 15));
-
-            // setting capacity and text margin (+ properties)
-            roomCapacity.setText("Capacity: " + r.getRoomCapacity().get());
-            roomCapacity.setWrappingWidth(200);
-            roomCapacity.setFont(Font.font("System", 14));
-            VBox.setMargin(roomCapacity, new Insets(0, 0, 5, 15));
-
-            // setting description and text margin (+ properties)
-            roomDescription.setText("Description: " + r.getRoomDescription().get());
-            roomDescription.setWrappingWidth(310);
-            roomDescription.setFont(Font.font("System", 14));
-            VBox.setMargin(roomDescription, new Insets(0, 0, 5, 15));
-
-            // setting 'text box' size
-            roomInfo.setPrefSize(354, 378);
-
-            // adding components to their corresponding parent
-            roomInfo.getChildren().addAll(roomId, roomTitle, roomCapacity, roomDescription);
-            newCard.getChildren().addAll(image, roomInfo);
-
-            // setting size
-            newCard.setPrefWidth(688);
-            newCard.setPrefHeight(145);
-
-            // add mouse click listener to individual cards
-            newCard.setOnMouseClicked(event -> {
-                try {
-                    cardClicked(event);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-            return newCard;
-        } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -336,7 +463,7 @@ public class SearchViewController implements Initializable {
      *
      * @param event MouseEvent
      */
-    private void cardClicked(MouseEvent event) {
+    public void cardClicked(MouseEvent event) {
         try {
             // get current Stage
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -357,34 +484,35 @@ public class SearchViewController implements Initializable {
             RoomView rv = new RoomView();
             rv.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
      * Clears all the filters and sets them back to 'empty'.
-     *
-     * @param event ActionEvent
      */
     @FXML
-    private void clearFiltersClicked(ActionEvent event) {
+    private void clearFiltersClicked() {
         try {
-            // clear every filter
+            // clear every filter and reload the cards
             datePicker.setValue(null);
             buildingComboBox.setValue(null);
             yesCheckBoxFood.setSelected(false);
             noCheckBoxFood.setSelected(false);
             yesCheckBoxTeacherOnly.setSelected(false);
+            teacherOnly = false;
             noCheckBoxTeacherOnly.setSelected(false);
+            searchBar.setText("");
             capacityComboBox.setValue(null);
             bikesAvailable.setValue(null);
+            loadCards();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
-     * Loads the Calendar view with all the booking history.
+     * Loads the calendar view with all the booking history of the current user.
      *
      * @param event event that triggered this method
      */
@@ -396,7 +524,7 @@ public class SearchViewController implements Initializable {
             CalendarPaneView cpv = new CalendarPaneView();
             cpv.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -415,9 +543,7 @@ public class SearchViewController implements Initializable {
             LoginView loginView = new LoginView();
             loginView.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
-
-
 }

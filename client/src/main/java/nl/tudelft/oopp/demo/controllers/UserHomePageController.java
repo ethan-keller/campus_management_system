@@ -15,8 +15,6 @@ public class UserHomePageController {
     @FXML
     private Rectangle bookANewRoom;
 
-    @FXML
-    private Rectangle bookingHistory;
 
     /**
      * //TODO.

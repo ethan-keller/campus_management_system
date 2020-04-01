@@ -1,16 +1,27 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.time.LocalDate;
+
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class BikeReservation {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     private IntegerProperty bikeReservationId;
     private IntegerProperty bikeReservationBuilding;
     private StringProperty bikeReservationUser;
@@ -179,7 +190,8 @@ public class BikeReservation {
                 b.setBikeReservationBuilding(jsonArrayBikeReservations.getJSONObject(i).getInt("building"));
                 b.setBikeReservationUser(jsonArrayBikeReservations.getJSONObject(i)
                         .getJSONObject("user").getString("username"));
-                b.setBikeReservationQuantity(jsonArrayBikeReservations.getJSONObject(i).getInt("numBikes"));
+                b.setBikeReservationQuantity(jsonArrayBikeReservations.getJSONObject(i)
+                        .getInt("numBikes"));
                 b.setBikeReservationDate(jsonArrayBikeReservations.getJSONObject(i).getString("date"));
                 b.setBikeReservationStartingTime(jsonArrayBikeReservations
                         .getJSONObject(i).getString("startingTime"));
@@ -188,7 +200,7 @@ public class BikeReservation {
             }
             return bikeReservationData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -211,7 +223,8 @@ public class BikeReservation {
                         jsonArrayBikeReservations.getJSONObject(i).getInt("building"));
                 b.setBikeReservationUser(jsonArrayBikeReservations.getJSONObject(i)
                         .getJSONObject("user").getString("username"));
-                b.setBikeReservationQuantity(jsonArrayBikeReservations.getJSONObject(i).getInt("numBikes"));
+                b.setBikeReservationQuantity(jsonArrayBikeReservations.getJSONObject(i)
+                        .getInt("numBikes"));
                 b.setBikeReservationDate(
                         jsonArrayBikeReservations.getJSONObject(i).getString("date"));
                 b.setBikeReservationStartingTime(jsonArrayBikeReservations
@@ -222,7 +235,7 @@ public class BikeReservation {
             }
             return bikeReservationData;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -245,7 +258,7 @@ public class BikeReservation {
             b.setBikeReservationEndingTime(jsonObject.getString("endingTime"));
             return b;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -269,7 +282,8 @@ public class BikeReservation {
                         .getJSONObject(i).getInt("building"));
                 b.setBikeReservationUser(jsonArrayBikeReservations.getJSONObject(i)
                         .getJSONObject("user").getString("username"));
-                b.setBikeReservationQuantity(jsonArrayBikeReservations.getJSONObject(i).getInt("numBikes"));
+                b.setBikeReservationQuantity(jsonArrayBikeReservations.getJSONObject(i)
+                        .getInt("numBikes"));
                 b.setBikeReservationDate(jsonArrayBikeReservations
                         .getJSONObject(i).getString("date"));
                 b.setBikeReservationStartingTime(jsonArrayBikeReservations
@@ -279,6 +293,28 @@ public class BikeReservation {
                 bikeReservationData.add(b);
             }
             return bikeReservationData;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
+    }
+
+    /**
+     * Method that returns all bike reservations for a particular room on a particular date.
+     *
+     * @param buildingId        the id of the building
+     * @param date          the date to be filtered on
+     * @param dateConverter converts date value to String format hh:mm
+     * @return List of filtered reservations
+     */
+    public static List<BikeReservation> getBikeReservationsOnDate(int buildingId, LocalDate date,
+                                                              StringConverter<LocalDate> dateConverter) {
+        try {
+            List<BikeReservation> list = BikeReservation.getBikeReservationData().stream()
+                    .filter(x -> x.getBikeReservationBuilding().get() == buildingId)
+                    .filter(x -> x.getBikeReservationDate().get().equals(dateConverter.toString(date)))
+                    .collect(Collectors.toList());
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
         }
