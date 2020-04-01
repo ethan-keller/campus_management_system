@@ -19,11 +19,11 @@ class BuildingTest {
     @BeforeEach
     void setUp() {
         b1 = new Building(1, "Name", 5, "drebbelweg aan zee",
-                4, 5);
+                4, "09:00", "22:00");
         b2 = new Building(1, "Name", 5, "drebbelweg aan zee",
-                4, 5);
+                4, "07:00", "22:00");
         b3 = new Building(2, "Name", 5, "drebbelweg aan zee",
-                4, 5);
+                4, "09:00", "23:00");
     }
 
     /**
@@ -58,14 +58,6 @@ class BuildingTest {
     @Test
     void getAddressTest() {
         assertEquals("drebbelweg aan zee", b1.getAddress());
-    }
-
-    /**
-     * Test for getAvailableBikes method.
-     */
-    @Test
-    void getAvailableBikesTest() {
-        assertEquals(4, b1.getAvailableBikes());
     }
 
     /**

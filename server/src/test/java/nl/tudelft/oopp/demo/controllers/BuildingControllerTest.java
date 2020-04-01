@@ -46,11 +46,11 @@ class BuildingControllerTest {
     @BeforeEach
     void setUp() {
         b1 = new Building(1, "TEST", 130, "TestStreet 18",
-                201, 201);
+                201, "08:00", "22:00");
         b2 = new Building(2, "CIVIL", 230, "TestStreet 48",
-                3, 201);
+                3, "08:00", "12:00");
         b3 = new Building(3, "AeroSpace", 80, "TestStreet 98",
-                4, 43);
+                4, "07:30", "23:00");
         buildingList = Arrays.asList(b1, b2, b3);
     }
 

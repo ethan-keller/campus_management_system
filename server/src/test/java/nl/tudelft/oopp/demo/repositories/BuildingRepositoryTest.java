@@ -40,15 +40,15 @@ class BuildingRepositoryTest {
     @BeforeEach
     void setUp() {
         b1 = new Building(1, "TEST", 130, "TestStreet 18",
-                201, 201);
+                201, "09:00", "22:00");
         b2 = new Building(2, "CIVIL", 230, "TestStreet 48",
-                3, 201);
+                3, "09:00", "22:00");
         b3 = new Building(3, "AeroSpace", 80, "TestStreet 98",
-                4, 43);
+                4, "09:00", "22:00");
         b4 = new Building(4, "EEMCS", 68, "TestStreet 1234",
-                201, 543);
+                201, "09:00", "22:00");
         b5 = new Building(5, "EWI", 2000, "TestStreet 754",
-                10, 1000);
+                10, "09:00", "22:00");
 
         buildingList = Arrays.asList(b1, b2, b3, b4, b5);
     }
@@ -87,12 +87,12 @@ class BuildingRepositoryTest {
      */
     @Test
     void insertBuildingTest() {
-        buildingRepo.insertBuilding(b1.getName(), b1.getRoomCount(), b1.getAddress(),
-                b1.getAvailableBikes(), b1.getMaxBikes());
+        buildingRepo.insertBuilding(b1.getName(), b1.getRoomCount(), b1.getAddress(), b1.getMaxBikes(),
+                b1.getOpeningTime(), b1.getClosingTime());
 
         verify(buildingRepo, times(1))
-                .insertBuilding(b1.getName(), b1.getRoomCount(), b1.getAddress(),
-                        b1.getAvailableBikes(), b1.getMaxBikes());
+                .insertBuilding(b1.getName(), b1.getRoomCount(), b1.getAddress(), b1.getMaxBikes(),
+                        b1.getOpeningTime(), b1.getClosingTime());
     }
 
     /**
@@ -131,23 +131,6 @@ class BuildingRepositoryTest {
         verify(buildingRepo, times(1)).updateAddress(4, "TestLane 7");
     }
 
-    /**
-     * Test for updateAvailableBikes method.
-     */
-    @Test
-    void updateAvailableBikesTest() {
-        buildingRepo.updateAvailableBikes(5, 2);
-        verify(buildingRepo, times(1)).updateAvailableBikes(5, 2);
-    }
-
-    /**
-     * Test for removeBikeReservation method.
-     */
-    @Test
-    void removeBikeReservationTest() {
-        buildingRepo.removeBikeReservation(5, 40);
-        verify(buildingRepo, times(1)).removeBikeReservation(5, 40);
-    }
 
     /**
      * Test for updateMaxBikes method.

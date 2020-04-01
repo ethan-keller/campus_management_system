@@ -121,7 +121,7 @@ public class AdminManageReservationViewController {
         try {
             if (selectedIndex >= 0) {
                 //TODO: Check that Reservation deletion was successful before displaying alert message.
-                ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
+                ReservationServerCommunication.deleteReservation(selectedReservation.getId().get());
                 // To update the tabular view after removing the reservation.
                 refresh();
                 // Displaying a message to the admin for clearer communication through an alert box.

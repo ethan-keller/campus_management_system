@@ -27,11 +27,13 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO building (name, room_count, address, available_bikes, max_bikes) VALUES "
-            + "(:name, :room_count, :address, :available_bikes, :max_bikes)", nativeQuery = true)
+    @Query(value = "INSERT INTO building (name, room_count, address, max_bikes, opening_time, closing_time)"
+            + " VALUES (:name, :room_count, :address, :max_bikes, :opening_time, :closing_time)",
+            nativeQuery = true)
     public void insertBuilding(@Param("name") String name, @Param("room_count") int roomCount,
-                               @Param("address") String address, @Param("available_bikes") int availableBikes,
-                               @Param("max_bikes") int maxBikes);
+                               @Param("address") String address, @Param("max_bikes") int maxBikes,
+                               @Param("opening_time") String openingTime,
+                               @Param("closing_time") String closingTime);
 
     @Modifying
     @Transactional
@@ -55,17 +57,13 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE building SET available_bikes = :available_bikes WHERE id = :id", nativeQuery = true)
-    public void updateAvailableBikes(@Param("id") int id, @Param("available_bikes") int availableBikes);
-
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE building SET available_bikes = available_bikes + :numRemovedBikes"
-            + " WHERE id = :id", nativeQuery = true)
-    public void removeBikeReservation(@Param("id") int buildingId, @Param("numRemovedBikes") int numRemovedBikes);
-
-    @Modifying
-    @Transactional
     @Query(value = "UPDATE building SET max_bikes = :max_bikes WHERE id = :id", nativeQuery = true)
     public void updateMaxBikes(@Param("id") int id, @Param("max_bikes") int maxBikes);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE building SET opening_time = :opening_time, closing_time = :closing_time"
+            + " WHERE id = :id", nativeQuery = true)
+    public void updateOpeningHours(@Param("id") int id, @Param("opening_time") String openingTime,
+                                   @Param("closing_time") String closingTime);
 }

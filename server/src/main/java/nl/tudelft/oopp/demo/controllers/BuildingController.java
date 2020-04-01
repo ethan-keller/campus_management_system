@@ -43,89 +43,70 @@ public class BuildingController {
     /**
      * Adds a building to the database.
      *
-     * @param name           The name of the building.
-     * @param roomCount      The amount of of rooms inside the building.
-     * @param address        The address of the building. //TODO format of address!!
-     * @param availableBikes The number of available bikes, int
-     * @param maxBikes       The max number of bikes, int
+     * @param name        The name of the building.
+     * @param roomCount   The amount of of rooms inside the building.
+     * @param address     The address of the building.
+     * @param maxBikes    The max number of bikes, int.
+     * @param openingTime the opening time of the building, String.
+     * @param closingTime the closing time of the building, String.
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
     @PostMapping("createBuilding")
     @ResponseBody
     public void createBuilding(@RequestParam String name, @RequestParam int roomCount,
-                               @RequestParam String address, @RequestParam int availableBikes,
-                               @RequestParam int maxBikes) throws UnsupportedEncodingException {
+                               @RequestParam String address, @RequestParam int maxBikes,
+                               @RequestParam String openingTime, @RequestParam String closingTime)
+            throws UnsupportedEncodingException {
 
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);
+        openingTime = CommunicationMethods.decodeCommunication(openingTime);
+        closingTime = CommunicationMethods.decodeCommunication(closingTime);
 
         try {
-            buildingRepo.insertBuilding(name, roomCount, address, availableBikes, maxBikes);
+            buildingRepo.insertBuilding(name, roomCount, address, maxBikes, openingTime, closingTime);
             logger.info("Building: -create- Name: " + name + " - Room count: " + roomCount
-                    + " - Address: " + address + " - Available Bikes: "
-                    + availableBikes + " - Max bikes: " + maxBikes);
+                    + " - Address: " + address + " - Max bikes: " + maxBikes
+                    + " - Opening hours: " + openingTime + " - " + closingTime);
         } catch (Exception e) {
             logger.error("Building: -create- ERROR", e);
         }
     }
 
-    /**
-     * Updates available bikes when a bike reservation is removed.
-     *
-     * @param bikeResId The bike reservation id
-     */
-    @PostMapping("removeBikeReservation")
-    @ResponseBody
-    public void removeBikeReservation(@RequestParam int bikeResId) {
-        BikeReservation bikeRes = bikeResRepo.getBikeReservation(bikeResId);
-        buildingRepo.removeBikeReservation(bikeRes.getBuilding(), bikeRes.getNumBikes());
-    }
-
-
-    /**
-     * Updates available bikes for the specified building.
-     *
-     * @param building The building ID
-     * @param numBikes The amount of bikes the are reserved
-     */
-    @PostMapping("addBikeReservation")
-    @ResponseBody
-    public void addBikeReservation(@RequestParam int building, @RequestParam int numBikes) {
-        List<BikeReservation> reservations = bikeResRepo.getBuildingBikeReservations(building);
-        int count = buildingRepo.getBuilding(building).getMaxBikes();
-        for (BikeReservation reservation : reservations) {
-            count -= reservation.getNumBikes();
-        }
-        buildingRepo.updateAvailableBikes(building, count);
-    }
 
     /**
      * Changes the existing building with the provided ID in the database with the provides parameters.
      *
-     * @param id        The building ID, this is the building that is going to get changed.
-     * @param name      The new name of the building
-     * @param roomCount the new room count of the building
-     * @param address   the new address of the building //TODO add address format
-     * @param maxBikes  The max number of bikes, int
+     * @param name        The name of the building.
+     * @param roomCount   The amount of of rooms inside the building.
+     * @param address     The address of the building.
+     * @param maxBikes    The max number of bikes, int.
+     * @param openingTime the opening time of the building, String.
+     * @param closingTime the closing time of the building, String.
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding
      */
     @PostMapping("updateBuilding")
     @ResponseBody
     public void updateBuilding(@RequestParam int id, @RequestParam String name,
                                @RequestParam int roomCount, @RequestParam String address,
-                               @RequestParam int maxBikes) throws UnsupportedEncodingException {
+                               @RequestParam int maxBikes, @RequestParam String openingTime,
+                               @RequestParam String closingTime) throws UnsupportedEncodingException {
 
         name = CommunicationMethods.decodeCommunication(name);
         address = CommunicationMethods.decodeCommunication(address);
+        openingTime = CommunicationMethods.decodeCommunication(openingTime);
+        closingTime = CommunicationMethods.decodeCommunication(closingTime);
 
         try {
             buildingRepo.updateAddress(id, address);
             buildingRepo.updateName(id, name);
             buildingRepo.updateRoomCount(id, roomCount);
             buildingRepo.updateMaxBikes(id, maxBikes);
+            buildingRepo.updateOpeningHours(id, openingTime, closingTime);
             logger.info("Building: -update- Building ID: " + id + " - NEW data -> Name: "
                     + name + " - Room count: " + roomCount + " - Address: "
-                    + address + " - Max bikes: " + maxBikes);
+                    + address + " - Max bikes: " + maxBikes + " - Opening hours: "
+                    + openingTime + " - " + closingTime);
         } catch (Exception e) {
             logger.error("Building: -update- ERROR", e);
         }
