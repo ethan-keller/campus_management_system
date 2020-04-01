@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,11 +28,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
+
 import org.controlsfx.control.RangeSlider;
 
 /**
@@ -42,8 +45,11 @@ import org.controlsfx.control.RangeSlider;
  */
 public class ReservationEditDialogController {
 
+    public static Reservation reservation;
+    public static Stage dialogStage;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final String pathSeparator = File.separator;
     @FXML
     private ComboBox<User> username;
     @FXML
@@ -58,21 +64,20 @@ public class ReservationEditDialogController {
     private GridPane grid;
     @FXML
     private Label timeslot;
-
     private RangeSlider timeslotSlider;
-
-    public static Reservation reservation;
-
-    public static Stage dialogStage;
-
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private final String pathSeparator = File.separator;
 
     /**
      * .
      * Default constructor of the ReservationEditDialogController class.
      */
     public ReservationEditDialogController() {
+    }
+
+    /**
+     * Create a new empty reservation.
+     */
+    public static void emptyReservation() {
+        reservation = new Reservation();
     }
 
     /**
@@ -105,7 +110,7 @@ public class ReservationEditDialogController {
 
             // change CSS when date changes or room changes
             date.valueProperty().addListener(((observable, oldValue, newValue) -> {
-                if(room.getSelectionModel().getSelectedIndex() >= 0){
+                if (room.getSelectionModel().getSelectedIndex() >= 0) {
                     configureCss();
                 }
             }));
@@ -170,7 +175,6 @@ public class ReservationEditDialogController {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Constructor for the cellFactory of the DatePicker.
@@ -499,13 +503,6 @@ public class ReservationEditDialogController {
             }
         };
         username.setConverter(converter);
-    }
-
-    /**
-     * Create a new empty reservation.
-     */
-    public static void emptyReservation() {
-        reservation = new Reservation();
     }
 
     /**

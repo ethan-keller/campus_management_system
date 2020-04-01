@@ -34,45 +34,40 @@ import org.controlsfx.control.RangeSlider;
 
 public class UserBikeEditDialogController {
 
+    public static BikeReservation bikeReservation;
+    public static boolean edit;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     @FXML
     private ComboBox<Building> bikeBuildingComboBox;
-
     @FXML
     private Spinner<Integer> quantity;
-
     @FXML
     private DatePicker bikeDate;
-
     @FXML
     private Text bikeStartingTime;
-
     @FXML
     private Text bikeEndingTime;
-
     @FXML
     private GridPane grid;
-
     @FXML
     private Label timeslot;
-
     @FXML
     private Text availableBikes;
-
     private RangeSlider timeslotSlider;
-
-    public static BikeReservation bikeReservation;
-
-    public static boolean edit;
-
     private Stage dialogStage;
-
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
      * .
      * Default constructor of the BikeEditDialogController class.
      */
     public UserBikeEditDialogController() {
+    }
+
+    /**
+     * Create a new bike reservation when called.
+     */
+    private static void emptyReservation() {
+        bikeReservation = new BikeReservation();
     }
 
     /**
@@ -167,7 +162,7 @@ public class UserBikeEditDialogController {
             if (selectedBuilding != null) {
                 opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
                 closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());
-                if(closing == 1439){
+                if (closing == 1439) {
                     timeslotSlider.setMax(1440);
                     timeslotSlider.setMajorTickUnit((1440 - opening) / 3);
                 } else {
@@ -455,13 +450,6 @@ public class UserBikeEditDialogController {
     }
 
     /**
-     * Create a new bike reservation when called.
-     */
-    private static void emptyReservation() {
-        bikeReservation = new BikeReservation();
-    }
-
-    /**
      * Called when the user clicks ok.
      */
     @FXML
@@ -479,7 +467,7 @@ public class UserBikeEditDialogController {
             bikeReservation.setBikeReservationStartingTime(bikeStartingTime.getText().replace("Start: ", ""));
             bikeReservation.setBikeReservationEndingTime(
                     bikeEndingTime.getText().replace("End: ", "").equals("24:00")
-                    ? "23:59" : bikeEndingTime.getText().replace("End: ", ""));
+                            ? "23:59" : bikeEndingTime.getText().replace("End: ", ""));
             // Close the dialog window
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();

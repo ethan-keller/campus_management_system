@@ -126,7 +126,7 @@ public class BookingEditDialogController {
             timeSlotSlider = new RangeSlider();
 
             // get and set the StringConverter to show hh:mm format
-            StringConverter<Number> converter = getRangeSliderConverter();
+            final StringConverter<Number> converter = getRangeSliderConverter();
 
             // initialize the RangeSlider (values are handled as minutes) and the positions of the thumbs
             timeSlotSlider = new RangeSlider(480, 1440, 600, 1080);

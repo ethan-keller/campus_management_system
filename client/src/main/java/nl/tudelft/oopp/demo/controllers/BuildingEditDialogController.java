@@ -21,6 +21,7 @@ import org.controlsfx.control.RangeSlider;
 
 public class BuildingEditDialogController {
 
+    public static Building building;
     @FXML
     private GridPane grid;
     @FXML
@@ -33,13 +34,13 @@ public class BuildingEditDialogController {
     private Text openingTime;
     @FXML
     private Text closingTime;
-
     // double thumb slider
     private RangeSlider openingHoursSlider;
-
-    public static Building building;
-
     private Stage dialogStage;
+
+    private static void emptyBuilding() {
+        building = new Building();
+    }
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -60,7 +61,7 @@ public class BuildingEditDialogController {
         String closing = building.getClosingTime().get();
         String opening = building.getOpeningTime().get();
 
-        if(closing.contains("59")){
+        if (closing.contains("59")) {
             openingHoursSlider.setHighValue(1440);
         } else {
             openingHoursSlider.setHighValue((double) converter.fromString(closing));
@@ -166,10 +167,6 @@ public class BuildingEditDialogController {
         }
     }
 
-    private static void emptyBuilding() {
-        building = new Building();
-    }
-
     /**
      * Called when the user clicks ok.
      */
@@ -183,7 +180,7 @@ public class BuildingEditDialogController {
             building.setBuildingAddress(buildingAddressField.getText());
             building.setOpeningTime(converter.toString(openingHoursSlider.getLowValue()));
             // if building closes at 12am it should be put in the database as 11:59pm
-            if(openingHoursSlider.getHighValue() == 1440){
+            if (openingHoursSlider.getHighValue() == 1440) {
                 building.setClosingTime("23:59");
             } else {
                 building.setClosingTime(converter.toString(openingHoursSlider.getHighValue()));
@@ -217,7 +214,7 @@ public class BuildingEditDialogController {
         if (buildingAddressField.getText().equals("")) {
             errorMessage += "No valid building address!\n";
         }
-        if(openingHoursSlider.getLowValue() == openingHoursSlider.getHighValue()){
+        if (openingHoursSlider.getLowValue() == openingHoursSlider.getHighValue()) {
             errorMessage += "No valid opening hours!\n";
         }
         if (errorMessage.equals("")) {
