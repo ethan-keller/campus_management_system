@@ -57,9 +57,37 @@ public class RegisterViewController {
     }
 
     /**.
-     * Handles clicking the button.
+     * To check if teacher is selected.
+     * @return Boolean
      */
-    public void registerClicked() throws UnsupportedEncodingException {
+    @FXML
+    private boolean studentSelected() {
+        if (student.isSelected()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**.
+     * To check if teacher is selected.
+     * @return Boolean
+     */
+    @FXML
+    private boolean teacherSelected() {
+        if (teacher.isSelected()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**.
+     * Handles the clicking of register button
+     * @param event - Passed as parameter
+     * @throws IOException is thrown
+     */
+    public void registerClicked(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Register Status");
         alert.setHeaderText(null);
@@ -115,20 +143,21 @@ public class RegisterViewController {
             passwordLabel.setText("The password is not allowed to have any punctuations !");
             passwordLabel.setStyle("-fx-text-fill: red");
 
-            //Server connection is established.
         } else if (!student.isSelected() && !teacher.isSelected()) {
             radioLabel.setText("Please select your role !");
             radioLabel.setStyle("-fx-text-fill: red");
+            //Server connection is established.
         } else {
             int userType = 0;
-            if (student.isSelected()) {
+            if (studentSelected()) {
                 userType = 2;
             }
-            if (teacher.isSelected()) {
+            if (teacherSelected()) {
                 userType = 1;
             }
             alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt, userType));
             alert.showAndWait();
+            backClicked(event);
         }
     }
 

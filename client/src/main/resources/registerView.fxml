@@ -42,8 +42,8 @@
    <Label text="Choose your role:" GridPane.columnIndex="2" GridPane.rowIndex="9" />
    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="9">
       <children>
-         <RadioButton fx:id="student" mnemonicParsing="false" prefHeight="17.0" prefWidth="90.0" text="Student " />
-         <RadioButton fx:id="teacher" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="17.0" prefWidth="77.0" text="Teacher" />
+         <RadioButton fx:id="student" mnemonicParsing="false" onAction="#studentSelected" prefHeight="17.0" prefWidth="94.0" text="Student " />
+         <RadioButton fx:id="teacher" contentDisplay="CENTER" mnemonicParsing="false" onAction="#teacherSelected" prefHeight="17.0" prefWidth="107.0" text="Teacher" />
       </children>
    </HBox>
    <Label fx:id="radioLabel" prefHeight="17.0" prefWidth="266.0" GridPane.columnIndex="3" GridPane.rowIndex="10" />
@@ -63,9 +63,8 @@
       <RowConstraints maxHeight="44.0" minHeight="0.0" prefHeight="0.0" />
       <RowConstraints maxHeight="64.0" minHeight="3.0" prefHeight="23.0" />
       <RowConstraints maxHeight="64.0" minHeight="0.0" prefHeight="0.0" />
-      <RowConstraints maxHeight="82.0" minHeight="15.0" prefHeight="15.0" />
-      <RowConstraints maxHeight="86.0" minHeight="0.0" prefHeight="0.0" />
-      <RowConstraints maxHeight="262.0" minHeight="0.0" prefHeight="19.0" />
-      <RowConstraints maxHeight="344.0" minHeight="15.0" prefHeight="325.0" />
+      <RowConstraints maxHeight="82.0" minHeight="5.0" prefHeight="18.0" />
+      <RowConstraints maxHeight="86.0" minHeight="0.0" prefHeight="16.0" />
+      <RowConstraints maxHeight="262.0" minHeight="0.0" prefHeight="0.0" />
    </rowConstraints>
 </GridPane>
