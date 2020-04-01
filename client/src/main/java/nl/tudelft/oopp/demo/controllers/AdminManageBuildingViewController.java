@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.controllers;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.logic.AdminManageBuildingLogic;
@@ -23,30 +25,29 @@ import nl.tudelft.oopp.demo.views.LoginView;
 
 public class AdminManageBuildingViewController {
 
+    public static Building currentSelectedBuilding;
     private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private TableView<Building> buildingTable;
-
     @FXML
     private TableColumn<Building, Number> buildingIdColumn;
-
     @FXML
     private TableColumn<Building, String> buildingNameColumn;
-
     @FXML
     private TableColumn<Building, Number> buildingRoomCountColumn;
-
     @FXML
     private TableColumn<Building, String> maxBikesColumn;
-
+    @FXML
+    private TableColumn<Building, String> openingTimeColumn;
+    @FXML
+    private TableColumn<Building, String> closingTimeColumn;
     @FXML
     private TableColumn<Building, String> buildingAddressColumn;
-
     @FXML
     private Button signOutButton;
-
-    public static Building currentSelectedBuilding;
+    @FXML
+    private Button backButton;
 
     public AdminManageBuildingViewController() {
     }
@@ -65,6 +66,10 @@ public class AdminManageBuildingViewController {
                     new SimpleIntegerProperty(cell.getValue().getBuildingRoomCount().get()));
             maxBikesColumn.setCellValueFactory(cell ->
                     new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingMaxBikes().get())));
+            openingTimeColumn.setCellValueFactory(cell -> new SimpleStringProperty(
+                    cell.getValue().getOpeningTime().get()));
+            closingTimeColumn.setCellValueFactory(cell -> new SimpleStringProperty(
+                    cell.getValue().getClosingTime().get()));
             buildingAddressColumn.setCellValueFactory(cell -> cell.getValue().getBuildingAddress());
 
             // Add observable list data to the table
@@ -192,7 +197,6 @@ public class AdminManageBuildingViewController {
     }
 
     /**
-     * .
      * Back button is clicked which redirects the admin back to admin home page.
      *
      * @param event is passed

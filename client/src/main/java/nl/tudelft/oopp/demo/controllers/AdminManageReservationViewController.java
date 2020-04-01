@@ -114,7 +114,6 @@ public class AdminManageReservationViewController {
 
                 //TODO: Check that Reservation deletion was successful before displaying alert message.
                 AdminManageReservationLogic.deleteReservationLogic(selectedReservation);
-
                 // To update the tabular view after removing the reservation.
                 refresh();
 

@@ -24,7 +24,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
@@ -40,8 +42,11 @@ import org.controlsfx.control.RangeSlider;
  */
 public class ReservationEditDialogController {
 
+    public static Reservation reservation;
+    public static Stage dialogStage;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final String pathSeparator = File.separator;
     @FXML
     private ComboBox<User> username;
     @FXML
@@ -56,21 +61,20 @@ public class ReservationEditDialogController {
     private GridPane grid;
     @FXML
     private Label timeslot;
-
     private RangeSlider timeslotSlider;
-
-    public static Reservation reservation;
-
-    public static Stage dialogStage;
-
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private final String pathSeparator = File.separator;
 
     /**
      * .
      * Default constructor of the ReservationEditDialogController class.
      */
     public ReservationEditDialogController() {
+    }
+
+    /**
+     * Create a new empty reservation.
+     */
+    public static void emptyReservation() {
+        reservation = new Reservation();
     }
 
     /**
@@ -99,16 +103,16 @@ public class ReservationEditDialogController {
             //This method sets up the slider which determines the time of reservation in the dialog view.
             configureRangeSlider();
 
-            // set stylesheet for range slider
-            timeslotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css").toExternalForm());
-
             date.setDayCellFactory(getDayCellFactory());
 
             // change CSS when date changes or room changes
             date.valueProperty().addListener(((observable, oldValue, newValue) -> {
-                configureCss();
+                if (room.getSelectionModel().getSelectedIndex() >= 0) {
+                    configureCss();
+                }
             }));
             room.valueProperty().addListener(((observable, oldValue, newValue) -> {
+                setTimeSlotSlider();
                 configureCss();
             }));
 
@@ -128,25 +132,46 @@ public class ReservationEditDialogController {
                         .filter(x -> x.getRoomId().get() == reservation.getRoom().get())
                         .collect(Collectors.toList()).get(0));
 
-                date.setValue(LocalDate.parse(reservation.getDate().get(), formatter));
-                String[] startTimeSplit = reservation.getStartingTime().get().split(":");
+                StringConverter<Number> sliderConverter = getRangeSliderConverter();
+                StringConverter<LocalDate> dateConverter = getDateConverter();
 
-                timeslotSlider.setLowValue(Double.parseDouble(startTimeSplit[0]) * 60.0
-                        + Double.parseDouble(startTimeSplit[1]));
-                String[] endTimeSplit = reservation.getEndingTime().get().split(":");
-                timeslotSlider.setHighValue(Double.parseDouble(endTimeSplit[0]) * 60.0
-                        + Double.parseDouble(endTimeSplit[1]));
+                date.setValue(dateConverter.fromString(reservation.getDate().get()));
+                double startTimeValue = (double) sliderConverter.fromString(reservation.getStartingTime().get());
+                double endTimeValue = (double) sliderConverter.fromString(reservation.getEndingTime().get());
 
-                startTime.setText("Start: " + getRangeSliderConverter().toString(timeslotSlider.getLowValue()));
-                endTime.setText("End: " + getRangeSliderConverter().toString(timeslotSlider.getHighValue()));
-            } else {
-                return;
+                timeslotSlider.setLowValue(startTimeValue);
+                timeslotSlider.setHighValue(endTimeValue);
             }
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
     }
 
+    private void setTimeSlotSlider() {
+        try {
+            Building selectedBuilding = Building.getBuildingById(
+                    room.getSelectionModel().getSelectedItem().getRoomBuilding().get());
+            StringConverter<Number> converter = getRangeSliderConverter();
+
+            double opening;
+            double closing;
+
+            if (selectedBuilding != null) {
+                opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
+                closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());
+                if (closing == 1439) {
+                    timeslotSlider.setMax(1440);
+                    timeslotSlider.setMajorTickUnit((1440 - opening) / 3);
+                } else {
+                    timeslotSlider.setMax(closing);
+                    timeslotSlider.setMajorTickUnit((closing - opening) / 3);
+                }
+                timeslotSlider.setMin(opening);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Constructor for the cellFactory of the DatePicker.
@@ -193,13 +218,10 @@ public class ReservationEditDialogController {
             timeslotSlider = new RangeSlider(480, 1440, 600, 1080);
             timeslotSlider.setLowValue(600);
             timeslotSlider.setMinWidth(100);
-            timeslotSlider.setMaxWidth(200);
+            timeslotSlider.setMaxWidth(240);
             timeslotSlider.setShowTickLabels(true);
             timeslotSlider.setShowTickMarks(true);
             timeslotSlider.setMajorTickUnit(120);
-
-            // configure css of rangeslider to show user what timeslots are free
-            configureCss();
 
             // get and set the StringConverter to show hh:mm format
             StringConverter<Number> converter = getRangeSliderConverter();
@@ -209,8 +231,8 @@ public class ReservationEditDialogController {
             configureRangeSliderListeners(converter);
 
             // initialize the Text objects with the current values of the thumbs
-            startTime.setText(converter.toString(timeslotSlider.getLowValue()));
-            endTime.setText(converter.toString(timeslotSlider.getHighValue()));
+            startTime.setText("Start: " + converter.toString(timeslotSlider.getLowValue()));
+            endTime.setText("End: " + converter.toString(timeslotSlider.getHighValue()));
 
             // inject the RangeSlider in the JavaFX layout
             grid.add(timeslotSlider, 1, 3);
@@ -239,7 +261,6 @@ public class ReservationEditDialogController {
                 // make track completely white
                 GeneralMethods.setSliderDefaultCss(timeslotSlider, bw,
                         getClass().getResource("/RangeSlider.css").toExternalForm());
-                System.out.println(1);
                 return;
             }
             // get reservations for this room on the selected date
@@ -275,7 +296,6 @@ public class ReservationEditDialogController {
 
             // first part of css
             bw.write(".track {\n" + "\t-fx-background-color: linear-gradient(to right, ");
-            System.out.println(2);
 
             // iterator to loop over all the reservations
             Iterator<Reservation> it = reservations.iterator();
@@ -283,27 +303,24 @@ public class ReservationEditDialogController {
             // if there are no reservations make the track completely green
             if (!it.hasNext()) {
                 bw.write("#91ef99 0%, #91ef99 100%);\n");
-                System.out.println(3);
             }
+
+            Building selectedBuilding = Building.getBuildingById(selectedRoom.getRoomBuilding().getValue());
+            StringConverter<Number> converter = getRangeSliderConverter();
+            double opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
+            double closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());
 
             Reservation res = AdminManageReservationViewController.currentSelectedReservation;
 
             // calculate and add green and red parts
             while (it.hasNext()) {
-                System.out.println(4);
                 Reservation r = it.next();
-                // split start and end times into hours and minutes
-                String[] startTime = r.getStartingTime().get().split(":");
-                String[] endTime = r.getEndingTime().get().split(":");
-
-                // calculate the percentage of the track that the reservation should cover
-                double startPercentage = ((Double.parseDouble(startTime[0]) - 8.0) * 60.0
-                        + Double.parseDouble(startTime[1])) / 9.60;
-                double endPercentage = ((Double.parseDouble(endTime[0]) - 8.0) * 60.0
-                        + Double.parseDouble(endTime[1])) / 9.60;
+                double startTime = (double) converter.fromString(r.getStartingTime().get());
+                double endTime = (double) converter.fromString(r.getEndingTime().get());
+                double startPercentage = ((startTime - opening) / (closing - opening)) * 100.0;
+                double endPercentage = ((endTime - opening) / (closing - opening)) * 100.0;
                 // if reservation is the one that is being edited, give it a light blue color
                 if (res != null && res.getId().get() == r.getId().get()) {
-                    System.out.println(5);
                     bw.write("#91ef99 " + startPercentage + "%, ");
                     bw.write("#70e5fa " + startPercentage + "%, ");
                     bw.write("#70e5fa " + endPercentage + "%, ");
@@ -315,7 +332,6 @@ public class ReservationEditDialogController {
                     }
                     continue;
                 }
-                System.out.println(6);
                 bw.write("#91ef99 " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + endPercentage + "%, ");
@@ -334,7 +350,6 @@ public class ReservationEditDialogController {
                     + "}\n\n" + ".range-bar {\n"
                     + "\t-fx-background-color: rgba(0,0,0,0.3);\n"
                     + "}");
-            System.out.println(7);
             // flush and close writer
             bw.flush();
             bw.close();
@@ -486,13 +501,6 @@ public class ReservationEditDialogController {
             }
         };
         username.setConverter(converter);
-    }
-
-    /**
-     * Create a new empty reservation.
-     */
-    public static void emptyReservation() {
-        reservation = new Reservation();
     }
 
     /**
