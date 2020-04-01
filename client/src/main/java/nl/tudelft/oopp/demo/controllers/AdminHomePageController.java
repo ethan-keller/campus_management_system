@@ -162,14 +162,14 @@ public class AdminHomePageController {
         URL serverLog = new File("logs/server.log").getAbsoluteFile().toURI().toURL();
 
         // get File objects for destination of download
-        File destinationCLient = new File(dir.getAbsolutePath() + "/client.log");
+        File destinationClient = new File(dir.getAbsolutePath() + "/client.log");
         File destinationServer = new File(dir.getAbsolutePath() + "/server.log");
 
         // write content to destination
         try {
             BufferedInputStream in = new BufferedInputStream(clientLog.openStream());
-            FileOutputStream fileOutputStream = new FileOutputStream(destinationCLient);
-            byte dataBuffer[] = new byte[1024];
+            FileOutputStream fileOutputStream = new FileOutputStream(destinationClient);
+            byte[] dataBuffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
@@ -179,7 +179,7 @@ public class AdminHomePageController {
 
             BufferedInputStream in2 = new BufferedInputStream(serverLog.openStream());
             FileOutputStream fileOutputStream2 = new FileOutputStream(destinationServer);
-            byte dataBuffer2[] = new byte[1024];
+            byte[] dataBuffer2 = new byte[1024];
             int bytesRead2;
             while ((bytesRead2 = in2.read(dataBuffer2, 0, 1024)) != -1) {
                 fileOutputStream2.write(dataBuffer2, 0, bytesRead2);
