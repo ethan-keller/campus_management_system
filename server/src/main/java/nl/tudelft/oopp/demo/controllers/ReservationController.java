@@ -110,6 +110,7 @@ public class ReservationController {
     @ResponseBody
     public void deleteReservation(@RequestParam int id) {
         try {
+            reservationsRepo.deleteReservation(id);
             logger.info("Reservation: -delete- ID: " + id);
         } catch (Exception e) {
             logger.error("Reservation: -delete- ERROR", e);

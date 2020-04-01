@@ -59,9 +59,12 @@ class SearchViewLogicTest {
      */
     public List<Building> makeBuildings() {
         buildings = new ArrayList<>();
-        b1 = new Building(1, "Building 1", 2, "BuildingStreet 1", 5, 5);
-        b2 = new Building(2, "Building 2", 2, "BuildingStreet 2", 10, 10);
-        b3 = new Building(3, "Building 3", 1, "BuildingStreet 3", 20, 20);
+        b1 = new Building(1, "Building 1", 2,
+                "BuildingStreet 1", 5, "08:00", "22:00");
+        b2 = new Building(2, "Building 2", 2,
+                "BuildingStreet 2", 10,"08:00", "22:00");
+        b3 = new Building(3, "Building 3", 1, "BuildingStreet 3",
+                20, "09:00", "21:30");
 
         buildings.add(b1);
         buildings.add(b2);
