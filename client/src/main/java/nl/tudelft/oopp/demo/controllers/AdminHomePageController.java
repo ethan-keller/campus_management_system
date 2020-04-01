@@ -1,9 +1,16 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
+
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminBikeReservationView;
 import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
 import nl.tudelft.oopp.demo.views.AdminManageFoodView;
@@ -108,4 +115,24 @@ public class AdminHomePageController {
         abrv.start(stage);
     }
 
+    /**
+     * This button would allow admin to download the log files.
+     * @param event is passed.
+     * @throws IOException is thrown.
+     */
+    public void downloadButtonClicked(ActionEvent event) throws IOException {
+        String url = new File("/logs").toURI().toURL().toString();
+        try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
+             FileOutputStream fileOutputStream = new FileOutputStream("path")) {
+            byte dataBuffer[] = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(dataBuffer, 0, 1024)) != -1) {
+                fileOutputStream.write(dataBuffer, 0, bytesRead);
+            }
+            GeneralMethods.alertBox("Download File", "",
+                    "File successfully downloaded!", Alert.AlertType.INFORMATION);
+        } catch (IOException e) {
+            // handle exception
+        }
+    }
 }
