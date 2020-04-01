@@ -99,14 +99,16 @@ public class RentABikeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-            comboBuilding.setVisibleRowCount(8);
             // make sure errors are not visible
             dateError.setVisible(false);
             buildingError.setVisible(false);
 
+            int firstTime = (int)getFirstStartTime() * 60;
+            int lastTime = (int)getLastEndingTime() * 60;
+
             // set up the date picker and date slider
             configureDatePicker();
-            configureRangeSlider();
+            configureRangeSlider(firstTime, lastTime);
 
             changeWidthConstraints(thisStage.getWidth());
             image.setFitHeight(100000);
@@ -197,47 +199,86 @@ public class RentABikeController implements Initializable {
 
                 // check to see enough bikes for selected building
                 if (getRemainder(b, selectedDate, selectedEndTime, selectedStartTime) - selectedBike >= 0) {
-                    // create alert for confirmation with the user
-                    Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "Make reservation for "
-                                    + selectedBike + " bikes"
-                                    + " from " + selectedBuilding
-                                    + " on " + selectedDate + " for " + selectedStartTime + "-"
-                                    + selectedEndTime + "?", ((Node) event.getSource()).getScene().getWindow(),
+                    Alert alert = GeneralMethods.createAlert("Your Bike Reservation", "", ((Node) event.getSource()).getScene().getWindow(),
                             Alert.AlertType.CONFIRMATION);
-                    assert alert != null;
-                    //set alert size depending on the text length
                     alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
                     alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+                    //Check if the building is open at given time slot
+                    switch (reservationTimeValidity(selectedStartTime, selectedEndTime, b)) {
+                        case 1:
+                            // create alert for confirmation with the user
+                            alert.setContentText("Make reservation for " + selectedBike + " bikes from " + selectedBuilding
+                            + " on " + selectedDate + " for " + selectedStartTime + "-" + selectedEndTime + "?");
 
-                    // allow for different responses of the alert
-                    Optional<ButtonType> result = alert.showAndWait();
+                            Optional<ButtonType> result = alert.showAndWait();
+                            // if the user responds with OK
+                            if (result.orElse(null) == ButtonType.OK) {
+                                if (selectedEndTime.contains("24")) {
+                                    selectedEndTime = "23:59";
+                                }
+                                //send new reservation to the server
+                                BikeReservationCommunication.createBikeReservation(getBuildingNumber(selectedBuilding),
+                                        CurrentUserManager.getUsername(), selectedBike, selectedDate,
+                                        selectedStartTime, selectedEndTime);
+                                confirmAlert(event);
 
-                    // if the user responds with OK
-                    if (result.orElse(null) == ButtonType.OK) {
+                            }
+                            break;
+                        case 2:
+                            alert.setContentText("Your selected time slot is beyond closing time!\n" +
+                                    "Would you still like to make reservation for " + selectedBike + " bikes from " + selectedBuilding
+                                    + " on " + selectedDate + " for " + selectedStartTime + "-" + b.getClosingTime().get() + "?");
+                            Optional<ButtonType> result2 = alert.showAndWait();
+                            if (result2.orElse(null) == ButtonType.OK) {
+                                selectedEndTime = b.getClosingTime().get();
+                                if (selectedEndTime.contains("24")) {
+                                    selectedEndTime = "23:59";
+                                }
+                                //send new reservation to the server
+                                BikeReservationCommunication.createBikeReservation(getBuildingNumber(selectedBuilding),
+                                        CurrentUserManager.getUsername(), selectedBike, selectedDate,
+                                        selectedStartTime, selectedEndTime);
+                                confirmAlert(event);
 
-                        if (selectedEndTime.contains("24")) {
-                            selectedEndTime = "23:59";
-                        }
+                            }
+                            break;
+                        case 3:
+                            alert.setContentText("Your selected time slot is before opening time!\n" +
+                                    "Would you still like to make reservation for " + selectedBike + " bikes from " + selectedBuilding
+                                    + " on " + selectedDate + " for " + b.getOpeningTime().get() + "-" + selectedEndTime + "?");
+                            Optional<ButtonType> result3 = alert.showAndWait();
+                            if (result3.orElse(null) == ButtonType.OK) {
+                                if (selectedEndTime.contains("24")) {
+                                    selectedEndTime = "23:59";
+                                }
+                                //send new reservation to the server
+                                BikeReservationCommunication.createBikeReservation(getBuildingNumber(selectedBuilding),
+                                        CurrentUserManager.getUsername(), selectedBike, selectedDate,
+                                        selectedStartTime, selectedEndTime);
+                                confirmAlert(event);
 
-                        //send new reservation to the server
-                        BikeReservationCommunication.createBikeReservation(getBuildingNumber(selectedBuilding),
-                                CurrentUserManager.getUsername(), selectedBike, selectedDate,
-                                selectedStartTime, selectedEndTime);
-                        // inform the user for successful reservation
-                        Alert alert2 = GeneralMethods.createAlert("Bike Reserved",
-                                "You successfully reserved the bike(s)!",
-                                ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
-                        assert alert2 != null;
-                        alert2.showAndWait();
+                            }
+                            break;
+                        case 4:
+                            alert.setContentText("Your selected time slot is beyond opening time!\n" +
+                                    "Would you still like to make reservation for " + selectedBike + " bikes from " + selectedBuilding
+                                    + " on " + selectedDate + " for " + b.getOpeningTime().get() + "-" + b.getClosingTime().get() + "?");
+                            Optional<ButtonType> result4 = alert.showAndWait();
+                            if (result4.orElse(null) == ButtonType.OK) {
+                                selectedEndTime = b.getClosingTime().get();
+                                if (selectedEndTime.contains("24")) {
+                                    selectedEndTime = "23:59";
+                                }
+                                //send new reservation to the server
+                                BikeReservationCommunication.createBikeReservation(getBuildingNumber(selectedBuilding),
+                                        CurrentUserManager.getUsername(), selectedBike, selectedDate,
+                                        selectedStartTime, selectedEndTime);
+                                confirmAlert(event);
 
-                        // re-open the scene to update new number of bikes left
-                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-                        RentABikeView rbv = new RentABikeView();
-                        rbv.start(stage);
+                            }
+                            break;
 
                     }
-                    // do nothing if user selects no
                 } else {
                     Alert alert = GeneralMethods.createAlert("Insufficient Bikes",
                             "Insufficient Bikes Available. Please check the number of bikes available",
@@ -250,6 +291,20 @@ public class RentABikeController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void confirmAlert(ActionEvent event) throws IOException {
+        // inform the user for successful reservation
+        Alert alert = GeneralMethods.createAlert("Bike Reserved",
+                "You successfully reserved the bike(s)!",
+                ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+        alert.showAndWait();
+
+        // re-open the scene to update new number of bikes left
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        RentABikeView rbv = new RentABikeView();
+        rbv.start(stage);
     }
 
     /**
@@ -434,10 +489,10 @@ public class RentABikeController implements Initializable {
      * .
      * Create a range slider (slider with two 'thumbs') adjusted to hours and minutes.
      */
-    private void configureRangeSlider() {
+    private void configureRangeSlider(int startingTime, int closingTime) {
         try {
             // initialize the RangeSlider (values are handled as minutes) and the positions of the thumbs
-            timeSlotSlider = new RangeSlider(480, 1440, 600, 1080);
+            timeSlotSlider = new RangeSlider(startingTime, closingTime, 600, 1080);
             timeSlotSlider.setLowValue(600);
             timeSlotSlider.setMinWidth(100);
             timeSlotSlider.setMaxWidth(200);
@@ -516,17 +571,21 @@ public class RentABikeController implements Initializable {
             return;
         } else {
 
-            //create observaleList to at to combobox
+            //create ObservableList to at to combobox
             ObservableList<String> buildList = FXCollections.observableArrayList();
             //empties combox before it loads
             comboBuilding.getItems().clear();
 
             //Set up the string for each building object
             for (Building b: buildingList) {
-                String result =
-                        b.getBuildingName().get() + ": "
-                                + getRemainder(b, selectedDate, selectedEnd, selectedStart);
-                buildList.add(result);
+                if (parseTime(b.getOpeningTime().get()) < parseTime(selectedEnd)) {
+                    if(parseTime(b.getClosingTime().get()) > parseTime(selectedStart)) {
+                        String result =
+                                b.getBuildingName().get() + ": "
+                                        + getRemainder(b, selectedDate, selectedEnd, selectedStart);
+                        buildList.add(result);
+                    }
+                }
             }
             //populate comboBuilding box
             comboBuilding.setItems(buildList);
@@ -571,7 +630,7 @@ public class RentABikeController implements Initializable {
      * @param selectedDate given date
      * @param selectedEnd given end time of rent
      * @param selectedStart give start time of rent
-     * @return
+     * @return remaining value for each building
      */
     private int getRemainder(Building b, String selectedDate, String selectedEnd, String selectedStart) {
         try {
@@ -600,5 +659,69 @@ public class RentABikeController implements Initializable {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    /**
+     * finds the building with earliest opening time for to setup the slider.
+     * @return earliest starting time of a building
+     */
+    public double getFirstStartTime() {
+
+        //initialize result with first element
+        double result = parseTime(buildingList.get(0).getOpeningTime().get());
+
+        //loops through the list and checks opening times of each building
+        for (int i = 1; i < buildingList.size(); i++) {
+            double tempTime = parseTime(buildingList.get(i).getOpeningTime().get());
+            //result only assigned when respective building has earlier opening time
+            if (tempTime < result) {
+                result = tempTime;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * finds the building with latest closing time for the slider.
+     * @return the double value of the closing time
+     */
+    public double getLastEndingTime() {
+
+        double result = parseTime(buildingList.get(0).getClosingTime().get());
+
+        for (int i = 1; i < buildingList.size(); i++) {
+            double tempTime = parseTime(buildingList.get(i).getClosingTime().get());
+            if (tempTime > result) {
+                result = tempTime;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * checks if selected time slot is in opening hours of the selected building.
+     * @param startTime selected starting time of rent
+     * @param endTime selected ending time of rent
+     * @param b selected building object
+     * @return the value of corresponding scenario of validity
+     */
+    public int reservationTimeValidity(String startTime, String endTime, Building b) {
+        //Checks if opening time of the building is earlier than selected startTime
+        if (parseTime(startTime) >= parseTime(b.getOpeningTime().get())) {
+            //Checks if closing hour of the building is later than selected EndTime
+            if(parseTime(endTime) <= parseTime(b.getClosingTime().get())) {
+                //Timeslot is within opening hours of the building
+                return 1;
+            } else {
+                return 2;
+            }
+        } else  {
+            // Checks if closing hour of the building is later than selected EndTime
+            if (parseTime(endTime) <= parseTime(b.getClosingTime().get())) {
+                return 3;
+            } else {
+                return 4;
+            }
+        }
     }
 }
