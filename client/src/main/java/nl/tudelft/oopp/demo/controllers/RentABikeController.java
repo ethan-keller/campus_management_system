@@ -32,6 +32,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import jdk.jshell.spi.ExecutionControl;
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
@@ -167,6 +168,7 @@ public class RentABikeController implements Initializable {
         }
         return false;
     }
+
     /**
      * Deals with Reserve Now button clicked
      * Method that retrieves values from the functionalities and returns to the server  if all the.
@@ -214,8 +216,8 @@ public class RentABikeController implements Initializable {
                                     selectedEndTime = "23:59";
                                 }
                                 //send new reservation to the server
-                                BikeReservationCommunication.
-                                        createBikeReservation(getBuildingNumber(selectedBuilding),
+                                BikeReservationCommunication
+                                        .createBikeReservation(getBuildingNumber(selectedBuilding),
                                         CurrentUserManager.getUsername(), selectedBike, selectedDate,
                                         selectedStartTime, selectedEndTime);
                                 confirmAlert(event);
@@ -255,8 +257,8 @@ public class RentABikeController implements Initializable {
                                     selectedEndTime = "23:59";
                                 }
                                 //send new reservation to the server
-                                BikeReservationCommunication.
-                                        createBikeReservation(getBuildingNumber(selectedBuilding),
+                                BikeReservationCommunication
+                                        .createBikeReservation(getBuildingNumber(selectedBuilding),
                                         CurrentUserManager.getUsername(), selectedBike, selectedDate,
                                         selectedStartTime, selectedEndTime);
                                 confirmAlert(event);
@@ -264,8 +266,8 @@ public class RentABikeController implements Initializable {
                             }
                             break;
                         case 4:
-                            alert.setContentText("Your selected time slot is beyond opening time!\n" +
-                                    "Would you still like to make reservation for "
+                            alert.setContentText("Your selected time slot is beyond opening time!\n"
+                                    + "Would you still like to make reservation for "
                                     + selectedBike + " bikes from " + selectedBuilding
                                     + " on " + selectedDate + " for " + b.getOpeningTime().get()
                                     + "-" + b.getClosingTime().get() + "?");
@@ -276,14 +278,15 @@ public class RentABikeController implements Initializable {
                                     selectedEndTime = "23:59";
                                 }
                                 //send new reservation to the server
-                                BikeReservationCommunication.
-                                        createBikeReservation(getBuildingNumber(selectedBuilding),
+                                BikeReservationCommunication
+                                        .createBikeReservation(getBuildingNumber(selectedBuilding),
                                         CurrentUserManager.getUsername(), selectedBike, selectedDate,
                                         selectedStartTime, selectedEndTime);
                                 confirmAlert(event);
 
                             }
                             break;
+                        default:
 
                     }
                 } else {
@@ -306,17 +309,21 @@ public class RentABikeController implements Initializable {
      * @throws IOException
      */
     public void confirmAlert(ActionEvent event) throws IOException {
-        // inform the user for successful reservation
-        Alert alert = GeneralMethods.createAlert("Bike Reserved",
-                "You successfully reserved the bike(s)!",
-                ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
-        alert.showAndWait();
+        try {
+            // inform the user for successful reservation
+            Alert alert = GeneralMethods.createAlert("Bike Reserved",
+                    "You successfully reserved the bike(s)!",
+                    ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+            alert.showAndWait();
 
-        // re-open the scene to update new number of bikes left
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            // re-open the scene to update new number of bikes left
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        RentABikeView rbv = new RentABikeView();
-        rbv.start(stage);
+            RentABikeView rbv = new RentABikeView();
+            rbv.start(stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -678,19 +685,23 @@ public class RentABikeController implements Initializable {
      * @return earliest starting time of a building
      */
     public double getFirstStartTime() {
+        try {
+            //initialize result with first element
+            double result = parseTime(buildingList.get(0).getOpeningTime().get());
 
-        //initialize result with first element
-        double result = parseTime(buildingList.get(0).getOpeningTime().get());
-
-        //loops through the list and checks opening times of each building
-        for (int i = 1; i < buildingList.size(); i++) {
-            double tempTime = parseTime(buildingList.get(i).getOpeningTime().get());
-            //result only assigned when respective building has earlier opening time
-            if (tempTime < result) {
-                result = tempTime;
+            //loops through the list and checks opening times of each building
+            for (int i = 1; i < buildingList.size(); i++) {
+                double tempTime = parseTime(buildingList.get(i).getOpeningTime().get());
+                //result only assigned when respective building has earlier opening time
+                if (tempTime < result) {
+                    result = tempTime;
+                }
             }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return result;
+        return 0;
     }
 
     /**
@@ -698,16 +709,20 @@ public class RentABikeController implements Initializable {
      * @return the double value of the closing time
      */
     public double getLastEndingTime() {
+        try {
+            double result = parseTime(buildingList.get(0).getClosingTime().get());
 
-        double result = parseTime(buildingList.get(0).getClosingTime().get());
-
-        for (int i = 1; i < buildingList.size(); i++) {
-            double tempTime = parseTime(buildingList.get(i).getClosingTime().get());
-            if (tempTime > result) {
-                result = tempTime;
+            for (int i = 1; i < buildingList.size(); i++) {
+                double tempTime = parseTime(buildingList.get(i).getClosingTime().get());
+                if (tempTime > result) {
+                    result = tempTime;
+                }
             }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return result;
+        return 0;
     }
 
     /**
@@ -718,22 +733,27 @@ public class RentABikeController implements Initializable {
      * @return the value of corresponding scenario of validity
      */
     public int reservationTimeValidity(String startTime, String endTime, Building b) {
-        //Checks if opening time of the building is earlier than selected startTime
-        if (parseTime(startTime) >= parseTime(b.getOpeningTime().get())) {
-            //Checks if closing hour of the building is later than selected EndTime
-            if (parseTime(endTime) <= parseTime(b.getClosingTime().get())) {
-                //Timeslot is within opening hours of the building
-                return 1;
-            } else {
-                return 2;
+        try {
+            //Checks if opening time of the building is earlier than selected startTime
+            if (parseTime(startTime) >= parseTime(b.getOpeningTime().get())) {
+                //Checks if closing hour of the building is later than selected EndTime
+                if (parseTime(endTime) <= parseTime(b.getClosingTime().get())) {
+                    //Timeslot is within opening hours of the building
+                    return 1;
+                } else {
+                    return 2;
+                }
+            } else  {
+                // Checks if closing hour of the building is later than selected EndTime
+                if (parseTime(endTime) <= parseTime(b.getClosingTime().get())) {
+                    return 3;
+                } else {
+                    return 4;
+                }
             }
-        } else  {
-            // Checks if closing hour of the building is later than selected EndTime
-            if (parseTime(endTime) <= parseTime(b.getClosingTime().get())) {
-                return 3;
-            } else {
-                return 4;
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return 0;
     }
 }
