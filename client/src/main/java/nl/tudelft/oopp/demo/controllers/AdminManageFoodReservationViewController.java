@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Food;
@@ -77,7 +77,7 @@ public class AdminManageFoodReservationViewController {
                             .collect(Collectors.toList()).get(0).getFoodName().get()));
             foodQuantityColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getFoodQuantity().get()));
-            foodReservationTable.setItems(FoodReservation.getUserReservationFood());
+            foodReservationTable.setItems(FoodReservation.getUserReservationFood(roomReservation));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -173,10 +173,11 @@ public class AdminManageFoodReservationViewController {
                 return;
             }
             // TODO: Check that food reservation creation was successful before displaying alert
-            if (this.getAllFoodInReservation().contains(Food.getFoodById(tempReservation.getFoodId().get()))) {
+            if (this.getAllFoodInReservation(getReservation())
+                    .contains(Food.getFoodById(tempReservation.getFoodId().get()))) {
                 FoodServerCommunication.updateFoodReservationQuantity(tempReservation.getFoodId().get(),
                     this.getReservation().getId().get(), (tempReservation.getFoodQuantity().get()
-                        + this.getFoodOldQuantity(tempReservation.getFoodId().get())));
+                        + this.getFoodOldQuantity(tempReservation.getFoodId().get(), getReservation())));
             } else {
                 FoodServerCommunication.addFoodToReservation(tempReservation.getFoodId().get(),
                         this.getReservation().getId().get(), tempReservation.getFoodQuantity().get());
@@ -216,9 +217,9 @@ public class AdminManageFoodReservationViewController {
      * @param foodId id
      * @return the quantity of food
      */
-    private int getFoodOldQuantity(int foodId) {
+    private int getFoodOldQuantity(int foodId, Reservation r) {
         ObservableList<FoodReservation> foodReservationObservableList
-                = FoodReservation.getUserReservationFood();
+                = FoodReservation.getUserReservationFood(r);
         List<FoodReservation> filteredFoodReservation = foodReservationObservableList.stream()
                 .filter(x -> x.getFoodId().get() == foodId).collect(Collectors.toList());
         FoodReservation foodReservation = filteredFoodReservation.get(0);
@@ -229,8 +230,8 @@ public class AdminManageFoodReservationViewController {
      * Return a list of foods in the reservations.
      * @return A list of foods
      */
-    private List<Food> getAllFoodInReservation() {
-        ObservableList<FoodReservation> foodReservationObservableList = FoodReservation.getUserReservationFood();
+    private List<Food> getAllFoodInReservation(Reservation r) {
+        ObservableList<FoodReservation> foodReservationObservableList = FoodReservation.getUserReservationFood(r);
         ObservableList<Food> foodObservableList = Food.getAllFoodData();
         List<Food> foods = new ArrayList<>();
         for (FoodReservation foodReservation : foodReservationObservableList) {

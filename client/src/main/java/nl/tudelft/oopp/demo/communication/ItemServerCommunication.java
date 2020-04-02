@@ -76,8 +76,8 @@ public class ItemServerCommunication {
      */
     public static boolean createItem(String user, String title, String date, String startingTime,
                                      String endingTime, String description) throws UnsupportedEncodingException {
-        String params = "user=" + user + "&title=" + title + "&date=" + date + "&starting_time=" + startingTime
-                + "&ending_time=" + endingTime + "&description=" + description;
+        String params = "user=" + user + "&title=" + title + "&date=" + date + "&startingTime=" + startingTime
+                + "&endingTime=" + endingTime + "&description=" + description;
 
         params = GeneralMethods.encodeCommunication(params);
 

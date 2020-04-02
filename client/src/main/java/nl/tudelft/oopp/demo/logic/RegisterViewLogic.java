@@ -53,7 +53,7 @@ public class RegisterViewLogic {
         } else if (!passwordTxt.matches(".*\\d.*")) {
             return "The password needs to have at least 1 numeric value !";
 
-            //Checks whether the password contains at least one.
+            //Checks whether the password contains at least one upper case letter.
         } else if (!upperCasePattern.matcher(passwordTxt).find()) {
             return "The password needs to have at least 1 Upper Case letter !";
 
