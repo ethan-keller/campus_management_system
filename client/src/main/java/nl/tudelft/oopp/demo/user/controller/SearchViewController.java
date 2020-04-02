@@ -542,6 +542,12 @@ public class SearchViewController implements Initializable {
         }
     }
 
+    /**
+     * Handles the onclick of rentABike Button.
+     * Redirects the user to the page to rent a bike.
+     *
+     * @param event event that triggered this method
+     */
     @FXML
     public void rentABikeClicked(ActionEvent event) {
         try {
