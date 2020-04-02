@@ -146,7 +146,7 @@ public class RentABikeController implements Initializable {
                     int buildNum = getBuildingNumber(comboBuilding.getValue());
                     Building b = Building.getBuildingById(buildNum);
                     //get remaining number of bikes at default time slots
-                    int i = getRemainder(b, selectedDate, "10:00", "18:00");
+                    int i = getRemainder(b, selectedDate, "18:00", "10:00");
                     availableBikeText.setText("Available Bikes: " + i);
                 }
             });
@@ -166,7 +166,7 @@ public class RentABikeController implements Initializable {
                             Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
                     int buildNum = getBuildingNumber(comboBuilding.getValue());
                     Building b = Building.getBuildingById(buildNum);
-                    int i = getRemainder(b, selectedDate, "10:00", "18:00");
+                    int i = getRemainder(b, selectedDate, "18:00", "10:00");
                     availableBikeText.setText("Available Bikes: " + i);
                 }
             });
@@ -241,7 +241,7 @@ public class RentABikeController implements Initializable {
                 // check to see enough bikes for selected building
                 if (getRemainder(b, selectedDate, selectedEndTime, selectedStartTime) - selectedBike >= 0) {
                     Alert alert = GeneralMethods.createAlert("Your Bike Reservation",
-                            "Make reservation for " + selectedBike + " bikes from " + selectedBuilding
+                            "Make reservation for " + selectedBike + " bike(s) from " + selectedBuilding
                                     + " on " + selectedDate + " for " + selectedStartTime + "-"
                                     + selectedEndTime + "?",
                             ((Node) event.getSource()).getScene().getWindow(),
