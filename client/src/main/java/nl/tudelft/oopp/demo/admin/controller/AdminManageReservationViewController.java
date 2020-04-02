@@ -21,6 +21,7 @@ import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationEditDialogView;
+import nl.tudelft.oopp.demo.views.ReservationNewDialogView;
 
 public class AdminManageReservationViewController {
 
@@ -139,7 +140,7 @@ public class AdminManageReservationViewController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             currentSelectedReservation = null;
-            ReservationEditDialogView view = new ReservationEditDialogView();
+            ReservationNewDialogView view = new ReservationNewDialogView();
             view.start(stage);
 
             //If none of the items in the dialog box is selected.

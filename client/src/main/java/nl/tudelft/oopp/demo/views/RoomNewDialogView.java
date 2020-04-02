@@ -7,13 +7,11 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
-
-public class ReservationEditDialogView extends Application {
+public class RoomNewDialogView extends Application {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
 
@@ -22,14 +20,14 @@ public class ReservationEditDialogView extends Application {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            URL xmlUrl = getClass().getResource("/reservationEditDialog.fxml");
+            URL xmlUrl = getClass().getResource("/roomEditDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
 
-            GeneralMethods.view(dialogStage, primaryStage, "Edit Reservation", root);
+            GeneralMethods.view(dialogStage, primaryStage, "New Room", root);
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());

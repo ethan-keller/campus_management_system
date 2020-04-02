@@ -19,6 +19,7 @@ import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.views.AdminFoodBuildingView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.FoodEditDialogView;
+import nl.tudelft.oopp.demo.views.FoodNewDialogView;
 
 
 public class AdminManageFoodViewController {
@@ -119,7 +120,7 @@ public class AdminManageFoodViewController {
             // Food edit dialog pop up.
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentSelectedFood = null;
-            FoodEditDialogView view = new FoodEditDialogView();
+            FoodNewDialogView view = new FoodNewDialogView();
             view.start(stage);
             // Get the food from the pop up dialog.
             Food tempFood = FoodEditDialogController.food;

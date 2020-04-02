@@ -20,6 +20,7 @@ import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
+import nl.tudelft.oopp.demo.views.BuildingNewDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 
 
@@ -139,7 +140,7 @@ public class AdminManageBuildingViewController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             currentSelectedBuilding = null;
-            BuildingEditDialogView view = new BuildingEditDialogView();
+            BuildingNewDialogView view = new BuildingNewDialogView();
             view.start(stage);
             Building tempBuilding = BuildingEditDialogController.building;
             if (tempBuilding == null) {
