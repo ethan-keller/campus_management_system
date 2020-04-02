@@ -1,16 +1,18 @@
 package nl.tudelft.oopp.demo.user.logic;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import nl.tudelft.oopp.demo.entities.Building;
@@ -20,6 +22,9 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.user.controller.SearchViewController;
 
 public class SearchViewLogic {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     /**
      * filters rooms by the id of the building.
      *
@@ -282,77 +287,41 @@ public class SearchViewLogic {
      */
     public static HBox createRoomCard(SearchViewController svw, Room r) {
         try {
-            // initialize javafx components
-            final HBox newCard = new HBox();
-            final ImageView image = new ImageView();
-            final VBox roomInfo = new VBox();
-            final Text roomTitle = new Text();
-            final Text roomBuilding = new Text();
-            final Text roomCapacity = new Text();
-            final Text roomDescription = new Text();
-            final Text roomId = new Text();
+            // load the 'skeleton of a new card
+            FXMLLoader loader = new FXMLLoader();
+            URL xmlUrl = svw.getClass().getResource("/RoomCard.fxml");
+            loader.setLocation(xmlUrl);
 
-            // loading image from URL + setting size & properties
-            Image img = new Image("images/placeholder.png");
-            image.setImage(img);
-            image.setPreserveRatio(true);
-            image.setPickOnBounds(true);
+            HBox newCard = loader.load();
+
+            Image roomImage = null;
+            try {
+                // get the room image
+                roomImage = new Image("images/" + r.getRoomPhoto().get());
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, e.toString());
+                // load placeholder instead
+                roomImage = new Image("images/placeholder.png");
+            }
+
+
+            // use lookup to retrieve Nodes by their id and set their content
+            ImageView image = ((ImageView) newCard.lookup("#image"));
+            image.setImage(roomImage);
+            // set the correct width
             image.setFitWidth(300);
 
-            // adding image margin
-            HBox.setMargin(image, new Insets(10, 5, 10, 10));
-
-            /* set the roomId visibility to false such that it is not visible for the user but still useful to
-               get the specific room information later in the RoomView
-             */
-            roomId.setText(String.valueOf(r.getRoomId().get()));
-            roomId.setVisible(false);
-
-            // setting title and text margin (+ properties)
-            roomTitle.setText(r.getRoomName().get());
-            roomTitle.setWrappingWidth(200);
-            roomTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
-            roomTitle.setStyle("-fx-fill: #0ebaf8;");
-            VBox.setMargin(roomTitle, new Insets(10, 10, 10, 15));
-
-            // setting building name and text margin
-            Building building = Building.getBuildingData().stream()
+            Building b = svw.buildingList.stream()
                     .filter(x -> x.getBuildingId().get() == r.getRoomBuilding().get())
                     .collect(Collectors.toList()).get(0);
-            roomBuilding.setText("Building: " + building.getBuildingName().get());
-            roomBuilding.setWrappingWidth(200);
-            roomBuilding.setFont(Font.font("System", 14));
-            VBox.setMargin(roomBuilding, new Insets(0, 0, 5, 15));
 
-            // setting capacity and text margin (+ properties)
-            roomCapacity.setText("Capacity: " + r.getRoomCapacity().get());
-            roomCapacity.setWrappingWidth(200);
-            roomCapacity.setFont(Font.font("System", 14));
-            VBox.setMargin(roomCapacity, new Insets(0, 0, 5, 15));
+            ((Text) newCard.lookup("#idText")).setText(String.valueOf(r.getRoomId().get()));
+            ((Text) newCard.lookup("#titleText")).setText(r.getRoomName().get());
+            ((Text) newCard.lookup("#buildingText")).setText("Building: " + b.getBuildingName().get());
+            ((Text) newCard.lookup("#capacityText")).setText("Capacity: " + r.getRoomCapacity().get());
+            ((Text) newCard.lookup("#descriptionText")).setText("Description: " + r.getRoomDescription().get());
 
-            // setting description and text margin (+ properties)
-            roomDescription.setText("Description: " + r.getRoomDescription().get());
-            roomDescription.setWrappingWidth(310);
-            roomDescription.setFont(Font.font("System", 14));
-            VBox.setMargin(roomDescription, new Insets(0, 0, 5, 15));
-
-            // setting 'text box' size
-            roomInfo.setPrefSize(354, 378);
-
-            // adding components to their corresponding parent
-            roomInfo.getChildren().add(roomId);
-            roomInfo.getChildren().add(roomTitle);
-            roomInfo.getChildren().add(roomCapacity);
-            roomInfo.getChildren().add(roomBuilding);
-            roomInfo.getChildren().add(roomDescription);
-            newCard.getChildren().add(image);
-            newCard.getChildren().add(roomInfo);
-
-            // setting size
-            newCard.setPrefWidth(688);
-            newCard.setPrefHeight(145);
-
-            // add mouse click listener to individual cards
+            // set mouse clicked event on card (to redirect to room view)
             newCard.setOnMouseClicked(event -> {
                 try {
                     svw.cardClicked(event);
@@ -361,12 +330,16 @@ public class SearchViewLogic {
                 }
             });
 
+            // set space between the cards
+            VBox.setMargin(newCard, new Insets(0, 0, 70, 0));
+
             return newCard;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
+
 
     /**
      * Filters the rooms given by if they have food you can order.
