@@ -8,9 +8,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import nl.tudelft.oopp.demo.admin.controller.AdminManageUserViewController;
-import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.admin.logic.UserEditDialogLogic;
+import nl.tudelft.oopp.demo.entities.User;
 
 public class UserEditDialogController {
 

@@ -23,10 +23,10 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javax.imageio.ImageIO;
 
+import nl.tudelft.oopp.demo.admin.logic.RoomEditDialogLogic;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.admin.logic.RoomEditDialogLogic;
 
 /**
  * Class that controls the dialog box for admins to create or edit rooms.
