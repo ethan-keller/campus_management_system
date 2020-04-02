@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.logic;
+package nl.tudelft.oopp.demo.user.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
