@@ -33,6 +33,7 @@ public class ReservationConfirmationView extends Application {
             URL xmlUrl = getClass().getResource("/ReservationConfirmationView.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
             // Create the dialog Stage.
             Stage stage = new Stage();

@@ -37,6 +37,10 @@ A JavaFX css stylesheet to make the interface look nice.
     -fx-text-fill: -black;
 }
 
+#usernameLabel {
+    -fx-text-fill: -blueGrey;
+}
+
 /*
  * ********************
  * BUTTONS
@@ -48,6 +52,7 @@ A JavaFX css stylesheet to make the interface look nice.
     -fx-border-radius: 150px;
     -fx-background-color: -white;
 }
+
 .signout-button {
     -fx-background-color: -white;
     -fx-text-fill: -black;
@@ -100,16 +105,54 @@ A JavaFX css stylesheet to make the interface look nice.
 
 /*
  * ********************
+ * RANGE SLIDERS
+ * ********************
+ */
+
+.range-slider .low-thumb, .range-slider .high-thumb{
+    -fx-background-color: -grey;
+}
+.range-slider .low-thumb:hover, .range-slider .high-thumb:hover{
+    -fx-background-color: -blueGrey;
+}
+
+
+/*
+ * ********************
  * COMBOBOX
  * ********************
  *
  */
 .combo-box {
+    -fx-background-color: -fx-background;
+}
+
+.combo-box:hover {
+    -fx-background-color: -lightGrey;
+}
+
+.combo-box .cell:selected {
+    -fx-text-fill: -black;
+}
+
+.combo-box .arrow {
     -fx-background-color: -grey;
 }
 
-.check-box > *.box {
-    -fx-background-color: -color;
+.combo-box .list-view {
+    -fx-background-color: -lightGrey;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: -fx-background;
+}
+
+.combo-box .list-cell:focused {
+    -fx-background-color: -grey;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: -grey;
 }
 
 
@@ -132,22 +175,42 @@ A JavaFX css stylesheet to make the interface look nice.
  * TEXT FIELDS
  * ********************
  */
+
 .text-field {
-    -fx-highlight-fill: -color;
-    -fx-highlight-text-fill: -white;
+    -fx-background-color: -fx-text-box-border, -fx-background;
+    -fx-background-insets: 0, 0 0 2 0;
+    -fx-background-radius: 0;
 }
 
-.text-area {
-    -fx-highlight-fill: -color;
-    -fx-highlight-text-fill: -white;
+.text-field:focused {
+    -fx-background-color: -fx-focus-color, -grey;
 }
 
+/*
+ * ********************
+ * SPINNERS
+ * ********************
+ */
 .spinner > *.increment-arrow-button {
     -fx-background-color: -grey;
 }
 
 .spinner > *.decrement-arrow-button {
     -fx-background-color: -grey;
+}
+
+/*
+ * ********************
+ * HYPERLINKS
+ * ********************
+ */
+
+.hyperlink {
+    -fx-text-fill: -blueGrey;
+}
+
+.hyperlink:focused {
+    -fx-text-fill: -grey;
 }
 
 /*
@@ -180,8 +243,20 @@ A JavaFX css stylesheet to make the interface look nice.
     -fx-background-color: -darkGrey, -grey;
 }
 
-.table-view > *.column-header-background > *.show-hide-columns-button {
+.table-view .arrow {
     -fx-background-color: -grey;
+}
+
+.table-view > *.column-header-background > *.show-hide-columns-button .context-menu {
+    -fx-background-color: -grey;
+}
+
+.table-view > *.column-header-background > *.show-hide-columns-button .menu-item:hover {
+    -fx-background-color: -darkGrey;
+}
+
+.table-view > *.column-header-background > *.show-hide-columns-button .menu-item:focused {
+    -fx-background-color: -darkGrey;
 }
 
 .table-view .table-cell {

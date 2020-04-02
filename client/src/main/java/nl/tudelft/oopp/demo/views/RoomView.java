@@ -27,6 +27,7 @@ public class RoomView extends Application {
         URL xmlUrl = getClass().getResource("/roomView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
         primaryStage.setMinHeight(400);
         primaryStage.setMinWidth(710);

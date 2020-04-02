@@ -27,6 +27,7 @@ public class SearchView extends Application {
         URL xmlUrl = getClass().getResource("/SearchView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
         Scene oldScene = primaryStage.getScene();
         primaryStage.setScene(oldScene == null

@@ -10,8 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import nl.tudelft.oopp.demo.controllers.RoomEditDialogController;
 
 
 public class RoomEditDialogView extends Application {
@@ -26,6 +24,7 @@ public class RoomEditDialogView extends Application {
             URL xmlUrl = getClass().getResource("/roomEditDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
