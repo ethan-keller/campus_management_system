@@ -1,8 +1,9 @@
 package nl.tudelft.oopp.demo.repositories;
 
 import java.util.List;
+
 import nl.tudelft.oopp.demo.entities.Food;
-import nl.tudelft.oopp.demo.entities.FoodReservations;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,22 +21,14 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     @Query(value = "SELECT * FROM food WHERE id = :id", nativeQuery = true)
     public Food getFood(@Param("id") int id);
 
-    @Query(value = "SELECT * FROM food WHERE name = :name", nativeQuery = true)
-    public Food getFoodByName(@Param("name") String name);
-
-    @Query(value = "SELECT food.* FROM food INNER JOIN food_building ON food.id = food_building.food_id "
-            + "INNER JOIN building ON building.id = food_building.building_id WHERE building.name = :name",
-            nativeQuery = true)
-    public List<Food> getFoodByBuildingName(@Param("name") String name);
-
     @Query(value = "SELECT food.* FROM food INNER JOIN food_building ON "
             + "food.id = food_building.food_id WHERE building_id = :id",
             nativeQuery = true)
     public List<Food> getFoodByBuildingId(@Param("id") int id);
 
-    @Query(value = "SELECT * FROM food_reservations WHERE reservation_id = :reservation", nativeQuery = true)
-    public List<Object[]> getFoodReservationByReservationId(@Param("reservation") int reservationId);
-
+    @Query(value = "SELECT food.*, food_reservations.quantity FROM food INNER JOIN food_reservations"
+            + " ON food.id = food_reservations.food_id WHERE reservation_id = :reservation", nativeQuery = true)
+    public List<Food> getFoodByReservationId(@Param("reservation") int reservationId);
 
     @Modifying
     @Transactional
@@ -78,6 +71,10 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     public void updateFoodReservationQuantity(@Param("reservation") int reservationId,
                                               @Param("food") int foodId, @Param("quantity") int quantity);
 
+    @Query(value = "SELECT * FROM food_reservations WHERE reservation_id = :reservation", nativeQuery = true)
+    public List<Object[]> getFoodReservationByReservationId(@Param("reservation") int reservationId);
+
+
     @Modifying
     @Transactional
     @Query(value = "UPDATE food SET name = :name WHERE id = :id", nativeQuery = true)
@@ -87,4 +84,6 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     @Transactional
     @Query(value = "UPDATE food SET price = :price WHERE id = :id", nativeQuery = true)
     public void updatePrice(@Param("id") int id, @Param("price") double price);
+
 }
+

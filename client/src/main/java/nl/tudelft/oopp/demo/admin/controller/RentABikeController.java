@@ -12,8 +12,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,6 +34,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
@@ -41,6 +42,7 @@ import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.SearchView;
+
 import org.controlsfx.control.RangeSlider;
 
 
@@ -67,6 +69,8 @@ public class RentABikeController implements Initializable {
     private ImageView image;
     @FXML
     private Button reserveBike;
+    @FXML
+    private Button backButton;
 
     private RangeSlider timeSlotSlider;
     public static Stage thisStage;
@@ -103,7 +107,8 @@ public class RentABikeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
             // make sure errors are not visible
             startTime.setVisible(false);
             endTime.setVisible(false);

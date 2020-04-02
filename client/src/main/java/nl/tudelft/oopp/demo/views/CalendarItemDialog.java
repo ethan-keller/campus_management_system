@@ -27,6 +27,7 @@ public class CalendarItemDialog extends Application {
         URL xmlUrl = getClass().getResource("/CalendarItemDialog.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
         // create the new dialog stage in another runnable (for JavaFX reasons)
         Platform.runLater(new Runnable() {

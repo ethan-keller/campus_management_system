@@ -25,6 +25,7 @@ public class CalendarPaneView extends Application {
         URL xmlUrl = getClass().getResource("/calendarPane.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
         Scene oldScene = primaryStage.getScene();
         Scene newScene = oldScene == null

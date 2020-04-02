@@ -48,8 +48,9 @@ import nl.tudelft.oopp.demo.views.RoomView;
  */
 public class SearchViewController implements Initializable {
 
+    public static Stage thisStage;
+    public static ObservableList<Building> buildingList;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -72,31 +73,23 @@ public class SearchViewController implements Initializable {
     @FXML
     private ToggleGroup teacherOnly;
     @FXML
-    private Button clearFilters;
-    @FXML
     private TextField searchBar;
     @FXML
     private ComboBox<String> bikesAvailable;
     @FXML
     private Button signOutButton;
+    @FXML
+    private Button rentABikeButton;
 
     private List<Building> buildings;
     private List<Room> roomList;
-    private ObservableList<Room> rooms;
-
-
-    // Declaring the observable list for buildings, capacity and bikes
-    // to be inserted into the comboBox.
-
-    public static Stage thisStage;
+    private List<Room> rooms;
 
     // This is necessary due to the format of inserting items into a comboBox.
     private ObservableList<String> capacityList;
-    private ObservableList<Building> buildingList;
     private ObservableList<String> bikeList;
 
     private int building;
-
 
 
     /**
@@ -120,11 +113,14 @@ public class SearchViewController implements Initializable {
         try {
             signOutButton.getStyleClass().clear();
             signOutButton.getStyleClass().add("signout-button");
+            rentABikeButton.getStyleClass().clear();
+            rentABikeButton.getStyleClass().add("bike-button");
 
             // assign lists to the initialized ObservableLists
-            capacityList = FXCollections.observableArrayList();
+            // This is necessary due to the format of inserting items into a comboBox.
+            final ObservableList<String> capacityList = FXCollections.observableArrayList();
             buildingList = Building.getBuildingData();
-            bikeList = FXCollections.observableArrayList();
+            final ObservableList<String> bikeList = FXCollections.observableArrayList();
 
             // the comboBox only shows 6 rows (more => scroll)
             buildingComboBox.setVisibleRowCount(6);
@@ -144,14 +140,15 @@ public class SearchViewController implements Initializable {
             buildingComboBox.setItems(buildingList);
             bikesAvailable.setItems(bikeList);
 
-            // get all rooms and buildings from server
-            rooms = Room.getRoomData();
+            // get all rooms and buildings from database
+            roomList = Room.getRoomData();
+            if (roomList != null) {
+                rooms = new ArrayList<Room>(roomList);
+            }
             buildings = Building.getBuildingData();
 
-            // load all the cards
-            loadCards();
-
-
+            // create a 'card' showing some information of the room, for every room
+            getCardsShown(roomList);
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -254,14 +251,12 @@ public class SearchViewController implements Initializable {
      */
     public void loadCards() throws UnsupportedEncodingException {
         //load all rooms back in the roomlist to filter again
-        roomList = new ArrayList<Room>();
-        for (int i = 0; i != rooms.size(); i++) {
-            roomList.add(rooms.get(i));
-        }
+        roomList.clear();
+        roomList.addAll(rooms);
 
         //Check if there are any filters selected and if so filter the roomlist
         if (buildingComboBox.getValue() != null) {
-            building = buildingComboBox.getValue().getBuildingId().getValue();
+            int building = buildingComboBox.getValue().getBuildingId().getValue();
             roomList = SearchViewLogic.filterRoomByBuilding(roomList, building);
         }
 
@@ -459,6 +454,7 @@ public class SearchViewController implements Initializable {
         return null;
     }
 
+
     /**
      * When a card gets clicked, the RoomView gets loaded with all the corresponding room information.
      *
@@ -476,10 +472,9 @@ public class SearchViewController implements Initializable {
             VBox cardInfo = (VBox) selectedCard.getChildren().get(1);
 
             // get room id from that VBox and parse to int
-            int roomId = Integer.parseInt(((Text) cardInfo.getChildren().get(0)).getText());
 
             // set the currentRoomID such that the RoomView controller knows which room to show information from
-            RoomViewController.currentRoomId = roomId;
+            RoomViewController.currentRoomId = Integer.parseInt(((Text) cardInfo.getChildren().get(0)).getText());
 
             // load RoomView
             RoomView rv = new RoomView();
@@ -517,7 +512,7 @@ public class SearchViewController implements Initializable {
      * @param event event that triggered this method
      */
     @FXML
-    private void bookingHistoryClicked(ActionEvent event) {
+    public void bookingHistoryClicked(ActionEvent event) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             CalendarPaneController.thisStage = stage;
@@ -535,7 +530,7 @@ public class SearchViewController implements Initializable {
      * @param event event that triggered this method
      */
     @FXML
-    private void signOutButtonClicked(ActionEvent event) {
+    public void signOutButtonClicked(ActionEvent event) {
         try {
             // get current stage and load log in view
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -548,7 +543,7 @@ public class SearchViewController implements Initializable {
     }
 
     @FXML
-    private void rentABikeClicked(ActionEvent event) {
+    public void rentABikeClicked(ActionEvent event) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

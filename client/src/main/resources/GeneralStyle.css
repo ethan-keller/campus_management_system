@@ -55,7 +55,7 @@ A JavaFX css stylesheet to make the interface look nice.
     -fx-background-color: -transparent;
 }
 
-.signout-button {
+.signout-button, .bike-button {
     -fx-background-color: -transparent;
     -fx-text-fill: -black;
 }
@@ -115,15 +115,17 @@ A JavaFX css stylesheet to make the interface look nice.
  * ********************
  */
 
-.range-slider .low-thumb, .range-slider .high-thumb{
+.range-slider .low-thumb, .range-slider .high-thumb {
     -fx-background-color: -grey;
 }
-.range-slider .low-thumb:hover, .range-slider .high-thumb:hover{
+
+.range-slider .low-thumb:hover, .range-slider .high-thumb:hover {
     -fx-background-insets: -1.4, 0, 1, 2;
     -fx-background-radius: 1.0em;
     -fx-background-color: -blueGrey;
 }
-.range-slider .low-thumb:focused, .range-slider .high-thumb:focused{
+
+.range-slider .low-thumb:focused, .range-slider .high-thumb:focused {
     -fx-background-insets: 0, 1, 2;
     -fx-background-radius: 1.0em;
 }
@@ -314,7 +316,7 @@ A JavaFX css stylesheet to make the interface look nice.
  *
  */
 
-.dialog-pane{
+.dialog-pane {
     -fx-background-color: fx-background;
     -fx-border-color: transparent;
 }
