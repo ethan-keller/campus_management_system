@@ -16,6 +16,9 @@ public class CustomCalendar extends Calendar {
      */
     public CustomCalendar() {
 
+        // add the listeners to the calendar
+        this.addCalendarListener(new CalendarListener());
+
         // Between beginInit() and endInit() the calendar can get configured
         this.beginInit();
 
@@ -40,8 +43,9 @@ public class CustomCalendar extends Calendar {
         settings.setScrollStep(7);
         // disallow ability to edit items in calendar
         this.setAllowInplaceEdit(false);
-        // when selecting near the border of the calendar, it auto scrolls
-        this.setAllowAutoScroll(true);
+        // restrict the auto scrolling
+        this.setAllowAutoScroll(false);
+
 
         // end of initialization
         this.endInit();

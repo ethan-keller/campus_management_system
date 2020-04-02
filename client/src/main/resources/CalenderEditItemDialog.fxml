@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="383.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.CalenderItemDialogController">
+<AnchorPane prefHeight="383.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.CalenderEditItemDialogController">
    <children>
       <GridPane fx:id="gridPane" alignment="CENTER" layoutX="66.0" layoutY="75.0" prefHeight="214.0" prefWidth="338.0">
         <columnConstraints>

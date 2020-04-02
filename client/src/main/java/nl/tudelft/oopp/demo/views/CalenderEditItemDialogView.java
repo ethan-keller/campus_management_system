@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 /**
  * View class for the dialog box to add items to the calendar booking history.
  */
-public class CalenderItemDialogView extends Application {
+public class CalenderEditItemDialogView extends Application {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
 
@@ -29,7 +29,7 @@ public class CalenderItemDialogView extends Application {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            URL xmlUrl = getClass().getResource("/calenderItemDialog.fxml");
+            URL xmlUrl = getClass().getResource("/CalenderEditItemDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
 
