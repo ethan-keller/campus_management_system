@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="564.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.AdminUserHistoryViewController">
+<BorderPane prefHeight="564.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.admin.controller.AdminUserHistoryViewController">
    <bottom>
       <HBox alignment="CENTER" prefHeight="78.0" prefWidth="911.0" BorderPane.alignment="CENTER">
          <children>
