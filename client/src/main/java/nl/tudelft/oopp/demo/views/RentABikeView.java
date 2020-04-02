@@ -10,9 +10,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.controllers.RentABikeController;
-import nl.tudelft.oopp.demo.controllers.RoomViewController;
-import nl.tudelft.oopp.demo.views.AdminManageRoomView;
+import nl.tudelft.oopp.demo.admin.controller.RentABikeController;
+
 
 public class RentABikeView extends Application {
 
