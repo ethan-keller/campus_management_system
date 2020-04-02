@@ -28,8 +28,8 @@ public class RoomView extends Application {
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
 
-        primaryStage.setMinHeight(400);
-        primaryStage.setMinWidth(710);
+        primaryStage.setMinHeight(580);
+        primaryStage.setMinWidth(980);
         Scene oldScene = primaryStage.getScene();
         primaryStage.setScene(oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
