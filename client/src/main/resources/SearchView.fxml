@@ -98,6 +98,11 @@
                               <Font size="7.0" />
                            </font>
                         </Button>
+                        <Button layoutX="93.0" layoutY="8.0" mnemonicParsing="false" onAction="#bookingHistoryClicked" prefHeight="52.0" prefWidth="64.0" text="Booking history">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </Button>
                      </AnchorPane>
                      <AnchorPane prefHeight="187.0" prefWidth="171.0" />
                      <AnchorPane prefHeight="200.0" prefWidth="200.0">

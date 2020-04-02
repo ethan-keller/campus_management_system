@@ -66,9 +66,14 @@
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="signOutButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#signOutButtonClicked" prefHeight="26.0" prefWidth="120.0" text="Sign out" textAlignment="CENTER">
+            <Button fx:id="downloadButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#downloadButtonClicked" prefHeight="27.0" prefWidth="140.0" text="Download Log Files" textAlignment="CENTER">
                <VBox.margin>
-                  <Insets top="100.0" />
+                  <Insets bottom="7.0" left="7.0" right="7.0" top="80.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="signOutButton1" alignment="CENTER" contentDisplay="CENTER" layoutX="264.0" layoutY="423.0" mnemonicParsing="false" onAction="#signOutButtonClicked" prefHeight="26.0" prefWidth="140.0" text="Sign out" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </VBox.margin>
             </Button>
          </children>

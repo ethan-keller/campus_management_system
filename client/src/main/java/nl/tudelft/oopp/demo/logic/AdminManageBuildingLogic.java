@@ -35,7 +35,8 @@ public class AdminManageBuildingLogic {
             // Communication with the server.
             BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
                     tempBuilding.getBuildingRoomCount().get(), tempBuilding.getBuildingAddress().get(),
-                    tempBuilding.getOpeningTime().get(), tempBuilding.getClosingTime().get());
+                    tempBuilding.getBuildingMaxBikes().get(), tempBuilding.getOpeningTime().get(),
+                    tempBuilding.getClosingTime().get());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

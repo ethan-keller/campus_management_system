@@ -36,7 +36,7 @@ import org.controlsfx.control.RangeSlider;
 /**
  * Class that controls the dialog box to add a calendar item to the users calendar.
  */
-public class CalenderItemDialogController implements Initializable {
+public class CalenderEditItemDialogController implements Initializable {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
 
@@ -60,7 +60,7 @@ public class CalenderItemDialogController implements Initializable {
     /**
      * default constructor needed by JavaFX.
      */
-    public CalenderItemDialogController() {
+    public CalenderEditItemDialogController() {
     }
 
     /**

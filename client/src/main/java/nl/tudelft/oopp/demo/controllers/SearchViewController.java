@@ -297,7 +297,7 @@ public class SearchViewController implements Initializable {
         if (datePicker.getValue() != null) {
             String date = datePicker.getValue().toString();
             ObservableList<Reservation> reservations = Reservation.getReservation();
-            SearchViewLogic.filterRoomsByDate(roomList, date, reservations);
+            SearchViewLogic.filterRoomsByDate(roomList, date, reservations, buildings);
         }
 
         // value of the searchbar is put in searchBarInput
