@@ -41,6 +41,7 @@ import nl.tudelft.oopp.demo.user.controller.RoomViewController;
 import nl.tudelft.oopp.demo.user.logic.SearchViewLogic;
 import nl.tudelft.oopp.demo.views.CalendarPaneView;
 import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.RoomView;
 
 
@@ -544,6 +545,19 @@ public class SearchViewController implements Initializable {
             loginView.start(stage);
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
+        }
+    }
+
+    @FXML
+    private void rentABikeClicked(ActionEvent event) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            RentABikeView rabv = new RentABikeView();
+            rabv.start(stage);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
