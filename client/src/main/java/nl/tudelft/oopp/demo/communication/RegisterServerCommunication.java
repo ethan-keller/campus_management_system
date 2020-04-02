@@ -26,9 +26,9 @@ public class RegisterServerCommunication {
      * @return the body of a get request to the server.
      * @throws Exception if communication has unsupported encoding mechanism.
      */
-    public static String sendRegister(String username, String password)
+    public static String sendRegister(String username, String password, int userType)
             throws UnsupportedEncodingException {
-        String params = "username=" + username + "&password=" + password;
+        String params = "username=" + username + "&password=" + password + "&userType=" + userType;
         params = GeneralMethods.encodeCommunication(params);
 
         HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/register?" + params)).build();

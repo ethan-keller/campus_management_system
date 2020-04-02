@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.controllers.RoomViewController;
+import nl.tudelft.oopp.demo.user.controller.RoomViewController;
 
 /**
  * View class for the room view.

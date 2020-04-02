@@ -36,12 +36,13 @@ public class BikeReservationController {
      * @param date         The date of the reservation
      * @param startingTime The starting time of the reservation
      * @param endingTime   The ending time of the reservation
+     * @return boolean true if database query was successful, false otherwise
      */
     @PostMapping("createBikeReservation")
     @ResponseBody
-    public void createBikeReservation(@RequestParam int building, @RequestParam String user,
-                                      @RequestParam int numBikes, @RequestParam String date,
-                                      @RequestParam String startingTime, @RequestParam String endingTime) {
+    public boolean createBikeReservation(@RequestParam int building, @RequestParam String user,
+                                         @RequestParam int numBikes, @RequestParam String date,
+                                         @RequestParam String startingTime, @RequestParam String endingTime) {
         try {
             user = CommunicationMethods.decodeCommunication(user);
             date = CommunicationMethods.decodeCommunication(date);
@@ -53,7 +54,9 @@ public class BikeReservationController {
                     + " - Ending time: " + endingTime);
         } catch (Exception e) {
             logger.error("Bike Reservation: -create- ERROR", e);
+            return false;
         }
+        return true;
     }
 
     /**
@@ -66,13 +69,14 @@ public class BikeReservationController {
      * @param date         The new date of the reservation
      * @param startingTime The new starting time of the reservation
      * @param endingTime   The new ending time of the reservation
+     * @return boolean true if database query was successful, false otherwise
      */
     @PostMapping("updateBikeReservation")
     @ResponseBody
-    public void updateBikeReservation(@RequestParam int id, @RequestParam int building,
-                                      @RequestParam String user, @RequestParam int numBikes,
-                                      @RequestParam String date, @RequestParam String startingTime,
-                                      @RequestParam String endingTime) {
+    public boolean updateBikeReservation(@RequestParam int id, @RequestParam int building,
+                                         @RequestParam String user, @RequestParam int numBikes,
+                                         @RequestParam String date, @RequestParam String startingTime,
+                                         @RequestParam String endingTime) {
         try {
             user = CommunicationMethods.decodeCommunication(user);
             date = CommunicationMethods.decodeCommunication(date);
@@ -89,7 +93,9 @@ public class BikeReservationController {
                     + date + " - Starting time: " + startingTime + " - Ending time: " + endingTime);
         } catch (Exception e) {
             logger.error("Bike Reservation: -update- ERROR", e);
+            return false;
         }
+        return true;
     }
 
 
@@ -97,16 +103,19 @@ public class BikeReservationController {
      * Deletes a bike reservation from the database.
      *
      * @param id The id of the bike reservation
+     * @return boolean true if database query was successful, false otherwise
      */
     @PostMapping("deleteBikeReservation")
     @ResponseBody
-    public void deleteBikeReservation(@RequestParam int id) {
+    public boolean deleteBikeReservation(@RequestParam int id) {
         try {
             bikeResRepo.deleteBikeReservation(id);
             logger.info("Bike Reservation: -delete- ID: " + id);
         } catch (Exception e) {
             logger.error("Bike Reservation: - delete- ERROR", e);
+            return false;
         }
+        return true;
     }
 
     /**

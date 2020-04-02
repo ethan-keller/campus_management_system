@@ -7,6 +7,7 @@ import java.util.List;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.user.logic.SearchViewLogic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -175,7 +176,7 @@ class SearchViewLogicTest {
         expected.add(r4);
         expected.add(r5);
 
-        SearchViewLogic.filterRoomsByDate(rooms, "2020-05-05", reservations);
+        SearchViewLogic.filterRoomsByDate(rooms, "2020-05-05", reservations, buildings);
         assertEquals(expected, rooms);
     }
 

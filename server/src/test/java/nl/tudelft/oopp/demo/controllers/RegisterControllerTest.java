@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -46,10 +47,10 @@ class RegisterControllerTest {
      */
     @Test
     void registerTest() throws Exception {
-        when(controller.register(anyString(), anyString())).thenReturn("Your account is created");
+        when(controller.register(anyString(), anyString(), anyInt())).thenReturn("Your account is created");
         when(userRepo.getUser(anyString())).thenReturn(new User("test", "pass", 2));
 
-        mvc.perform(post("/register?username=test&password=pass")
+        mvc.perform(post("/register?username=test&password=pass&userType=0")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

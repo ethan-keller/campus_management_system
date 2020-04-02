@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
 
 public class ReservationEditDialogView extends Application {
@@ -27,17 +28,9 @@ public class ReservationEditDialogView extends Application {
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Reservation");
-            Scene scene = new Scene(root);
-            dialogStage.setScene(scene);
-            dialogStage.setResizable(false);
 
-            // Set the dialog stage properties
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
+            GeneralMethods.view(dialogStage, primaryStage, "Edit Reservation", root);
 
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
