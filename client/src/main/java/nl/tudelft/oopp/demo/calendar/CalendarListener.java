@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import nl.tudelft.oopp.demo.controllers.CalendarItemDialogController;
+import nl.tudelft.oopp.demo.admin.controller.CalendarItemDialogController;
 import nl.tudelft.oopp.demo.views.CalendarItemDialog;
 
 /**

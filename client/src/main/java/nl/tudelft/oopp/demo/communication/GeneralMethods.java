@@ -22,8 +22,6 @@ import javafx.stage.Window;
 
 import org.controlsfx.control.RangeSlider;
 
-
-
 /**
  * This method encodes all communication that occurs between the server and the client.
  * This method is used in all the communication classes that need to send or receive information

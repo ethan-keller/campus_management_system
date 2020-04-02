@@ -8,8 +8,8 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import nl.tudelft.oopp.demo.admin.controller.FoodEditDialogController;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
-import nl.tudelft.oopp.demo.controllers.FoodEditDialogController;
 
 public class FoodNewDialogView extends Application {
 
