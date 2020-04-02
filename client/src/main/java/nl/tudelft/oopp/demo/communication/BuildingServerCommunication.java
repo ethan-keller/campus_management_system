@@ -106,6 +106,7 @@ public class BuildingServerCommunication {
         String params = "name=" + name + "&roomCount=" + roomCount + "&address=" + address
                 + "&maxBikes=0&openingTime=" + openingTime + "&closingTime=" + closingTime;
 
+        params = GeneralMethods.encodeCommunication(params);
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .uri(URI.create("http://localhost:8080/createBuilding?" + params))
