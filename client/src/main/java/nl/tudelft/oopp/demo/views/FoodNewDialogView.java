@@ -1,12 +1,13 @@
 package nl.tudelft.oopp.demo.views;
 
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import java.net.URL;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.controllers.FoodEditDialogController;
 

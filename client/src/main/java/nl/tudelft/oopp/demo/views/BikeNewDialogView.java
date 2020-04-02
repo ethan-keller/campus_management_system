@@ -1,12 +1,13 @@
 package nl.tudelft.oopp.demo.views;
 
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.net.URL;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
 public class BikeNewDialogView extends Application {

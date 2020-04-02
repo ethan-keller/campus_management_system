@@ -1,13 +1,14 @@
 package nl.tudelft.oopp.demo.views;
 
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
 public class RoomNewDialogView extends Application {

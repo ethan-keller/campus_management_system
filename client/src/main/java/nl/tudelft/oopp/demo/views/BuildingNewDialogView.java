@@ -1,13 +1,14 @@
 package nl.tudelft.oopp.demo.views;
 
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.controllers.BuildingEditDialogController;
@@ -30,7 +31,7 @@ public class BuildingNewDialogView extends Application {
 
             GeneralMethods.view(dialogStage, primaryStage,"New Building", root);
             dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST,
-                    event -> BuildingEditDialogController.building = null);
+                event -> BuildingEditDialogController.building = null);
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
