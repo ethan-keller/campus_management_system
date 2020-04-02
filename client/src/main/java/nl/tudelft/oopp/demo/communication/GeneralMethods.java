@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.communication;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.FileHandler;
@@ -11,8 +12,12 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import org.controlsfx.control.RangeSlider;
@@ -55,7 +60,6 @@ public class GeneralMethods {
      * @param params are passed.
      * @return :Encoded parameters as string.
      * @throws UnsupportedEncodingException is thrown.
-    >>>>>>> filtering
      */
     public static String encodeCommunication(String params) throws UnsupportedEncodingException {
         params = URLEncoder.encode(params, StandardCharsets.UTF_8.toString());
@@ -184,5 +188,23 @@ public class GeneralMethods {
             logger.log(Level.SEVERE, e.toString());
         }
         return null;
+    }
+
+
+    public static void view(Stage dialogStage, Stage primaryStage, String title, Parent root)
+            throws IOException {
+
+        // Setting dialog box properties
+        dialogStage.setTitle(title);
+        Scene scene = new Scene(root);
+        dialogStage.setScene(scene);
+        dialogStage.setResizable(false);
+
+        // Set the dialog stage properties
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+
+        // Show the dialog and wait until the user closes it
+        dialogStage.showAndWait();
     }
 }

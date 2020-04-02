@@ -25,6 +25,7 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomEditDialogView;
+import nl.tudelft.oopp.demo.views.RoomNewDialogView;
 
 
 /**
@@ -208,7 +209,7 @@ public class AdminManageRoomViewController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             currentSelectedRoom = null;
-            RoomEditDialogView view = new RoomEditDialogView();
+            RoomNewDialogView view = new RoomNewDialogView();
             view.start(stage);
             Room tempRoom = RoomEditDialogController.room;
             if (tempRoom == null) {

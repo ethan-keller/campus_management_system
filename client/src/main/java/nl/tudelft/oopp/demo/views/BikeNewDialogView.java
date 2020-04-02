@@ -1,9 +1,5 @@
 package nl.tudelft.oopp.demo.views;
 
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,27 +8,25 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
+import java.net.URL;
 
-public class ReservationEditDialogView extends Application {
-
-    private static Logger logger = Logger.getLogger("GlobalLogger");
+public class BikeNewDialogView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            URL xmlUrl = getClass().getResource("/reservationEditDialog.fxml");
+            URL xmlUrl = getClass().getResource("/bikeEditDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
 
-            GeneralMethods.view(dialogStage, primaryStage, "Edit Reservation", root);
-
+            GeneralMethods.view(dialogStage, primaryStage, "New Bike Reservation", root);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
+            e.printStackTrace();
         }
     }
 

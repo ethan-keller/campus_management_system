@@ -20,6 +20,7 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.logic.AdminManageBuildingLogic;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
+import nl.tudelft.oopp.demo.views.BuildingNewDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 
 public class AdminManageBuildingViewController {
@@ -143,14 +144,14 @@ public class AdminManageBuildingViewController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             currentSelectedBuilding = null;
-            BuildingEditDialogView view = new BuildingEditDialogView();
+            BuildingNewDialogView view = new BuildingNewDialogView();
             view.start(stage);
             Building tempBuilding = BuildingEditDialogController.building;
             if (tempBuilding == null) {
                 return;
             }
 
-            // TODO: Check that building creation was succesful before displaying alert
+            // TODO: Check that building creation was successful before displaying alert
             AdminManageBuildingLogic.createBuildingLogic(tempBuilding);
             //BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
             //tempBuilding.getBuildingRoomCount().get(),

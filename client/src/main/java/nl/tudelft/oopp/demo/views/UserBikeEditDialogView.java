@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
 public class UserBikeEditDialogView extends Application {
 
@@ -22,17 +23,8 @@ public class UserBikeEditDialogView extends Application {
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Reservation");
-            Scene scene = new Scene(root);
-            dialogStage.setScene(scene);
-            dialogStage.setResizable(false);
 
-            // Set the dialog stage properties
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
+            GeneralMethods.view(dialogStage, primaryStage, "Edit Bike Reservation", root);
         } catch (Exception e) {
             e.printStackTrace();
         }

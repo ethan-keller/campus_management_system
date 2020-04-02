@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.controllers.FoodEditDialogController;
 
 public class FoodEditDialogView extends Application {
@@ -24,20 +25,10 @@ public class FoodEditDialogView extends Application {
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Food");
-            Scene scene = new Scene(root);
-            dialogStage.setScene(scene);
-            dialogStage.setResizable(false);
+
+            GeneralMethods.view(dialogStage,primaryStage,"Edit Food", root);
             dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST,
                 event -> FoodEditDialogController.food = null);
-
-            // Set the dialog stage properties
-            // When the dialog box pops up, the admin can't click the page that is behind the dialog box.
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
 
         } catch (Exception e) {
             e.printStackTrace();

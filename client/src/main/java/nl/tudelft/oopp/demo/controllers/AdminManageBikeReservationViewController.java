@@ -19,6 +19,7 @@ import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.BikeEditDialogView;
+import nl.tudelft.oopp.demo.views.BikeNewDialogView;
 
 
 public class AdminManageBikeReservationViewController {
@@ -154,7 +155,7 @@ public class AdminManageBikeReservationViewController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentSelectedBikeReservation = null;
             BikeEditDialogController.edit = false;
-            BikeEditDialogView view = new BikeEditDialogView();
+            BikeNewDialogView view = new BikeNewDialogView();
             view.start(stage);
             // Get the reservation from the pop up dialog.
             BikeReservation tempBikeReservation = BikeEditDialogController.bikeReservation;

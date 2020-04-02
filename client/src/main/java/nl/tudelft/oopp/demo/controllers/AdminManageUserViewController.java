@@ -17,11 +17,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.UserServerCommunication;
 import nl.tudelft.oopp.demo.entities.User;
-import nl.tudelft.oopp.demo.views.AdminHomePageView;
-import nl.tudelft.oopp.demo.views.AdminUserBikeView;
-import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
-import nl.tudelft.oopp.demo.views.LoginView;
-import nl.tudelft.oopp.demo.views.UserEditDialogView;
+import nl.tudelft.oopp.demo.views.*;
 
 
 public class AdminManageUserViewController {
@@ -119,7 +115,7 @@ public class AdminManageUserViewController {
 
             currentSelectedUser = null;
             UserEditDialogController.edit = false;
-            UserEditDialogView view = new UserEditDialogView();
+            UserNewDialogView view = new UserNewDialogView();
             view.start(stage);
             User tempUser = UserEditDialogController.user;
             if (tempUser == null) {

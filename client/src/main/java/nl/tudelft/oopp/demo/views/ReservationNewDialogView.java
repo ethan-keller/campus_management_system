@@ -1,19 +1,16 @@
 package nl.tudelft.oopp.demo.views;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
+
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
-
-
-public class ReservationEditDialogView extends Application {
+public class ReservationNewDialogView extends Application {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
 
@@ -29,7 +26,7 @@ public class ReservationEditDialogView extends Application {
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
 
-            GeneralMethods.view(dialogStage, primaryStage, "Edit Reservation", root);
+            GeneralMethods.view(dialogStage, primaryStage, "New Reservation", root);
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
