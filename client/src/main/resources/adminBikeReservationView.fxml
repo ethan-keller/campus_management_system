@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <BorderPane prefHeight="564.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="nl.tudelft.oopp.demo.controllers.AdminManageBikeReservationViewController">
+            fx:controller="nl.tudelft.oopp.demo.admin.controller.AdminManageBikeReservationViewController">
     <top>
         <AnchorPane prefHeight="48.0" prefWidth="911.0" BorderPane.alignment="CENTER">
             <children>

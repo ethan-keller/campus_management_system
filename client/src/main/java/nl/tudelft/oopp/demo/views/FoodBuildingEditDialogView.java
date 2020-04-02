@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import nl.tudelft.oopp.demo.controllers.FoodBuildingEditDialogController;
+import nl.tudelft.oopp.demo.admin.controller.FoodBuildingEditDialogController;
 
 public class FoodBuildingEditDialogView extends Application {
 

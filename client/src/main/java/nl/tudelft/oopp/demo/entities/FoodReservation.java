@@ -4,9 +4,9 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
-import nl.tudelft.oopp.demo.controllers.AdminManageReservationViewController;
-import nl.tudelft.oopp.demo.controllers.AdminUserHistoryViewController;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -93,20 +93,14 @@ public class FoodReservation {
      * Convert server response into an ObservableList of food reservations.
      * @return List of Food reservations of selected reservation
      */
-    public static ObservableList<FoodReservation> getUserReservationFood() throws JSONException {
+    public static ObservableList<FoodReservation> getUserReservationFood(Reservation r) throws JSONException {
         ObservableList<FoodReservation> foodReservation = FXCollections.observableArrayList();
-        JSONArray jsonArrayFoodReservation = new JSONArray();
-        if (AdminUserHistoryViewController.currentSelectedReservation != null) {
-            jsonArrayFoodReservation = new JSONArray(FoodServerCommunication.getFoodReservationByReservation(
-                    AdminUserHistoryViewController.currentSelectedReservation.getId().get()));
-        }
-        if (AdminManageReservationViewController.currentSelectedReservation != null) {
-            jsonArrayFoodReservation = new JSONArray(FoodServerCommunication.getFoodReservationByReservation(
-                    AdminManageReservationViewController.currentSelectedReservation.getId().get()));
-        }
+        JSONArray jsonArrayFoodReservation = new JSONArray(FoodServerCommunication.getFoodReservationByReservation(
+                r.getId().get()
+        ));
+
         for (int i = 0; i < jsonArrayFoodReservation.length(); i++) {
             FoodReservation fr = new FoodReservation();
-            fr.setFoodId(2);
             fr.setFoodId(jsonArrayFoodReservation.getJSONObject(i).getJSONObject("food").getInt("id"));
             fr.setReservationId(jsonArrayFoodReservation.getJSONObject(i).getJSONObject("reservation")
                     .getInt("id"));

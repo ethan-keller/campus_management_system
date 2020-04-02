@@ -100,49 +100,13 @@ public class BuildingServerCommunication {
      * @return boolean value to inform the user if building creation was successful.
      * @throws UnsupportedEncodingException is thrown
      */
-    public static boolean createBuilding(String name, int roomCount, String address,
-                                         String openingTime, String closingTime)
-            throws UnsupportedEncodingException {
-        String params = "name=" + name + "&roomCount=" + roomCount + "&address=" + address
-                + "&maxBikes=0&openingTime=" + openingTime + "&closingTime=" + closingTime;
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .POST(HttpRequest.BodyPublishers.noBody())
-                .uri(URI.create("http://localhost:8080/createBuilding?" + params))
-                .build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return false;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Creating a building with the given parameters.
-     *
-     * @param name        - Name of the building
-     * @param roomCount   - Number of rooms in the building
-     * @param address     - Address of the building
-     * @param maxBikes    - Maximum bikes available to that building
-     * @param openingTime - Opening time of building
-     * @param closingTime - Closing time of building
-     * @return Boolean value which informs the user if the building creation is successful or not.
-     * @throws UnsupportedEncodingException is thrown
-     */
     public static boolean createBuilding(String name, int roomCount, String address, int maxBikes,
                                          String openingTime, String closingTime)
             throws UnsupportedEncodingException {
         String params = "name=" + name + "&roomCount=" + roomCount + "&address=" + address
                 + "&maxBikes=" + maxBikes + "&openingTime=" + openingTime + "&closingTime=" + closingTime;
-        params = GeneralMethods.encodeCommunication(params);
 
+        params = GeneralMethods.encodeCommunication(params);
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .uri(URI.create("http://localhost:8080/createBuilding?" + params))

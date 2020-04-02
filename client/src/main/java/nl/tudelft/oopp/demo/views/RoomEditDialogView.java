@@ -7,14 +7,18 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
 
 public class RoomEditDialogView extends Application {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -28,24 +32,11 @@ public class RoomEditDialogView extends Application {
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Building");
-            Scene scene = new Scene(root);
-            dialogStage.setScene(scene);
-            dialogStage.setResizable(false);
 
-            // Set the dialog stage properties
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
+            GeneralMethods.view(dialogStage, primaryStage, "Edit Room", root);
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
