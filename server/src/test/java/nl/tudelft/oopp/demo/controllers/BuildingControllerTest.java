@@ -2,7 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.List;
 
-import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.entities.Building;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,104 +23,112 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
- * Test class that tests the user controller.
+ * Test class that tests the building controller.
  * It makes use of Mockito MVC which is a part of the Mockito framework.
  */
-@WebMvcTest(UserController.class)
-class UserControllerTest {
+@WebMvcTest(BuildingController.class)
+class BuildingControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    private UserController controller;
+    private BuildingController controller;
 
-    private User u1;
-    private User u2;
-    private User u3;
-    private List<User> userList;
+    private Building b1;
+    private Building b2;
+    private Building b3;
+    private List<Building> buildingList;
 
     /**
      * Set up before each test.
      */
     @BeforeEach
     void setUp() {
-        u1 = new User("user1", "passHASHED1", 0);
-        u2 = new User("user2", "passHASHED2", 1);
-        u3 = new User("user3", "passHASHED3", 2);
-        userList = Arrays.asList(u1, u2, u3);
+        b1 = new Building(1, "TEST", 130, "TestStreet 18",
+                201, "08:00", "22:00");
+        b2 = new Building(2, "CIVIL", 230, "TestStreet 48",
+                3, "08:00", "12:00");
+        b3 = new Building(3, "AeroSpace", 80, "TestStreet 98",
+                4, "07:30", "23:00");
+        buildingList = Arrays.asList(b1, b2, b3);
     }
 
     /**
-     * Test for createUser method.
+     * Test for createBuilding method.
      * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
-    void createUserTest() throws Exception {
-        mvc.perform(post("/createUser?username=test&password=hello&type=2")
+    void createBuildingTest() throws Exception {
+        mvc.perform(post("/createBuilding?name=test&roomCount=200&"
+                + "address=street5&maxBikes=200&openingTime=08:00&closingTime=22:00")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     /**
-     * Test for updateUser method (with password).
+     * Test for updateBuilding method.
      * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
-    void updateUserWithPasswordTest() throws Exception {
-        mvc.perform(post("/updateUser2?username=test&type=0")
+    void updateBuildingTest() throws Exception {
+        mvc.perform(post("/updateBuilding?id=9&name=test&roomCount=66&address=street2&maxBikes=7 "
+                + "&openingTime=08:00&closingTime=22:00")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     /**
-     * Test for updateUser method.
+     * Test for deleteBuilding method.
      * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
-    void updateUserTest() throws Exception {
-        mvc.perform(post("/updateUser?username=test&password=hello&type=2")
+    void deleteBuildingTest() throws Exception {
+        mvc.perform(post("/deleteBuilding?id=20")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     /**
-     * Test for deleteUser method.
+     * Test for getBuilding method.
      * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
-    void deleteUserTest() throws Exception {
-        mvc.perform(post("/deleteUser?username=test")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
+    void getBuildingTest() throws Exception {
+        when(controller.getBuilding(anyInt())).thenReturn(b1);
 
-    /**
-     * Test for getUser method.
-     * @throws Exception if any exception with the connection (or other) occurs
-     */
-    @Test
-    void getUserTest() throws Exception {
-        when(controller.getUser(anyString())).thenReturn(u3);
-
-        mvc.perform(get("/getUser?username=test")
+        mvc.perform(get("/getBuilding?id=2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username", is(u3.getUsername())));
+                .andExpect(jsonPath("$.name", is(b1.getName())));
     }
 
     /**
-     * Test for getAllUsers method.
+     * Test for getBuildingByFoodId method.
      * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
-    void getAllUsers() throws Exception {
-        when(controller.getAllUsers()).thenReturn(userList);
+    void getBuildingByFoodIdTest() throws Exception {
+        when(controller.getBuildingByFoodId(anyInt())).thenReturn(Arrays.asList(b2, b3));
 
-        mvc.perform(get("/getAllUsers")
+        mvc.perform(get("/getBuildingByFoodId?id=2")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name", is(b2.getName())));
+    }
+
+    /**
+     * Test for getAllBuildings method.
+     * @throws Exception if any exception with the connection (or other) occurs
+     */
+    @Test
+    void getAllBuildingsTest() throws Exception {
+        when(controller.getAllBuildings()).thenReturn(buildingList);
+
+        mvc.perform(get("/getAllBuildings")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$[1].password", is(u2.getPassword())));
+                .andExpect(jsonPath("$[2].name", is(b3.getName())));
     }
 }

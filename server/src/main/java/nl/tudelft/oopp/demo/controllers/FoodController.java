@@ -3,12 +3,14 @@ package nl.tudelft.oopp.demo.controllers;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservations;
 import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.repositories.FoodRepository;
 import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -197,25 +199,6 @@ public class FoodController {
 
     /**
      * If it receives an HTTP request, it executes the SQL command to<br>
-     * retrieve a food in the database based on its name.
-     * @param name The food name
-     * @return Returns a food entity
-     * @throws UnsupportedEncodingException Throws when it can't decode the parameter
-     */
-    @GetMapping("getFoodByName")
-    @ResponseBody
-    public Food getFoodByName(@RequestParam String name) throws UnsupportedEncodingException {
-        name = CommunicationMethods.decodeCommunication(name);
-        try {
-            return foodRepo.getFoodByName(name);
-        } catch (Exception e) {
-            logger.error("Food: -getFoodByName- ERROR", e);
-        }
-        return null;
-    }
-
-    /**
-     * If it receives an HTTP request, it executes the SQL command to<br>
      * retrieve the foods that are ordered with a reservation based on the reservationID.
      * @param reservation The reservation ID
      * @return Returns a list of Food entities
@@ -248,6 +231,8 @@ public class FoodController {
         return result;
     }
 
+
+
     /**
      * If it receives an HTTP request, it executes the SQL command to retrieve the foods that<br>
      * are available at a building based on the building ID.
@@ -267,21 +252,21 @@ public class FoodController {
 
     /**
      * If it receives an HTTP request, it executes the SQL command to retrieve the foods that<br>
-     *  are available at a building based on the building name.
-     * @param name The building name
+     * are ordered in a given reservation.
+     * @param reservation The reservation ID
      * @return Returns a list of Foods
      */
-    @GetMapping("getFoodByBuildingName")
+    @GetMapping("getFoodByReservation")
     @ResponseBody
-    public List<Food> getFoodByBuildingName(@RequestParam String name)  {
+    public List<Food> getFoodByReservation(@RequestParam int reservation)  {
         try {
-            name = CommunicationMethods.decodeCommunication(name);
-            return foodRepo.getFoodByBuildingName(name);
+            return foodRepo.getFoodByReservationId(reservation);
         } catch (Exception e) {
-            logger.error("Food: -getFoodByBuildingName- ERROR", e);
+            logger.error("Food: -getFoodByReservationId- ERROR", e);
         }
         return null;
     }
+
 
     /**
      * If it receives an HTTP request, it executes the SQL command<br>
