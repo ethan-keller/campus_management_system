@@ -217,7 +217,7 @@ public class AdminManageUserViewController {
     }
 
     /**
-     * Back button redirects the user back to the admin home page.
+     * Bike button redirects the admin to the bike reservation page.
      *
      * @param event is passed
      * @throws IOException is thrown
@@ -244,6 +244,12 @@ public class AdminManageUserViewController {
         }
     }
 
+    /**
+     * Back button redirects the admin back to the admin home page.
+     *
+     * @param event is passed
+     * @throws IOException is thrown
+     */
     @FXML
     public void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

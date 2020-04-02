@@ -18,7 +18,6 @@ import javafx.stage.Window;
 import org.controlsfx.control.RangeSlider;
 
 
-
 /**
  * This method encodes all communication that occurs between the server and the client.
  * This method is used in all the communication classes that need to send or receive information
@@ -55,7 +54,7 @@ public class GeneralMethods {
      * @param params are passed.
      * @return :Encoded parameters as string.
      * @throws UnsupportedEncodingException is thrown.
-    >>>>>>> filtering
+     *                                      >>>>>>> filtering
      */
     public static String encodeCommunication(String params) throws UnsupportedEncodingException {
         params = URLEncoder.encode(params, StandardCharsets.UTF_8.toString());
@@ -79,8 +78,8 @@ public class GeneralMethods {
             // Create a new alert object (dialog box)
             Alert alert = new Alert(type);
 
-            alert.getDialogPane().getStylesheets().add(GeneralMethods.class.
-                    getResource("/GeneralStyle.css").toExternalForm());
+            alert.getDialogPane().getStylesheets().add(GeneralMethods.class
+                    .getResource("/GeneralStyle.css").toExternalForm());
 
             // Setting the title of the alert box.
             alert.setTitle(title);
@@ -117,8 +116,8 @@ public class GeneralMethods {
             // Create a new alert object (dialog box)
             Alert alert = new Alert(type);
 
-            alert.getDialogPane().getStylesheets().add(GeneralMethods.class.
-                    getResource("/GeneralStyle.css").toExternalForm());
+            alert.getDialogPane().getStylesheets().add(GeneralMethods.class
+                    .getResource("/GeneralStyle.css").toExternalForm());
 
             // Setting the title of the alert box.
             alert.setTitle(title);

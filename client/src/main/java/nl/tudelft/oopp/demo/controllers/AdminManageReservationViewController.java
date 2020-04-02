@@ -275,6 +275,11 @@ public class AdminManageReservationViewController {
         loginView.start(stage);
     }
 
+    /**
+     * This button redirects the admin back to the home page.
+     * @param event is passed as a parameter.
+     * @throws IOException is thrown.
+     */
     @FXML
     public void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
