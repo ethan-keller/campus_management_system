@@ -6,9 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
-
 import java.net.URL;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
 public class BikeNewDialogView extends Application {
 

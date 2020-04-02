@@ -190,7 +190,14 @@ public class GeneralMethods {
         return null;
     }
 
-
+    /**.
+     * Method to set the properties of a dialog box view.
+     * @param dialogStage - Dialog stage
+     * @param primaryStage - Primary stage
+     * @param title - Title of the dialog box
+     * @param root - Root parent
+     * @throws IOException is thrown
+     */
     public static void view(Stage dialogStage, Stage primaryStage, String title, Parent root)
             throws IOException {
 
