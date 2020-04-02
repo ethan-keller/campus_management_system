@@ -11,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import nl.tudelft.oopp.demo.controllers.BuildingEditDialogController;
+import nl.tudelft.oopp.demo.admin.controller.BuildingEditDialogController;
 
 
 public class BuildingEditDialogView extends Application {
