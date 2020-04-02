@@ -645,6 +645,11 @@ public class RentABikeController implements Initializable {
         }
         return 0;
     }
+
+    /**
+     * Adjusts the intervals of the slider depending on the opening hours.
+     * @param selectedBuilding Building passed
+     */
     private void setTimeSlotSlider(Building selectedBuilding) {
         try {
             StringConverter<Number> converter = getRangeSliderConverter();
