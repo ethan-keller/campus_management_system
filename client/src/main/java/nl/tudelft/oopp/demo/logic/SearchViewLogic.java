@@ -298,7 +298,7 @@ public class SearchViewLogic {
             try {
                 // get the room image
                 roomImage = new Image("images/" + r.getRoomPhoto().get());
-            } catch (Exception e){
+            } catch (Exception e) {
                 logger.log(Level.SEVERE, e.toString());
                 // load placeholder instead
                 roomImage = new Image("images/placeholder.png");

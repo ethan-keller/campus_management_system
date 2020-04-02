@@ -47,8 +47,9 @@ import nl.tudelft.oopp.demo.views.RoomView;
  */
 public class SearchViewController implements Initializable {
 
+    public static Stage thisStage;
+    public static ObservableList<Building> buildingList;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -74,17 +75,11 @@ public class SearchViewController implements Initializable {
     private TextField searchBar;
     @FXML
     private ComboBox<String> bikesAvailable;
-
     private List<Building> buildings;
     private List<Room> roomList;
     private List<Room> rooms;
-
     @FXML
     private AnchorPane pane;
-
-    public static Stage thisStage;
-
-    public static ObservableList<Building> buildingList;
 
 
     /**
@@ -110,9 +105,9 @@ public class SearchViewController implements Initializable {
 
             // assign lists to the initialized ObservableLists
             // This is necessary due to the format of inserting items into a comboBox.
-            ObservableList<String> capacityList = FXCollections.observableArrayList();
+            final ObservableList<String> capacityList = FXCollections.observableArrayList();
             buildingList = Building.getBuildingData();
-            ObservableList<String> bikeList = FXCollections.observableArrayList();
+            final ObservableList<String> bikeList = FXCollections.observableArrayList();
 
             // the comboBox only shows 6 rows (more => scroll)
             buildingComboBox.setVisibleRowCount(6);
@@ -134,7 +129,7 @@ public class SearchViewController implements Initializable {
 
             // get all rooms and buildings from database
             roomList = Room.getRoomData();
-            if (roomList != null){
+            if (roomList != null) {
                 rooms = new ArrayList<>(roomList);
             }
             buildings = Building.getBuildingData();
