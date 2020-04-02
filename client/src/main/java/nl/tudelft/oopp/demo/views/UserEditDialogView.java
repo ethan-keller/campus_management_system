@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.views;
 
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,9 +10,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 
 
 public class UserEditDialogView extends Application {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -23,20 +28,11 @@ public class UserEditDialogView extends Application {
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit User");
-            Scene scene = new Scene(root);
-            dialogStage.setScene(scene);
-            dialogStage.setResizable(false);
 
-            // Set the dialog stage properties
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
+            GeneralMethods.view(dialogStage, primaryStage, "Edit User", root);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

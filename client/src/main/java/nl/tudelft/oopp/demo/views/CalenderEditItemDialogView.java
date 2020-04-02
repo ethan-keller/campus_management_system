@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.views;
 
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +14,9 @@ import javafx.stage.Stage;
 /**
  * View class for the dialog box to add items to the calendar booking history.
  */
-public class CalenderItemDialogView extends Application {
+public class CalenderEditItemDialogView extends Application {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * Starts the thread to load the fxml as a view in the given stage.
@@ -25,7 +29,7 @@ public class CalenderItemDialogView extends Application {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            URL xmlUrl = getClass().getResource("/calenderItemDialog.fxml");
+            URL xmlUrl = getClass().getResource("/CalenderEditItemDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
 
@@ -43,7 +47,7 @@ public class CalenderItemDialogView extends Application {
             // Show the dialog and wait until the user closes it
             stage.showAndWait();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
     

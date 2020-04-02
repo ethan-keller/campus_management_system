@@ -1,15 +1,28 @@
 package nl.tudelft.oopp.demo.communication;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import org.controlsfx.control.RangeSlider;
+
+
 
 /**
  * This method encodes all communication that occurs between the server and the client.
@@ -21,12 +34,32 @@ import org.controlsfx.control.RangeSlider;
  */
 public class GeneralMethods {
 
+    private static Logger logger;
+
+    /**
+     * Sets up and returns the standard logger for this application.
+     */
+    public static void loggerSetup() {
+        try {
+            LogManager.getLogManager().reset();
+            FileHandler handler = new FileHandler("logs/client.log", true);
+            handler.setFormatter(new SimpleFormatter());
+            handler.setLevel(Level.INFO);
+
+            Logger logr = Logger.getLogger("GlobalLogger");
+            logr.addHandler(handler);
+            GeneralMethods.logger = logr;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * This method is to encode all communication across the data stream.
      *
-     * @param params are passed
-     * @return Encoded parameters as string
-     * @throws UnsupportedEncodingException is thrown
+     * @param params are passed.
+     * @return :Encoded parameters as string.
+     * @throws UnsupportedEncodingException is thrown.
      */
     public static String encodeCommunication(String params) throws UnsupportedEncodingException {
         params = URLEncoder.encode(params, StandardCharsets.UTF_8.toString());
@@ -34,6 +67,7 @@ public class GeneralMethods {
         params = params.replaceAll("%3D", "=");
         return params;
     }
+
 
     /**
      * Creates a pop up, aka an alert.
@@ -64,7 +98,7 @@ public class GeneralMethods {
             // Return the alert object.
             return alert;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -102,7 +136,7 @@ public class GeneralMethods {
             // return the alert object
             return alert;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -130,7 +164,7 @@ public class GeneralMethods {
             bw.flush();
             bw.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -151,8 +185,33 @@ public class GeneralMethods {
 
             return splitPrice[0] + "." + splitPrice[1];
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
+    }
+
+    /**.
+     * Method to set the properties of a dialog box view.
+     * @param dialogStage - Dialog stage
+     * @param primaryStage - Primary stage
+     * @param title - Title of the dialog box
+     * @param root - Root parent
+     * @throws IOException is thrown
+     */
+    public static void view(Stage dialogStage, Stage primaryStage, String title, Parent root)
+            throws IOException {
+
+        // Setting dialog box properties
+        dialogStage.setTitle(title);
+        Scene scene = new Scene(root);
+        dialogStage.setScene(scene);
+        dialogStage.setResizable(false);
+
+        // Set the dialog stage properties
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+
+        // Show the dialog and wait until the user closes it
+        dialogStage.showAndWait();
     }
 }

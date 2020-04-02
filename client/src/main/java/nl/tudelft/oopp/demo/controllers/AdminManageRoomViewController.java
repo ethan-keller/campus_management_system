@@ -1,6 +1,10 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -8,8 +12,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
@@ -17,9 +25,16 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomEditDialogView;
+import nl.tudelft.oopp.demo.views.RoomNewDialogView;
 
 
+/**
+ * Class that controls the admin view showing all the rooms.
+ * The admin can create, edit and delete rooms
+ */
 public class AdminManageRoomViewController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private TableView<Room> roomTable;
@@ -51,11 +66,16 @@ public class AdminManageRoomViewController {
 
     public static Room currentSelectedRoom;
 
+    /**
+     * Default constructor for JavaFX.
+     */
     public AdminManageRoomViewController() {
     }
 
     /**
-     * Show all the rooms in the left side table.
+     * Fills the TableView with the correct values for every room.
+     * It also initializes a Tooltip on the image name cells. When the admin hovers on the name, he gets
+     * a preview of the image.
      */
     @FXML
     private void initialize() {
@@ -75,23 +95,63 @@ public class AdminManageRoomViewController {
             roomDescriptionColumn.setCellValueFactory(cell -> cell.getValue().getRoomDescription());
             roomTypeColumn.setCellValueFactory(cell -> cell.getValue().getRoomType());
 
+            // sets a Tooltip such that when the admin hovers over the image name,
+            // he can get a preview of the image
+            roomPhotoColumn.setCellFactory(tc -> {
+                return new TableCell<>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(empty ? null : item);
+                        if (!empty) {
+                            Tooltip tooltip = getPhotoToolTip(this.getItem());
+                            this.setTooltip(tooltip);
+                        }
+                    }
+                };
+            });
+
             roomTable.setItems(Room.getRoomData());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
-     * Refresh the page to load more rooms into the table view.
+     * Constructs a Tooltip with the image of the cell's room as its graphic.
+     *
+     * @param fileName name of image to find in resources
+     * @return a Tooltip with the image set
+     */
+    private Tooltip getPhotoToolTip(String fileName) {
+        ImageView image = new ImageView();
+        final Tooltip tooltip = new Tooltip();
+
+        // get the image file from resources
+        File resourceImage = new File("client/src/main/resources/images/" + fileName);
+        String path = resourceImage.getAbsolutePath();
+        Image roomPhoto = new Image("file:" + path);
+        image.setImage(roomPhoto);
+        image.setPreserveRatio(true);
+        // set the width to be the same as the current width of the column
+        image.setFitWidth(roomPhotoColumn.getWidth());
+
+        // set the image
+        tooltip.setGraphic(image);
+        return tooltip;
+    }
+
+    /**
+     * Re-initializes the complete view (to immediately show the admin when a room is created or edited).
      */
     public void refresh() {
         initialize();
     }
 
     /**
-     * The room from the table view is selected.
+     * Gets the currently selected room in the TableView.
      *
-     * @return Selected room
+     * @return Room object of the selected room
      */
     public Room getSelectedRoom() {
         if (roomTable.getSelectionModel().getSelectedIndex() >= 0) {
@@ -102,9 +162,9 @@ public class AdminManageRoomViewController {
     }
 
     /**
-     * The index of the room is selected.
+     * Gets the index of the selected room in the TableView.
      *
-     * @return the index of the room
+     * @return int index
      */
     public int getSelectedIndex() {
         return roomTable.getSelectionModel().getSelectedIndex();
@@ -112,10 +172,13 @@ public class AdminManageRoomViewController {
 
 
     /**
-     * Delete a room.
+     * Deletes a room.
+     *
+     * @param event event that triggered this method
      */
     @FXML
     private void deleteRoomClicked(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Room selectedRoom = getSelectedRoom();
         int selectedIndex = getSelectedIndex();
         try {
@@ -131,14 +194,14 @@ public class AdminManageRoomViewController {
                         "Please select a Room in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete room exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
-     * .
-     * Handles clicking the create new button.
+     * Creates a new room.
+     *
+     * @param event event that triggered this method
      */
     @FXML
     private void createNewRoomClicked(ActionEvent event) {
@@ -146,37 +209,44 @@ public class AdminManageRoomViewController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             currentSelectedRoom = null;
-            RoomEditDialogView view = new RoomEditDialogView();
+            RoomNewDialogView view = new RoomNewDialogView();
             view.start(stage);
             Room tempRoom = RoomEditDialogController.room;
             if (tempRoom == null) {
                 return;
             }
-            // TODO: Check that room creation was successful before displaying alert
-            RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
+
+            if (RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
                     tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
                     tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
-                    tempRoom.getRoomType().get());
-            refresh();
-            // Creates an alert box to display the message.
-            GeneralMethods.alertBox("New room", "", "New Room added!", AlertType.INFORMATION);
+                    tempRoom.getRoomType().get())) {
+                refresh();
+                Alert alert = GeneralMethods.createAlert("New room", "Added a new room!",
+                        stage, AlertType.INFORMATION);
+                alert.showAndWait();
+            } else {
+                Alert alert = GeneralMethods.createAlert("New room",
+                        "An error occurred, please try again!", stage, AlertType.ERROR);
+                alert.showAndWait();
+            }
+
         } catch (Exception e) {
-            System.out.println("room creation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
-     * Called when the user clicks the edit button. Opens a dialog to edit
-     * details for the selected room.
+     * Opens dialog box for admin to edit a room.
+     *
+     * @param event event that triggered this method
      */
     @FXML
     private void editRoomClicked(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Room selectedRoom = getSelectedRoom();
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentSelectedRoom = selectedRoom;
 
                 RoomEditDialogView view = new RoomEditDialogView();
@@ -186,23 +256,29 @@ public class AdminManageRoomViewController {
                 if (tempRoom == null) {
                     return;
                 }
-                // TODO: Check that building edit was successful before displaying alert
-                RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(), tempRoom.getRoomName().get(),
-                        tempRoom.getRoomBuilding().get(), tempRoom.getTeacherOnly().get(),
-                        tempRoom.getRoomCapacity().get(),
+
+                if (RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(),
+                        tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
+                        tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
                         tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
-                        tempRoom.getRoomType().get());
-                refresh();
-                // Creates an alert box to display the message.
-                GeneralMethods.alertBox("Edit room", "", "Room edited!", AlertType.INFORMATION);
+                        tempRoom.getRoomType().get())) {
+                    refresh();
+                    Alert alert = GeneralMethods.createAlert("Edit room",
+                            "The room was edited successfully", stage, AlertType.INFORMATION);
+                    alert.showAndWait();
+                } else {
+                    Alert alert = GeneralMethods.createAlert("Edit room",
+                            "An error occurred, please try again!", stage, AlertType.INFORMATION);
+                    alert.showAndWait();
+                }
             } else {
-                // Creates an alert box.
-                GeneralMethods.alertBox("No Selection", "No Room Selected",
-                        "Please select a Room in the table.", Alert.AlertType.WARNING);
+                Alert alert = GeneralMethods.createAlert("No Selection",
+                        "Please select a room in the table.", stage, AlertType.WARNING);
+                alert.setHeaderText("No Room Selected");
+                alert.showAndWait();
             }
         } catch (Exception e) {
-            System.out.println("room edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -213,10 +289,14 @@ public class AdminManageRoomViewController {
      */
     @FXML
     private void backClicked(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        AdminHomePageView adminHomePageView = new AdminHomePageView();
-        adminHomePageView.start(stage);
+            AdminHomePageView adminHomePageView = new AdminHomePageView();
+            adminHomePageView.start(stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -4,31 +4,37 @@ import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.CalendarView;
 import com.mindfusion.scheduling.model.Appointment;
-import com.mindfusion.scheduling.model.Item;
+
 import java.awt.Color;
 import java.awt.Point;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
 import javax.swing.SwingUtilities;
+
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
-import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
+import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.entities.FoodReservation;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.views.CalenderItemDialogView;
+import nl.tudelft.oopp.demo.views.CalenderEditItemDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
@@ -39,10 +45,11 @@ import nl.tudelft.oopp.demo.views.SearchView;
  */
 public class CalendarPaneController implements Initializable {
 
+    public static Stage thisStage;
+    public static volatile Calendar calendar;
+    private static Logger logger = Logger.getLogger("GlobalLogger");
     @FXML
     private AnchorPane pane;
-    private volatile Calendar calendar;
-    public static Stage thisStage;
 
     /**
      * .
@@ -72,8 +79,9 @@ public class CalendarPaneController implements Initializable {
             // Add all reservations and items from database to the calendar
             addReservationsToCalendar();
             addItemsToCalendar();
+            addBikeReservationsToCalendar();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -116,7 +124,7 @@ public class CalendarPaneController implements Initializable {
                 calendar.getSchedule().getItems().add(app);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -134,7 +142,7 @@ public class CalendarPaneController implements Initializable {
                 return;
             }
 
-
+            List<Food> foodList = Food.getAllFoodData();
             // make an Appointment object for every reservation to inject in calendar
             for (Reservation r : reservationList) {
                 Appointment app = new Appointment();
@@ -159,9 +167,24 @@ public class CalendarPaneController implements Initializable {
                 app.setEndTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
                         Integer.parseInt(date[2]), Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1]),
                         Integer.parseInt(endTime[2])));
+
+                String description = room.getRoomName().get() + "\n" + building.getBuildingName().get() + "\n"
+                        + startTime[0] + ":" + startTime[1] + " - " + endTime[0] + ":" + endTime[1] + "\n";
+                List<FoodReservation> frList = FoodReservation.getUserReservationFood(r);
+                double totalPrice = 0;
+                for (FoodReservation fr : frList) {
+                    Food f = foodList.stream()
+                            .filter(x -> x.getFoodId().get() == fr.getFoodId().get())
+                            .collect(Collectors.toList()).get(0);
+                    description += fr.getFoodQuantity().get() + "x " + f.getFoodName().get() + "\n";
+                    totalPrice += fr.getFoodQuantity().get() * f.getFoodPrice().get();
+                }
+                if (frList.size() != 0) {
+                    description += "total price = " + Math.round(totalPrice * 100.0) / 100.0 + " euro(s)";
+                }
+
                 // add description with info about the reservation
-                app.setDescriptionText(room.getRoomName().get() + "\n" + building.getBuildingName().get() + "\n"
-                        + startTime[0] + ":" + startTime[1] + " - " + endTime[0] + ":" + endTime[1]);
+                app.setDescriptionText(description);
                 // make sure the user cannot move around the reservations in the calendar
                 app.setLocked(true);
                 app.setAllowMove(false);
@@ -173,9 +196,52 @@ public class CalendarPaneController implements Initializable {
                 calendar.getSchedule().getItems().add(app);
             }
         } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+    }
+
+
+    /**
+     * Adds all the bike reservations in the database that belong to the current user to the calendar.
+     */
+    private void addBikeReservationsToCalendar() {
+        try {
+            ObservableList<BikeReservation> reservationList =
+                    BikeReservation.getUserBikeReservations(CurrentUserManager.getUsername());
+            ObservableList<Building> buildingList = Building.getBuildingData();
+
+            for (BikeReservation br : reservationList) {
+                Appointment app = new Appointment();
+                Building building = buildingList.stream()
+                        .filter(x -> x.getBuildingId().get() == br.getBikeReservationBuilding().get())
+                        .collect(Collectors.toList()).get(0);
+                app.setHeaderText("Bike booking");
+                app.setId(String.valueOf(br.getBikeReservationId().get()));
+                String[] start = br.getBikeReservationStartingTime().get().split(":");
+                String[] end = br.getBikeReservationEndingTime().get().split(":");
+                String[] date = br.getBikeReservationDate().get().split("-");
+                app.setStartTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
+                        Integer.parseInt(date[2]), Integer.parseInt(start[0]), Integer.parseInt(start[1]),
+                        Integer.parseInt(start[2])));
+                app.setEndTime(new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
+                        Integer.parseInt(date[2]), Integer.parseInt(end[0]), Integer.parseInt(end[1]),
+                        Integer.parseInt(end[2])));
+
+                app.setDescriptionText(building.getBuildingName().get() + "\n"
+                        + start[0] + ":" + start[1] + " - " + end[0] + ":" + end[1] + "\n"
+                        + br.getBikeReservationQuantity().get() + " bike(s)");
+
+                app.setLocked(true);
+                app.setAllowMove(false);
+                app.getStyle().setFillColor(Color.MAGENTA);
+
+                calendar.getSchedule().getItems().add(app);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Initializes the SwingNode with Swing components. This needs to happen in a separate thread.
@@ -215,14 +281,14 @@ public class CalendarPaneController implements Initializable {
             thisStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             // load and start the dialog box
-            CalenderItemDialogView iv = new CalenderItemDialogView();
+            CalenderEditItemDialogView iv = new CalenderEditItemDialogView();
             iv.start(thisStage);
 
             // if no item was created (e.g. cancel clicked) return
-            if (CalenderItemDialogController.item == null) {
+            if (CalenderEditItemDialogController.item == null) {
                 return;
             } else {
-                Appointment app = CalenderItemDialogController.item;
+                Appointment app = CalenderEditItemDialogController.item;
                 // get date and time in correct format for database
                 String date = app.getStartTime().getYear() + "-" + app.getStartTime().getMonth() + "-"
                         + app.getStartTime().getDay();
@@ -237,85 +303,10 @@ public class CalendarPaneController implements Initializable {
                 calendar.getSchedule().getItems().add(app);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
-    /**
-     * Method that deletes an item from the calendar and database.
-     */
-    @FXML
-    private void cancelItemClicked() {
-        try {
-            // get all the selected items in the calendar
-            Item[] items = calendar.getItemSelection().getItems();
-            if (items.length == 0) {
-                Alert alert = GeneralMethods.createAlert("No selection",
-                        "You didn't select any item to delete", thisStage, Alert.AlertType.WARNING);
-                alert.showAndWait();
-            }
-            for (Item x : items) {
-                // if color is other than orange it is not an item
-                if (x.getStyle().getFillColor().equals(Color.ORANGE)) {
-                    // server method to delete item in database
-                    if (ItemServerCommunication.deleteItem(Integer.parseInt(x.getId()))) {
-                        // delete from calendar and confirm deletion
-                        calendar.getSchedule().getItems().remove(x);
-                        Alert alert = GeneralMethods.createAlert("Deletion confirmation",
-                                "Your item has successfully been deleted from your schedule",
-                                thisStage, Alert.AlertType.INFORMATION);
-                        alert.showAndWait();
-                    } else {
-                        // alert the user that something went wrong
-                        Alert alert = GeneralMethods.createAlert("Deletion error",
-                                "Something went wrong, your item has not been deleted. Please try again",
-                                thisStage, Alert.AlertType.ERROR);
-                        alert.showAndWait();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Method that cancels a reservation and deletes it from the database.
-     */
-    @FXML
-    private void cancelReservationClicked() {
-        try {
-            // get all selected items from the calendar
-            Item[] items = calendar.getItemSelection().getItems();
-            if (items.length == 0) {
-                Alert alert = GeneralMethods.createAlert("No selection",
-                        "You didn't select any reservation to delete", thisStage, Alert.AlertType.WARNING);
-                alert.showAndWait();
-            }
-            for (Item x : items) {
-                // if color is other than cyan it's not a reservation
-                if (x.getStyle().getFillColor().equals(Color.CYAN)) {
-                    if (ReservationServerCommunication.deleteReservation(Integer.parseInt(x.getId()))) {
-                        // delete reservation from database and calendar
-                        calendar.getSchedule().getItems().remove(x);
-                        Alert alert = GeneralMethods.createAlert("Cancel confirmation",
-                                "Your reservation has succesfully been canceled", thisStage,
-                                Alert.AlertType.INFORMATION);
-                        alert.showAndWait();
-                    } else {
-                        // alert user that there was an error
-                        Alert alert = GeneralMethods.createAlert("Cancel error",
-                                "Something went wrong, your reservation has not been canceled."
-                                        + " Please try again.",
-                                thisStage, Alert.AlertType.ERROR);
-                        alert.showAndWait();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Switches the calendar to a 7-day week view.
@@ -325,7 +316,7 @@ public class CalendarPaneController implements Initializable {
         try {
             calendar.setCurrentView(CalendarView.Timetable);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -337,7 +328,7 @@ public class CalendarPaneController implements Initializable {
         try {
             calendar.setCurrentView(CalendarView.SingleMonth);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -356,7 +347,7 @@ public class CalendarPaneController implements Initializable {
             LoginView loginView = new LoginView();
             loginView.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -375,7 +366,7 @@ public class CalendarPaneController implements Initializable {
             SearchView searchView = new SearchView();
             searchView.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

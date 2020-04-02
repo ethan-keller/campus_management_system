@@ -4,12 +4,14 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Food;
@@ -20,12 +22,8 @@ import nl.tudelft.oopp.demo.entities.Room;
  */
 public class ReservationConfirmationViewController implements Initializable {
 
-    @FXML
-    private Text confirmationText;
-
     // current Room
     public static Room room;
-
     // reservation information
     public static String date;
     public static String startTime;
@@ -33,9 +31,10 @@ public class ReservationConfirmationViewController implements Initializable {
     public static boolean foodChosen;
     public static List<Food> foodList;
     public static Map<Food, Integer> foodMap;
-
     // confirmation state
     public static boolean confirmed = false;
+    @FXML
+    private Text confirmationText;
 
     /**
      * Method that gets called before everything (mostly to initialize nodes etc.).
@@ -63,7 +62,7 @@ public class ReservationConfirmationViewController implements Initializable {
 
         String confirmationString = "You (" + CurrentUserManager.getUsername() + ") would like to book the "
                 + room.getRoomName().get() + " on " + date + " from " + startTime + " until " + endTime + ".\n"
-                + "You ordered:\n\n";
+                + "Food ordered:\n\n";
         for (Food f : foodList) {
             double foodPrice = f.getFoodPrice().get();
             String price = GeneralMethods.formatPriceString(foodPrice);
@@ -77,7 +76,6 @@ public class ReservationConfirmationViewController implements Initializable {
 
         return confirmationString;
     }
-
 
 
     /**

@@ -2,6 +2,8 @@ package nl.tudelft.oopp.demo.views;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +13,8 @@ import javafx.stage.Stage;
 
 
 public class AdminManageBuildingView extends Application {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**.
      * Constructor
@@ -43,7 +47,7 @@ public class AdminManageBuildingView extends Application {
             primaryStage.show();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

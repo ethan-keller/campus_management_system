@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -15,7 +16,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -40,6 +45,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
+import javax.imageio.ImageIO;
+
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
@@ -51,6 +59,7 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;
+
 import org.controlsfx.control.RangeSlider;
 
 
@@ -58,6 +67,9 @@ import org.controlsfx.control.RangeSlider;
  * Controller class for the Room view (JavaFX).
  */
 public class RoomViewController implements Initializable {
+    
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -75,7 +87,6 @@ public class RoomViewController implements Initializable {
     private ImageView image;
     @FXML
     private Text description;
-    // TODO: change String to Food entity
     @FXML
     private ComboBox<Food> foodChoice;
     @FXML
@@ -93,7 +104,7 @@ public class RoomViewController implements Initializable {
     @FXML
     private Text dateError;
     @FXML
-    private Text timeSlotError;
+    private Text timeslotError;
     @FXML
     private Text teacherOnlyError;
 
@@ -134,6 +145,8 @@ public class RoomViewController implements Initializable {
             configureDatePicker();
             configureRangeSlider();
 
+            setTimeSlotSlider();
+
             // make sure errors are not visible
             hideErrors();
 
@@ -165,7 +178,7 @@ public class RoomViewController implements Initializable {
             // set text and image info about the room
             configureRoomInfoTexts();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -182,15 +195,15 @@ public class RoomViewController implements Initializable {
             teacherOnly.setText("Teachers only: " + (currentRoom.getTeacherOnly().get() ? "yes" : "no"));
             type.setText("Type: " + currentRoom.getRoomType().get());
             description.setText("Description:\n" + currentRoom.getRoomDescription().get());
-            // TODO: change to room's image
-            image.setImage(new Image("images/placeholder.png"));
+            configureRoomImage();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
      * Makes sure that when the user has selected an item in the food combobox, the prompt text resets.
+     *
      * @return ListCell that correctly updates the value.
      */
     private ListCell<Food> getButtonCell() {
@@ -208,7 +221,7 @@ public class RoomViewController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -235,6 +248,7 @@ public class RoomViewController implements Initializable {
 
     /**
      * Method that creates a new food section when a new food is selected.
+     *
      * @param food food that got selected
      */
     private void createNewFoodText(Food food) {
@@ -305,6 +319,7 @@ public class RoomViewController implements Initializable {
 
     /**
      * Method that removes a food section from the big grid.
+     *
      * @param miniGrid the food section to remove
      */
     private void removeRowFromGrid(GridPane miniGrid) {
@@ -327,6 +342,7 @@ public class RoomViewController implements Initializable {
 
     /**
      * Method that gets the name of the food from a food section.
+     *
      * @param gridPane the food section
      * @return Text the food name
      */
@@ -347,6 +363,7 @@ public class RoomViewController implements Initializable {
 
     /**
      * Method that gets the food quantity text from a food section.
+     *
      * @param gridPane food section
      * @return Text the food quantity
      */
@@ -396,9 +413,44 @@ public class RoomViewController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
+    }
+
+    /**
+     * Method that configures the ImageView which contains the image of the room.
+     */
+    private void configureRoomImage() {
+        try {
+            File resourceImage = new File("client/src/main/resources/images/"
+                    + currentRoom.getRoomPhoto().get());
+            // get path to the room image
+            String path = resourceImage.getAbsolutePath();
+
+            // get the room image
+            BufferedImage roomPhoto = ImageIO.read(resourceImage);
+
+            // set the image in the ImageView
+            image.setImage(new Image("file:" + path));
+
+            // crop the image to show in proportion with the standard room picture size
+            Rectangle2D viewPort = new Rectangle2D(0, 0, roomPhoto.getWidth(),
+                    roomPhoto.getWidth() * (336.9 / 503.0));
+            image.setViewport(viewPort);
+
+        } catch (Exception e) {
+            try {
+                // set the default image in the ImageView
+                image.setImage(new Image(getClass().getResource("/images/placeholder.png")
+                        .toExternalForm()));
+                // make sure the image is correctly resized in proportion to the current stage width
+                changeWidthConstraints(thisStage.getWidth());
+                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -412,7 +464,7 @@ public class RoomViewController implements Initializable {
             timeSlotSlider.setDisable(true);
             datePicker.setDisable(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -423,9 +475,9 @@ public class RoomViewController implements Initializable {
         try {
             // hide each error message
             dateError.setVisible(false);
-            timeSlotError.setVisible(false);
+            timeslotError.setVisible(false);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -441,15 +493,16 @@ public class RoomViewController implements Initializable {
             image.setFitWidth((newWidth.doubleValue() - 188) / 1.41550696);
             reservationVbox.setPrefWidth((newWidth.doubleValue() - 188) / 3.3969);
             timeSlotSlider.setMaxWidth((newWidth.doubleValue() - 188) / 5);
+            description.setWrappingWidth((newWidth.doubleValue() - 188) / 1.564835);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
      * .
      * Methods that sets the dayCellFactory made in {@link #getDayCellFactory()}
-     * and the StringConverter made in {@link #getDatePickerConverter()}
+     * and the StringConverter made in {@link #getDatePickerConverter()}.
      */
     private void configureDatePicker() {
         try {
@@ -466,11 +519,11 @@ public class RoomViewController implements Initializable {
                 try {
                     configureCss();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, e.toString());
                 }
             }));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -506,7 +559,7 @@ public class RoomViewController implements Initializable {
             };
             return dayCellFactory;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -543,7 +596,7 @@ public class RoomViewController implements Initializable {
             // inject the RangeSlider in the JavaFX layout
             reservationVbox.getChildren().add(2, timeSlotSlider);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -613,15 +666,20 @@ public class RoomViewController implements Initializable {
                 bw.write("#91ef99 0%, #91ef99 100%);\n");
             }
 
+            Building selectedBuilding = Building.getBuildingById(currentRoomId);
+            StringConverter<Number> converter = getRangeSliderConverter();
+            double opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
+            double closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());
+
+            Reservation res = AdminManageReservationViewController.currentSelectedReservation;
+
             // calculate and add green and red parts
             while (it.hasNext()) {
                 Reservation r = it.next();
-                String[] startTime = r.getStartingTime().get().split(":");
-                String[] endTime = r.getEndingTime().get().split(":");
-                double startPercentage = ((Double.parseDouble(startTime[0]) - 8.0) * 60.0
-                        + Double.parseDouble(startTime[1])) / 9.60;
-                double endPercentage = ((Double.parseDouble(endTime[0]) - 8.0) * 60.0
-                        + Double.parseDouble(endTime[1])) / 9.60;
+                double startTime = (double) converter.fromString(r.getStartingTime().get());
+                double endTime = (double) converter.fromString(r.getEndingTime().get());
+                double startPercentage = ((startTime - opening) / (closing - opening)) * 100.0;
+                double endPercentage = ((endTime - opening) / (closing - opening)) * 100.0;
                 bw.write("#91ef99 " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + startPercentage + "%, ");
                 bw.write("#ffc0cb " + endPercentage + "%, ");
@@ -649,6 +707,31 @@ public class RoomViewController implements Initializable {
             // add new stylesheet
             timeSlotSlider.getStylesheets().add(getClass().getResource("/RangeSlider.css")
                     .toExternalForm());
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+    }
+
+    private void setTimeSlotSlider() {
+        try {
+            Building selectedBuilding = Building.getBuildingById(currentRoom.getRoomBuilding().get());
+            StringConverter<Number> converter = getRangeSliderConverter();
+
+            double opening;
+            double closing;
+
+            if (selectedBuilding != null) {
+                opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
+                closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());
+                if (closing == 1439) {
+                    timeSlotSlider.setMax(1440);
+                    timeSlotSlider.setMajorTickUnit((1440 - opening) / 3);
+                } else {
+                    timeSlotSlider.setMax(closing);
+                    timeSlotSlider.setMajorTickUnit((closing - opening) / 3);
+                }
+                timeSlotSlider.setMin(opening);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -678,7 +761,7 @@ public class RoomViewController implements Initializable {
             timeSlotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeSlotSlider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -755,7 +838,7 @@ public class RoomViewController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -788,7 +871,7 @@ public class RoomViewController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -806,7 +889,7 @@ public class RoomViewController implements Initializable {
             SearchView sv = new SearchView();
             sv.start(thisStage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -864,7 +947,7 @@ public class RoomViewController implements Initializable {
                 alert.showAndWait();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             // create error Alert
             Alert alert = GeneralMethods.createAlert("Something went wrong",
                     "Sorry, something went wrong on our end. We're fixing it now!",
@@ -907,7 +990,7 @@ public class RoomViewController implements Initializable {
             // return true if confirmed, false otherwise
             return ReservationConfirmationViewController.confirmed;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return false;
     }
@@ -926,18 +1009,22 @@ public class RoomViewController implements Initializable {
 
             // clear error messages
             dateError.setVisible(false);
-            timeSlotError.setVisible(false);
+            timeslotError.setVisible(false);
 
             // set error messages if necessary
             if (datePicker.getValue() == null) {
                 dateError.setVisible(true);
                 errors = true;
             }
+            if (!checkTimeSlotValidity() || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
+                timeslotError.setVisible(true);
+                errors = true;
+            }
 
             // return true if no errors where triggered
             return !errors;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return false;
     }
@@ -954,7 +1041,7 @@ public class RoomViewController implements Initializable {
             LoginView loginView = new LoginView();
             loginView.start(thisStage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
