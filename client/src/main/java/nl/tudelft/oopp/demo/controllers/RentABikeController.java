@@ -97,12 +97,13 @@ public class RentABikeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
+            
             // make sure errors are not visible
             dateError.setVisible(false);
             buildingError.setVisible(false);
 
             int firstTime = (int)getFirstStartTime() * 60;
-            int lastTime = (int)getLastEndingTime() * 60;
+            int lastTime = getLastEndingTime();
 
             // set up the date picker and date slider
             configureDatePicker();
@@ -617,6 +618,12 @@ public class RentABikeController implements Initializable {
      */
     public double parseTime(String time) {
         try {
+            if (time.contains("23:59:00")) {
+                return 24;
+            }
+            if (time.contains("23:59")) {
+                return 24;
+            }
             double hour = 0;
             int minute = 0;
             //Checks the format of given String
@@ -707,7 +714,7 @@ public class RentABikeController implements Initializable {
      * finds the building with latest closing time for the slider.
      * @return the double value of the closing time
      */
-    public double getLastEndingTime() {
+    public int getLastEndingTime() {
         try {
             double result = parseTime(buildingList.get(0).getClosingTime().get());
 
@@ -717,7 +724,7 @@ public class RentABikeController implements Initializable {
                     result = tempTime;
                 }
             }
-            return result;
+            return (int)result * 60;
         } catch (Exception e) {
             e.printStackTrace();
         }
