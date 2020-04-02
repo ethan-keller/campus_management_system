@@ -27,7 +27,7 @@ public class FoodNewDialogView extends Application {
 
             GeneralMethods.view(dialogStage,primaryStage,"New Food", root);
             dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST,
-                    event -> FoodEditDialogController.food = null);
+                event -> FoodEditDialogController.food = null);
 
         } catch (Exception e) {
             e.printStackTrace();
