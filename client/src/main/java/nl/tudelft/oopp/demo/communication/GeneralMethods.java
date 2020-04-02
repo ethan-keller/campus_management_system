@@ -79,6 +79,9 @@ public class GeneralMethods {
             // Create a new alert object (dialog box)
             Alert alert = new Alert(type);
 
+            alert.getDialogPane().getStylesheets().add(GeneralMethods.class.
+                    getResource("/GeneralStyle.css").toExternalForm());
+
             // Setting the title of the alert box.
             alert.setTitle(title);
 
@@ -113,6 +116,9 @@ public class GeneralMethods {
         try {
             // Create a new alert object (dialog box)
             Alert alert = new Alert(type);
+
+            alert.getDialogPane().getStylesheets().add(GeneralMethods.class.
+                    getResource("/GeneralStyle.css").toExternalForm());
 
             // Setting the title of the alert box.
             alert.setTitle(title);

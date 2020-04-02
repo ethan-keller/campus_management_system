@@ -9,12 +9,14 @@ A JavaFX css stylesheet to make the interface look nice.
     -white: #FFFEFF;
     -black: #302D2B;
     -grey: #AEBCBF;
+    -lightDarkGrey: #bdbdbd;
     -lightGrey: #EEEEEE;
     -darkGrey: #798790;
     -blueGrey: #788195;
 }
 
 .root {
+    -fx-border-color: transparent;
     -fx-background-color: -white;
     -fx-fill-width: true;
     -fx-color: -color;
@@ -50,11 +52,11 @@ A JavaFX css stylesheet to make the interface look nice.
 .back-button {
     -fx-background-radius: 150px;
     -fx-border-radius: 150px;
-    -fx-background-color: -white;
+    -fx-background-color: -transparent;
 }
 
 .signout-button {
-    -fx-background-color: -white;
+    -fx-background-color: -transparent;
     -fx-text-fill: -black;
 }
 
@@ -133,11 +135,11 @@ A JavaFX css stylesheet to make the interface look nice.
  *
  */
 .combo-box {
-    -fx-background-color: -fx-background;
+    -fx-background-color: -lightGrey;
 }
 
 .combo-box:hover {
-    -fx-background-color: -lightGrey;
+    -fx-background-color: -lightDarkGrey;
 }
 
 .combo-box .cell:selected {
@@ -304,6 +306,23 @@ A JavaFX css stylesheet to make the interface look nice.
 .scroll-pane > *.scroll-bar > *.thumb {
     -fx-background-color: -color;
 }
+
+/*
+ * ********************
+ * ALERTS
+ * ********************
+ *
+ */
+
+.dialog-pane{
+    -fx-background-color: fx-background;
+    -fx-border-color: transparent;
+}
+
+
+
+
+
 
 
 

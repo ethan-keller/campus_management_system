@@ -289,7 +289,6 @@ public class SearchViewLogic {
             roomTitle.setText(r.getRoomName().get());
             roomTitle.setWrappingWidth(200);
             roomTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
-            roomTitle.setStyle("-fx-fill: #0ebaf8;");
             VBox.setMargin(roomTitle, new Insets(10, 10, 10, 15));
 
             // setting building name and text margin

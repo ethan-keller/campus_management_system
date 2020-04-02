@@ -2,7 +2,6 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,6 +11,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,12 +24,9 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -76,13 +73,13 @@ public class SearchViewController implements Initializable {
     private TextField searchBar;
     @FXML
     private ComboBox<String> bikesAvailable;
+    @FXML
+    private Button signOutButton;
 
     private List<Building> buildings;
     private List<Room> roomList;
     private ObservableList<Room> rooms;
 
-    @FXML
-    private AnchorPane pane;
 
     // Declaring the observable list for buildings, capacity and bikes
     // to be inserted into the comboBox.
@@ -97,7 +94,7 @@ public class SearchViewController implements Initializable {
     private int building;
     private boolean teacherOnly;
 
-    SimpleDateFormat sdf = new SimpleDateFormat("mm:ss.SSS");
+
 
     /**
      * Default construct of searchView class.
@@ -118,7 +115,8 @@ public class SearchViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            pane = new AnchorPane();
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
 
             // assign lists to the initialized ObservableLists
             capacityList = FXCollections.observableArrayList();
