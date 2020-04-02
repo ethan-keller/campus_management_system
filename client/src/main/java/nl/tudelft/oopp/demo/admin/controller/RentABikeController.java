@@ -19,7 +19,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Spinner;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -27,7 +33,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-import jdk.jshell.spi.ExecutionControl;
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
@@ -36,6 +41,7 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.SearchView;
 import org.controlsfx.control.RangeSlider;
+
 
 public class RentABikeController implements Initializable {
     @FXML
@@ -181,8 +187,8 @@ public class RentABikeController implements Initializable {
                 int buildingNum = getBuildingNumber(comboBuilding.getValue());
 
                 Building b = Building.getBuildingById(buildingNum);
-                int AvailableBikes = getRemainder(b, selectedDate, selectedEndTime, selectedStartTime);
-                availableBikeText.setText("Available Bikes: " + AvailableBikes);
+                int availableBikes = getRemainder(b, selectedDate, selectedEndTime, selectedStartTime);
+                availableBikeText.setText("Available Bikes: " + availableBikes);
             });
 
 
@@ -225,63 +231,60 @@ public class RentABikeController implements Initializable {
     @FXML
     private void reserveNowClicked(ActionEvent event) throws IOException {
         try {
-                // retrieve date, bike number and time slot from the corresponding boxes
-                String selectedDate =
-                        Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
-                String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
-                        .toString(timeSlotSlider.getLowValue());
-                String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
-                String selectedBuildingAndBike = comboBuilding.getValue();
-                String selectedBuilding = getSelectedBuilding(selectedBuildingAndBike);
-                Integer selectedBike = spinner.getValue();
+            // retrieve date, bike number and time slot from the corresponding boxes
+            String selectedDate =
+                    Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
+            String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
+                    .toString(timeSlotSlider.getLowValue());
+            String selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
+            String selectedBuildingAndBike = comboBuilding.getValue();
+            String selectedBuilding = getSelectedBuilding(selectedBuildingAndBike);
+            Integer selectedBike = spinner.getValue();
 
-                int buildNumber = getBuildingNumber(selectedBuilding);
-                Building b = Building.getBuildingById(buildNumber);
+            int buildNumber = getBuildingNumber(selectedBuilding);
+            Building b = Building.getBuildingById(buildNumber);
 
-                // check to see enough bikes for selected building
-                if (selectedEndTime.equals(selectedStartTime)) {
-                    Alert alert = GeneralMethods.createAlert("Same time",
-                            "Please select valid time slot!",
+            // check to see enough bikes for selected building
+            if (selectedEndTime.equals(selectedStartTime)) {
+                Alert alert = GeneralMethods.createAlert("Same time",
+                        "Please select valid time slot!",
+                        ((Node) event.getSource()).getScene().getWindow(),
+                        Alert.AlertType.CONFIRMATION);
+                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+                alert.showAndWait();
+            } else {
+                if (getRemainder(b, selectedDate, selectedEndTime, selectedStartTime) - selectedBike >= 0) {
+                    Alert alert = GeneralMethods.createAlert("Your Bike Reservation",
+                            "Make reservation for " + selectedBike + " bike(s) from " + selectedBuilding
+                                    + " on " + selectedDate + " for " + selectedStartTime + "-"
+                                    + selectedEndTime + "?",
                             ((Node) event.getSource()).getScene().getWindow(),
                             Alert.AlertType.CONFIRMATION);
                     alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
                     alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
-                    alert.showAndWait();
-                } else {
-                    if (getRemainder(b, selectedDate, selectedEndTime, selectedStartTime) - selectedBike >= 0) {
-                        Alert alert = GeneralMethods.createAlert("Your Bike Reservation",
-                                "Make reservation for " + selectedBike + " bike(s) from " + selectedBuilding
-                                        + " on " + selectedDate + " for " + selectedStartTime + "-"
-                                        + selectedEndTime + "?",
-                                ((Node) event.getSource()).getScene().getWindow(),
-                                Alert.AlertType.CONFIRMATION);
-                        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                        alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
 
-                        Optional<ButtonType> result = alert.showAndWait();
+                    Optional<ButtonType> result = alert.showAndWait();
 
-                        if (result.orElse(null) == ButtonType.OK) {
-                            if (selectedEndTime.contains("24")) {
-                                selectedEndTime = "23:59";
-                            }
-                            BikeReservationCommunication
-                                    .createBikeReservation(getBuildingNumber(selectedBuilding),
-                                            CurrentUserManager.getUsername(), selectedBike,
-                                            selectedDate, selectedStartTime, selectedEndTime);
-                            confirmAlert(event);
+                    if (result.orElse(null) == ButtonType.OK) {
+                        if (selectedEndTime.contains("24")) {
+                            selectedEndTime = "23:59";
                         }
-
-
-
-                    } else {
-                        Alert alert = GeneralMethods.createAlert("Insufficient Bikes",
-                                "Insufficient Bikes Available. Please check the number of bikes available",
-                                ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.WARNING);
-                        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                        alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
-                        alert.showAndWait();
+                        BikeReservationCommunication
+                                .createBikeReservation(getBuildingNumber(selectedBuilding),
+                                        CurrentUserManager.getUsername(), selectedBike,
+                                        selectedDate, selectedStartTime, selectedEndTime);
+                        confirmAlert(event);
                     }
+                } else {
+                    Alert alert = GeneralMethods.createAlert("Insufficient Bikes",
+                            "Insufficient Bikes Available. Please check the number of bikes available",
+                            ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.WARNING);
+                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+                    alert.showAndWait();
                 }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -637,4 +640,4 @@ public class RentABikeController implements Initializable {
         }
         return 0;
     }
-    }
+}
