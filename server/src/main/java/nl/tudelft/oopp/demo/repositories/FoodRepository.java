@@ -1,8 +1,9 @@
 package nl.tudelft.oopp.demo.repositories;
 
 import java.util.List;
+
 import nl.tudelft.oopp.demo.entities.Food;
-import nl.tudelft.oopp.demo.entities.FoodReservations;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -69,6 +70,10 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
             + " reservation_id = :reservation AND food_id = :food", nativeQuery = true)
     public void updateFoodReservationQuantity(@Param("reservation") int reservationId,
                                               @Param("food") int foodId, @Param("quantity") int quantity);
+
+    @Query(value = "SELECT * FROM food_reservations WHERE reservation_id = :reservation", nativeQuery = true)
+    public List<Object[]> getFoodReservationByReservationId(@Param("reservation") int reservationId);
+
 
     @Modifying
     @Transactional
