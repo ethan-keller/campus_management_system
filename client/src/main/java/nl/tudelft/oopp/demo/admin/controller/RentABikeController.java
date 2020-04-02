@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -102,7 +103,7 @@ public class RentABikeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-            
+
             // make sure errors are not visible
             startTime.setVisible(false);
             endTime.setVisible(false);
@@ -114,7 +115,7 @@ public class RentABikeController implements Initializable {
 
 
             ObservableList<String> buildList = FXCollections.observableArrayList();
-            for (Building b: buildingList) {
+            for (Building b : buildingList) {
                 String temp = b.getBuildingName().get();
                 buildList.add(temp);
             }
@@ -154,6 +155,7 @@ public class RentABikeController implements Initializable {
                     //get remaining number of bikes at default time slots
                     int i = getRemainder(b, selectedDate, "18:00", "10:00");
                     availableBikeText.setText("Available Bikes: " + i);
+                    setTimeSlotSlider(b);
                 }
             });
             //Listenr that occurs when Building is selected
@@ -174,6 +176,7 @@ public class RentABikeController implements Initializable {
                     Building b = Building.getBuildingById(buildNum);
                     int i = getRemainder(b, selectedDate, "18:00", "10:00");
                     availableBikeText.setText("Available Bikes: " + i);
+                    setTimeSlotSlider(b);
                 }
             });
 
@@ -189,9 +192,8 @@ public class RentABikeController implements Initializable {
                 Building b = Building.getBuildingById(buildingNum);
                 int availableBikes = getRemainder(b, selectedDate, selectedEndTime, selectedStartTime);
                 availableBikeText.setText("Available Bikes: " + availableBikes);
+                setTimeSlotSlider(b);
             });
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -436,7 +438,6 @@ public class RentABikeController implements Initializable {
     }
 
     /**
-     * .
      * Creates a StringConverter that converts the selected value to an actual time (in String format).
      *
      * @return a StringConverter object
@@ -455,7 +456,11 @@ public class RentABikeController implements Initializable {
                 }
 
                 @Override
-                public Number fromString(String string) {
+                public Number fromString(String time) {
+                    if (time != null) {
+                        String[] split = time.split(":");
+                        return Double.parseDouble(split[0]) * 60 + Double.parseDouble(split[1]);
+                    }
                     return null;
                 }
             };
@@ -639,5 +644,28 @@ public class RentABikeController implements Initializable {
             e.printStackTrace();
         }
         return 0;
+    }
+    private void setTimeSlotSlider(Building selectedBuilding) {
+        try {
+            StringConverter<Number> converter = getRangeSliderConverter();
+
+            double opening;
+            double closing;
+
+            if (selectedBuilding != null) {
+                opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
+                closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());
+                if (closing == 1439) {
+                    timeSlotSlider.setMax(1440);
+                    timeSlotSlider.setMajorTickUnit((1440 - opening) / 3);
+                } else {
+                    timeSlotSlider.setMax(closing);
+                    timeSlotSlider.setMajorTickUnit((closing - opening) / 3);
+                }
+                timeSlotSlider.setMin(opening);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
