@@ -34,9 +34,6 @@ import nl.tudelft.oopp.demo.views.LoginView;
 public class AdminManageFoodReservationViewController {
 
     @FXML
-    private Label usernameLabel;
-
-    @FXML
     private Label reservationIdLabel;
 
     @FXML
@@ -75,7 +72,6 @@ public class AdminManageFoodReservationViewController {
             signOutButton.getStyleClass().add("signout-button");
             Reservation roomReservation = this.getReservation();
             // Initialize the title of the table
-            usernameLabel.setText(roomReservation.getUsername().get());
             reservationIdLabel.setText(String.valueOf(roomReservation.getId().get()));
             // Initialize the booking table with the three columns.
             foodIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(

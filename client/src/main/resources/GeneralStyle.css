@@ -37,7 +37,7 @@ A JavaFX css stylesheet to make the interface look nice.
     -fx-text-fill: -black;
 }
 
-#usernameLabel {
+#usernameLabel, #foodNameLabel {
     -fx-text-fill: -blueGrey;
 }
 
@@ -103,6 +103,10 @@ A JavaFX css stylesheet to make the interface look nice.
     -fx-background-color: -darkGrey, -black;
 }
 
+.date-picker .button {
+    -fx-background-color: transparent;
+}
+
 /*
  * ********************
  * RANGE SLIDERS
@@ -113,9 +117,14 @@ A JavaFX css stylesheet to make the interface look nice.
     -fx-background-color: -grey;
 }
 .range-slider .low-thumb:hover, .range-slider .high-thumb:hover{
+    -fx-background-insets: -1.4, 0, 1, 2;
+    -fx-background-radius: 1.0em;
     -fx-background-color: -blueGrey;
 }
-
+.range-slider .low-thumb:focused, .range-slider .high-thumb:focused{
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 1.0em;
+}
 
 /*
  * ********************
