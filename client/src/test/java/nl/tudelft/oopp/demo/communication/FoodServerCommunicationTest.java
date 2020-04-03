@@ -1,6 +1,17 @@
 package nl.tudelft.oopp.demo.communication;
 
-import static nl.tudelft.oopp.demo.communication.FoodServerCommunication.*;
+import static nl.tudelft.oopp.demo.communication.FoodServerCommunication.addFoodToBuilding;
+import static nl.tudelft.oopp.demo.communication.FoodServerCommunication.addFoodToReservation;
+import static nl.tudelft.oopp.demo.communication.FoodServerCommunication.createFood;
+import static nl.tudelft.oopp.demo.communication.FoodServerCommunication.deleteFood;
+import static nl.tudelft.oopp.demo.communication.FoodServerCommunication.deleteFoodFromBuilding;
+import static nl.tudelft.oopp.demo.communication.FoodServerCommunication.deleteFoodFromReservation;
+import static nl.tudelft.oopp.demo.communication.FoodServerCommunication.getAllFood;
+import static nl.tudelft.oopp.demo.communication.FoodServerCommunication.getFood;
+import static nl.tudelft.oopp.demo.communication.FoodServerCommunication.getFoodByBuildingId;
+import static nl.tudelft.oopp.demo.communication.FoodServerCommunication.getFoodReservationByReservation;
+import static nl.tudelft.oopp.demo.communication.FoodServerCommunication.updateFood;
+import static nl.tudelft.oopp.demo.communication.FoodServerCommunication.updateFoodReservationQuantity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;

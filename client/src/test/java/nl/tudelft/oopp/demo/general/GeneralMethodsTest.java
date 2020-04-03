@@ -1,6 +1,6 @@
 package nl.tudelft.oopp.demo.general;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.UnsupportedEncodingException;
 
@@ -14,6 +14,7 @@ class GeneralMethodsTest {
 
     /**
      * Tests the encoding of a string.
+     *
      * @throws UnsupportedEncodingException when the encoding method used is not supported.
      */
     @Test
