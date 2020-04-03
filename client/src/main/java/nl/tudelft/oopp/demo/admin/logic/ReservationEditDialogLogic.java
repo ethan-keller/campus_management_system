@@ -11,6 +11,7 @@ import javafx.scene.control.DatePicker;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageReservationViewController;
+import nl.tudelft.oopp.demo.admin.controller.ReservationEditDialogController;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -25,7 +26,7 @@ public class ReservationEditDialogLogic {
      *
      * @return true if the input is valid
      */
-    public static boolean isInputValid(User username, Room room, DatePicker date,
+    public static boolean isInputValid(User username, Room room, LocalDate date,
                                        double currentStartValue, double currentEndvalue,
                                        DateTimeFormatter formatter) {
         String errorMessage = "";
@@ -36,7 +37,7 @@ public class ReservationEditDialogLogic {
         if (room == null) {
             errorMessage += "No valid Room provided! \n";
         }
-        if (date.getValue() == null) {
+        if (date == null) {
             errorMessage += "No date provided!\n";
         }
         
@@ -59,6 +60,7 @@ public class ReservationEditDialogLogic {
     /**
      * Constructor for the converter that converts LocalDate objects to String yyyy-MM-dd format.
      */
+    /*
     public static StringConverter<LocalDate> getDateConverter(DateTimeFormatter formatter) {
         try {
             return new StringConverter<LocalDate>() {
@@ -84,6 +86,8 @@ public class ReservationEditDialogLogic {
         }
         return null;
     }
+
+     */
 
     /**
      * Constructor for the converter that converts LocalDate objects to String yyyy-MM-dd format.
@@ -123,8 +127,8 @@ public class ReservationEditDialogLogic {
      *
      * @return true if the timeslot is free, false otherwise
      */
-    public static boolean checkTimeSlotValidity(Room room, DatePicker date, DateTimeFormatter formatter,
-                                                double currentStartValue, double currentEndValue) {
+    public static boolean checkTimeSlotValidity(Room room, LocalDate date,
+                                                double currentStartValue, double currentEndValue, StringConverter<LocalDate> temp) {
         try {
             // get currently selected room
             Room selectedRoom = room;
@@ -133,8 +137,7 @@ public class ReservationEditDialogLogic {
             }
             // get all reservations for the current room on the chosen date
             List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(
-                    selectedRoom.getRoomId().get(),
-                    date.getValue(), getDateConverter(formatter));
+                    selectedRoom.getRoomId().get(), date, temp);
 
             // if something went wrong with the server communication return false
             if (roomReservations == null) {

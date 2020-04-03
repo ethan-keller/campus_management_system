@@ -454,6 +454,31 @@ public class ReservationEditDialogController {
         }
         return null;
     }
+    public static StringConverter<LocalDate> getDateConverter(DateTimeFormatter formatter) {
+        try {
+            return new StringConverter<LocalDate>() {
+                @Override
+                public String toString(LocalDate dateSelected) {
+                    if (dateSelected != null) {
+                        return formatter.format(dateSelected);
+                    }
+                    return "null";
+                }
+
+                @Override
+                public LocalDate fromString(String string) {
+                    // The date is formatted in yyyy-MM-dd format from the datePicker.
+                    if (string != null && !string.trim().isEmpty()) {
+                        return LocalDate.parse(string, formatter);
+                    }
+                    return null;
+                }
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * Sets the converter of the room combobox to only show the names of the rooms.
@@ -555,11 +580,13 @@ public class ReservationEditDialogController {
 
         User usernameUser = username.getSelectionModel().getSelectedItem();
         Room userRoom = room.getSelectionModel().getSelectedItem();
+        LocalDate reservationDate = date.getValue();
         double currentStartValue = timeslotSlider.getLowValue();
         double currentEndValue = timeslotSlider.getHighValue();
+        StringConverter<LocalDate> temp = getDateConverter(formatter);
 
         return ReservationEditDialogLogic.isInputValid(
-                usernameUser, userRoom, date, currentStartValue, currentEndValue, formatter);
+                usernameUser, userRoom, reservationDate, currentStartValue, currentEndValue, temp);
 
 
         /*
