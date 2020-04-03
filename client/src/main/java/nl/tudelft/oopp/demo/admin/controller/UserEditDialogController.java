@@ -3,12 +3,14 @@ package nl.tudelft.oopp.demo.admin.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.UserEditDialogLogic;
+import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.User;
 
 public class UserEditDialogController {
@@ -104,8 +106,24 @@ public class UserEditDialogController {
      * @return true if the input is valid
      */
     private boolean isInputValid() {
-        return UserEditDialogLogic.isInputValid(usernameField, userTypeAdmin, userTypeTeacher,
-                userTypeStudent, userPasswordField, edit);
+        String username = usernameField.getText();
+        String password = userPasswordField.getText();
+        boolean userTypeAdminSelected= userTypeAdmin.isSelected();
+        boolean userTypeTeacherSelected = userTypeTeacher.isSelected();
+        boolean userTypeStudentSelected = userTypeStudent.isSelected();
+
+        String errorMessage = UserEditDialogLogic.isInputValid(username, userTypeAdminSelected,
+                userTypeTeacherSelected, userTypeStudentSelected, password, edit);
+        if (errorMessage == "" ){
+            return true;
+        } else{
+            // Show the error message.
+            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
+                    errorMessage, Alert.AlertType.ERROR);
+            return false;
+        }
+
+
     }
 
 }

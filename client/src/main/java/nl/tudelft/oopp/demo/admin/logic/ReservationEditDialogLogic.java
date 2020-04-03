@@ -25,21 +25,23 @@ public class ReservationEditDialogLogic {
      *
      * @return true if the input is valid
      */
-    public static boolean isInputValid(ComboBox<User> username, ComboBox<Room> room, DatePicker date,
-                                 RangeSlider timeslotSlider, DateTimeFormatter formatter) {
+    public static boolean isInputValid(User username, Room room, DatePicker date,
+                                       double currentStartValue, double currentEndvalue,
+                                       DateTimeFormatter formatter) {
         String errorMessage = "";
 
-        if (username.getSelectionModel().getSelectedItem() == null) {
+        if (username == null) {
             errorMessage += "No valid username provided!\n";
         }
-        if (room.getSelectionModel().getSelectedItem() == null) {
+        if (room == null) {
             errorMessage += "No valid Room provided! \n";
         }
         if (date.getValue() == null) {
             errorMessage += "No date provided!\n";
         }
-        if (!checkTimeSlotValidity(room, date, formatter, timeslotSlider)
-                || timeslotSlider.getLowValue() == timeslotSlider.getHighValue()) {
+        
+        if (!checkTimeSlotValidity(room, date, formatter, currentStartValue, currentEndvalue)
+                || currentStartValue == currentEndvalue) {
             errorMessage += "No valid timeslot selected!\n";
         }
 
@@ -121,11 +123,11 @@ public class ReservationEditDialogLogic {
      *
      * @return true if the timeslot is free, false otherwise
      */
-    public static boolean checkTimeSlotValidity(ComboBox<Room> room, DatePicker date, DateTimeFormatter formatter,
-                                                RangeSlider timeslotSlider) {
+    public static boolean checkTimeSlotValidity(Room room, DatePicker date, DateTimeFormatter formatter,
+                                                double currentStartValue, double currentEndValue) {
         try {
             // get currently selected room
-            Room selectedRoom = room.getSelectionModel().getSelectedItem();
+            Room selectedRoom = room;
             if (selectedRoom == null) {
                 return false;
             }
@@ -158,8 +160,6 @@ public class ReservationEditDialogLogic {
                 }
 
                 // get rangeslider values + reservation values
-                double currentStartValue = timeslotSlider.getLowValue();
-                double currentEndValue = timeslotSlider.getHighValue();
                 double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
                 double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
 
