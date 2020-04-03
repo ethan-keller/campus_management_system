@@ -455,7 +455,7 @@ public class ReservationEditDialogController {
         return null;
     }
 
-    /**
+    /**.
      * This methods converts the date from the datepicker into database readable format
      * @param formatter - DateTimeFormatter object which is used for formatting
      * @return - A string which contains the date in a proper format

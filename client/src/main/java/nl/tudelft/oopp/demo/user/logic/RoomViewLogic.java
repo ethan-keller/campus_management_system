@@ -18,9 +18,9 @@ public class RoomViewLogic {
      */
     public static boolean checkTimeSlotValidity(double currentStartValue, double currentEndValue,
                                                 double startValue, double endValue) {
-            // check if the values overlap
-        if (!((currentStartValue <= startValue && currentEndValue <= startValue) ||
-                (currentStartValue >= endValue && currentEndValue >= endValue))) {
+        // check if the values overlap
+        if (!((currentStartValue <= startValue && currentEndValue <= startValue)
+                || (currentStartValue >= endValue && currentEndValue >= endValue))) {
             return false;
         }
         return true;
