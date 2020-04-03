@@ -10,9 +10,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import nl.tudelft.oopp.demo.admin.controller.AdminManageReservationViewController;
-import nl.tudelft.oopp.demo.admin.controller.AdminUserHistoryViewController;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservation;
 import nl.tudelft.oopp.demo.entities.Room;

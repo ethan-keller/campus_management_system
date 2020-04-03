@@ -1,7 +1,5 @@
 package nl.tudelft.oopp.demo.admin.logic;
 
-import java.io.UnsupportedEncodingException;
-
 import javafx.scene.control.TableView;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageFoodViewController;
@@ -42,7 +40,7 @@ public class AdminLogic {
         try {
             // Communication with the server.
             BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -59,7 +57,7 @@ public class AdminLogic {
                     tempBuilding.getBuildingRoomCount().get(), tempBuilding.getBuildingAddress().get(),
                     tempBuilding.getBuildingMaxBikes().get(),
                     tempBuilding.getOpeningTime().get(), tempBuilding.getClosingTime().get());
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -77,7 +75,7 @@ public class AdminLogic {
                     tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
                     tempBuilding.getBuildingAddress().get(), tempBuilding.getBuildingMaxBikes().get(),
                     tempBuilding.getOpeningTime().get(), tempBuilding.getClosingTime().get());
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -150,7 +148,7 @@ public class AdminLogic {
     public static void deleteReservationLogic(Reservation selectedReservation) {
         try {
             ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -165,7 +163,7 @@ public class AdminLogic {
             ReservationServerCommunication.createReservation(tempReservation.getUsername().get(),
                     tempReservation.getRoom().get(), tempReservation.getDate().get(),
                     tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -181,7 +179,7 @@ public class AdminLogic {
             ReservationServerCommunication.updateReservation(selectedReservation.getId().get(),
                     tempReservation.getRoom().get(), tempReservation.getDate().get(),
                     tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -260,7 +258,7 @@ public class AdminLogic {
     public static void deleteRoomLogic(Room selectedRoom) {
         try {
             RoomServerCommunication.deleteRoom(selectedRoom.getRoomId().getValue());
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -280,7 +278,7 @@ public class AdminLogic {
             } else {
                 return false;
             }
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -303,7 +301,7 @@ public class AdminLogic {
             } else {
                 return false;
             }
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -331,7 +329,7 @@ public class AdminLogic {
     public static void deleteUserLogic(User selectedUser) {
         try {
             UserServerCommunication.deleteUser(selectedUser.getUsername().getValue());
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -345,7 +343,7 @@ public class AdminLogic {
         try {
             UserServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(),
                     tempUser.getUserType().get());
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();;
         }
     }
@@ -359,7 +357,7 @@ public class AdminLogic {
         try {
             UserServerCommunication.updateUser(tempUser.getUsername().get(),
                     tempUser.getUserPassword().get(), tempUser.getUserType().get());
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

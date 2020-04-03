@@ -28,7 +28,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.admin.logic.BookingEditDialogLogic;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;

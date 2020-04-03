@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.calendar.CalendarListener;
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.user.controller.CalendarPaneController;

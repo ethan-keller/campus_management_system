@@ -1,12 +1,16 @@
-package nl.tudelft.oopp.demo.communication;
+package nl.tudelft.oopp.demo.general;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.UnsupportedEncodingException;
+
 import org.junit.jupiter.api.Test;
 
-
 class GeneralMethodsTest {
+
+    @Test
+    void loggerSetup() {
+    }
 
     /**
      * Tests the encoding of a string.
@@ -23,23 +27,23 @@ class GeneralMethodsTest {
         assertEquals(res2, GeneralMethods.encodeCommunication(input2));
     }
 
-    /*
     @Test
-    void createAlertTest(){
-        Stage stage = new Stage();
-
-        Alert alert1 = new Alert(Alert.AlertType.WARNING);
-        alert1.setTitle("testTitle");
-        alert1.setContentText("This is a content text");
-        alert1.initOwner(stage);
-        alert1.initModality(Modality.WINDOW_MODAL);
-
-        Alert alert2 = GeneralMethods.createAlert("testTitle", "This is a content text",
-                stage, Alert.AlertType.WARNING);
-
-        assertEquals(alert1, alert2);
+    void createAlert() {
     }
-     */
 
+    @Test
+    void alertBox() {
+    }
 
+    @Test
+    void setSliderDefaultCss() {
+    }
+
+    @Test
+    void formatPriceString() {
+    }
+
+    @Test
+    void view() {
+    }
 }

@@ -6,8 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.admin.controller.AdminManageFoodViewController;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Food;
 
 public class FoodEditDialogController {

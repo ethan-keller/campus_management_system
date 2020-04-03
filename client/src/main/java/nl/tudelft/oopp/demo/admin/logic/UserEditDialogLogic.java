@@ -6,7 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 
 public class UserEditDialogLogic {

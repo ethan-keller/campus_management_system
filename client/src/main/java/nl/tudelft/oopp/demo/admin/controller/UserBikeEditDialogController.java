@@ -26,9 +26,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
-import nl.tudelft.oopp.demo.admin.controller.AdminManageUserViewController;
-import nl.tudelft.oopp.demo.admin.controller.AdminUserBikeViewController;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 

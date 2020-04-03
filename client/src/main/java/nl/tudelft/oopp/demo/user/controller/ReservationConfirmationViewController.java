@@ -12,8 +12,8 @@ import javafx.scene.Node;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
-import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
+import nl.tudelft.oopp.demo.currentUser.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Room;
 

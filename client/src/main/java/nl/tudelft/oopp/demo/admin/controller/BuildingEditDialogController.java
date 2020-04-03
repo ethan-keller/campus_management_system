@@ -14,7 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 
 import org.controlsfx.control.RangeSlider;

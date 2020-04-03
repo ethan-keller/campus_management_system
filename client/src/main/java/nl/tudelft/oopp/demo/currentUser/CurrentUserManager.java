@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.communication.user;
+package nl.tudelft.oopp.demo.currentUser;
 
 public class CurrentUserManager {
 

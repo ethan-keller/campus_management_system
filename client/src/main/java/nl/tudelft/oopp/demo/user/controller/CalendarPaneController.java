@@ -28,7 +28,7 @@ import javax.swing.SwingUtilities;
 import nl.tudelft.oopp.demo.admin.controller.CalenderEditItemDialogController;
 import nl.tudelft.oopp.demo.calendar.CustomCalendar;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
-import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
+import nl.tudelft.oopp.demo.currentUser.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Food;

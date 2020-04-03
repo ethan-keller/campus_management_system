@@ -21,7 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;

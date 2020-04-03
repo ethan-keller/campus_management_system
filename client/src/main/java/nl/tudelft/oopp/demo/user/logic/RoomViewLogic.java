@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
-import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
+import nl.tudelft.oopp.demo.currentUser.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.user.controller.ReservationConfirmationViewController;

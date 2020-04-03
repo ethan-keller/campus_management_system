@@ -15,7 +15,7 @@ import javafx.scene.control.Button;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminBikeReservationView;
 import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
 import nl.tudelft.oopp.demo.views.AdminManageFoodView;

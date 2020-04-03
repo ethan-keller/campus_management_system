@@ -12,9 +12,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
-import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
+import nl.tudelft.oopp.demo.currentUser.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.user.logic.LoginViewLogic;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
