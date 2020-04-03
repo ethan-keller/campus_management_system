@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.dialogTest;
+package nl.tudelft.oopp.demo.admin.logic;
 
 import nl.tudelft.oopp.demo.admin.logic.BookingEditDialogLogic;
 import org.junit.jupiter.api.Test;
