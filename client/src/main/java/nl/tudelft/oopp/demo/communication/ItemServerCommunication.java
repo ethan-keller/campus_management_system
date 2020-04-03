@@ -19,7 +19,7 @@ public class ItemServerCommunication {
     /**
      * Gets all the items in the database.
      *
-     * @return http response in JSON format
+     * @return all the items
      */
     public static String getAllItems() {
         return sendGet(client, "getAllItems", "");
@@ -29,8 +29,7 @@ public class ItemServerCommunication {
      * Gets one Item with the given id.
      *
      * @param id id of the wanted Item
-     * @return http response in JSON format
-     * @ if improperly encoded
+     * @return item object
      */
     public static String getItem(int id)  {
         String params = "id=" + id;
@@ -46,8 +45,7 @@ public class ItemServerCommunication {
      * @param startingTime startingTime of item
      * @param endingTime   endingTime of item
      * @param description  description of item
-     * @return http response in JSON format
-     * @ if improperly encoded
+     * @return true if communication was successful, false otherwise
      */
     public static boolean createItem(String user, String title, String date, String startingTime,
                                      String endingTime, String description)  {
@@ -61,8 +59,7 @@ public class ItemServerCommunication {
      * Deletes the Item identified by the given id.
      *
      * @param id id of item that must be deleted
-     * @return http response in JSON format
-     * @ if improperly encoded
+     * @return true if communication was successful, false otherwise
      */
     public static boolean deleteItem(int id)  {
         String params = "id=" + id;
@@ -72,7 +69,7 @@ public class ItemServerCommunication {
     /**
      * Gets the id of the last inserted item in the database.
      *
-     * @return http response in JSON format
+     * @return the current id
      */
     public static String getCurrentId() {
         return sendGet(client, "currentId", "");
@@ -82,8 +79,7 @@ public class ItemServerCommunication {
      * Gets all the items of a particular user.
      *
      * @param user user who's items are needed
-     * @return http response in JSON format
-     * @ if improperly encoded
+     * @return all items of this user
      */
     public static String getUserItems(String user)  {
         String params = "user=" + user;

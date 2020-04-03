@@ -3,7 +3,6 @@ package nl.tudelft.oopp.demo.communication;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendGet;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendPost;
 
-import java.io.UnsupportedEncodingException;
 import java.net.http.HttpClient;
 
 public class RoomServerCommunication {
@@ -11,18 +10,16 @@ public class RoomServerCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
 
     /**
-     * This client-server method is used to create a new room using the attributes passed as
-     * parameters.
+     * This client-server method is used to create a new room.
      *
      * @param name        - Room name
      * @param building    - Building name
      * @param teacherOnly - Teacher only condition
      * @param capacity    - Room capacity
-     * @param photos      - Photos of the room
+     * @param photos      - Photo of the room
      * @param description - Room description
      * @param type        - Room type (Lecture hall, project room, etc)
-     * @return Boolean value which indicates to the user if Room creation is successful.
-     * @throws UnsupportedEncodingException is thrown
+     * @return true if communication was successful, false otherwise
      */
     public static boolean createRoom(String name, int building, boolean teacherOnly,
                                      int capacity, String photos, String description, String type) {
@@ -34,7 +31,7 @@ public class RoomServerCommunication {
     }
 
     /**
-     * This client-server method is used to update a room using the passed paramters.
+     * This client-server method is used to update a room.
      *
      * @param id          - Room id
      * @param name        - Room name
@@ -44,8 +41,7 @@ public class RoomServerCommunication {
      * @param photos      - Photos of the room
      * @param description - Room description
      * @param type        - Room type (Lecture hall, project room, etc)
-     * @return Boolean value if the room is updated or not.
-     * @throws UnsupportedEncodingException is thrown
+     * @return true if communication was successful, false otherwise
      */
     public static boolean updateRoom(int id, String name, int building, boolean teacherOnly,
                                      int capacity, String photos, String description, String type) {
@@ -56,35 +52,31 @@ public class RoomServerCommunication {
     }
 
     /**
-     * This client-server method is used to delete a room from the database.
+     * This client-server method is used to delete a room.
      *
-     * @param id - Room id
-     * @return - Boolean value to inform if the room is deleted.
-     * @throws UnsupportedEncodingException is thrown
+     * @param id id of the room
+     * @return true if communication was successful, false otherwise
      */
     public static boolean deleteRoom(int id) {
         String params = "id=" + id;
-
         return sendPost(client, "deleteRoom", params);
     }
 
     /**
-     * This client-server method is used to get a single room which corresponds to the room id.
+     * This client-server method is used to get a room by id.
      *
-     * @param id - Room id
-     * @return Room
-     * @throws UnsupportedEncodingException is thrown
+     * @param id id of the room
+     * @return room object
      */
     public static String getRoom(int id) {
         String params = "id=" + id;
-
         return sendGet(client, "getRoom", params);
     }
 
     /**
-     * This client-server method is used to get all the rooms present in the database.
+     * This client-server method is used to get all the rooms.
      *
-     * @return Rooms (ALL)
+     * @return all rooms
      */
     public static String getAllRooms() {
         return sendGet(client, "getAllRooms", "");

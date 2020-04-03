@@ -6,12 +6,14 @@ import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.CalendarView;
 import com.mindfusion.scheduling.TimetableSettings;
 
-/**.
+/**
+ * .
  * Basic class that customizes the general Calendar object
  */
 public class CustomCalendar extends Calendar {
 
-    /**.
+    /**
+     * .
      * Constructor
      */
     public CustomCalendar() {

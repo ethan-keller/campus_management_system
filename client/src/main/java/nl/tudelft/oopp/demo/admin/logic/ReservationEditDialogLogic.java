@@ -11,10 +11,10 @@ import javafx.scene.control.DatePicker;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageReservationViewController;
-import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 import org.controlsfx.control.RangeSlider;
 
@@ -26,7 +26,7 @@ public class ReservationEditDialogLogic {
      * @return true if the input is valid
      */
     public static boolean isInputValid(ComboBox<User> username, ComboBox<Room> room, DatePicker date,
-                                 RangeSlider timeslotSlider, DateTimeFormatter formatter) {
+                                       RangeSlider timeslotSlider, DateTimeFormatter formatter) {
         String errorMessage = "";
 
         if (username.getSelectionModel().getSelectedItem() == null) {

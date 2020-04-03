@@ -12,36 +12,29 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.LoginServerCommunication;
-import nl.tudelft.oopp.demo.currentUser.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
+import nl.tudelft.oopp.demo.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.user.logic.LoginViewLogic;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.RegisterView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
 
-
-
 public class LoginViewController {
 
+    public static User currentUser;
     @FXML
     private TextField username;
-
     @FXML
     private PasswordField password;
-
     @FXML
     private Label usernameLabel;
-
     @FXML
     private Label passwordLabel;
-
     @FXML
     private Hyperlink goToRegister;
-
-    public static User currentUser;
 
     /**
      * Handles clicking the login button.
@@ -73,13 +66,15 @@ public class LoginViewController {
 
     /**
      * This method checks if the username field and the password field are left empty.
+     *
      * @return Boolean value to indicate whether the above condition is fullfilled.
      */
     private boolean isValidInput() {
         return LoginViewLogic.isValidInput(username, usernameLabel, password, passwordLabel);
     }
 
-    /**.
+    /**
+     * .
      * Handles clicking the register link.
      */
     public void goToRegisterClicked(ActionEvent event) throws IOException {

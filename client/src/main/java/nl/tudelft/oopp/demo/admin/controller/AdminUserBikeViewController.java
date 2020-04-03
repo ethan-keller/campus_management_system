@@ -17,9 +17,9 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
-import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.UserBikeEditDialogView;
@@ -27,43 +27,31 @@ import nl.tudelft.oopp.demo.views.UserBikeNewDialogView;
 
 public class AdminUserBikeViewController {
 
+    public static BikeReservation currentSelectedBikeReservation;
     @FXML
     private Label usernameLabel;
-
     @FXML
     private TableView<BikeReservation> userBikeTable;
-
     @FXML
     private TableColumn<BikeReservation, Number> bikeIdColumn;
-
     @FXML
     private TableColumn<BikeReservation, String> bikeBuildingColumn;
-
     @FXML
     private TableColumn<BikeReservation, Number> bikeQuantityColumn;
-
     @FXML
     private TableColumn<BikeReservation, String> bikeDateColumn;
-
     @FXML
     private TableColumn<BikeReservation, String> bikeStartingTimeColumn;
-
     @FXML
     private TableColumn<BikeReservation, String> bikeEndingTimeColumn;
-
     @FXML
     private Button editBikeButton;
-
-
     @FXML
     private Button backButton;
     @FXML
     private Button signOutButton;
-
     @FXML
     private Button deleteBikeButton;
-
-    public static BikeReservation currentSelectedBikeReservation;
 
     public AdminUserBikeViewController() {
 
@@ -110,6 +98,7 @@ public class AdminUserBikeViewController {
 
     /**
      * Called when admin clicks a bike reservation.
+     *
      * @return the bike reservation that is currently selected
      */
     public BikeReservation getSelectedBikeReservation() {
@@ -123,6 +112,7 @@ public class AdminUserBikeViewController {
 
     /**
      * Gets a number representing the index of the selected bike reservation.
+     *
      * @return int
      */
     public int getSelectedIndex() {
@@ -131,6 +121,7 @@ public class AdminUserBikeViewController {
 
     /**
      * Delete a bike reservation.
+     *
      * @param event event that triggered this method
      */
     @FXML
@@ -160,6 +151,7 @@ public class AdminUserBikeViewController {
     /**
      * Handles clicking the create new button.
      * Opens a dialog to creat a new reservation.
+     *
      * @param event is passed
      */
     @FXML
@@ -197,6 +189,7 @@ public class AdminUserBikeViewController {
     /**
      * Called when the user clicks the edit button. Opens a dialog to edit
      * details for the selected bike reservation.
+     *
      * @param event event that triggered this method
      */
     @FXML
@@ -242,6 +235,7 @@ public class AdminUserBikeViewController {
 
     /**
      * Handles clicking the back button, redirect to the admin home page view.
+     *
      * @param event is passed
      * @throws IOException is thrown
      */

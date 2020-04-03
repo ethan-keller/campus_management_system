@@ -36,10 +36,10 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
-import nl.tudelft.oopp.demo.general.GeneralMethods;
-import nl.tudelft.oopp.demo.currentUser.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
+import nl.tudelft.oopp.demo.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.SearchView;
 
@@ -47,6 +47,10 @@ import org.controlsfx.control.RangeSlider;
 
 
 public class RentABikeController implements Initializable {
+    public static Stage thisStage;
+    private static int currentBuilding = 0;
+    public ObservableList<Building> buildingList = Building.getBuildingData();
+    public ObservableList<BikeReservation> bikeReservationsList = BikeReservation.getBikeReservationData();
     @FXML
     private DatePicker datePicker;
     @FXML
@@ -71,12 +75,7 @@ public class RentABikeController implements Initializable {
     private Button reserveBike;
     @FXML
     private Button backButton;
-
     private RangeSlider timeSlotSlider;
-    public static Stage thisStage;
-    public ObservableList<Building> buildingList = Building.getBuildingData();
-    private static int currentBuilding = 0;
-    public ObservableList<BikeReservation> bikeReservationsList = BikeReservation.getBikeReservationData();
 
     /**
      * Deals with the back button function.
@@ -206,6 +205,7 @@ public class RentABikeController implements Initializable {
 
     /**
      * Resets the length of slider depending on the building selected.
+     *
      * @param event Event
      */
     @FXML
@@ -221,8 +221,8 @@ public class RentABikeController implements Initializable {
         double closingTime = parseTime(b.getClosingTime().get());
 
         //Set the range of the slider in minutes
-        timeSlotSlider.setMin((int)startTime * 60);
-        timeSlotSlider.setMax((int)closingTime * 60);
+        timeSlotSlider.setMin((int) startTime * 60);
+        timeSlotSlider.setMax((int) closingTime * 60);
 
 
     }
@@ -299,6 +299,7 @@ public class RentABikeController implements Initializable {
 
     /**
      * Sends cofirmation alert to the user.
+     *
      * @param event handles event
      */
     public void confirmAlert(ActionEvent event) {
@@ -578,6 +579,7 @@ public class RentABikeController implements Initializable {
 
     /**
      * Parses time into hours. Deals with both the formats.
+     *
      * @param time Provided time
      * @return only hour of given string.
      */
@@ -616,9 +618,10 @@ public class RentABikeController implements Initializable {
 
     /**
      * Gets remaining number of bikes by reducing bikes rented from maximum bike of a building.
-     * @param b given object
-     * @param selectedDate given date
-     * @param selectedEnd given end time of rent
+     *
+     * @param b             given object
+     * @param selectedDate  given date
+     * @param selectedEnd   given end time of rent
      * @param selectedStart give start time of rent
      * @return remaining value for each building
      */
@@ -653,6 +656,7 @@ public class RentABikeController implements Initializable {
 
     /**
      * Adjusts the intervals of the slider depending on the opening hours.
+     *
      * @param selectedBuilding Building passed
      */
     private void setTimeSlotSlider(Building selectedBuilding) {

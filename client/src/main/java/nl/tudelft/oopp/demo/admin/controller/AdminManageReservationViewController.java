@@ -16,8 +16,8 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
-import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;
@@ -26,8 +26,8 @@ import nl.tudelft.oopp.demo.views.ReservationNewDialogView;
 
 public class AdminManageReservationViewController {
 
+    public static Reservation currentSelectedReservation;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -45,9 +45,6 @@ public class AdminManageReservationViewController {
     private TableColumn<Reservation, String> startingTime;
     @FXML
     private TableColumn<Reservation, String> endingTime;
-
-    public static Reservation currentSelectedReservation;
-
     @FXML
     private Button backButton;
     @FXML
@@ -106,6 +103,7 @@ public class AdminManageReservationViewController {
 
     /**
      * The index of the reservation is selected.
+     *
      * @return the index of the selected reservation.
      */
     public int getSelectedIndex() {
@@ -172,6 +170,7 @@ public class AdminManageReservationViewController {
 
     /**
      * Handles the clicking of Edit button.
+     *
      * @param event is passed
      */
     @FXML
@@ -213,6 +212,7 @@ public class AdminManageReservationViewController {
     /**
      * This will redirect the adminManageReservation view back to the home page for the admin to have
      * for options to choose from.
+     *
      * @param event is passed
      * @throws IOException is thrown
      */
@@ -228,6 +228,7 @@ public class AdminManageReservationViewController {
 
     /**
      * Handles clicking the food button, redirect to the food reservation view.
+     *
      * @param event is passed as a parameter.
      * @throws IOException is thrown.
      */
@@ -254,6 +255,7 @@ public class AdminManageReservationViewController {
 
     /**
      * This button redirects the admin back to the login page.
+     *
      * @param event is passed as a parameter.
      * @throws IOException is thrown.
      */
@@ -268,6 +270,7 @@ public class AdminManageReservationViewController {
 
     /**
      * This button redirects the admin back to the home page.
+     *
      * @param event is passed as a parameter.
      * @throws IOException is thrown.
      */

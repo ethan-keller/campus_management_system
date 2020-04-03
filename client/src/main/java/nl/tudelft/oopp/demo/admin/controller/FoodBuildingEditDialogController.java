@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
 import java.util.stream.Collectors;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,21 +10,22 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import nl.tudelft.oopp.demo.general.GeneralMethods;
-import nl.tudelft.oopp.demo.entities.Building;
 
+import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 
 public class FoodBuildingEditDialogController {
 
+    public static Building building;
     @FXML
     private ComboBox<Building> foodBuildingComboBox;
-
     private ObservableList<Building> olb;
-
-    public static Building building;
-
     private Stage dialogStage;
+
+    private static void emptyBuilding() {
+        building = new Building();
+    }
 
     /**
      * Initializes the controller class. This method is automatically called.
@@ -39,6 +41,7 @@ public class FoodBuildingEditDialogController {
 
     /**
      * Set the building combobox converter.
+     *
      * @param olb an observable list of buildings.
      */
     public void setFoodBuildingComboBoxConverter(ObservableList<Building> olb) {
@@ -61,12 +64,9 @@ public class FoodBuildingEditDialogController {
         foodBuildingComboBox.setConverter(converter);
     }
 
-    private static void emptyBuilding() {
-        building = new Building();
-    }
-
     /**
      * Called when the user clicks ok.
+     *
      * @param event is passed
      */
     @FXML
@@ -88,6 +88,7 @@ public class FoodBuildingEditDialogController {
 
     /**
      * Called when the user clicks cancel.
+     *
      * @param event is passed
      */
     @FXML
@@ -118,7 +119,7 @@ public class FoodBuildingEditDialogController {
 
             return false;
         }
-        
+
     }
 
 }

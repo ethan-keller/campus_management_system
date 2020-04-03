@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -25,10 +26,11 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
-import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
+
 import org.controlsfx.control.RangeSlider;
 
 /**
@@ -36,6 +38,9 @@ import org.controlsfx.control.RangeSlider;
  */
 public class BikeEditDialogController {
 
+    public static BikeReservation bikeReservation;
+    public static boolean edit;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     @FXML
     private ComboBox<User> bikeUsernameComboBox;
     @FXML
@@ -54,22 +59,21 @@ public class BikeEditDialogController {
     private Label timeslot;
     @FXML
     private Text availableBikes;
-
     private RangeSlider timeslotSlider;
-
-    public static BikeReservation bikeReservation;
-
-    public static boolean edit;
-
     private Stage dialogStage;
-
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
      * .
      * Default constructor of the BikeEditDialogController class.
      */
     public BikeEditDialogController() {
+    }
+
+    /**
+     * Create a new bike reservation when called.
+     */
+    private static void emptyReservation() {
+        bikeReservation = new BikeReservation();
     }
 
     /**
@@ -492,13 +496,6 @@ public class BikeEditDialogController {
             }
         };
         bikeBuildingComboBox.setConverter(converter);
-    }
-
-    /**
-     * Create a new bike reservation when called.
-     */
-    private static void emptyReservation() {
-        bikeReservation = new BikeReservation();
     }
 
     /**

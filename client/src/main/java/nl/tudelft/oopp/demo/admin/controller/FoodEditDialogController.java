@@ -7,19 +7,21 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 public class FoodEditDialogController {
 
+    public static Food food;
     @FXML
     private TextField foodNameField;
     @FXML
     private TextField foodPriceField;
-
-    public static Food food;
-
     private Stage dialogStage;
+
+    private static void emptyFood() {
+        food = new Food();
+    }
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -32,15 +34,12 @@ public class FoodEditDialogController {
             return;
         }
         foodNameField.setText(food.getFoodName().get());
-        foodPriceField.setText(String.valueOf((double)Math.round((food.getFoodPrice().get()) * 100) / 100));
-    }
-
-    private static void emptyFood() {
-        food = new Food();
+        foodPriceField.setText(String.valueOf((double) Math.round((food.getFoodPrice().get()) * 100) / 100));
     }
 
     /**
      * Called when the user clicks ok.
+     *
      * @param event is passed
      */
     @FXML
@@ -56,6 +55,7 @@ public class FoodEditDialogController {
 
     /**
      * Called when the user clicks cancel.
+     *
      * @param event is passed
      */
     @FXML
@@ -101,7 +101,7 @@ public class FoodEditDialogController {
 
             return false;
         }
-        
+
     }
 
 }

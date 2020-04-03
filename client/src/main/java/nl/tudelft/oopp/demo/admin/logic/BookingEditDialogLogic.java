@@ -11,9 +11,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.util.StringConverter;
 
-import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 import org.controlsfx.control.RangeSlider;
 
@@ -25,7 +25,7 @@ public class BookingEditDialogLogic {
      * @return true if the input is valid
      */
     public static boolean isInputValid(ComboBox<Room> bookingRoomComboBox, DatePicker bookingDate,
-                                 RangeSlider timeSlotSlider, Reservation reservation) {
+                                       RangeSlider timeSlotSlider, Reservation reservation) {
         String errorMessage = "";
 
         if (bookingRoomComboBox.getSelectionModel().getSelectedIndex() < 0) {
@@ -55,7 +55,7 @@ public class BookingEditDialogLogic {
      * @return true if the time slot is free, false otherwise
      */
     public static boolean checkTimeSlotValidity(ComboBox<Room> bookingRoomComboBox, DatePicker bookingDate,
-                                          Reservation reservation, RangeSlider timeSlotSlider) {
+                                                Reservation reservation, RangeSlider timeSlotSlider) {
         // get currently selected room
         Room selectedRoom = bookingRoomComboBox.getSelectionModel().getSelectedItem();
         if (selectedRoom == null) {
@@ -173,6 +173,7 @@ public class BookingEditDialogLogic {
 
     /**
      * sorts the reservation given.
+     *
      * @param reservations list of reservations to be sorted.
      */
     public static void sortReservations(List<Reservation> reservations) {

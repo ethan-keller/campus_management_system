@@ -3,7 +3,6 @@ package nl.tudelft.oopp.demo.communication;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendGet;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendPost;
 
-import java.io.UnsupportedEncodingException;
 import java.net.http.HttpClient;
 
 public class BuildingServerCommunication {
@@ -25,7 +24,6 @@ public class BuildingServerCommunication {
      *
      * @param id id of the building wanted
      * @return building (JSON)
-     * @throws UnsupportedEncodingException if improperly encoded
      */
     public static String getBuilding(int id) {
         String params = "id=" + id;
@@ -44,8 +42,7 @@ public class BuildingServerCommunication {
     }
 
     /**
-     * This is a client-server communication method which is used to create a new building using the attributes.
-     * Attributes are the parameters.
+     * This is a client-server communication method which is used to create a new building.
      *
      * @param name        - Name of the building
      * @param roomCount   - Number of rooms the building has
@@ -53,7 +50,6 @@ public class BuildingServerCommunication {
      * @param openingTime - Opening time of building
      * @param closingTime - Closing time of building
      * @return true if communication was successful, false otherwise
-     * @throws UnsupportedEncodingException if improperly encoded
      */
     public static boolean createBuilding(String name, int roomCount, String address, int maxBikes,
                                          String openingTime, String closingTime) {
@@ -66,21 +62,17 @@ public class BuildingServerCommunication {
 
     /**
      * This is a client-server communication method which is used to delete a certain building.
-     * The building is recognized by the parameter passed.
      *
-     * @param id - Building id
-     * @return Boolean value which announces to the user whether the building is deleted.
-     * @throws UnsupportedEncodingException if improperly encoded
+     * @param id id of the building
+     * @return true if communication was successful, false otherwise
      */
     public static boolean deleteBuilding(int id) {
         String params = "id=" + id;
-
         return sendPost(client, "deleteBuilding", params);
     }
 
     /**
      * This is a client-server communication method which is used to update the attributes of a building.
-     * Attributes are the parameters.
      *
      * @param id          - Building id
      * @param name        - Name of the building
@@ -90,7 +82,6 @@ public class BuildingServerCommunication {
      * @param openingTime - Opening time of building
      * @param closingTime - Closing time of building
      * @return Boolean value which is used to display a message to the client if the building is updated.
-     * @throws UnsupportedEncodingException if improperly encoded
      */
     public static boolean updateBuilding(int id, String name, int roomCount, String address, int maxBikes,
                                          String openingTime, String closingTime) {

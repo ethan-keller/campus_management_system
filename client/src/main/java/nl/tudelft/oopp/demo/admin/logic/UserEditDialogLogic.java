@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 
@@ -13,12 +14,13 @@ public class UserEditDialogLogic {
 
     /**
      * To validate the input of the user.
-     * @param usernameField - Username
-     * @param userTypeAdmin - Admin type
-     * @param userTypeTeacher - Teacher type
-     * @param userTypeStudent - Student type
+     *
+     * @param usernameField     - Username
+     * @param userTypeAdmin     - Admin type
+     * @param userTypeTeacher   - Teacher type
+     * @param userTypeStudent   - Student type
      * @param userPasswordField - Password
-     * @param edit - Boolean value
+     * @param edit              - Boolean value
      * @return Boolean value to validate
      */
     public static boolean isInputValid(TextField usernameField, RadioButton userTypeAdmin,

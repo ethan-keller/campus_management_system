@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -21,8 +22,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
-import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RoomEditDialogView;
@@ -34,41 +35,30 @@ import nl.tudelft.oopp.demo.views.RoomNewDialogView;
  */
 public class AdminManageRoomViewController {
 
+    public static Room currentSelectedRoom;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
     @FXML
     private TableView<Room> roomTable;
-
     @FXML
     private TableColumn<Room, Number> roomIdColumn;
-
     @FXML
     private TableColumn<Room, String> roomNameColumn;
-
     @FXML
     private TableColumn<Room, Number> roomBuildingColumn;
-
     @FXML
     private TableColumn<Room, String> roomOnlyTeachersColumn;
-
     @FXML
     private TableColumn<Room, Number> roomCapacityBuilding;
-
     @FXML
     private TableColumn<Room, String> roomPhotoColumn;
-
     @FXML
     private TableColumn<Room, String> roomDescriptionColumn;
-
     @FXML
     private TableColumn<Room, String> roomTypeColumn;
-
     @FXML
     private Button backButton;
     @FXML
     private Button signOutButton;
-
-    public static Room currentSelectedRoom;
 
     /**
      * Default constructor for JavaFX.

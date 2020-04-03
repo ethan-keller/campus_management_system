@@ -14,6 +14,7 @@ public class FoodServerCommunication {
      *
      * @param name  The name of the new food
      * @param price The price of the new food
+     * @return true if communication was successful, false otherwise
      */
     public static boolean createFood(String name, double price) {
         String params = "name=" + name + "&price=" + price;
@@ -25,6 +26,7 @@ public class FoodServerCommunication {
      *
      * @param foodId     The ID of the food
      * @param buildingId The ID of the building
+     * @return true if communication was successful, false otherwise
      */
     public static boolean addFoodToBuilding(int foodId, int buildingId) {
         String params = "food=" + foodId + "&building=" + buildingId;
@@ -36,6 +38,7 @@ public class FoodServerCommunication {
      *
      * @param foodId        The id of the food
      * @param reservationId The id of the reservation
+     * @return true if communication was successful, false otherwise
      */
     public static boolean addFoodToReservation(int foodId, int reservationId) {
         String params = "food=" + foodId + "&reservation=" + reservationId + "&quantity=1";
@@ -48,6 +51,7 @@ public class FoodServerCommunication {
      * @param foodId        The id of the food
      * @param reservationId The id of the reservation
      * @param quantity      The quantity of the chosen food
+     * @return true if communication was successful, false otherwise
      */
     public static boolean addFoodToReservation(int foodId, int reservationId, int quantity) {
         String params = "food=" + foodId + "&reservation=" + reservationId + "&quantity=" + quantity;
@@ -60,6 +64,7 @@ public class FoodServerCommunication {
      * @param id    The food ID
      * @param name  The new name of the food
      * @param price The new price of the food
+     * @return true if communication was successful, false otherwise
      */
     public static boolean updateFood(int id, String name, double price) {
         String params = "id=" + id + "&name=" + name + "&price=" + price;
@@ -71,6 +76,7 @@ public class FoodServerCommunication {
      *
      * @param foodId        The ID of the food to be removed.
      * @param reservationId The ID of the reservation to remove the food from
+     * @return true if communication was successful, false otherwise
      */
     public static boolean deleteFoodFromReservation(int foodId, int reservationId) {
         String params = "food=" + foodId + "&reservation=" + reservationId;
@@ -82,6 +88,7 @@ public class FoodServerCommunication {
      *
      * @param foodId     The ID of the food
      * @param buildingId The ID of the building
+     * @return true if communication was successful, false otherwise
      */
     public static boolean deleteFoodFromBuilding(int foodId, int buildingId) {
         String params = "food=" + foodId + "&building=" + buildingId;
@@ -94,6 +101,7 @@ public class FoodServerCommunication {
      * @param foodId        The ID of the food
      * @param reservationId The ID of the reservation
      * @param quantity      The new quantity of the food
+     * @return true if communication was successful, false otherwise
      */
     public static boolean updateFoodReservationQuantity(int foodId, int reservationId, int quantity) {
         String params = "food=" + foodId + "&reservation=" + reservationId + "&quantity=" + quantity;
@@ -104,6 +112,7 @@ public class FoodServerCommunication {
      * Creates an HTTP request to remove a food from the database.
      *
      * @param id The ID of the food
+     * @return true if communication was successful, false otherwise
      */
     public static boolean deleteFood(int id) {
         String params = "id=" + id;
@@ -114,7 +123,7 @@ public class FoodServerCommunication {
      * Returns a food object in JSON from the database based on the food ID.
      *
      * @param id The food ID
-     * @return Returns a JSON object
+     * @return Returns the food object (JSON)
      */
     public static String getFood(int id) {
         String params = "id=" + id;
@@ -126,7 +135,7 @@ public class FoodServerCommunication {
      * based on the reservation ID.
      *
      * @param reservation The reservation ID
-     * @return Returns a JSON List
+     * @return Returns list of food objects (JSON)
      */
     public static String getFoodReservationByReservation(int reservation) {
         String params = "reservation=" + reservation;
@@ -138,7 +147,7 @@ public class FoodServerCommunication {
      * based on the building ID.
      *
      * @param buildingId The building ID
-     * @return Returns a JSON List
+     * @return Returns a list of food objects (JSON)
      */
     public static String getFoodByBuildingId(int buildingId) {
         String params = "building=" + buildingId;
@@ -148,7 +157,7 @@ public class FoodServerCommunication {
     /**
      * Returns a list of all foods from the database in JSON format.
      *
-     * @return Returns a JSON List
+     * @return Returns a list of food objects (JSON)
      */
     public static String getAllFood() {
         return sendGet(client, "getAllFood", "");

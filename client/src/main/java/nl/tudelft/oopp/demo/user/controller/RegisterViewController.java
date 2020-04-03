@@ -55,8 +55,10 @@ public class RegisterViewController {
         teacher.setToggleGroup(group);
     }
 
-    /**.
+    /**
+     * .
      * To check if teacher is selected.
+     *
      * @return Boolean
      */
     @FXML
@@ -68,8 +70,10 @@ public class RegisterViewController {
         }
     }
 
-    /**.
+    /**
+     * .
      * To check if teacher is selected.
+     *
      * @return Boolean
      */
     @FXML
@@ -81,8 +85,10 @@ public class RegisterViewController {
         }
     }
 
-    /**.
+    /**
+     * .
      * Handles the clicking of register button
+     *
      * @param event - Passed as parameter
      * @throws IOException is thrown
      */

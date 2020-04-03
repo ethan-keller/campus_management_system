@@ -60,7 +60,7 @@ public class BikeReservationCommunication {
     }
 
     /**
-     * Rretreives a bike reservation from the database by id.
+     * Retrieves a bike reservation from the database by id.
      *
      * @param id The id of the bike reservation
      * @return Returns a BikeReservation object
@@ -80,7 +80,7 @@ public class BikeReservationCommunication {
     }
 
     /**
-     * Retrieves all the bike reservations of the bikes that belong to the building of buildingId.
+     * Retrieves all the bike reservations of the bikes that belong to a building.
      *
      * @param building The id of the building
      * @return Returns a list of bike reservations.

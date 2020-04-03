@@ -4,19 +4,22 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import nl.tudelft.oopp.demo.general.GeneralMethods;
+
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 public class RoomEditDialogLogic {
 
-    /**.
+    /**
+     * .
      * To validate the input of the user
-     * @param roomNameField - Name of room
+     *
+     * @param roomNameField        - Name of room
      * @param roomBuildingComboBox - List of buildings
-     * @param radioButtonYes - Yes radio box
-     * @param radioButtonNo - No Radio box
-     * @param roomCapacityField - Room capacity
-     * @param roomTypeField - Room type
+     * @param radioButtonYes       - Yes radio box
+     * @param radioButtonNo        - No Radio box
+     * @param roomCapacityField    - Room capacity
+     * @param roomTypeField        - Room type
      * @param roomDescriptionField - Room description
      * @return - Boolean value to validate input
      */

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,8 +17,8 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
-import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminUserBikeView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
@@ -26,29 +27,22 @@ import nl.tudelft.oopp.demo.views.UserEditDialogView;
 import nl.tudelft.oopp.demo.views.UserNewDialogView;
 
 
-
 public class AdminManageUserViewController {
 
+    public static User currentSelectedUser;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
     @FXML
     private TableView<User> userTable;
-
     @FXML
     private TableColumn<User, String> usernameColumn;
-
     @FXML
     private TableColumn<User, String> userTypeColumn;
-
     @FXML
     private TableColumn<User, String> userPasswordColumn;
-
     @FXML
     private Button backButton;
     @FXML
     private Button signOutButton;
-
-    public static User currentSelectedUser;
 
     public AdminManageUserViewController() {
     }
@@ -252,6 +246,7 @@ public class AdminManageUserViewController {
 
     /**
      * This button redirects the user back to the login page.
+     *
      * @param event is passed.
      * @throws IOException is thrown.
      */
