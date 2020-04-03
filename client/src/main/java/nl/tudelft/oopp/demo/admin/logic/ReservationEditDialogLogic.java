@@ -26,7 +26,7 @@ public class ReservationEditDialogLogic {
      * @return true if the input is valid
      */
     public static boolean isInputValid(ComboBox<User> username, ComboBox<Room> room, DatePicker date,
-                                 RangeSlider timeslotSlider, DateTimeFormatter formatter) {
+                                       RangeSlider timeslotSlider, DateTimeFormatter formatter) {
         String errorMessage = "";
 
         if (username.getSelectionModel().getSelectedItem() == null) {
@@ -152,7 +152,7 @@ public class ReservationEditDialogLogic {
             for (Reservation r : roomReservations) {
                 // if reservation equals the one we are editing, don't consider it
                 if (res != null) {
-                    if (r.getId().get() == res.getId().get()) {
+                    if (r.getReservationId().get() == res.getReservationId().get()) {
                         continue;
                     }
                 }
@@ -160,8 +160,8 @@ public class ReservationEditDialogLogic {
                 // get rangeslider values + reservation values
                 double currentStartValue = timeslotSlider.getLowValue();
                 double currentEndValue = timeslotSlider.getHighValue();
-                double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
-                double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
+                double startValue = (double) timeConverter.fromString(r.getReservationStartingTime().get());
+                double endValue = (double) timeConverter.fromString(r.getReservationEndingTime().get());
 
                 // check if the values overlap
                 if (!((currentStartValue <= startValue && currentEndValue <= startValue)

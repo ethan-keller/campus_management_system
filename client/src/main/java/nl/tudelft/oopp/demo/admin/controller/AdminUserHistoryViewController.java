@@ -65,12 +65,12 @@ public class AdminUserHistoryViewController {
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             // Initialize the booking table with the five columns.
             bookingIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
-                    cellData.getValue().getId().get()));
+                    cellData.getValue().getReservationId().get()));
             bookingRoomColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getRoom().get()));
             bookingDateColumn.setCellValueFactory(cell -> cell.getValue().getDate());
-            bookingStartColumn.setCellValueFactory(cell -> cell.getValue().getStartingTime());
-            bookingEndColumn.setCellValueFactory(cell -> cell.getValue().getEndingTime());
+            bookingStartColumn.setCellValueFactory(cell -> cell.getValue().getReservationStartingTime());
+            bookingEndColumn.setCellValueFactory(cell -> cell.getValue().getReservationEndingTime());
             bookingTable.setItems(Reservation.getSelectedUserReservation());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());

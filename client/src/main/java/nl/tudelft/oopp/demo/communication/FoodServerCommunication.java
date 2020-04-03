@@ -168,6 +168,14 @@ public class FoodServerCommunication {
     }
 
     /**
+     * Returns all food reservations.
+     * @return JSON list of food reservations
+     */
+    public static String getAllFoodReservations() {
+        return sendGet("getAllFoodReservations", "");
+    }
+
+    /**
      * Sends the actual HTTP GET request to the server.
      * @param url The url to send the request to.
      * @param params The parameters that the server needs.

@@ -19,9 +19,11 @@ import nl.tudelft.oopp.demo.entities.User;
 
 public class AdminLogic {
 
-    /**.
+    /**
+     * .
      * This method is used to select a building from the tabular view of the buildings
      * Constraints are added; if the building index is less than 0, null is returned.
+     *
      * @param buildingTableView - TableView of Buildings
      * @return - Building
      */
@@ -33,9 +35,11 @@ public class AdminLogic {
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used in the adminManageBuildingViewController class to communicate with the server to
      * command them to delete the selected building.
+     *
      * @param selectedBuilding - The selected building from the tabular view passed as a parameter.
      */
     public static void deleteBuildingLogic(Building selectedBuilding) {
@@ -47,9 +51,11 @@ public class AdminLogic {
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used in adminManageBuildingViewController class to communicate with the server to
      * command them to create a new building.
+     *
      * @param tempBuilding - The features of the building are passed through this variable.
      */
     public static void createBuildingLogic(Building tempBuilding) {
@@ -67,8 +73,9 @@ public class AdminLogic {
     /**
      * This method is used in the adminManageBuildingViewController class to communicate with the server to
      * command them to edit the selected building.
+     *
      * @param selectedBuilding - The selected building from the tabular view passed as a parameter.
-     * @param tempBuilding - The features of the building are passed through this variable.
+     * @param tempBuilding     - The features of the building are passed through this variable.
      */
     public static void editBuildingLogic(Building selectedBuilding, Building tempBuilding) {
         try {
@@ -85,6 +92,7 @@ public class AdminLogic {
     /**
      * This method is used in adminManageFoodReservationController class to communicate with the server to
      * command them to delete a food reservation for a particular building.
+     *
      * @param selectedBuilding - The building where the food is provided
      */
     public static void deleteFoodReservationLogic(Building selectedBuilding) {
@@ -100,6 +108,7 @@ public class AdminLogic {
     /**
      * This method is used in adminManageFoodReservationController class to communicate with the server to
      * command them to add a food reservation for a particular building.
+     *
      * @param tempBuilding - The building variable with all the food options
      */
     public static void addFoodReservationLogic(Building tempBuilding) {
@@ -114,6 +123,7 @@ public class AdminLogic {
 
     /**
      * This methods returns the selected food reservation from the food reservation table.
+     *
      * @param foodReservationTable - The table of food reservations.
      * @return - FoodReservation corresponding to the one the user selected.
      */
@@ -125,9 +135,11 @@ public class AdminLogic {
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used to select a reservation from the tabular view of the reservations
      * Constraints are added; if the reservation index is less than 0, null is returned.
+     *
      * @param reservationTableView - TableView of Reservations
      * @return - Reservation
      */
@@ -142,53 +154,61 @@ public class AdminLogic {
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used in the adminManageReservationViewController class to communicate with the server to
      * command them to delete the selected reservation.
+     *
      * @param selectedReservation - The selected reservation from the tabular view passed as a parameter.
      */
     public static void deleteReservationLogic(Reservation selectedReservation) {
         try {
-            ReservationServerCommunication.deleteReservation(selectedReservation.getId().getValue());
+            ReservationServerCommunication.deleteReservation(selectedReservation.getReservationId().getValue());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used in adminManageReservationViewController class to communicate with the server to
-     *  command them to create a new reservation.
+     * command them to create a new reservation.
+     *
      * @param tempReservation - The features of the new reservation passed as parameter.
      */
     public static void createReservationLogic(Reservation tempReservation) {
         try {
             ReservationServerCommunication.createReservation(tempReservation.getUsername().get(),
                     tempReservation.getRoom().get(), tempReservation.getDate().get(),
-                    tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
+                    tempReservation.getReservationStartingTime().get(), tempReservation.getReservationEndingTime().get());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used in the adminManageReservationViewController class to communicate with the server to
      * command them to edit the selected reservation.
+     *
      * @param selectedReservation - This is used to get the id of the selected reservation.
-     * @param tempReservation - These are the edited features of the reservation object passed as parameter.
+     * @param tempReservation     - These are the edited features of the reservation object passed as parameter.
      */
     public static void editReservationLogic(Reservation selectedReservation, Reservation tempReservation) {
         try {
-            ReservationServerCommunication.updateReservation(selectedReservation.getId().get(),
+            ReservationServerCommunication.updateReservation(selectedReservation.getReservationId().get(),
                     tempReservation.getRoom().get(), tempReservation.getDate().get(),
-                    tempReservation.getStartingTime().get(), tempReservation.getEndingTime().get());
+                    tempReservation.getReservationStartingTime().get(), tempReservation.getReservationEndingTime().get());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used to select a food from the tabular view of the rooms
      * Constraints are added; if the food index is less than 0, null is returned.
+     *
      * @param foodTable - The selected food from the table
      * @return - Food
      */
@@ -202,6 +222,7 @@ public class AdminLogic {
 
     /**
      * Commands the server to deleted the selected food.
+     *
      * @param selectedFood - Food option selected by the user.
      */
     public static void deleteFoodLogic(Food selectedFood) {
@@ -214,6 +235,7 @@ public class AdminLogic {
 
     /**
      * Commands the server to add food to the food options.
+     *
      * @param tempFood - Food option selected by the user.
      */
     public static void addFoodLogic(Food tempFood) {
@@ -226,8 +248,9 @@ public class AdminLogic {
 
     /**
      * Commands the server to update food to the food options.
+     *
      * @param selectedFood - Food option selected by the user.
-     * @param tempFood - Food option updated by the user.
+     * @param tempFood     - Food option updated by the user.
      */
     public static void updateFoodLogic(Food selectedFood, Food tempFood) {
         try {
@@ -238,9 +261,11 @@ public class AdminLogic {
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used to select a room from the tabular view of the rooms
      * Constraints are added; if the room index is less than 0, null is returned.
+     *
      * @param roomTable - The selected room from the table
      * @return - Room
      */
@@ -252,9 +277,11 @@ public class AdminLogic {
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used in the adminManageRoomViewController class to communicate with the server to
      * command them to delete the selected room.
+     *
      * @param selectedRoom - Selected room from the table
      */
     public static void deleteRoomLogic(Room selectedRoom) {
@@ -265,9 +292,11 @@ public class AdminLogic {
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used in adminManageRoomViewController class to communicate with the server to
      * command them to create a new room.
+     *
      * @param tempRoom - A room with all the required features to be created.
      */
     public static boolean createRoomLogic(Room tempRoom) {
@@ -286,11 +315,13 @@ public class AdminLogic {
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used in the adminManageRoomViewController class to communicate with the server to
      * command them to edit the selected room.
+     *
      * @param selectedRoom - This is used to get the id of the selected room.
-     * @param tempRoom - These are the edited features of the room object passed as parameter.
+     * @param tempRoom     - These are the edited features of the room object passed as parameter.
      */
     public static boolean editRoomLogic(Room selectedRoom, Room tempRoom) {
         try {
@@ -309,9 +340,11 @@ public class AdminLogic {
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used to select a User from the tabular view of the Users
      * Constraints are added; if the User index is less than 0, null is returned.
+     *
      * @param userTable - The selected User from the table
      * @return - User
      */
@@ -323,9 +356,11 @@ public class AdminLogic {
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used in the adminManageUserViewController class to communicate with the server to
      * command them to delete the selected User.
+     *
      * @param selectedUser - Selected User from the table
      */
     public static void deleteUserLogic(User selectedUser) {
@@ -336,9 +371,11 @@ public class AdminLogic {
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used in adminManageUserViewController class to communicate with the server to
      * command them to create a new User.
+     *
      * @param tempUser - A User with all the required features to be created.
      */
     public static void createUserLogic(User tempUser) {
@@ -346,13 +383,16 @@ public class AdminLogic {
             UserServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(),
                     tempUser.getUserType().get());
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();;
+            e.printStackTrace();
+            ;
         }
     }
 
-    /**.
+    /**
+     * .
      * This method is used in the adminManageUserViewController class to communicate with the server to
      * command them to edit the selected User.
+     *
      * @param tempUser - These are the edited features of the User object passed as parameter.
      */
     public static void editUserLogic(User tempUser) {

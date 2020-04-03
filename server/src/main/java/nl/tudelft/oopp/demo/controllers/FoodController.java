@@ -216,6 +216,22 @@ public class FoodController {
     }
 
     /**
+     * Gets all food reservations from the database.
+     * @return list of links between foods and reservations (thus all food reservations)
+     */
+    @GetMapping("getAllFoodReservations")
+    @ResponseBody
+    public List<Object[]> getAllFoodReservations(){
+        try {
+            return foodRepo.getAllFoodReservations();
+        } catch (Exception e) {
+            logger.error("Food: -getAllFoodReservations- ERROR", e);
+        }
+        return null;
+    }
+
+
+    /**
      * Maps the query from getFoodByReservation to the proper Objects.
      * @param obj The query result
      * @return Returns a list of FoodReservations

@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.entities;
 
+import com.mindfusion.common.DateTime;
+
+import java.awt.Color;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,11 +20,13 @@ import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.admin.controller.AdminManageUserViewController;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
+import nl.tudelft.oopp.demo.user.calendar.logic.AbstractCalendarItem;
+import nl.tudelft.oopp.demo.user.calendar.logic.CalendarPaneLogic;
 
 import org.json.JSONArray;
 
 
-public class Reservation {
+public class Reservation implements AbstractCalendarItem {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
     
@@ -71,7 +76,7 @@ public class Reservation {
      *
      * @return int, in the form of IntegerProperty.
      */
-    public IntegerProperty getId() {
+    public IntegerProperty getReservationId() {
         return id;
     }
 
@@ -143,7 +148,7 @@ public class Reservation {
      *
      * @return String in the form of a StringProperty.
      */
-    public StringProperty getStartingTime() {
+    public StringProperty getReservationStartingTime() {
         return startingTime;
     }
 
@@ -161,7 +166,7 @@ public class Reservation {
      *
      * @return String in the form of a StringProperty.
      */
-    public StringProperty getEndingTime() {
+    public StringProperty getReservationEndingTime() {
         return endingTime;
     }
 
@@ -273,4 +278,77 @@ public class Reservation {
         return null;
     }
 
+    @Override
+    public String getId() {
+        return String.valueOf(this.getReservationId());
+    }
+
+    @Override
+    public String getHeader() {
+        return "Reservation";
+    }
+
+    @Override
+    public DateTime getStartTime() {
+        DateTime dt = null;
+        // split date in [yyyy, MM, dd]
+        String[] date = this.getDate().get().split("-");
+        // split time in [hh, mm, ss]
+        String[] startTime = this.getReservationStartingTime().get().split(":");
+        dt = new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
+                Integer.parseInt(date[2]), Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1]),
+                Integer.parseInt(startTime[2]));
+        return dt;
+    }
+
+    @Override
+    public DateTime getEndTime() {
+        DateTime dt = null;
+        // split date in [yyyy, MM, dd]
+        String[] date = this.getDate().get().split("-");
+        // split time in [hh, mm, ss]
+        String[] endTime = this.getReservationEndingTime().get().split(":");
+
+        dt = new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
+                Integer.parseInt(date[2]), Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1]),
+                Integer.parseInt(endTime[2]));
+        return dt;
+    }
+
+    @Override
+    public String getDescription() {
+        String[] startTime = this.getReservationStartingTime().get().split(":");
+        String[] endTime = this.getReservationEndingTime().get().split(":");
+        Room room = CalendarPaneLogic.roomList.stream()
+                .filter(x -> x.getRoomId().get() == this.getRoom().get())
+                .collect(Collectors.toList()).get(0);
+        Building b = CalendarPaneLogic.buildingList.stream()
+                .filter(x -> x.getBuildingId().get() == room.getRoomBuilding().get())
+                .collect(Collectors.toList()).get(0);
+
+        String description = room.getRoomName().get() + "\n" + b.getBuildingName().get() + "\n"
+                + startTime[0] + ":" + startTime[1] + " - " + endTime[0] + ":" + endTime[1] + "\n";
+
+        double totalPrice = 0;
+        List<FoodReservation> frList = CalendarPaneLogic.foodReservationList.stream()
+                .filter(x -> x.getReservationId().get() == this.getReservationId().get())
+                .collect(Collectors.toList());
+
+        for (FoodReservation fr : frList) {
+            Food f = CalendarPaneLogic.foodList.stream()
+                    .filter(x -> x.getFoodId().get() == fr.getFoodId().get())
+                    .collect(Collectors.toList()).get(0);
+            description += fr.getFoodQuantity().get() + "x " + f.getFoodName().get() + "\n";
+            totalPrice += fr.getFoodQuantity().get() * f.getFoodPrice().get();
+        }
+        if (frList.size() != 0) {
+            description += "total price = " + Math.round(totalPrice * 100.0) / 100.0 + " euro(s)";
+        }
+        return description;
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.CYAN;
+    }
 }

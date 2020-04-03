@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.entities;
 
+import com.mindfusion.common.DateTime;
+
+import java.awt.Color;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,12 +14,14 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
+import nl.tudelft.oopp.demo.user.calendar.logic.AbstractCalendarItem;
+
 import org.json.JSONArray;
 
 /**
  * Entity class for calendar items.
  */
-public class Item {
+public class Item implements AbstractCalendarItem {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
 
@@ -67,7 +72,7 @@ public class Item {
      *
      * @return int, in the form of IntegerProperty
      */
-    public IntegerProperty getId() {
+    public IntegerProperty getItemId() {
         return id;
     }
 
@@ -139,7 +144,7 @@ public class Item {
      *
      * @return String in the form of a StringProperty.
      */
-    public StringProperty getStartingTime() {
+    public StringProperty getItemStartingTime() {
         return startingTime;
     }
 
@@ -157,7 +162,7 @@ public class Item {
      *
      * @return String in the form of a StringProperty.
      */
-    public StringProperty getEndingTime() {
+    public StringProperty getItemEndingTime() {
         return endingTime;
     }
 
@@ -175,7 +180,7 @@ public class Item {
      *
      * @return String in the form of a StringProperty.
      */
-    public StringProperty getDescription() {
+    public StringProperty getItemDescription() {
         return description;
     }
 
@@ -203,7 +208,7 @@ public class Item {
             return false;
         }
         Item item = (Item) o;
-        return Objects.equals(getId(), item.getId());
+        return Objects.equals(getItemId(), item.getItemId());
     }
 
     /**
@@ -259,5 +264,52 @@ public class Item {
             logger.log(Level.SEVERE, e.toString());
         }
         return null;
+    }
+
+    @Override
+    public String getId() {
+        return String.valueOf(this.getItemId().get());
+    }
+
+    @Override
+    public String getHeader() {
+        return "Item";
+    }
+
+    @Override
+    public DateTime getStartTime() {
+        DateTime dt = null;
+        // split date in [yyyy, MM, dd]
+        String[] date = this.getDate().get().split("-");
+        // split time in [hh, mm, ss]
+        String[] startTime = this.getItemStartingTime().get().split(":");
+        dt = new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
+                Integer.parseInt(date[2]), Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1]),
+                Integer.parseInt(startTime[2]));
+        return dt;
+    }
+
+    @Override
+    public DateTime getEndTime() {
+        DateTime dt = null;
+        // split date in [yyyy, MM, dd]
+        String[] date = this.getDate().get().split("-");
+        // split time in [hh, mm, ss]
+        String[] endTime = this.getItemEndingTime().get().split(":");
+
+        dt = new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
+                Integer.parseInt(date[2]), Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1]),
+                Integer.parseInt(endTime[2]));
+        return dt;
+    }
+
+    @Override
+    public String getDescription() {
+        return this.getItemDescription().get();
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.ORANGE;
     }
 }

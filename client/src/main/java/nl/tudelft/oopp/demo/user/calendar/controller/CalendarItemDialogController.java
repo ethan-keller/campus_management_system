@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.admin.controller;
+package nl.tudelft.oopp.demo.user.calendar.controller;
 
 import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.model.Item;
@@ -17,12 +17,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import nl.tudelft.oopp.demo.calendar.CalendarListener;
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
-import nl.tudelft.oopp.demo.user.controller.CalendarPaneController;
+import nl.tudelft.oopp.demo.user.calendar.CalendarListener;
 
 /**
  * Class that controls the dialog when a user clicks an item in his calendar.

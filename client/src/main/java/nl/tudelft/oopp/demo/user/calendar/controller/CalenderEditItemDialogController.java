@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.admin.controller;
+package nl.tudelft.oopp.demo.user.calendar.controller;
 
 import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.model.Appointment;

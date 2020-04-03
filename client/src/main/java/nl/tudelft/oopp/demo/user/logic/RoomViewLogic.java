@@ -141,8 +141,8 @@ public class RoomViewLogic {
             // get rangeslider values + reservation values
             double currentStartValue = timeSlotSlider.getLowValue();
             double currentEndValue = timeSlotSlider.getHighValue();
-            double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
-            double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
+            double startValue = (double) timeConverter.fromString(r.getReservationStartingTime().get());
+            double endValue = (double) timeConverter.fromString(r.getReservationEndingTime().get());
 
             // check if the values overlap
             if (!((currentStartValue <= startValue && currentEndValue <= startValue)

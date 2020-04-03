@@ -254,16 +254,16 @@ public class SearchViewLogic {
                 for (int z = 0; z != reservations.size(); z++) {
                     if (reservations.get(z).getRoom().getValue().equals(roomList.get(q).getRoomId().get())) {
                         double starting = Integer.parseInt(
-                                reservations.get(z).getStartingTime().getValue().substring(0, 2));
+                                reservations.get(z).getReservationStartingTime().getValue().substring(0, 2));
                         double ending = Integer.parseInt(
-                                reservations.get(z).getEndingTime().getValue().substring(0, 2));
-                        if (reservations.get(z).getStartingTime().getValue().substring(3, 5).equals("30")) {
+                                reservations.get(z).getReservationEndingTime().getValue().substring(0, 2));
+                        if (reservations.get(z).getReservationStartingTime().getValue().substring(3, 5).equals("30")) {
                             starting = starting + 0.5;
                         }
-                        if (reservations.get(z).getEndingTime().getValue().substring(3, 5).equals("30")) {
+                        if (reservations.get(z).getReservationEndingTime().getValue().substring(3, 5).equals("30")) {
                             ending = ending + 0.5;
                         }
-                        if (reservations.get(z).getEndingTime().getValue().equals("23:59:00")) {
+                        if (reservations.get(z).getReservationEndingTime().getValue().equals("23:59:00")) {
                             ending = 24;
                         }
                         if (ending == 0) {

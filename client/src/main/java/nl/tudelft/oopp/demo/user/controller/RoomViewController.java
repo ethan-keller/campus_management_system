@@ -645,11 +645,11 @@ public class RoomViewController implements Initializable {
                 @Override
                 public int compare(Reservation o1, Reservation o2) {
                     // split time in hh:mm
-                    String[] o1StartSplit = o1.getStartingTime().get().split(":");
+                    String[] o1StartSplit = o1.getReservationStartingTime().get().split(":");
                     int o1StartHour = Integer.parseInt(o1StartSplit[0]);
                     int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
 
-                    String[] o2StartSplit = o2.getStartingTime().get().split(":");
+                    String[] o2StartSplit = o2.getReservationStartingTime().get().split(":");
                     int o2StartHour = Integer.parseInt(o2StartSplit[0]);
                     int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
 
@@ -688,8 +688,8 @@ public class RoomViewController implements Initializable {
             // calculate and add green and red parts
             while (it.hasNext()) {
                 Reservation r = it.next();
-                double startTime = (double) converter.fromString(r.getStartingTime().get());
-                double endTime = (double) converter.fromString(r.getEndingTime().get());
+                double startTime = (double) converter.fromString(r.getReservationStartingTime().get());
+                double endTime = (double) converter.fromString(r.getReservationEndingTime().get());
                 double startPercentage = ((startTime - opening) / (closing - opening)) * 100.0;
                 double endPercentage = ((endTime - opening) / (closing - opening)) * 100.0;
                 bw.write("#91ef99 " + startPercentage + "%, ");
@@ -799,8 +799,8 @@ public class RoomViewController implements Initializable {
             // get rangeslider values + reservation values
             double currentStartValue = timeSlotSlider.getLowValue();
             double currentEndValue = timeSlotSlider.getHighValue();
-            double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
-            double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
+            double startValue = (double) timeConverter.fromString(r.getReservationStartingTime().get());
+            double endValue = (double) timeConverter.fromString(r.getReservationEndingTime().get());
 
             // check if the values overlap
             if (!((currentStartValue <= startValue && currentEndValue <= startValue)

@@ -1,7 +1,9 @@
 package nl.tudelft.oopp.demo.entities;
 
-import java.time.LocalDate;
+import com.mindfusion.common.DateTime;
 
+import java.awt.Color;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,11 +16,15 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
+import nl.tudelft.oopp.demo.user.calendar.logic.AbstractCalendarItem;
+import nl.tudelft.oopp.demo.user.calendar.logic.CalendarPaneLogic;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class BikeReservation {
+public class BikeReservation implements AbstractCalendarItem {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
 
@@ -31,7 +37,7 @@ public class BikeReservation {
     private StringProperty bikeReservationEndingTime;
 
     /**
-     * Contructor to initialize without parameters.
+     * Constructor to initialize without parameters.
      */
     public BikeReservation() {
         bikeReservationId = new SimpleIntegerProperty(-1);
@@ -322,4 +328,59 @@ public class BikeReservation {
         return null;
     }
 
+    @Override
+    public String getId() {
+        return String.valueOf(this.bikeReservationId.get());
+    }
+
+    @Override
+    public String getHeader() {
+        return "Bike reservation";
+    }
+
+    @Override
+    public DateTime getStartTime() {
+        DateTime dt = null;
+        // split date in [yyyy, MM, dd]
+        String[] date = this.getBikeReservationDate().get().split("-");
+        // split time in [hh, mm, ss]
+        String[] startTime = this.getBikeReservationStartingTime().get().split(":");
+        dt = new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
+                Integer.parseInt(date[2]), Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1]),
+                Integer.parseInt(startTime[2]));
+        return dt;
+    }
+
+    @Override
+    public DateTime getEndTime() {
+        DateTime dt = null;
+        // split date in [yyyy, MM, dd]
+        String[] date = this.getBikeReservationDate().get().split("-");
+        // split time in [hh, mm, ss]
+        String[] endTime = this.getBikeReservationEndingTime().get().split(":");
+
+        dt = new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
+                Integer.parseInt(date[2]), Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1]),
+                Integer.parseInt(endTime[2]));
+        return dt;
+    }
+
+    @Override
+    public String getDescription() {
+        // split time in [hh, mm, ss]
+        String[] start = this.getBikeReservationStartingTime().get().split(":");
+        String[] end = this.getBikeReservationEndingTime().get().split(":");
+        // get building
+        Building b = CalendarPaneLogic.buildingList.stream()
+                .filter(x -> x.getBuildingId().get() == this.getBikeReservationBuilding().get())
+                .collect(Collectors.toList()).get(0);
+        return b.getBuildingName().get() + "\n"
+                + start[0] + ":" + start[1] + " - " + end[0] + ":" + end[1] + "\n"
+                + this.getBikeReservationQuantity().get() + " bike(s)";
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.MAGENTA;
+    }
 }
