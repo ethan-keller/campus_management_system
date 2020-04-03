@@ -31,6 +31,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageReservationViewController;
+import nl.tudelft.oopp.demo.admin.logic.ReservationEditDialogLogic;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
@@ -551,6 +552,17 @@ public class ReservationEditDialogController {
      * @return true if the input is valid
      */
     private boolean isInputValid() {
+
+        User usernameUser = username.getSelectionModel().getSelectedItem();
+        Room userRoom = room.getSelectionModel().getSelectedItem();
+        double currentStartValue = timeslotSlider.getLowValue();
+        double currentEndValue = timeslotSlider.getHighValue();
+
+        return ReservationEditDialogLogic.isInputValid(
+                usernameUser, userRoom, date, currentStartValue, currentEndValue, formatter);
+
+
+        /*
         String errorMessage = "";
 
         if (username.getSelectionModel().getSelectedItem() == null) {
@@ -575,6 +587,8 @@ public class ReservationEditDialogController {
                     errorMessage, Alert.AlertType.ERROR);
             return false;
         }
+
+         */
     }
 
     /**
