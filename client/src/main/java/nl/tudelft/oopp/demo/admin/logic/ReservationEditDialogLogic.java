@@ -40,8 +40,8 @@ public class ReservationEditDialogLogic {
         if (date == null) {
             errorMessage += "No date provided!\n";
         }
-
-        if (!checkTimeSlotValidity(room, date,currentStartValue, currentEndvalue, temp)
+        
+        if (!checkTimeSlotValidity(room, date, currentStartValue, currentEndvalue, temp)
                 || currentStartValue == currentEndvalue) {
             errorMessage += "No valid timeslot selected!\n";
         }
@@ -57,9 +57,6 @@ public class ReservationEditDialogLogic {
         }
     }
 
-    /**
-     * Constructor for the converter that converts LocalDate objects to String yyyy-MM-dd format.
-     */
     /*
     public static StringConverter<LocalDate> getDateConverter(DateTimeFormatter formatter) {
         try {
@@ -127,8 +124,8 @@ public class ReservationEditDialogLogic {
      *
      * @return true if the timeslot is free, false otherwise
      */
-    public static boolean checkTimeSlotValidity(Room room, LocalDate date,
-                                                double currentStartValue, double currentEndValue, StringConverter<LocalDate> temp) {
+    public static boolean checkTimeSlotValidity(Room room, LocalDate date, double currentStartValue,
+                                                double currentEndValue, StringConverter<LocalDate> temp) {
         try {
             // get currently selected room
             Room selectedRoom = room;

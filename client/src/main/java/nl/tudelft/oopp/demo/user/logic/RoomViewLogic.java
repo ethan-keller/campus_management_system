@@ -16,16 +16,23 @@ public class RoomViewLogic {
      *
      * @return true if the timeslot is free, false otherwise
      */
-    public static boolean checkTimeSlotValidity(double currentStartValue, double currentEndValue, double startValue, double endValue) {
-            // check if the values overlap
-            if (!((currentStartValue <= startValue && currentEndValue <= startValue)
+    public static boolean checkTimeSlotValidity(double currentStartValue, double currentEndValue,
+                                                double startValue, double endValue) {
+        // check if the values overlap
+        if (!((currentStartValue <= startValue && currentEndValue <= startValue)
                 || (currentStartValue >= endValue && currentEndValue >= endValue))) {
             return false;
         }
         return true;
     }
 
-    public static int compare(Reservation o1, Reservation o2){
+    /**.
+     * This compares the two reservations provides as parameter
+     * @param o1 First reservation
+     * @param o2 Other reservation
+     * @return Integer which determines the comparison of the two reservations
+     */
+    public static int compare(Reservation o1, Reservation o2) {
         String[] o1StartSplit = o1.getStartingTime().get().split(":");
         int o1StartHour = Integer.parseInt(o1StartSplit[0]);
         int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
@@ -47,7 +54,12 @@ public class RoomViewLogic {
         }
     }
 
-    public static String toString(Number n){
+    /**.
+     * This method converts the Number in time format which is stored as a string
+     * @param n - the number which is intended to be a time parameter
+     * @return String which contains the time
+     */
+    public static String toString(Number n) {
         // calculate hours and remaining minutes to get a correct hh:mm format
         long minutes = n.longValue();
         long hours = TimeUnit.MINUTES.toHours(minutes);
@@ -56,7 +68,13 @@ public class RoomViewLogic {
         return String.format("%02d", hours) + ":" + String.format("%02d", remainingMinutes);
     }
 
-    public static Number fromString(String time){
+    /**.
+     * Reverts the functionality of the above method. This methods converts the string back to the
+     * number format for the time
+     * @param time - Time provided as a string
+     * @return A number which represents the time in the time format
+     */
+    public static Number fromString(String time) {
         if (time != null) {
             String[] split = time.split(":");
             return Double.parseDouble(split[0]) * 60 + Double.parseDouble(split[1]);
@@ -64,7 +82,13 @@ public class RoomViewLogic {
         return null;
     }
 
-    public static LocalDate fromString(String string, DateTimeFormatter dateFormatter){
+    /**.
+     * Using the dateFormatter, this method converts the string into a local Date type
+     * @param string - The date as a string
+     * @param dateFormatter - DateFormatter (yyyy-MM-dd)
+     * @return Local date type object which contains the equivalent form of the string
+     */
+    public static LocalDate fromString(String string, DateTimeFormatter dateFormatter) {
         if (string != null && !string.isEmpty()) {
             // get correct LocalDate from String format
             return LocalDate.parse(string, dateFormatter);
@@ -73,7 +97,13 @@ public class RoomViewLogic {
         }
     }
 
-    public static String toString(LocalDate date, DateTimeFormatter dateFormatter){
+    /**.
+     * Converts the date from a localDate type to a string using a dateFormatter
+     * @param date - The date provided in a loclaDate format
+     * @param dateFormatter - DateFormatter (yyyy-MM-dd)
+     * @return The string equivalence of the provided date
+     */
+    public static String toString(LocalDate date, DateTimeFormatter dateFormatter) {
         if (date != null) {
             // get correctly formatted String
             return dateFormatter.format(date);
@@ -82,7 +112,13 @@ public class RoomViewLogic {
         }
     }
 
-    public static Food fromString(String string, List<Food> foodList){
+    /**.
+     * Converts the string into a list of food entities
+     * @param string - The string which contains all the food
+     * @param foodList - The list of food
+     * @return - Food equivalent of the string
+     */
+    public static Food fromString(String string, List<Food> foodList) {
         if (string != null) {
             return foodList.stream()
                     .filter(x -> x.getFoodName().get().equals(string))
@@ -92,7 +128,12 @@ public class RoomViewLogic {
         }
     }
 
-    public static String toString(Food object){
+    /**.
+     * Converts a food object to a string for readability and testability
+     * @param object - The food object to be converted
+     * @return String which contains the food name
+     */
+    public static String toString(Food object) {
         if (object != null) {
             return object.getFoodName().get();
         } else {

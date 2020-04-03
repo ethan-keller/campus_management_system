@@ -17,7 +17,7 @@ public class LoginViewLogic {
                 // Checks whether the password field is left empty.
                 return "The password field cannot be left empty !";
             } else {
-                // This boolean value means that all the fields are filled.
+                // This string value means that all the fields are filled.
                 return "Good!";
             }
         }

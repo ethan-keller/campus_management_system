@@ -108,21 +108,20 @@ public class UserEditDialogController {
     private boolean isInputValid() {
         String username = usernameField.getText();
         String password = userPasswordField.getText();
-        boolean userTypeAdminSelected= userTypeAdmin.isSelected();
+        boolean userTypeAdminSelected = userTypeAdmin.isSelected();
         boolean userTypeTeacherSelected = userTypeTeacher.isSelected();
         boolean userTypeStudentSelected = userTypeStudent.isSelected();
 
         String errorMessage = UserEditDialogLogic.isInputValid(username, userTypeAdminSelected,
                 userTypeTeacherSelected, userTypeStudentSelected, password, edit);
-        if (errorMessage == "" ){
+        if (errorMessage == "") {
             return true;
-        } else{
+        } else {
             // Show the error message.
             GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
                     errorMessage, Alert.AlertType.ERROR);
             return false;
         }
-
 
     }
 

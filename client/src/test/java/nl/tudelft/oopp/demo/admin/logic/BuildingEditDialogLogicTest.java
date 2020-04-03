@@ -11,10 +11,12 @@ class BuildingEditDialogLogicTest {
      * Test for isValidInput.
      */
     void isValidInput() {
+
         String buildingName = "";
         String buildingAddress = "";
         double openingHoursLow = 0;
         double openingHoursHigh = 0;
+
         assertEquals("No valid building name!\n", BuildingEditDialogLogic.isValidInput(buildingName, buildingAddress, openingHoursHigh, openingHoursLow));
 
         buildingName = "building";
@@ -26,7 +28,6 @@ class BuildingEditDialogLogicTest {
         openingHoursHigh = 2;
         assertEquals("", BuildingEditDialogLogic.isValidInput(buildingName, buildingAddress, openingHoursHigh, openingHoursLow));
 
-
-
     }
+
 }
