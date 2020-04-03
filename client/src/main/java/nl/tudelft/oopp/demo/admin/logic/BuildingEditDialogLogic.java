@@ -8,38 +8,24 @@ public class BuildingEditDialogLogic {
 
     /**
      * Checks if the input is valid.
-     * @param buildingNameField entered building name.
-     * @param buildingAddressField entered building address.
-     * @param maxBikesField entered maximum bikes in that building.
-     * @return true if valid otherwise false.
+     * @param buildingNameField building name.
+     * @param buildingAddressField Address of the building.
+     * @param openingHoursSliderHigh The higher opening time.
+     * @param openingHoursSliderLow The lower opening time.
+     * @return true if the input is valid. False if not.
      */
-    public static boolean isValidInput(TextField buildingNameField, TextField buildingAddressField,
-                                       TextField maxBikesField) {
-        String errorMessage = "";
+    public static String isValidInput(String buildingNameField, String buildingAddressField,
+                                        double openingHoursSliderHigh, double openingHoursSliderLow) {
+        if (buildingNameField.equals("")) {
+            return  "No valid building name!\n";
+        }
+        if (buildingAddressField.equals("")) {
+            return "No valid building address!\n";
+        }
+        if (openingHoursSliderLow == openingHoursSliderHigh) {
+            return "No valid opening hours!\n";
+        }
 
-        if (buildingNameField.getText().equals("")) {
-            errorMessage += "No valid building name!\n";
-        }
-        if (buildingAddressField.getText().equals("")) {
-            errorMessage += "No valid building address!\n";
-        }
-        if (maxBikesField.getText().equals("")) {
-            errorMessage += "No valid capacity!\n";
-        } else {
-            try {
-                Integer.parseInt(maxBikesField.getText());
-            } catch (NumberFormatException e) {
-                errorMessage += "No valid room count (must be an integer)!\n";
-            }
-        }
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-
-            return false;
-        }
+        return "";
     }
 }
