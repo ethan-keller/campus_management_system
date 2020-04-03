@@ -200,7 +200,7 @@ public class BookingEditDialogController {
             }
             // get reservations for this room on the selected date
             List<Reservation> reservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
-                    bookingDate.getValue(), BookingEditDialogLogic.getDatePickerConverter(bookingDate));
+                    bookingDate.getValue(), getDatePickerConverter());
 
             // sort them in ascending order
             BookingEditDialogLogic.sortReservations(reservations);
@@ -305,9 +305,7 @@ public class BookingEditDialogController {
         }
     }
 
-    /**
-<<<<<<< HEAD
-=======
+    /**.
      * Creates a StringConverter that converts the selected value to an actual time (in String format).
      *
      * @return a StringConverter object
@@ -341,7 +339,6 @@ public class BookingEditDialogController {
     }
 
     /**
->>>>>>> develop
      * Set the building combobox converter.
      *
      * @param olb is passed
@@ -428,7 +425,7 @@ public class BookingEditDialogController {
             // set the factory
             bookingDate.setDayCellFactory(dayCellFactory);
             // converter to convert value to String and vice versa
-            StringConverter<LocalDate> converter = BookingEditDialogLogic.getDatePickerConverter(bookingDate);
+            StringConverter<LocalDate> converter = getDatePickerConverter();
             // set the converter
             bookingDate.setConverter(converter);
             // reset css when date changes
