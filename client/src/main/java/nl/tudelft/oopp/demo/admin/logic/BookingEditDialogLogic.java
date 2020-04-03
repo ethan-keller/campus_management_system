@@ -24,28 +24,22 @@ public class BookingEditDialogLogic {
      *
      * @return true if the input is valid
      */
-    public static boolean isInputValid(ComboBox<Room> bookingRoomComboBox, DatePicker bookingDate,
-                                 RangeSlider timeSlotSlider, Reservation reservation) {
-        String errorMessage = "";
+    public static String isInputValid(ComboBox<Room> bookingRoomComboBox, DatePicker bookingDate) {
 
-        if (bookingRoomComboBox.getSelectionModel().getSelectedIndex() < 0) {
-            errorMessage += "No valid room selected!\n";
-        }
-        if (bookingDate.getValue() == null) {
-            errorMessage += "No valid date selected!\n";
-        }
-        if (!checkTimeSlotValidity(bookingRoomComboBox, bookingDate, reservation, timeSlotSlider)
-                || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
-            errorMessage += "No valid time slot selected!\n";
-        }
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-
-            return false;
+        while(true) {
+            // Checks whether a room from the combo box is selected and the index represents if the
+            // selection of the room is valid.
+            if (bookingRoomComboBox.getSelectionModel().getSelectedIndex() < 0) {
+                return "No valid room selected!\n";
+            }
+            // Checks whether a date from the datePicker is selected
+            if (bookingDate.getValue() == null) {
+                return  "No valid date selected!\n";
+            }
+            // This string value means that all the fields are filled.
+            else {
+                return "Good!\n";
+            }
         }
     }
 

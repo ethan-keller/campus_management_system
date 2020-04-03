@@ -78,7 +78,7 @@ public class LoginViewController {
     private boolean isValidInput() {
         String usernameInput = username.getText();
         String answer = LoginViewLogic.isValidInput(username.getText(), password.getText());
-        switch (answer){
+        switch (answer) {
             case "The username field cannot be left empty !":
                 usernameLabel.setText("The username field cannot be left empty !");
                 usernameLabel.setStyle("-fx-text-fill: red");

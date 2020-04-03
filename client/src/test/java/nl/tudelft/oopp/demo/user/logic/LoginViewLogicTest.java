@@ -11,11 +11,13 @@ class LoginViewLogicTest {
         String usernameInput = "";
         String passwordInput = "";
 
-        assertEquals("The username field cannot be left empty !", LoginViewLogic.isValidInput(usernameInput, passwordInput));
+        assertEquals("The username field cannot be left empty !", LoginViewLogic.isValidInput(
+                usernameInput, passwordInput));
 
         usernameInput = "username";
 
-        assertEquals("The password field cannot be left empty !", LoginViewLogic.isValidInput(usernameInput, passwordInput));
+        assertEquals("The password field cannot be left empty !", LoginViewLogic.isValidInput(
+                usernameInput, passwordInput));
 
         passwordInput = "Password01";
 

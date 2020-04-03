@@ -484,7 +484,7 @@ public class BookingEditDialogController {
     @FXML
     private void handleOkClicked(ActionEvent event) {
         // Check the validity of user input
-        if (BookingEditDialogLogic.isInputValid(bookingRoomComboBox, bookingDate, timeSlotSlider, reservation)) {
+        if (isInputValid()) {
             emptyReservation();
             // Set the user input to the reservation
             reservation.setUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
@@ -515,29 +515,30 @@ public class BookingEditDialogController {
      * @return true if the input is valid
      */
     private boolean isInputValid() {
-        String errorMessage = "";
+        // Checking from the logic class if the input entered by the user is valid.
+        String answer = BookingEditDialogLogic.isInputValid(bookingRoomComboBox, bookingDate);
 
-        if (bookingBuildingComboBox.getSelectionModel().getSelectedIndex() < 0) {
-            errorMessage += "No valid building selected!\n";
+        switch (answer) {
+            case "No valid room selected!\n":
+                GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
+                        "No valid room selected!\n", Alert.AlertType.ERROR);
+                return false;
+            case "No valid date selected!\n":
+                GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
+                        "No valid date selected!\n", Alert.AlertType.ERROR);
+                return false;
+            case "Good!\n":
+                // Since checkTimeSlotValidity has a lot of other methods attached to it, it would be simpler to keep this
+                // constraint here and display the error message from the controller directly.
+                if (!checkTimeSlotValidity() || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
+                    GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
+                            "No valid time slot selected!\n", Alert.AlertType.ERROR);
+                    return false;
+                } else {
+                    return true;
+                }
         }
-        if (bookingRoomComboBox.getSelectionModel().getSelectedIndex() < 0) {
-            errorMessage += "No valid room selected!\n";
-        }
-        if (bookingDate.getValue() == null) {
-            errorMessage += "No valid date selected!\n";
-        }
-        if (!checkTimeSlotValidity() || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
-            errorMessage += "No valid timeslot selected!\n";
-        }
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-
-            return false;
-        }
+        return false;
     }
 
     /**
