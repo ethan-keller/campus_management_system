@@ -57,9 +57,6 @@ public class ReservationEditDialogLogic {
         }
     }
 
-    /**
-     * Constructor for the converter that converts LocalDate objects to String yyyy-MM-dd format.
-     */
     /*
     public static StringConverter<LocalDate> getDateConverter(DateTimeFormatter formatter) {
         try {

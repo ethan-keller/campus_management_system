@@ -25,7 +25,6 @@ public class BuildingEditDialogLogic {
         if (openingHoursSliderLow == openingHoursSliderHigh) {
             return "No valid opening hours!\n";
         }
-
         return "";
     }
 }

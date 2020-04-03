@@ -204,7 +204,8 @@ public class BuildingEditDialogController {
         double openingHoursLow = openingHoursSlider.getLowValue();
         double openingHoursHigh = openingHoursSlider.getHighValue();
 
-        String errorMessage = BuildingEditDialogLogic.isValidInput(buildingName, buildingAddress, openingHoursHigh, openingHoursLow);
+        String errorMessage = BuildingEditDialogLogic.isValidInput(buildingName, buildingAddress,
+                openingHoursHigh, openingHoursLow);
 
         if (errorMessage.equals("")) {
             return true;

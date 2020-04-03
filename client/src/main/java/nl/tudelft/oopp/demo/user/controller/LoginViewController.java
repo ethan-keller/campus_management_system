@@ -89,8 +89,10 @@ public class LoginViewController {
                 return false;
             case "Good!":
                 return true;
+            default:
+                return false;
         }
-        return false;
+
     }
 
     /**.

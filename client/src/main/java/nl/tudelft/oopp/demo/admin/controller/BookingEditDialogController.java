@@ -531,8 +531,8 @@ public class BookingEditDialogController {
                         "No valid date selected!\n", Alert.AlertType.ERROR);
                 return false;
             case "Good!\n":
-                // Since checkTimeSlotValidity has a lot of other methods attached to it, it would be simpler to keep this
-                // constraint here and display the error message from the controller directly.
+                // Since checkTimeSlotValidity has a lot of other methods attached to it, it would be simpler to
+                // keep this constraint here and display the error message from the controller directly.
                 if (!checkTimeSlotValidity() || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
                     GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
                             "No valid time slot selected!\n", Alert.AlertType.ERROR);
@@ -540,8 +540,9 @@ public class BookingEditDialogController {
                 } else {
                     return true;
                 }
+            default:
+                return false;
         }
-        return false;
     }
 
     /**
