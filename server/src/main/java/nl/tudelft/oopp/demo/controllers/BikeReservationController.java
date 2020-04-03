@@ -1,9 +1,11 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import java.util.List;
+
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.repositories.BikeReservationRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,7 +143,7 @@ public class BikeReservationController {
      */
     @GetMapping("getAllBikeReservation")
     @ResponseBody
-    public List<BikeReservation> getAllBikeReservation() {
+    public List<BikeReservation> getBikeReservations() {
         try {
             return bikeResRepo.getAllBikeReservations();
         } catch (Exception e) {

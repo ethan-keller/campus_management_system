@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.repositories;
 import java.util.List;
 
 import nl.tudelft.oopp.demo.entities.Room;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -72,16 +73,5 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query(value = "SELECT * FROM room WHERE building = :buildingId", nativeQuery = true)
     public List<Room> getRoomByBuilding(@Param("buildingId") int buildingId);
 
-    @Query(value = "SELECT * FROM room WHERE capacity <= :capMin AND capacity >= :capMax ", nativeQuery = true)
-    public List<Room> getRoomByCapacity(@Param("capMin") int capMin, @Param("capMax") int capMax);
-
-    @Query(value = "SELECT * FROM room WHERE capacity = :capacity", nativeQuery = true)
-    public List<Room> getRoomByCapacity(@Param("capacity") String capacity);
-
-    @Query(value = "SELECT * FROM room WHERE type = :role", nativeQuery = true)
-    public List<Room> getRoomByRole(@Param("role") String role);
-
-    @Query(value = "SELECT * FROM room WHERE name = :name", nativeQuery = true)
-    public Room getRoomByName(@Param("name") String name);
 
 }

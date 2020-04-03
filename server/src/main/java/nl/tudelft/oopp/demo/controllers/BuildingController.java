@@ -73,6 +73,7 @@ public class BuildingController {
         }
     }
 
+
     /**
      * Changes the existing building with the provided ID in the database with the provides parameters.
      *
@@ -86,7 +87,6 @@ public class BuildingController {
      */
     @PostMapping("updateBuilding")
     @ResponseBody
-
     public void updateBuilding(@RequestParam int id, @RequestParam String name,
                                @RequestParam int roomCount, @RequestParam String address,
                                @RequestParam int maxBikes, @RequestParam String openingTime,

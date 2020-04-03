@@ -246,4 +246,5 @@ public class Building {
     public void setClosingTime(String closingTime) {
         this.closingTime.set(closingTime);
     }
+
 }
