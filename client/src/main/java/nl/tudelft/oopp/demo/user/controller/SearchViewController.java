@@ -2,7 +2,6 @@ package nl.tudelft.oopp.demo.user.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,6 +11,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,7 +28,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -41,6 +40,7 @@ import nl.tudelft.oopp.demo.user.controller.RoomViewController;
 import nl.tudelft.oopp.demo.user.logic.SearchViewLogic;
 import nl.tudelft.oopp.demo.views.CalendarPaneView;
 import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.RoomView;
 
 
@@ -49,8 +49,9 @@ import nl.tudelft.oopp.demo.views.RoomView;
  */
 public class SearchViewController implements Initializable {
 
+    public static Stage thisStage;
+    public static ObservableList<Building> buildingList;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -76,28 +77,12 @@ public class SearchViewController implements Initializable {
     private TextField searchBar;
     @FXML
     private ComboBox<String> bikesAvailable;
-
     private List<Building> buildings;
     private List<Room> roomList;
-    private ObservableList<Room> rooms;
-
+    private List<Room> rooms;
     @FXML
     private AnchorPane pane;
 
-    // Declaring the observable list for buildings, capacity and bikes
-    // to be inserted into the comboBox.
-
-    public static Stage thisStage;
-
-    // This is necessary due to the format of inserting items into a comboBox.
-    private ObservableList<String> capacityList;
-    private ObservableList<Building> buildingList;
-    private ObservableList<String> bikeList;
-
-    private int building;
-    private boolean teacherOnly;
-
-    SimpleDateFormat sdf = new SimpleDateFormat("mm:ss.SSS");
 
     /**
      * Default construct of searchView class.
@@ -121,9 +106,10 @@ public class SearchViewController implements Initializable {
             pane = new AnchorPane();
 
             // assign lists to the initialized ObservableLists
-            capacityList = FXCollections.observableArrayList();
+            // This is necessary due to the format of inserting items into a comboBox.
+            final ObservableList<String> capacityList = FXCollections.observableArrayList();
             buildingList = Building.getBuildingData();
-            bikeList = FXCollections.observableArrayList();
+            final ObservableList<String> bikeList = FXCollections.observableArrayList();
 
             // the comboBox only shows 6 rows (more => scroll)
             buildingComboBox.setVisibleRowCount(6);
@@ -143,14 +129,15 @@ public class SearchViewController implements Initializable {
             buildingComboBox.setItems(buildingList);
             bikesAvailable.setItems(bikeList);
 
-            // get all rooms and buildings from server
-            rooms = Room.getRoomData();
+            // get all rooms and buildings from database
+            roomList = Room.getRoomData();
+            if (roomList != null) {
+                rooms = new ArrayList<>(roomList);
+            }
             buildings = Building.getBuildingData();
 
-            // load all the cards
-            loadCards();
-
-
+            // create a 'card' showing some information of the room, for every room
+            getCardsShown(roomList);
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -253,14 +240,12 @@ public class SearchViewController implements Initializable {
      */
     public void loadCards() throws UnsupportedEncodingException {
         //load all rooms back in the roomlist to filter again
-        roomList = new ArrayList<Room>();
-        for (int i = 0; i != rooms.size(); i++) {
-            roomList.add(rooms.get(i));
-        }
+        roomList.clear();
+        roomList.addAll(rooms);
 
         //Check if there are any filters selected and if so filter the roomlist
         if (buildingComboBox.getValue() != null) {
-            building = buildingComboBox.getValue().getBuildingId().getValue();
+            int building = buildingComboBox.getValue().getBuildingId().getValue();
             roomList = SearchViewLogic.filterRoomByBuilding(roomList, building);
         }
 
@@ -458,6 +443,7 @@ public class SearchViewController implements Initializable {
         return null;
     }
 
+
     /**
      * When a card gets clicked, the RoomView gets loaded with all the corresponding room information.
      *
@@ -475,10 +461,9 @@ public class SearchViewController implements Initializable {
             VBox cardInfo = (VBox) selectedCard.getChildren().get(1);
 
             // get room id from that VBox and parse to int
-            int roomId = Integer.parseInt(((Text) cardInfo.getChildren().get(0)).getText());
 
             // set the currentRoomID such that the RoomView controller knows which room to show information from
-            RoomViewController.currentRoomId = roomId;
+            RoomViewController.currentRoomId = Integer.parseInt(((Text) cardInfo.getChildren().get(0)).getText());
 
             // load RoomView
             RoomView rv = new RoomView();
@@ -500,7 +485,6 @@ public class SearchViewController implements Initializable {
             yesCheckBoxFood.setSelected(false);
             noCheckBoxFood.setSelected(false);
             yesCheckBoxTeacherOnly.setSelected(false);
-            teacherOnly = false;
             noCheckBoxTeacherOnly.setSelected(false);
             searchBar.setText("");
             capacityComboBox.setValue(null);
@@ -544,6 +528,19 @@ public class SearchViewController implements Initializable {
             loginView.start(stage);
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
+        }
+    }
+
+    @FXML
+    private void rentABikeClicked(ActionEvent event) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            RentABikeView rabv = new RentABikeView();
+            rabv.start(stage);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

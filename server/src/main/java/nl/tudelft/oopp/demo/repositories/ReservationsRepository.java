@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.repositories;
 import java.util.List;
 
 import nl.tudelft.oopp.demo.entities.Reservations;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -67,27 +68,4 @@ public interface ReservationsRepository extends JpaRepository<Reservations, Long
 
     @Query(value = "SELECT * FROM reservations WHERE username = LOWER(:username)", nativeQuery = true)
     public List<Reservations> getUserReservations(@Param("username") String username);
-
-
-    @Query(value = "SELECT * FROM reservations WHERE starting_time = :starting_time "
-            + "AND ending_time = :ending_time AND date = :date", nativeQuery = true)
-    public Reservations getReservationByStartingTimeAndEndingTimeOnDate(
-            @Param("starting_time") String startingTime,
-            @Param("ending_time") String endingTime, @Param("date") String date);
-
-    @Query(value = "SELECT * FROM reservations WHERE starting_time = :starting_time "
-            + "AND date = :date", nativeQuery = true)
-    public Reservations getReservationByStartingTimeOnDate(
-            @Param("starting_time") String startingTime, @Param("date") String date);
-
-    @Query(value = "SELECT * FROM reservations WHERE date = :date", nativeQuery = true)
-    public List<Reservations> getReservationByDate(@Param("date") String date);
-
-    @Query(value = "SELECT * FROM reservations WHERE room = :room AND date = :date "
-            + "AND starting_time = :starting_time", nativeQuery = true)
-    public Reservations getReservationByRoomAndDateAndStartingTime(
-            @Param("room") int room,
-            @Param("date") String date,
-            @Param("starting_time") String startingTime);
-
 }

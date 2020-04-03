@@ -1,37 +1,57 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.UnsupportedEncodingException;
+import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-
-@SpringBootTest
+/**
+ * Test class that tests the register controller.
+ * It makes use of Mockito MVC which is a part of the Mockito framework.
+ */
+@WebMvcTest(RegisterController.class)
 class RegisterControllerTest {
 
     @Autowired
-    private RegisterController registerCont;
+    private MockMvc mvc;
 
-    @Autowired
-    private UserController userCont;
+    @Mock
+    private UserRepository userRepo;
+
+    @MockBean
+    private RegisterController controller;
 
     /**
-     * Deletes the user if it already exists and then creates the account.
-     * and tries to create it again but got the right error message.
-     * @throws UnsupportedEncodingException if something goes wrong with encoding
+     * Set up before each test.
      */
+    @BeforeEach
+    void setUp() {
+    }
 
+    /**
+     * Test for register method.
+     * @throws Exception if any exception with the connection (or other) occurs
+     */
     @Test
-    void register() throws UnsupportedEncodingException {
-        userCont.deleteUser("registertest");
-        assertEquals("Your account is created", registerCont.register("registertest", "password", 2));
-        assertEquals("This username already exists!", registerCont.register("registertest", "password", 2));
+    void registerTest() throws Exception {
+        when(controller.register(anyString(), anyString(), anyInt())).thenReturn("Your account is created");
+        when(userRepo.getUser(anyString())).thenReturn(new User("test", "pass", 2));
 
-        userCont.deleteUser("registertest");
-
-
+        mvc.perform(post("/register?username=test&password=pass&userType=0")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

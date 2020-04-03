@@ -8,12 +8,14 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -57,7 +59,6 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.user.controller.ReservationConfirmationViewController;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;
@@ -166,9 +167,8 @@ public class RoomViewController implements Initializable {
             image.setFitHeight(100000);
 
             // listener that adjusts layout when width of stage changes
-            thisStage.widthProperty().addListener((obs, oldVal, newVal) -> {
-                changeWidthConstraints(newVal);
-            });
+            thisStage.widthProperty().addListener((obs, oldVal, newVal) -> changeWidthConstraints(newVal));
+
 
 
             ObservableList<Food> foodList = Food.getAllFoodData();
@@ -192,6 +192,10 @@ public class RoomViewController implements Initializable {
             // sets all the room info text fields (+ image)
             name.setText("Name: " + currentRoom.getRoomName().get());
             capacity.setText("Capacity: " + currentRoom.getRoomCapacity().get());
+            //building.setText("Building: "
+            //        + Objects.requireNonNull(
+            //                Building.getBuildingById(
+            //                        currentRoom.getRoomBuilding().get())).getBuildingName().get());
             building.setText("Building: " + Building.getBuildingById(currentRoom.getRoomBuilding().get())
                     .getBuildingName().get());
             teacherOnly.setText("Teachers only: " + (currentRoom.getTeacherOnly().get() ? "yes" : "no"));
@@ -538,10 +542,10 @@ public class RoomViewController implements Initializable {
      */
     private Callback<DatePicker, DateCell> getDayCellFactory() {
         try {
-            final Callback<DatePicker, DateCell> dayCellFactory = new Callback<>() {
+            return new Callback<>() {
 
                 @Override
-                public DateCell call(final DatePicker datePicker) {
+                public DateCell call(final DatePicker datePicker1) {
                     return new DateCell() {
                         @Override
                         public void updateItem(LocalDate item, boolean empty) {
@@ -559,7 +563,6 @@ public class RoomViewController implements Initializable {
                     };
                 }
             };
-            return dayCellFactory;
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -592,6 +595,7 @@ public class RoomViewController implements Initializable {
             configureCss();
 
             // initialize the Text objects with the current values of the thumbs
+            assert converter != null;
             startTime.setText(converter.toString(timeSlotSlider.getLowValue()));
             endTime.setText(converter.toString(timeSlotSlider.getHighValue()));
 
@@ -809,7 +813,7 @@ public class RoomViewController implements Initializable {
      */
     private StringConverter<LocalDate> getDatePickerConverter() {
         try {
-            return new StringConverter<LocalDate>() {
+            return new StringConverter<>() {
                 // set the wanted pattern (format)
                 String pattern = "yyyy-MM-dd";
                 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
@@ -852,7 +856,7 @@ public class RoomViewController implements Initializable {
      */
     private StringConverter<Number> getRangeSliderConverter() {
         try {
-            return new StringConverter<Number>() {
+            return new StringConverter<>() {
                 @Override
                 public String toString(Number n) {
                     // calculate hours and remaining minutes to get a correct hh:mm format
@@ -882,10 +886,9 @@ public class RoomViewController implements Initializable {
     /**
      * Method that executes when the backButton is clicked. It returns to the searchview.
      *
-     * @param event ActionEvent.
      */
     @FXML
-    private void backButtonClicked(ActionEvent event) {
+    private void backButtonClicked() {
         try {
             // load the searchview
             SearchView sv = new SearchView();
@@ -895,6 +898,7 @@ public class RoomViewController implements Initializable {
         }
     }
 
+    // TODO: add try catch everywhere
     /**
      * Method that executes when book button is clicked. It checks if fields are correctly filled.
      *
@@ -910,13 +914,26 @@ public class RoomViewController implements Initializable {
 
             // input is valid, assign corresponding values
             if (isInputValid()) {
-                selectedDate = getDatePickerConverter().toString(datePicker.getValue());
-                selectedStartTime = getRangeSliderConverter().toString(timeSlotSlider.getLowValue());
+                selectedDate = Objects.requireNonNull(getDatePickerConverter()).toString(datePicker.getValue());
+                selectedStartTime = Objects.requireNonNull(
+                        getRangeSliderConverter()).toString(timeSlotSlider.getLowValue());
                 selectedEndTime = getRangeSliderConverter().toString(timeSlotSlider.getHighValue());
 
                 // if user confirms booking, reservations is sent to server
                 if (confirmBooking(selectedDate, selectedStartTime, selectedEndTime)) {
                     // send new reservation to server
+
+
+                    //ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
+                    //        currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24")
+                    //                ? "23:59" : selectedEndTime);
+                    // create confirmation Alert
+                    //Alert alert = GeneralMethods.createAlert("Room booked",
+                    //        "You successfully booked this room!",
+                    //        ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
+                    //assert alert != null;
+                    //alert.showAndWait();
+
                     if (ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
                             currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24")
                                     ? "23:59" : selectedEndTime)) {
@@ -946,6 +963,7 @@ public class RoomViewController implements Initializable {
                 Alert alert = GeneralMethods.createAlert("fields incomplete",
                         "Please fill in all the fields",
                         ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.ERROR);
+                assert alert != null;
                 alert.showAndWait();
             }
         } catch (Exception e) {
@@ -954,6 +972,7 @@ public class RoomViewController implements Initializable {
             Alert alert = GeneralMethods.createAlert("Something went wrong",
                     "Sorry, something went wrong on our end. We're fixing it now!",
                     ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.ERROR);
+            assert alert != null;
             alert.showAndWait();
         }
     }
@@ -1023,6 +1042,7 @@ public class RoomViewController implements Initializable {
                 errors = true;
             }
 
+
             // return true if no errors where triggered
             return !errors;
         } catch (Exception e) {
@@ -1046,7 +1066,5 @@ public class RoomViewController implements Initializable {
             logger.log(Level.SEVERE, e.toString());
         }
     }
-
-
 }
 

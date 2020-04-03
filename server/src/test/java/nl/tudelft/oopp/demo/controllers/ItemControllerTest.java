@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -12,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.List;
 
-import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.entities.Item;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,105 +23,117 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+
 /**
- * Test class that tests the user controller.
+ * Test class that tests the item controller.
  * It makes use of Mockito MVC which is a part of the Mockito framework.
  */
-@WebMvcTest(UserController.class)
-class UserControllerTest {
+@WebMvcTest(ItemController.class)
+class ItemControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    private UserController controller;
+    private ItemController controller;
 
-    private User u1;
-    private User u2;
-    private User u3;
-    private List<User> userList;
+    private Item i1;
+    private Item i2;
+    private Item i3;
+    private List<Item> itemList;
 
     /**
      * Set up before each test.
      */
     @BeforeEach
     void setUp() {
-        u1 = new User("user1", "passHASHED1", 0);
-        u2 = new User("user2", "passHASHED2", 1);
-        u3 = new User("user3", "passHASHED3", 2);
-        userList = Arrays.asList(u1, u2, u3);
+        i1 = new Item(1, "test", "title", "2020-09-08", "08:00",
+                "09:00", "description");
+        i2 = new Item(2, "test2", "title2", "2020-09-12", "08:00",
+                "19:00", "description2");
+        i3 = new Item(3, "test", "title3", "2020-09-13", "19:00",
+                "22:00", "description3");
+        itemList = Arrays.asList(i1, i2, i3);
     }
 
     /**
-     * Test for createUser method.
+     * Test for getItem method.
      * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
-    void createUserTest() throws Exception {
-        mvc.perform(post("/createUser?username=test&password=hello&type=2")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
+    void getItemTest() throws Exception {
+        when(controller.getItem(anyInt())).thenReturn(i1);
 
-    /**
-     * Test for updateUser method (with password).
-     * @throws Exception if any exception with the connection (or other) occurs
-     */
-    @Test
-    void updateUserWithPasswordTest() throws Exception {
-        mvc.perform(post("/updateUser2?username=test&type=0")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
-    /**
-     * Test for updateUser method.
-     * @throws Exception if any exception with the connection (or other) occurs
-     */
-    @Test
-    void updateUserTest() throws Exception {
-        mvc.perform(post("/updateUser?username=test&password=hello&type=2")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
-    /**
-     * Test for deleteUser method.
-     * @throws Exception if any exception with the connection (or other) occurs
-     */
-    @Test
-    void deleteUserTest() throws Exception {
-        mvc.perform(post("/deleteUser?username=test")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
-    /**
-     * Test for getUser method.
-     * @throws Exception if any exception with the connection (or other) occurs
-     */
-    @Test
-    void getUserTest() throws Exception {
-        when(controller.getUser(anyString())).thenReturn(u3);
-
-        mvc.perform(get("/getUser?username=test")
+        mvc.perform(get("/getItem?id=2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username", is(u3.getUsername())));
+                .andExpect(jsonPath("$.date", is(i1.getDate())));
     }
 
     /**
-     * Test for getAllUsers method.
+     * Test for getAllItems method.
      * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
-    void getAllUsers() throws Exception {
-        when(controller.getAllUsers()).thenReturn(userList);
+    void getAllItemsTest() throws Exception {
+        when(controller.getAllItems()).thenReturn(itemList);
 
-        mvc.perform(get("/getAllUsers")
+        mvc.perform(get("/getAllItems")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$[1].password", is(u2.getPassword())));
+                .andExpect(jsonPath("$[1].date", is(i2.getDate())));
+    }
+
+    /**
+     * Test for createItem method.
+     * @throws Exception if any exception with the connection (or other) occurs
+     */
+    @Test
+    void createItemTest() throws Exception {
+        mvc.perform(post("/createItem?user=test&title=title&date=2020-08-08"
+                + "&startingTime=12:00&endingTime=16:00&description=description2")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    /**
+     * Test for deleteItem method.
+     * @throws Exception if any exception with the connection (or other) occurs
+     */
+    @Test
+    void deleteItemTest() throws Exception {
+        mvc.perform(post("/deleteItem?id=2")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    /**
+     * Test for getCurrentId method.
+     * @throws Exception if any exception with the connection (or other) occurs
+     */
+    @Test
+    void getCurrentIdTest() throws Exception {
+        when(controller.getCurrentId()).thenReturn(55);
+
+        mvc.perform(get("/currentId")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is(55)));
+    }
+
+    /**
+     * Test for getUserItems method.
+     * @throws Exception if any exception with the connection (or other) occurs
+     */
+    @Test
+    void getUserItemsTest() throws Exception {
+        when(controller.getUserItems(anyString())).thenReturn(itemList);
+
+        mvc.perform(get("/getUserItems?user=test")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[2].date", is(i3.getDate())));
     }
 }
