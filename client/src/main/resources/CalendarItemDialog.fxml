@@ -11,10 +11,10 @@
    <children>
       <HBox fx:id="buttonBar" alignment="CENTER" layoutX="-1.0" layoutY="218.0" prefHeight="42.0" prefWidth="232.0" spacing="6.0" AnchorPane.bottomAnchor="-1.3999999999999986" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0">
          <children>
-            <Button fx:id="closebutton" cancelButton="true" defaultButton="true" mnemonicParsing="false" onAction="#closeClicked" prefHeight="26.0" prefWidth="90.0" text="Close" />
+            <Button fx:id="closebutton" cancelButton="true" mnemonicParsing="false" onAction="#closeClicked" prefHeight="26.0" prefWidth="90.0" text="Close" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutY="-1.0" prefHeight="35.0" prefWidth="316.0" style="-fx-background-color: #0ebaf8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutY="-1.0" prefHeight="35.0" prefWidth="316.0" style="-fx-background-color: -grey;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Text fx:id="header" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="HEADER" textAlignment="CENTER" wrappingWidth="299.4289093017578">
                <font>
