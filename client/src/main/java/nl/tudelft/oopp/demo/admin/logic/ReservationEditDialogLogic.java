@@ -127,8 +127,8 @@ public class ReservationEditDialogLogic {
      *
      * @return true if the timeslot is free, false otherwise
      */
-    public static boolean checkTimeSlotValidity(Room room, LocalDate date,
-                                                double currentStartValue, double currentEndValue, StringConverter<LocalDate> temp) {
+    public static boolean checkTimeSlotValidity(Room room, LocalDate date, double currentStartValue,
+                                                double currentEndValue, StringConverter<LocalDate> temp) {
         try {
             // get currently selected room
             Room selectedRoom = room;

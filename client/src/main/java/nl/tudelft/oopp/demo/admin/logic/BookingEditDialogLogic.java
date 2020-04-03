@@ -33,7 +33,7 @@ public class BookingEditDialogLogic {
                 return "No valid room selected!\n";
             }
             // Checks whether a date from the datePicker is selected
-            if (bookingDate == null) {
+            if (bookingDate.equals("")) {
                 return  "No valid date selected!\n";
             }
             // This string value means that all the fields are filled.
@@ -41,38 +41,6 @@ public class BookingEditDialogLogic {
                 return "Good!\n";
             }
         }
-    }
-
-    /**
-     * sorts the reservation given.
-     * @param reservations list of reservations to be sorted.
-     */
-    public static void sortReservations(List<Reservation> reservations) {
-        reservations.sort(new Comparator<Reservation>() {
-            @Override
-            public int compare(Reservation o1, Reservation o2) {
-                // split time in hh:mm
-                String[] o1StartSplit = o1.getStartingTime().get().split(":");
-                int o1StartHour = Integer.parseInt(o1StartSplit[0]);
-                int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
-
-                String[] o2StartSplit = o2.getStartingTime().get().split(":");
-                int o2StartHour = Integer.parseInt(o2StartSplit[0]);
-                int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
-
-                // compare hours and minutes
-                if (o1StartHour < o2StartHour) {
-                    return -1;
-                } else if (o1StartHour > o2StartHour) {
-                    return 1;
-                }
-                if (o1StartMinute < o2StartMinute) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }
-        });
     }
 
 }

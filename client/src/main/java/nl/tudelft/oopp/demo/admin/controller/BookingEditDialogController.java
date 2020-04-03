@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -203,7 +204,7 @@ public class BookingEditDialogController {
                     bookingDate.getValue(), getDatePickerConverter());
 
             // sort them in ascending order
-            BookingEditDialogLogic.sortReservations(reservations);
+            sortReservations(reservations);
 
             // first part of css
             bw.write(".track {\n" + "\t-fx-background-color: linear-gradient(to right, ");
@@ -635,4 +636,35 @@ public class BookingEditDialogController {
         return null;
     }
 
+    /**
+     * sorts the reservation given.
+     * @param reservations list of reservations to be sorted.
+     */
+    public static void sortReservations(List<Reservation> reservations) {
+        reservations.sort(new Comparator<Reservation>() {
+            @Override
+            public int compare(Reservation o1, Reservation o2) {
+                // split time in hh:mm
+                String[] o1StartSplit = o1.getStartingTime().get().split(":");
+                int o1StartHour = Integer.parseInt(o1StartSplit[0]);
+                int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
+
+                String[] o2StartSplit = o2.getStartingTime().get().split(":");
+                int o2StartHour = Integer.parseInt(o2StartSplit[0]);
+                int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
+
+                // compare hours and minutes
+                if (o1StartHour < o2StartHour) {
+                    return -1;
+                } else if (o1StartHour > o2StartHour) {
+                    return 1;
+                }
+                if (o1StartMinute < o2StartMinute) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        });
+    }
 }
