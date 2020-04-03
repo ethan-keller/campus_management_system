@@ -24,16 +24,16 @@ public class BookingEditDialogLogic {
      *
      * @return true if the input is valid
      */
-    public static String isInputValid(ComboBox<Room> bookingRoomComboBox, DatePicker bookingDate) {
+    public static String isInputValid(int index, String bookingDate) {
 
         while(true) {
             // Checks whether a room from the combo box is selected and the index represents if the
             // selection of the room is valid.
-            if (bookingRoomComboBox.getSelectionModel().getSelectedIndex() < 0) {
+            if (index < 0) {
                 return "No valid room selected!\n";
             }
             // Checks whether a date from the datePicker is selected
-            if (bookingDate.getValue() == null) {
+            if (bookingDate == null) {
                 return  "No valid date selected!\n";
             }
             // This string value means that all the fields are filled.

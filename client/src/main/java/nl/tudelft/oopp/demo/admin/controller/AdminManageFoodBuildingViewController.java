@@ -70,7 +70,11 @@ public class AdminManageFoodBuildingViewController {
      * @return Building
      */
     public Building getSelectedBuilding() {
-        return AdminLogic.getSelectedBuildingLogic(foodBuildingTable);
+        if (foodBuildingTable.getSelectionModel().getSelectedIndex() >= 0) {
+            return foodBuildingTable.getSelectionModel().getSelectedItem();
+        } else {
+            return null;
+        }
     }
 
     /**

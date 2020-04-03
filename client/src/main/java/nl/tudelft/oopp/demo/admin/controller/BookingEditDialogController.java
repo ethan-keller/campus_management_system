@@ -516,7 +516,9 @@ public class BookingEditDialogController {
      */
     private boolean isInputValid() {
         // Checking from the logic class if the input entered by the user is valid.
-        String answer = BookingEditDialogLogic.isInputValid(bookingRoomComboBox, bookingDate);
+        String date = bookingDate.toString();
+        int index = bookingRoomComboBox.getSelectionModel().getSelectedIndex();
+        String answer = BookingEditDialogLogic.isInputValid(index, date);
 
         switch (answer) {
             case "No valid room selected!\n":

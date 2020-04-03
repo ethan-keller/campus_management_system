@@ -65,8 +65,8 @@ public class AdminLogicTest {
     }
 
     @Test
-    void getSelectedBuildingLogicTest() {
-        assertEquals(null, AdminLogic.getSelectedBuildingLogic(null));
+    void deleteBuildingLogicTest() {
+        
     }
 
 }
