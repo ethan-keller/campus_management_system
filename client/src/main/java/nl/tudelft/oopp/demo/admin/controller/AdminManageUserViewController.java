@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -42,6 +43,11 @@ public class AdminManageUserViewController {
     @FXML
     private TableColumn<User, String> userPasswordColumn;
 
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
+
     public static User currentSelectedUser;
 
     public AdminManageUserViewController() {
@@ -53,6 +59,10 @@ public class AdminManageUserViewController {
     @FXML
     private void initialize() {
         try {
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
             // Initialize the room table with the four columns.
             usernameColumn.setCellValueFactory(cell -> cell.getValue().getUsername());
             List<String> availableUserType = Arrays.asList("Admin", "Teacher", "Student");
@@ -198,7 +208,7 @@ public class AdminManageUserViewController {
     }
 
     /**
-     * Back button redirects the user back to the admin home page.
+     * Bike button redirects the admin to the bike reservation page.
      *
      * @param event is passed
      * @throws IOException is thrown
@@ -225,8 +235,14 @@ public class AdminManageUserViewController {
         }
     }
 
+    /**
+     * Back button redirects the admin back to the admin home page.
+     *
+     * @param event is passed
+     * @throws IOException is thrown
+     */
     @FXML
-    private void backClicked(ActionEvent event) throws IOException {
+    public void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This starts a new admin home page view.
@@ -240,7 +256,7 @@ public class AdminManageUserViewController {
      * @throws IOException is thrown.
      */
     @FXML
-    private void signOutClicked(ActionEvent event) throws IOException {
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This loads up a new login page.

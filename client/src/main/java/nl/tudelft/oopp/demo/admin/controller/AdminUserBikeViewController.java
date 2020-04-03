@@ -15,11 +15,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.UserBikeEditDialogView;
 import nl.tudelft.oopp.demo.views.UserBikeNewDialogView;
 
@@ -52,6 +54,12 @@ public class AdminUserBikeViewController {
     @FXML
     private Button editBikeButton;
 
+
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
+
     @FXML
     private Button deleteBikeButton;
 
@@ -67,6 +75,10 @@ public class AdminUserBikeViewController {
     @FXML
     private void initialize() {
         try {
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
             ObservableList<Building> buildingList = Building.getBuildingData();
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             // Initialize the bike reservation table with the five columns.
@@ -234,11 +246,25 @@ public class AdminUserBikeViewController {
      * @throws IOException is thrown
      */
     @FXML
-    private void backClicked(ActionEvent event) throws IOException {
+    public void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         AdminManageUserView amuv = new AdminManageUserView();
         amuv.start(stage);
+    }
+
+    /**
+     * Handles clicking the sign out button, redirect to the log in view.
+     *
+     * @param event event that triggered this method
+     * @throws IOException exception that gets thrown if fails
+     */
+    @FXML
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        LoginView view = new LoginView();
+        view.start(stage);
     }
 
 }

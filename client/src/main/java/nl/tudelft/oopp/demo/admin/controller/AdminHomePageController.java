@@ -8,8 +8,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -24,6 +26,16 @@ import nl.tudelft.oopp.demo.views.LoginView;
 
 
 public class AdminHomePageController {
+
+    @FXML
+    private Button signOutButton;
+
+    @FXML
+    public void initialize() {
+        signOutButton.getStyleClass().clear();
+        signOutButton.getStyleClass().add("signout-button");
+    }
+
     /**
      * This button lets the admin sign out and redirects the admin back to the login page.
      *

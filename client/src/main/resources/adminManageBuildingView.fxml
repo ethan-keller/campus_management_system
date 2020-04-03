@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -61,22 +63,36 @@
       </TableView>
    </center>
    <top>
-      <AnchorPane BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="48.0" prefWidth="911.0" BorderPane.alignment="CENTER">
          <children>
+            <Button fx:id="backButton" layoutX="14.0" layoutY="45.0" mnemonicParsing="false" onAction="#backClicked" prefHeight="35.0" prefWidth="56.0" textFill="#0ebaf8" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="7.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@backButton.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="380.0" prefHeight="54.0" prefWidth="150.0" text="Buildings" textAlignment="CENTER" textFill="#0ebaf8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="380.0" AnchorPane.rightAnchor="380.80000000000007" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="signOutButton" layoutX="801.0" layoutY="7.0" mnemonicParsing="false" onAction="#signOutButtonClicked" prefHeight="35.0" prefWidth="96.0" text="Sign Out" textFill="#0ebaf8" AnchorPane.bottomAnchor="8.199999999999996" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="7.0">
+            <Button fx:id="signOutButton" layoutX="797.0" layoutY="11.0" mnemonicParsing="false" onAction="#signOutButtonClicked" prefHeight="48.0" prefWidth="113.0" styleClass="signout-button" text="Sign out" textFill="#0ebaf8" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="0.6000000000000227" AnchorPane.topAnchor="11.0">
                <font>
                   <Font size="18.0" />
                </font>
-            </Button>
-            <Button fx:id="backButton" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#backClicked" prefHeight="35.0" prefWidth="93.0" text="&lt; Back" textFill="#0ebaf8" AnchorPane.bottomAnchor="8.199999999999996" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="7.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
+               <graphic>
+                  <ImageView fitHeight="17.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@signout.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
          </children>
       </AnchorPane>

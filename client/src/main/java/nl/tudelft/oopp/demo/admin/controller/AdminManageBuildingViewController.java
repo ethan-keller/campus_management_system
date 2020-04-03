@@ -59,6 +59,11 @@ public class AdminManageBuildingViewController {
     @FXML
     private void initialize() {
         try {
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
+
             // Initialize the room table with the four columns.
             buildingIdColumn.setCellValueFactory(cell -> new SimpleIntegerProperty(
                     cell.getValue().getBuildingId().get()));
@@ -204,7 +209,7 @@ public class AdminManageBuildingViewController {
      * @throws IOException is thrown
      */
     @FXML
-    private void backClicked(ActionEvent event) throws IOException {
+    public void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This loads up a new admin home page.
@@ -219,7 +224,7 @@ public class AdminManageBuildingViewController {
      * @throws IOException is thrown.
      */
     @FXML
-    private void signOutButtonClicked(ActionEvent event) throws IOException {
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         //Starts a new login page.

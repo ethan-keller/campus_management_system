@@ -19,6 +19,7 @@ public class AdminUserBikeView extends Application {
         URL xmlUrl = getClass().getResource("/adminUserBikeView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
         Scene oldScene = primaryStage.getScene();
         primaryStage.setScene(oldScene == null

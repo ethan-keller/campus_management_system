@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -62,6 +63,10 @@ public class AdminManageRoomViewController {
     @FXML
     private TableColumn<Room, String> roomTypeColumn;
 
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
 
     public static Room currentSelectedRoom;
 
@@ -78,8 +83,11 @@ public class AdminManageRoomViewController {
      */
     @FXML
     private void initialize() {
-
         try {
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
             // Initialize the room table with the eight columns.
             roomIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getRoomId().get()));
@@ -270,11 +278,12 @@ public class AdminManageRoomViewController {
 
     /**
      * This button redirects the user back to the login page.
+     *
      * @param event is passed.
      * @throws IOException is thrown.
      */
     @FXML
-    private void backClicked(ActionEvent event) throws IOException {
+    public void backClicked(ActionEvent event) throws IOException {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -287,11 +296,12 @@ public class AdminManageRoomViewController {
 
     /**
      * This redirects the admin back to the login page.
+     *
      * @param event is passed.
      * @throws IOException is thrown.
      */
     @FXML
-    private void signOutClicked(ActionEvent event) throws IOException {
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This open up a new login page.
@@ -300,3 +310,4 @@ public class AdminManageRoomViewController {
     }
 
 }
+
