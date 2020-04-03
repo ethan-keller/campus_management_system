@@ -49,8 +49,8 @@ public class LoginViewController {
     public void loginButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        String loginResponse = LoginServerCommunication.sendLogin(username.getText(), password.getText());
         if (isValidInput()) {
+            String loginResponse = LoginServerCommunication.sendLogin(username.getText(), password.getText());
             if (loginResponse.equals("admin")) {
                 CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 0);
                 AdminHomePageView av = new AdminHomePageView();
