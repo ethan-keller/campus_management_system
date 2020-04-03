@@ -40,7 +40,7 @@ public class ReservationEditDialogLogic {
         if (date == null) {
             errorMessage += "No date provided!\n";
         }
-        
+
         if (!checkTimeSlotValidity(room, date,currentStartValue, currentEndvalue, temp)
                 || currentStartValue == currentEndvalue) {
             errorMessage += "No valid timeslot selected!\n";

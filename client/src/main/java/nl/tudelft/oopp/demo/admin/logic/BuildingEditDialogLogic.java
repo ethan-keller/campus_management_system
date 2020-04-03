@@ -16,6 +16,7 @@ public class BuildingEditDialogLogic {
      */
     public static String isValidInput(String buildingNameField, String buildingAddressField,
                                         double openingHoursSliderHigh, double openingHoursSliderLow) {
+
         if (buildingNameField.equals("")) {
             return  "No valid building name!\n";
         }

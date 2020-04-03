@@ -538,22 +538,22 @@ public class ReservationEditDialogController {
      *
      * @param event event that triggered this method
      */
-    @FXML
-    public void okClicked(ActionEvent event) {
-        LocalDate dateSelected = date.getValue();
-        if (isInputValid()) {
-            emptyReservation();
-            reservation.setUsername(username.getSelectionModel().getSelectedItem().getUsername().get());
-            reservation.setRoom(room.getSelectionModel().getSelectedItem().getRoomId().get());
-            reservation.setDate(dateSelected.toString());
-            reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
-            reservation.setEndingTime(endTime.getText().replace("End: ", "").equals("24:00")
-                    ? "23:59" : endTime.getText().replace("End: ", ""));
-
-            this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            dialogStage.close();
-        }
-    }
+//    @FXML
+//    public void okClicked(ActionEvent event) {
+//        LocalDate dateSelected = date.getValue();
+//        if (isInputValid()) {
+//            emptyReservation();
+//            reservation.setUsername(username.getSelectionModel().getSelectedItem().getUsername().get());
+//            reservation.setRoom(room.getSelectionModel().getSelectedItem().getRoomId().get());
+//            reservation.setDate(dateSelected.toString());
+//            reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
+//            reservation.setEndingTime(endTime.getText().replace("End: ", "").equals("24:00")
+//                    ? "23:59" : endTime.getText().replace("End: ", ""));
+//
+//            this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//            dialogStage.close();
+//        }
+//    }
 
     /**
      * Method that cancels the current edit/creation of a reservation.
@@ -576,47 +576,47 @@ public class ReservationEditDialogController {
      *
      * @return true if the input is valid
      */
-    private boolean isInputValid() {
-
-        User usernameUser = username.getSelectionModel().getSelectedItem();
-        Room userRoom = room.getSelectionModel().getSelectedItem();
-        LocalDate reservationDate = date.getValue();
-        double currentStartValue = timeslotSlider.getLowValue();
-        double currentEndValue = timeslotSlider.getHighValue();
-        StringConverter<LocalDate> temp = getDateConverter(formatter);
-
-        return ReservationEditDialogLogic.isInputValid(
-                usernameUser, userRoom, reservationDate, currentStartValue, currentEndValue, temp);
-
-
-        /*
-        String errorMessage = "";
-
-        if (username.getSelectionModel().getSelectedItem() == null) {
-            errorMessage += "No valid username provided!\n";
-        }
-        if (room.getSelectionModel().getSelectedItem() == null) {
-            errorMessage += "No valid Room provided! \n";
-        }
-        if (date.getValue() == null) {
-            errorMessage += "No date provided!\n";
-        }
-        if (!checkTimeSlotValidity() || timeslotSlider.getLowValue() == timeslotSlider.getHighValue()) {
-            errorMessage += "No valid timeslot selected!\n";
-        }
-
-        // If all the fields are valid, then true is returned.
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-            return false;
-        }
-
-         */
-    }
+//    private boolean isInputValid() {
+//
+//        User usernameUser = username.getSelectionModel().getSelectedItem();
+//        Room userRoom = room.getSelectionModel().getSelectedItem();
+//        LocalDate reservationDate = date.getValue();
+//        double currentStartValue = timeslotSlider.getLowValue();
+//        double currentEndValue = timeslotSlider.getHighValue();
+//        StringConverter<LocalDate> temp = getDateConverter(formatter);
+//
+//        return ReservationEditDialogLogic.isInputValid(
+//                usernameUser, userRoom, reservationDate, currentStartValue, currentEndValue, temp);
+//
+//
+//        /*
+//        String errorMessage = "";
+//
+//        if (username.getSelectionModel().getSelectedItem() == null) {
+//            errorMessage += "No valid username provided!\n";
+//        }
+//        if (room.getSelectionModel().getSelectedItem() == null) {
+//            errorMessage += "No valid Room provided! \n";
+//        }
+//        if (date.getValue() == null) {
+//            errorMessage += "No date provided!\n";
+//        }
+//        if (!checkTimeSlotValidity() || timeslotSlider.getLowValue() == timeslotSlider.getHighValue()) {
+//            errorMessage += "No valid timeslot selected!\n";
+//        }
+//
+//        // If all the fields are valid, then true is returned.
+//        if (errorMessage.equals("")) {
+//            return true;
+//        } else {
+//            // Show the error message.
+//            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
+//                    errorMessage, Alert.AlertType.ERROR);
+//            return false;
+//        }
+//
+//         */
+//    }
 
     /**
      * Method that checks if the chosen timeslot is free.
