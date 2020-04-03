@@ -27,6 +27,7 @@ public class CalendarItemDialog extends Application {
         URL xmlUrl = getClass().getResource("/CalendarItemDialog.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
         primaryStage.setMinWidth(270);
         primaryStage.setMinHeight(320);

@@ -4,12 +4,11 @@ import java.io.IOException;
 import java.net.URL;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.admin.controller.RentABikeController;
 
 
@@ -22,6 +21,7 @@ public class RentABikeView extends Application {
         URL xmlUrl = getClass().getResource("/RentABikeView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
         Scene oldScene = primaryStage.getScene();
         Scene newScene = oldScene == null

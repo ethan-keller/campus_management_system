@@ -3,7 +3,6 @@ package nl.tudelft.oopp.demo.communication;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.FileHandler;
@@ -12,7 +11,6 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -81,6 +79,9 @@ public class GeneralMethods {
             // Create a new alert object (dialog box)
             Alert alert = new Alert(type);
 
+            alert.getDialogPane().getStylesheets().add(GeneralMethods.class
+                    .getResource("/GeneralStyle.css").toExternalForm());
+
             // Setting the title of the alert box.
             alert.setTitle(title);
 
@@ -115,6 +116,9 @@ public class GeneralMethods {
         try {
             // Create a new alert object (dialog box)
             Alert alert = new Alert(type);
+
+            alert.getDialogPane().getStylesheets().add(GeneralMethods.class
+                    .getResource("/GeneralStyle.css").toExternalForm());
 
             // Setting the title of the alert box.
             alert.setTitle(title);
@@ -188,12 +192,14 @@ public class GeneralMethods {
         return null;
     }
 
-    /**.
+    /**
+     * .
      * Method to set the properties of a dialog box view.
-     * @param dialogStage - Dialog stage
+     *
+     * @param dialogStage  - Dialog stage
      * @param primaryStage - Primary stage
-     * @param title - Title of the dialog box
-     * @param root - Root parent
+     * @param title        - Title of the dialog box
+     * @param root         - Root parent
      * @throws IOException is thrown
      */
     public static void view(Stage dialogStage, Stage primaryStage, String title, Parent root)

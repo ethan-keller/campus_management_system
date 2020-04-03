@@ -110,6 +110,8 @@ public class RoomViewController implements Initializable {
     private Text timeslotError;
     @FXML
     private Text teacherOnlyError;
+    @FXML
+    private Button signOutButton;
 
     // double thumb slider
     private RangeSlider timeSlotSlider;
@@ -136,6 +138,8 @@ public class RoomViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
             // initialize the list with all the selected foods
             selectedFoodList = new ArrayList<>();
 
@@ -171,7 +175,9 @@ public class RoomViewController implements Initializable {
 
 
 
-            ObservableList<Food> foodList = Food.getAllFoodData();
+            ObservableList<Food> foodList = Food.getFoodByBuildingId(
+                    Building.getBuildingById(currentRoom.getRoomBuilding().get())
+                            .getBuildingId().get());
             foodChoice.setConverter(getFoodChoiceConverter(foodList));
             foodChoice.setItems(foodList);
             foodChoice.setButtonCell(getButtonCell());
@@ -672,7 +678,7 @@ public class RoomViewController implements Initializable {
                 bw.write("#91ef99 0%, #91ef99 100%);\n");
             }
 
-            Building selectedBuilding = Building.getBuildingById(currentRoomId);
+            Building selectedBuilding = Building.getBuildingById(currentRoom.getRoomBuilding().get());
             StringConverter<Number> converter = getRangeSliderConverter();
             double opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
             double closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());

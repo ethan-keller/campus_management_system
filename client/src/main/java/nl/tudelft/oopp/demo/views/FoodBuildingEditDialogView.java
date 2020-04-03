@@ -21,6 +21,7 @@ public class FoodBuildingEditDialogView extends Application {
             URL xmlUrl = getClass().getResource("/foodBuildingEditDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();

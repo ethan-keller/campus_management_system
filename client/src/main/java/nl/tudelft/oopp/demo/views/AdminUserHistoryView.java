@@ -24,6 +24,7 @@ public class AdminUserHistoryView extends Application {
         URL xmlUrl = getClass().getResource("/adminUserHistoryView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
         Scene oldScene = primaryStage.getScene();
         primaryStage.setScene(oldScene == null

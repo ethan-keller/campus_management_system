@@ -21,6 +21,7 @@ public class FoodReservationEditDialogView extends Application {
             URL xmlUrl = getClass().getResource("/foodReservationEditDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
