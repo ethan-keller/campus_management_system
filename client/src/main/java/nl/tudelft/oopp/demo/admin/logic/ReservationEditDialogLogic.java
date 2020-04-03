@@ -28,7 +28,7 @@ public class ReservationEditDialogLogic {
      */
     public static boolean isInputValid(User username, Room room, LocalDate date,
                                        double currentStartValue, double currentEndvalue,
-                                       DateTimeFormatter formatter) {
+                                       StringConverter<LocalDate> temp) {
         String errorMessage = "";
 
         if (username == null) {
@@ -41,7 +41,7 @@ public class ReservationEditDialogLogic {
             errorMessage += "No date provided!\n";
         }
         
-        if (!checkTimeSlotValidity(room, date, formatter, currentStartValue, currentEndvalue)
+        if (!checkTimeSlotValidity(room, date,currentStartValue, currentEndvalue, temp)
                 || currentStartValue == currentEndvalue) {
             errorMessage += "No valid timeslot selected!\n";
         }
