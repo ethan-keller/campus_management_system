@@ -8,7 +8,6 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -17,10 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -47,7 +44,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-
 import javax.imageio.ImageIO;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageReservationViewController;
@@ -59,6 +55,7 @@ import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.user.logic.RoomViewLogic;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;
@@ -70,7 +67,7 @@ import org.controlsfx.control.RangeSlider;
  * Controller class for the Room view (JavaFX).
  */
 public class RoomViewController implements Initializable {
-    
+
     private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
@@ -113,17 +110,14 @@ public class RoomViewController implements Initializable {
 
     // double thumb slider
     private RangeSlider timeSlotSlider;
-
     // current room to show info about
     private static Room currentRoom;
     public static int currentRoomId;
     private List<Food> selectedFoodList;
     private Map<Food, Integer> foodMap;
     private final String pathSeparator = File.separator;
-
     // current Stage
     public static Stage thisStage;
-
 
     /**
      * Method that gets called before everything (mostly to initialize nodes etc.).
@@ -170,7 +164,6 @@ public class RoomViewController implements Initializable {
             thisStage.widthProperty().addListener((obs, oldVal, newVal) -> changeWidthConstraints(newVal));
 
 
-
             ObservableList<Food> foodList = Food.getAllFoodData();
             foodChoice.setConverter(getFoodChoiceConverter(foodList));
             foodChoice.setItems(foodList);
@@ -192,10 +185,6 @@ public class RoomViewController implements Initializable {
             // sets all the room info text fields (+ image)
             name.setText("Name: " + currentRoom.getRoomName().get());
             capacity.setText("Capacity: " + currentRoom.getRoomCapacity().get());
-            //building.setText("Building: "
-            //        + Objects.requireNonNull(
-            //                Building.getBuildingById(
-            //                        currentRoom.getRoomBuilding().get())).getBuildingName().get());
             building.setText("Building: " + Building.getBuildingById(currentRoom.getRoomBuilding().get())
                     .getBuildingName().get());
             teacherOnly.setText("Teachers only: " + (currentRoom.getTeacherOnly().get() ? "yes" : "no"));
@@ -399,23 +388,12 @@ public class RoomViewController implements Initializable {
             return new StringConverter<Food>() {
                 @Override
                 public String toString(Food object) {
-                    if (object != null) {
-                        return object.getFoodName().get();
-                    } else {
-                        return null;
-                    }
-
+                    return RoomViewLogic.toString(object);
                 }
 
                 @Override
                 public Food fromString(String string) {
-                    if (string != null) {
-                        return foodList.stream()
-                                .filter(x -> x.getFoodName().get().equals(string))
-                                .collect(Collectors.toList()).get(0);
-                    } else {
-                        return null;
-                    }
+                    return RoomViewLogic.fromString(string, foodList);
                 }
             };
         } catch (Exception e) {
@@ -606,7 +584,6 @@ public class RoomViewController implements Initializable {
         }
     }
 
-
     /**
      * .
      * Configure (in CSS) the colors of the track of the range slider to show in green the available timeslots
@@ -639,25 +616,7 @@ public class RoomViewController implements Initializable {
                 @Override
                 public int compare(Reservation o1, Reservation o2) {
                     // split time in hh:mm
-                    String[] o1StartSplit = o1.getStartingTime().get().split(":");
-                    int o1StartHour = Integer.parseInt(o1StartSplit[0]);
-                    int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
-
-                    String[] o2StartSplit = o2.getStartingTime().get().split(":");
-                    int o2StartHour = Integer.parseInt(o2StartSplit[0]);
-                    int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
-
-                    // compare hours and minutes
-                    if (o1StartHour < o2StartHour) {
-                        return -1;
-                    } else if (o1StartHour > o2StartHour) {
-                        return 1;
-                    }
-                    if (o1StartMinute < o2StartMinute) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
+                    return RoomViewLogic.compare(o1, o2);
                 }
             });
 
@@ -676,7 +635,6 @@ public class RoomViewController implements Initializable {
             StringConverter<Number> converter = getRangeSliderConverter();
             double opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
             double closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());
-
             Reservation res = AdminManageReservationViewController.currentSelectedReservation;
 
             // calculate and add green and red parts
@@ -797,8 +755,7 @@ public class RoomViewController implements Initializable {
             double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
 
             // check if the values overlap
-            if (!((currentStartValue <= startValue && currentEndValue <= startValue)
-                    || (currentStartValue >= endValue && currentEndValue >= endValue))) {
+            if (!RoomViewLogic.checkTimeSlotValidity(currentStartValue, currentEndValue, startValue, endValue)) {
                 return false;
             }
 
@@ -825,22 +782,12 @@ public class RoomViewController implements Initializable {
 
                 @Override
                 public String toString(LocalDate date) {
-                    if (date != null) {
-                        // get correctly formatted String
-                        return dateFormatter.format(date);
-                    } else {
-                        return "";
-                    }
+                    return RoomViewLogic.toString(date, dateFormatter);
                 }
 
                 @Override
                 public LocalDate fromString(String string) {
-                    if (string != null && !string.isEmpty()) {
-                        // get correct LocalDate from String format
-                        return LocalDate.parse(string, dateFormatter);
-                    } else {
-                        return null;
-                    }
+                    return RoomViewLogic.fromString(string, dateFormatter);
                 }
             };
         } catch (Exception e) {
@@ -859,21 +806,12 @@ public class RoomViewController implements Initializable {
             return new StringConverter<>() {
                 @Override
                 public String toString(Number n) {
-                    // calculate hours and remaining minutes to get a correct hh:mm format
-                    long minutes = n.longValue();
-                    long hours = TimeUnit.MINUTES.toHours(minutes);
-                    long remainingMinutes = minutes - TimeUnit.HOURS.toMinutes(hours);
-                    // '%02d' means that there will be a 0 in front if its only 1 number + it's a long number
-                    return String.format("%02d", hours) + ":" + String.format("%02d", remainingMinutes);
+                    return RoomViewLogic.toString(n);
                 }
 
                 @Override
                 public Number fromString(String time) {
-                    if (time != null) {
-                        String[] split = time.split(":");
-                        return Double.parseDouble(split[0]) * 60 + Double.parseDouble(split[1]);
-                    }
-                    return null;
+                    return RoomViewLogic.fromString(time);
                 }
             };
         } catch (Exception e) {
@@ -882,10 +820,8 @@ public class RoomViewController implements Initializable {
         return null;
     }
 
-
     /**
      * Method that executes when the backButton is clicked. It returns to the searchview.
-     *
      */
     @FXML
     private void backButtonClicked() {
@@ -899,6 +835,7 @@ public class RoomViewController implements Initializable {
     }
 
     // TODO: add try catch everywhere
+
     /**
      * Method that executes when book button is clicked. It checks if fields are correctly filled.
      *
@@ -921,19 +858,6 @@ public class RoomViewController implements Initializable {
 
                 // if user confirms booking, reservations is sent to server
                 if (confirmBooking(selectedDate, selectedStartTime, selectedEndTime)) {
-                    // send new reservation to server
-
-
-                    //ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
-                    //        currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24")
-                    //                ? "23:59" : selectedEndTime);
-                    // create confirmation Alert
-                    //Alert alert = GeneralMethods.createAlert("Room booked",
-                    //        "You successfully booked this room!",
-                    //        ((Node) event.getSource()).getScene().getWindow(), Alert.AlertType.CONFIRMATION);
-                    //assert alert != null;
-                    //alert.showAndWait();
-
                     if (ReservationServerCommunication.createReservation(CurrentUserManager.getUsername(),
                             currentRoomId, selectedDate, selectedStartTime, selectedEndTime.contains("24")
                                     ? "23:59" : selectedEndTime)) {
@@ -1041,8 +965,6 @@ public class RoomViewController implements Initializable {
                 timeslotError.setVisible(true);
                 errors = true;
             }
-
-
             // return true if no errors where triggered
             return !errors;
         } catch (Exception e) {
@@ -1067,4 +989,3 @@ public class RoomViewController implements Initializable {
         }
     }
 }
-
