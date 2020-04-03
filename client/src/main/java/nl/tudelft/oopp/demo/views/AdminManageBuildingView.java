@@ -43,8 +43,8 @@ public class AdminManageBuildingView extends Application {
             primaryStage.setScene(oldScene == null
                     ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                     : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
-            primaryStage.setMinHeight(400);
-            primaryStage.setMinWidth(710);
+            primaryStage.setMinHeight(500);
+            primaryStage.setMinWidth(980);
             primaryStage.show();
 
         } catch (Exception e) {

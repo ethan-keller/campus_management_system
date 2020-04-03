@@ -40,7 +40,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextArea fx:id="description" prefHeight="60.0" prefWidth="204.0" promptText="Description" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <TextArea fx:id="description" prefHeight="60.0" prefWidth="204.0" promptText="Description" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font size="10.0" />
                </font>

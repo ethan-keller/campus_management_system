@@ -29,7 +29,7 @@ public class RegisterView extends Application {
         primaryStage.setScene(oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
-        primaryStage.setMinHeight(390);
+        primaryStage.setMinHeight(430);
         primaryStage.setMinWidth(710);
         primaryStage.show();
     }

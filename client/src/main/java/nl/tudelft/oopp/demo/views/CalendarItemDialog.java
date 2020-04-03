@@ -29,6 +29,9 @@ public class CalendarItemDialog extends Application {
         Parent root = loader.load();
         root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
+        primaryStage.setMinWidth(270);
+        primaryStage.setMinHeight(320);
+
         // create the new dialog stage in another runnable (for JavaFX reasons)
         Platform.runLater(new Runnable() {
             @Override

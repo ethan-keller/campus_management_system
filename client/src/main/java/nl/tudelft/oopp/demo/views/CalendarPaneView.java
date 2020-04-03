@@ -31,6 +31,8 @@ public class CalendarPaneView extends Application {
         Scene newScene = oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight());
+        primaryStage.setMinHeight(510);
+        primaryStage.setMinWidth(840);
 
         primaryStage.setScene(newScene);
         primaryStage.show();

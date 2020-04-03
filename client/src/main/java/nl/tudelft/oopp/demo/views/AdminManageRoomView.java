@@ -34,6 +34,9 @@ public class AdminManageRoomView extends Application {
         primaryStage.setScene(oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
+
+        primaryStage.setMinWidth(1100);
+        primaryStage.setMinHeight(500);
         primaryStage.show();
     }
 

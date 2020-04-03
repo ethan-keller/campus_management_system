@@ -28,8 +28,8 @@ public class RentABikeView extends Application {
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
 
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight());
-        primaryStage.setMinHeight(390);
-        primaryStage.setMinWidth(710);
+        primaryStage.setMinHeight(470);
+        primaryStage.setMinWidth(880);
         primaryStage.setScene(newScene);
 
         primaryStage.show();

@@ -29,8 +29,8 @@ public class RoomView extends Application {
         Parent root = loader.load();
         root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
-        primaryStage.setMinHeight(400);
-        primaryStage.setMinWidth(710);
+        primaryStage.setMinHeight(580);
+        primaryStage.setMinWidth(980);
         Scene oldScene = primaryStage.getScene();
         primaryStage.setScene(oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())

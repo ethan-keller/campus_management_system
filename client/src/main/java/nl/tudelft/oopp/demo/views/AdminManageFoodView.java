@@ -30,6 +30,9 @@ public class AdminManageFoodView extends Application {
             primaryStage.setScene(oldScene == null
                     ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                     : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
+
+            primaryStage.setMinHeight(500);
+            primaryStage.setMinWidth(980);
             primaryStage.show();
 
         } catch (Exception e) {
