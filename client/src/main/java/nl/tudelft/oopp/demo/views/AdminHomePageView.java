@@ -28,7 +28,7 @@ public class AdminHomePageView extends Application {
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
         primaryStage.setMinHeight(610);
-        primaryStage.setMinWidth(1040);
+        primaryStage.setMinWidth(1050);
         primaryStage.show();
     }
 
