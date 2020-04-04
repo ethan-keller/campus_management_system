@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -51,6 +52,10 @@ public class CalendarPaneController implements Initializable {
     private static Logger logger = Logger.getLogger("GlobalLogger");
     @FXML
     private AnchorPane pane;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
 
     /**
      * Custom initialization of JavaFX components. This method is automatically called.
@@ -63,6 +68,11 @@ public class CalendarPaneController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            backButton.getStyleClass().clear();
+            signOutButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().add("signout-button");
+
             // SwingNode gives the ability to inject Swing components in the JavaFX environment
             SwingNode node = new SwingNode();
             configureNode(node);
