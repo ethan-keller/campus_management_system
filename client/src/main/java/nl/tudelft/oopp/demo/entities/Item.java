@@ -203,7 +203,7 @@ public class Item {
             return false;
         }
         Item item = (Item) o;
-        return Objects.equals(getId(), item.getId());
+        return Objects.equals(getId().get(), item.getId().get());
     }
 
     /**
