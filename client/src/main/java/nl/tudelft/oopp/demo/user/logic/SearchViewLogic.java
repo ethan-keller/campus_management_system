@@ -257,13 +257,16 @@ public class SearchViewLogic {
                                 reservations.get(z).getReservationStartingTime().getValue().substring(0, 2));
                         double ending = Integer.parseInt(
                                 reservations.get(z).getReservationEndingTime().getValue().substring(0, 2));
-                        if (reservations.get(z).getReservationStartingTime().getValue().substring(3, 5).equals("30")) {
+                        if (reservations.get(z).getReservationStartingTime()
+                                .getValue().substring(3, 5).equals("30")) {
                             starting = starting + 0.5;
                         }
-                        if (reservations.get(z).getReservationEndingTime().getValue().substring(3, 5).equals("30")) {
+                        if (reservations.get(z).getReservationEndingTime()
+                                .getValue().substring(3, 5).equals("30")) {
                             ending = ending + 0.5;
                         }
-                        if (reservations.get(z).getReservationEndingTime().getValue().equals("23:59:00")) {
+                        if (reservations.get(z).getReservationEndingTime()
+                                .getValue().equals("23:59:00")) {
                             ending = 24;
                         }
                         if (ending == 0) {
@@ -319,7 +322,8 @@ public class SearchViewLogic {
             ((Text) newCard.lookup("#titleText")).setText(r.getRoomName().get());
             ((Text) newCard.lookup("#buildingText")).setText("Building: " + b.getBuildingName().get());
             ((Text) newCard.lookup("#capacityText")).setText("Capacity: " + r.getRoomCapacity().get());
-            ((Text) newCard.lookup("#descriptionText")).setText("Description: " + r.getRoomDescription().get());
+            ((Text) newCard.lookup("#descriptionText"))
+                    .setText("Description: " + r.getRoomDescription().get());
 
             // set mouse clicked event on card (to redirect to room view)
             newCard.setOnMouseClicked(event -> {

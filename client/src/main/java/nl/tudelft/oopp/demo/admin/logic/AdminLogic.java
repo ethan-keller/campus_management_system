@@ -180,7 +180,8 @@ public class AdminLogic {
         try {
             ReservationServerCommunication.createReservation(tempReservation.getUsername().get(),
                     tempReservation.getRoom().get(), tempReservation.getDate().get(),
-                    tempReservation.getReservationStartingTime().get(), tempReservation.getReservationEndingTime().get());
+                    tempReservation.getReservationStartingTime().get(),
+                    tempReservation.getReservationEndingTime().get());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -198,7 +199,8 @@ public class AdminLogic {
         try {
             ReservationServerCommunication.updateReservation(selectedReservation.getReservationId().get(),
                     tempReservation.getRoom().get(), tempReservation.getDate().get(),
-                    tempReservation.getReservationStartingTime().get(), tempReservation.getReservationEndingTime().get());
+                    tempReservation.getReservationStartingTime().get(),
+                    tempReservation.getReservationEndingTime().get());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

@@ -29,7 +29,7 @@ import org.json.JSONArray;
 public class Reservation implements AbstractCalendarItem {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
-    
+
     private IntegerProperty id;
     private StringProperty username;
     //Room means the room-id of the particular room.
@@ -69,109 +69,6 @@ public class Reservation implements AbstractCalendarItem {
         this.startingTime = new SimpleStringProperty(startingTime);
         this.endingTime = new SimpleStringProperty(endingTime);
 
-    }
-
-    /**
-     * Getter.
-     *
-     * @return int, in the form of IntegerProperty.
-     */
-    public IntegerProperty getReservationId() {
-        return id;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param id int.
-     */
-    public void setId(int id) {
-        this.id.set(id);
-    }
-
-    /**
-     * Getter.
-     *
-     * @return String in the form of a StringProperty.
-     */
-    public StringProperty getUsername() {
-        return username;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param username String, new
-     */
-    public void setUsername(String username) {
-        this.username.set(username);
-    }
-
-    /**
-     * Getter.
-     *
-     * @return int, in the form of IntegerProperty.
-     */
-    public IntegerProperty getRoom() {
-        return room;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param room int, new
-     */
-    public void setRoom(int room) {
-        this.room.set(room);
-    }
-
-    /**
-     * Getter.
-     *
-     * @return String in the form of a StringProperty.
-     */
-    public StringProperty getDate() {
-        return date;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param date String, new.
-     */
-    public void setDate(String date) {
-        this.date.set(date);
-    }
-
-    /**
-     * Getter.
-     *
-     * @return String in the form of a StringProperty.
-     */
-    public StringProperty getReservationStartingTime() {
-        return startingTime;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param startingTime String, new
-     */
-    public void setStartingTime(String startingTime) {
-        this.startingTime.set(startingTime);
-    }
-
-    /**
-     * Getter.
-     *
-     * @return String in the form of a StringProperty.
-     */
-    public StringProperty getReservationEndingTime() {
-        return endingTime;
-    }
-
-    public void setEndingTime(String endingTime) {
-        this.endingTime.set(endingTime);
     }
 
     /**
@@ -278,9 +175,124 @@ public class Reservation implements AbstractCalendarItem {
         return null;
     }
 
+    /**
+     * Getter.
+     *
+     * @return int, in the form of IntegerProperty.
+     */
+    public IntegerProperty getReservationId() {
+        return id;
+    }
+
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
+    public StringProperty getUsername() {
+        return username;
+    }
+
+    /**
+     * Setter.
+     *
+     * @param username String, new
+     */
+    public void setUsername(String username) {
+        this.username.set(username);
+    }
+
+    /**
+     * Getter.
+     *
+     * @return int, in the form of IntegerProperty.
+     */
+    public IntegerProperty getRoom() {
+        return room;
+    }
+
+    /**
+     * Setter.
+     *
+     * @param room int, new
+     */
+    public void setRoom(int room) {
+        this.room.set(room);
+    }
+
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
+    public StringProperty getDate() {
+        return date;
+    }
+
+    /**
+     * Setter.
+     *
+     * @param date String, new.
+     */
+    public void setDate(String date) {
+        this.date.set(date);
+    }
+
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
+    public StringProperty getReservationStartingTime() {
+        return startingTime;
+    }
+
+    /**
+     * Setter.
+     *
+     * @param startingTime String, new
+     */
+    public void setStartingTime(String startingTime) {
+        this.startingTime.set(startingTime);
+    }
+
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
+    public StringProperty getReservationEndingTime() {
+        return endingTime;
+    }
+
+    public void setEndingTime(String endingTime) {
+        this.endingTime.set(endingTime);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Reservation)) {
+            return false;
+        }
+        Reservation that = (Reservation) o;
+        return this.getReservationId().get() == that.getReservationId().get();
+    }
+
     @Override
     public String getId() {
         return String.valueOf(this.getReservationId());
+    }
+
+    /**
+     * Setter.
+     *
+     * @param id int.
+     */
+    public void setId(int id) {
+        this.id.set(id);
     }
 
     @Override

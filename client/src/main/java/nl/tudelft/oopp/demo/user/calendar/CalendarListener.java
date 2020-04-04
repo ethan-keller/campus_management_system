@@ -31,11 +31,7 @@ public class CalendarListener extends CalendarAdapter {
         try {
             // get the item that was clicked
             Item i = itemMouseEvent.getItem();
-            // give that item to the controller
-            CalendarItemDialogController.selectedItem = i;
-            // set header and body attributes
-            header = i.getHeaderText();
-            body = i.getDescriptionText();
+            setTexts(i);
             // get the pop up
             CalendarItemDialog dialog = new CalendarItemDialog();
             // get current stage
@@ -47,6 +43,19 @@ public class CalendarListener extends CalendarAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Gets the selected item and sets the class attributes.
+     *
+     * @param i the item.
+     */
+    private void setTexts(Item i) {
+        // give that item to the controller
+        CalendarItemDialogController.selectedItem = i;
+        // set header and body attributes
+        header = i.getHeaderText();
+        body = i.getDescriptionText();
     }
 
 }

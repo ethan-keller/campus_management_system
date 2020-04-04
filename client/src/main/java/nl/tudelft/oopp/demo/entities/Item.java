@@ -3,7 +3,6 @@ package nl.tudelft.oopp.demo.entities;
 import com.mindfusion.common.DateTime;
 
 import java.awt.Color;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,6 +12,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
 import nl.tudelft.oopp.demo.user.calendar.logic.AbstractCalendarItem;
 
@@ -35,13 +35,14 @@ public class Item implements AbstractCalendarItem {
 
     /**
      * Constructor.
-     * @param id id of item
-     * @param user to whom item belongs
-     * @param title title of the item
-     * @param date date of item
+     *
+     * @param id           id of item
+     * @param user         to whom item belongs
+     * @param title        title of the item
+     * @param date         date of item
      * @param startingTime startingTime of item
-     * @param endingTime endingTime of item
-     * @param description description of item
+     * @param endingTime   endingTime of item
+     * @param description  description of item
      */
     public Item(int id, String user, String title, String date, String startingTime,
                 String endingTime, String description) {
@@ -68,21 +69,67 @@ public class Item implements AbstractCalendarItem {
     }
 
     /**
+     * Method that gets all the Items in the database and parses the JSON into ObservableList.
+     *
+     * @return ObservableList with all items in the database
+     */
+    public static ObservableList<Item> getAllItems() {
+        try {
+            ObservableList<Item> itemData = FXCollections.observableArrayList();
+            JSONArray itemArray = new JSONArray(ItemServerCommunication.getAllItems());
+            for (int i = 0; i < itemArray.length(); i++) {
+                Item item = new Item();
+                item.setId(itemArray.getJSONObject(i).getInt("id"));
+                item.setUser(itemArray.getJSONObject(i).getString("user"));
+                item.setTitle(itemArray.getJSONObject(i).getString("title"));
+                item.setDate(itemArray.getJSONObject(i).getString("date"));
+                item.setStartingTime(itemArray.getJSONObject(i).getString("startingTime"));
+                item.setEndingTime(itemArray.getJSONObject(i).getString("endingTime"));
+                item.setDescription(itemArray.getJSONObject(i).getString("description"));
+                itemData.add(item);
+            }
+            return itemData;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
+    }
+
+    /**
+     * Get all items of a particular user in the database.
+     *
+     * @param user the user from which we need the items
+     * @return ObservableList with all items of the user
+     */
+    public static ObservableList<Item> getUserItems(String user) {
+        try {
+            ObservableList<Item> itemData = FXCollections.observableArrayList();
+            JSONArray array = new JSONArray(ItemServerCommunication.getUserItems(user));
+            for (int i = 0; i < array.length(); i++) {
+                Item item = new Item();
+                item.setId(array.getJSONObject(i).getInt("id"));
+                item.setUser(array.getJSONObject(i).getString("user"));
+                item.setTitle(array.getJSONObject(i).getString("title"));
+                item.setDate(array.getJSONObject(i).getString("date"));
+                item.setStartingTime(array.getJSONObject(i).getString("startingTime"));
+                item.setEndingTime(array.getJSONObject(i).getString("endingTime"));
+                item.setDescription(array.getJSONObject(i).getString("description"));
+                itemData.add(item);
+            }
+            return itemData;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
+    }
+
+    /**
      * Getter.
      *
      * @return int, in the form of IntegerProperty
      */
     public IntegerProperty getItemId() {
         return id;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param id int, new value
-     */
-    public void setId(int id) {
-        this.id.set(id);
     }
 
     /**
@@ -185,15 +232,6 @@ public class Item implements AbstractCalendarItem {
     }
 
     /**
-     * Setter.
-     *
-     * @param description String, new value
-     */
-    public void setDescription(String description) {
-        this.description.set(description);
-    }
-
-    /**
      * Equals method to compare two Item objects.
      *
      * @param o the item to compare to
@@ -208,67 +246,21 @@ public class Item implements AbstractCalendarItem {
             return false;
         }
         Item item = (Item) o;
-        return Objects.equals(getItemId(), item.getItemId());
-    }
-
-    /**
-     * Method that gets all the Items in the database and parses the JSON into ObservableList.
-     *
-     * @return ObservableList with all items in the database
-     */
-    public static ObservableList<Item> getAllItems() {
-        try {
-            ObservableList<Item> itemData = FXCollections.observableArrayList();
-            JSONArray itemArray = new JSONArray(ItemServerCommunication.getAllItems());
-            for (int i = 0; i < itemArray.length(); i++) {
-                Item item = new Item();
-                item.setId(itemArray.getJSONObject(i).getInt("id"));
-                item.setUser(itemArray.getJSONObject(i).getString("user"));
-                item.setTitle(itemArray.getJSONObject(i).getString("title"));
-                item.setDate(itemArray.getJSONObject(i).getString("date"));
-                item.setStartingTime(itemArray.getJSONObject(i).getString("startingTime"));
-                item.setEndingTime(itemArray.getJSONObject(i).getString("endingTime"));
-                item.setDescription(itemArray.getJSONObject(i).getString("description"));
-                itemData.add(item);
-            }
-            return itemData;
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-        }
-        return null;
-    }
-
-    /**
-     * Get all items of a particular user in the database.
-     *
-     * @param user the user from which we need the items
-     * @return ObservableList with all items of the user
-     */
-    public static ObservableList<Item> getUserItems(String user) {
-        try {
-            ObservableList<Item> itemData = FXCollections.observableArrayList();
-            JSONArray array = new JSONArray(ItemServerCommunication.getUserItems(user));
-            for (int i = 0; i < array.length(); i++) {
-                Item item = new Item();
-                item.setId(array.getJSONObject(i).getInt("id"));
-                item.setUser(array.getJSONObject(i).getString("user"));
-                item.setTitle(array.getJSONObject(i).getString("title"));
-                item.setDate(array.getJSONObject(i).getString("date"));
-                item.setStartingTime(array.getJSONObject(i).getString("startingTime"));
-                item.setEndingTime(array.getJSONObject(i).getString("endingTime"));
-                item.setDescription(array.getJSONObject(i).getString("description"));
-                itemData.add(item);
-            }
-            return itemData;
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-        }
-        return null;
+        return this.getItemId().get() == item.getItemId().get();
     }
 
     @Override
     public String getId() {
         return String.valueOf(this.getItemId().get());
+    }
+
+    /**
+     * Setter.
+     *
+     * @param id int, new value
+     */
+    public void setId(int id) {
+        this.id.set(id);
     }
 
     @Override
@@ -306,6 +298,15 @@ public class Item implements AbstractCalendarItem {
     @Override
     public String getDescription() {
         return this.getItemDescription().get();
+    }
+
+    /**
+     * Setter.
+     *
+     * @param description String, new value
+     */
+    public void setDescription(String description) {
+        this.description.set(description);
     }
 
     @Override

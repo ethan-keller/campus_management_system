@@ -16,13 +16,22 @@ import javafx.util.StringConverter;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests the calendarEditItemDialogLogic class.
+ */
 class CalendarEditItemDialogLogicTest {
 
+    /**
+     * Tests the object constructor.
+     */
     @Test
     void objectConstructor() {
         assertNotNull(new CalendarEditItemDialogLogic());
     }
 
+    /**
+     * Tests the getRangeSliderConverter method.
+     */
     @Test
     void getRangeSliderConverterTest() {
         StringConverter<Number> converter = CalendarEditItemDialogLogic.getRangeSliderConverter();
@@ -32,6 +41,9 @@ class CalendarEditItemDialogLogicTest {
         assertNull(converter.toString(null));
     }
 
+    /**
+     * Tests the checkInputValidity method.
+     */
     @Test
     void checkInputValidityTest() {
         String errorMessage1 = CalendarEditItemDialogLogic.checkInputValidity(null, "",
@@ -43,12 +55,18 @@ class CalendarEditItemDialogLogicTest {
         assertEquals("No description provided!\n", errorMessage2);
     }
 
+    /**
+     * Tests the checkIfAnyError method.
+     */
     @Test
     void checkIfAnyErrorTest() {
         assertTrue(CalendarEditItemDialogLogic.checkIfAnyError(""));
         assertFalse(CalendarEditItemDialogLogic.checkIfAnyError("notEmpty"));
     }
 
+    /**
+     * Tests the getDatePickerConverter method.
+     */
     @Test
     void getDatePickerConverterTest() {
         StringConverter<LocalDate> converter = CalendarEditItemDialogLogic.getDatePickerConverter();
@@ -59,6 +77,9 @@ class CalendarEditItemDialogLogicTest {
         assertNull(converter.fromString(""));
     }
 
+    /**
+     * Tests the createItem method.
+     */
     @Test
     void createItemTest() {
         Appointment app = CalendarEditItemDialogLogic.createItem("header", "description",

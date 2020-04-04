@@ -24,6 +24,7 @@ public class CalendarPaneLogic {
 
     /**
      * Gets all the calendar items to add them to the calendar.
+     *
      * @return list of all calendar items
      */
     public static List<Appointment> getAllCalendarItems() {
@@ -64,9 +65,10 @@ public class CalendarPaneLogic {
 
     /**
      * Gets all the personal items and transforms them into calendar items.
+     *
      * @return list of calendar items
      */
-    public static List<Appointment> getAllItems() {
+    private static List<Appointment> getAllItems() {
         List<Appointment> appointmentList = new ArrayList<>();
         // get all items from database that belong to the current user
         List<Item> itemList = Item.getUserItems(CurrentUserManager.getUsername());
@@ -84,9 +86,10 @@ public class CalendarPaneLogic {
 
     /**
      * Gets all the room reservations and transforms them into calendar items.
+     *
      * @return list of calendar items
      */
-    public static List<Appointment> getAllReservations() {
+    private static List<Appointment> getAllReservations() {
         List<Appointment> appointmentList = new ArrayList<>();
         // get all items from database that belong to the current user
         List<Reservation> reservationList = Reservation.getUserReservation();
@@ -104,14 +107,14 @@ public class CalendarPaneLogic {
 
     /**
      * Gets all the bike reservations and transforms them into calendar items.
+     *
      * @return list of calendar items
      */
-    public static List<Appointment> getAllBikeReservations() {
+    private static List<Appointment> getAllBikeReservations() {
         List<Appointment> appointmentList = new ArrayList<>();
         // get all items from database that belong to the current user
         List<BikeReservation> bikeReservationList = BikeReservation.getUserBikeReservations(
                 CurrentUserManager.getUsername());
-        // null check
         if (bikeReservationList == null) {
             return appointmentList;
         }
@@ -125,15 +128,12 @@ public class CalendarPaneLogic {
 
     /**
      * Makes a calendar item from a AbstractCalenderItem (Item, reservation or bike reservation).
+     *
      * @param i the AbstractCalendarItem
      * @return new calendar item
      */
     private static Appointment makeAppointment(AbstractCalendarItem i) {
         Appointment app = new Appointment();
-        // null check
-        if (i == null) {
-            return app;
-        }
         // give the Appointment object the id that is given in the database (for later reference)
         app.setId(i.getId());
         // set header
@@ -147,13 +147,13 @@ public class CalendarPaneLogic {
         // make sure user cannot move items around in calendar
         app.setLocked(true);
         app.setAllowMove(false);
-        // give items an orange side bar color
         app.getStyle().setFillColor(i.getColor());
         return app;
     }
 
     /**
      * Sends a request to the server to create a new calendar item.
+     *
      * @param app calendar item to send to the server
      * @return true if communication was successful, false otherwise
      */
@@ -164,9 +164,6 @@ public class CalendarPaneLogic {
         try {
             // get id of last item created
             String currentId = ItemServerCommunication.getCurrentId();
-            if (currentId == null) {
-                return false;
-            }
             // get the id of the last inserted item to assign it to the Appointment object
             app.setId(String.valueOf(Integer.parseInt(currentId) - 1));
             // get date and time in correct format for database

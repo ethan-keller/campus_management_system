@@ -16,6 +16,7 @@ public class CalendarItemDialogLogic {
 
     /**
      * Sets the correct color of an item.
+     *
      * @param fillColor the color
      */
     public static void setItemType(Color fillColor) {
@@ -30,6 +31,7 @@ public class CalendarItemDialogLogic {
 
     /**
      * Deletes a personal calendar item from the database.
+     *
      * @param id the id of the item
      * @return true if communication was successful, false otherwise
      * @throws UnsupportedEncodingException when wrong encoding is used
@@ -44,6 +46,7 @@ public class CalendarItemDialogLogic {
 
     /**
      * Deletes a reservation from the database.
+     *
      * @param id the id of the reservation
      * @return true if communication was successful, false otherwise
      * @throws UnsupportedEncodingException when wrong encoding is used

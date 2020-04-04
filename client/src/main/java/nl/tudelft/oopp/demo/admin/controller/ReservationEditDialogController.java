@@ -139,8 +139,10 @@ public class ReservationEditDialogController {
                 StringConverter<LocalDate> dateConverter = getDateConverter();
 
                 date.setValue(dateConverter.fromString(reservation.getDate().get()));
-                double startTimeValue = (double) sliderConverter.fromString(reservation.getReservationStartingTime().get());
-                double endTimeValue = (double) sliderConverter.fromString(reservation.getReservationEndingTime().get());
+                double startTimeValue = (double) sliderConverter
+                        .fromString(reservation.getReservationStartingTime().get());
+                double endTimeValue = (double) sliderConverter
+                        .fromString(reservation.getReservationEndingTime().get());
 
                 timeslotSlider.setLowValue(startTimeValue);
                 timeslotSlider.setHighValue(endTimeValue);

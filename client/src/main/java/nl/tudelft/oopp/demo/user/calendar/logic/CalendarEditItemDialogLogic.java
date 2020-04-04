@@ -28,7 +28,7 @@ public class CalendarEditItemDialogLogic {
                     long remainingMinutes = minutes - TimeUnit.HOURS.toMinutes(hours);
                     // '%02d' means that there will be a 0 in front if its only 1 number + it's a long number
                     return String.format("%02d", hours) + ":" + String.format("%02d", remainingMinutes);
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return null;
@@ -39,7 +39,7 @@ public class CalendarEditItemDialogLogic {
                 try {
                     String[] split = string.split(":");
                     return Integer.parseInt(split[0]) * 60 + Integer.parseInt(split[1]);
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return null;
@@ -123,7 +123,8 @@ public class CalendarEditItemDialogLogic {
      * @param end         the item end time
      * @return a new calendar item
      */
-    public static Appointment createItem(String header, String description, LocalDate date, String start, String end) {
+    public static Appointment createItem(String header, String description,
+                                         LocalDate date, String start, String end) {
         // create Appointment object and set the values
         Appointment app = new Appointment();
         app.setHeaderText(header);

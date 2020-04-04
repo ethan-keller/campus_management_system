@@ -28,9 +28,10 @@ public class FoodReservation {
 
     /**
      * Constructor.
+     *
      * @param reservationId int
-     * @param foodId int
-     * @param foodQuantity int
+     * @param foodId        int
+     * @param foodQuantity  int
      */
     public FoodReservation(int reservationId, int foodId, int foodQuantity) {
         this.reservationId = new SimpleIntegerProperty(reservationId);
@@ -39,58 +40,8 @@ public class FoodReservation {
     }
 
     /**
-     * Gets food ID.
-     * @return Returns ID
-     */
-    public IntegerProperty getFoodId() {
-        return foodId;
-    }
-
-    /**
-     * Sets the Food ID.
-     * @param foodId The food ID
-     */
-    public void setFoodId(int foodId) {
-        this.foodId.set(foodId);
-    }
-
-
-    /**
-     * Gets reservation ID.
-     * @return Returns ID
-     */
-    public IntegerProperty getReservationId() {
-        return reservationId;
-    }
-
-    /**
-     * Sets the reservation ID.
-     * @param reservationId The reservation ID
-     */
-    public void setReservationId(int reservationId) {
-        this.reservationId.set(reservationId);
-    }
-
-
-    /**
-     * Returns the food reservation quantity.
-     * @return The quantiy.
-     */
-    public IntegerProperty getFoodQuantity() {
-        return foodQuantity;
-    }
-
-    /**
-     * Sets the food quantity.
-     * @param foodQuantity The food quantity
-     */
-    public void setFoodQuantity(int foodQuantity) {
-        this.foodQuantity.set(foodQuantity);
-    }
-
-
-    /**
      * Convert server response into an ObservableList of food reservations.
+     *
      * @return List of Food reservations of selected reservation
      */
     public static ObservableList<FoodReservation> getUserReservationFood(Reservation r) throws JSONException {
@@ -110,6 +61,11 @@ public class FoodReservation {
         return foodReservation;
     }
 
+    /**
+     * Gets all the food reservations from the database.
+     * @return Observable list of all the food reservations.
+     * @throws JSONException when errors occur while parsing JSON
+     */
     public static ObservableList<FoodReservation> getAllFoodReservations() throws JSONException {
         ObservableList<FoodReservation> allFoodReservations = FXCollections.observableArrayList();
         JSONArray jsonArrayFoodReservation = new JSONArray(FoodServerCommunication.getAllFoodReservations());
@@ -122,6 +78,60 @@ public class FoodReservation {
             allFoodReservations.add(fr);
         }
         return allFoodReservations;
+    }
+
+    /**
+     * Gets food ID.
+     *
+     * @return Returns ID
+     */
+    public IntegerProperty getFoodId() {
+        return foodId;
+    }
+
+    /**
+     * Sets the Food ID.
+     *
+     * @param foodId The food ID
+     */
+    public void setFoodId(int foodId) {
+        this.foodId.set(foodId);
+    }
+
+    /**
+     * Gets reservation ID.
+     *
+     * @return Returns ID
+     */
+    public IntegerProperty getReservationId() {
+        return reservationId;
+    }
+
+    /**
+     * Sets the reservation ID.
+     *
+     * @param reservationId The reservation ID
+     */
+    public void setReservationId(int reservationId) {
+        this.reservationId.set(reservationId);
+    }
+
+    /**
+     * Returns the food reservation quantity.
+     *
+     * @return The quantiy.
+     */
+    public IntegerProperty getFoodQuantity() {
+        return foodQuantity;
+    }
+
+    /**
+     * Sets the food quantity.
+     *
+     * @param foodQuantity The food quantity
+     */
+    public void setFoodQuantity(int foodQuantity) {
+        this.foodQuantity.set(foodQuantity);
     }
 
 }
