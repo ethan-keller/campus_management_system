@@ -72,16 +72,33 @@ public class AdminUserBikeViewController {
             // Initialize the bike reservation table with the five columns.
             bikeIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getBikeReservationId().get()));
+            // To align the text in this column in a centralized manner; looks better
+            bikeIdColumn.setStyle("-fx-alignment: CENTER");
+
             bikeBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                     buildingList.stream().filter(x -> x.getBuildingId().get()
                             == cellData.getValue().getBikeReservationBuilding().get())
-                            .collect(Collectors.toList()).get(0).getBuildingName().get()
-            ));
+                            .collect(Collectors.toList()).get(0).getBuildingName().get()));
+            // To align the text in this column in a centralized manner; looks better
+            bikeBuildingColumn.setStyle("-fx-alignment: CENTER");
+
             bikeQuantityColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getBikeReservationQuantity().get()));
+            // To align the text in this column in a centralized manner; looks better
+            bikeQuantityColumn.setStyle("-fx-alignment: CENTER");
+
             bikeDateColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationDate());
+            // To align the text in this column in a centralized manner; looks better
+            bikeDateColumn.setStyle("-fx-alignment: CENTER");
+
             bikeStartingTimeColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationStartingTime());
+            // To align the text in this column in a centralized manner; looks better
+            bikeStartingTimeColumn.setStyle("-fx-alignment: CENTER");
+
             bikeEndingTimeColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationEndingTime());
+            // To align the text in this column in a centralized manner; looks better
+            bikeEndingTimeColumn.setStyle("-fx-alignment: CENTER");
+
             userBikeTable.setItems(BikeReservation.getUserBikeReservations(
                     AdminManageUserViewController.currentSelectedUser.getUsername().get()));
         } catch (Exception e) {

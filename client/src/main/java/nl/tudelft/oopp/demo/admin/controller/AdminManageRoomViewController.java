@@ -86,10 +86,19 @@ public class AdminManageRoomViewController {
             roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().getRoomName());
             roomBuildingColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getRoomBuilding().get()));
+            // To align the text in this column in a centralized manner; looks better
+            roomBuildingColumn.setStyle("-fx-alignment: CENTER");
+
             roomOnlyTeachersColumn.setCellValueFactory(cell -> new SimpleStringProperty(
                     cell.getValue().getTeacherOnly().get() ? "yes" : "no"));
+            // To align the text in this column in a centralized manner; looks better
+            roomOnlyTeachersColumn.setStyle("-fx-alignment: CENTER");
+
             roomCapacityBuilding.setCellValueFactory(cell -> new SimpleIntegerProperty(
                     cell.getValue().getRoomCapacity().get()));
+            // To align the text in this column in a centralized manner; looks better
+            roomCapacityBuilding.setStyle("-fx-alignment: CENTER");
+
             roomPhotoColumn.setCellValueFactory(cell -> cell.getValue().getRoomPhoto());
             roomDescriptionColumn.setCellValueFactory(cell -> cell.getValue().getRoomDescription());
             roomTypeColumn.setCellValueFactory(cell -> cell.getValue().getRoomType());

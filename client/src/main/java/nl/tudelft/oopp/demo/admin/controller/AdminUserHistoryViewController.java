@@ -59,11 +59,26 @@ public class AdminUserHistoryViewController {
             // Initialize the booking table with the five columns.
             bookingIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getId().get()));
+            // To align the text in this column in a centralized manner; looks better
+            bookingIdColumn.setStyle("-fx-alignment: CENTER");
+
             bookingRoomColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getRoom().get()));
+            // To align the text in this column in a centralized manner; looks better
+            bookingRoomColumn.setStyle("-fx-alignment: CENTER");
+
             bookingDateColumn.setCellValueFactory(cell -> cell.getValue().getDate());
+            // To align the text in this column in a centralized manner; looks better
+            bookingDateColumn.setStyle("-fx-alignment: CENTER");
+
             bookingStartColumn.setCellValueFactory(cell -> cell.getValue().getStartingTime());
+            // To align the text in this column in a centralized manner; looks better
+            bookingStartColumn.setStyle("-fx-alignment: CENTER");
+
             bookingEndColumn.setCellValueFactory(cell -> cell.getValue().getEndingTime());
+            // To align the text in this column in a centralized manner; looks better
+            bookingEndColumn.setStyle("-fx-alignment: CENTER");
+
             bookingTable.setItems(Reservation.getSelectedUserReservation());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());

@@ -49,7 +49,13 @@ public class AdminManageFoodBuildingViewController {
             // Initialize the room table with the four columns.
             foodBuildingIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(
                     String.valueOf(cell.getValue().getBuildingId().get())));
+            // To align the text in this column in a centralized manner; looks better
+            foodBuildingIdColumn.setStyle("-fx-alignment: CENTER");
+
             foodBuildingNameColumn.setCellValueFactory(cell -> cell.getValue().getBuildingName());
+            // To align the text in this column in a centralized manner; looks better
+            foodBuildingNameColumn.setStyle("-fx-alignment: CENTER");
+
             // Add observable list data to the table
             foodBuildingTable.setItems(Building.getBuildingByFoodId(
                     AdminManageFoodViewController.currentSelectedFood.getFoodId().get()));

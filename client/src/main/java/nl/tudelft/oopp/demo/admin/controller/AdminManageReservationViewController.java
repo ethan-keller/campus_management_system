@@ -65,12 +65,29 @@ public class AdminManageReservationViewController {
 
             id.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getId().get()));
+            // To align the text in this column in a centralized manner; looks better
+            id.setStyle("-fx-alignment: CENTER");
+
             username.setCellValueFactory(cell -> cell.getValue().getUsername());
+            // To align the text in this column in a centralized manner; looks better
+            username.setStyle("-fx-alignment: CENTER");
+
             room.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
                     cellData.getValue().getRoom().get())));
+            // To align the text in this column in a centralized manner; looks better
+            room.setStyle("-fx-alignment: CENTER");
+
             date.setCellValueFactory(cell -> cell.getValue().getDate());
+            // To align the text in this column in a centralized manner; looks better
+            date.setStyle("-fx-alignment: CENTER");
+
             startingTime.setCellValueFactory(cell -> cell.getValue().getStartingTime());
+            // To align the text in this column in a centralized manner; looks better
+            startingTime.setStyle("-fx-alignment: CENTER");
+
             endingTime.setCellValueFactory(cell -> cell.getValue().getEndingTime());
+            // To align the text in this column in a centralized manner; looks better
+            endingTime.setStyle("-fx-alignment: CENTER");
 
             //Adding the Observable List Data to the tableView created.
             listReservations.setItems(Reservation.getReservation());
