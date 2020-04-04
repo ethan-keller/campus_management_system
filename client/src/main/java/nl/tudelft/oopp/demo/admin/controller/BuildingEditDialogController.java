@@ -129,12 +129,12 @@ public class BuildingEditDialogController {
             return new StringConverter<Number>() {
                 @Override
                 public String toString(Number n) {
-                    return RoomViewLogic.toString(n);
+                    return RoomViewLogic.toStringNum(n);
                 }
 
                 @Override
                 public Number fromString(String time) {
-                    return RoomViewLogic.fromString(time);
+                    return RoomViewLogic.fromStringTime(time);
                 }
             };
         } catch (Exception e) {

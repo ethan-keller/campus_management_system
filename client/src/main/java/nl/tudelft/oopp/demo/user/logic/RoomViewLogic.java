@@ -59,7 +59,7 @@ public class RoomViewLogic {
      * @param n - the number which is intended to be a time parameter
      * @return String which contains the time
      */
-    public static String toString(Number n) {
+    public static String toStringNum(Number n) {
         // calculate hours and remaining minutes to get a correct hh:mm format
         long minutes = n.longValue();
         long hours = TimeUnit.MINUTES.toHours(minutes);
@@ -74,7 +74,7 @@ public class RoomViewLogic {
      * @param time - Time provided as a string
      * @return A number which represents the time in the time format
      */
-    public static Number fromString(String time) {
+    public static Number fromStringTime(String time) {
         if (time != null) {
             String[] split = time.split(":");
             return Double.parseDouble(split[0]) * 60 + Double.parseDouble(split[1]);
@@ -88,7 +88,7 @@ public class RoomViewLogic {
      * @param dateFormatter - DateFormatter (yyyy-MM-dd)
      * @return Local date type object which contains the equivalent form of the string
      */
-    public static LocalDate fromString(String string, DateTimeFormatter dateFormatter) {
+    public static LocalDate fromStringDate(String string, DateTimeFormatter dateFormatter) {
         if (string != null && !string.isEmpty()) {
             // get correct LocalDate from String format
             return LocalDate.parse(string, dateFormatter);
@@ -103,7 +103,7 @@ public class RoomViewLogic {
      * @param dateFormatter - DateFormatter (yyyy-MM-dd)
      * @return The string equivalence of the provided date
      */
-    public static String toString(LocalDate date, DateTimeFormatter dateFormatter) {
+    public static String toStringDate(LocalDate date, DateTimeFormatter dateFormatter) {
         if (date != null) {
             // get correctly formatted String
             return dateFormatter.format(date);
@@ -118,7 +118,7 @@ public class RoomViewLogic {
      * @param foodList - The list of food
      * @return - Food equivalent of the string
      */
-    public static Food fromString(String string, List<Food> foodList) {
+    public static Food fromStringFood(String string, List<Food> foodList) {
         if (string != null) {
             return foodList.stream()
                     .filter(x -> x.getFoodName().get().equals(string))
@@ -133,7 +133,7 @@ public class RoomViewLogic {
      * @param object - The food object to be converted
      * @return String which contains the food name
      */
-    public static String toString(Food object) {
+    public static String toStringFood(Food object) {
         if (object != null) {
             return object.getFoodName().get();
         } else {
