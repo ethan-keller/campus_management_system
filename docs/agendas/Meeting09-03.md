@@ -8,6 +8,15 @@ Note taker:     Ethan Keller
 # Opening
 *Everybody is present.*
 
+# Points of action
+ - CTA meeting
+    - Show CTA the login view
+    - Show CTA the admin building and room CRUD
+ - New requirement of bike reservation
+    - bike is related to each building
+    - bike reservation is independent to the room reservation
+    - both user side and admin side
+
 # Action points for next week 
  - CHECKSTYLE
  - Testing

@@ -45,8 +45,6 @@ Note taker:     Ethan Keller
     - complete javadoc + comments
     - completely tested (except views)
     - completely checkstyle error free
-    
-*If anybody has something to say that should be discussed now, he can
 
 # Questions for the TA
  - Javadoc in testing classes or not
