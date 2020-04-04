@@ -3,11 +3,7 @@ package nl.tudelft.oopp.demo.communication;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendGet;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendPost;
 
-import java.net.http.HttpClient;
-
 public class ReservationServerCommunication {
-
-    private static HttpClient client = HttpClient.newBuilder().build();
 
     /**
      * This client-server method is used to create a new reservation.
@@ -23,7 +19,7 @@ public class ReservationServerCommunication {
                                             String startingTime, String endingTime) {
         String params = "username=" + username + "&room=" + room + "&date=" + date
                 + "&startingTime=" + startingTime + "&endingTime=" + endingTime;
-        return sendPost(client, "createReservation", params);
+        return sendPost("createReservation", params);
     }
 
     /**
@@ -40,7 +36,7 @@ public class ReservationServerCommunication {
                                             String endingTime) {
         String params = "id=" + id + "&room=" + room + "&date=" + date + "&startingTime="
                 + startingTime + "&endingTime=" + endingTime;
-        return sendPost(client, "updateReservation", params);
+        return sendPost("updateReservation", params);
     }
 
     /**
@@ -51,7 +47,7 @@ public class ReservationServerCommunication {
      */
     public static boolean deleteReservation(int id) {
         String params = "id=" + id;
-        return sendPost(client, "deleteReservation", params);
+        return sendPost("deleteReservation", params);
     }
 
     /**
@@ -62,7 +58,7 @@ public class ReservationServerCommunication {
      */
     public static String getReservation(int id) {
         String params = "id=" + id;
-        return sendGet(client, "getReservation", params);
+        return sendGet("getReservation", params);
     }
 
     /**
@@ -71,7 +67,7 @@ public class ReservationServerCommunication {
      * @return all reservations
      */
     public static String getAllReservations() {
-        return sendGet(client, "getAllReservations", "");
+        return sendGet("getAllReservations", "");
     }
 
     /**
@@ -83,7 +79,7 @@ public class ReservationServerCommunication {
      */
     public static String getUserReservations(String username) {
         String params = "username=" + username;
-        return sendGet(client, "getUserReservations", params);
+        return sendGet("getUserReservations", params);
     }
 
     /**
@@ -92,7 +88,7 @@ public class ReservationServerCommunication {
      * @return String containing the integer value of the id
      */
     public static String getCurrentId() {
-        return sendGet(client, "currentReservationId", "");
+        return sendGet("currentReservationId", "");
     }
 
 }

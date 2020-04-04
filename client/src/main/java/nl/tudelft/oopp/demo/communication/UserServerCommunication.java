@@ -3,11 +3,7 @@ package nl.tudelft.oopp.demo.communication;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendGet;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendPost;
 
-import java.net.http.HttpClient;
-
 public class UserServerCommunication {
-
-    private static HttpClient client = HttpClient.newBuilder().build();
 
     /**
      * This client-server method is used to get all the users.
@@ -15,7 +11,7 @@ public class UserServerCommunication {
      * @return all users
      */
     public static String getAllUsers() {
-        return sendGet(client, "getAllUsers", "");
+        return sendGet("getAllUsers", "");
     }
 
     /**
@@ -26,7 +22,7 @@ public class UserServerCommunication {
      */
     public static String getUser(String username) {
         String params = "username=" + username;
-        return sendGet(client, "getUser", params);
+        return sendGet("getUser", params);
     }
 
     /**
@@ -37,7 +33,7 @@ public class UserServerCommunication {
      */
     public static boolean deleteUser(String username) {
         String params = "username=" + username;
-        return sendPost(client, "deleteUser", params);
+        return sendPost("deleteUser", params);
     }
 
     /**
@@ -50,7 +46,7 @@ public class UserServerCommunication {
      */
     public static boolean updateUser(String username, String password, int type) {
         String params = "username=" + username + "&password=" + password + "&type=" + type;
-        return sendPost(client, "updateUser", params);
+        return sendPost("updateUser", params);
     }
 
     /**
@@ -63,6 +59,6 @@ public class UserServerCommunication {
      */
     public static boolean createUser(String username, String password, int type) {
         String params = "username=" + username + "&password=" + password + "&type=" + type;
-        return sendPost(client, "createUser", params);
+        return sendPost("createUser", params);
     }
 }

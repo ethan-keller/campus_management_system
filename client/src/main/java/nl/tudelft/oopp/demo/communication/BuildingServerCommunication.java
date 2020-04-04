@@ -3,11 +3,7 @@ package nl.tudelft.oopp.demo.communication;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendGet;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendPost;
 
-import java.net.http.HttpClient;
-
 public class BuildingServerCommunication {
-
-    private static HttpClient client = HttpClient.newBuilder().build();
 
     /**
      * This is a server-client communication method which is used to receive all the buildings
@@ -16,7 +12,7 @@ public class BuildingServerCommunication {
      * @return all buildings present in the database (JSON).
      */
     public static String getAllBuildings() {
-        return sendGet(client, "getAllBuildings", "");
+        return sendGet("getAllBuildings", "");
     }
 
     /**
@@ -27,7 +23,7 @@ public class BuildingServerCommunication {
      */
     public static String getBuilding(int id) {
         String params = "id=" + id;
-        return sendGet(client, "getBuilding", params);
+        return sendGet("getBuilding", params);
     }
 
     /**
@@ -38,7 +34,7 @@ public class BuildingServerCommunication {
      */
     public static String getBuildingByFoodId(int id) {
         String params = "id=" + id;
-        return sendGet(client, "getBuildingByFoodId", params);
+        return sendGet("getBuildingByFoodId", params);
     }
 
     /**
@@ -56,7 +52,7 @@ public class BuildingServerCommunication {
         String params = "name=" + name + "&roomCount=" + roomCount + "&address=" + address
                 + "&maxBikes=" + maxBikes + "&openingTime=" + openingTime + "&closingTime=" + closingTime;
 
-        return sendPost(client, "createBuilding", params);
+        return sendPost("createBuilding", params);
     }
 
 
@@ -68,7 +64,7 @@ public class BuildingServerCommunication {
      */
     public static boolean deleteBuilding(int id) {
         String params = "id=" + id;
-        return sendPost(client, "deleteBuilding", params);
+        return sendPost("deleteBuilding", params);
     }
 
     /**
@@ -88,6 +84,6 @@ public class BuildingServerCommunication {
         String params = "id=" + id + "&name=" + name + "&roomCount=" + roomCount + "&address=" + address
                 + "&maxBikes=" + maxBikes + "&openingTime=" + openingTime + "&closingTime=" + closingTime;
 
-        return sendPost(client, "updateBuilding", params);
+        return sendPost("updateBuilding", params);
     }
 }

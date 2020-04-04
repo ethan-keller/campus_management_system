@@ -12,6 +12,7 @@ import nl.tudelft.oopp.demo.general.GeneralMethods;
 public class GeneralCommunication {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
+    private static HttpClient client = HttpClient.newBuilder().build();
 
     /**
      * Sends a HTTP POST request to the server with the specified parameters.
@@ -20,7 +21,7 @@ public class GeneralCommunication {
      * @param params   The parameters to add to the url.
      * @return boolean true if communication was successful, false otherwise
      */
-    protected static boolean sendPost(HttpClient client, String endpoint, String params) {
+    protected static boolean sendPost(String endpoint, String params) {
         HttpResponse<String> response = null;
         try {
             params = GeneralMethods.encodeCommunication(params);
@@ -46,7 +47,7 @@ public class GeneralCommunication {
      * @param params   The parameters to add to the url.
      * @return Returns the response
      */
-    protected static String sendGet(HttpClient client, String endpoint, String params) {
+    protected static String sendGet(String endpoint, String params) {
         HttpResponse<String> response = null;
         try {
             params = GeneralMethods.encodeCommunication(params);

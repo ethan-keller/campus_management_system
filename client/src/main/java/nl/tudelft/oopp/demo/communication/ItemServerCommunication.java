@@ -3,8 +3,6 @@ package nl.tudelft.oopp.demo.communication;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendGet;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendPost;
 
-import java.net.http.HttpClient;
-
 /**
  * .
  * Class that controls client-server communication for Item objects
@@ -12,17 +10,12 @@ import java.net.http.HttpClient;
 public class ItemServerCommunication {
 
     /**
-     * HttpClient which sends and receives information to/from the server.
-     */
-    private static HttpClient client = HttpClient.newBuilder().build();
-
-    /**
      * Gets all the items in the database.
      *
      * @return all the items
      */
     public static String getAllItems() {
-        return sendGet(client, "getAllItems", "");
+        return sendGet("getAllItems", "");
     }
 
     /**
@@ -33,7 +26,7 @@ public class ItemServerCommunication {
      */
     public static String getItem(int id)  {
         String params = "id=" + id;
-        return sendGet(client, "getItem", params);
+        return sendGet("getItem", params);
     }
 
     /**
@@ -52,7 +45,7 @@ public class ItemServerCommunication {
         String params = "user=" + user + "&title=" + title + "&date=" + date + "&startingTime=" + startingTime
                 + "&endingTime=" + endingTime + "&description=" + description;
 
-        return sendPost(client, "createItem", params);
+        return sendPost("createItem", params);
     }
 
     /**
@@ -63,7 +56,7 @@ public class ItemServerCommunication {
      */
     public static boolean deleteItem(int id)  {
         String params = "id=" + id;
-        return sendPost(client, "deleteItem", params);
+        return sendPost("deleteItem", params);
     }
 
     /**
@@ -72,7 +65,7 @@ public class ItemServerCommunication {
      * @return the current id
      */
     public static String getCurrentId() {
-        return sendGet(client, "currentId", "");
+        return sendGet("currentId", "");
     }
 
     /**
@@ -83,6 +76,6 @@ public class ItemServerCommunication {
      */
     public static String getUserItems(String user)  {
         String params = "user=" + user;
-        return sendGet(client, "getUserItems", params);
+        return sendGet("getUserItems", params);
     }
 }

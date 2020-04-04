@@ -85,15 +85,15 @@ class GeneralCommunicationTest {
 
     @Test
     void sendPost() {
-        assertFalse(GeneralCommunication.sendPost(client, "testPostFalse", ""));
-        assertTrue(GeneralCommunication.sendPost(client, "testPostTrue", ""));
-        assertFalse(GeneralCommunication.sendPost(client, "\"", ""));
+        assertFalse(GeneralCommunication.sendPost("testPostFalse", ""));
+        assertTrue(GeneralCommunication.sendPost("testPostTrue", ""));
+        assertFalse(GeneralCommunication.sendPost("\"", ""));
     }
 
     @Test
     void sendGet() {
-        assertEquals("Wrong", GeneralCommunication.sendGet(client, "testGetFalse", ""));
-        assertEquals("Success", GeneralCommunication.sendGet(client, "testGetTrue", ""));
-        assertNull(GeneralCommunication.sendGet(client, "\"", ""));
+        assertEquals("Wrong", GeneralCommunication.sendGet("testGetFalse", ""));
+        assertEquals("Success", GeneralCommunication.sendGet("testGetTrue", ""));
+        assertNull(GeneralCommunication.sendGet("\"", ""));
     }
 }

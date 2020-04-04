@@ -3,11 +3,7 @@ package nl.tudelft.oopp.demo.communication;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendGet;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendPost;
 
-import java.net.http.HttpClient;
-
 public class FoodServerCommunication {
-
-    private static HttpClient client = HttpClient.newBuilder().build();
 
     /**
      * Creates an HTTP request to add a food in the database.
@@ -18,7 +14,7 @@ public class FoodServerCommunication {
      */
     public static boolean createFood(String name, double price) {
         String params = "name=" + name + "&price=" + price;
-        return sendPost(client, "createFood", params);
+        return sendPost("createFood", params);
     }
 
     /**
@@ -30,7 +26,7 @@ public class FoodServerCommunication {
      */
     public static boolean addFoodToBuilding(int foodId, int buildingId) {
         String params = "food=" + foodId + "&building=" + buildingId;
-        return sendPost(client, "addFoodToBuilding", params);
+        return sendPost("addFoodToBuilding", params);
     }
 
     /**
@@ -42,7 +38,7 @@ public class FoodServerCommunication {
      */
     public static boolean addFoodToReservation(int foodId, int reservationId) {
         String params = "food=" + foodId + "&reservation=" + reservationId + "&quantity=1";
-        return sendPost(client, "addFoodToReservation", params);
+        return sendPost("addFoodToReservation", params);
     }
 
     /**
@@ -55,7 +51,7 @@ public class FoodServerCommunication {
      */
     public static boolean addFoodToReservation(int foodId, int reservationId, int quantity) {
         String params = "food=" + foodId + "&reservation=" + reservationId + "&quantity=" + quantity;
-        return sendPost(client, "addFoodToReservation", params);
+        return sendPost("addFoodToReservation", params);
     }
 
     /**
@@ -68,7 +64,7 @@ public class FoodServerCommunication {
      */
     public static boolean updateFood(int id, String name, double price) {
         String params = "id=" + id + "&name=" + name + "&price=" + price;
-        return sendPost(client, "updateFood", params);
+        return sendPost("updateFood", params);
     }
 
     /**
@@ -80,7 +76,7 @@ public class FoodServerCommunication {
      */
     public static boolean deleteFoodFromReservation(int foodId, int reservationId) {
         String params = "food=" + foodId + "&reservation=" + reservationId;
-        return sendPost(client, "deleteFoodFromReservation", params);
+        return sendPost("deleteFoodFromReservation", params);
     }
 
     /**
@@ -92,7 +88,7 @@ public class FoodServerCommunication {
      */
     public static boolean deleteFoodFromBuilding(int foodId, int buildingId) {
         String params = "food=" + foodId + "&building=" + buildingId;
-        return sendPost(client, "deleteFoodFromBuilding", params);
+        return sendPost("deleteFoodFromBuilding", params);
     }
 
     /**
@@ -105,7 +101,7 @@ public class FoodServerCommunication {
      */
     public static boolean updateFoodReservationQuantity(int foodId, int reservationId, int quantity) {
         String params = "food=" + foodId + "&reservation=" + reservationId + "&quantity=" + quantity;
-        return sendPost(client, "updateFoodReservationQuantity", params);
+        return sendPost("updateFoodReservationQuantity", params);
     }
 
     /**
@@ -116,7 +112,7 @@ public class FoodServerCommunication {
      */
     public static boolean deleteFood(int id) {
         String params = "id=" + id;
-        return sendPost(client, "deleteFood", params);
+        return sendPost("deleteFood", params);
     }
 
     /**
@@ -127,7 +123,7 @@ public class FoodServerCommunication {
      */
     public static String getFood(int id) {
         String params = "id=" + id;
-        return sendGet(client, "getFood", params);
+        return sendGet("getFood", params);
     }
 
     /**
@@ -139,7 +135,7 @@ public class FoodServerCommunication {
      */
     public static String getFoodReservationByReservation(int reservation) {
         String params = "reservation=" + reservation;
-        return sendGet(client, "getFoodReservationByReservation", params);
+        return sendGet("getFoodReservationByReservation", params);
     }
 
     /**
@@ -151,7 +147,7 @@ public class FoodServerCommunication {
      */
     public static String getFoodByBuildingId(int buildingId) {
         String params = "building=" + buildingId;
-        return sendGet(client, "getFoodByBuildingId", params);
+        return sendGet("getFoodByBuildingId", params);
     }
 
     /**
@@ -160,6 +156,6 @@ public class FoodServerCommunication {
      * @return Returns a list of food objects (JSON)
      */
     public static String getAllFood() {
-        return sendGet(client, "getAllFood", "");
+        return sendGet("getAllFood", "");
     }
 }

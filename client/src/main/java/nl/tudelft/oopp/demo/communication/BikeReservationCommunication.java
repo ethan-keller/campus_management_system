@@ -3,11 +3,7 @@ package nl.tudelft.oopp.demo.communication;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendGet;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendPost;
 
-import java.net.http.HttpClient;
-
 public class BikeReservationCommunication {
-
-    private static HttpClient client = HttpClient.newBuilder().build();
 
     /**
      * Adds a bike reservation to the database.
@@ -25,7 +21,7 @@ public class BikeReservationCommunication {
         String params = "building=" + building + "&user=" + user + "&numBikes=" + numBikes
                 + "&date=" + date + "&startingTime=" + startingTime
                 + "&endingTime=" + endingTime;
-        return sendPost(client, "createBikeReservation", params);
+        return sendPost("createBikeReservation", params);
     }
 
     /**
@@ -45,7 +41,7 @@ public class BikeReservationCommunication {
         String params = "id=" + id + "&building=" + building + "&user=" + user
                 + "&numBikes=" + numBikes + "&date=" + date
                 + "&startingTime=" + startingTime + "&endingTime=" + endingTime;
-        return sendPost(client, "updateBikeReservation", params);
+        return sendPost("updateBikeReservation", params);
     }
 
     /**
@@ -56,7 +52,7 @@ public class BikeReservationCommunication {
      */
     public static boolean deleteBikeReservation(int id) {
         String params = "id=" + id;
-        return sendPost(client, "deleteBikeReservation", params);
+        return sendPost("deleteBikeReservation", params);
     }
 
     /**
@@ -67,7 +63,7 @@ public class BikeReservationCommunication {
      */
     public static String getBikeReservation(int id) {
         String params = "id=" + id;
-        return sendGet(client, "getBikeReservation", params);
+        return sendGet("getBikeReservation", params);
     }
 
     /**
@@ -76,7 +72,7 @@ public class BikeReservationCommunication {
      * @return Returns a list of BikeReservations
      */
     public static String getAllBikeReservation() {
-        return sendGet(client, "getAllBikeReservation", "");
+        return sendGet("getAllBikeReservation", "");
     }
 
     /**
@@ -87,7 +83,7 @@ public class BikeReservationCommunication {
      */
     public static String getBuildingBikeReservations(int building) {
         String params = "building=" + building;
-        return sendGet(client, "getBuildingBikeReservations", params);
+        return sendGet("getBuildingBikeReservations", params);
     }
 
     /**
@@ -98,7 +94,7 @@ public class BikeReservationCommunication {
      */
     public static String getUserBikeReservations(String user) {
         String params = "user=" + user;
-        return sendGet(client, "getUserBikeReservations", params);
+        return sendGet("getUserBikeReservations", params);
     }
 
 

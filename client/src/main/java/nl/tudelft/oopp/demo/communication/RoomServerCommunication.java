@@ -3,11 +3,7 @@ package nl.tudelft.oopp.demo.communication;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendGet;
 import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendPost;
 
-import java.net.http.HttpClient;
-
 public class RoomServerCommunication {
-
-    private static HttpClient client = HttpClient.newBuilder().build();
 
     /**
      * This client-server method is used to create a new room.
@@ -27,7 +23,7 @@ public class RoomServerCommunication {
                 + teacherOnly + "&capacity=" + capacity + "&photos=" + photos + "&description="
                 + description + "&type=" + type;
 
-        return sendPost(client, "createRoom", params);
+        return sendPost("createRoom", params);
     }
 
     /**
@@ -48,7 +44,7 @@ public class RoomServerCommunication {
         String params = "id=" + id + "&name=" + name + "&building=" + building + "&teacherOnly="
                 + teacherOnly + "&capacity=" + capacity + "&photos=" + photos + "&description="
                 + description + "&type=" + type;
-        return sendPost(client, "updateRoom", params);
+        return sendPost("updateRoom", params);
     }
 
     /**
@@ -59,7 +55,7 @@ public class RoomServerCommunication {
      */
     public static boolean deleteRoom(int id) {
         String params = "id=" + id;
-        return sendPost(client, "deleteRoom", params);
+        return sendPost("deleteRoom", params);
     }
 
     /**
@@ -70,7 +66,7 @@ public class RoomServerCommunication {
      */
     public static String getRoom(int id) {
         String params = "id=" + id;
-        return sendGet(client, "getRoom", params);
+        return sendGet("getRoom", params);
     }
 
     /**
@@ -79,6 +75,6 @@ public class RoomServerCommunication {
      * @return all rooms
      */
     public static String getAllRooms() {
-        return sendGet(client, "getAllRooms", "");
+        return sendGet("getAllRooms", "");
     }
 }
