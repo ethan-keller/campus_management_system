@@ -141,7 +141,7 @@ public class CalendarPaneController implements Initializable {
             CalenderEditItemDialogView iv = new CalenderEditItemDialogView();
             iv.start(thisStage);
 
-            Appointment app = CalenderEditItemDialogController.item;
+            Appointment app = CalendarEditItemDialogController.item;
             if (CalendarPaneLogic.serverCreateItem(app)) {
                 GeneralMethods.alertBox("Add item", "Success",
                         "Successfully added item to calendar", Alert.AlertType.INFORMATION);
