@@ -301,7 +301,7 @@ public class BikeReservation {
     }
 
     /**
-     * Method that returns all bike reservations for a particular room on a particular date.
+     * Method that returns all bike reservations for a particular building on a particular date.
      *
      * @param buildingId        the id of the building
      * @param date          the date to be filtered on

@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BikeReservationTest {
@@ -14,6 +16,18 @@ public class BikeReservationTest {
     void setUp() {
         bikeRes = new BikeReservation(10, 500, "user", 5,
                 "2020-04-04", "12:00:00", "13:00:00");
+    }
+
+    @Test
+    void emptyConstructor() {
+        bikeRes = new BikeReservation();
+        assertEquals(-1, bikeRes.getBikeReservationId().get());
+        assertEquals(-1, bikeRes.getBikeReservationBuilding().get());
+        assertEquals(null, bikeRes.getBikeReservationUser().get());
+        assertEquals(-1, bikeRes.getBikeReservationQuantity().get());
+        assertEquals(null, bikeRes.getBikeReservationDate().get());
+        assertEquals(null, bikeRes.getBikeReservationStartingTime().get());
+        assertEquals(null, bikeRes.getBikeReservationEndingTime().get());
     }
 
     @Test
