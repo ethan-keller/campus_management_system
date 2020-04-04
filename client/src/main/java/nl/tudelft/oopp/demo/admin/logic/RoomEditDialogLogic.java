@@ -29,9 +29,9 @@ public class RoomEditDialogLogic {
         if (roomNameField.equals("")) {
             errorMessage += "No valid room name!\n";
         }
-//        if (roomBuildingComboBox.getSelectionModel().) {
-//            errorMessage += "No valid building selected!\n";
-//        }
+        //if (roomBuildingComboBox.getSelectionModel().) {
+            //errorMessage += "No valid building selected!\n";
+        //}
         if (!radioButtonYes && !radioButtonNo) {
             errorMessage += "No teacher only button selected!\n";
         }

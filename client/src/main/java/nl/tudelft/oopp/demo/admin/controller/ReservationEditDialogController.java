@@ -563,8 +563,7 @@ public class ReservationEditDialogController {
 
     /**
      * Method that cancels the current edit/creation of a reservation.
-     *
-     * @param event event that triggered this method
+     * @param event that triggered this method
      */
     @FXML
     private void cancelClicked(ActionEvent event) {
@@ -576,53 +575,6 @@ public class ReservationEditDialogController {
             logger.log(Level.SEVERE, e.toString());
         }
     }
-
-    /**
-     * Validates the user input in the text fields.
-     *
-     * @return true if the input is valid
-     */
-//    private boolean isInputValid() {
-//
-//        User usernameUser = username.getSelectionModel().getSelectedItem();
-//        Room userRoom = room.getSelectionModel().getSelectedItem();
-//        LocalDate reservationDate = date.getValue();
-//        double currentStartValue = timeslotSlider.getLowValue();
-//        double currentEndValue = timeslotSlider.getHighValue();
-//        StringConverter<LocalDate> temp = getDateConverter(formatter);
-//
-//        return ReservationEditDialogLogic.isInputValid(
-//                usernameUser, userRoom, reservationDate, currentStartValue, currentEndValue, temp);
-//
-//
-//        /*
-//        String errorMessage = "";
-//
-//        if (username.getSelectionModel().getSelectedItem() == null) {
-//            errorMessage += "No valid username provided!\n";
-//        }
-//        if (room.getSelectionModel().getSelectedItem() == null) {
-//            errorMessage += "No valid Room provided! \n";
-//        }
-//        if (date.getValue() == null) {
-//            errorMessage += "No date provided!\n";
-//        }
-//        if (!checkTimeSlotValidity() || timeslotSlider.getLowValue() == timeslotSlider.getHighValue()) {
-//            errorMessage += "No valid timeslot selected!\n";
-//        }
-//
-//        // If all the fields are valid, then true is returned.
-//        if (errorMessage.equals("")) {
-//            return true;
-//        } else {
-//            // Show the error message.
-//            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
-//                    errorMessage, Alert.AlertType.ERROR);
-//            return false;
-//        }
-//
-//         */
-//    }
 
     /**
      * Method that checks if the chosen timeslot is free.
