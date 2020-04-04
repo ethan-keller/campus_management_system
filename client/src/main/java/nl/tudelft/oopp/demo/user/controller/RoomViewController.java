@@ -388,12 +388,12 @@ public class RoomViewController implements Initializable {
             return new StringConverter<Food>() {
                 @Override
                 public String toString(Food object) {
-                    return RoomViewLogic.toString(object);
+                    return RoomViewLogic.toStringFood(object);
                 }
 
                 @Override
                 public Food fromString(String string) {
-                    return RoomViewLogic.fromString(string, foodList);
+                    return RoomViewLogic.fromStringFood(string, foodList);
                 }
             };
         } catch (Exception e) {
@@ -782,12 +782,12 @@ public class RoomViewController implements Initializable {
 
                 @Override
                 public String toString(LocalDate date) {
-                    return RoomViewLogic.toString(date, dateFormatter);
+                    return RoomViewLogic.toStringDate(date, dateFormatter);
                 }
 
                 @Override
                 public LocalDate fromString(String string) {
-                    return RoomViewLogic.fromString(string, dateFormatter);
+                    return RoomViewLogic.fromStringDate(string, dateFormatter);
                 }
             };
         } catch (Exception e) {
@@ -806,12 +806,12 @@ public class RoomViewController implements Initializable {
             return new StringConverter<>() {
                 @Override
                 public String toString(Number n) {
-                    return RoomViewLogic.toString(n);
+                    return RoomViewLogic.toStringNum(n);
                 }
 
                 @Override
                 public Number fromString(String time) {
-                    return RoomViewLogic.fromString(time);
+                    return RoomViewLogic.fromStringTime(time);
                 }
             };
         } catch (Exception e) {
