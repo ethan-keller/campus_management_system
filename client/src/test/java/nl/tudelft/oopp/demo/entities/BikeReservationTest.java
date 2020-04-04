@@ -18,79 +18,79 @@ public class BikeReservationTest {
 
     @Test
     void getBikeReservationId() {
-        assertEquals(10, bikeRes.getBikeReservationId());
+        assertEquals(10, bikeRes.getBikeReservationId().get());
     }
 
     @Test
     void getBikeReservationUser() {
-        assertEquals(500, bikeRes.getBikeReservationBuilding());
+        assertEquals(500, bikeRes.getBikeReservationBuilding().get());
     }
 
     @Test
     void getBikeReservationBuilding() {
-        assertEquals("user", bikeRes.getBikeReservationUser());
+        assertEquals("user", bikeRes.getBikeReservationUser().get());
     }
 
     @Test
     void getBikeReservationQuantity() {
-        assertEquals(5, bikeRes.getBikeReservationQuantity());
+        assertEquals(5, bikeRes.getBikeReservationQuantity().get());
     }
 
     @Test
     void getBikeReservationDate() {
-        assertEquals("2020-04-04", bikeRes.getBikeReservationDate());
+        assertEquals("2020-04-04", bikeRes.getBikeReservationDate().get());
     }
 
     @Test
     void getBikeReservationStartingTime() {
-        assertEquals("12:00:00", bikeRes.getBikeReservationStartingTime());
+        assertEquals("12:00:00", bikeRes.getBikeReservationStartingTime().get());
     }
 
     @Test
     void getBikeReservationEndingTime() {
-        assertEquals("13:00:00", bikeRes.getBikeReservationStartingTime());
+        assertEquals("13:00:00", bikeRes.getBikeReservationEndingTime().get());
     }
 
     @Test
     void setBikeReservationId() {
         bikeRes.setBikeReservationId(11);
-        assertEquals(11, bikeRes.getBikeReservationId());
+        assertEquals(11, bikeRes.getBikeReservationId().get());
     }
 
     @Test
     void setBikeReservationBuilding() {
         bikeRes.setBikeReservationBuilding(20);
-        assertEquals(20, bikeRes.getBikeReservationBuilding());
+        assertEquals(20, bikeRes.getBikeReservationBuilding().get());
     }
 
     @Test
     void setBikeReservationUser() {
         bikeRes.setBikeReservationUser("testuser");
-        assertEquals("testuser", bikeRes.getBikeReservationUser());
+        assertEquals("testuser", bikeRes.getBikeReservationUser().get());
     }
 
     @Test
     void setBikeReservationQuantity() {
         bikeRes.setBikeReservationQuantity(50);
-        assertEquals(50, bikeRes.getBikeReservationQuantity());
+        assertEquals(50, bikeRes.getBikeReservationQuantity().get());
     }
 
     @Test
     void setBikeReservationDate() {
         bikeRes.setBikeReservationDate("2020-04-05");
-        assertEquals("2020-04-05", bikeRes.getBikeReservationDate());
+        assertEquals("2020-04-05", bikeRes.getBikeReservationDate().get());
     }
 
     @Test
     void setBikeReservationStartingTime() {
         bikeRes.setBikeReservationStartingTime("15:00:00");
-        assertEquals("15:00:00", bikeRes.getBikeReservationStartingTime());
+        assertEquals("15:00:00", bikeRes.getBikeReservationStartingTime().get());
     }
 
     @Test
     void setBikeReservationEndingTime() {
         bikeRes.setBikeReservationEndingTime("16:00:00");
-        assertEquals("16:00:00", bikeRes.getBikeReservationEndingTime());
+        assertEquals("16:00:00", bikeRes.getBikeReservationEndingTime().get());
     }
 
     @Test
