@@ -396,7 +396,7 @@ public class BookingEditDialogController {
     /**
      * .
      * Called when a building is selected
-     * The room combobox only shows the rooms of the selected building
+     * The room combobox only shows the available rooms of the selected building according to the user type
      */
     public void buildingSelected(Building newBuilding) {
         try {

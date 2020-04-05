@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,9 +14,7 @@ import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.UserEditDialogLogic;
 import nl.tudelft.oopp.demo.entities.User;
-import nl.tudelft.oopp.demo.general.GeneralMethods;
 
-import java.util.Optional;
 
 public class UserEditDialogController {
 
@@ -84,10 +83,12 @@ public class UserEditDialogController {
             if (!userPasswordField.getText().equals("")) {
                 user.setUserPassword(userPasswordField.getText());
             }
-            if (edit && AdminManageUserViewController.currentSelectedUser.getUserType().get() == 2 && user.getUserType().get() == 1) {
+            if (edit && AdminManageUserViewController.currentSelectedUser.getUserType().get()
+                    == 2 && user.getUserType().get() == 1) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("User type modified");
-                alert.setContentText("Are you sure you want to change? All the student reservations will be deleted.");
+                alert.setContentText("Are you sure you want to change?\n"
+                        + "All the student reservations will be deleted.");
                 ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
                 ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
                 alert.getButtonTypes().setAll(okButton, cancelButton);

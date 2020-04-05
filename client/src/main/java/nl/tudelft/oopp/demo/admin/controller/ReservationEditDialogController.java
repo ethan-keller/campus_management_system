@@ -508,6 +508,12 @@ public class ReservationEditDialogController {
         username.setConverter(converter);
     }
 
+    /**
+     * .
+     * Called when a  user is selected
+     * The room combobox only shows the available rooms according to the user type
+     * @param newUser is selected
+     */
     public void usernameSelected(User newUser) {
         try {
             if (username.getValue() != null) {
