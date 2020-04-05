@@ -36,7 +36,7 @@ class FoodBuildingTest {
     }
 
     @Test
-    void objectConstructor(){
+    void objectConstructor() {
         assertNotNull(new FoodBuilding());
     }
 
