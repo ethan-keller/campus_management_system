@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ class FoodBuildingTest {
     private FoodBuilding fb1;
     private FoodBuilding fb2;
     private FoodBuilding fb3;
+    private FoodBuilding fb4;
 
     /**
      * Set up before each test.
@@ -30,6 +32,12 @@ class FoodBuildingTest {
         fb1 = new FoodBuilding(f1, b2);
         fb2 = new FoodBuilding(f1, b2);
         fb3 = new FoodBuilding(f2, b1);
+        fb4 = new FoodBuilding(f2, b2);
+    }
+
+    @Test
+    void objectConstructor(){
+        assertNotNull(new FoodBuilding());
     }
 
     /**
@@ -55,5 +63,7 @@ class FoodBuildingTest {
     void testEquals() {
         assertEquals(fb1, fb2);
         assertNotEquals(fb2, fb3);
+        assertNotEquals(fb3, fb4);
+        assertNotEquals(fb2, "TEST");
     }
 }
