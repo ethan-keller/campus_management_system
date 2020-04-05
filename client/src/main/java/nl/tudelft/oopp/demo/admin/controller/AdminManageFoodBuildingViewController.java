@@ -101,12 +101,16 @@ public class AdminManageFoodBuildingViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-                // TODO: Check that building deletion was successful before displaying alert
-                AdminLogic.deleteFoodReservationLogic(selectedBuilding);
-                refresh();
-                // An alert pop up when a building deleted successfully
-                GeneralMethods.alertBox("Delete building", "",
-                        "Building deleted!", Alert.AlertType.INFORMATION);
+                if (AdminLogic.deleteFoodReservationLogic(selectedBuilding)) {
+                    refresh();
+                    // An alert pop up when a building deleted successfully
+                    GeneralMethods.alertBox("Delete building", "",
+                            "Building deleted!", Alert.AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Deletion failed", "",
+                            "Food deletion failed", Alert.AlertType.WARNING);
+                }
             } else {
                 // An alert pop up when no building selected
                 GeneralMethods.alertBox("No Selection", "No Building Selected",
@@ -136,13 +140,17 @@ public class AdminManageFoodBuildingViewController {
             Building tempBuilding = FoodBuildingEditDialogController.building;
             if (tempBuilding == null) {
                 return;
-            } else {
-                AdminLogic.addFoodReservationLogic(tempBuilding);
             }
-            refresh();
-            // An alert pop up when a new building added.
-            GeneralMethods.alertBox("New building", "",
-                    "New building added!", Alert.AlertType.INFORMATION);
+            if (AdminLogic.addFoodReservationLogic(tempBuilding)) {
+                refresh();
+                // An alert pop up when a new building added.
+                GeneralMethods.alertBox("New building", "",
+                        "New building added!", Alert.AlertType.INFORMATION);
+            } else {
+                // Create an alert box.
+                GeneralMethods.alertBox("Creation failed", "",
+                        "Building creation failed", Alert.AlertType.WARNING);
+            }
         } catch (Exception e) {
             System.out.println("building adding exception");
             e.printStackTrace();
