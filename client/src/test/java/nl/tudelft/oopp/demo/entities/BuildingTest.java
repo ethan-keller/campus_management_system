@@ -52,7 +52,7 @@ class BuildingTest {
 
     @Test
     void getBuildingRoomCount() {
-        assertEquals(20,  building.getBuildingRoomCount().get());
+        assertEquals(0,  building.getBuildingRoomCount().get());
     }
 
     @Test

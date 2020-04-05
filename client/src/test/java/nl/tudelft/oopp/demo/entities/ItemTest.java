@@ -18,18 +18,18 @@ class ItemTest {
     @Test
     void emptyContructor() {
         item = new Item();
-        assertEquals(-1, item.getId().get());
+        assertEquals(-1, item.getItemId().get());
         assertEquals(null, item.getUser().get());
         assertEquals(null, item.getTitle().get());
         assertEquals(null, item.getDate().get());
-        assertEquals(null, item.getStartingTime().get());
-        assertEquals(null, item.getEndingTime().get());
-        assertEquals(null, item.getDescription().get());
+        assertEquals(null, item.getItemStartingTime().get());
+        assertEquals(null, item.getItemEndingTime().get());
+        assertEquals(null, item.getItemDescription().get());
     }
 
     @Test
     void getId() {
-        assertEquals(10, item.getId().get());
+        assertEquals(10, item.getItemId().get());
     }
 
     @Test
@@ -49,23 +49,23 @@ class ItemTest {
 
     @Test
     void getStartingTime() {
-        assertEquals("startingtime", item.getStartingTime().get());
+        assertEquals("startingtime", item.getItemStartingTime().get());
     }
 
     @Test
     void getEndingTime() {
-        assertEquals("endingtime", item.getEndingTime().get());
+        assertEquals("endingtime", item.getItemEndingTime().get());
     }
 
     @Test
     void getDescription() {
-        assertEquals("description", item.getDescription().get());
+        assertEquals("description", item.getItemDescription().get());
     }
 
     @Test
     void setId() {
         item.setId(20);
-        assertEquals(20, item.getId().get());
+        assertEquals(20, item.getItemId().get());
     }
 
     @Test
@@ -89,19 +89,19 @@ class ItemTest {
     @Test
     void setStartingTime() {
         item.setStartingTime("anotherstartingtime");
-        assertEquals("anotherstartingtime", item.getStartingTime().get());
+        assertEquals("anotherstartingtime", item.getItemStartingTime().get());
     }
 
     @Test
     void setEndingTime() {
         item.setEndingTime("anotherendingtime");
-        assertEquals("anotherendingtime", item.getEndingTime().get());
+        assertEquals("anotherendingtime", item.getItemEndingTime().get());
     }
 
     @Test
     void setDescription() {
         item.setDescription("anotherdescription");
-        assertEquals("anotherdescription", item.getDescription().get());
+        assertEquals("anotherdescription", item.getItemDescription().get());
 
     }
 

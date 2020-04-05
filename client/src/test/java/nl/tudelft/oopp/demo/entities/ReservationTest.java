@@ -18,17 +18,17 @@ class ReservationTest {
     @Test
     void emptyConstructor() {
         reservation = new Reservation();
-        assertEquals(-1, reservation.getId().get());
+        assertEquals(-1, reservation.getReservationId().get());
         assertEquals(null, reservation.getUsername().get());
         assertEquals(-1, reservation.getRoom().get());
         assertEquals(null, reservation.getDate().get());
-        assertEquals(null, reservation.getStartingTime().get());
-        assertEquals(null, reservation.getEndingTime().get());
+        assertEquals(null, reservation.getReservationStartingTime().get());
+        assertEquals(null, reservation.getReservationEndingTime().get());
     }
 
     @Test
     void getId() {
-        assertEquals(10, reservation.getId().get());
+        assertEquals(10, reservation.getReservationId().get());
     }
 
     @Test
@@ -48,18 +48,18 @@ class ReservationTest {
 
     @Test
     void getStartingTime() {
-        assertEquals("startingtime", reservation.getStartingTime().get());
+        assertEquals("startingtime", reservation.getReservationStartingTime().get());
     }
 
     @Test
     void getEndingTime() {
-        assertEquals("endingtime", reservation.getEndingTime().get());
+        assertEquals("endingtime", reservation.getReservationEndingTime().get());
     }
 
     @Test
     void setId() {
         reservation.setId(5);
-        assertEquals(5, reservation.getId().get());
+        assertEquals(5, reservation.getReservationId().get());
     }
 
     @Test
@@ -83,13 +83,13 @@ class ReservationTest {
     @Test
     void setStartingTime() {
         reservation.setStartingTime("newstartingtime");
-        assertEquals("newstartingtime", reservation.getStartingTime().get());
+        assertEquals("newstartingtime", reservation.getReservationStartingTime().get());
     }
 
     @Test
     void setEndingTime() {
         reservation.setEndingTime("newendingtime");
-        assertEquals("newendingtime", reservation.getEndingTime().get());
+        assertEquals("newendingtime", reservation.getReservationEndingTime().get());
     }
 
     @Test
