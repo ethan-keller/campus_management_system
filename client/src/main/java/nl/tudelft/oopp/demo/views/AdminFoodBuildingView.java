@@ -2,6 +2,8 @@ package nl.tudelft.oopp.demo.views;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +12,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class AdminFoodBuildingView extends Application {
+
+    private Logger logger = Logger.getLogger("GlobalLogger");
+
     public AdminFoodBuildingView() {
     }
 
@@ -34,7 +39,7 @@ public class AdminFoodBuildingView extends Application {
             primaryStage.setMinWidth(980);
             primaryStage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
 
     }

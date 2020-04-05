@@ -217,7 +217,7 @@ public class BikeReservation implements AbstractCalendarItem {
                     .collect(Collectors.toList());
             return list;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

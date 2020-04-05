@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.beans.value.ChangeListener;
@@ -37,6 +39,8 @@ public class UserBikeEditDialogController {
     public static BikeReservation bikeReservation;
     public static boolean edit;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private Logger logger = Logger.getLogger("GlobalLogger");
+
     @FXML
     private ComboBox<Building> bikeBuildingComboBox;
     @FXML
@@ -147,7 +151,7 @@ public class UserBikeEditDialogController {
                         .toString(timeslotSlider.getHighValue()));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -172,7 +176,7 @@ public class UserBikeEditDialogController {
                 timeslotSlider.setMin(opening);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -189,7 +193,7 @@ public class UserBikeEditDialogController {
             // set the factory
             quantity.setValueFactory(factory);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -241,7 +245,7 @@ public class UserBikeEditDialogController {
             }
             return availableBikes;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return 0;
     }
@@ -276,7 +280,7 @@ public class UserBikeEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -310,7 +314,7 @@ public class UserBikeEditDialogController {
             // inject the RangeSlider in the JavaFX layout
             grid.add(timeslotSlider, 1, 4);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -356,7 +360,7 @@ public class UserBikeEditDialogController {
             timeslotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeslotSlider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -388,7 +392,7 @@ public class UserBikeEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -419,7 +423,7 @@ public class UserBikeEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

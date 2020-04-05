@@ -203,7 +203,7 @@ public class RoomEditDialogController {
                 dialogStage.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -274,7 +274,7 @@ public class RoomEditDialogController {
             // store the chosen image
             this.image = ImageIO.read(selectedFile);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

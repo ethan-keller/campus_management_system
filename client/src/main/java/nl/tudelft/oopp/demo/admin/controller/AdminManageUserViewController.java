@@ -224,8 +224,7 @@ public class AdminManageUserViewController {
                         "Please select a User in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("user edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

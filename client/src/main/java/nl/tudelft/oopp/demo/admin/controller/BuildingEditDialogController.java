@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +22,8 @@ import nl.tudelft.oopp.demo.general.GeneralMethods;
 import org.controlsfx.control.RangeSlider;
 
 public class BuildingEditDialogController {
+
+    private Logger logger = Logger.getLogger("GlobalLogger");
 
     public static Building building;
     @FXML
@@ -98,7 +102,7 @@ public class BuildingEditDialogController {
             // inject the RangeSlider in the JavaFX layout
             grid.add(openingHoursSlider, 1, 3);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -118,7 +122,7 @@ public class BuildingEditDialogController {
             openingHoursSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     openingHoursSlider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -145,7 +149,7 @@ public class BuildingEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -163,7 +167,7 @@ public class BuildingEditDialogController {
             // set the factory
             maxBikesField.setValueFactory(factory);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
