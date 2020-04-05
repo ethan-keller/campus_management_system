@@ -98,6 +98,9 @@ public class SearchViewController implements Initializable, Runnable {
 
     private Map<Integer, HBox> roomCards;
 
+    private boolean loaded;
+
+
     SimpleDateFormat sdf = new SimpleDateFormat("ss.SSS");
 
 
@@ -120,6 +123,7 @@ public class SearchViewController implements Initializable, Runnable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            loaded = false;
             Thread t1 = new Thread(this);
             t1.start();
             signOutButton.getStyleClass().clear();
@@ -141,16 +145,13 @@ public class SearchViewController implements Initializable, Runnable {
 
             // assign values to the observable lists
             capacityList.addAll("1-5", "5-10", "10-20", "20+");
-            buildingComboBox.setItems(buildingList);
-            buildingComboBox.setConverter(getBuildingComboBoxConverter());
             bikeList.addAll("1+", "5+", "10+", "20+");
 
             // populating the choicebox
             capacityComboBox.setItems(capacityList);
-            buildingComboBox.setItems(buildingList);
             bikesAvailable.setItems(bikeList);
 
-            // get all rooms and buildings from database
+            // get all rooms from database
             roomList = Room.getRoomData();
             if (roomList != null) {
                 rooms = new ArrayList<Room>(roomList);
@@ -166,6 +167,11 @@ public class SearchViewController implements Initializable, Runnable {
             }
 
             // create a 'card' showing some information of the room, for every room
+            while(!loaded){
+                synchronized (this){
+                    this.wait();
+                }
+            }
             getCardsShown(roomList);
 
         } catch (Exception e) {
@@ -289,16 +295,9 @@ public class SearchViewController implements Initializable, Runnable {
         if (noCheckBoxTeacherOnly.isSelected()) {
             roomList = SearchViewLogic.filterRoomByTeacherOnly(roomList, false);
         }
-
-        Date now = new Date();
-        String strDate = sdf.format(now);
-        System.out.println("Food Filtering Starting: " + strDate);
         if (yesCheckBoxFood.isSelected()) {
             roomList = SearchViewLogic.filterByFood(roomList, buildingsWithFood);
         }
-        Date now2 = new Date();
-        String strDate2 = sdf.format(now2);
-        System.out.println("Food Filtering Ending: " + strDate2);
 
         // if the combobox is selected on a value it filters for that value.
         if (capacityComboBox.getValue() != null) {
@@ -652,15 +651,25 @@ public class SearchViewController implements Initializable, Runnable {
 
     @Override
     public void run() {
+        //loads all the building from the database.
         buildings = Building.getBuildingData();
         buildingList = (ObservableList<Building>) buildings;
+
+        //gets all the buildings that have food that you can order.
         buildingsWithFood = new ArrayList<Integer>();
-        System.out.println("Been here!");
         for (int i = 0; i != buildings.size(); i++) {
             int buildingId = buildings.get(i).getBuildingId().getValue();
             if (!Food.getFoodByBuildingId(buildingId).isEmpty()) {
                 buildingsWithFood.add(buildings.get(i).getBuildingId().getValue());
             }
+        }
+        //sets the values for the combobox.
+        buildingComboBox.setItems(buildingList);
+        buildingComboBox.setConverter(getBuildingComboBoxConverter());
+
+        loaded = true;
+        synchronized (this){
+            this.notifyAll();
         }
     }
 }
