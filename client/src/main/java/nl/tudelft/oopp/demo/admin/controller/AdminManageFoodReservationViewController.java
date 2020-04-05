@@ -3,6 +3,8 @@ package nl.tudelft.oopp.demo.admin.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -35,6 +37,8 @@ import nl.tudelft.oopp.demo.views.LoginView;
 public class AdminManageFoodReservationViewController {
 
     public static FoodReservation currentSelectedFoodReservation;
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     @FXML
     private Label reservationIdLabel;
     @FXML
@@ -79,7 +83,7 @@ public class AdminManageFoodReservationViewController {
                     cellData.getValue().getFoodQuantity().get()));
             foodReservationTable.setItems(FoodReservation.getUserReservationFood(roomReservation));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -153,8 +157,7 @@ public class AdminManageFoodReservationViewController {
                         "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete food reservation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -202,8 +205,7 @@ public class AdminManageFoodReservationViewController {
 
 
         } catch (Exception e) {
-            System.out.println("Food reservation creation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -25,6 +27,8 @@ import nl.tudelft.oopp.demo.views.LoginView;
 
 
 public class AdminManageFoodViewController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     public static Food currentSelectedFood;
     @FXML
@@ -61,7 +65,7 @@ public class AdminManageFoodViewController {
             // Add observable list data to the table
             foodTable.setItems(Food.getAllFoodData());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -117,8 +121,7 @@ public class AdminManageFoodViewController {
                         "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete food exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -151,8 +154,7 @@ public class AdminManageFoodViewController {
                         "Food creation failed", AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("food creation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -193,8 +195,7 @@ public class AdminManageFoodViewController {
                         "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("food edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -222,8 +223,7 @@ public class AdminManageFoodViewController {
                         "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("food edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

@@ -252,8 +252,7 @@ public class AdminManageReservationViewController {
                         "Please select a reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("Food reservation edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

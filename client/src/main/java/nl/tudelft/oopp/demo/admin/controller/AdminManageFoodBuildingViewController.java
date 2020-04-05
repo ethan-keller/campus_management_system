@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -23,6 +25,7 @@ import nl.tudelft.oopp.demo.views.LoginView;
 
 public class AdminManageFoodBuildingViewController {
 
+    private static Logger logger = Logger.getLogger("GlobalLogger");
     public static Building currentSelectedFoodBuilding;
     @FXML
     private Label foodNameLabel;
@@ -60,7 +63,7 @@ public class AdminManageFoodBuildingViewController {
             foodBuildingTable.setItems(Building.getBuildingByFoodId(
                     AdminManageFoodViewController.currentSelectedFood.getFoodId().get()));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -117,8 +120,7 @@ public class AdminManageFoodBuildingViewController {
                         "Please select a building in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete user exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -152,8 +154,7 @@ public class AdminManageFoodBuildingViewController {
                         "Building creation failed", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("building adding exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

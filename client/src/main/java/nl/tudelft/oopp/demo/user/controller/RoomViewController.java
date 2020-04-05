@@ -451,7 +451,7 @@ public class RoomViewController implements Initializable {
                         .toExternalForm()));
                 // make sure the image is correctly resized in proportion to the current stage width
                 changeWidthConstraints(thisStage.getWidth());
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -738,7 +738,7 @@ public class RoomViewController implements Initializable {
                 timeSlotSlider.setMin(opening);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +28,8 @@ import nl.tudelft.oopp.demo.views.LoginView;
 
 
 public class AdminHomePageController {
+
+    private Logger logger = Logger.getLogger("GlobalLogger");
 
     @FXML
     private Button signOutButton;
@@ -199,7 +203,7 @@ public class AdminHomePageController {
             in2.close();
             fileOutputStream2.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
         return true;

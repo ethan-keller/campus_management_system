@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.views;
 
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +11,8 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 public class BikeEditDialogView extends Application {
+
+    private Logger logger = Logger.getLogger("GlobalLogger");
 
     // Create the dialog Stage.
     Stage dialogStage = new Stage();
@@ -25,7 +29,7 @@ public class BikeEditDialogView extends Application {
 
             GeneralMethods.view(dialogStage, primaryStage, "Edit Bike Reservation", root);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

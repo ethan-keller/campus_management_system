@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -27,6 +29,8 @@ import nl.tudelft.oopp.demo.views.LoginView;
 
 
 public class AdminManageBikeReservationViewController {
+
+    private Logger logger = Logger.getLogger("GlobalLogger");
 
     public static BikeReservation currentSelectedBikeReservation;
     @FXML
@@ -85,7 +89,7 @@ public class AdminManageBikeReservationViewController {
             bikeEndingTimeColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationEndingTime());
             bikeTable.setItems(BikeReservation.getBikeReservationData());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -145,8 +149,7 @@ public class AdminManageBikeReservationViewController {
                         "Please select a bike reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete bike reservation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -181,8 +184,7 @@ public class AdminManageBikeReservationViewController {
                         "Bike reservation creation failed", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("bike reservation creation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -224,8 +226,7 @@ public class AdminManageBikeReservationViewController {
                         "Please select a bike reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("bike reservation edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
