@@ -1,9 +1,12 @@
 package nl.tudelft.oopp.demo.entities;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class ItemTest {
 
@@ -107,9 +110,9 @@ class ItemTest {
 
     @Test
     void testEquals() {
-        Item item2 = new Item(5, "", "", "", "", "", "");
-        Item item3 = new Item(10, "", "", "", "", "", "");
-        Integer integer = 2;
+        final Item item2 = new Item(5, "", "", "", "", "", "");
+        final Item item3 = new Item(10, "", "", "", "", "", "");
+        final Integer integer = 2;
 
         assertTrue(item.equals(item));
         assertFalse(item.equals(integer));

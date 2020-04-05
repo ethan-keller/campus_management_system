@@ -1,9 +1,13 @@
 package nl.tudelft.oopp.demo.entities;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+
 
 class FoodTest {
 
@@ -74,9 +78,9 @@ class FoodTest {
 
     @Test
     void testEquals() {
-        Food food2 = new Food(20, "anotherFood", 20.00);
-        Food food3 = new Food(10, "testfood", 7.50);
-        Integer integer = 2;
+        final Food food2 = new Food(20, "anotherFood", 20.00);
+        final Food food3 = new Food(10, "testfood", 7.50);
+        final Integer integer = 2;
 
         assertTrue(food.equals(food));
         assertFalse(food.equals(null));

@@ -1,40 +1,19 @@
 package nl.tudelft.oopp.demo.entities;
 
-import javafx.collections.ObservableList;
-import org.junit.jupiter.api.*;
-import org.mockserver.client.MockServerClient;
-import org.mockserver.integration.ClientAndServer;
-
-import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+import javafx.collections.ObservableList;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 public class BikeReservationTest {
 
     private BikeReservation bikeRes;
-    private ClientAndServer mockServer;
-
-    void expectation1() {
-        new MockServerClient("127.0.0.1", 8080)
-                .when(request().withMethod("GET").withPath("getAllBikeReservation"))
-                .respond(response().withStatusCode(200)
-                        .withBody("Success"));
-    }
-
-    @BeforeAll
-    public void startServer() {
-        mockServer = startClientAndServer(8080);
-        expectation1();
-    }
-
-    @AfterAll
-    public void stopServer() {
-        mockServer.stop();
-    }
 
     @BeforeEach
     void setUp() {
@@ -133,8 +112,6 @@ public class BikeReservationTest {
 
     @Test
     void getBikeReservationData() {
-        ObservableList<BikeReservation> a = BikeReservation.getBikeReservationData();
-        return;
     }
 
     @Test
