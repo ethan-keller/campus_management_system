@@ -1,11 +1,12 @@
-package nl.tudelft.oopp.demo.admin.controller;
+package nl.tudelft.oopp.demo.user.calendar.controller;
 
 import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.model.Item;
 
-import java.awt.Color;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,24 +18,22 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import nl.tudelft.oopp.demo.calendar.CalendarListener;
-import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
-import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
-import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
-import nl.tudelft.oopp.demo.user.controller.CalendarPaneController;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
+import nl.tudelft.oopp.demo.user.calendar.CalendarListener;
+import nl.tudelft.oopp.demo.user.calendar.logic.CalendarItemDialogLogic;
 
 /**
  * Class that controls the dialog when a user clicks an item in his calendar.
  */
 public class CalendarItemDialogController implements Initializable {
 
+    private Logger logger = Logger.getLogger("GlobalLogger");
+
+    public static Item selectedItem;
     // private fields that are used to determine the type of an item
     private boolean bikeReservation = false;
     private boolean reservation = false;
     private boolean item = false;
-
-    public static Item selectedItem;
 
     @FXML
     private Text header;
@@ -54,35 +53,25 @@ public class CalendarItemDialogController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        CalendarItemDialogLogic.bikeReservation = false;
+        CalendarItemDialogLogic.reservation = false;
+        CalendarItemDialogLogic.item = false;
         // sets the boolean fields to the right type
-        setItemType();
-
+        CalendarItemDialogLogic.setItemType(selectedItem.getStyle().getFillColor());
         // get the calendar
         calendar = CalendarPaneController.calendar;
         // set the header and body
         setTexts();
         // set the correct buttons
-        if (bikeReservation || reservation) {
-            setCancelBookingButton();
-        } else {
-            setDeleteItemButton();
-        }
+        setButtons();
 
     }
 
-    /**
-     * Method that sets the class attributes.
-     */
-    private void setItemType() {
-        // color of the item
-        Color fill = selectedItem.getStyle().getFillColor();
-
-        if (fill.equals(Color.CYAN)) {
-            reservation = true;
-        } else if (fill.equals(Color.MAGENTA)) {
-            bikeReservation = true;
-        } else if (fill.equals(Color.ORANGE)) {
-            item = true;
+    private void setButtons() {
+        if (CalendarItemDialogLogic.bikeReservation || CalendarItemDialogLogic.reservation) {
+            setCancelBookingButton();
+        } else {
+            setDeleteItemButton();
         }
     }
 
@@ -105,18 +94,16 @@ public class CalendarItemDialogController implements Initializable {
 
     /**
      * Method that sends delete request to server and shows result to user.
+     *
      * @param thisStage current stage
      */
     private void deleteItem(Stage thisStage) {
         try {
-            // reset all fields
-            item = false;
-            reservation = false;
-            bikeReservation = false;
             // close the stage
             thisStage.close();
+            int id = Integer.parseInt(selectedItem.getId());
             // check if communication was successful and alert the user
-            if (ItemServerCommunication.deleteItem(Integer.parseInt(selectedItem.getId()))) {
+            if (CalendarItemDialogLogic.deleteItem(id)) {
                 // delete from calendar and confirm deletion
                 calendar.getSchedule().getItems().remove(selectedItem);
                 Alert alert = GeneralMethods.createAlert("Deletion confirmation",
@@ -131,7 +118,7 @@ public class CalendarItemDialogController implements Initializable {
                 alert.showAndWait();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -154,6 +141,7 @@ public class CalendarItemDialogController implements Initializable {
 
     /**
      * Sends a cancel booking request to the server and alerts the user of its success.
+     *
      * @param thisStage current stage
      */
     private void cancelBooking(Stage thisStage) {
@@ -167,35 +155,19 @@ public class CalendarItemDialogController implements Initializable {
                     "Something went wrong, your reservation has not been canceled."
                             + " Please try again.",
                     null, Alert.AlertType.ERROR);
-
             // close stage
             thisStage.close();
-            // adapt server request to the type of reservation
-            if (reservation) {
-                if (ReservationServerCommunication.deleteReservation(Integer.parseInt(selectedItem.getId()))) {
-                    // delete reservation from database and calendar
-                    calendar.getSchedule().getItems().remove(selectedItem);
-                    alertConfirm.showAndWait();
-                } else {
-                    // alert user that there was an error
-                    alertError.showAndWait();
-                }
-            } else if (bikeReservation) {
-                if (BikeReservationCommunication.deleteBikeReservation(Integer.parseInt(selectedItem.getId()))) {
-                    // delete reservation from database and calendar
-                    calendar.getSchedule().getItems().remove(selectedItem);
-                    alertConfirm.showAndWait();
-                } else {
-                    alertError.showAndWait();
-                }
-            }
-            // reset all fields
-            item = false;
-            reservation = false;
-            bikeReservation = false;
+            int id = Integer.parseInt(selectedItem.getId());
 
+            if (CalendarItemDialogLogic.deleteReservation(id)) {
+                calendar.getSchedule().getItems().remove(selectedItem);
+                alertConfirm.showAndWait();
+            } else {
+                // alert user that there was an error
+                alertError.showAndWait();
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -209,6 +181,7 @@ public class CalendarItemDialogController implements Initializable {
 
     /**
      * Closes the dialog when the user clicks close.
+     *
      * @param event event that triggered this method
      */
     @FXML

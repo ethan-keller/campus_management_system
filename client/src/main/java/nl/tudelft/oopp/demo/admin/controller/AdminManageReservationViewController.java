@@ -10,13 +10,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.LoginView;
@@ -25,8 +26,8 @@ import nl.tudelft.oopp.demo.views.ReservationNewDialogView;
 
 public class AdminManageReservationViewController {
 
+    public static Reservation currentSelectedReservation;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -44,8 +45,10 @@ public class AdminManageReservationViewController {
     private TableColumn<Reservation, String> startingTime;
     @FXML
     private TableColumn<Reservation, String> endingTime;
-
-    public static Reservation currentSelectedReservation;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
 
     /**
      * Default constructor of the class.
@@ -59,12 +62,15 @@ public class AdminManageReservationViewController {
     @FXML
     private void initialize() {
         try {
-
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
             //Initializing all the columns created in the table view to inhibit the data passed
             // down through the server.
 
             id.setCellValueFactory(cellData -> new SimpleIntegerProperty(
-                    cellData.getValue().getId().get()));
+                    cellData.getValue().getReservationId().get()));
             // To align the text in this column in a centralized manner; looks better
             id.setStyle("-fx-alignment: CENTER");
 
@@ -77,17 +83,17 @@ public class AdminManageReservationViewController {
             // To align the text in this column in a centralized manner; looks better
             room.setStyle("-fx-alignment: CENTER");
 
-            date.setCellValueFactory(cell -> cell.getValue().getDate());
             // To align the text in this column in a centralized manner; looks better
             date.setStyle("-fx-alignment: CENTER");
 
-            startingTime.setCellValueFactory(cell -> cell.getValue().getStartingTime());
+            startingTime.setCellValueFactory(cell -> cell.getValue().getReservationStartingTime());
             // To align the text in this column in a centralized manner; looks better
             startingTime.setStyle("-fx-alignment: CENTER");
 
-            endingTime.setCellValueFactory(cell -> cell.getValue().getEndingTime());
+            endingTime.setCellValueFactory(cell -> cell.getValue().getReservationEndingTime());
             // To align the text in this column in a centralized manner; looks better
             endingTime.setStyle("-fx-alignment: CENTER");
+
 
             //Adding the Observable List Data to the tableView created.
             listReservations.setItems(Reservation.getReservation());
@@ -114,6 +120,7 @@ public class AdminManageReservationViewController {
 
     /**
      * The index of the reservation is selected.
+     *
      * @return the index of the selected reservation.
      */
     public int getSelectedIndex() {
@@ -180,6 +187,7 @@ public class AdminManageReservationViewController {
 
     /**
      * Handles the clicking of Edit button.
+     *
      * @param event is passed
      */
     @FXML
@@ -221,6 +229,7 @@ public class AdminManageReservationViewController {
     /**
      * This will redirect the adminManageReservation view back to the home page for the admin to have
      * for options to choose from.
+     *
      * @param event is passed
      * @throws IOException is thrown
      */
@@ -236,6 +245,7 @@ public class AdminManageReservationViewController {
 
     /**
      * Handles clicking the food button, redirect to the food reservation view.
+     *
      * @param event is passed as a parameter.
      * @throws IOException is thrown.
      */
@@ -255,22 +265,37 @@ public class AdminManageReservationViewController {
                         "Please select a reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("Food reservation edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
      * This button redirects the admin back to the login page.
+     *
      * @param event is passed as a parameter.
      * @throws IOException is thrown.
      */
     @FXML
-    private void signOutButtonClicked(ActionEvent event) throws IOException {
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This loads up a new login page.
         LoginView loginView = new LoginView();
         loginView.start(stage);
+    }
+
+    /**
+     * This button redirects the admin back to the home page.
+     *
+     * @param event is passed as a parameter.
+     * @throws IOException is thrown.
+     */
+    @FXML
+    public void backClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // This starts a new admin home page view.
+        AdminHomePageView ahpv = new AdminHomePageView();
+        ahpv.start(stage);
     }
 }

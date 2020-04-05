@@ -48,14 +48,14 @@ import javax.imageio.ImageIO;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageReservationViewController;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
-import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.user.logic.RoomViewLogic;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
+import nl.tudelft.oopp.demo.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;
@@ -67,9 +67,13 @@ import org.controlsfx.control.RangeSlider;
  * Controller class for the Room view (JavaFX).
  */
 public class RoomViewController implements Initializable {
-
+    public static int currentRoomId;
+    // current Stage
+    public static Stage thisStage;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
+    // current room to show info about
+    private static Room currentRoom;
+    private final String pathSeparator = File.separator;
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -107,17 +111,12 @@ public class RoomViewController implements Initializable {
     private Text timeslotError;
     @FXML
     private Text teacherOnlyError;
-
+    @FXML
+    private Button signOutButton;
     // double thumb slider
     private RangeSlider timeSlotSlider;
-    // current room to show info about
-    private static Room currentRoom;
-    public static int currentRoomId;
     private List<Food> selectedFoodList;
     private Map<Food, Integer> foodMap;
-    private final String pathSeparator = File.separator;
-    // current Stage
-    public static Stage thisStage;
 
     /**
      * Method that gets called before everything (mostly to initialize nodes etc.).
@@ -130,6 +129,8 @@ public class RoomViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
             // initialize the list with all the selected foods
             selectedFoodList = new ArrayList<>();
 
@@ -163,8 +164,9 @@ public class RoomViewController implements Initializable {
             // listener that adjusts layout when width of stage changes
             thisStage.widthProperty().addListener((obs, oldVal, newVal) -> changeWidthConstraints(newVal));
 
-
-            ObservableList<Food> foodList = Food.getAllFoodData();
+            ObservableList<Food> foodList = Food.getFoodByBuildingId(
+                    Building.getBuildingById(currentRoom.getRoomBuilding().get())
+                            .getBuildingId().get());
             foodChoice.setConverter(getFoodChoiceConverter(foodList));
             foodChoice.setItems(foodList);
             foodChoice.setButtonCell(getButtonCell());
@@ -430,7 +432,7 @@ public class RoomViewController implements Initializable {
                         .toExternalForm()));
                 // make sure the image is correctly resized in proportion to the current stage width
                 changeWidthConstraints(thisStage.getWidth());
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -631,7 +633,7 @@ public class RoomViewController implements Initializable {
                 bw.write("#91ef99 0%, #91ef99 100%);\n");
             }
 
-            Building selectedBuilding = Building.getBuildingById(currentRoomId);
+            Building selectedBuilding = Building.getBuildingById(currentRoom.getRoomBuilding().get());
             StringConverter<Number> converter = getRangeSliderConverter();
             double opening = (double) converter.fromString(selectedBuilding.getOpeningTime().get());
             double closing = (double) converter.fromString(selectedBuilding.getClosingTime().get());
@@ -640,8 +642,8 @@ public class RoomViewController implements Initializable {
             // calculate and add green and red parts
             while (it.hasNext()) {
                 Reservation r = it.next();
-                double startTime = (double) converter.fromString(r.getStartingTime().get());
-                double endTime = (double) converter.fromString(r.getEndingTime().get());
+                double startTime = (double) converter.fromString(r.getReservationStartingTime().get());
+                double endTime = (double) converter.fromString(r.getReservationEndingTime().get());
                 double startPercentage = ((startTime - opening) / (closing - opening)) * 100.0;
                 double endPercentage = ((endTime - opening) / (closing - opening)) * 100.0;
                 bw.write("#91ef99 " + startPercentage + "%, ");
@@ -697,7 +699,7 @@ public class RoomViewController implements Initializable {
                 timeSlotSlider.setMin(opening);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -751,8 +753,8 @@ public class RoomViewController implements Initializable {
             // get rangeslider values + reservation values
             double currentStartValue = timeSlotSlider.getLowValue();
             double currentEndValue = timeSlotSlider.getHighValue();
-            double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
-            double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
+            double startValue = (double) timeConverter.fromString(r.getReservationStartingTime().get());
+            double endValue = (double) timeConverter.fromString(r.getReservationEndingTime().get());
 
             // check if the values overlap
             if (!RoomViewLogic.checkTimeSlotValidity(currentStartValue, currentEndValue, startValue, endValue)) {

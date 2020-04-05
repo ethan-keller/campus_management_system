@@ -6,14 +6,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminBikeReservationView;
 import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
 import nl.tudelft.oopp.demo.views.AdminManageFoodView;
@@ -24,6 +28,18 @@ import nl.tudelft.oopp.demo.views.LoginView;
 
 
 public class AdminHomePageController {
+
+    private Logger logger = Logger.getLogger("GlobalLogger");
+
+    @FXML
+    private Button signOutButton;
+
+    @FXML
+    public void initialize() {
+        signOutButton.getStyleClass().clear();
+        signOutButton.getStyleClass().add("signout-button");
+    }
+
     /**
      * This button lets the admin sign out and redirects the admin back to the login page.
      *
@@ -187,7 +203,7 @@ public class AdminHomePageController {
             in2.close();
             fileOutputStream2.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
         return true;

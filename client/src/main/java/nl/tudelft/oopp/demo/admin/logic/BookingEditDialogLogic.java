@@ -5,19 +5,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.util.StringConverter;
 
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 import org.controlsfx.control.RangeSlider;
 
 public class BookingEditDialogLogic {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * Validates the user input.
@@ -40,6 +44,9 @@ public class BookingEditDialogLogic {
                 return "Good!\n";
             }
         }
+
     }
 
+
 }
+

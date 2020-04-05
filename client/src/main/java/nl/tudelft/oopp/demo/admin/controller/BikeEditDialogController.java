@@ -5,7 +5,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -24,11 +27,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-import nl.tudelft.oopp.demo.admin.controller.AdminManageBikeReservationViewController;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
+
 import org.controlsfx.control.RangeSlider;
 
 /**
@@ -36,6 +40,10 @@ import org.controlsfx.control.RangeSlider;
  */
 public class BikeEditDialogController {
 
+    public static BikeReservation bikeReservation;
+    public static boolean edit;
+    private Logger logger = Logger.getLogger("GlobalLogger");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     @FXML
     private ComboBox<User> bikeUsernameComboBox;
     @FXML
@@ -54,22 +62,21 @@ public class BikeEditDialogController {
     private Label timeslot;
     @FXML
     private Text availableBikes;
-
     private RangeSlider timeslotSlider;
-
-    public static BikeReservation bikeReservation;
-
-    public static boolean edit;
-
     private Stage dialogStage;
-
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
      * .
      * Default constructor of the BikeEditDialogController class.
      */
     public BikeEditDialogController() {
+    }
+
+    /**
+     * Create a new bike reservation when called.
+     */
+    private static void emptyReservation() {
+        bikeReservation = new BikeReservation();
     }
 
     /**
@@ -167,7 +174,7 @@ public class BikeEditDialogController {
                         .toString(timeslotSlider.getHighValue()));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -192,7 +199,7 @@ public class BikeEditDialogController {
                 timeslotSlider.setMin(opening);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -209,7 +216,7 @@ public class BikeEditDialogController {
             // set the factory
             quantity.setValueFactory(factory);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -261,7 +268,7 @@ public class BikeEditDialogController {
             }
             return availableBikes;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return 0;
     }
@@ -296,7 +303,7 @@ public class BikeEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -492,13 +499,6 @@ public class BikeEditDialogController {
             }
         };
         bikeBuildingComboBox.setConverter(converter);
-    }
-
-    /**
-     * Create a new bike reservation when called.
-     */
-    private static void emptyReservation() {
-        bikeReservation = new BikeReservation();
     }
 
     /**

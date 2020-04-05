@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,12 @@ class UserTest {
         u1 = new User("Ottedam", "password", 0);
         u2 = new User("Ottedam", "password", 0);
         u3 = new User("EthanKeller", "password01", 1);
+    }
+
+    @Test
+    void objectConstructor() {
+        assertNotNull(u2);
+        assertNotNull(new User());
     }
 
     /**
@@ -58,6 +65,7 @@ class UserTest {
         assertEquals(u2, u1);
         assertEquals(u1, u1);
         assertNotEquals(u1, u3);
-        assertNotEquals("pizza", u1);
+        assertNotEquals(u1, "pizza");
+        assertNotNull(u1, (String) null);
     }
 }

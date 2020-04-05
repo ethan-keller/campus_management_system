@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.views;
 
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,8 @@ import nl.tudelft.oopp.demo.admin.controller.FoodBuildingEditDialogController;
 
 public class FoodBuildingEditDialogView extends Application {
 
+    private Logger logger = Logger.getLogger("GlobalLogger");
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
@@ -21,6 +25,7 @@ public class FoodBuildingEditDialogView extends Application {
             URL xmlUrl = getClass().getResource("/foodBuildingEditDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
@@ -40,7 +45,7 @@ public class FoodBuildingEditDialogView extends Application {
             dialogStage.showAndWait();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

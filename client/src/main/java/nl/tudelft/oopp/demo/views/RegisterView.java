@@ -23,12 +23,13 @@ public class RegisterView extends Application {
         URL xmlUrl = getClass().getResource("/registerView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
         Scene oldScene = primaryStage.getScene();
         primaryStage.setScene(oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
-        primaryStage.setMinHeight(390);
+        primaryStage.setMinHeight(430);
         primaryStage.setMinWidth(710);
         primaryStage.show();
     }

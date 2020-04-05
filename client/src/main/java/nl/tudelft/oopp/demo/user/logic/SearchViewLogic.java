@@ -254,16 +254,19 @@ public class SearchViewLogic {
                 for (int z = 0; z != reservations.size(); z++) {
                     if (reservations.get(z).getRoom().getValue().equals(roomList.get(q).getRoomId().get())) {
                         double starting = Integer.parseInt(
-                                reservations.get(z).getStartingTime().getValue().substring(0, 2));
+                                reservations.get(z).getReservationStartingTime().getValue().substring(0, 2));
                         double ending = Integer.parseInt(
-                                reservations.get(z).getEndingTime().getValue().substring(0, 2));
-                        if (reservations.get(z).getStartingTime().getValue().substring(3, 5).equals("30")) {
+                                reservations.get(z).getReservationEndingTime().getValue().substring(0, 2));
+                        if (reservations.get(z).getReservationStartingTime()
+                                .getValue().substring(3, 5).equals("30")) {
                             starting = starting + 0.5;
                         }
-                        if (reservations.get(z).getEndingTime().getValue().substring(3, 5).equals("30")) {
+                        if (reservations.get(z).getReservationEndingTime()
+                                .getValue().substring(3, 5).equals("30")) {
                             ending = ending + 0.5;
                         }
-                        if (reservations.get(z).getEndingTime().getValue().equals("23:59:00")) {
+                        if (reservations.get(z).getReservationEndingTime()
+                                .getValue().equals("23:59:00")) {
                             ending = 24;
                         }
                         totalHoursAvailable = totalHoursAvailable + starting - ending;
@@ -277,6 +280,72 @@ public class SearchViewLogic {
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Creates a new 'card' (HBox) which contains some information about the room.
+     *
+     * @param r The Room that we have to show information from
+     * @return HBox which is the final 'card'
+     */
+    public static HBox createRoomCard(SearchViewController svw, Room r) {
+        try {
+            // load the 'skeleton of a new card
+            FXMLLoader loader = new FXMLLoader();
+            URL xmlUrl = svw.getClass().getResource("/RoomCard.fxml");
+            loader.setLocation(xmlUrl);
+
+            HBox newCard = loader.load();
+
+            Image roomImage = null;
+            try {
+                // get the room image
+                roomImage = new Image("images/" + r.getRoomPhoto().get());
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, e.toString());
+                // load placeholder instead
+                roomImage = new Image("images/placeholder.png");
+            }
+
+
+            // use lookup to retrieve Nodes by their id and set their content
+            ImageView image = ((ImageView) newCard.lookup("#image"));
+            image.setImage(roomImage);
+            // set the correct width
+            image.setFitWidth(300);
+
+            Building b = svw.buildingList.stream()
+                    .filter(x -> x.getBuildingId().get() == r.getRoomBuilding().get())
+                    .collect(Collectors.toList()).get(0);
+
+            ((Text) newCard.lookup("#idText")).setText(String.valueOf(r.getRoomId().get()));
+            ((Text) newCard.lookup("#titleText")).setText(r.getRoomName().get());
+            ((Text) newCard.lookup("#buildingText")).setText("Building: " + b.getBuildingName().get());
+            ((Text) newCard.lookup("#capacityText")).setText("Capacity: " + r.getRoomCapacity().get());
+            ((Text) newCard.lookup("#descriptionText"))
+                    .setText("Description: " + r.getRoomDescription().get());
+
+            // set mouse clicked event on card (to redirect to room view)
+            newCard.setOnMouseClicked(event -> {
+                try {
+                    svw.cardClicked(event);
+                } catch (Exception e) {
+                    logger.log(Level.SEVERE, e.toString());
+                }
+            });
+
+            // set space between the cards
+            VBox.setMargin(newCard, new Insets(0, 0, 70, 0));
+
+            return newCard;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
+    }
+
+
+    /**
+>>>>>>> develop
      * Filters the rooms given by if they have food you can order.
      *
      * @param rooms     rooms to be filtered.

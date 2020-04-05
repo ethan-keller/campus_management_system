@@ -2,7 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import nl.tudelft.oopp.demo.entities.User;
@@ -50,7 +50,7 @@ class LoginControllerTest {
         when(userRepo.getUser(anyString())).thenReturn(new User("test", "pass", 0));
         when(controller.getUser(anyString(), anyString())).thenReturn("admin");
 
-        mvc.perform(post("/login?username=test&password=pass")
+        mvc.perform(get("/login?username=test&password=pass")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

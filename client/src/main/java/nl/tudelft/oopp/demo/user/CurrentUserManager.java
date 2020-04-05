@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.communication.user;
+package nl.tudelft.oopp.demo.user;
 
 public class CurrentUserManager {
 
@@ -18,14 +18,13 @@ public class CurrentUserManager {
         return username;
     }
 
-    public static int getType() {
-        return type;
-    }
-
     public static void setUsername(String username) {
         CurrentUserManager.username = username;
     }
 
+    public static int getType() {
+        return type;
+    }
 
     public static void setType(int type) {
         CurrentUserManager.type = type;

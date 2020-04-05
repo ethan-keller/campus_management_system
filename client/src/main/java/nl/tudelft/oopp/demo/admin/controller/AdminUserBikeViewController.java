@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -15,47 +17,45 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
+import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.UserBikeEditDialogView;
 import nl.tudelft.oopp.demo.views.UserBikeNewDialogView;
 
 public class AdminUserBikeViewController {
 
+    public static BikeReservation currentSelectedBikeReservation;
+    private Logger logger = Logger.getLogger("GlobalLogger");
+
     @FXML
     private Label usernameLabel;
-
     @FXML
     private TableView<BikeReservation> userBikeTable;
-
     @FXML
     private TableColumn<BikeReservation, Number> bikeIdColumn;
-
     @FXML
     private TableColumn<BikeReservation, String> bikeBuildingColumn;
-
     @FXML
     private TableColumn<BikeReservation, Number> bikeQuantityColumn;
-
     @FXML
     private TableColumn<BikeReservation, String> bikeDateColumn;
-
     @FXML
     private TableColumn<BikeReservation, String> bikeStartingTimeColumn;
-
     @FXML
     private TableColumn<BikeReservation, String> bikeEndingTimeColumn;
-
     @FXML
     private Button editBikeButton;
-
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
     @FXML
     private Button deleteBikeButton;
-
-    public static BikeReservation currentSelectedBikeReservation;
 
     public AdminUserBikeViewController() {
 
@@ -67,7 +67,11 @@ public class AdminUserBikeViewController {
     @FXML
     private void initialize() {
         try {
-
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
+            ObservableList<Building> buildingList = Building.getBuildingData();
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             // Initialize the bike reservation table with the five columns.
             bikeIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
@@ -75,7 +79,6 @@ public class AdminUserBikeViewController {
             // To align the text in this column in a centralized manner; looks better
             bikeIdColumn.setStyle("-fx-alignment: CENTER");
 
-            ObservableList<Building> buildingList = Building.getBuildingData();
             bikeBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                     buildingList.stream().filter(x -> x.getBuildingId().get()
                             == cellData.getValue().getBikeReservationBuilding().get())
@@ -103,7 +106,7 @@ public class AdminUserBikeViewController {
             userBikeTable.setItems(BikeReservation.getUserBikeReservations(
                     AdminManageUserViewController.currentSelectedUser.getUsername().get()));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -116,6 +119,7 @@ public class AdminUserBikeViewController {
 
     /**
      * Called when admin clicks a bike reservation.
+     *
      * @return the bike reservation that is currently selected
      */
     public BikeReservation getSelectedBikeReservation() {
@@ -129,6 +133,7 @@ public class AdminUserBikeViewController {
 
     /**
      * Gets a number representing the index of the selected bike reservation.
+     *
      * @return int
      */
     public int getSelectedIndex() {
@@ -137,6 +142,7 @@ public class AdminUserBikeViewController {
 
     /**
      * Delete a bike reservation.
+     *
      * @param event event that triggered this method
      */
     @FXML
@@ -158,14 +164,14 @@ public class AdminUserBikeViewController {
                         "Please select a bike reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete bike reservation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
      * Handles clicking the create new button.
      * Opens a dialog to creat a new reservation.
+     *
      * @param event is passed
      */
     @FXML
@@ -195,14 +201,14 @@ public class AdminUserBikeViewController {
             GeneralMethods.alertBox("New bike reservation", "",
                     "Successfully added new bike reservation!", Alert.AlertType.INFORMATION);
         } catch (Exception e) {
-            System.out.println("bike reservation creation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
      * Called when the user clicks the edit button. Opens a dialog to edit
      * details for the selected bike reservation.
+     *
      * @param event event that triggered this method
      */
     @FXML
@@ -240,23 +246,37 @@ public class AdminUserBikeViewController {
                         "Please select a bike reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("bike reservation edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
 
     /**
      * Handles clicking the back button, redirect to the admin home page view.
+     *
      * @param event is passed
      * @throws IOException is thrown
      */
     @FXML
-    private void backClicked(ActionEvent event) throws IOException {
+    public void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         AdminManageUserView amuv = new AdminManageUserView();
         amuv.start(stage);
+    }
+
+    /**
+     * Handles clicking the sign out button, redirect to the log in view.
+     *
+     * @param event event that triggered this method
+     * @throws IOException exception that gets thrown if fails
+     */
+    @FXML
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        LoginView view = new LoginView();
+        view.start(stage);
     }
 
 }

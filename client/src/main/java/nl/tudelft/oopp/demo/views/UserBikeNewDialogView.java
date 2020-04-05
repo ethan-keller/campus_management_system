@@ -1,15 +1,19 @@
 package nl.tudelft.oopp.demo.views;
 
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 public class UserBikeNewDialogView extends Application {
+
+    private Logger logger = Logger.getLogger("GlobalLogger");
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -19,13 +23,14 @@ public class UserBikeNewDialogView extends Application {
             URL xmlUrl = getClass().getResource("/userBikeEditDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
 
             GeneralMethods.view(dialogStage, primaryStage, "New Bike Reservation", root);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

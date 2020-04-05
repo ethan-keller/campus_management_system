@@ -13,7 +13,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,17 +36,25 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
-import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
+import nl.tudelft.oopp.demo.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.SearchView;
+
 import org.controlsfx.control.RangeSlider;
 
 
 public class RentABikeController implements Initializable {
+    public static Stage thisStage;
+    private static int currentBuilding = 0;
+    public ObservableList<Building> buildingList = Building.getBuildingData();
+    public ObservableList<BikeReservation> bikeReservationsList = BikeReservation.getBikeReservationData();
+    private Logger logger = Logger.getLogger("GlobalLogger");
+
     @FXML
     private DatePicker datePicker;
     @FXML
@@ -67,12 +77,9 @@ public class RentABikeController implements Initializable {
     private ImageView image;
     @FXML
     private Button reserveBike;
-
+    @FXML
+    private Button backButton;
     private RangeSlider timeSlotSlider;
-    public static Stage thisStage;
-    public ObservableList<Building> buildingList = Building.getBuildingData();
-    private static int currentBuilding = 0;
-    public ObservableList<BikeReservation> bikeReservationsList = BikeReservation.getBikeReservationData();
 
     /**
      * Deals with the back button function.
@@ -87,7 +94,7 @@ public class RentABikeController implements Initializable {
             SearchView sv = new SearchView();
             sv.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -103,7 +110,8 @@ public class RentABikeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
             // make sure errors are not visible
             startTime.setVisible(false);
             endTime.setVisible(false);
@@ -195,12 +203,13 @@ public class RentABikeController implements Initializable {
                 setTimeSlotSlider(b);
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
      * Resets the length of slider depending on the building selected.
+     *
      * @param event Event
      */
     @FXML
@@ -216,8 +225,8 @@ public class RentABikeController implements Initializable {
         double closingTime = parseTime(b.getClosingTime().get());
 
         //Set the range of the slider in minutes
-        timeSlotSlider.setMin((int)startTime * 60);
-        timeSlotSlider.setMax((int)closingTime * 60);
+        timeSlotSlider.setMin((int) startTime * 60);
+        timeSlotSlider.setMax((int) closingTime * 60);
 
 
     }
@@ -288,12 +297,13 @@ public class RentABikeController implements Initializable {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
      * Sends cofirmation alert to the user.
+     *
      * @param event handles event
      */
     public void confirmAlert(ActionEvent event) {
@@ -310,7 +320,7 @@ public class RentABikeController implements Initializable {
             RentABikeView rbv = new RentABikeView();
             rbv.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -344,7 +354,7 @@ public class RentABikeController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -364,7 +374,7 @@ public class RentABikeController implements Initializable {
             // set the converter
             datePicker.setConverter(converter);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -406,7 +416,7 @@ public class RentABikeController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -432,7 +442,7 @@ public class RentABikeController implements Initializable {
             return buildingNumber;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return 0;
     }
@@ -465,7 +475,7 @@ public class RentABikeController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -491,7 +501,7 @@ public class RentABikeController implements Initializable {
             timeSlotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeSlotSlider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -526,7 +536,7 @@ public class RentABikeController implements Initializable {
             // inject the RangeSlider in the JavaFX layout
             reservationVbox.getChildren().add(4, timeSlotSlider);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -550,7 +560,7 @@ public class RentABikeController implements Initializable {
             return result;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -566,13 +576,14 @@ public class RentABikeController implements Initializable {
             image.setFitWidth((newWidth.doubleValue() - 188) / 1.41550696);
             reservationVbox.setPrefWidth((newWidth.doubleValue() - 188) / 3.3969);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
 
     /**
      * Parses time into hours. Deals with both the formats.
+     *
      * @param time Provided time
      * @return only hour of given string.
      */
@@ -604,16 +615,17 @@ public class RentABikeController implements Initializable {
 
             return hour;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return 0;
     }
 
     /**
      * Gets remaining number of bikes by reducing bikes rented from maximum bike of a building.
-     * @param b given object
-     * @param selectedDate given date
-     * @param selectedEnd given end time of rent
+     *
+     * @param b             given object
+     * @param selectedDate  given date
+     * @param selectedEnd   given end time of rent
      * @param selectedStart give start time of rent
      * @return remaining value for each building
      */
@@ -641,13 +653,14 @@ public class RentABikeController implements Initializable {
             return remainder;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return 0;
     }
 
     /**
      * Adjusts the intervals of the slider depending on the opening hours.
+     *
      * @param selectedBuilding Building passed
      */
     private void setTimeSlotSlider(Building selectedBuilding) {
@@ -670,7 +683,7 @@ public class RentABikeController implements Initializable {
                 timeSlotSlider.setMin(opening);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 }

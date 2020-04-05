@@ -3,30 +3,31 @@ package nl.tudelft.oopp.demo.admin.controller;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.BookingEditDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
 
 
-
 public class AdminUserHistoryViewController {
 
+    public static Reservation currentSelectedReservation;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
     @FXML
     private Label usernameLabel;
     @FXML
@@ -41,8 +42,10 @@ public class AdminUserHistoryViewController {
     private TableColumn<Reservation, String> bookingStartColumn;
     @FXML
     private TableColumn<Reservation, String> bookingEndColumn;
-
-    public static Reservation currentSelectedReservation;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
 
     public AdminUserHistoryViewController() {
 
@@ -54,38 +57,40 @@ public class AdminUserHistoryViewController {
     @FXML
     private void initialize() {
         try {
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
             // Initialize the title of the table
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             // Initialize the booking table with the five columns.
             bookingIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
-                    cellData.getValue().getId().get()));
+                    cellData.getValue().getReservationId().get()));
             // To align the text in this column in a centralized manner; looks better
             bookingIdColumn.setStyle("-fx-alignment: CENTER");
-
             bookingRoomColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getRoom().get()));
             // To align the text in this column in a centralized manner; looks better
             bookingRoomColumn.setStyle("-fx-alignment: CENTER");
 
-            bookingDateColumn.setCellValueFactory(cell -> cell.getValue().getDate());
             // To align the text in this column in a centralized manner; looks better
             bookingDateColumn.setStyle("-fx-alignment: CENTER");
 
-            bookingStartColumn.setCellValueFactory(cell -> cell.getValue().getStartingTime());
+            bookingStartColumn.setCellValueFactory(cell -> cell.getValue().getReservationStartingTime());
             // To align the text in this column in a centralized manner; looks better
             bookingStartColumn.setStyle("-fx-alignment: CENTER");
 
-            bookingEndColumn.setCellValueFactory(cell -> cell.getValue().getEndingTime());
+            bookingEndColumn.setCellValueFactory(cell -> cell.getValue().getReservationEndingTime());
             // To align the text in this column in a centralized manner; looks better
             bookingEndColumn.setStyle("-fx-alignment: CENTER");
-
             bookingTable.setItems(Reservation.getSelectedUserReservation());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
     }
 
-    /**.
+    /**
+     * .
      * refresh the table when called
      */
     public void refresh() {
@@ -158,6 +163,7 @@ public class AdminUserHistoryViewController {
 
     /**
      * Handles clicking the food button, redirect to the food reservation view.
+     *
      * @param event is passed
      */
     @FXML
@@ -179,17 +185,17 @@ public class AdminUserHistoryViewController {
                 alert.showAndWait();
             }
         } catch (Exception e) {
-            System.out.println("Food reservation edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
      * Handles clicking the back button, redirect to the user view.
+     *
      * @param event is passed
      */
     @FXML
-    private void backClicked(ActionEvent event) throws IOException {
+    public void backClicked(ActionEvent event) throws IOException {
         currentSelectedReservation = null;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -199,16 +205,18 @@ public class AdminUserHistoryViewController {
 
     /**
      * This button redirects the user back to the login page.
+     *
      * @param event is passed
      * @throws IOException is thrown.
      */
     @FXML
-    private void signOutClicked(ActionEvent event) throws IOException {
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This opens up a new login page.
         LoginView loginView = new LoginView();
         loginView.start(stage);
     }
+
 
 }

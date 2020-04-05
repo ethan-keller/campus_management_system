@@ -5,18 +5,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.AdminUserBikeView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
@@ -25,24 +27,22 @@ import nl.tudelft.oopp.demo.views.UserEditDialogView;
 import nl.tudelft.oopp.demo.views.UserNewDialogView;
 
 
-
 public class AdminManageUserViewController {
 
+    public static User currentSelectedUser;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
     @FXML
     private TableView<User> userTable;
-
     @FXML
     private TableColumn<User, String> usernameColumn;
-
     @FXML
     private TableColumn<User, String> userTypeColumn;
-
     @FXML
     private TableColumn<User, String> userPasswordColumn;
-
-    public static User currentSelectedUser;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
 
     public AdminManageUserViewController() {
     }
@@ -53,6 +53,10 @@ public class AdminManageUserViewController {
     @FXML
     private void initialize() {
         try {
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
             // Initialize the room table with the four columns.
             usernameColumn.setCellValueFactory(cell -> cell.getValue().getUsername());
             List<String> availableUserType = Arrays.asList("Admin", "Teacher", "Student");
@@ -198,7 +202,7 @@ public class AdminManageUserViewController {
     }
 
     /**
-     * Back button redirects the user back to the admin home page.
+     * Bike button redirects the admin to the bike reservation page.
      *
      * @param event is passed
      * @throws IOException is thrown
@@ -220,13 +224,18 @@ public class AdminManageUserViewController {
                         "Please select a User in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("user edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
+    /**
+     * Back button redirects the admin back to the admin home page.
+     *
+     * @param event is passed
+     * @throws IOException is thrown
+     */
     @FXML
-    private void backClicked(ActionEvent event) throws IOException {
+    public void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This starts a new admin home page view.
@@ -236,11 +245,12 @@ public class AdminManageUserViewController {
 
     /**
      * This button redirects the user back to the login page.
+     *
      * @param event is passed.
      * @throws IOException is thrown.
      */
     @FXML
-    private void signOutClicked(ActionEvent event) throws IOException {
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This loads up a new login page.

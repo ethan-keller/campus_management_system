@@ -77,6 +77,6 @@ class BuildingTest {
         assertEquals(b2, b1);
         assertNotEquals(b1, b3);
         assertEquals(b1, b1);
-        assertNotEquals("pizza", b1);
+        assertNotEquals(b1, "pizza");
     }
 }
