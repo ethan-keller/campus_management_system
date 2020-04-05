@@ -18,7 +18,6 @@ import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.admin.logic.BuildingEditDialogLogic;
 
-
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 

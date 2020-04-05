@@ -24,16 +24,16 @@ public class RoomEditDialogLogic {
      * @return - Boolean value to validate input
      */
     public static String isValidInput(String roomNameField, Building roomBuildingComboBox,
-                                       boolean radioButtonYes, boolean radioButtonNo,
-                                       String roomCapacityField, String roomTypeField,
-                                       String roomDescriptionField) {
+                                      boolean radioButtonYes, boolean radioButtonNo,
+                                      String roomCapacityField, String roomTypeField,
+                                      String roomDescriptionField) {
         String errorMessage = "";
 
         if (roomNameField.equals("")) {
             errorMessage += "No valid room name!\n";
         }
         //if (roomBuildingComboBox.getSelectionModel().) {
-            //errorMessage += "No valid building selected!\n";
+        //errorMessage += "No valid building selected!\n";
         //}
         if (!radioButtonYes && !radioButtonNo) {
             errorMessage += "No teacher only button selected!\n";

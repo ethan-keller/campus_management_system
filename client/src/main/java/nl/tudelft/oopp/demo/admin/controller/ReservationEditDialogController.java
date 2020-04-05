@@ -455,8 +455,10 @@ public class ReservationEditDialogController {
         return null;
     }
 
-    /**.
+    /**
+     * .
      * This methods converts the date from the datepicker into database readable format
+     *
      * @param formatter - DateTimeFormatter object which is used for formatting
      * @return - A string which contains the date in a proper format
      */
@@ -538,12 +540,12 @@ public class ReservationEditDialogController {
         username.setConverter(converter);
     }
 
-    /**
-     * Called when the OK button is clicked on the dialog box.
-     * This causes the information input by the user to be stored in an object.
-     *
-     * @param event event that triggered this method
-     */
+//    /**
+//////     * Called when the OK button is clicked on the dialog box.
+//////     * This causes the information input by the user to be stored in an object.
+//////     *
+//////     * @param event event that triggered this method
+//////     */
 //    @FXML
 //    public void okClicked(ActionEvent event) {
 //        LocalDate dateSelected = date.getValue();
@@ -563,6 +565,7 @@ public class ReservationEditDialogController {
 
     /**
      * Method that cancels the current edit/creation of a reservation.
+     *
      * @param event that triggered this method
      */
     @FXML

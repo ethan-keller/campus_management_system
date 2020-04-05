@@ -4,28 +4,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Reservation;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
-import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
-import nl.tudelft.oopp.demo.entities.Reservation;
-import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.user.CurrentUserManager;
-import nl.tudelft.oopp.demo.user.controller.ReservationConfirmationViewController;
-import nl.tudelft.oopp.demo.user.controller.RoomViewController;
-import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
-
-import org.controlsfx.control.RangeSlider;
 
 public class RoomViewLogic {
 
