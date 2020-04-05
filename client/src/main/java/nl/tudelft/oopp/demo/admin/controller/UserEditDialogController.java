@@ -79,16 +79,15 @@ public class UserEditDialogController {
             if (userTypeStudent.isSelected()) {
                 user.setUserType(2);
             }
-
             if (!userPasswordField.getText().equals("")) {
                 user.setUserPassword(userPasswordField.getText());
             }
             if (edit && AdminManageUserViewController.currentSelectedUser.getUserType().get()
-                    == 2 && user.getUserType().get() == 1) {
+                    == 1 && user.getUserType().get() == 2) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("User type modified");
                 alert.setContentText("Are you sure you want to change?\n"
-                        + "All the student reservations will be deleted.");
+                        + "All the teacher reservations will be deleted.");
                 ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
                 ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
                 alert.getButtonTypes().setAll(okButton, cancelButton);
