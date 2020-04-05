@@ -57,34 +57,7 @@ public class ReservationEditDialogLogic {
         }
     }
 
-    /*
-    public static StringConverter<LocalDate> getDateConverter(DateTimeFormatter formatter) {
-        try {
-            return new StringConverter<LocalDate>() {
-                @Override
-                public String toString(LocalDate dateSelected) {
-                    if (dateSelected != null) {
-                        return formatter.format(dateSelected);
-                    }
-                    return "null";
-                }
-
-                @Override
-                public LocalDate fromString(String string) {
-                    // The date is formatted in yyyy-MM-dd format from the datePicker.
-                    if (string != null && !string.trim().isEmpty()) {
-                        return LocalDate.parse(string, formatter);
-                    }
-                    return null;
-                }
-            };
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-     */
+   
 
     /**
      * Constructor for the converter that converts LocalDate objects to String yyyy-MM-dd format.

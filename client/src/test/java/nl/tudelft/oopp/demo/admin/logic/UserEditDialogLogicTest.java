@@ -30,17 +30,19 @@ class UserEditDialogLogicTest {
                 + "Username is not allowed to have any punctuations.\n";
         assertEquals(expected, test);
     }
-    /*
+
     @Test
     void isPasswordValidTestEmpty(){
         String errorMessage = "";
         String test = UserEditDialogLogic
                 .isPasswordValid(errorMessage, "", false);
-        String expected = "Password field can't be blank!\n";
+        String expected = "Password field can't be blank!\n"
+                + "Password needs to at-least 8 characters.\n"
+                + "Password needs at-least 1 numeric value.\n"
+                + "Password needs at-least 1 upper case character.\n";
         assertEquals(expected, test);
     }
 
-     */
     @Test
     void isPasswordValidTest(){
         String errorMessage = "";

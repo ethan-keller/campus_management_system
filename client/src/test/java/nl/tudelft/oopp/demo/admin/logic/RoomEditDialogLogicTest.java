@@ -40,7 +40,8 @@ class RoomEditDialogLogicTest {
         roomDescription = "Nice room to study in";
         assertEquals("", RoomEditDialogLogic.isValidInput(roomName, b, radioButtonYes, radiButtoNo, roomCapaciy, roomType, roomDescription));
 
-
-
+        radioButtonYes = false;
+        radiButtoNo = false;
+        assertEquals("No teacher only button selected!\n", RoomEditDialogLogic.isValidInput(roomName, b, radioButtonYes, radiButtoNo, roomCapaciy, roomType, roomDescription));
     }
 }

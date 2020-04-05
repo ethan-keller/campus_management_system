@@ -33,6 +33,10 @@ class SearchViewLogicTest {
     private static Reservation rs2;
     private static Reservation rs3;
     private static Reservation rs4;
+    private static Reservation rs5;
+    private static Reservation rs6;
+    private static Reservation rs7;
+
 
 
     /**
@@ -65,7 +69,7 @@ class SearchViewLogicTest {
         b2 = new Building(2, "Building 2", 2,
                 "BuildingStreet 2", 10,"08:00", "22:00");
         b3 = new Building(3, "Building 3", 1, "BuildingStreet 3",
-                20, "09:00", "21:30");
+                20, "09:30:00", "21:30:00");
 
         buildings.add(b1);
         buildings.add(b2);
@@ -82,14 +86,21 @@ class SearchViewLogicTest {
         reservations = new ArrayList<Reservation>();
 
         rs1 = new Reservation(1, "Test", 1, "2020-05-05", "08:00:00", "23:59:00");
-        rs2 = new Reservation(2, "Test", 2, "2020-05-05", "09:00:00", "23:59:00");
+        rs2 = new Reservation(2, "Test", 2, "2020-05-05", "09:30:00", "23:59:00");
         rs3 = new Reservation(3, "Test", 2, "2020-05-05", "08:00:00", "08:30:00");
         rs4 = new Reservation(4, "Test", 3, "2020-05-05", "08:00:00", "23:59:00");
+        rs5 = new Reservation(5, "Test", 3, "2020-06-05", "08:30:00", "23:59:00");
+        rs6 = new Reservation(6, "Test", 3, "2020-06-05", "08:00:00", "08:30:00");
+        rs7 = new Reservation(7, "Test", 5, "2020-06-05", "10:30:00", "11:30:00");
+
 
         reservations.add(rs1);
         reservations.add(rs2);
         reservations.add(rs3);
         reservations.add(rs4);
+        reservations.add(rs5);
+        reservations.add(rs6);
+        reservations.add(rs7);
 
         return reservations;
     }
@@ -104,6 +115,10 @@ class SearchViewLogicTest {
         expected.add(r1);
         expected.add(r2);
 
+        assertEquals(null, SearchViewLogic.filterRoomByBuilding(null, 1));
+        List<Room> empty = new ArrayList<Room>();
+        assertEquals(empty, SearchViewLogic.filterRoomByBuilding(empty, 1));
+
         assertEquals(expected, SearchViewLogic.filterRoomByBuilding(rooms, 1));
 
     }
@@ -117,6 +132,10 @@ class SearchViewLogicTest {
 
         expected.add(r1);
         expected.add(r2);
+
+        assertEquals(null, SearchViewLogic.filterRoomByTeacherOnly(null, false));
+        List<Room> empty = new ArrayList<Room>();
+        assertEquals(empty, SearchViewLogic.filterRoomByTeacherOnly(empty, true));
 
         assertEquals(expected, SearchViewLogic.filterRoomByTeacherOnly(rooms, true));
     }
@@ -146,6 +165,13 @@ class SearchViewLogicTest {
         expected4.add(r4);
         expected4.add(r5);
         assertEquals(expected4, SearchViewLogic.filterRoomByCapacity(rooms, "20+"));
+
+        makeRooms();
+        assertEquals(rooms, SearchViewLogic.filterRoomByCapacity(rooms, "this is not calculated"));
+
+        assertEquals(null, SearchViewLogic.filterRoomByCapacity(null, "Hello"));
+        List<Room> empty = new ArrayList<Room>();
+        assertEquals(empty, SearchViewLogic.filterRoomByCapacity(empty, "Hello"));
     }
 
     /**
@@ -155,9 +181,12 @@ class SearchViewLogicTest {
     void filterBySearch() {
         makeBuildings();
         makeRooms();
+        Room r6 = new Room(6, "Room 63", 3, false, 45, "picture.jpg", "nice room", "lecture hall");
+        rooms.add(r6);
 
         List<Room> expected = new ArrayList<Room>();
         expected.add(r5);
+        expected.add(r6);
         expected.add(r3);
 
         assertEquals(expected, SearchViewLogic.filterBySearch(rooms, "3", buildings));
@@ -177,6 +206,18 @@ class SearchViewLogicTest {
         expected.add(r5);
 
         SearchViewLogic.filterRoomsByDate(rooms, "2020-05-05", reservations, buildings);
+        assertEquals(expected, rooms);
+
+        makeRooms();
+        makeBuildings();
+        makeReservations();
+        expected = new ArrayList<Room>();
+        expected.add(r1);
+        expected.add(r2);
+        expected.add(r4);
+        expected.add(r5);
+
+        SearchViewLogic.filterRoomsByDate(rooms, "2020-06-05", reservations, buildings);
         assertEquals(expected, rooms);
     }
 
@@ -217,5 +258,36 @@ class SearchViewLogicTest {
         expected.add(r5);
 
         assertEquals(expected, SearchViewLogic.filterByBike(rooms, buildings, "20+"));
+
+        expected = new ArrayList<Room>();
+        makeRooms();
+        expected.add(r1);
+        expected.add(r2);
+        expected.add(r3);
+        expected.add(r4);
+        expected.add(r5);
+
+        assertEquals(expected, SearchViewLogic.filterByBike(rooms, buildings, "pizza"));
+    }
+    @Test
+    public void filterByFoodTest(){
+        makeRooms();
+        makeBuildings();
+
+        buildings.remove(b1);
+        List<Integer> buildingsWithFood = new ArrayList<Integer>();
+        for(int i = 0; i != buildings.size(); i++){
+            buildingsWithFood.add(buildings.get(i).getBuildingId().get());
+        }
+
+
+
+        List<Room> expected = new ArrayList<Room>();
+        expected.add(r3);
+        expected.add(r4);
+        expected.add(r5);
+
+        assertEquals(expected, SearchViewLogic.filterByFood(rooms, buildingsWithFood));
+
     }
 }

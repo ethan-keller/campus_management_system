@@ -49,13 +49,15 @@ class RoomViewLogicTest {
     @Test
     void testToString() {
         int time = 150;
-        assertEquals("02:30", RoomViewLogic.toString(time));
+        assertEquals("02:30", RoomViewLogic.toStringNum(time));
     }
 
     @Test
     void fromString() {
         String time ="03:30";
-        assertEquals(210, RoomViewLogic.fromString(time).intValue());
+        assertEquals(210, RoomViewLogic.fromStringTime(time).intValue());
+
+        assertNull(RoomViewLogic.fromStringTime(null));
     }
 
     @Test
@@ -64,12 +66,12 @@ class RoomViewLogicTest {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
 
         String date = "";
-        assertNull(RoomViewLogic.fromString(date, dateFormatter));
+        assertNull(RoomViewLogic.fromStringDate(date, dateFormatter));
 
         date = "2020-05-05";
         LocalDate expected = LocalDate.parse(date, dateFormatter);
 
-        assertEquals(expected, RoomViewLogic.fromString(date, dateFormatter));
+        assertEquals(expected, RoomViewLogic.fromStringDate(date, dateFormatter));
     }
 
     @Test
@@ -80,10 +82,10 @@ class RoomViewLogicTest {
         String date = "2020-05-05";
         LocalDate given = LocalDate.parse(date, dateFormatter);
 
-        assertEquals("2020-05-05", RoomViewLogic.toString(given, dateFormatter));
+        assertEquals("2020-05-05", RoomViewLogic.toStringDate(given, dateFormatter));
 
         given = null;
-        assertEquals("", RoomViewLogic.toString(given, dateFormatter));
+        assertEquals("", RoomViewLogic.toStringDate(given, dateFormatter));
     }
 
     @Test
@@ -95,16 +97,17 @@ class RoomViewLogicTest {
         foodList.add(f1);
         foodList.add(f2);
 
-        assertEquals(f1, RoomViewLogic.fromString("Hamburger", foodList));
+        assertEquals(f1, RoomViewLogic.fromStringFood("Hamburger", foodList));
 
         foodList = null;
-        assertNull(RoomViewLogic.fromString(null, foodList));
+        assertNull(RoomViewLogic.fromStringFood(null, foodList));
     }
 
     @Test
     void testToString2() {
         Food f1 = new Food(1, "Hamburger", 14.50);
 
-        assertEquals("Hamburger", RoomViewLogic.toString(f1));
+        assertEquals("Hamburger", RoomViewLogic.toStringFood(f1));
+        assertNull(RoomViewLogic.toStringFood(null));
     }
 }
