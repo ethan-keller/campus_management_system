@@ -50,6 +50,19 @@ public class UserServerCommunication {
     }
 
     /**
+     * This client-server method is used to update the information assigned to a user (but not password).
+     *
+     * @param username - User's username
+     * @param type     - Type of user (teacher, student or admin)
+     * @return true if communication was successful, false otherwise
+     */
+    public static boolean updateUser(String username, int type) {
+        String params = "username=" + username + "&type=" + type;
+        return sendPost("updateUser2", params);
+    }
+
+
+    /**
      * This client-server method is used to create a new user.
      *
      * @param username - User's username
