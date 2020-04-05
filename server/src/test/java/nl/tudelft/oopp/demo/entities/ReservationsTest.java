@@ -3,6 +3,9 @@ package nl.tudelft.oopp.demo.entities;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,7 +54,6 @@ class ReservationsTest {
     void getRoomTest() {
         assertEquals(4, r1.getRoom());
         assertEquals(6, r3.getRoom());
-
     }
 
     /**
@@ -78,6 +80,12 @@ class ReservationsTest {
         assertEquals("15:00", r1.getEndingTime());
     }
 
+    @Test
+    void getFoodReservations() {
+        Set<FoodReservations> set = new HashSet<>();
+        assertEquals(set, r1.getFoodReservations());
+    }
+
     /**
      * Test for Equals method.
      */
@@ -87,6 +95,6 @@ class ReservationsTest {
         assertEquals(r2, r1);
         assertEquals(r1, r2);
         assertNotEquals(r1, r3);
-        assertNotEquals("pizza", r1);
+        assertNotEquals(r1, "pizza");
     }
 }
