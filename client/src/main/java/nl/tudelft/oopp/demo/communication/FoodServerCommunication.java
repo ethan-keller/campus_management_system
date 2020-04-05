@@ -158,4 +158,13 @@ public class FoodServerCommunication {
     public static String getAllFood() {
         return sendGet("getAllFood", "");
     }
+
+    /**
+     * Returns a list of all food reservations from the database in JSON format.
+     *
+     * @return Returns a list of food reservation objects (JSON)
+     */
+    public static String getAllFoodReservations() {
+        return sendGet("getAllFoodReservations", "");
+    }
 }

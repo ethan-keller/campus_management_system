@@ -49,6 +49,7 @@ public class CalendarEditItemDialogController implements Initializable {
     private GridPane gridPane;
     @FXML
     private TextArea description;
+
     /**
      * default constructor needed by JavaFX.
      */

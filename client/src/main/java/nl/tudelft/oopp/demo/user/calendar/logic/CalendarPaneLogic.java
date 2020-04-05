@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
-import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Food;
@@ -14,6 +13,7 @@ import nl.tudelft.oopp.demo.entities.FoodReservation;
 import nl.tudelft.oopp.demo.entities.Item;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.user.CurrentUserManager;
 
 public class CalendarPaneLogic {
 
