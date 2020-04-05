@@ -79,7 +79,7 @@ public class AdminManageReservationViewController {
             endingTime.setCellValueFactory(cell -> cell.getValue().getReservationEndingTime());
 
             //Adding the Observable List Data to the tableView created.
-            listReservations.setItems(Reservation.getReservation());
+            listReservations.setItems(Reservation.getAllReservations());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }

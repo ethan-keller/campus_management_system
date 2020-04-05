@@ -1,19 +1,78 @@
 package nl.tudelft.oopp.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockserver.integration.ClientAndServer.startClientAndServer;
+import static org.mockserver.model.HttpRequest.request;
+import static org.mockserver.model.HttpResponse.response;
 
 import com.mindfusion.common.DateTime;
+
+import java.awt.Color;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.mockserver.client.MockServerClient;
+import org.mockserver.integration.ClientAndServer;
 
-import java.awt.*;
-
-
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ItemTest {
 
     private Item item;
+
+    private ClientAndServer mockServer;
+
+    void expGetUserItems() {
+        new MockServerClient("127.0.0.1", 8080)
+                .when(request().withMethod("GET").withPath("/getUserItems"))
+                .respond(response().withStatusCode(200).withBody("[{\"id\":10,"
+                        + "\"user\":\"user\",\"title\":\"title\","
+                        + "\"date\":\"2020-04-04\",\"startingTime\":\"12:00:00\","
+                        + "\"endingTime\":\"13:00:00\",\"description\":"
+                        + "\"description\"}]"));
+    }
+
+    void expGetUserItemsError() {
+        new MockServerClient("127.0.0.1", 8080)
+                .when(request().withMethod("GET").withPath("/getUserItems"))
+                .respond(response().withStatusCode(200).withBody("[{\"id\":32,"
+                        + "\"user\":\"user\",\"title\":\"title\","
+                        + "\"date\"]"));
+    }
+
+    void expGetAllItems() {
+        new MockServerClient("127.0.0.1", 8080)
+                .when(request().withMethod("GET").withPath("/getAllItems"))
+                .respond(response().withStatusCode(200).withBody("[{\"id\":10,"
+                        + "\"user\":\"user\",\"title\":\"title\","
+                        + "\"date\":\"2020-04-04\",\"startingTime\":\"12:00:00\","
+                        + "\"endingTime\":\"13:00:00\",\"description\":"
+                        + "\"description\"}]"));
+    }
+
+    void expGetAllItemsError() {
+        new MockServerClient("127.0.0.1", 8080)
+                .when(request().withMethod("GET").withPath("/getAllItems"))
+                .respond(response().withStatusCode(200).withBody("[{\"id\":32,"
+                        + "\"user\":"));
+    }
+
+    @BeforeAll
+    public void startServer() {
+        mockServer = startClientAndServer(8080);
+    }
+
+    @AfterAll
+    public void stopServer() {
+        mockServer.stop();
+    }
 
     @BeforeEach
     void setUp() {
@@ -25,12 +84,12 @@ class ItemTest {
     void emptyContructor() {
         item = new Item();
         assertEquals(-1, item.getItemId().get());
-        assertEquals(null, item.getUser().get());
-        assertEquals(null, item.getTitle().get());
-        assertEquals(null, item.getDate().get());
-        assertEquals(null, item.getItemStartingTime().get());
-        assertEquals(null, item.getItemEndingTime().get());
-        assertEquals(null, item.getItemDescription().get());
+        assertNull(item.getUser().get());
+        assertNull(item.getTitle().get());
+        assertNull(item.getDate().get());
+        assertNull(item.getItemStartingTime().get());
+        assertNull(item.getItemEndingTime().get());
+        assertNull(item.getItemDescription().get());
     }
 
     @Test
@@ -117,18 +176,34 @@ class ItemTest {
         final Item item3 = new Item(10, "", "", "", "", "", "");
         final Integer integer = 2;
 
-        assertTrue(item.equals(item));
-        assertFalse(item.equals(integer));
-        assertTrue(item.equals(item3));
-        assertFalse(item.equals(item2));
+        assertEquals(item, item);
+        assertNotEquals(item, integer);
+        assertEquals(item, item3);
+        assertNotEquals(item, item2);
     }
 
     @Test
     void getAllItems() {
+        expGetAllItems();
+        ObservableList<Item> itemData = FXCollections.observableArrayList();
+        itemData.add(item);
+        assertEquals(itemData, Item.getAllItems());
+        stopServer();
+        startServer();
+        expGetAllItemsError();
+        assertNull(Item.getAllItems());
     }
 
     @Test
     void getUserItems() {
+        expGetUserItems();
+        ObservableList<Item> itemData = FXCollections.observableArrayList();
+        itemData.add(item);
+        assertEquals(itemData, Item.getUserItems("uidyed"));
+        stopServer();
+        startServer();
+        expGetUserItemsError();
+        assertNull(Item.getUserItems("ioded"));
     }
 
     @Test
@@ -149,20 +224,19 @@ class ItemTest {
 
     @Test
     void getStartTime() {
-        DateTime time = new DateTime(2020,4,4,12,0,0);
+        DateTime time = new DateTime(2020, 4, 4, 12, 0, 0);
         assertEquals(time, item.getStartTime());
     }
 
     @Test
     void getEndTime() {
-        DateTime time = new DateTime(2020,4,4,13,0,0);
+        DateTime time = new DateTime(2020, 4, 4, 13, 0, 0);
         assertEquals(time, item.getEndTime());
     }
 
     @Test
     void testGetDescription() {
         assertEquals("description", item.getDescription());
-        return;
     }
 
 

@@ -1,19 +1,29 @@
 package nl.tudelft.oopp.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
-
 import com.mindfusion.common.DateTime;
-import org.junit.jupiter.api.*;
+
+import java.awt.Color;
+import java.util.ArrayList;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import nl.tudelft.oopp.demo.user.calendar.logic.CalendarPaneLogic;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.integration.ClientAndServer;
-
-import java.awt.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BikeReservationTest {
@@ -22,24 +32,70 @@ public class BikeReservationTest {
 
     private ClientAndServer mockServer;
 
-    void expectationPost() {
+    void expectationGetAllBikeReservations() {
         new MockServerClient("127.0.0.1", 8080)
-                .when(request().withMethod("GET").withPath("getAllBikeReservation"))
-                .respond(response().withStatusCode(200).withBody("[{\"id\":66,\"building\":1673,\"user\":{\"username\":\"ethan\",\"password\":\"2689367b205c16ce32ed4200942b8b8b1e262dfc70d9bc9fbc77c49699a4f1df\",\"type\":2},\"numBikes\":4,\"date\":\"2020-04-03\",\"startingTime\":\"18:30:00\",\"endingTime\":\"21:00:00\"},{\"id\":67,\"building\":1673,\"user\":{\"username\":\"ethan\",\"password\":\"2689367b205c16ce32ed4200942b8b8b1e262dfc70d9bc9fbc77c49699a4f1df\",\"type\":2},\"numBikes\":3,\"date\":\"2020-04-10\",\"startingTime\":\"20:30:00\",\"endingTime\":\"22:00:00\"},{\"id\":70,\"building\":695,\"user\":{\"username\":\"lij\",\"password\":\"a5dd06a33f7ead8a001529f8729fda22501b6ccbcbc8fd5a135937926adacba7\",\"type\":2},\"numBikes\":4,\"date\":\"2020-04-14\",\"startingTime\":\"03:00:00\",\"endingTime\":\"18:00:00\"},{\"id\":71,\"building\":2932,\"user\":{\"username\":\"lij\",\"password\":\"a5dd06a33f7ead8a001529f8729fda22501b6ccbcbc8fd5a135937926adacba7\",\"type\":2},\"numBikes\":3,\"date\":\"2025-04-09\",\"startingTime\":\"12:30:00\",\"endingTime\":\"19:00:00\"},{\"id\":76,\"building\":1673,\"user\":{\"username\":\"lij\",\"password\":\"a5dd06a33f7ead8a001529f8729fda22501b6ccbcbc8fd5a135937926adacba7\",\"type\":2},\"numBikes\":1,\"date\":\"2020-04-14\",\"startingTime\":\"10:00:00\",\"endingTime\":\"12:30:00\"},{\"id\":77,\"building\":1673,\"user\":{\"username\":\"lij\",\"password\":\"a5dd06a33f7ead8a001529f8729fda22501b6ccbcbc8fd5a135937926adacba7\",\"type\":2},\"numBikes\":1,\"date\":\"2020-04-07\",\"startingTime\":\"08:00:00\",\"endingTime\":\"18:00:00\"},{\"id\":78,\"building\":2932,\"user\":{\"username\":\"lij\",\"password\":\"a5dd06a33f7ead8a001529f8729fda22501b6ccbcbc8fd5a135937926adacba7\",\"type\":2},\"numBikes\":1,\"date\":\"2020-04-24\",\"startingTime\":\"10:00:00\",\"endingTime\":\"19:00:00\"},{\"id\":79,\"building\":2933,\"user\":{\"username\":\"lij\",\"password\":\"a5dd06a33f7ead8a001529f8729fda22501b6ccbcbc8fd5a135937926adacba7\",\"type\":2},\"numBikes\":3,\"date\":\"2020-04-15\",\"startingTime\":\"10:00:00\",\"endingTime\":\"16:00:00\"},{\"id\":82,\"building\":695,\"user\":{\"username\":\"lij\",\"password\":\"a5dd06a33f7ead8a001529f8729fda22501b6ccbcbc8fd5a135937926adacba7\",\"type\":2},\"numBikes\":6,\"date\":\"2020-04-14\",\"startingTime\":\"08:00:00\",\"endingTime\":\"18:00:00\"},{\"id\":83,\"building\":695,\"user\":{\"username\":\"lij\",\"password\":\"a5dd06a33f7ead8a001529f8729fda22501b6ccbcbc8fd5a135937926adacba7\",\"type\":2},\"numBikes\":20,\"date\":\"2020-04-06\",\"startingTime\":\"08:30:00\",\"endingTime\":\"12:00:00\"},{\"id\":84,\"building\":695,\"user\":{\"username\":\"lij\",\"password\":\"a5dd06a33f7ead8a001529f8729fda22501b6ccbcbc8fd5a135937926adacba7\",\"type\":2},\"numBikes\":20,\"date\":\"2020-04-02\",\"startingTime\":\"08:00:00\",\"endingTime\":\"17:30:00\"},{\"id\":86,\"building\":2932,\"user\":{\"username\":\"lij\",\"password\":\"a5dd06a33f7ead8a001529f8729fda22501b6ccbcbc8fd5a135937926adacba7\",\"type\":2},\"numBikes\":5,\"date\":\"2020-04-09\",\"startingTime\":\"06:00:00\",\"endingTime\":\"07:00:00\"},{\"id\":89,\"building\":696,\"user\":{\"username\":\"lij\",\"password\":\"a5dd06a33f7ead8a001529f8729fda22501b6ccbcbc8fd5a135937926adacba7\",\"type\":2},\"numBikes\":1,\"date\":\"2020-04-09\",\"startingTime\":\"10:00:00\",\"endingTime\":\"18:00:00\"},{\"id\":90,\"building\":696,\"user\":{\"username\":\"lij\",\"password\":\"a5dd06a33f7ead8a001529f8729fda22501b6ccbcbc8fd5a135937926adacba7\",\"type\":2},\"numBikes\":1,\"date\":\"2020-04-09\",\"startingTime\":\"10:00:00\",\"endingTime\":\"18:00:00\"},{\"id\":92,\"building\":1673,\"user\":{\"username\":\"lij\",\"password\":\"a5dd06a33f7ead8a001529f8729fda22501b6ccbcbc8fd5a135937926adacba7\",\"type\":2},\"numBikes\":1,\"date\":\"2020-04-08\",\"startingTime\":\"08:00:00\",\"endingTime\":\"22:00:00\"},{\"id\":94,\"building\":696,\"user\":{\"username\":\"jim\",\"password\":\"484ae24edd22ea09a58edc2b6c58ee2b5f3879e3b267838a8726366f255fd4b9\",\"type\":2},\"numBikes\":15,\"date\":\"2020-04-27\",\"startingTime\":\"10:00:00\",\"endingTime\":\"21:00:00\"},{\"id\":95,\"building\":1673,\"user\":{\"username\":\"dibs\",\"password\":\"9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08\",\"type\":2},\"numBikes\":6,\"date\":\"2020-04-15\",\"startingTime\":\"12:30:00\",\"endingTime\":\"18:00:00\"},{\"id\":97,\"building\":2932,\"user\":{\"username\":\"trinanjan\",\"password\":\"5b2c798fa9f3f052e4fed3dbeabb6553fead82e23608a1d56a0b770e4fee183d\",\"type\":1},\"numBikes\":20,\"date\":\"2020-04-28\",\"startingTime\":\"08:00:00\",\"endingTime\":\"16:00:00\"},{\"id\":98,\"building\":1673,\"user\":{\"username\":\"trinanjan\",\"password\":\"5b2c798fa9f3f052e4fed3dbeabb6553fead82e23608a1d56a0b770e4fee183d\",\"type\":1},\"numBikes\":5,\"date\":\"2020-04-17\",\"startingTime\":\"08:00:00\",\"endingTime\":\"13:00:00\"},{\"id\":99,\"building\":695,\"user\":{\"username\":\"mam\",\"password\":\"72a5b816562da4e7b3732496e0f7004de1fa8694b1731a71c34c881af1e14c1f\",\"type\":1},\"numBikes\":5,\"date\":\"2020-04-06\",\"startingTime\":\"16:30:00\",\"endingTime\":\"19:00:00\"}]"));
+                .when(request().withMethod("GET").withPath("/getAllBikeReservation"))
+                .respond(response().withStatusCode(200).withBody("[{\"id\":66,\"building\":1673,"
+                        + "\"user\":{\"username\":\"ethan\",\"password\":\"2689367b205c16ce32ed4200942"
+                        + "b8b8b1e262dfc70d9bc9fbc77c49699a4f1df\",\"type\":2},\"numBikes\":4,\"date"
+                        + "\":\"2020-04-03\",\"startingTime\":\"18:30:00\",\"endingTime\":\"21:00:00\"}]"));
     }
 
-    void expectationGet() {
+    void expectationGetAllBikeReservationsError() {
         new MockServerClient("127.0.0.1", 8080)
-                .when(request().withMethod("GET"))
-                .respond(response().withStatusCode(200)
-                        .withBody("Success"));
+                .when(request().withMethod("GET").withPath("/getAllBikeReservation"))
+                .respond(response().withStatusCode(200).withBody("[{\"id\":66,\"bu"));
+    }
+
+    void expectationGetUserBikeReservations() {
+        new MockServerClient("127.0.0.1", 8080)
+                .when(request().withMethod("GET").withPath("/getUserBikeReservations"))
+                .respond(response().withStatusCode(200).withBody("[{\"id\":66,\"building\":1673,"
+                        + "\"user\":{\"username\":\"ethan\",\"password\":\"2689367b205c16ce32ed4200942"
+                        + "b8b8b1e262dfc70d9bc9fbc77c49699a4f1df\",\"type\":2},\"numBikes\":4,\"date"
+                        + "\":\"2020-04-03\",\"startingTime\":\"18:30:00\",\"endingTime\":\"21:00:00\"}]"));
+    }
+
+    void expectationGetUserBikeReservationsError() {
+        new MockServerClient("127.0.0.1", 8080)
+                .when(request().withMethod("GET").withPath("/getUserBikeReservations"))
+                .respond(response().withStatusCode(200).withBody("[{\"id\":66,\"building\":1673,"
+                        + "\"user\":{\"username\":\"ethan\",\"password\":\"2"));
+    }
+
+    void expectationGetBikeReservationById() {
+        new MockServerClient("127.0.0.1", 8080)
+                .when(request().withMethod("GET").withPath("/getBikeReservation"))
+                .respond(response().withStatusCode(200).withBody("{\"id\":66,\"building\":1673,"
+                        + "\"user\":{\"username\":\"ethan\",\"password\":\"2689367b205c16ce32ed4200942"
+                        + "b8b8b1e262dfc70d9bc9fbc77c49699a4f1df\",\"type\":2},\"numBikes\":4,\"date"
+                        + "\":\"2020-04-03\",\"startingTime\":\"18:30:00\",\"endingTime\":\"21:00:00\"}"));
+    }
+
+    void expectationGetBikeReservationByIdError() {
+        new MockServerClient("127.0.0.1", 8080)
+                .when(request().withMethod("GET").withPath("/getBikeReservation"))
+                .respond(response().withStatusCode(200).withBody("[{\"id\""));
+    }
+
+    void expectationGetBuildingBikeReservations() {
+        new MockServerClient("127.0.0.1", 8080)
+                .when(request().withMethod("GET").withPath("/getBuildingBikeReservations"))
+                .respond(response().withStatusCode(200).withBody("[{\"id\":66,\"building\":1673,"
+                        + "\"user\":{\"username\":\"ethan\",\"password\":\"2689367b205c16ce32ed4200942"
+                        + "b8b8b1e262dfc70d9bc9fbc77c49699a4f1df\",\"type\":2},\"numBikes\":4,\"date"
+                        + "\":\"2020-04-03\",\"startingTime\":\"18:30:00\",\"endingTime\":\"21:00:00\"}]"));
+    }
+
+    void expectationGetBuildingBikeReservationsError() {
+        new MockServerClient("127.0.0.1", 8080)
+                .when(request().withMethod("GET").withPath("/getBuildingBikeReservations"))
+                .respond(response().withStatusCode(200).withBody("[{\"id\":6"));
     }
 
     @BeforeAll
     public void startServer() {
         mockServer = startClientAndServer(8080);
-        expectationPost();
-        expectationGet();
     }
 
     @AfterAll
@@ -49,8 +105,8 @@ public class BikeReservationTest {
 
     @BeforeEach
     void setUp() {
-        bikeRes = new BikeReservation(10, 500, "user", 5,
-                "2020-04-04", "12:00:00", "13:00:00");
+        bikeRes = new BikeReservation(66, 1673, "ethan", 4,
+                "2020-04-03", "18:30:00", "21:00:00");
     }
 
     @Test
@@ -58,46 +114,46 @@ public class BikeReservationTest {
         bikeRes = new BikeReservation();
         assertEquals(-1, bikeRes.getBikeReservationId().get());
         assertEquals(-1, bikeRes.getBikeReservationBuilding().get());
-        assertEquals(null, bikeRes.getBikeReservationUser().get());
+        assertNull(bikeRes.getBikeReservationUser().get());
         assertEquals(-1, bikeRes.getBikeReservationQuantity().get());
-        assertEquals(null, bikeRes.getBikeReservationDate().get());
-        assertEquals(null, bikeRes.getBikeReservationStartingTime().get());
-        assertEquals(null, bikeRes.getBikeReservationEndingTime().get());
+        assertNull(bikeRes.getBikeReservationDate().get());
+        assertNull(bikeRes.getBikeReservationStartingTime().get());
+        assertNull(bikeRes.getBikeReservationEndingTime().get());
     }
 
     @Test
     void getBikeReservationId() {
-        assertEquals(10, bikeRes.getBikeReservationId().get());
+        assertEquals(66, bikeRes.getBikeReservationId().get());
     }
 
     @Test
     void getBikeReservationUser() {
-        assertEquals(500, bikeRes.getBikeReservationBuilding().get());
+        assertEquals(1673, bikeRes.getBikeReservationBuilding().get());
     }
 
     @Test
     void getBikeReservationBuilding() {
-        assertEquals("user", bikeRes.getBikeReservationUser().get());
+        assertEquals("ethan", bikeRes.getBikeReservationUser().get());
     }
 
     @Test
     void getBikeReservationQuantity() {
-        assertEquals(5, bikeRes.getBikeReservationQuantity().get());
+        assertEquals(4, bikeRes.getBikeReservationQuantity().get());
     }
 
     @Test
     void getBikeReservationDate() {
-        assertEquals("2020-04-04", bikeRes.getBikeReservationDate().get());
+        assertEquals("2020-04-03", bikeRes.getBikeReservationDate().get());
     }
 
     @Test
     void getBikeReservationStartingTime() {
-        assertEquals("12:00:00", bikeRes.getBikeReservationStartingTime().get());
+        assertEquals("18:30:00", bikeRes.getBikeReservationStartingTime().get());
     }
 
     @Test
     void getBikeReservationEndingTime() {
-        assertEquals("13:00:00", bikeRes.getBikeReservationEndingTime().get());
+        assertEquals("21:00:00", bikeRes.getBikeReservationEndingTime().get());
     }
 
     @Test
@@ -144,39 +200,69 @@ public class BikeReservationTest {
 
     @Test
     void getBikeReservationData() {
+        expectationGetAllBikeReservations();
+        ObservableList<BikeReservation> bikeReservationData1 = FXCollections.observableArrayList();
+        bikeReservationData1.add(bikeRes);
+        ObservableList<BikeReservation> bikeReservationData2 = BikeReservation.getBikeReservationData();
+        assertEquals(bikeReservationData1, bikeReservationData2);
+        mockServer.stop();
+        startServer();
+        expectationGetAllBikeReservationsError();
+        assertNull(BikeReservation.getBikeReservationData());
     }
 
     @Test
     void getUserBikeReservations() {
+        expectationGetUserBikeReservations();
+        ObservableList<BikeReservation> bikeReservationData1 = FXCollections.observableArrayList();
+        bikeReservationData1.add(bikeRes);
+        ObservableList<BikeReservation> bikeReservationData2 = BikeReservation.getUserBikeReservations("ethan");
+        assertEquals(bikeReservationData1, bikeReservationData2);
+        mockServer.stop();
+        startServer();
+        expectationGetUserBikeReservationsError();
+        assertNull(BikeReservation.getUserBikeReservations("ethan"));
     }
 
     @Test
     void getBikeReservationById() {
+        expectationGetBikeReservationById();
+        BikeReservation bikeReservationData2 = BikeReservation.getBikeReservationById(66);
+        assertEquals(bikeRes, bikeReservationData2);
+        mockServer.stop();
+        startServer();
+        expectationGetBikeReservationByIdError();
+        assertNull(BikeReservation.getBikeReservationById(66));
     }
 
     @Test
     void getBikeReservationsByBuilding() {
-    }
-
-    @Test
-    void getBikeReservationsOnDate() {
+        expectationGetBuildingBikeReservations();
+        ObservableList<BikeReservation> bikeReservationData1 = FXCollections.observableArrayList();
+        bikeReservationData1.add(bikeRes);
+        ObservableList<BikeReservation> bikeReservationData2 = BikeReservation.getBikeReservationsByBuilding(1673);
+        assertEquals(bikeReservationData1, bikeReservationData2);
+        mockServer.stop();
+        startServer();
+        expectationGetBuildingBikeReservationsError();
+        assertNull(BikeReservation.getBikeReservationsByBuilding(1673));
     }
 
     @Test
     void testEquals() {
-        BikeReservation testBikeRes1 = new BikeReservation(1,0,"", 0, "", "", "");
-        BikeReservation testBikeRes2 = new BikeReservation(10,0,"", 0, "", "", "");
+        final BikeReservation testBikeRes1 = new BikeReservation(1, 0, "", 0, "", "", "");
+        final BikeReservation testBikeRes2 = new BikeReservation(66, 0, "", 0, "", "", "");
         Integer testInteger = 0;
 
-        assertTrue(bikeRes.equals(bikeRes));
-        assertFalse(bikeRes.equals(testInteger));
-        assertTrue(bikeRes.equals(testBikeRes2));
-        assertFalse(bikeRes.equals(testBikeRes1));
+        assertEquals(bikeRes, bikeRes);
+        assertNotEquals(bikeRes, testInteger);
+        assertEquals(bikeRes, testBikeRes2);
+        assertNotEquals(bikeRes, testBikeRes1);
     }
 
     @Test
     void getId() {
-        assertEquals("10", bikeRes.getId());
+        assertEquals("66", bikeRes.getId());
     }
 
     @Test
@@ -186,18 +272,24 @@ public class BikeReservationTest {
 
     @Test
     void getStartTime() {
-        DateTime time = new DateTime(2020,04,04,12,00,00);
+        DateTime time = new DateTime(2020, 4, 3, 18, 30, 0);
         assertEquals(time, bikeRes.getStartTime());
     }
 
     @Test
     void getEndTime() {
-        DateTime time = new DateTime(2020,04,04,13,00,00);
+        DateTime time = new DateTime(2020, 4, 3, 21, 0, 0);
         assertEquals(time, bikeRes.getEndTime());
     }
 
     @Test
     void getDescription() {
+        CalendarPaneLogic.buildingList = new ArrayList<>();
+        Building b = new Building(1673, "test", 0,
+                "test", 30, "18:30:00", "21:00:00");
+        CalendarPaneLogic.buildingList.add(b);
+        String expected = "test\n18:30 - 21:00\n4 bike(s)";
+        assertEquals(expected, bikeRes.getDescription());
     }
 
     @Test
@@ -207,8 +299,8 @@ public class BikeReservationTest {
 
     @Test
     void testHashCode() {
-        BikeReservation testRes = new BikeReservation(10, 500, "user", 5,
-                "2020-04-04", "12:00:00", "13:00:00");
-        assertTrue(bikeRes.hashCode() == testRes.hashCode());
+        BikeReservation testRes = new BikeReservation(66, 1673, "ethan", 5,
+                "2020-04-03", "18:30:00", "21:00:00");
+        assertEquals(bikeRes.hashCode(), testRes.hashCode());
     }
 }
