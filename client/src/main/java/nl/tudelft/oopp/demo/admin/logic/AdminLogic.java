@@ -15,7 +15,12 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class AdminLogic {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * .
@@ -45,7 +50,7 @@ public class AdminLogic {
             // Communication with the server.
             BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -64,7 +69,7 @@ public class AdminLogic {
                     tempBuilding.getBuildingMaxBikes().get(),
                     tempBuilding.getOpeningTime().get(), tempBuilding.getClosingTime().get());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -83,7 +88,7 @@ public class AdminLogic {
                     tempBuilding.getBuildingAddress().get(), tempBuilding.getBuildingMaxBikes().get(),
                     tempBuilding.getOpeningTime().get(), tempBuilding.getClosingTime().get());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -99,7 +104,7 @@ public class AdminLogic {
                     AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),
                     selectedBuilding.getBuildingId().getValue());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -117,7 +122,7 @@ public class AdminLogic {
                     AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),
                     tempBuilding.getBuildingId().get());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -165,7 +170,7 @@ public class AdminLogic {
         try {
             ReservationServerCommunication.deleteReservation(selectedReservation.getReservationId().getValue());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -183,7 +188,7 @@ public class AdminLogic {
                     tempReservation.getReservationStartingTime().get(),
                     tempReservation.getReservationEndingTime().get());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -202,7 +207,7 @@ public class AdminLogic {
                     tempReservation.getReservationStartingTime().get(),
                     tempReservation.getReservationEndingTime().get());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -231,7 +236,7 @@ public class AdminLogic {
         try {
             FoodServerCommunication.deleteFood(selectedFood.getFoodId().getValue());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -244,7 +249,7 @@ public class AdminLogic {
         try {
             FoodServerCommunication.createFood(tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -259,7 +264,7 @@ public class AdminLogic {
             FoodServerCommunication.updateFood(selectedFood.getFoodId().get(),
                     tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

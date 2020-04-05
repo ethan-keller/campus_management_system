@@ -283,7 +283,7 @@ public class Reservation implements AbstractCalendarItem {
 
     @Override
     public String getId() {
-        return String.valueOf(this.getReservationId());
+        return String.valueOf(this.getReservationId().get());
     }
 
     /**

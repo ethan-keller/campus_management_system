@@ -4,6 +4,8 @@ import com.mindfusion.scheduling.model.Appointment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
@@ -16,6 +18,8 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.user.CurrentUserManager;
 
 public class CalendarPaneLogic {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     public static List<Food> foodList;
     public static List<Building> buildingList;
@@ -165,7 +169,7 @@ public class CalendarPaneLogic {
             // get id of last item created
             String currentId = ItemServerCommunication.getCurrentId();
             // get the id of the last inserted item to assign it to the Appointment object
-            app.setId(String.valueOf(Integer.parseInt(currentId) - 1));
+            app.setId(String.valueOf(Integer.parseInt(currentId)));
             // get date and time in correct format for database
             String date = app.getStartTime().getYear() + "-" + app.getStartTime().getMonth() + "-"
                     + app.getStartTime().getDay();
@@ -175,7 +179,7 @@ public class CalendarPaneLogic {
             ItemServerCommunication.createItem(CurrentUserManager.getUsername(), app.getHeaderText(), date,
                     startTime, endTime, app.getDescriptionText());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
         return true;

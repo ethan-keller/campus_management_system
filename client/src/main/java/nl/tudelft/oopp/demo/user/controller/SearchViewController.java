@@ -159,7 +159,7 @@ public class SearchViewController implements Initializable {
             try {
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -168,7 +168,7 @@ public class SearchViewController implements Initializable {
             try {
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -177,7 +177,7 @@ public class SearchViewController implements Initializable {
             try {
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -188,7 +188,7 @@ public class SearchViewController implements Initializable {
                 noCheckBoxTeacherOnly.setSelected(false);
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -199,7 +199,7 @@ public class SearchViewController implements Initializable {
                 noCheckBoxTeacherOnly.setSelected(true);
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -209,7 +209,7 @@ public class SearchViewController implements Initializable {
                 noCheckBoxFood.setSelected(false);
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -220,7 +220,7 @@ public class SearchViewController implements Initializable {
                 noCheckBoxFood.setSelected(true);
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -230,7 +230,7 @@ public class SearchViewController implements Initializable {
             try {
                 searchbarChanges();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -239,7 +239,7 @@ public class SearchViewController implements Initializable {
             try {
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
     }
@@ -558,7 +558,7 @@ public class SearchViewController implements Initializable {
             rabv.start(stage);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 }

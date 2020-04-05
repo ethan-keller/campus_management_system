@@ -174,7 +174,7 @@ public class ReservationEditDialogController {
                 timeslotSlider.setMin(opening);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

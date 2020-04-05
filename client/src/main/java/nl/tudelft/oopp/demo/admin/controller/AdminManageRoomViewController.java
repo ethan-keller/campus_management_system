@@ -280,7 +280,7 @@ public class AdminManageRoomViewController {
             AdminHomePageView adminHomePageView = new AdminHomePageView();
             adminHomePageView.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

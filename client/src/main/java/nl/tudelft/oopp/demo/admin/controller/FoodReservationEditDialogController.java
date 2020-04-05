@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
@@ -17,6 +19,8 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 public class FoodReservationEditDialogController {
+
+    private Logger logger = Logger.getLogger("GlobalLogger");
 
     public static ObservableList<Food> olf;
     public static FoodReservation foodReservation;
@@ -57,7 +61,7 @@ public class FoodReservationEditDialogController {
             foodComboBox.setItems(olf);
             this.setFoodComboBoxConverter(olf);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
