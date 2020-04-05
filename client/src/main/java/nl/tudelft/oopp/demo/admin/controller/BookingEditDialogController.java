@@ -176,7 +176,7 @@ public class BookingEditDialogController {
                 timeSlotSlider.setMin(opening);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -418,7 +418,7 @@ public class BookingEditDialogController {
                 bookingRoomComboBox.setItems(olr);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -19,6 +21,8 @@ import nl.tudelft.oopp.demo.general.GeneralMethods;
 import org.controlsfx.control.RangeSlider;
 
 public class ReservationEditDialogLogic {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * Validates the user input in the text fields.
@@ -78,7 +82,7 @@ public class ReservationEditDialogLogic {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -111,7 +115,7 @@ public class ReservationEditDialogLogic {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -172,7 +176,7 @@ public class ReservationEditDialogLogic {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return false;
     }

@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.views;
 
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +14,8 @@ import nl.tudelft.oopp.demo.admin.controller.FoodEditDialogController;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 public class FoodNewDialogView extends Application {
+
+    private Logger logger = Logger.getLogger("GlobalLogger");
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -31,7 +35,7 @@ public class FoodNewDialogView extends Application {
                 event -> FoodEditDialogController.food = null);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

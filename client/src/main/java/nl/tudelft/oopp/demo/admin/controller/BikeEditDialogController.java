@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.beans.value.ChangeListener;
@@ -40,6 +42,7 @@ public class BikeEditDialogController {
 
     public static BikeReservation bikeReservation;
     public static boolean edit;
+    private Logger logger = Logger.getLogger("GlobalLogger");
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     @FXML
     private ComboBox<User> bikeUsernameComboBox;
@@ -171,7 +174,7 @@ public class BikeEditDialogController {
                         .toString(timeslotSlider.getHighValue()));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -196,7 +199,7 @@ public class BikeEditDialogController {
                 timeslotSlider.setMin(opening);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -213,7 +216,7 @@ public class BikeEditDialogController {
             // set the factory
             quantity.setValueFactory(factory);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -265,7 +268,7 @@ public class BikeEditDialogController {
             }
             return availableBikes;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return 0;
     }
@@ -300,7 +303,7 @@ public class BikeEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

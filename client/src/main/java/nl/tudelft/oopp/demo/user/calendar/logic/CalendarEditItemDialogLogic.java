@@ -7,10 +7,14 @@ import java.awt.Color;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.util.StringConverter;
 
 public class CalendarEditItemDialogLogic {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * Method that constructs a StringConverter for the time format hh:mm.
@@ -29,7 +33,7 @@ public class CalendarEditItemDialogLogic {
                     // '%02d' means that there will be a 0 in front if its only 1 number + it's a long number
                     return String.format("%02d", hours) + ":" + String.format("%02d", remainingMinutes);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, e.toString());
                 }
                 return null;
             }
@@ -40,7 +44,7 @@ public class CalendarEditItemDialogLogic {
                     String[] split = string.split(":");
                     return Integer.parseInt(split[0]) * 60 + Integer.parseInt(split[1]);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, e.toString());
                 }
                 return null;
             }

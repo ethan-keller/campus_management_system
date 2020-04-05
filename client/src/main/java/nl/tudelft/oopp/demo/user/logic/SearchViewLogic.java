@@ -330,7 +330,7 @@ public class SearchViewLogic {
                 try {
                     svw.cardClicked(event);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, e.toString());
                 }
             });
 

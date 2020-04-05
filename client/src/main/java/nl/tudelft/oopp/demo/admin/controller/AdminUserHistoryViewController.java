@@ -173,8 +173,7 @@ public class AdminUserHistoryViewController {
                 alert.showAndWait();
             }
         } catch (Exception e) {
-            System.out.println("Food reservation edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
