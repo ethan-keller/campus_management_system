@@ -120,12 +120,16 @@ public class AdminManageBuildingViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-                // TODO: Check that building deletion was successful before displaying alert
-                AdminLogic.deleteBuildingLogic(selectedBuilding);
-                refresh();
-                // Create an alert box.
-                GeneralMethods.alertBox("Delete Building", "", "Building deleted!",
-                        AlertType.INFORMATION);
+                if (AdminLogic.deleteBuildingLogic(selectedBuilding)) {
+                    refresh();
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Delete Building", "", "Building deleted!",
+                            AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Deletion failed", "",
+                            "Building deletion failed", AlertType.WARNING);
+                }
             } else {
                 // Create an alert box.
                 GeneralMethods.alertBox("No Selection", "No Building Selected", "Please"
@@ -151,14 +155,16 @@ public class AdminManageBuildingViewController {
             if (tempBuilding == null) {
                 return;
             }
-
-            // TODO: Check that building creation was successful before displaying alert
-            AdminLogic.createBuildingLogic(tempBuilding);
-            refresh();
-            // Create an alert box.
-            GeneralMethods.alertBox("New Building", "", "Added new building!",
-                    AlertType.INFORMATION);
-
+            if (AdminLogic.createBuildingLogic(tempBuilding)) {
+                refresh();
+                // Create an alert box.
+                GeneralMethods.alertBox("New Building", "", "Added new building!",
+                        AlertType.INFORMATION);
+            } else {
+                // Create an alert box.
+                GeneralMethods.alertBox("Creation failed", "",
+                        "Building creation failed", AlertType.WARNING);
+            }
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -184,14 +190,16 @@ public class AdminManageBuildingViewController {
                 if (tempBuilding == null) {
                     return;
                 }
-
-                // TODO: Check that building edit was successful before displaying alert
-                AdminLogic.editBuildingLogic(selectedBuilding, tempBuilding);
-                refresh();
-                // Create an alert box.
-                GeneralMethods.alertBox("Edit Building", "", "Edited building!",
-                        AlertType.INFORMATION);
-
+                if (AdminLogic.editBuildingLogic(selectedBuilding, tempBuilding)) {
+                    refresh();
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Edit Building", "", "Edited building!",
+                            AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Edit failed", "",
+                            "Building edit failed", AlertType.WARNING);
+                }
             } else {
                 // Create an alert box.
                 GeneralMethods.alertBox("No Selection", "No Building Selected",

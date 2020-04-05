@@ -139,13 +139,18 @@ public class AdminManageFoodReservationViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-                // TODO: Check that food reservation deletion was successful before displaying alert
-                FoodServerCommunication.deleteFoodFromReservation(selectedFoodReservation.getFoodId().getValue(),
-                        this.getReservation().getReservationId().get());
-                // An alert pop up when a reservation deleted successfully
-                GeneralMethods.alertBox("Delete food reservation", "",
-                        "Food reservation deleted!", Alert.AlertType.INFORMATION);
-                refresh();
+                if (FoodServerCommunication.deleteFoodFromReservation(
+                        selectedFoodReservation.getFoodId().getValue(),
+                        this.getReservation().getReservationId().get())) {
+                    refresh();
+                    // An alert pop up when a reservation deleted successfully
+                    GeneralMethods.alertBox("Delete food reservation", "",
+                            "Food reservation deleted!", Alert.AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Deletion failed", "",
+                            "Food reservation deletion failed", Alert.AlertType.WARNING);
+                }
             } else {
                 // An alert pop up when no reservation selected
                 GeneralMethods.alertBox("No Selection", "No food Selected",
@@ -175,20 +180,30 @@ public class AdminManageFoodReservationViewController {
             if (tempReservation == null) {
                 return;
             }
-            // TODO: Check that food reservation creation was successful before displaying alert
+            boolean newReservationCreated;
             if (this.getAllFoodInReservation(getReservation())
                     .contains(Food.getFoodById(tempReservation.getFoodId().get()))) {
-                FoodServerCommunication.updateFoodReservationQuantity(tempReservation.getFoodId().get(),
+                newReservationCreated = FoodServerCommunication.updateFoodReservationQuantity(
+                        tempReservation.getFoodId().get(),
                         this.getReservation().getReservationId().get(), (tempReservation.getFoodQuantity().get()
                                 + this.getFoodOldQuantity(tempReservation.getFoodId().get(), getReservation())));
             } else {
-                FoodServerCommunication.addFoodToReservation(tempReservation.getFoodId().get(),
+                newReservationCreated = FoodServerCommunication.addFoodToReservation(
+                        tempReservation.getFoodId().get(),
                         this.getReservation().getReservationId().get(), tempReservation.getFoodQuantity().get());
             }
-            // An alert pop up when a new reservation created.
-            GeneralMethods.alertBox("New food reservation", "",
-                    "Added new food reservation!", Alert.AlertType.INFORMATION);
-            refresh();
+            if (newReservationCreated) {
+                refresh();
+                // An alert pop up when a new reservation created.
+                GeneralMethods.alertBox("New food reservation", "",
+                        "Added new food reservation!", Alert.AlertType.INFORMATION);
+            } else {
+                // Create an alert box.
+                GeneralMethods.alertBox("Creation failed", "",
+                        "Food reservation creation failed", Alert.AlertType.WARNING);
+            }
+
+
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
