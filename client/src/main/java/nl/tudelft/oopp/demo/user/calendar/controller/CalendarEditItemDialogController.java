@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.user.calendar.logic.CalendarEditItemDialogLogic;
 
 import org.controlsfx.control.RangeSlider;
@@ -49,7 +49,6 @@ public class CalendarEditItemDialogController implements Initializable {
     private GridPane gridPane;
     @FXML
     private TextArea description;
-
     /**
      * default constructor needed by JavaFX.
      */
@@ -96,7 +95,6 @@ public class CalendarEditItemDialogController implements Initializable {
         configureRangeSliderListeners(converter, slider);
 
         // initialize the Text objects with the current values of the thumbs
-        assert converter != null;
         startText.setText("Start: " + converter.toString(slider.getLowValue()));
         endText.setText("End: " + converter.toString(slider.getHighValue()));
 

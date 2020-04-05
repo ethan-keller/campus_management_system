@@ -1,17 +1,9 @@
 package nl.tudelft.oopp.demo.communication;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendGet;
+import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendPost;
 
 public class BikeReservationCommunication {
-    private static HttpClient client = HttpClient.newBuilder().build();
-
-    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * Adds a bike reservation to the database.
@@ -64,7 +56,7 @@ public class BikeReservationCommunication {
     }
 
     /**
-     * Rretreives a bike reservation from the database by id.
+     * Retrieves a bike reservation from the database by id.
      *
      * @param id The id of the bike reservation
      * @return Returns a BikeReservation object
@@ -84,7 +76,7 @@ public class BikeReservationCommunication {
     }
 
     /**
-     * Retrieves all the bike reservations of the bikes that belong to the building of buildingId.
+     * Retrieves all the bike reservations of the bikes that belong to a building.
      *
      * @param building The id of the building
      * @return Returns a list of bike reservations.
@@ -105,63 +97,5 @@ public class BikeReservationCommunication {
         return sendGet("getUserBikeReservations", params);
     }
 
-    /**
-     * Sends a HTTP GET request to the server with the specified paramaters and returns the response.
-     *
-     * @param url    The URL to send the request to.
-     * @param params The paramaters to add the the url.
-     * @return Returns the response
-     */
-    private static String sendGet(String url, String params) {
-        try {
-            params = GeneralMethods.encodeCommunication(params);
-        } catch (UnsupportedEncodingException e) {
-            logger.log(Level.SEVERE, e.toString());
-            return null;
-        }
-        HttpRequest request = HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/" + url + "?" + params)).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return null;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-        }
-        return response.body();
-    }
 
-    /**
-     * Sends a HTTP POST request to the server with the specified paramaters.
-     *
-     * @param url    The URL to send the request to.
-     * @param params The paramaters to add the the url.
-     * @return boolean true if communication was successful, false otherwise
-     */
-    private static boolean sendPost(String url, String params) {
-        try {
-            params = GeneralMethods.encodeCommunication(params);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            logger.log(Level.SEVERE, e.toString());
-            return false;
-        }
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody())
-                .uri(URI.create("http://localhost:8080/" + url + "?" + params)).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return false;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-            return false;
-        }
-        return true;
-    }
 }

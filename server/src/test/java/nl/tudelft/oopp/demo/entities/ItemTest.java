@@ -33,7 +33,7 @@ class ItemTest {
         assertEquals(i1, i2);
         assertNotEquals(i1, i3);
         assertNotEquals(i2, i3);
-        assertNotEquals("test", i1);
+        assertNotEquals(i1, "test");
     }
 
     /**

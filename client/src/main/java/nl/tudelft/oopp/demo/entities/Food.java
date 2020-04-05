@@ -96,30 +96,6 @@ public class Food {
     }
 
     /**
-     * Returns all foods that are available at a particular building with a building name.
-     *
-     * @param name The building name
-     * @return Returns a list of Food
-     */
-    public static ObservableList<Food> getFoodByBuildingName(String name) {
-        try {
-            ObservableList<Food> foodData = FXCollections.observableArrayList();
-            JSONArray jsonArrayFood = new JSONArray(FoodServerCommunication.getFoodByBuildingName(name));
-            for (int i = 0; i < jsonArrayFood.length(); i++) {
-                Food f = new Food();
-                f.setFoodId(jsonArrayFood.getJSONObject(i).getInt("id"));
-                f.setFoodName(jsonArrayFood.getJSONObject(i).getString("name"));
-                f.setFoodPrice(jsonArrayFood.getJSONObject(i).getDouble("price"));
-                foodData.add(f);
-            }
-            return foodData;
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-        }
-        return null;
-    }
-
-    /**
      * Returns a Food that is associated with a particular ID.
      *
      * @param id The food ID

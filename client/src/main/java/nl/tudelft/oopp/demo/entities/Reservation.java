@@ -19,7 +19,7 @@ import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageUserViewController;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
-import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
+import nl.tudelft.oopp.demo.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.user.calendar.logic.AbstractCalendarItem;
 import nl.tudelft.oopp.demo.user.calendar.logic.CalendarPaneLogic;
 

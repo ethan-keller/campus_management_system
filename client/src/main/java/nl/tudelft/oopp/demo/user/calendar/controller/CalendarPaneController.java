@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 import javax.swing.SwingUtilities;
 
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.user.calendar.CustomCalendar;
 import nl.tudelft.oopp.demo.user.calendar.logic.CalendarPaneLogic;
 import nl.tudelft.oopp.demo.views.CalenderEditItemDialogView;

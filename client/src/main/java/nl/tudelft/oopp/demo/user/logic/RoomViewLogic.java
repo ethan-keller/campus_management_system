@@ -13,9 +13,9 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
-import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.user.controller.ReservationConfirmationViewController;
 import nl.tudelft.oopp.demo.user.controller.RoomViewController;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
@@ -26,9 +26,10 @@ public class RoomViewLogic {
 
     /**
      * confirms the booking of a room.
-     * @param currentRoom room that is selected.
-     * @param thisStage stage to start.
-     * @param datePicker datepicker on the screen.
+     *
+     * @param currentRoom    room that is selected.
+     * @param thisStage      stage to start.
+     * @param datePicker     datepicker on the screen.
      * @param timeSlotSlider time slot slider on the screen.
      * @return true if the user confirms, false otherwise.
      */
@@ -59,8 +60,9 @@ public class RoomViewLogic {
 
     /**
      * makes a reservation.
-     * @param currentRoomId Room selected.
-     * @param datePicker datepicker on the screen.
+     *
+     * @param currentRoomId  Room selected.
+     * @param datePicker     datepicker on the screen.
      * @param timeSlotSlider time slot slider on the screen.
      * @return true if a reservation is created, false if not.
      * @throws UnsupportedEncodingException if something goes wrong with encoding.
@@ -124,7 +126,7 @@ public class RoomViewLogic {
      * @return true if the timeslot is free, false otherwise
      */
     public static boolean checkTimeSlotValidity(int currentRoomId, DatePicker datePicker,
-                                                 RangeSlider timeSlotSlider) {
+                                                RangeSlider timeSlotSlider) {
         // get all reservations for the current room on the chosen date
         List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(currentRoomId,
                 datePicker.getValue(), getDatePickerConverter(datePicker));

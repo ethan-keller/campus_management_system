@@ -57,7 +57,7 @@ public class Building {
                     String buildingAddress, int buildingMaxBikes, String openingTime, String closingTime) {
         this.buildingId = new SimpleIntegerProperty(buildingId);
         this.buildingName = new SimpleStringProperty(buildingName);
-        this.buildingRoomCount = new SimpleIntegerProperty(buildingRoomCount);
+        this.buildingRoomCount = new SimpleIntegerProperty(0);
         this.buildingAddress = new SimpleStringProperty(buildingAddress);
         this.buildingMaxBikes = new SimpleIntegerProperty(buildingMaxBikes);
         this.openingTime = new SimpleStringProperty(openingTime);

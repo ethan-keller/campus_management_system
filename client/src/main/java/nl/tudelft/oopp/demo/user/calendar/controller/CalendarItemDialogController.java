@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.user.calendar.CalendarListener;
 import nl.tudelft.oopp.demo.user.calendar.logic.CalendarItemDialogLogic;
 
@@ -25,8 +25,11 @@ import nl.tudelft.oopp.demo.user.calendar.logic.CalendarItemDialogLogic;
  */
 public class CalendarItemDialogController implements Initializable {
 
-
     public static Item selectedItem;
+    // private fields that are used to determine the type of an item
+    private boolean bikeReservation = false;
+    private boolean reservation = false;
+    private boolean item = false;
 
     @FXML
     private Text header;
