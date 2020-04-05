@@ -131,6 +131,11 @@ public class FoodBuildingEditDialogController {
 
     }
 
+    /**
+     * Checks if the food has already been added to the selected building or not.
+     * @param b selected Building object
+     * @return true if there is no specified building added already
+     */
     public boolean getDuplicate(Building b) {
         ObservableList<Food> foodList = Food.getFoodByBuildingId(b.getBuildingId().get());
 
