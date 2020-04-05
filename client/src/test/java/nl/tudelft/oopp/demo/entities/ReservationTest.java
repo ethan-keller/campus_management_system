@@ -1,9 +1,12 @@
 package nl.tudelft.oopp.demo.entities;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import com.mindfusion.common.DateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.awt.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class ReservationTest {
@@ -13,7 +16,7 @@ class ReservationTest {
     @BeforeEach
     void setup() {
         reservation = new Reservation(10, "username", 20,
-                "date", "startingtime", "endingtime");
+                "2020-04-04", "12:00:00", "13:00:00");
     }
 
     @Test
@@ -44,17 +47,17 @@ class ReservationTest {
 
     @Test
     void getDate() {
-        assertEquals("date", reservation.getDate().get());
+        assertEquals("2020-04-04", reservation.getDate().get());
     }
 
     @Test
     void getStartingTime() {
-        assertEquals("startingtime", reservation.getReservationStartingTime().get());
+        assertEquals("12:00:00", reservation.getReservationStartingTime().get());
     }
 
     @Test
     void getEndingTime() {
-        assertEquals("endingtime", reservation.getReservationEndingTime().get());
+        assertEquals("13:00:00", reservation.getReservationEndingTime().get());
     }
 
     @Test
@@ -94,6 +97,18 @@ class ReservationTest {
     }
 
     @Test
+    void equals() {
+        Reservation testRes = new Reservation(1,"", 0, "", "", "");
+        Reservation testRes2 = new Reservation(10,"", 0, "", "", "");
+        Integer integer = 2;
+
+        assertTrue(reservation.equals(reservation));
+        assertFalse(reservation.equals(integer));
+        assertFalse(reservation.equals(testRes));
+        assertTrue(reservation.equals(testRes2));
+    }
+
+    @Test
     void getRoomReservationsOnDate() {
     }
 
@@ -107,5 +122,36 @@ class ReservationTest {
 
     @Test
     void getSelectedUserReservation() {
+    }
+
+    @Test
+    void testGetId() {
+        assertEquals("10", reservation.getId());
+    }
+
+    @Test
+    void getHeader() {
+        assertEquals("Reservation", reservation.getHeader());
+    }
+
+    @Test
+    void getStartTime() {
+        DateTime datetime = new DateTime(2020,4,4,12,00,00);
+        assertEquals(datetime, reservation.getStartTime());
+    }
+
+    @Test
+    void getEndTime() {
+        DateTime datetime = new DateTime(2020,4,4,13,00,00);
+        assertEquals(datetime, reservation.getEndTime());
+    }
+
+    @Test
+    void getDescription() {
+    }
+
+    @Test
+    void getColor() {
+        assertEquals(Color.CYAN, reservation.getColor());
     }
 }

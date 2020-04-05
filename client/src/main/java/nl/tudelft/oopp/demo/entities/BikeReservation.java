@@ -362,7 +362,7 @@ public class BikeReservation implements AbstractCalendarItem {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getBikeReservationId());
+        return Objects.hash(getBikeReservationId().get());
     }
 
     @Override

@@ -1,15 +1,15 @@
 package nl.tudelft.oopp.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockserver.integration.ClientAndServer.startClientAndServer;
-import static org.mockserver.model.HttpRequest.request;
-import static org.mockserver.model.HttpResponse.response;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import javafx.collections.ObservableList;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+
+import com.mindfusion.common.DateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.awt.*;
 
 public class BikeReservationTest {
 
@@ -132,26 +132,36 @@ public class BikeReservationTest {
 
     @Test
     void testEquals() {
-    }
+        BikeReservation testBikeRes1 = new BikeReservation(1,0,"", 0, "", "", "");
+        BikeReservation testBikeRes2 = new BikeReservation(10,0,"", 0, "", "", "");
+        Integer testInteger = 0;
 
-    @Test
-    void testHashCode() {
+        assertTrue(bikeRes.equals(bikeRes));
+        assertFalse(bikeRes.equals(testInteger));
+        assertTrue(bikeRes.equals(testBikeRes2));
+        assertFalse(bikeRes.equals(testBikeRes1));
     }
 
     @Test
     void getId() {
+        assertEquals("10", bikeRes.getId());
     }
 
     @Test
     void getHeader() {
+        assertEquals("Bike reservation", bikeRes.getHeader());
     }
 
     @Test
     void getStartTime() {
+        DateTime time = new DateTime(2020,04,04,12,00,00);
+        assertEquals(time, bikeRes.getStartTime());
     }
 
     @Test
     void getEndTime() {
+        DateTime time = new DateTime(2020,04,04,13,00,00);
+        assertEquals(time, bikeRes.getEndTime());
     }
 
     @Test
@@ -160,5 +170,13 @@ public class BikeReservationTest {
 
     @Test
     void getColor() {
+        assertEquals(Color.MAGENTA, bikeRes.getColor());
+    }
+
+    @Test
+    void testHashCode() {
+        BikeReservation testRes = new BikeReservation(10, 500, "user", 5,
+                "2020-04-04", "12:00:00", "13:00:00");
+        assertTrue(bikeRes.hashCode() == testRes.hashCode());
     }
 }

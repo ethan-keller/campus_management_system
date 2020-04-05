@@ -4,8 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.mindfusion.common.DateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.awt.*;
 
 
 class ItemTest {
@@ -14,8 +17,8 @@ class ItemTest {
 
     @BeforeEach
     void setUp() {
-        item = new Item(10, "user", "title", "date",
-                "startingtime", "endingtime", "description");
+        item = new Item(10, "user", "title", "2020-04-04",
+                "12:00:00", "13:00:00", "description");
     }
 
     @Test
@@ -47,17 +50,17 @@ class ItemTest {
 
     @Test
     void getDate() {
-        assertEquals("date", item.getDate().get());
+        assertEquals("2020-04-04", item.getDate().get());
     }
 
     @Test
     void getStartingTime() {
-        assertEquals("startingtime", item.getItemStartingTime().get());
+        assertEquals("12:00:00", item.getItemStartingTime().get());
     }
 
     @Test
     void getEndingTime() {
-        assertEquals("endingtime", item.getItemEndingTime().get());
+        assertEquals("13:00:00", item.getItemEndingTime().get());
     }
 
     @Test
@@ -126,5 +129,45 @@ class ItemTest {
 
     @Test
     void getUserItems() {
+    }
+
+    @Test
+    void testGetId() {
+        assertEquals("10", item.getId());
+    }
+
+    @Test
+    void testSetId() {
+        item.setId(1);
+        assertEquals("1", item.getId());
+    }
+
+    @Test
+    void getHeader() {
+        assertEquals("Item", item.getHeader());
+    }
+
+    @Test
+    void getStartTime() {
+        DateTime time = new DateTime(2020,4,4,12,0,0);
+        assertEquals(time, item.getStartTime());
+    }
+
+    @Test
+    void getEndTime() {
+        DateTime time = new DateTime(2020,4,4,13,0,0);
+        assertEquals(time, item.getEndTime());
+    }
+
+    @Test
+    void testGetDescription() {
+        assertEquals("description", item.getDescription());
+        return;
+    }
+
+
+    @Test
+    void getColor() {
+        assertEquals(Color.ORANGE, item.getColor());
     }
 }
