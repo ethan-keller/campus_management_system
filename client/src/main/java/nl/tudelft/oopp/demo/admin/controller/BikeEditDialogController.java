@@ -2,8 +2,11 @@ package nl.tudelft.oopp.demo.admin.controller;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -123,6 +126,7 @@ public class BikeEditDialogController {
                 }
             }));
 
+
             // when selected building changes, adjust available bikes text
             bikeBuildingComboBox.valueProperty().addListener(((observable, oldValue, newValue) -> {
                 if (bikeDate.getValue() != null) {
@@ -130,6 +134,9 @@ public class BikeEditDialogController {
                     availableBikes.setText(String.valueOf(getAvailableBikes()));
                 }
             }));
+            timeslotSlider.setOnMouseReleased(event -> {
+                availableBikes.setText(String.valueOf(getAvailableBikes()));
+            });
 
             // if admin is editing a reservation, fill all the fields with the reservation info
             if (bikeReservation != null) {
@@ -234,39 +241,67 @@ public class BikeEditDialogController {
             int buildingId = bikeBuildingComboBox.getValue().getBuildingId().get();
             ObservableList<BikeReservation> reservationsList =
                     BikeReservation.getBikeReservationsByBuilding(buildingId);
+            String selectedStartTime = Objects.requireNonNull(getRangeSliderConverter())
+                    .toString(timeslotSlider.getLowValue());
+            String selectedEndTime = getRangeSliderConverter().toString(timeslotSlider.getHighValue());
+            String selectedDate =
+                    Objects.requireNonNull(getDatePickerConverter()).toString(bikeDate.getValue());
 
-            // filter to keep reservations on chosen date
+            // filter to keep reservations on chosen date, building and starting/ending times
             List<BikeReservation> filteredList = reservationsList.stream()
-                    .filter(x -> x.getBikeReservationDate().get()
-                            .equals(getDateConverter().toString(bikeDate.getValue())))
+                    .filter(x -> x.getBikeReservationBuilding().get() == buildingId)
+                    .filter(x -> x.getBikeReservationDate().get().equals(selectedDate))
+                    .filter(x -> parseTime(x.getBikeReservationStartingTime().get()) < parseTime(selectedEndTime))
+                    .filter(x -> parseTime(x.getBikeReservationEndingTime().get()) > parseTime(selectedStartTime))
                     .collect(Collectors.toList());
 
-            // get current slider values
-            double currentStart = timeslotSlider.getLowValue();
-            double currentEnd = timeslotSlider.getHighValue();
 
             // subtract from availableBikes the bike quantity from
             // all the reservations (if reservations falls in current timeslot)
             for (BikeReservation br : filteredList) {
-                // if admin is editing a reservation don't subtract amount of the current reservation
                 if (edit && AdminManageBikeReservationViewController.currentSelectedBikeReservation
                         .getBikeReservationId().get() == br.getBikeReservationId().get()) {
-                    continue;
-                }
-                // get start and end time
-                double startTime = (double) getRangeSliderConverter()
-                        .fromString(br.getBikeReservationStartingTime().get());
-                double endTime = (double) getRangeSliderConverter()
-                        .fromString(br.getBikeReservationEndingTime().get());
-
-                // check if timeslots overlap
-                if (!(startTime < currentStart && endTime < currentStart)
-                        && !(startTime > currentEnd && endTime > currentEnd)) {
-                    // subtract amount of bikes
-                    availableBikes -= br.getBikeReservationQuantity().get();
+                } else {
+                    availableBikes = availableBikes - br.getBikeReservationQuantity().get();
                 }
             }
+            if (availableBikes < 0 ) {
+                availableBikes = 0;
+            }
             return availableBikes;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return 0;
+    }
+
+    public double parseTime(String time) {
+        try {
+            if (time.contains("23:59:00")) {
+                return 24;
+            }
+            if (time.contains("23:59")) {
+                return 24;
+            }
+            double hour = 0;
+            int minute = 0;
+            //Checks the format of given String
+            if (time.length() == 5) {
+                //create localtime object in the given form
+                LocalTime localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
+                hour = localTime.get(ChronoField.CLOCK_HOUR_OF_DAY);
+                minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
+            } else if (time.length() == 8) {
+                LocalTime localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss"));
+                hour = localTime.get(ChronoField.CLOCK_HOUR_OF_DAY);
+                minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
+            }
+            //Slider is compatible til 30 minutes checks if minutes is 30
+            if (minute == 30) {
+                hour = hour + 0.5;
+            }
+
+            return hour;
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -394,7 +429,7 @@ public class BikeEditDialogController {
      */
     private StringConverter<Number> getRangeSliderConverter() {
         try {
-            return new StringConverter<Number>() {
+            return new StringConverter<>() {
                 @Override
                 public String toString(Number n) {
                     // calculate hours and remaining minutes to get a correct hh:mm format
@@ -405,17 +440,17 @@ public class BikeEditDialogController {
                     return String.format("%02d", hours) + ":" + String.format("%02d", remainingMinutes);
                 }
 
-
                 @Override
-                public Number fromString(String string) {
-                    String[] split = string.split(":");
-                    double hours = Double.parseDouble(split[0]);
-                    double minutes = Double.parseDouble(split[1]);
-                    return hours * 60 + minutes;
+                public Number fromString(String time) {
+                    if (time != null) {
+                        String[] split = time.split(":");
+                        return Double.parseDouble(split[0]) * 60 + Double.parseDouble(split[1]);
+                    }
+                    return null;
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -574,6 +609,44 @@ public class BikeEditDialogController {
 
             return false;
         }
+    }
+
+    private StringConverter<LocalDate> getDatePickerConverter() {
+        try {
+            return new StringConverter<>() {
+                // set the wanted pattern (format)
+                final String pattern = "yyyy-MM-dd";
+                final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+
+                {
+                    // set placeholder text for the datePicker
+                    bikeDate.setPromptText(pattern.toLowerCase());
+                }
+
+                @Override
+                public String toString(LocalDate date) {
+                    if (date != null) {
+                        // get correctly formatted String
+                        return dateFormatter.format(date);
+                    } else {
+                        return "";
+                    }
+                }
+
+                @Override
+                public LocalDate fromString(String string) {
+                    if (string != null && !string.isEmpty()) {
+                        // get correct LocalDate from String format
+                        return LocalDate.parse(string, dateFormatter);
+                    } else {
+                        return null;
+                    }
+                }
+            };
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 
 
