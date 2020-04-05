@@ -22,7 +22,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 class DbConfigTest {
 
     @Mock
-    private Environment e;
+    private Environment environment;
 
     @Mock
     private DataSource dataSource;
@@ -50,12 +50,13 @@ class DbConfigTest {
 
     @Test
     void exceptionTest() {
-        DbConfig config = new DbConfig();
+        final DbConfig config = new DbConfig();
 
-        when(e.getProperty("jdbc.driverClassName")).thenReturn("com.mysql.jdbc.Driver");
-        when(e.getProperty("jdbc.url")).thenReturn("jdbc:mysql://oopp38.c2jruxzjdhjz.eu-west-3.rds.amazonaws.com/OOPP");
-        when(e.getProperty("jdbc.user")).thenReturn("HELLO");
-        when(e.getProperty("jdbc.pass")).thenReturn("HELLOpass");
+        when(environment.getProperty("jdbc.driverClassName")).thenReturn("com.mysql.jdbc.Driver");
+        when(environment.getProperty("jdbc.url")).thenReturn("jdbc:mysql://oopp38.c2jruxzjdhjz.eu-"
+                + "west-3.rds.amazonaws.com/OOPP");
+        when(environment.getProperty("jdbc.user")).thenReturn("HELLO");
+        when(environment.getProperty("jdbc.pass")).thenReturn("HELLOpass");
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
         ds.setUrl("jdbc:mysql://oopp38.c2jruxzjdhjz.eu-west-3.rds.amazonaws.com/OOPP");
