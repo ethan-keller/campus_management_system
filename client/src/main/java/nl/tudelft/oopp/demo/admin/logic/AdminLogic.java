@@ -490,6 +490,26 @@ public class AdminLogic {
 
     /**
      * .
+     * This method is used in the adminManageUserViewController class to communicate with the server to
+     * command them to edit the selected User.
+     *
+     * @param tempUser - These are the edited features of the User object passed as parameter.
+     */
+    public static boolean editUserLogicWithoutPassword(User tempUser) {
+        try {
+            if (UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserType().get())) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+            return false;
+        }
+    }
+
+    /**
+     * .
      * This method is used in the adminManageBikeReservationViewController and adminUserBikeViewController
      * class to communicate with the server to command them to delete the selected bike reservation.
      *

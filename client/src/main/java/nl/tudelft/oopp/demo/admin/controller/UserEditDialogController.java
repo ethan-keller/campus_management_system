@@ -50,7 +50,6 @@ public class UserEditDialogController {
         if (edit) {
             usernameField.setDisable(true);
         }
-        //        userPasswordField.setText(user.getUserPassword().get());
         if (user.getUserType().get() == 0) {
             userTypeAdmin.setSelected(true);
         }
@@ -81,6 +80,9 @@ public class UserEditDialogController {
             }
             if (!userPasswordField.getText().equals("")) {
                 user.setUserPassword(userPasswordField.getText());
+            }
+            if (edit && userPasswordField.getText().equals("")) {
+                user.setUserPassword("");
             }
             if (edit && AdminManageUserViewController.currentSelectedUser.getUserType().get()
                     == 1 && user.getUserType().get() == 2) {
