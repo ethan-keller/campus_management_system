@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.config;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -12,10 +13,16 @@ import javax.sql.DataSource;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.opentest4j.TestAbortedException;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @SpringBootTest
 class DbConfigTest {
+
+    @Mock
+    private Environment e;
 
     @Mock
     private DataSource dataSource;
@@ -30,11 +37,30 @@ class DbConfigTest {
      * Test for dataSource method.
      */
     @Test
-    public void dataSourceTest() throws Exception {
+    void dataSourceTest() throws Exception {
         when(dataSource.getConnection()).thenReturn(mockConnection);
         when(mockConnection.createStatement()).thenReturn(mockStatement);
         when(mockConnection.createStatement().executeUpdate(any())).thenReturn(1);
 
         verify(mockConnection, times(1)).createStatement();
+
+        when(mockConnection.createStatement().executeUpdate(any())).thenThrow(new TestAbortedException());
+        verify(mockConnection, times(2)).createStatement();
+    }
+
+    @Test
+    void exceptionTest() {
+        DbConfig config = new DbConfig();
+
+        when(e.getProperty("jdbc.driverClassName")).thenReturn("com.mysql.jdbc.Driver");
+        when(e.getProperty("jdbc.url")).thenReturn("jdbc:mysql://oopp38.c2jruxzjdhjz.eu-west-3.rds.amazonaws.com/OOPP");
+        when(e.getProperty("jdbc.user")).thenReturn("HELLO");
+        when(e.getProperty("jdbc.pass")).thenReturn("HELLOpass");
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setDriverClassName("com.mysql.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://oopp38.c2jruxzjdhjz.eu-west-3.rds.amazonaws.com/OOPP");
+        ds.setUsername("HELLO");
+        ds.setPassword("HELLO");
+        assertNull(config.dataSource());
     }
 }
