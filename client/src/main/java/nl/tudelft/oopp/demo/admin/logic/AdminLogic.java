@@ -17,7 +17,12 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class AdminLogic {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * .
@@ -51,7 +56,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -76,7 +81,7 @@ public class AdminLogic {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -100,7 +105,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -121,7 +126,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -142,7 +147,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -196,7 +201,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -219,7 +224,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -243,7 +248,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -277,7 +282,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -295,7 +300,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -315,7 +320,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -351,7 +356,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -374,7 +379,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -399,7 +404,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -435,7 +440,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -456,7 +461,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -477,7 +482,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -498,7 +503,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -524,7 +529,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -553,7 +558,7 @@ public class AdminLogic {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
