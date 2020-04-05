@@ -165,7 +165,7 @@ public class CalendarPaneLogic {
             // get id of last item created
             String currentId = ItemServerCommunication.getCurrentId();
             // get the id of the last inserted item to assign it to the Appointment object
-            app.setId(String.valueOf(Integer.parseInt(currentId) - 1));
+            app.setId(String.valueOf(Integer.parseInt(currentId)));
             // get date and time in correct format for database
             String date = app.getStartTime().getYear() + "-" + app.getStartTime().getMonth() + "-"
                     + app.getStartTime().getDay();
