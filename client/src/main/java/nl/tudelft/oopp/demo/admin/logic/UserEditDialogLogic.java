@@ -57,17 +57,17 @@ public class UserEditDialogLogic {
             if (userPasswordField.getText().trim().isEmpty()) {
                 errorMessage += "Password field can't be blank!\n";
             }
-            // Checks whether the password field is atleast 8 characters long.
+            // Checks whether the password field is at least 8 characters long.
             if (userPasswordField.getLength() < 8) {
                 errorMessage += "Password needs to at-least 8 characters.\n";
             }
-            // Checks whether the password contains atleast one numeric value.
+            // Checks whether the password contains at least one numeric value.
             if (!userPasswordField.getText().matches(".*\\d.*")) {
                 errorMessage += "Password needs at-least 1 numeric value.\n";
             }
             // This pattern is used to compare the text to see if it has an upper case character.
             Pattern upperCasePattern = Pattern.compile("[A-Z]");
-            // Checks whether the password contains atleast one upper case character.
+            // Checks whether the password contains at least one upper case character.
             if (!upperCasePattern.matcher(userPasswordField.getText()).find()) {
                 errorMessage += "Password needs at-least 1 upper case character.\n";
             }
@@ -80,6 +80,32 @@ public class UserEditDialogLogic {
                 errorMessage += "Password is not allowed to have any punctuations.\n";
             }
         }
+        if (edit && !userPasswordField.getText().trim().isEmpty()) {
+            // Checks whether the password field is at least 8 characters long.
+            if (userPasswordField.getLength() < 8) {
+                errorMessage += "Password needs to at-least 8 characters.\n";
+            }
+            // Checks whether the password contains at least one numeric value.
+            if (!userPasswordField.getText().matches(".*\\d.*")) {
+                errorMessage += "Password needs at-least 1 numeric value.\n";
+            }
+            // This pattern is used to compare the text to see if it has an upper case character.
+            Pattern upperCasePattern = Pattern.compile("[A-Z]");
+            // Checks whether the password contains at least one upper case character.
+            if (!upperCasePattern.matcher(userPasswordField.getText()).find()) {
+                errorMessage += "Password needs at-least 1 upper case character.\n";
+            }
+            // Checks whether the password contains any spaces.
+            if (space.matcher(userPasswordField.getText()).find()) {
+                errorMessage += "Password is not allowed to have spaces in them.\n";
+            }
+            // Checks whether the password contains any punctuations.
+            if (characters.matcher(userPasswordField.getText()).find()) {
+                errorMessage += "Password is not allowed to have any punctuations.\n";
+            }
+        }
+
+
 
         // When all the criteria of creating a username and password are met, we can return true.
         if (errorMessage.equals("")) {
