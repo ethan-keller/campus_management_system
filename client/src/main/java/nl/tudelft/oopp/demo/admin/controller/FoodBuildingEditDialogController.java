@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import nl.tudelft.oopp.demo.admin.logic.FoodBuildingEditDialogLogic;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
@@ -75,7 +76,7 @@ public class FoodBuildingEditDialogController {
      */
     @FXML
     private void handleOkClicked(ActionEvent event) {
-        if (isInputValid()) {
+        if (FoodBuildingEditDialogLogic.isInputValid(foodBuildingComboBox, selectedFood)) {
             emptyBuilding();
             building.setBuildingId(
                     this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
@@ -102,48 +103,4 @@ public class FoodBuildingEditDialogController {
         dialogStage.close();
     }
 
-    /**
-     * Validates the user input.
-     *
-     * @return true if the input is valid
-     */
-    private boolean isInputValid() {
-        String errorMessage = "";
-        Building b = foodBuildingComboBox.getValue();
-
-
-        if (foodBuildingComboBox.getSelectionModel().getSelectedIndex() < 0) {
-            errorMessage += "No valid building selected!\n";
-        }
-        if (!getDuplicate(b)) {
-            errorMessage = "Food is already added to the selected building!";
-        }
-
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-
-            return false;
-        }
-
-    }
-
-    /**
-     * Checks if the food has already been added to the selected building or not.
-     * @param b selected Building object
-     * @return true if there is no specified building added already
-     */
-    public boolean getDuplicate(Building b) {
-        ObservableList<Food> foodList = Food.getFoodByBuildingId(b.getBuildingId().get());
-
-        for (Food f: foodList) {
-            if (f.equals(selectedFood)) {
-                return false;
-            }
-        }
-        return true;
-    }
 }
