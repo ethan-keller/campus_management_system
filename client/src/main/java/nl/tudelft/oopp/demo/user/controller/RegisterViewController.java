@@ -11,9 +11,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
+
 import nl.tudelft.oopp.demo.user.logic.RegisterViewLogic;
 import nl.tudelft.oopp.demo.views.LoginView;
 
@@ -56,8 +55,10 @@ public class RegisterViewController {
         teacher.setToggleGroup(group);
     }
 
-    /**.
+    /**
+     * .
      * To check if teacher is selected.
+     *
      * @return Boolean
      */
     @FXML
@@ -69,8 +70,10 @@ public class RegisterViewController {
         }
     }
 
-    /**.
+    /**
+     * .
      * To check if teacher is selected.
+     *
      * @return Boolean
      */
     @FXML
@@ -82,8 +85,10 @@ public class RegisterViewController {
         }
     }
 
-    /**.
+    /**
+     * .
      * Handles the clicking of register button
+     *
      * @param event - Passed as parameter
      * @throws IOException is thrown
      */
@@ -124,7 +129,7 @@ public class RegisterViewController {
             if (teacherSelected()) {
                 userType = 1;
             }
-            alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt, userType));
+            //alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt, userType));
             alert.showAndWait();
             backClicked(event);
         }

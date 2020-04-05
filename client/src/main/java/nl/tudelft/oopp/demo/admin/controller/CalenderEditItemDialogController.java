@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 import org.controlsfx.control.RangeSlider;
 
@@ -37,8 +37,9 @@ import org.controlsfx.control.RangeSlider;
  */
 public class CalenderEditItemDialogController implements Initializable {
 
+    public static Appointment item;
+    public static Stage dialogStage;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
     @FXML
     private TextField header;
     @FXML
@@ -51,10 +52,7 @@ public class CalenderEditItemDialogController implements Initializable {
     private GridPane gridPane;
     @FXML
     private TextArea description;
-
     private RangeSlider timeSlot;
-    public static Appointment item;
-    public static Stage dialogStage;
 
     /**
      * default constructor needed by JavaFX.

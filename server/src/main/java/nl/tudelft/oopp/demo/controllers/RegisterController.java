@@ -37,7 +37,7 @@ public class RegisterController {
      */
     @PostMapping("register")
     @ResponseBody
-    public String register(@RequestParam String username,
+    public boolean register(@RequestParam String username,
                            @RequestParam String password,
                            @RequestParam int userType) throws UnsupportedEncodingException {
         username = CommunicationMethods.decodeCommunication(username);
@@ -49,13 +49,13 @@ public class RegisterController {
             if (userRepo.getUser(username) == null) {
                 userRepo.insertUser(username, encryptedPassword, userType);
                 logger.info("Register: Account created for username '" + username + "'");
-                return "Your account is created";
+                return true;
             }
             logger.warn("Register: Account with the username '" + username + "' already exists");
-            return "This username already exists!";
+            return false;
         } catch (Exception e) {
             logger.error("Register: ERROR", e);
-            return "error";
+            return false;
         }
     }
 }

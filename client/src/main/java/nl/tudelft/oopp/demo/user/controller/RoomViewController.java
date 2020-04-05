@@ -8,7 +8,6 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -52,13 +51,13 @@ import javax.imageio.ImageIO;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageReservationViewController;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
-import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
+import nl.tudelft.oopp.demo.user.CurrentUserManager;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;
@@ -70,9 +69,14 @@ import org.controlsfx.control.RangeSlider;
  * Controller class for the Room view (JavaFX).
  */
 public class RoomViewController implements Initializable {
-    
-    private static Logger logger = Logger.getLogger("GlobalLogger");
 
+    public static int currentRoomId;
+    // current Stage
+    public static Stage thisStage;
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+    // current room to show info about
+    private static Room currentRoom;
+    private final String pathSeparator = File.separator;
     /**
      * These are the FXML elements that inject some functionality into the application.
      */
@@ -112,20 +116,10 @@ public class RoomViewController implements Initializable {
     private Text teacherOnlyError;
     @FXML
     private Button signOutButton;
-
     // double thumb slider
     private RangeSlider timeSlotSlider;
-
-    // current room to show info about
-    private static Room currentRoom;
-    public static int currentRoomId;
     private List<Food> selectedFoodList;
     private Map<Food, Integer> foodMap;
-    private final String pathSeparator = File.separator;
-
-    // current Stage
-    public static Stage thisStage;
-
 
     /**
      * Method that gets called before everything (mostly to initialize nodes etc.).
@@ -172,7 +166,6 @@ public class RoomViewController implements Initializable {
 
             // listener that adjusts layout when width of stage changes
             thisStage.widthProperty().addListener((obs, oldVal, newVal) -> changeWidthConstraints(newVal));
-
 
 
             ObservableList<Food> foodList = Food.getFoodByBuildingId(
@@ -891,7 +884,6 @@ public class RoomViewController implements Initializable {
 
     /**
      * Method that executes when the backButton is clicked. It returns to the searchview.
-     *
      */
     @FXML
     private void backButtonClicked() {
@@ -905,6 +897,7 @@ public class RoomViewController implements Initializable {
     }
 
     // TODO: add try catch everywhere
+
     /**
      * Method that executes when book button is clicked. It checks if fields are correctly filled.
      *

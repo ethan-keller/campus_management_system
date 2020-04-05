@@ -16,25 +16,25 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+
 import javax.imageio.ImageIO;
 
 import nl.tudelft.oopp.demo.admin.logic.RoomEditDialogLogic;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 /**
  * Class that controls the dialog box for admins to create or edit rooms.
  */
 public class RoomEditDialogController {
 
+    public static Room room;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
     @FXML
     private TextField roomNameField;
     @FXML
@@ -55,11 +55,7 @@ public class RoomEditDialogController {
     private TextField roomDescriptionField;
     @FXML
     private Button uploadRoomPhoto;
-
     private BufferedImage image;
-
-    public static Room room;
-
     private Stage dialogStage;
 
     private String oldFileName;
@@ -70,6 +66,13 @@ public class RoomEditDialogController {
      * Default constructor.
      */
     public RoomEditDialogController() {
+    }
+
+    /**
+     * Initialize or empty the Room object (when admin creates new room).
+     */
+    private static void emptyRoom() {
+        room = new Room();
     }
 
     /**
@@ -147,13 +150,6 @@ public class RoomEditDialogController {
         };
         // set the converter
         roomBuildingComboBox.setConverter(converter);
-    }
-
-    /**
-     * Initialize or empty the Room object (when admin creates new room).
-     */
-    private static void emptyRoom() {
-        room = new Room();
     }
 
     /**

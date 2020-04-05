@@ -3,11 +3,11 @@ package nl.tudelft.oopp.demo.user.logic;
 import java.util.regex.Pattern;
 
 
-
 public class RegisterViewLogic {
 
     /**
      * Checks for any input that is invalid for the username.
+     *
      * @param usernameTxt the input of the user.
      * @return A string with the invalidation or Good! if there is none.
      */
@@ -33,6 +33,7 @@ public class RegisterViewLogic {
 
     /**
      * Checks for any input that is invalid for the password.
+     *
      * @param passwordTxt the input of the user.
      * @return A string with the invalidation or Good! if there is none.
      */
@@ -71,7 +72,8 @@ public class RegisterViewLogic {
 
     /**
      * Checks if the two entered passwords are the same.
-     * @param passwordTxt first entered password.
+     *
+     * @param passwordTxt   first entered password.
      * @param rePasswordTxt second entered password.
      * @return The password needs to be the same ! or Good! if there is no mistake
      */

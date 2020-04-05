@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
 import java.util.stream.Collectors;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,28 +11,30 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import nl.tudelft.oopp.demo.admin.controller.AdminManageReservationViewController;
-import nl.tudelft.oopp.demo.admin.controller.AdminUserHistoryViewController;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 public class FoodReservationEditDialogController {
 
+    public static ObservableList<Food> olf;
+    public static FoodReservation foodReservation;
     @FXML
     private ComboBox<Food> foodComboBox;
-
     @FXML
     private TextField foodQuantityField;
-
-    public static ObservableList<Food> olf;
-
-    public static FoodReservation foodReservation;
-
     private Stage dialogStage;
 
     public FoodReservationEditDialogController() {
+    }
+
+    /**
+     * Create a new reservation when called.
+     */
+    private static void emptyFoodReservation() {
+        foodReservation = new FoodReservation();
     }
 
     /**
@@ -85,14 +88,8 @@ public class FoodReservationEditDialogController {
     }
 
     /**
-     * Create a new reservation when called.
-     */
-    private static void emptyFoodReservation() {
-        foodReservation = new FoodReservation();
-    }
-
-    /**
      * Called when the user clicks ok.
+     *
      * @param event is passed
      */
     @FXML
@@ -119,6 +116,7 @@ public class FoodReservationEditDialogController {
 
     /**
      * Called when the user clicks cancel.
+     *
      * @param event is passed.
      */
     @FXML

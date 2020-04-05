@@ -19,9 +19,9 @@ import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.calendar.CalendarListener;
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.communication.ItemServerCommunication;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.user.controller.CalendarPaneController;
 
 /**
@@ -29,13 +29,11 @@ import nl.tudelft.oopp.demo.user.controller.CalendarPaneController;
  */
 public class CalendarItemDialogController implements Initializable {
 
+    public static Item selectedItem;
     // private fields that are used to determine the type of an item
     private boolean bikeReservation = false;
     private boolean reservation = false;
     private boolean item = false;
-
-    public static Item selectedItem;
-
     @FXML
     private Text header;
     @FXML
@@ -105,6 +103,7 @@ public class CalendarItemDialogController implements Initializable {
 
     /**
      * Method that sends delete request to server and shows result to user.
+     *
      * @param thisStage current stage
      */
     private void deleteItem(Stage thisStage) {
@@ -154,6 +153,7 @@ public class CalendarItemDialogController implements Initializable {
 
     /**
      * Sends a cancel booking request to the server and alerts the user of its success.
+     *
      * @param thisStage current stage
      */
     private void cancelBooking(Stage thisStage) {
@@ -209,6 +209,7 @@ public class CalendarItemDialogController implements Initializable {
 
     /**
      * Closes the dialog when the user clicks close.
+     *
      * @param event event that triggered this method
      */
     @FXML

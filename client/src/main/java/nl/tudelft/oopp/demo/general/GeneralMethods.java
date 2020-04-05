@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.communication;
+package nl.tudelft.oopp.demo.general;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

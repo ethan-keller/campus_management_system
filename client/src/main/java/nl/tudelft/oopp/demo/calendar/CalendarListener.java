@@ -24,6 +24,7 @@ public class CalendarListener extends CalendarAdapter {
     /**
      * When an item in the calendar gets clicked it shows a pop up with the information.
      * This is useful when the calendar is quite full.
+     *
      * @param itemMouseEvent event that triggered this method
      */
     @Override
