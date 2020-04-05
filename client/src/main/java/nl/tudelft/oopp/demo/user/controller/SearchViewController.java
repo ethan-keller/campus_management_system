@@ -36,6 +36,7 @@ import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.user.calendar.controller.CalendarPaneController;
 import nl.tudelft.oopp.demo.user.logic.SearchViewLogic;
 import nl.tudelft.oopp.demo.views.CalendarPaneView;
 import nl.tudelft.oopp.demo.views.LoginView;

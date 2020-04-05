@@ -53,5 +53,6 @@ class FoodTest {
     void testEquals() {
         assertEquals(f1, f3);
         assertNotEquals(f2, f3);
+        assertNotEquals(f2, "TEST");
     }
 }

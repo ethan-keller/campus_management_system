@@ -93,5 +93,6 @@ class BikeReservationTest {
     void testEquals() {
         assertEquals(br1, br2);
         assertNotEquals(br2, br3);
+        assertNotEquals(br2, "TEST");
     }
 }

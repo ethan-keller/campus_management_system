@@ -16,8 +16,8 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.BookingEditDialogView;
@@ -65,12 +65,12 @@ public class AdminUserHistoryViewController {
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             // Initialize the booking table with the five columns.
             bookingIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
-                    cellData.getValue().getId().get()));
+                    cellData.getValue().getReservationId().get()));
             bookingRoomColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getRoom().get()));
             bookingDateColumn.setCellValueFactory(cell -> cell.getValue().getDate());
-            bookingStartColumn.setCellValueFactory(cell -> cell.getValue().getStartingTime());
-            bookingEndColumn.setCellValueFactory(cell -> cell.getValue().getEndingTime());
+            bookingStartColumn.setCellValueFactory(cell -> cell.getValue().getReservationStartingTime());
+            bookingEndColumn.setCellValueFactory(cell -> cell.getValue().getReservationEndingTime());
             bookingTable.setItems(Reservation.getSelectedUserReservation());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());

@@ -1,164 +1,74 @@
 package nl.tudelft.oopp.demo.communication;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendGet;
+import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendPost;
 
 public class BuildingServerCommunication {
-
-    private static HttpClient client = HttpClient.newBuilder().build();
-
-    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * This is a server-client communication method which is used to receive all the buildings
      * present in the database.
      *
-     * @return This particular method returns a String of all buildings present in the database.
+     * @return all buildings present in the database (JSON).
      */
     public static String getAllBuildings() {
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET().uri(URI.create("http://localhost:8080/getAllBuildings"))
-                .build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return null;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-        }
-        return response.body();
+        return sendGet("getAllBuildings", "");
     }
 
     /**
      * This is a client-server communication class which receives a certain building using the building id.
      *
-     * @param id - Building id
-     * @return Building is returned
-     * @throws UnsupportedEncodingException is thrown
+     * @param id id of the building wanted
+     * @return building (JSON)
      */
-    public static String getBuilding(int id) throws UnsupportedEncodingException {
+    public static String getBuilding(int id) {
         String params = "id=" + id;
-        params = GeneralMethods.encodeCommunication(params);
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET().uri(URI.create("http://localhost:8080/getBuilding?" + params))
-                .build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return null;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-        }
-        return response.body();
+        return sendGet("getBuilding", params);
     }
 
     /**
-     * Returns a list of buildings in JSON from the database based on the food ID.
+     * This is a client-server communication class which receives all the buildings that serve a specific food.
      *
-     * @param id The food id
-     * @return Returns a JSON list
+     * @param id the food id
+     * @return all buildings that serve this food (JSON)
      */
     public static String getBuildingByFoodId(int id) {
         String params = "id=" + id;
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET().uri(URI.create("http://localhost:8080/getBuildingByFoodId?" + params))
-                .build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return null;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-        }
-        return response.body();
+        return sendGet("getBuildingByFoodId", params);
     }
 
     /**
-     * This is a client-server communication method which is used to create a new building using the attributes.
-     * Attributes are the parameters.
+     * This is a client-server communication method which is used to create a new building.
      *
      * @param name        - Name of the building
      * @param roomCount   - Number of rooms the building has
      * @param address     - Address of the building
      * @param openingTime - Opening time of building
      * @param closingTime - Closing time of building
-     * @return boolean value to inform the user if building creation was successful.
-     * @throws UnsupportedEncodingException is thrown
+     * @return true if communication was successful, false otherwise
      */
     public static boolean createBuilding(String name, int roomCount, String address, int maxBikes,
-                                         String openingTime, String closingTime)
-            throws UnsupportedEncodingException {
+                                         String openingTime, String closingTime) {
         String params = "name=" + name + "&roomCount=" + roomCount + "&address=" + address
                 + "&maxBikes=" + maxBikes + "&openingTime=" + openingTime + "&closingTime=" + closingTime;
 
-        params = GeneralMethods.encodeCommunication(params);
-        HttpRequest request = HttpRequest.newBuilder()
-                .POST(HttpRequest.BodyPublishers.noBody())
-                .uri(URI.create("http://localhost:8080/createBuilding?" + params))
-                .build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return false;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-            return false;
-        }
-        return true;
+        return sendPost("createBuilding", params);
     }
 
 
     /**
      * This is a client-server communication method which is used to delete a certain building.
-     * The building is recognized by the parameter passed.
      *
-     * @param id - Building id
-     * @return Boolean value which announces to the user whether the building is deleted.
-     * @throws UnsupportedEncodingException is thrown
+     * @param id id of the building
+     * @return true if communication was successful, false otherwise
      */
-    public static boolean deleteBuilding(int id) throws UnsupportedEncodingException {
+    public static boolean deleteBuilding(int id) {
         String params = "id=" + id;
-        params = GeneralMethods.encodeCommunication(params);
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .POST(HttpRequest.BodyPublishers.noBody())
-                .uri(URI.create("http://localhost:8080/deleteBuilding?" + params))
-                .build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return false;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-            return false;
-        }
-        return true;
+        return sendPost("deleteBuilding", params);
     }
 
     /**
      * This is a client-server communication method which is used to update the attributes of a building.
-     * Attributes are the parameters.
      *
      * @param id          - Building id
      * @param name        - Name of the building
@@ -168,30 +78,12 @@ public class BuildingServerCommunication {
      * @param openingTime - Opening time of building
      * @param closingTime - Closing time of building
      * @return Boolean value which is used to display a message to the client if the building is updated.
-     * @throws UnsupportedEncodingException is thrown
      */
     public static boolean updateBuilding(int id, String name, int roomCount, String address, int maxBikes,
-                                         String openingTime, String closingTime)
-            throws UnsupportedEncodingException {
+                                         String openingTime, String closingTime) {
         String params = "id=" + id + "&name=" + name + "&roomCount=" + roomCount + "&address=" + address
                 + "&maxBikes=" + maxBikes + "&openingTime=" + openingTime + "&closingTime=" + closingTime;
-        params = GeneralMethods.encodeCommunication(params);
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .POST(HttpRequest.BodyPublishers.noBody())
-                .uri(URI.create("http://localhost:8080/updateBuilding?" + params))
-                .build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return false;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-            return false;
-        }
-        return true;
+        return sendPost("updateBuilding", params);
     }
 }

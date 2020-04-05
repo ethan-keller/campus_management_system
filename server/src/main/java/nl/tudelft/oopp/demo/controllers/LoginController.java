@@ -5,12 +5,13 @@ import java.io.UnsupportedEncodingException;
 import nl.tudelft.oopp.demo.encodehash.Hashing;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -36,7 +37,7 @@ public class LoginController {
      *         Returns "wrong_password" when the password doesn't match.
      * @throws UnsupportedEncodingException Tells the user that they have used the wrong encoding.
      */
-    @PostMapping("login")
+    @GetMapping("login")
     @ResponseBody
     public String getUser(@RequestParam String username,
                           @RequestParam String password) throws UnsupportedEncodingException {

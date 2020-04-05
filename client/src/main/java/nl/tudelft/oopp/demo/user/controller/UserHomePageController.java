@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.views.SearchView;
 
 public class UserHomePageController {

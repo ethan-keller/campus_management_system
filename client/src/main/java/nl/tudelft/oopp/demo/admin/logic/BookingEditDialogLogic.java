@@ -11,9 +11,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.util.StringConverter;
 
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 import org.controlsfx.control.RangeSlider;
 
@@ -25,7 +25,7 @@ public class BookingEditDialogLogic {
      * @return true if the input is valid
      */
     public static boolean isInputValid(ComboBox<Room> bookingRoomComboBox, DatePicker bookingDate,
-                                 RangeSlider timeSlotSlider, Reservation reservation) {
+                                       RangeSlider timeSlotSlider, Reservation reservation) {
         String errorMessage = "";
 
         if (bookingRoomComboBox.getSelectionModel().getSelectedIndex() < 0) {
@@ -55,7 +55,7 @@ public class BookingEditDialogLogic {
      * @return true if the time slot is free, false otherwise
      */
     public static boolean checkTimeSlotValidity(ComboBox<Room> bookingRoomComboBox, DatePicker bookingDate,
-                                          Reservation reservation, RangeSlider timeSlotSlider) {
+                                                Reservation reservation, RangeSlider timeSlotSlider) {
         // get currently selected room
         Room selectedRoom = bookingRoomComboBox.getSelectionModel().getSelectedItem();
         if (selectedRoom == null) {
@@ -75,15 +75,15 @@ public class BookingEditDialogLogic {
 
         for (Reservation r : roomReservations) {
             // if reservation equals the one we are editing, don't consider it
-            if (r.getId().get() == reservation.getId().get()) {
+            if (r.getReservationId().get() == reservation.getReservationId().get()) {
                 continue;
             }
 
             // get rangeslider values + reservation values
             double currentStartValue = timeSlotSlider.getLowValue();
             double currentEndValue = timeSlotSlider.getHighValue();
-            double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
-            double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
+            double startValue = (double) timeConverter.fromString(r.getReservationStartingTime().get());
+            double endValue = (double) timeConverter.fromString(r.getReservationEndingTime().get());
 
             // check if the values overlap
             if (!((currentStartValue <= startValue && currentEndValue <= startValue)
@@ -173,6 +173,7 @@ public class BookingEditDialogLogic {
 
     /**
      * sorts the reservation given.
+     *
      * @param reservations list of reservations to be sorted.
      */
     public static void sortReservations(List<Reservation> reservations) {
@@ -180,11 +181,11 @@ public class BookingEditDialogLogic {
             @Override
             public int compare(Reservation o1, Reservation o2) {
                 // split time in hh:mm
-                String[] o1StartSplit = o1.getStartingTime().get().split(":");
+                String[] o1StartSplit = o1.getReservationStartingTime().get().split(":");
                 int o1StartHour = Integer.parseInt(o1StartSplit[0]);
                 int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
 
-                String[] o2StartSplit = o2.getStartingTime().get().split(":");
+                String[] o2StartSplit = o2.getReservationStartingTime().get().split(":");
                 int o2StartHour = Integer.parseInt(o2StartSplit[0]);
                 int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
 

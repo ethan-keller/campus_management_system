@@ -20,10 +20,10 @@ import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservation;
 import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminManageReservationView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.FoodReservationEditDialogView;
@@ -66,7 +66,7 @@ public class AdminManageFoodReservationViewController {
             signOutButton.getStyleClass().add("signout-button");
             Reservation roomReservation = this.getReservation();
             // Initialize the title of the table
-            reservationIdLabel.setText(String.valueOf(roomReservation.getId().get()));
+            reservationIdLabel.setText(String.valueOf(roomReservation.getReservationId().get()));
             // Initialize the booking table with the three columns.
             foodIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getFoodId().get()));
@@ -137,7 +137,7 @@ public class AdminManageFoodReservationViewController {
             if (selectedIndex >= 0) {
                 // TODO: Check that food reservation deletion was successful before displaying alert
                 FoodServerCommunication.deleteFoodFromReservation(selectedFoodReservation.getFoodId().getValue(),
-                        this.getReservation().getId().get());
+                        this.getReservation().getReservationId().get());
                 // An alert pop up when a reservation deleted successfully
                 GeneralMethods.alertBox("Delete food reservation", "",
                         "Food reservation deleted!", Alert.AlertType.INFORMATION);
@@ -176,11 +176,11 @@ public class AdminManageFoodReservationViewController {
             if (this.getAllFoodInReservation(getReservation())
                     .contains(Food.getFoodById(tempReservation.getFoodId().get()))) {
                 FoodServerCommunication.updateFoodReservationQuantity(tempReservation.getFoodId().get(),
-                        this.getReservation().getId().get(), (tempReservation.getFoodQuantity().get()
+                        this.getReservation().getReservationId().get(), (tempReservation.getFoodQuantity().get()
                                 + this.getFoodOldQuantity(tempReservation.getFoodId().get(), getReservation())));
             } else {
                 FoodServerCommunication.addFoodToReservation(tempReservation.getFoodId().get(),
-                        this.getReservation().getId().get(), tempReservation.getFoodQuantity().get());
+                        this.getReservation().getReservationId().get(), tempReservation.getFoodQuantity().get());
             }
             // An alert pop up when a new reservation created.
             GeneralMethods.alertBox("New food reservation", "",
