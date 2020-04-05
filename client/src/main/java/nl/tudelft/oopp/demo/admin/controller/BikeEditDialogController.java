@@ -259,13 +259,12 @@ public class BikeEditDialogController {
             // subtract from availableBikes the bike quantity from
             // all the reservations (if reservations falls in current timeslot)
             for (BikeReservation br : filteredList) {
-                if (edit && AdminManageBikeReservationViewController.currentSelectedBikeReservation
-                        .getBikeReservationId().get() == br.getBikeReservationId().get()) {
-                } else {
+                if (!(edit && AdminManageBikeReservationViewController.currentSelectedBikeReservation
+                        .getBikeReservationId().get() == br.getBikeReservationId().get())) {
                     availableBikes = availableBikes - br.getBikeReservationQuantity().get();
                 }
             }
-            if (availableBikes < 0 ) {
+            if (availableBikes < 0) {
                 availableBikes = 0;
             }
             return availableBikes;
@@ -275,6 +274,11 @@ public class BikeEditDialogController {
         return 0;
     }
 
+    /**
+     * Takes in time as String and parses, converts to double.
+     * @param time in String
+     * @returns the time in double taking 0.5 into account
+     */
     public double parseTime(String time) {
         try {
             if (time.contains("23:59:00")) {

@@ -14,14 +14,9 @@ public class FoodBuildingEditDialogLogic {
      *
      * @return true if the input is valid
      */
-    public static boolean isInputValid(ComboBox<Building> foodBuildingComboBox, Food selectedFood) {
+    public static boolean isInputValid(Building b, Food selectedFood) {
         String errorMessage = "";
-        Building b = foodBuildingComboBox.getValue();
 
-
-        if (foodBuildingComboBox.getSelectionModel().getSelectedIndex() < 0) {
-            errorMessage += "No valid building selected!\n";
-        }
         if (!getDuplicate(b, selectedFood)) {
             errorMessage = "Food is already added to the selected building!";
         }
@@ -35,7 +30,6 @@ public class FoodBuildingEditDialogLogic {
 
             return false;
         }
-
     }
 
     /**

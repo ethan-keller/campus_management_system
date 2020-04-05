@@ -76,18 +76,22 @@ public class FoodBuildingEditDialogController {
      */
     @FXML
     private void handleOkClicked(ActionEvent event) {
-        if (FoodBuildingEditDialogLogic.isInputValid(foodBuildingComboBox, selectedFood)) {
-            emptyBuilding();
-            building.setBuildingId(
-                    this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
-            building.setBuildingName(
-                    this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingName().get());
-            building.setBuildingRoomCount(
-                    this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingRoomCount().get());
-            building.setBuildingAddress(
-                    this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingAddress().get());
-            this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            dialogStage.close();
+        if (!(foodBuildingComboBox.getSelectionModel().getSelectedIndex() < 0)) {
+            Building b = foodBuildingComboBox.getValue();
+            if (FoodBuildingEditDialogLogic.isInputValid(b, selectedFood)) {
+                emptyBuilding();
+                building.setBuildingId(
+                        this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
+                building.setBuildingName(
+                        this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingName().get());
+                building.setBuildingRoomCount(
+                        this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingRoomCount().get());
+                building.setBuildingAddress(
+                        this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingAddress().get());
+                this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                dialogStage.close();
+            }
+
         }
     }
 

@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.admin.logic;
 
 import javafx.scene.control.TableView;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageFoodViewController;
 import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
@@ -15,8 +17,7 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class AdminLogic {
 
