@@ -39,7 +39,6 @@ public class AdminLogic {
 
     /**
      * .
->>>>>>> develop
      * This method is used in the adminManageBuildingViewController class to communicate with the server to
      * command them to delete the selected building.
      *

@@ -2,15 +2,12 @@ package nl.tudelft.oopp.demo.user.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -55,7 +52,7 @@ import nl.tudelft.oopp.demo.views.RoomView;
 /**
  * Controller class for SearchView (JavaFX).
  */
-public class SearchViewController implements Initializable {
+public class SearchViewController implements Initializable, Runnable {
 
     public static Stage thisStage;
     public static ObservableList<Building> buildingList;
@@ -97,10 +94,11 @@ public class SearchViewController implements Initializable {
     // This is necessary due to the format of inserting items into a comboBox.
     private ObservableList<String> capacityList;
     private ObservableList<String> bikeList;
-
-    private int building;
+    private List<Integer> buildingsWithFood;
 
     private Map<Integer, HBox> roomCards;
+
+    SimpleDateFormat sdf = new SimpleDateFormat("ss.SSS");
 
 
     /**
@@ -122,6 +120,8 @@ public class SearchViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            Thread t1 = new Thread(this);
+            t1.start();
             signOutButton.getStyleClass().clear();
             signOutButton.getStyleClass().add("signout-button");
             rentABikeButton.getStyleClass().clear();
@@ -130,7 +130,6 @@ public class SearchViewController implements Initializable {
             // assign lists to the initialized ObservableLists
             // This is necessary due to the format of inserting items into a comboBox.
             final ObservableList<String> capacityList = FXCollections.observableArrayList();
-            buildingList = Building.getBuildingData();
             final ObservableList<String> bikeList = FXCollections.observableArrayList();
 
             // the comboBox only shows 6 rows (more => scroll)
@@ -156,7 +155,6 @@ public class SearchViewController implements Initializable {
             if (roomList != null) {
                 rooms = new ArrayList<Room>(roomList);
             }
-            buildings = Building.getBuildingData();
 
             roomCards =  new HashMap<Integer,HBox>();
 
@@ -169,6 +167,7 @@ public class SearchViewController implements Initializable {
 
             // create a 'card' showing some information of the room, for every room
             getCardsShown(roomList);
+
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -227,6 +226,7 @@ public class SearchViewController implements Initializable {
                 yesCheckBoxFood.setSelected(true);
                 noCheckBoxFood.setSelected(false);
                 loadCards();
+
             } catch (Exception e) {
                 logger.log(Level.SEVERE, e.toString());
             }
@@ -290,16 +290,15 @@ public class SearchViewController implements Initializable {
             roomList = SearchViewLogic.filterRoomByTeacherOnly(roomList, false);
         }
 
+        Date now = new Date();
+        String strDate = sdf.format(now);
+        System.out.println("Food Filtering Starting: " + strDate);
         if (yesCheckBoxFood.isSelected()) {
-            List<Integer> buildingsWithFood = new ArrayList<Integer>();
-            for (int i = 0; i != buildings.size(); i++) {
-                int buildingId = buildings.get(i).getBuildingId().getValue();
-                if (!Food.getFoodByBuildingId(buildingId).isEmpty()) {
-                    buildingsWithFood.add(buildings.get(i).getBuildingId().getValue());
-                }
-            }
             roomList = SearchViewLogic.filterByFood(roomList, buildingsWithFood);
         }
+        Date now2 = new Date();
+        String strDate2 = sdf.format(now2);
+        System.out.println("Food Filtering Ending: " + strDate2);
 
         // if the combobox is selected on a value it filters for that value.
         if (capacityComboBox.getValue() != null) {
@@ -649,5 +648,19 @@ public class SearchViewController implements Initializable {
             logger.log(Level.SEVERE, e.toString());
         }
         return null;
+    }
+
+    @Override
+    public void run() {
+        buildings = Building.getBuildingData();
+        buildingList = (ObservableList<Building>) buildings;
+        buildingsWithFood = new ArrayList<Integer>();
+        System.out.println("Been here!");
+        for (int i = 0; i != buildings.size(); i++) {
+            int buildingId = buildings.get(i).getBuildingId().getValue();
+            if (!Food.getFoodByBuildingId(buildingId).isEmpty()) {
+                buildingsWithFood.add(buildings.get(i).getBuildingId().getValue());
+            }
+        }
     }
 }
