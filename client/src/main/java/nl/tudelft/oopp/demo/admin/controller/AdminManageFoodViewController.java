@@ -201,6 +201,7 @@ public class AdminManageFoodViewController {
             if (selectedIndex >= 0) {
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentSelectedFood = selectedFood;
+                FoodBuildingEditDialogController.selectedFood = selectedFood;
 
                 AdminFoodBuildingView afbv = new AdminFoodBuildingView();
                 afbv.start(stage);

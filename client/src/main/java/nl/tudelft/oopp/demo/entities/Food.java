@@ -142,7 +142,7 @@ public class Food {
      * @param name The building name
      * @return Returns a list of Food
      */
-    public static ObservableList<Food> getFoodByBuildingName(String name) {
+    public static ObservableList<Food> getFoodByBuildingId(String name) {
         try {
             ObservableList<Food> foodData = FXCollections.observableArrayList();
             JSONArray jsonArrayFood = new JSONArray(FoodServerCommunication.getFoodByBuildingName(name));

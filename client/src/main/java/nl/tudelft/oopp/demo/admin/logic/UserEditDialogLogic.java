@@ -41,7 +41,7 @@ public class UserEditDialogLogic {
                 errorMessage += "Password field can't be blank!\n";
             }
         }
-        // Checks whether the password field is atleast 8 characters long.
+        // Checks whether the password field is at least 8 characters long.
         if (userPasswordField.getLength() < 8) {
             errorMessage += "Password needs to at-least 8 characters.\n";
         }

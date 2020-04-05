@@ -104,6 +104,8 @@ public class AdminLogic {
      */
     public static void addFoodReservationLogic(Building tempBuilding) {
         try {
+
+
             FoodServerCommunication.addFoodToBuilding(
                     AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),
                     tempBuilding.getBuildingId().get());

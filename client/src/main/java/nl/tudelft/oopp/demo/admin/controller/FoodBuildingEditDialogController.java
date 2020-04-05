@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
-
+import nl.tudelft.oopp.demo.entities.Food;
 
 
 public class FoodBuildingEditDialogController {
@@ -24,6 +24,9 @@ public class FoodBuildingEditDialogController {
     public static Building building;
 
     private Stage dialogStage;
+
+    public static Food selectedFood;
+
 
     /**
      * Initializes the controller class. This method is automatically called.
@@ -104,9 +107,14 @@ public class FoodBuildingEditDialogController {
      */
     private boolean isInputValid() {
         String errorMessage = "";
+        Building b = foodBuildingComboBox.getValue();
+
 
         if (foodBuildingComboBox.getSelectionModel().getSelectedIndex() < 0) {
             errorMessage += "No valid building selected!\n";
+        }
+        if (!getDuplicate(b)) {
+            errorMessage = "Food is already added to the selected building!";
         }
 
         if (errorMessage.equals("")) {
@@ -121,4 +129,14 @@ public class FoodBuildingEditDialogController {
         
     }
 
+    public boolean getDuplicate(Building b) {
+        ObservableList<Food> foodList = Food.getFoodByBuildingId(b.getBuildingId().get());
+
+        for (Food f: foodList) {
+            if (f.equals(selectedFood)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

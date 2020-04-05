@@ -52,7 +52,7 @@ public class AdminManageFoodBuildingViewController {
             signOutButton.getStyleClass().add("signout-button");
             // Initialize the title of the table
             foodNameLabel.setText(AdminManageFoodViewController.currentSelectedFood.getFoodName().get());
-            // Initialize the room table with the four columns.
+            // Initialize the room table with the two columns.
             foodBuildingIdColumn.setCellValueFactory(cell -> new SimpleStringProperty(
                     String.valueOf(cell.getValue().getBuildingId().get())));
             foodBuildingNameColumn.setCellValueFactory(cell -> cell.getValue().getBuildingName());
