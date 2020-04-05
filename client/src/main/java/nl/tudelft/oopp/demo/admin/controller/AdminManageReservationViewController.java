@@ -120,15 +120,17 @@ public class AdminManageReservationViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-
-                //TODO: Check that Reservation deletion was successful before displaying alert message.
-                AdminLogic.deleteReservationLogic(selectedReservation);
-                // To update the tabular view after removing the reservation.
-                refresh();
-
-                // Displaying a message to the admin for clearer communication through an alert box.
-                GeneralMethods.alertBox("Delete Reservation", "", "Reservation deleted!",
-                        Alert.AlertType.INFORMATION);
+                if (AdminLogic.deleteReservationLogic(selectedReservation)) {
+                    // To update the tabular view after removing the reservation.
+                    refresh();
+                    // Displaying a message to the admin for clearer communication through an alert box.
+                    GeneralMethods.alertBox("Delete Reservation", "", "Reservation deleted!",
+                            Alert.AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Deletion failed", "",
+                            "Reservation deletion failed", Alert.AlertType.WARNING);
+                }
             } else {
                 GeneralMethods.alertBox("No Selection", "No Reservation Selected",
                         "Please select a Reservation in the table.", Alert.AlertType.WARNING);
@@ -149,19 +151,20 @@ public class AdminManageReservationViewController {
             currentSelectedReservation = null;
             ReservationNewDialogView view = new ReservationNewDialogView();
             view.start(stage);
-
+            Reservation tempReservation = ReservationEditDialogController.reservation;
             //If none of the items in the dialog box is selected.
             if (ReservationEditDialogController.reservation == null) {
                 return;
-                //TODO: Checking if the reservation creating was successful before displaying the alert.
-            } else {
-                Reservation tempReservation = ReservationEditDialogController.reservation;
-                AdminLogic.createReservationLogic(tempReservation);
+            }
+            if (AdminLogic.createReservationLogic(tempReservation)) {
                 refresh();
-
                 // Displaying a message to the admin for clearer communication through an alert box.
                 GeneralMethods.alertBox("New Reservation", "", "New Reservation created!",
                         Alert.AlertType.INFORMATION);
+            } else {
+                // Create an alert box.
+                GeneralMethods.alertBox("Creation failed", "",
+                        "Reservation creation failed", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
@@ -189,15 +192,16 @@ public class AdminManageReservationViewController {
                 if (tempReservation == null) {
                     return;
                 }
-
-                //TODO: Making sure that the reservation is created properly, before displaying the alert box.
-
-                AdminLogic.editReservationLogic(selectedReservation, tempReservation);
-                refresh();
-
-                // Displaying a message to the admin for clearer communication through an alert box.
-                GeneralMethods.alertBox("Edit Reservation", "", "Edited Reservation!",
-                        Alert.AlertType.INFORMATION);
+                if (AdminLogic.editReservationLogic(selectedReservation, tempReservation)) {
+                    refresh();
+                    // Displaying a message to the admin for clearer communication through an alert box.
+                    GeneralMethods.alertBox("Edit Reservation", "", "Edited Reservation!",
+                            Alert.AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Edit failed", "",
+                            "Reservation edit failed", Alert.AlertType.WARNING);
+                }
             } else {
                 // Displaying a message to the admin for clearer communication through an alert box.
                 GeneralMethods.alertBox("No Selection", "No Reservation Selected",
