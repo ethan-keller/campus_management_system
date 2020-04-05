@@ -540,28 +540,28 @@ public class ReservationEditDialogController {
         username.setConverter(converter);
     }
 
-//    /**
-//////     * Called when the OK button is clicked on the dialog box.
-//////     * This causes the information input by the user to be stored in an object.
-//////     *
-//////     * @param event event that triggered this method
-//////     */
-//    @FXML
-//    public void okClicked(ActionEvent event) {
-//        LocalDate dateSelected = date.getValue();
-//        if (isInputValid()) {
-//            emptyReservation();
-//            reservation.setUsername(username.getSelectionModel().getSelectedItem().getUsername().get());
-//            reservation.setRoom(room.getSelectionModel().getSelectedItem().getRoomId().get());
-//            reservation.setDate(dateSelected.toString());
-//            reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
-//            reservation.setEndingTime(endTime.getText().replace("End: ", "").equals("24:00")
-//                    ? "23:59" : endTime.getText().replace("End: ", ""));
-//
-//            this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//            dialogStage.close();
-//        }
-//    }
+    //    /**
+    //////     * Called when the OK button is clicked on the dialog box.
+    //////     * This causes the information input by the user to be stored in an object.
+    //////     *
+    //////     * @param event event that triggered this method
+    //////     */
+    //    @FXML
+    //    public void okClicked(ActionEvent event) {
+    //        LocalDate dateSelected = date.getValue();
+    //        if (isInputValid()) {
+    //            emptyReservation();
+    //            reservation.setUsername(username.getSelectionModel().getSelectedItem().getUsername().get());
+    //            reservation.setRoom(room.getSelectionModel().getSelectedItem().getRoomId().get());
+    //            reservation.setDate(dateSelected.toString());
+    //            reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
+    //            reservation.setEndingTime(endTime.getText().replace("End: ", "").equals("24:00")
+    //                    ? "23:59" : endTime.getText().replace("End: ", ""));
+    //
+    //            this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    //            dialogStage.close();
+    //        }
+    //    }
 
     /**
      * Method that cancels the current edit/creation of a reservation.
