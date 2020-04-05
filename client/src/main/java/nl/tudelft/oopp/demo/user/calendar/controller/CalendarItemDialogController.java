@@ -49,6 +49,9 @@ public class CalendarItemDialogController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        CalendarItemDialogLogic.bikeReservation = false;
+        CalendarItemDialogLogic.reservation = false;
+        CalendarItemDialogLogic.item = false;
         // sets the boolean fields to the right type
         CalendarItemDialogLogic.setItemType(selectedItem.getStyle().getFillColor());
         // get the calendar

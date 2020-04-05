@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -41,6 +42,10 @@ public class CalendarPaneController implements Initializable {
     public static volatile Calendar calendar;
     @FXML
     private AnchorPane pane;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
 
     /**
      * Custom initialization of JavaFX components.
@@ -55,6 +60,11 @@ public class CalendarPaneController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            // set css style classes
+            backButton.getStyleClass().clear();
+            signOutButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().add("signout-button");
             // SwingNode gives the ability to inject Swing components in the JavaFX environment
             SwingNode node = new SwingNode();
             // configure the swing node + inject in JavaFX environment
@@ -185,6 +195,8 @@ public class CalendarPaneController implements Initializable {
     @FXML
     private void signOutClicked(javafx.event.ActionEvent event) {
         try {
+            // reset calendar
+            calendar = null;
             // get current stage
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -204,6 +216,8 @@ public class CalendarPaneController implements Initializable {
     @FXML
     private void backButtonClicked(ActionEvent event) {
         try {
+            // reset calendar
+            calendar = null;
             // get current stage
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

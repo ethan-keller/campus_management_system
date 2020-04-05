@@ -29,7 +29,7 @@
                   <Button fx:id="monthlyView" mnemonicParsing="false" onAction="#monthlyViewClicked" prefHeight="36.0" prefWidth="99.0" text="Monthly view" />
                </children>
             </VBox>
-            <Button fx:id="signOutButton" layoutX="4.0" layoutY="362.0" mnemonicParsing="false" onAction="#signOutClicked" prefHeight="30.0" prefWidth="99.0" text="Sign out" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="4.0">
+            <Button fx:id="signOutButton" layoutX="10.0" layoutY="361.6" mnemonicParsing="false" onAction="#signOutClicked" prefHeight="30.0" prefWidth="99.0" text="Sign out" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="10.0">
                <graphic>
                   <ImageView fitHeight="18.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
