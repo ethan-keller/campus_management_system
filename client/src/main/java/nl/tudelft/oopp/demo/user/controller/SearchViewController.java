@@ -5,8 +5,11 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -97,6 +100,8 @@ public class SearchViewController implements Initializable {
 
     private int building;
 
+    private Map<Integer, HBox> roomCards;
+
 
     /**
      * Default construct of searchView class.
@@ -152,6 +157,15 @@ public class SearchViewController implements Initializable {
                 rooms = new ArrayList<Room>(roomList);
             }
             buildings = Building.getBuildingData();
+
+            roomCards =  new HashMap<Integer,HBox>();
+
+            // create a 'card' showing some information of the room, for every room
+            for (Room r : roomList) {
+                HBox roomCard = createRoomCard(r);
+                roomCards.put(r.getRoomId().get(), roomCard);
+                cardHolder.getChildren().add(roomCard);
+            }
 
             // create a 'card' showing some information of the room, for every room
             getCardsShown(roomList);
@@ -333,10 +347,12 @@ public class SearchViewController implements Initializable {
         //Removes cards that are now in the view
         cardHolder.getChildren().clear();
 
-        // create a 'card' showing some information of the room, for every room
         for (Room r : roomList) {
-            cardHolder.getChildren().add(createRoomCard(r));
+            HBox roomCard = roomCards.get(r.getRoomId().get());
+            cardHolder.getChildren().add(roomCard);
         }
+
+
     }
 
     /**
