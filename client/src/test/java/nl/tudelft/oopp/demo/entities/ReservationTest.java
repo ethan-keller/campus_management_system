@@ -36,6 +36,9 @@ class ReservationTest {
 
     private ClientAndServer mockServer;
 
+    /**
+     * Sets mock server response for /getAllReservations.
+     */
     void expGetAllReservations() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getAllReservations"))
@@ -44,6 +47,9 @@ class ReservationTest {
                         + "\"startingTime\":\"12:00:00\",\"endingTime\":\"13:00:00\"}]"));
     }
 
+    /**
+     * Sets wrong mock server response for /getAllReservations.
+     */
     void expGetAllReservationsError() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getAllReservations"))
@@ -52,22 +58,9 @@ class ReservationTest {
                         + "\"startingTime\":\"12:00:00\",\"endingTime\":\"13:00:00\"}"));
     }
 
-    void expGetReservation() {
-        new MockServerClient("127.0.0.1", 8080)
-                .when(request().withMethod("GET").withPath("/getReservation"))
-                .respond(response().withStatusCode(200).withBody("{\"id\":10,"
-                        + "\"username\":\"username\",\"room\":20,\"date\":\"2020-04-04\","
-                        + "\"startingTime\":\"12:00:00\",\"endingTime\":\"13:00:00\"}"));
-    }
-
-    void expGetReservationError() {
-        new MockServerClient("127.0.0.1", 8080)
-                .when(request().withMethod("GET").withPath("/getReservation"))
-                .respond(response().withStatusCode(200).withBody("\"id\":10,"
-                        + "\"username\":\"username\",\"room\":20,\"date\":\"2020-04-04\","
-                        + "\"startingTime\":\"12:00:00\",\"endingTime\":\"13:00:00\"}"));
-    }
-
+    /**
+     * Sets mock server response for /getUserReservations.
+     */
     void expGetUserReservations() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getUserReservations"))
@@ -76,6 +69,9 @@ class ReservationTest {
                         + "\"startingTime\":\"12:00:00\",\"endingTime\":\"13:00:00\"}]"));
     }
 
+    /**
+     * Sets wrong mock server response for /getUserReservations.
+     */
     void expGetUserReservationsError() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getUserReservations"))
@@ -84,22 +80,34 @@ class ReservationTest {
                         + "\"startingTime\":\"12:00:00\",\"endingTime\":\"13:00:00\"}"));
     }
 
+    /**
+     * Server setup before any test functions are executed.
+     */
     @BeforeAll
     public void startServer() {
         mockServer = startClientAndServer(8080);
     }
 
+    /**
+     * Server shutdown after all test functions are executed.
+     */
     @AfterAll
     public void stopServer() {
         mockServer.stop();
     }
 
+    /**
+     * Class variable setup everytime a test function is executed.
+     */
     @BeforeEach
     void setup() {
         reservation = new Reservation(10, "username", 20,
                 "2020-04-04", "12:00:00", "13:00:00");
     }
 
+    /**
+     * Tests empty constructor.
+     */
     @Test
     void emptyConstructor() {
         reservation = new Reservation();
@@ -111,72 +119,111 @@ class ReservationTest {
         assertNull(reservation.getReservationEndingTime().get());
     }
 
+    /**
+     * Tests the getReservationId method.
+     */
     @Test
     void getId() {
         assertEquals(10, reservation.getReservationId().get());
     }
 
+    /**
+     * Tests the getUsername method.
+     */
     @Test
     void getUsername() {
         assertEquals("username", reservation.getUsername().get());
     }
 
+    /**
+     * Tests the getRoom method.
+     */
     @Test
     void getRoom() {
         assertEquals(20, reservation.getRoom().get());
     }
 
+    /**
+     * Tests the getDate method.
+     */
     @Test
     void getDate() {
         assertEquals("2020-04-04", reservation.getDate().get());
     }
 
+    /**
+     * Tests the getReservationStartingTime method.
+     */
     @Test
     void getStartingTime() {
         assertEquals("12:00:00", reservation.getReservationStartingTime().get());
     }
 
+    /**
+     * Tests the getReservationEndingTime method.
+     */
     @Test
     void getEndingTime() {
         assertEquals("13:00:00", reservation.getReservationEndingTime().get());
     }
 
+    /**
+     * Tests the setId method.
+     */
     @Test
     void setId() {
         reservation.setId(5);
         assertEquals(5, reservation.getReservationId().get());
     }
 
+    /**
+     * Tests the setUsername method.
+     */
     @Test
     void setUsername() {
         reservation.setUsername("newusername");
         assertEquals("newusername", reservation.getUsername().get());
     }
 
+    /**
+     * Tests the setRoom method.
+     */
     @Test
     void setRoom() {
         reservation.setRoom(50);
         assertEquals(50, reservation.getRoom().get());
     }
 
+    /**
+     * Tests the setDate method.
+     */
     @Test
     void setDate() {
         reservation.setDate("newdate");
         assertEquals("newdate", reservation.getDate().get());
     }
 
+    /**
+     * Tests the setStartingTime method.
+     */
     @Test
     void setStartingTime() {
         reservation.setStartingTime("newstartingtime");
         assertEquals("newstartingtime", reservation.getReservationStartingTime().get());
     }
 
+    /**
+     * Tests the setEndingTime method.
+     */
     @Test
     void setEndingTime() {
         reservation.setEndingTime("newendingtime");
         assertEquals("newendingtime", reservation.getReservationEndingTime().get());
     }
 
+    /**
+     * Tests the equals method.
+     */
     @Test
     void equals() {
         final Reservation testRes = new Reservation(1, "", 0, "", "", "");
@@ -189,6 +236,9 @@ class ReservationTest {
         assertEquals(reservation, testRes2);
     }
 
+    /**
+     * Tests the getRoomReservationsOnDate method.
+     */
     @Test
     void getRoomReservationsOnDate() {
         LocalDate ld = LocalDate.of(2020, 4, 4);
@@ -203,6 +253,9 @@ class ReservationTest {
         assertNull(Reservation.getRoomReservationsOnDate(20, ld, getConverter()));
     }
 
+    /**
+     * Tests the getAllReservations method.
+     */
     @Test
     void getReservation() {
         expGetAllReservations();
@@ -215,6 +268,9 @@ class ReservationTest {
         assertNull(Reservation.getAllReservations());
     }
 
+    /**
+     * Tests the getUserReservation method.
+     */
     @Test
     void getUserReservation() {
         expGetUserReservations();
@@ -227,6 +283,9 @@ class ReservationTest {
         assertNull(Reservation.getUserReservation());
     }
 
+    /**
+     * Tests the getSelectedUserReservation method.
+     */
     @Test
     void getSelectedUserReservation() {
         stopServer();
@@ -243,28 +302,43 @@ class ReservationTest {
         assertNull(Reservation.getSelectedUserReservation());
     }
 
+    /**
+     * Tests the getId method.
+     */
     @Test
     void testGetId() {
         assertEquals("10", reservation.getId());
     }
 
+    /**
+     * Tests the getHeader method.
+     */
     @Test
     void getHeader() {
         assertEquals("Reservation", reservation.getHeader());
     }
 
+    /**
+     * Tests the getStartTime method.
+     */
     @Test
     void getStartTime() {
         DateTime datetime = new DateTime(2020, 4, 4, 12, 0, 0);
         assertEquals(datetime, reservation.getStartTime());
     }
 
+    /**
+     * Tests the getEndTime method.
+     */
     @Test
     void getEndTime() {
         DateTime datetime = new DateTime(2020, 4, 4, 13, 0, 0);
         assertEquals(datetime, reservation.getEndTime());
     }
 
+    /**
+     * Tests the getDescription function.
+     */
     @Test
     void getDescription() {
         final Food f = new Food(1, "Pizza", 10);
@@ -281,11 +355,18 @@ class ReservationTest {
         assertEquals(expected, reservation.getDescription());
     }
 
+    /**
+     * Tests the getColor function.
+     */
     @Test
     void getColor() {
         assertEquals(Color.CYAN, reservation.getColor());
     }
 
+    /**
+     * Gets a Date string converter for the getRoomReservationsOnDate test function.
+     * @return Returns a StringConverter object
+     */
     private StringConverter<LocalDate> getConverter() {
         try {
             return new StringConverter<>() {

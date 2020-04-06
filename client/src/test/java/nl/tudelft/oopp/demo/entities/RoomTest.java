@@ -27,6 +27,9 @@ class RoomTest {
 
     private ClientAndServer mockServer;
 
+    /**
+     * Sets mock server response for /getAllRooms.
+     */
     void expGetAllRooms() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getAllRooms"))
@@ -36,6 +39,9 @@ class RoomTest {
                         + "\"description\":\"description\",\"type\":\"type\"}]"));
     }
 
+    /**
+     * Sets wrong mock server response for /getAllRooms.
+     */
     void expGetAllRoomsError() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getAllRooms"))
@@ -45,6 +51,9 @@ class RoomTest {
                         + "\"description\":\"Lecctures are given here\",\"type\":\"LectureHall\"}"));
     }
 
+    /**
+     * Sets mock server response for /getRoom.
+     */
     void expGetRoom() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getRoom"))
@@ -54,6 +63,9 @@ class RoomTest {
                         + "\"description\":\"description\",\"type\":\"type\"}"));
     }
 
+    /**
+     * Sets wrong mock server response for /getRoom.
+     */
     void expGetRoomError() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getRoom"))
@@ -63,22 +75,34 @@ class RoomTest {
                         + "\"description\":\"Lecctures are given here\",\"type\":\"LectureHall\"}]"));
     }
 
+    /**
+     * Server setup before any test functions are executed.
+     */
     @BeforeAll
     public void startServer() {
         mockServer = startClientAndServer(8080);
     }
 
+    /**
+     * Server shutdown after all test functions are executed.
+     */
     @AfterAll
     public void stopServer() {
         mockServer.stop();
     }
 
+    /**
+     * Class variable setup everytime a test function is executed.
+     */
     @BeforeEach
     void setUp() {
         room = new Room(10, "name", 15, true, 20,
                 "photo", "description", "type");
     }
 
+    /**
+     * Tests empty constructor.
+     */
     @Test
     void emptyConstructor() {
         room = new Room();
@@ -92,6 +116,9 @@ class RoomTest {
         assertNull(room.getRoomType().get());
     }
 
+    /**
+     * Tests the equals method.
+     */
     @Test
     void equalsTest() {
         Room r2 = new Room(10, "name", 15, true, 20,
@@ -104,94 +131,145 @@ class RoomTest {
         assertNotEquals(r2, "HELLO");
     }
 
+    /**
+     * Tests the getRoomId method.
+     */
     @Test
     void getRoomId() {
         assertEquals(10, room.getRoomId().get());
     }
 
+    /**
+     * Tests the getRoomName method.
+     */
     @Test
     void getRoomName() {
         assertEquals("name", room.getRoomName().get());
     }
 
+    /**
+     * Tests the getTeacherOnly method.
+     */
     @Test
     void getTeacherOnly() {
         assertTrue(room.getTeacherOnly().get());
     }
 
+    /**
+     * Tests the getRoomBuilding method.
+     */
     @Test
     void getRoomBuilding() {
         assertEquals(15, room.getRoomBuilding().get());
     }
 
+    /**
+     * Tests the getRoomCapacity method.
+     */
     @Test
     void getRoomCapacity() {
         assertEquals(20, room.getRoomCapacity().get());
     }
 
+    /**
+     * Tests the getRoomPhoto method.
+     */
     @Test
     void getRoomPhoto() {
         assertEquals("photo", room.getRoomPhoto().get());
     }
 
+    /**
+     * Tests the getRoomDescription method.
+     */
     @Test
     void getRoomDescription() {
         assertEquals("description", room.getRoomDescription().get());
     }
 
+    /**
+     * Tests the getRoomType method.
+     */
     @Test
     void getRoomType() {
         assertEquals("type", room.getRoomType().get());
     }
 
+    /**
+     * Tests the setRoomId method.
+     */
     @Test
     void setRoomId() {
         room.setRoomId(5);
         assertEquals(5, room.getRoomId().get());
     }
 
+    /**
+     * Tests the setRoomName method.
+     */
     @Test
     void setRoomName() {
         room.setRoomName("newname");
         assertEquals("newname", room.getRoomName().get());
     }
 
+    /**
+     * Tests the setTeacherOnly method.
+     */
     @Test
     void setTeacherOnly() {
         room.setTeacherOnly(false);
         assertFalse(room.getTeacherOnly().get());
     }
 
+    /**
+     * Tests the setRoomBuilding method.
+     */
     @Test
     void setRoomBuilding() {
         room.setRoomBuilding(10);
         assertEquals(10, room.getRoomBuilding().get());
     }
 
+    /**
+     * Tests the setRoomCapacity function.
+     */
     @Test
     void setRoomCapacity() {
         room.setRoomCapacity(15);
         assertEquals(15, room.getRoomCapacity().get());
     }
 
+    /**
+     * Tests the setRoomPhoto function.
+     */
     @Test
     void setRoomPhoto() {
         room.setRoomPhoto("newphoto");
         assertEquals("newphoto", room.getRoomPhoto().get());
     }
 
+    /**
+     * Tests the setRoomDescription function.
+     */
     @Test
     void setRoomDescription() {
         room.setRoomDescription("newdescription");
         assertEquals("newdescription", room.getRoomDescription().get());
     }
 
+    /**
+     * Tests the setRoomType function.
+     */
     @Test
     void setRoomType() {
         room.setRoomType("newtype");
         assertEquals("newtype", room.getRoomType().get());
     }
 
+    /**
+     * Tests the getRoomData function.
+     */
     @Test
     void getRoomData() {
         expGetAllRooms();
@@ -204,6 +282,9 @@ class RoomTest {
         assertNull(Room.getRoomData());
     }
 
+    /**
+     * Tests the getRoomById function.
+     */
     @Test
     void getRoomById() {
         expGetRoom();
