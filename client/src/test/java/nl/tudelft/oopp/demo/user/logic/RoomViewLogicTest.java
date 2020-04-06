@@ -1,16 +1,19 @@
 package nl.tudelft.oopp.demo.user.logic;
 
-import nl.tudelft.oopp.demo.entities.Food;
-import nl.tudelft.oopp.demo.entities.Reservation;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.entities.Reservation;
+
+import org.junit.jupiter.api.Test;
 
 class RoomViewLogicTest {
 
@@ -21,15 +24,17 @@ class RoomViewLogicTest {
     void checkTimeSlotValidity() {
         double currentStartValue = 15;
         double currentEndValue = 0;
-        double startValue =14;
+        double startValue = 14;
         double endValue = 14;
 
-        assertFalse(RoomViewLogic.checkTimeSlotValidity(currentStartValue, currentEndValue, startValue, endValue));
+        assertFalse(RoomViewLogic.checkTimeSlotValidity(currentStartValue,
+                currentEndValue, startValue, endValue));
 
         currentStartValue = 4;
         currentEndValue = 14;
 
-        assertTrue(RoomViewLogic.checkTimeSlotValidity(currentStartValue, currentEndValue, startValue, endValue));
+        assertTrue(RoomViewLogic.checkTimeSlotValidity(currentStartValue,
+                currentEndValue, startValue, endValue));
     }
 
     /**
@@ -39,8 +44,10 @@ class RoomViewLogicTest {
      */
     @Test
     void compare() {
-        Reservation o1 = new Reservation(1, "jim", 1, "2020-05-05", "12:00:00", "14:00:00");
-        Reservation o2 = new Reservation(2, "jim", 1, "2020-05-05", "13:00:00", "14:00:00");
+        Reservation o1 = new Reservation(1, "jim", 1,
+                "2020-05-05", "12:00:00", "14:00:00");
+        Reservation o2 = new Reservation(2, "jim", 1,
+                "2020-05-05", "13:00:00", "14:00:00");
 
         assertEquals(-1, RoomViewLogic.compare(o1, o2));
 
@@ -68,7 +75,7 @@ class RoomViewLogicTest {
      */
     @Test
     void fromString() {
-        String time ="03:30";
+        String time = "03:30";
         assertEquals(210, RoomViewLogic.fromStringTime(time).intValue());
 
         assertNull(RoomViewLogic.fromStringTime(null));

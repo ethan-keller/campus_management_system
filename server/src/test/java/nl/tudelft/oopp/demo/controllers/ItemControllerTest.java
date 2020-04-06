@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -14,9 +15,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import nl.tudelft.oopp.demo.entities.Item;
+import nl.tudelft.oopp.demo.repositories.ItemRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.TestAbortedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -35,7 +38,7 @@ class ItemControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private ItemController controller;
+    private ItemRepository repo;
 
     private Item i1;
     private Item i2;
@@ -58,35 +61,47 @@ class ItemControllerTest {
 
     /**
      * Test for getItem method.
+     *
      * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getItemTest() throws Exception {
-        when(controller.getItem(anyInt())).thenReturn(i1);
+        when(repo.getItem(anyInt())).thenReturn(i1);
 
         mvc.perform(get("/getItem?id=2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.date", is(i1.getDate())));
+
+        when(repo.getItem(anyInt())).thenThrow(new TestAbortedException());
+
+        mvc.perform(get("/getItem?id=2")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     /**
      * Test for getAllItems method.
+     *
      * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getAllItemsTest() throws Exception {
-        when(controller.getAllItems()).thenReturn(itemList);
-
+        when(repo.getAllItems()).thenReturn(itemList);
         mvc.perform(get("/getAllItems")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[1].date", is(i2.getDate())));
+        when(repo.getAllItems()).thenThrow(new TestAbortedException());
+        mvc.perform(get("/getAllItems")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     /**
      * Test for createItem method.
+     *
      * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
@@ -95,10 +110,17 @@ class ItemControllerTest {
                 + "&startingTime=12:00&endingTime=16:00&description=description2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+        doThrow(new TestAbortedException()).when(repo).insertItem(anyString(), anyString(),
+                anyString(), anyString(), anyString(), anyString());
+        mvc.perform(post("/createItem?user=test&title=title&date=2020-08-08"
+                + "&startingTime=12:00&endingTime=16:00&description=description2")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     /**
      * Test for deleteItem method.
+     *
      * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
@@ -106,34 +128,52 @@ class ItemControllerTest {
         mvc.perform(post("/deleteItem?id=2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+        doThrow(new TestAbortedException()).when(repo).deleteItem(anyInt());
+        mvc.perform(post("/deleteItem?id=2")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     /**
      * Test for getCurrentId method.
+     *
      * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getCurrentIdTest() throws Exception {
-        when(controller.getCurrentId()).thenReturn(55);
+        when(repo.getCurrentId()).thenReturn(55);
 
         mvc.perform(get("/currentId")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(55)));
+
+        when(repo.getCurrentId()).thenThrow(new TestAbortedException());
+
+        mvc.perform(get("/currentId")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     /**
      * Test for getUserItems method.
+     *
      * @throws Exception if any exception with the connection (or other) occurs
      */
     @Test
     void getUserItemsTest() throws Exception {
-        when(controller.getUserItems(anyString())).thenReturn(itemList);
+        when(repo.getUserItems(anyString())).thenReturn(itemList);
 
         mvc.perform(get("/getUserItems?user=test")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[2].date", is(i3.getDate())));
+
+        when(repo.getUserItems(anyString())).thenThrow(new TestAbortedException());
+
+        mvc.perform(get("/getUserItems?user=test")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

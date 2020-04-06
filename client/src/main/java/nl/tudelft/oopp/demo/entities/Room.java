@@ -23,6 +23,19 @@ public class Room {
 
     private IntegerProperty roomId;
     private StringProperty roomName;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Room)) {
+            return false;
+        }
+        Room room = (Room) o;
+        return getRoomId().get() == room.getRoomId().get();
+    }
+
     private IntegerProperty roomBuilding;
     private BooleanProperty roomTeacherOnly;
     private IntegerProperty roomCapacity;

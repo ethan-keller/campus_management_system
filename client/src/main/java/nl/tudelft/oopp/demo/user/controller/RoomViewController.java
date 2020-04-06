@@ -67,6 +67,7 @@ import org.controlsfx.control.RangeSlider;
  * Controller class for the Room view (JavaFX).
  */
 public class RoomViewController implements Initializable {
+
     public static int currentRoomId;
     // current Stage
     public static Stage thisStage;
@@ -163,6 +164,7 @@ public class RoomViewController implements Initializable {
 
             // listener that adjusts layout when width of stage changes
             thisStage.widthProperty().addListener((obs, oldVal, newVal) -> changeWidthConstraints(newVal));
+
 
             ObservableList<Food> foodList = Food.getFoodByBuildingId(
                     Building.getBuildingById(currentRoom.getRoomBuilding().get())
@@ -618,7 +620,26 @@ public class RoomViewController implements Initializable {
                 @Override
                 public int compare(Reservation o1, Reservation o2) {
                     // split time in hh:mm
-                    return RoomViewLogic.compare(o1, o2);
+
+                    String[] o1StartSplit = o1.getReservationStartingTime().get().split(":");
+                    int o1StartHour = Integer.parseInt(o1StartSplit[0]);
+                    int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
+
+                    String[] o2StartSplit = o2.getReservationStartingTime().get().split(":");
+                    int o2StartHour = Integer.parseInt(o2StartSplit[0]);
+                    int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
+
+                    // compare hours and minutes
+                    if (o1StartHour < o2StartHour) {
+                        return -1;
+                    } else if (o1StartHour > o2StartHour) {
+                        return 1;
+                    }
+                    if (o1StartMinute < o2StartMinute) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
                 }
             });
 

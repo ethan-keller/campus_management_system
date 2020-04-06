@@ -4,14 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.user.logic.SearchViewLogic;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-
 
 
 class SearchViewLogicTest {
@@ -38,7 +37,6 @@ class SearchViewLogicTest {
     private static Reservation rs7;
 
 
-
     /**
      * makes a List of rooms to filter on.
      */
@@ -60,6 +58,7 @@ class SearchViewLogicTest {
 
     /**
      * makes buildings to filter on.
+     *
      * @return
      */
     public List<Building> makeBuildings() {
@@ -67,8 +66,9 @@ class SearchViewLogicTest {
         b1 = new Building(1, "Building 1", 2,
                 "BuildingStreet 1", 5, "08:00", "22:00");
         b2 = new Building(2, "Building 2", 2,
-                "BuildingStreet 2", 10,"08:00", "22:00");
-        b3 = new Building(3, "Building 3", 1, "BuildingStreet 3",
+                "BuildingStreet 2", 10, "08:00", "22:00");
+        b3 = new Building(3, "Building 3", 1,
+                "BuildingStreet 3",
                 20, "09:30:00", "21:30:00");
 
         buildings.add(b1);
@@ -80,18 +80,26 @@ class SearchViewLogicTest {
 
     /**
      * Makes a list of reservations to filter on.
+     *
      * @return
      */
     public List<Reservation> makeReservations() {
         reservations = new ArrayList<Reservation>();
 
-        rs1 = new Reservation(1, "Test", 1, "2020-05-05", "08:00:00", "23:59:00");
-        rs2 = new Reservation(2, "Test", 2, "2020-05-05", "09:30:00", "23:59:00");
-        rs3 = new Reservation(3, "Test", 2, "2020-05-05", "08:00:00", "08:30:00");
-        rs4 = new Reservation(4, "Test", 3, "2020-05-05", "08:00:00", "23:59:00");
-        rs5 = new Reservation(5, "Test", 3, "2020-06-05", "08:30:00", "23:59:00");
-        rs6 = new Reservation(6, "Test", 3, "2020-06-05", "08:00:00", "08:30:00");
-        rs7 = new Reservation(7, "Test", 5, "2020-06-05", "10:30:00", "11:30:00");
+        rs1 = new Reservation(1, "Test", 1, "2020-05-05",
+                "08:00:00", "23:59:00");
+        rs2 = new Reservation(2, "Test", 2, "2020-05-05",
+                "09:30:00", "23:59:00");
+        rs3 = new Reservation(3, "Test", 2, "2020-05-05",
+                "08:00:00", "08:30:00");
+        rs4 = new Reservation(4, "Test", 3, "2020-05-05",
+                "08:00:00", "23:59:00");
+        rs5 = new Reservation(5, "Test", 3, "2020-06-05",
+                "08:30:00", "23:59:00");
+        rs6 = new Reservation(6, "Test", 3, "2020-06-05",
+                "08:00:00", "08:30:00");
+        rs7 = new Reservation(7, "Test", 5, "2020-06-05",
+                "10:30:00", "11:30:00");
 
 
         reservations.add(rs1);
@@ -181,7 +189,9 @@ class SearchViewLogicTest {
     void filterBySearch() {
         makeBuildings();
         makeRooms();
-        Room r6 = new Room(6, "Room 63", 3, false, 45, "picture.jpg", "nice room", "lecture hall");
+        Room r6 = new Room(6, "Room 63", 3,
+                false, 45, "picture.jpg",
+                "nice room", "lecture hall");
         rooms.add(r6);
 
         List<Room> expected = new ArrayList<Room>();
@@ -269,20 +279,20 @@ class SearchViewLogicTest {
 
         assertEquals(expected, SearchViewLogic.filterByBike(rooms, buildings, "pizza"));
     }
+
     @Test
     /**
      * tests if  the filtering by food works.
      */
-    public void filterByFoodTest(){
+    public void filterByFoodTest() {
         makeRooms();
         makeBuildings();
 
         buildings.remove(b1);
         List<Integer> buildingsWithFood = new ArrayList<Integer>();
-        for(int i = 0; i != buildings.size(); i++){
+        for (int i = 0; i != buildings.size(); i++) {
             buildingsWithFood.add(buildings.get(i).getBuildingId().get());
         }
-
 
 
         List<Room> expected = new ArrayList<Room>();

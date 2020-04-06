@@ -115,6 +115,7 @@ public class CalendarItemDialogController implements Initializable {
                 Alert alert = GeneralMethods.createAlert("Deletion error",
                         "Something went wrong, your item has not been deleted. Please try again",
                         null, Alert.AlertType.ERROR);
+                logger.log(Level.SEVERE, "Item: ID " + id + " could not be deleted");
                 alert.showAndWait();
             }
         } catch (Exception e) {
@@ -165,6 +166,7 @@ public class CalendarItemDialogController implements Initializable {
             } else {
                 // alert user that there was an error
                 alertError.showAndWait();
+                logger.log(Level.SEVERE, "Booking: ID " + id + " could not be canceled");
             }
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());

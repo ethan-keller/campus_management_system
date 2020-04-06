@@ -1,13 +1,11 @@
 package nl.tudelft.oopp.demo.admin.logic;
 
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-
-import nl.tudelft.oopp.demo.general.GeneralMethods;
+import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.entities.Room;
 
 
 public class UserEditDialogLogic {
@@ -24,12 +22,12 @@ public class UserEditDialogLogic {
      * @return Boolean value to validate
      */
     public static String isInputValid(String username, boolean userTypeAdminSelected,
-                                       boolean userTypeTeacherSelected, boolean userTypeStudentSelected,
-                                       String password, boolean edit) {
+                                      boolean userTypeTeacherSelected, boolean userTypeStudentSelected,
+                                      String password, boolean edit) {
         String errorMessage = "";
         // Checks whether the type of user is selected.
-        if ((userTypeAdminSelected || userTypeTeacherSelected
-                || userTypeStudentSelected) == false) {
+        if (!(userTypeAdminSelected || userTypeTeacherSelected
+                || userTypeStudentSelected)) {
             errorMessage += "Select the type of user!\n";
         }
         errorMessage = isUsernameValid(errorMessage, username);
@@ -73,39 +71,61 @@ public class UserEditDialogLogic {
      * @param edit         Boolean
      */
     public static String isPasswordValid(String errorMessage, String password, boolean edit) {
-
-        // Checks whether the password field is empty.
         if (!edit) {
-            if (password.trim().isEmpty()) {
+            // Checks whether the password field is empty.
+            if (password.length() == 0) {
                 errorMessage += "Password field can't be blank!\n";
             }
-        }
-        // Checks whether the password field is atleast 8 characters long.
-        if (password.length() < 8) {
-            errorMessage += "Password needs to at-least 8 characters.\n";
-        }
-        // Checks whether the password contains atleast one numeric value.
-        if (!password.matches(".*\\d.*")) {
-            errorMessage += "Password needs at-least 1 numeric value.\n";
-        }
-        // This pattern is used to compare the text to see if it has an upper case character.
-        Pattern upperCasePattern = Pattern.compile("[A-Z]");
-        // Checks whether the password contains atleast one upper case character.
-        if (!upperCasePattern.matcher(password).find()) {
-            errorMessage += "Password needs at-least 1 upper case character.\n";
-        }
-        // This pattern is used to compare the text to see if it has any spaces.
-        Pattern space = Pattern.compile(" ");
-        // Checks whether the password contains any spaces.
-        if (space.matcher(password).find()) {
-            errorMessage += "Password is not allowed to have spaces in them.\n";
-        }
-        // This pattern is used to compare the text to see if it has any punctuations.
-        Pattern characters = Pattern.compile("[!@#$%^&*`~<,>./?:;'{|+=_-]");
-        // Checks whether the password contains any punctuations.
-        if (characters.matcher(password).find()) {
-            errorMessage += "Password is not allowed to have any punctuations.\n";
+            // Checks whether the password field is at least 8 characters long.
+            if (password.length() < 8) {
+                errorMessage += "Password needs to at-least 8 characters.\n";
+            }
+            // Checks whether the password contains at least one numeric value.
+            if (!password.matches(".*\\d.*")) {
+                errorMessage += "Password needs at-least 1 numeric value.\n";
+            }
+            // This pattern is used to compare the text to see if it has an upper case character.
+            Pattern upperCasePattern = Pattern.compile("[A-Z]");
+            // Checks whether the password contains at least one upper case character.
+            if (!upperCasePattern.matcher(password).find()) {
+                errorMessage += "Password needs at-least 1 upper case character.\n";
+            }
+            // This pattern is used to compare the text to see if it has any spaces.
+            Pattern space = Pattern.compile(" ");
+            // Checks whether the password contains any spaces.
+            if (space.matcher(password).find()) {
+                errorMessage += "Password is not allowed to have spaces in them.\n";
+            }
+            // This pattern is used to compare the text to see if it has any punctuations.
+            Pattern characters = Pattern.compile("[!@#$%^&*`~<,>./?:;'{|+=_-]");
+            // Checks whether the password contains any punctuations.
+            if (characters.matcher(password).find()) {
+                errorMessage += "Password is not allowed to have any punctuations.\n";
+            }
         }
         return errorMessage;
     }
+
+    /**
+     * Removes all the old teacher reservations when a user gets switched from teacher to student.
+     */
+    public static void deleteOldTeacherReservations() {
+        List<Reservation> reservationList = Reservation.getSelectedUserReservation();
+        if (reservationList == null) {
+            return;
+        }
+        List<Room> roomList = Room.getRoomData();
+        assert roomList != null;
+        for (Reservation r : reservationList) {
+            Room room = roomList.stream().filter(x -> x.getRoomId().get() == r.getRoom().get())
+                    .collect(Collectors.toList()).get(0);
+            if (!room.getTeacherOnly().get()) {
+                reservationList.remove(r);
+            }
+        }
+        for (Reservation r : reservationList) {
+            AdminLogic.deleteReservationLogic(r);
+        }
+    }
+
 }

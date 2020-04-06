@@ -2,21 +2,24 @@ package nl.tudelft.oopp.demo.admin.logic;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javafx.scene.control.TableView;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageFoodViewController;
+import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.communication.BuildingServerCommunication;
 import nl.tudelft.oopp.demo.communication.FoodServerCommunication;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
 import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
 import nl.tudelft.oopp.demo.communication.UserServerCommunication;
+import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservation;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
+
+
 
 public class AdminLogic {
     private static Logger logger = Logger.getLogger("GlobalLogger");
@@ -39,18 +42,19 @@ public class AdminLogic {
 
     /**
      * .
->>>>>>> develop
      * This method is used in the adminManageBuildingViewController class to communicate with the server to
      * command them to delete the selected building.
      *
      * @param selectedBuilding - The selected building from the tabular view passed as a parameter.
      */
-    public static void deleteBuildingLogic(Building selectedBuilding) {
+    public static boolean deleteBuildingLogic(Building selectedBuilding) {
         try {
             // Communication with the server.
-            BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
+
+            return BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
+            return false;
         }
     }
 
@@ -61,16 +65,17 @@ public class AdminLogic {
      *
      * @param tempBuilding - The features of the building are passed through this variable.
      */
-    public static void createBuildingLogic(Building tempBuilding) {
+    public static boolean createBuildingLogic(Building tempBuilding) {
         try {
             // Communication with the server.
-            BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
+            return (BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
                     tempBuilding.getBuildingRoomCount().get(), tempBuilding.getBuildingAddress().get(),
                     tempBuilding.getBuildingMaxBikes().get(),
-                    tempBuilding.getOpeningTime().get(), tempBuilding.getClosingTime().get());
+                    tempBuilding.getOpeningTime().get(), tempBuilding.getClosingTime().get()));
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
+        return false;
     }
 
     /**
@@ -80,16 +85,17 @@ public class AdminLogic {
      * @param selectedBuilding - The selected building from the tabular view passed as a parameter.
      * @param tempBuilding     - The features of the building are passed through this variable.
      */
-    public static void editBuildingLogic(Building selectedBuilding, Building tempBuilding) {
+    public static boolean editBuildingLogic(Building selectedBuilding, Building tempBuilding) {
         try {
             // Communication with the server.
-            BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
+            return BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
                     tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
                     tempBuilding.getBuildingAddress().get(), tempBuilding.getBuildingMaxBikes().get(),
                     tempBuilding.getOpeningTime().get(), tempBuilding.getClosingTime().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
+        return false;
     }
 
     /**
@@ -98,14 +104,15 @@ public class AdminLogic {
      *
      * @param selectedBuilding - The building where the food is provided
      */
-    public static void deleteFoodReservationLogic(Building selectedBuilding) {
+    public static boolean deleteFoodReservationLogic(Building selectedBuilding) {
         try {
-            FoodServerCommunication.deleteFoodFromBuilding(
+            return FoodServerCommunication.deleteFoodFromBuilding(
                     AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),
                     selectedBuilding.getBuildingId().getValue());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
+        return false;
     }
 
     /**
@@ -114,14 +121,16 @@ public class AdminLogic {
      *
      * @param tempBuilding - The building variable with all the food options
      */
-    public static void addFoodReservationLogic(Building tempBuilding) {
+    public static boolean addFoodReservationLogic(Building tempBuilding) {
         try {
-            FoodServerCommunication.addFoodToBuilding(
+
+            return FoodServerCommunication.addFoodToBuilding(
                     AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),
                     tempBuilding.getBuildingId().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
+        return false;
     }
 
     /**
@@ -164,12 +173,14 @@ public class AdminLogic {
      *
      * @param selectedReservation - The selected reservation from the tabular view passed as a parameter.
      */
-    public static void deleteReservationLogic(Reservation selectedReservation) {
+    public static boolean deleteReservationLogic(Reservation selectedReservation) {
         try {
-            ReservationServerCommunication.deleteReservation(selectedReservation.getReservationId().getValue());
+            return ReservationServerCommunication.deleteReservation(selectedReservation
+                    .getReservationId().getValue());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
+        return false;
     }
 
     /**
@@ -179,15 +190,16 @@ public class AdminLogic {
      *
      * @param tempReservation - The features of the new reservation passed as parameter.
      */
-    public static void createReservationLogic(Reservation tempReservation) {
+    public static boolean createReservationLogic(Reservation tempReservation) {
         try {
-            ReservationServerCommunication.createReservation(tempReservation.getUsername().get(),
+            return (ReservationServerCommunication.createReservation(tempReservation.getUsername().get(),
                     tempReservation.getRoom().get(), tempReservation.getDate().get(),
                     tempReservation.getReservationStartingTime().get(),
-                    tempReservation.getReservationEndingTime().get());
+                    tempReservation.getReservationEndingTime().get()));
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
+        return false;
     }
 
     /**
@@ -198,15 +210,16 @@ public class AdminLogic {
      * @param selectedReservation - This is used to get the id of the selected reservation.
      * @param tempReservation     - These are the edited features of the reservation object passed as parameter.
      */
-    public static void editReservationLogic(Reservation selectedReservation, Reservation tempReservation) {
+    public static boolean editReservationLogic(Reservation selectedReservation, Reservation tempReservation) {
         try {
-            ReservationServerCommunication.updateReservation(selectedReservation.getReservationId().get(),
+            return ReservationServerCommunication.updateReservation(selectedReservation.getReservationId().get(),
                     tempReservation.getRoom().get(), tempReservation.getDate().get(),
                     tempReservation.getReservationStartingTime().get(),
                     tempReservation.getReservationEndingTime().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
+        return false;
     }
 
     /**
@@ -230,12 +243,13 @@ public class AdminLogic {
      *
      * @param selectedFood - Food option selected by the user.
      */
-    public static void deleteFoodLogic(Food selectedFood) {
+    public static boolean deleteFoodLogic(Food selectedFood) {
         try {
-            FoodServerCommunication.deleteFood(selectedFood.getFoodId().getValue());
+            return FoodServerCommunication.deleteFood(selectedFood.getFoodId().getValue());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
+        return false;
     }
 
     /**
@@ -243,12 +257,13 @@ public class AdminLogic {
      *
      * @param tempFood - Food option selected by the user.
      */
-    public static void addFoodLogic(Food tempFood) {
+    public static boolean addFoodLogic(Food tempFood) {
         try {
-            FoodServerCommunication.createFood(tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
+            return FoodServerCommunication.createFood(tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
+        return false;
     }
 
     /**
@@ -257,13 +272,14 @@ public class AdminLogic {
      * @param selectedFood - Food option selected by the user.
      * @param tempFood     - Food option updated by the user.
      */
-    public static void updateFoodLogic(Food selectedFood, Food tempFood) {
+    public static boolean updateFoodLogic(Food selectedFood, Food tempFood) {
         try {
-            FoodServerCommunication.updateFood(selectedFood.getFoodId().get(),
+            return FoodServerCommunication.updateFood(selectedFood.getFoodId().get(),
                     tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
+        return false;
     }
 
     /**
@@ -289,12 +305,13 @@ public class AdminLogic {
      *
      * @param selectedRoom - Selected room from the table
      */
-    public static void deleteRoomLogic(Room selectedRoom) {
+    public static boolean deleteRoomLogic(Room selectedRoom) {
         try {
-            RoomServerCommunication.deleteRoom(selectedRoom.getRoomId().getValue());
+            return RoomServerCommunication.deleteRoom(selectedRoom.getRoomId().getValue());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
+        return false;
     }
 
     /**
@@ -306,16 +323,13 @@ public class AdminLogic {
      */
     public static boolean createRoomLogic(Room tempRoom) {
         try {
-            if (RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
+            return RoomServerCommunication.createRoom(tempRoom.getRoomName().get(),
+                    tempRoom.getRoomBuilding().get(),
                     tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
                     tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
-                    tempRoom.getRoomType().get())) {
-                return true;
-            } else {
-                return false;
-            }
+                    tempRoom.getRoomType().get());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -330,17 +344,13 @@ public class AdminLogic {
      */
     public static boolean editRoomLogic(Room selectedRoom, Room tempRoom) {
         try {
-            if (RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(),
+            return RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(),
                     tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
                     tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
                     tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
-                    tempRoom.getRoomType().get())) {
-                return true;
-            } else {
-                return false;
-            }
+                    tempRoom.getRoomType().get());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
             return false;
         }
     }
@@ -368,11 +378,12 @@ public class AdminLogic {
      *
      * @param selectedUser - Selected User from the table
      */
-    public static void deleteUserLogic(User selectedUser) {
+    public static boolean deleteUserLogic(User selectedUser) {
         try {
-            UserServerCommunication.deleteUser(selectedUser.getUsername().getValue());
+            return UserServerCommunication.deleteUser(selectedUser.getUsername().getValue());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return false;
         }
     }
 
@@ -383,13 +394,14 @@ public class AdminLogic {
      *
      * @param tempUser - A User with all the required features to be created.
      */
-    public static void createUserLogic(User tempUser) {
+    public static boolean createUserLogic(User tempUser) {
         try {
-            UserServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(),
+            return UserServerCommunication.createUser(tempUser.getUsername().get(),
+                    tempUser.getUserPassword().get(),
                     tempUser.getUserType().get());
         } catch (Exception e) {
-            e.printStackTrace();
-            ;
+            logger.log(Level.SEVERE, e.toString());
+            return false;
         }
     }
 
@@ -400,12 +412,94 @@ public class AdminLogic {
      *
      * @param tempUser - These are the edited features of the User object passed as parameter.
      */
-    public static void editUserLogic(User tempUser) {
+    public static boolean editUserLogic(User tempUser) {
         try {
-            UserServerCommunication.updateUser(tempUser.getUsername().get(),
+            return UserServerCommunication.updateUser(tempUser.getUsername().get(),
                     tempUser.getUserPassword().get(), tempUser.getUserType().get());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
+            return false;
         }
     }
+
+    /**
+     * .
+     * This method is used in the adminManageUserViewController class to communicate with the server to
+     * command them to edit the selected User.
+     *
+     * @param tempUser - These are the edited features of the User object passed as parameter.
+     */
+    public static boolean editUserLogicWithoutPassword(User tempUser) {
+        try {
+            return UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserType().get());
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+            return false;
+        }
+    }
+
+    /**
+     * .
+     * This method is used in the adminManageBikeReservationViewController and adminUserBikeViewController
+     * class to communicate with the server to command them to delete the selected bike reservation.
+     *
+     * @param selectedBikeReservation - Selected bike reservation from the table
+     */
+    public static boolean deleteBikeLogic(BikeReservation selectedBikeReservation) {
+        try {
+            return BikeReservationCommunication.deleteBikeReservation(
+                    selectedBikeReservation.getBikeReservationId().get());
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+            return false;
+        }
+    }
+
+    /**
+     * .
+     * This method is used in adminManageBikeReservationViewController class to communicate with the server to
+     * command them to create a new bike reservation.
+     *
+     * @param tempBikeReservation - A bike reservation with all the required features to be created.
+     */
+    public static boolean creatBikeLogic(BikeReservation tempBikeReservation) {
+        try {
+            return BikeReservationCommunication.createBikeReservation(
+                    tempBikeReservation.getBikeReservationBuilding().get(),
+                    tempBikeReservation.getBikeReservationUser().get(),
+                    tempBikeReservation.getBikeReservationQuantity().get(),
+                    tempBikeReservation.getBikeReservationDate().get(),
+                    tempBikeReservation.getBikeReservationStartingTime().get(),
+                    tempBikeReservation.getBikeReservationEndingTime().get());
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+            return false;
+        }
+    }
+
+    /**
+     * .
+     * This method is used in the adminManageBikeReservationViewController class to communicate with the server to
+     * command them to edit the selected bike reservation.
+     *
+     * @param selectedBikeReservation - This is used to get the id of the selected bike reservation.
+     * @param tempBikeReservation - These are the edited features of the bike reservation object passed as param.
+     */
+    public static boolean editBikeLogic(BikeReservation selectedBikeReservation,
+                                        BikeReservation tempBikeReservation) {
+        try {
+            return BikeReservationCommunication.updateBikeReservation(
+                    selectedBikeReservation.getBikeReservationId().get(),
+                    tempBikeReservation.getBikeReservationBuilding().get(),
+                    tempBikeReservation.getBikeReservationUser().get(),
+                    tempBikeReservation.getBikeReservationQuantity().get(),
+                    tempBikeReservation.getBikeReservationDate().get(),
+                    tempBikeReservation.getBikeReservationStartingTime().get(),
+                    tempBikeReservation.getBikeReservationEndingTime().get());
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+            return false;
+        }
+    }
+
 }

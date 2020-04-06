@@ -30,6 +30,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.admin.logic.ReservationEditDialogLogic;
+
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -99,9 +100,10 @@ public class ReservationEditDialogController {
             //Initializing the observable list for the users available
             username.setItems(userObservableList);
             this.setUserComboBoxConverter(userObservableList);
+            username.valueProperty().addListener(((observable, oldValue, newValue) -> {
+                usernameSelected(newValue);
+            }));
 
-            //Initializing the observable list for the rooms available
-            room.setItems(roomObservableList);
             this.setRoomComboBoxConverter(roomObservableList);
 
             //This method sets up the slider which determines the time of reservation in the dialog view.
@@ -542,6 +544,33 @@ public class ReservationEditDialogController {
     }
 
     /**
+     * .
+     * Called when a  user is selected
+     * The room combobox only shows the available rooms according to the user type
+     * @param newUser is selected
+     */
+    public void usernameSelected(User newUser) {
+        try {
+            if (username.getValue() != null) {
+                final ObservableList<Room> roomObservableList = Room.getRoomData();
+                boolean isStudent = (this.username.getSelectionModel().getSelectedItem().getUserType().get() == 2);
+                if (isStudent) {
+                    List<Room> filteredRooms = roomObservableList.stream().filter(x -> !x.getTeacherOnly().get())
+                            .collect(Collectors.toList());
+                    roomObservableList.clear();
+                    for (Room r : filteredRooms) {
+                        roomObservableList.add(r);
+                    }
+                }
+                room.setItems(roomObservableList);
+            }
+
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+    }
+
+    /**
      * Called when the OK button is clicked on the dialog box.
      * This causes the information input by the user to be stored in an object.
      *
@@ -606,38 +635,6 @@ public class ReservationEditDialogController {
                     errorMessage, Alert.AlertType.ERROR);
             return false;
         }
-
-
-
-
-        /*
-        String errorMessage = "";
-
-        if (username == null) {
-            errorMessage += "No valid username provided!\n";
-        }
-        if (room == null) {
-            errorMessage += "No valid Room provided! \n";
-        }
-        if (date == null) {
-            errorMessage += "No date provided!\n";
-        }
-        double currentStartValue = timeslotSlider.getLowValue();
-        double currentEndValue = timeslotSlider.getHighValue();
-        if (!checkTimeSlotValidity() || currentStartValue == currentEndValue) {
-            errorMessage += "No valid timeslot selected!\n";
-        }
-
-        // If all the fields are valid, then true is returned.
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-            return false;
-        }
-         */
     }
 
 

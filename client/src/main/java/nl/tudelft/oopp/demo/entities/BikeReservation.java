@@ -5,7 +5,6 @@ import com.mindfusion.common.DateTime;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -201,6 +200,7 @@ public class BikeReservation implements AbstractCalendarItem {
     }
 
     /**
+     * <<<<<<< HEAD
      * Method that returns all bike reservations for a particular building on a particular date.
      *
      * @param buildingId    the id of the building
@@ -285,6 +285,7 @@ public class BikeReservation implements AbstractCalendarItem {
         return bikeReservationQuantity;
     }
 
+
     /**
      * Sets bike reservation quantity.
      *
@@ -302,6 +303,7 @@ public class BikeReservation implements AbstractCalendarItem {
     public StringProperty getBikeReservationDate() {
         return bikeReservationDate;
     }
+
 
     /**
      * Sets bike reservation date.
@@ -339,6 +341,7 @@ public class BikeReservation implements AbstractCalendarItem {
         return bikeReservationEndingTime;
     }
 
+
     /**
      * Sets bike reservation ending time.
      *
@@ -361,11 +364,6 @@ public class BikeReservation implements AbstractCalendarItem {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(getBikeReservationId());
-    }
-
-    @Override
     public String getId() {
         return String.valueOf(this.getBikeReservationId().get());
     }
@@ -376,6 +374,7 @@ public class BikeReservation implements AbstractCalendarItem {
     }
 
     @Override
+
     public DateTime getStartTime() {
         DateTime dt = null;
         // split date in [yyyy, MM, dd]

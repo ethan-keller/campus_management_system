@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.UnsupportedEncodingException;
 
+import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.encodehash.Hashing;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
@@ -41,10 +42,9 @@ public class LoginController {
     @ResponseBody
     public String getUser(@RequestParam String username,
                           @RequestParam String password) throws UnsupportedEncodingException {
-        //TODO What to do with this \/
 
-        //  username = CommunicationMethods.decodeCommunication(username);
-        //  password = CommunicationMethods.decodeCommunication(password);
+        username = CommunicationMethods.decodeCommunication(username);
+        password = CommunicationMethods.decodeCommunication(password);
 
         String hashedPassword = Hashing.hashIt(password);
         User user = userRepo.getUser(username);

@@ -1,8 +1,8 @@
 package nl.tudelft.oopp.demo.user.logic;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class LoginViewLogicTest {
 
@@ -10,7 +10,7 @@ class LoginViewLogicTest {
     /**
      * tests if the input is v
      */
-    void isValidInputTest(){
+    void isValidInputTest() {
         String usernameInput = "";
         String passwordInput = "";
 

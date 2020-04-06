@@ -17,7 +17,6 @@ public class RoomViewLogic {
     private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
-<<<<<<< HEAD
      * Method that checks if the chosen timeslot is free.
      *
      * @return true if the timeslot is free, false otherwise
@@ -25,13 +24,9 @@ public class RoomViewLogic {
     public static boolean checkTimeSlotValidity(double currentStartValue, double currentEndValue,
                                                 double startValue, double endValue) {
         // check if the values overlap
-        if (!((currentStartValue <= startValue && currentEndValue <= startValue)
-                || (currentStartValue >= endValue && currentEndValue >= endValue))) {
-            return false;
-        }
-        return true;
+        return (currentStartValue <= startValue && currentEndValue <= startValue)
+                || (currentStartValue >= endValue && currentEndValue >= endValue);
     }
-
 
     /**.
      * This compares the two reservations provides as parameter

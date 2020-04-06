@@ -18,7 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
-import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
+import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
@@ -71,13 +71,14 @@ public class AdminUserBikeViewController {
             backButton.getStyleClass().add("back-button");
             signOutButton.getStyleClass().clear();
             signOutButton.getStyleClass().add("signout-button");
+
+            final ObservableList<Building> buildingList = Building.getBuildingData();
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             // Initialize the bike reservation table with the five columns.
             bikeIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getBikeReservationId().get()));
             // To align the text in this column in a centralized manner; looks better
             bikeIdColumn.setStyle("-fx-alignment: CENTER");
-            ObservableList<Building> buildingList = Building.getBuildingData();
             bikeBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                     buildingList.stream().filter(x -> x.getBuildingId().get()
                             == cellData.getValue().getBikeReservationBuilding().get())
@@ -150,13 +151,16 @@ public class AdminUserBikeViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-                // TODO: Check that bike reservation deletion was successful before displaying alert
-                BikeReservationCommunication.deleteBikeReservation(
-                        selectedBikeReservation.getBikeReservationId().getValue());
-                refresh();
-                // An alert pop up when a reservation deleted successfully
-                GeneralMethods.alertBox("Delete bike reservation", "",
-                        "Bike reservation deleted!", Alert.AlertType.INFORMATION);
+                if (AdminLogic.deleteBikeLogic(selectedBikeReservation)) {
+                    refresh();
+                    // An alert pop up when a reservation deleted successfully
+                    GeneralMethods.alertBox("Delete bike reservation", "",
+                            "Bike reservation deleted!", Alert.AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Deletion failed", "",
+                            "Bike reservation deletion failed", Alert.AlertType.WARNING);
+                }
             } else {
                 // An alert pop up when no bike reservation selected
                 GeneralMethods.alertBox("No Selection", "No Bike Reservation Selected",
@@ -187,18 +191,16 @@ public class AdminUserBikeViewController {
             if (tempBikeReservation == null) {
                 return;
             }
-            // TODO: Check that bike reservation creation was successful before displaying alert
-            BikeReservationCommunication.createBikeReservation(
-                    tempBikeReservation.getBikeReservationBuilding().get(),
-                    AdminManageUserViewController.currentSelectedUser.getUsername().get(),
-                    tempBikeReservation.getBikeReservationQuantity().get(),
-                    tempBikeReservation.getBikeReservationDate().get(),
-                    tempBikeReservation.getBikeReservationStartingTime().get(),
-                    tempBikeReservation.getBikeReservationEndingTime().get());
-            refresh();
-            // An alert pop up when a new reservation created.
-            GeneralMethods.alertBox("New bike reservation", "",
-                    "Successfully added new bike reservation!", Alert.AlertType.INFORMATION);
+            if (AdminLogic.creatBikeLogic(tempBikeReservation)) {
+                refresh();
+                // An alert pop up when a new reservation created.
+                GeneralMethods.alertBox("New bike reservation", "",
+                        "Successfully added new bike reservation!", Alert.AlertType.INFORMATION);
+            } else {
+                // Create an alert box.
+                GeneralMethods.alertBox("Creation failed", "",
+                        "Bike reservation creation failed", Alert.AlertType.WARNING);
+            }
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -226,19 +228,16 @@ public class AdminUserBikeViewController {
                 if (tempBikeReservation == null) {
                     return;
                 }
-                // TODO: Check that bike reservation edit was successful before displaying alert
-                BikeReservationCommunication.updateBikeReservation(
-                        selectedBikeReservation.getBikeReservationId().get(),
-                        tempBikeReservation.getBikeReservationBuilding().get(),
-                        AdminManageUserViewController.currentSelectedUser.getUsername().get(),
-                        tempBikeReservation.getBikeReservationQuantity().get(),
-                        tempBikeReservation.getBikeReservationDate().get(),
-                        tempBikeReservation.getBikeReservationStartingTime().get(),
-                        tempBikeReservation.getBikeReservationEndingTime().get());
-                refresh();
-                // Creates an alert box to display the message.
-                GeneralMethods.alertBox("Edit bike reservation", "",
-                        "Bike Reservation edited!", Alert.AlertType.INFORMATION);
+                if (AdminLogic.editBikeLogic(selectedBikeReservation, tempBikeReservation)) {
+                    refresh();
+                    // Creates an alert box to display the message.
+                    GeneralMethods.alertBox("Edit bike reservation", "",
+                            "Bike Reservation edited!", Alert.AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Edit failed", "",
+                            "Bike reservation edit failed", Alert.AlertType.WARNING);
+                }
             } else {
                 // Creates an alert box.
                 GeneralMethods.alertBox("No Selection", "No Bike Reservation Selected",

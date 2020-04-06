@@ -3,8 +3,9 @@ package nl.tudelft.oopp.demo.admin.logic;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javafx.scene.control.Alert;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageReservationViewController;
@@ -12,10 +13,10 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 
-import nl.tudelft.oopp.demo.general.GeneralMethods;
-
 
 public class ReservationEditDialogLogic {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * Validates the user input in the text fields.
@@ -45,8 +46,6 @@ public class ReservationEditDialogLogic {
         return errorMessage;
     }
 
-
-
     /**
      * Constructor for the converter that converts LocalDate objects to String yyyy-MM-dd format.
      *
@@ -75,7 +74,7 @@ public class ReservationEditDialogLogic {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -133,7 +132,7 @@ public class ReservationEditDialogLogic {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return false;
     }
