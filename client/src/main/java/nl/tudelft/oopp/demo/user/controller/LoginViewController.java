@@ -67,8 +67,11 @@ public class LoginViewController {
     /**
      * This method checks if the username field and the password field are left empty.
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @return Boolean value to indicate whether the above condition is fulfilled.
 =======
+=======
+>>>>>>> develop
      *
      * @return Boolean value to indicate whether the above condition is fullfilled.
 >>>>>>> develop

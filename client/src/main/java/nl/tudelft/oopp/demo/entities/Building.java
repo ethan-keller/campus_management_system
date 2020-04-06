@@ -113,6 +113,18 @@ public class Building {
         return null;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Building)) {
+            return false;
+        }
+        Building building = (Building) o;
+        return getBuildingId().get() == building.getBuildingId().get();
+    }
+
     /**
      * Getter by food id.
      *

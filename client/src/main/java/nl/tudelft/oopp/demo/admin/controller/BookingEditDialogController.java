@@ -34,6 +34,8 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
+
+import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import org.controlsfx.control.RangeSlider;
 
 
@@ -308,6 +310,11 @@ public class BookingEditDialogController {
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * <<<<<<< HEAD
+     * =======
+>>>>>>> develop
      * Creates a StringConverter that converts the selected value to an actual time (in String format).
      *
      * @return a StringConverter object
@@ -341,9 +348,12 @@ public class BookingEditDialogController {
     }
 
     /**
+<<<<<<< HEAD
      * <<<<<<< HEAD
      * =======
      * >>>>>>> develop
+=======
+>>>>>>> develop
      * >>>>>>> develop
      * Set the building combobox converter.
      *
@@ -397,7 +407,7 @@ public class BookingEditDialogController {
     /**
      * .
      * Called when a building is selected
-     * The room combobox only shows the rooms of the selected building
+     * The room combobox only shows the available rooms of the selected building according to the user type
      */
     public void buildingSelected(Building newBuilding) {
         try {
@@ -407,6 +417,10 @@ public class BookingEditDialogController {
                 //Create a list of rooms only belongs to the selected building
                 List<Room> filteredRooms = olr.stream().filter(x -> x.getRoomBuilding().get()
                         == newBuilding.getBuildingId().get()).collect(Collectors.toList());
+                if (AdminManageUserViewController.currentSelectedUser.getUserType().get() == 2) {
+                    filteredRooms = filteredRooms.stream().filter(x -> !x.getTeacherOnly().get())
+                            .collect(Collectors.toList());
+                }
                 olr.clear();
                 //Add the filtered rooms to the observable list
                 for (Room r : filteredRooms) {
@@ -497,7 +511,11 @@ public class BookingEditDialogController {
             reservation.setRoom(this.bookingRoomComboBox.getSelectionModel().getSelectedItem().getRoomId().get());
             reservation.setDate(this.bookingDate.getValue().toString());
             reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
-            reservation.setEndingTime(endTime.getText().replace("End: ", ""));
+            if (endTime.getText().equals("End: 24:00:00")) {
+                reservation.setEndingTime("23:59:00");
+            } else {
+                reservation.setEndingTime(endTime.getText().replace("End: ", ""));
+            }
             // Close the dialog window
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();

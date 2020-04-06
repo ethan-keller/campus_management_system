@@ -11,8 +11,11 @@ import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import nl.tudelft.oopp.demo.admin.logic.FoodBuildingEditDialogLogic;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
+
 
 
 public class FoodBuildingEditDialogController {
@@ -22,6 +25,14 @@ public class FoodBuildingEditDialogController {
     private ComboBox<Building> foodBuildingComboBox;
     private ObservableList<Building> olb;
     private Stage dialogStage;
+
+
+    public static Food selectedFood;
+
+    private static void emptyBuilding() {
+        building = new Building();
+    }
+
 
     private static void emptyBuilding() {
         building = new Building();
@@ -71,18 +82,24 @@ public class FoodBuildingEditDialogController {
      */
     @FXML
     private void handleOkClicked(ActionEvent event) {
-        if (isInputValid()) {
-            emptyBuilding();
-            building.setBuildingId(
-                    this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
-            building.setBuildingName(
-                    this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingName().get());
-            building.setBuildingRoomCount(
-                    this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingRoomCount().get());
-            building.setBuildingAddress(
-                    this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingAddress().get());
-            this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            dialogStage.close();
+        if (!(foodBuildingComboBox.getSelectionModel().getSelectedIndex() < 0)) {
+            Building b = foodBuildingComboBox.getValue();
+            if (FoodBuildingEditDialogLogic.isInputValid(b, selectedFood)) {
+                emptyBuilding();
+                building.setBuildingId(
+                        this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingId().get());
+                building.setBuildingName(
+                        this.foodBuildingComboBox.getSelectionModel().getSelectedItem().getBuildingName().get());
+                building.setBuildingRoomCount(
+                        this.foodBuildingComboBox
+                                .getSelectionModel().getSelectedItem().getBuildingRoomCount().get());
+                building.setBuildingAddress(
+                        this.foodBuildingComboBox
+                                .getSelectionModel().getSelectedItem().getBuildingAddress().get());
+                this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                dialogStage.close();
+            }
+
         }
     }
 
@@ -97,6 +114,7 @@ public class FoodBuildingEditDialogController {
         this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         dialogStage.close();
     }
+
 
     /**
      * Validates the user input.
@@ -121,5 +139,4 @@ public class FoodBuildingEditDialogController {
         }
 
     }
-
 }

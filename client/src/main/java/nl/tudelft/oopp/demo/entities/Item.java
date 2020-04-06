@@ -3,7 +3,10 @@ package nl.tudelft.oopp.demo.entities;
 import com.mindfusion.common.DateTime;
 
 import java.awt.Color;
+<<<<<<< HEAD
 import java.util.Objects;
+=======
+>>>>>>> develop
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

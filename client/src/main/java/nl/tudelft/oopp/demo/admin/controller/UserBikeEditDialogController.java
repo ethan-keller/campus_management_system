@@ -32,6 +32,7 @@ import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
+import nl.tudelft.oopp.demo.views.AdminUserBikeView;
 import org.controlsfx.control.RangeSlider;
 
 public class UserBikeEditDialogController {

@@ -3,6 +3,8 @@ package nl.tudelft.oopp.demo.admin.logic;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.scene.control.Alert;
 import javafx.util.StringConverter;
@@ -11,20 +13,28 @@ import nl.tudelft.oopp.demo.admin.controller.AdminManageReservationViewControlle
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 
 public class ReservationEditDialogLogic {
 
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     /**
      * Validates the user input in the text fields.
      *
      * @return true if the input is valid
      */
+<<<<<<< HEAD
     public static String isInputValid(User username, Room room, LocalDate date,
                                        double currentStartValue, double currentEndValue,
                                        StringConverter<LocalDate> temp) {
+=======
+    public static boolean isInputValid(ComboBox<User> username, ComboBox<Room> room, DatePicker date,
+                                       RangeSlider timeslotSlider, DateTimeFormatter formatter) {
+>>>>>>> develop
         String errorMessage = "";
 
         if (username == null) {
@@ -46,6 +56,23 @@ public class ReservationEditDialogLogic {
     }
 
 
+<<<<<<< HEAD
+=======
+                @Override
+                public LocalDate fromString(String string) {
+                    // The date is formatted in yyyy-MM-dd format from the datePicker.
+                    if (string != null && !string.trim().isEmpty()) {
+                        return LocalDate.parse(string, formatter);
+                    }
+                    return null;
+                }
+            };
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
+    }
+>>>>>>> develop
 
     /**
      * Constructor for the converter that converts LocalDate objects to String yyyy-MM-dd format.
@@ -75,7 +102,7 @@ public class ReservationEditDialogLogic {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -121,6 +148,11 @@ public class ReservationEditDialogLogic {
                 }
 
                 // get rangeslider values + reservation values
+<<<<<<< HEAD
+=======
+                double currentStartValue = timeslotSlider.getLowValue();
+                double currentEndValue = timeslotSlider.getHighValue();
+>>>>>>> develop
                 double startValue = (double) timeConverter.fromString(r.getReservationStartingTime().get());
                 double endValue = (double) timeConverter.fromString(r.getReservationEndingTime().get());
 
@@ -133,7 +165,7 @@ public class ReservationEditDialogLogic {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return false;
     }

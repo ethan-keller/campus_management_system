@@ -96,11 +96,15 @@ public class AdminManageUserViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-                // TODO: Check that building deletion was succesful before displaying alert
-                AdminLogic.deleteUserLogic(selectedUser);
-                refresh();
-                // Creates an alert box for transparent communication.
-                GeneralMethods.alertBox("Delete user", "", "User deleted!", Alert.AlertType.INFORMATION);
+                if (AdminLogic.deleteUserLogic(selectedUser)) {
+                    refresh();
+                    // Creates an alert box for transparent communication.
+                    GeneralMethods.alertBox("Delete user", "", "User deleted!", Alert.AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Deletion failed", "",
+                            "User deletion failed", Alert.AlertType.WARNING);
+                }
             } else {
                 // Creates an alert box.
                 GeneralMethods.alertBox("No Selection", "No User Selected",
@@ -126,14 +130,16 @@ public class AdminManageUserViewController {
             User tempUser = UserEditDialogController.user;
             if (tempUser == null) {
                 return;
-
-                // TODO: Check that user creation was successful before displaying alert
-            } else {
-                AdminLogic.createUserLogic(tempUser);
             }
-            refresh();
-            // Informing the admin through a alert box that a new user is created successfully.
-            GeneralMethods.alertBox("New user", "", "New User created!", Alert.AlertType.INFORMATION);
+            if (AdminLogic.createUserLogic(tempUser)) {
+                refresh();
+                // Informing the admin through a alert box that a new user is created successfully.
+                GeneralMethods.alertBox("New user", "", "New User created!", Alert.AlertType.INFORMATION);
+            } else {
+                // Create an alert box.
+                GeneralMethods.alertBox("Creation failed", "",
+                        "User creation failed", Alert.AlertType.WARNING);
+            }
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -160,10 +166,27 @@ public class AdminManageUserViewController {
                 if (tempUser == null) {
                     return;
                 }
-                AdminLogic.editUserLogic(tempUser);
-                refresh();
-                // Creates an alert box for transparent communication.
-                GeneralMethods.alertBox("Edit user", "", "User edited!", Alert.AlertType.INFORMATION);
+                if (tempUser.getUserPassword().get().equals("")) {
+                    if (AdminLogic.editUserLogicWithoutPassword(tempUser)) {
+                        refresh();
+                        // Creates an alert box for transparent communication.
+                        GeneralMethods.alertBox("Edit user", "", "User edited!", Alert.AlertType.INFORMATION);
+                    } else {
+                        // Create an alert box.
+                        GeneralMethods.alertBox("Edit failed", "",
+                                "User edit failed", Alert.AlertType.WARNING);
+                    }
+                } else {
+                    if (AdminLogic.editUserLogic(tempUser)) {
+                        refresh();
+                        // Creates an alert box for transparent communication.
+                        GeneralMethods.alertBox("Edit user", "", "User edited!", Alert.AlertType.INFORMATION);
+                    } else {
+                        // Create an alert box.
+                        GeneralMethods.alertBox("Edit failed", "",
+                                "User edit failed", Alert.AlertType.WARNING);
+                    }
+                }
             } else {
                 // Creates an alert box.
                 GeneralMethods.alertBox("No Selection", "No User Selected",

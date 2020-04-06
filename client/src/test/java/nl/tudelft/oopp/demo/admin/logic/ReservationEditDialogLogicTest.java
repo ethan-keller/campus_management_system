@@ -50,6 +50,9 @@ class ReservationEditDialogLogicTest {
     }
 
     @Test
+    /**
+     * tests the isInputValid with on null checks.
+     */
     void isInputValidNullTest() {
         User user = null;
         Room room = null;
@@ -68,12 +71,18 @@ class ReservationEditDialogLogicTest {
     }
 
     @Test
+    /**
+     * Tests checkTimeSlotValidity on null checks.
+     */
     void checkTimeSlotValidityNullRoomTest() {
         assertFalse(ReservationEditDialogLogic
                 .checkTimeSlotValidity(null, null, 0.1, 0.1, null));
     }
 
     @Test
+    /**
+     * tests the checkTimeSlotValidity.
+     */
     void checkTimeSLotValidityTest() {
         Room room = new Room(
                 1, "", 1, false, 1, "", "", "");
@@ -82,6 +91,9 @@ class ReservationEditDialogLogicTest {
     }
 
     @Test
+    /**
+     * test the converter of the rangeSlider.
+     */
     void getRangeSliderConverterTest() {
         StringConverter<Number> converter = ReservationEditDialogLogic.getRangeSliderConverter();
         assertEquals(728.0, converter.fromString("12:08"));

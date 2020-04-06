@@ -67,11 +67,8 @@ public class AdminManageFoodViewController {
             foodNameColumn.setStyle("-fx-alignment: CENTER");
 
             foodPriceColumn.setCellValueFactory(cell -> new SimpleDoubleProperty(
-                    (double)Math.round((cell.getValue().getFoodPrice().get()) * 100) / 100));
-            // To align the text in this column in a centralized manner; looks better
-            foodPriceColumn.setStyle("-fx-alignment: CENTER");
 
-
+                    (double) Math.round((cell.getValue().getFoodPrice().get()) * 100) / 100));
             // Add observable list data to the table
             foodTable.setItems(Food.getAllFoodData());
         } catch (Exception e) {
@@ -115,12 +112,16 @@ public class AdminManageFoodViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-                // TODO: Check that food deletion was successful before displaying alert
-                AdminLogic.deleteFoodLogic(selectedFood);
-                refresh();
-                // An alert pop up when a food deleted successfully
-                GeneralMethods.alertBox("Delete food", "",
-                        "Food deleted!", AlertType.INFORMATION);
+                if (AdminLogic.deleteFoodLogic(selectedFood)) {
+                    refresh();
+                    // An alert pop up when a food deleted successfully
+                    GeneralMethods.alertBox("Delete food", "",
+                            "Food deleted!", AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Deletion failed", "",
+                            "Food deletion failed", AlertType.WARNING);
+                }
             } else {
                 // An alert pop up when no food selected
                 GeneralMethods.alertBox("No Selection", "No Food Selected",
@@ -150,11 +151,15 @@ public class AdminManageFoodViewController {
             if (tempFood == null) {
                 return;
             }
-            // TODO: Check that building creation was successful before displaying alert
-            AdminLogic.addFoodLogic(tempFood);
-            refresh();
-            // An alert pop up when a new food created.
-            GeneralMethods.alertBox("New food", "", "New Food added!", AlertType.INFORMATION);
+            if (AdminLogic.addFoodLogic(tempFood)) {
+                refresh();
+                // An alert pop up when a new food created.
+                GeneralMethods.alertBox("New food", "", "New Food added!", AlertType.INFORMATION);
+            } else {
+                // Create an alert box.
+                GeneralMethods.alertBox("Creation failed", "",
+                        "Food creation failed", AlertType.WARNING);
+            }
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -182,11 +187,15 @@ public class AdminManageFoodViewController {
                 if (tempFood == null) {
                     return;
                 }
-                // TODO: Check that building edit was successful before displaying alert
-                AdminLogic.updateFoodLogic(selectedFood, tempFood);
-                refresh();
-                // An alert pop up when a new food created.
-                GeneralMethods.alertBox("Edit food", "", "Food edited!", AlertType.INFORMATION);
+                if (AdminLogic.updateFoodLogic(selectedFood, tempFood)) {
+                    refresh();
+                    // An alert pop up when a new food created.
+                    GeneralMethods.alertBox("Edit food", "", "Food edited!", AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Edit failed", "",
+                            "Food edit failed", AlertType.WARNING);
+                }
             } else {
                 // An alert pop up when no food selected
                 GeneralMethods.alertBox("No Selection", "No Food Selected",
@@ -212,6 +221,7 @@ public class AdminManageFoodViewController {
             if (selectedIndex >= 0) {
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentSelectedFood = selectedFood;
+                FoodBuildingEditDialogController.selectedFood = selectedFood;
 
                 AdminFoodBuildingView afbv = new AdminFoodBuildingView();
                 afbv.start(stage);

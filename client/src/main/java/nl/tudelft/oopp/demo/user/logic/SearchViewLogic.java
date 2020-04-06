@@ -267,6 +267,12 @@ public class SearchViewLogic {
                         }
                         if (reservations.get(z).getReservationEndingTime()
                                 .getValue().equals("23:59:00")) {
+<<<<<<< HEAD
+=======
+                            ending = 24;
+                        }
+                        if (ending == 0) {
+>>>>>>> develop
                             ending = 24;
                         }
                         totalHoursAvailable = totalHoursAvailable + starting - ending;
