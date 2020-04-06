@@ -594,7 +594,8 @@ public class ReservationEditDialogController {
         double currentEndValue = timeslotSlider.getHighValue();
         StringConverter<LocalDate> temp = getDateConverter();
 
-        String errorMessage =  ReservationEditDialogLogic.isInputValid(user, resRoom, resDate, currentStartValue, currentEndValue, temp);
+        String errorMessage =  ReservationEditDialogLogic.isInputValid(
+                user, resRoom, resDate, currentStartValue, currentEndValue, temp);
 
         // If all the fields are valid, then true is returned.
         if (errorMessage.equals("")) {
