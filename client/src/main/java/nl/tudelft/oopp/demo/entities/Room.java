@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -8,13 +11,31 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import nl.tudelft.oopp.demo.communication.RoomServerCommunication;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Room {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     private IntegerProperty roomId;
     private StringProperty roomName;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Room)) {
+            return false;
+        }
+        Room room = (Room) o;
+        return getRoomId().get() == room.getRoomId().get();
+    }
+
     private IntegerProperty roomBuilding;
     private BooleanProperty roomTeacherOnly;
     private IntegerProperty roomCapacity;
@@ -61,6 +82,57 @@ public class Room {
         this.roomPhoto = new SimpleStringProperty(roomPhoto);
         this.roomDescription = new SimpleStringProperty(roomDescription);
         this.roomType = new SimpleStringProperty(roomType);
+    }
+
+    /**
+     * Convert server response into an ObservableList of rooms.
+     */
+    public static ObservableList<Room> getRoomData() {
+        try {
+            ObservableList<Room> roomData = FXCollections.observableArrayList();
+            JSONArray jsonArrayRooms = new JSONArray(RoomServerCommunication.getAllRooms());
+            for (int i = 0; i < jsonArrayRooms.length(); i++) {
+                Room r = new Room();
+                r.setRoomId(jsonArrayRooms.getJSONObject(i).getInt("id"));
+                r.setRoomName(jsonArrayRooms.getJSONObject(i).getString("name"));
+                r.setRoomBuilding(jsonArrayRooms.getJSONObject(i).getInt("building"));
+                r.setTeacherOnly(jsonArrayRooms.getJSONObject(i).getBoolean("teacherOnly"));
+                r.setRoomCapacity(jsonArrayRooms.getJSONObject(i).getInt("capacity"));
+                r.setRoomPhoto(jsonArrayRooms.getJSONObject(i).getString("photos"));
+                r.setRoomDescription(jsonArrayRooms.getJSONObject(i).getString("description"));
+                r.setRoomType(jsonArrayRooms.getJSONObject(i).getString("type"));
+                roomData.add(r);
+            }
+            return roomData;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
+    }
+
+    /**
+     * Getter.
+     *
+     * @param id int
+     * @return Room object.
+     */
+    public static Room getRoomById(int id) {
+        try {
+            JSONObject jsonObject = new JSONObject(RoomServerCommunication.getRoom(id));
+            Room r = new Room();
+            r.setRoomId(jsonObject.getInt("id"));
+            r.setRoomName(jsonObject.getString("name"));
+            r.setRoomBuilding(jsonObject.getInt("building"));
+            r.setTeacherOnly(jsonObject.getBoolean("teacherOnly"));
+            r.setRoomCapacity(jsonObject.getInt("capacity"));
+            r.setRoomPhoto(jsonObject.getString("photos"));
+            r.setRoomDescription(jsonObject.getString("description"));
+            r.setRoomType(jsonObject.getString("type"));
+            return r;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 
     /**
@@ -205,58 +277,6 @@ public class Room {
      */
     public void setRoomType(String roomType) {
         this.roomType.set(roomType);
-    }
-
-
-    /**
-     * Convert server response into an ObservableList of rooms.
-     */
-    public static ObservableList<Room> getRoomData() {
-        try {
-            ObservableList<Room> roomData = FXCollections.observableArrayList();
-            JSONArray jsonArrayRooms = new JSONArray(RoomServerCommunication.getAllRooms());
-            for (int i = 0; i < jsonArrayRooms.length(); i++) {
-                Room r = new Room();
-                r.setRoomId(jsonArrayRooms.getJSONObject(i).getInt("id"));
-                r.setRoomName(jsonArrayRooms.getJSONObject(i).getString("name"));
-                r.setRoomBuilding(jsonArrayRooms.getJSONObject(i).getInt("building"));
-                r.setTeacherOnly(jsonArrayRooms.getJSONObject(i).getBoolean("teacherOnly"));
-                r.setRoomCapacity(jsonArrayRooms.getJSONObject(i).getInt("capacity"));
-                r.setRoomPhoto(jsonArrayRooms.getJSONObject(i).getString("photos"));
-                r.setRoomDescription(jsonArrayRooms.getJSONObject(i).getString("description"));
-                r.setRoomType(jsonArrayRooms.getJSONObject(i).getString("type"));
-                roomData.add(r);
-            }
-            return roomData;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Getter.
-     *
-     * @param id int
-     * @return Room object.
-     */
-    public static Room getRoomById(int id) {
-        try {
-            JSONObject jsonObject = new JSONObject(RoomServerCommunication.getRoom(id));
-            Room r = new Room();
-            r.setRoomId(jsonObject.getInt("id"));
-            r.setRoomName(jsonObject.getString("name"));
-            r.setRoomBuilding(jsonObject.getInt("building"));
-            r.setTeacherOnly(jsonObject.getBoolean("teacherOnly"));
-            r.setRoomCapacity(jsonObject.getInt("capacity"));
-            r.setRoomPhoto(jsonObject.getString("photos"));
-            r.setRoomDescription(jsonObject.getString("description"));
-            r.setRoomType(jsonObject.getString("type"));
-            return r;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 }

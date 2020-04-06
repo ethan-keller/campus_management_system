@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.repositories;
 import java.util.List;
 
 import nl.tudelft.oopp.demo.entities.User;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -40,8 +41,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query(value = "UPDATE user SET type = :type WHERE username = LOWER(:username)", nativeQuery = true)
     public void updateType(@Param("username") String username, @Param("type") int type);
-
-    @Query(value = "SELECT * FROM user u WHERE u.username = LOWER(:username)", nativeQuery = true)
-    public User getUserByType(@Param("username") String username);
-
 }

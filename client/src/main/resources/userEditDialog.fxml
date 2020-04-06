@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="114.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.UserEditDialogController">
+<AnchorPane prefHeight="114.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.admin.controller.UserEditDialogController">
 <children>
     <GridPane layoutX="9.0" layoutY="28.0" prefHeight="200.0" prefWidth="461.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
         <columnConstraints>
@@ -33,11 +33,11 @@
             <Label text="Username:" />
             <Label text="Type:" GridPane.rowIndex="1" />
             <Label text="Password:" GridPane.rowIndex="2" />
-            <HBox prefHeight="15.0" prefWidth="302.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <HBox alignment="CENTER_LEFT" prefHeight="15.0" prefWidth="302.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <RadioButton fx:id="userTypeAdmin" mnemonicParsing="false" text="Admin">
                      <HBox.margin>
-                        <Insets right="10.0" top="6.0" />
+                        <Insets />
                      </HBox.margin>
                      <toggleGroup>
                         <ToggleGroup fx:id="userTypeField" />
@@ -45,12 +45,12 @@
                   </RadioButton>
                   <RadioButton fx:id="userTypeTeacher" mnemonicParsing="false" text="Teacher" toggleGroup="$userTypeField">
                      <HBox.margin>
-                        <Insets right="10.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </RadioButton>
                   <RadioButton fx:id="userTypeStudent" mnemonicParsing="false" text="Student" toggleGroup="$userTypeField">
                      <HBox.margin>
-                        <Insets top="6.0" />
+                        <Insets />
                      </HBox.margin>
                   </RadioButton>
                </children>

@@ -2,10 +2,14 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
+import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.repositories.BuildingRepository;
+import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +17,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 @Controller
 public class RoomController {
 
     @Autowired
     private RoomRepository roomRepo;
+    
+    @Autowired
+    private BuildingRepository buildingRepo;
+
+    @Autowired
+    private ReservationsRepository reservationRepo;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Creates a Room entry in the database.
@@ -45,8 +58,14 @@ public class RoomController {
 
         try {
             roomRepo.insertRoom(name, building, teacherOnly, capacity, photos, description, type);
+            int count = roomRepo.getRoomByBuilding(building).size();
+            buildingRepo.updateRoomCount(building, count);
+            
+            logger.info("Room: -create- Name: " + name + " - Building ID: " + building + " - Teacher only: "
+                    + String.valueOf(teacherOnly) + " - Capacity: " + capacity + " - Photo URL: " + photos
+                    + " - Type: " + type + " - Description: " + description);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Room: -create- ERROR", e);
         }
     }
 
@@ -77,6 +96,14 @@ public class RoomController {
         type = CommunicationMethods.decodeCommunication(type);
 
         try {
+            int oldBuilding = roomRepo.getRoom(id).getBuilding();
+            if (oldBuilding != building) {
+                int count = roomRepo.getRoomByBuilding(oldBuilding).size();
+                buildingRepo.updateRoomCount(oldBuilding, count - 1);
+
+                count = roomRepo.getRoomByBuilding(building).size();
+                buildingRepo.updateRoomCount(building, count + 1);
+            }
             roomRepo.updateCapacity(id, capacity);
             roomRepo.updateDescription(id, description);
             roomRepo.updateBuilding(id, building);
@@ -84,8 +111,12 @@ public class RoomController {
             roomRepo.updatePhotos(id, photos);
             roomRepo.updateTeacherOnly(id, teacherOnly);
             roomRepo.updateType(id, type);
+            logger.info("Room: -update- ID: " + id + " - NEW data -> Name: " + name + " - Building ID: "
+                    + building + " - Teacher only: " + String.valueOf(teacherOnly) + " - Capacity: "
+                    + capacity + " - Photo URL: " + photos + " - Type: " + type
+                    + " - Description: " + description);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Room: -update- ERROR", e);
         }
     }
 
@@ -98,9 +129,18 @@ public class RoomController {
     @ResponseBody
     public void deleteRoom(@RequestParam int id) {
         try {
+            final List<Reservations> reservations = reservationRepo.getReservationByRoom(id);
+            int buildingId = roomRepo.getRoom(id).getBuilding();
             roomRepo.deleteRoom(id);
+            int roomCount = roomRepo.getRoomByBuilding(buildingId).size();
+            buildingRepo.updateRoomCount(buildingId, roomCount);
+            logger.info("Room: -delete- ID: " + id);
+
+            for (int counter = 0; counter < reservations.size(); counter++) {
+                logger.info("Reservation: -delete- ID: " + reservations.get(counter).getId());
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Room: -delete- ERROR", e);
         }
     }
 
@@ -116,7 +156,7 @@ public class RoomController {
         try {
             return roomRepo.getRoom(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Room: -get- ERROR", e);
         }
         return null;
     }
@@ -132,7 +172,7 @@ public class RoomController {
         try {
             return roomRepo.getAllRooms();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Room: -getAllRooms- ERROR", e);
         }
         return null;
     }

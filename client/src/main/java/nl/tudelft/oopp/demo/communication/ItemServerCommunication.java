@@ -1,157 +1,81 @@
 package nl.tudelft.oopp.demo.communication;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendGet;
+import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendPost;
 
-/**.
+/**
+ * .
  * Class that controls client-server communication for Item objects
  */
 public class ItemServerCommunication {
 
-    /**.
-     * HttpClient which sends and receives information to/from the server
-     */
-    private static HttpClient client = HttpClient.newBuilder().build();
-
-    /**.
-     * Gets all the items in the database
-     * @return http response in JSON format
+    /**
+     * Gets all the items in the database.
+     *
+     * @return all the items
      */
     public static String getAllItems() {
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getAllItems")).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
-        }
-        return response.body();
+        return sendGet("getAllItems", "");
     }
 
-    /**.
-     * Gets one Item with the given id
+    /**
+     * Gets one Item with the given id.
+     *
      * @param id id of the wanted Item
-     * @return http response in JSON format
-     * @throws UnsupportedEncodingException is thrown
+     * @return item object
      */
-    public static String getItem(int id) throws UnsupportedEncodingException {
+    public static String getItem(int id)  {
         String params = "id=" + id;
-        params = GeneralMethods.encodeCommunication(params);
-
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getItem?" + params)).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
-        }
-        return response.body();
+        return sendGet("getItem", params);
     }
 
-    /**.
-     * Create a new Item in the database
-     * @param user user who item belongs to
-     * @param title title of item
-     * @param date date of item
+    /**
+     * Create a new Item in the database.
+     *
+     * @param user         user who item belongs to
+     * @param title        title of item
+     * @param date         date of item
      * @param startingTime startingTime of item
-     * @param endingTime endingTime of item
-     * @param description description of item
-     * @return http response in JSON format
-     * @throws UnsupportedEncodingException is thrown
+     * @param endingTime   endingTime of item
+     * @param description  description of item
+     * @return true if communication was successful, false otherwise
      */
     public static boolean createItem(String user, String title, String date, String startingTime,
-                                     String endingTime, String description) throws UnsupportedEncodingException {
-        String params = "user=" + user + "&title=" + title + "&date=" + date + "&starting_time=" + startingTime
-                + "&ending_time=" + endingTime + "&description=" + description;
+                                     String endingTime, String description)  {
+        String params = "user=" + user + "&title=" + title + "&date=" + date + "&startingTime=" + startingTime
+                + "&endingTime=" + endingTime + "&description=" + description;
 
-        params = GeneralMethods.encodeCommunication(params);
-
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createItem?" + params)).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
-            return false;
-        }
-        return true;
+        return sendPost("createItem", params);
     }
 
-    /**.
-     * Deletes the Item identified by the given id
+    /**
+     * Deletes the Item identified by the given id.
+     *
      * @param id id of item that must be deleted
-     * @return http response in JSON format
-     * @throws UnsupportedEncodingException is thrown
+     * @return true if communication was successful, false otherwise
      */
-    public static boolean deleteItem(int id) throws UnsupportedEncodingException {
+    public static boolean deleteItem(int id)  {
         String params = "id=" + id;
-        params = GeneralMethods.encodeCommunication(params);
-
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/deleteItem?" + params)).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
-            return false;
-        }
-        return true;
+        return sendPost("deleteItem", params);
     }
 
-    /**.
-     * Gets the id of the last inserted item in the database
-     * @return http response in JSON format
+    /**
+     * Gets the id of the last inserted item in the database.
+     *
+     * @return the current id
      */
     public static String getCurrentId() {
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/currentId")).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
-        }
-        return response.body();
+        return sendGet("currentId", "");
     }
 
-    /**.
-     * Gets all the items of a particular user
+    /**
+     * Gets all the items of a particular user.
+     *
      * @param user user who's items are needed
-     * @return http response in JSON format
-     * @throws UnsupportedEncodingException is thrown
+     * @return all items of this user
      */
-    public static String getUserItems(String user) throws UnsupportedEncodingException {
+    public static String getUserItems(String user)  {
         String params = "user=" + user;
-        params = GeneralMethods.encodeCommunication(params);
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getUserItems?" + params)).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode() + response.body());
-        }
-        return response.body();
+        return sendGet("getUserItems", params);
     }
 }

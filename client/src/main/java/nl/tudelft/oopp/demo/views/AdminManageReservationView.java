@@ -2,6 +2,8 @@ package nl.tudelft.oopp.demo.views;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +13,8 @@ import javafx.stage.Stage;
 
 
 public class AdminManageReservationView extends Application {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**.
      * Constructor
@@ -29,6 +33,7 @@ public class AdminManageReservationView extends Application {
             URL xmlUrl = getClass().getResource("/adminManageReservationView.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
             //Making sure that the page doesn't resize when we switch between scenes
             Scene oldScene = primaryStage.getScene();
@@ -40,7 +45,7 @@ public class AdminManageReservationView extends Application {
             primaryStage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

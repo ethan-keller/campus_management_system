@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.repositories;
 import java.util.List;
 
 import nl.tudelft.oopp.demo.entities.Building;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,13 +21,19 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
     @Query(value = "SELECT * FROM building WHERE id = :id", nativeQuery = true)
     public Building getBuilding(@Param("id") int id);
 
+    @Query(value = "SELECT building.* FROM building INNER JOIN food_building ON"
+            + " building.id = food_building.building_id WHERE food_building.food_id = :id", nativeQuery = true)
+    public List<Building> getBuildingByFoodId(@Param("id") int foodId);
+
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO building (name, room_count, address, available_bikes, max_bikes) VALUES "
-            + "(:name, :room_count, :address, :available_bikes, :max_bikes)", nativeQuery = true)
+    @Query(value = "INSERT INTO building (name, room_count, address, max_bikes, opening_time, closing_time)"
+            + " VALUES (:name, :room_count, :address, :max_bikes, :opening_time, :closing_time)",
+            nativeQuery = true)
     public void insertBuilding(@Param("name") String name, @Param("room_count") int roomCount,
-                               @Param("address") String address, @Param("available_bikes") int availableBikes,
-                               @Param("max_bikes") int maxBikes);
+                               @Param("address") String address, @Param("max_bikes") int maxBikes,
+                               @Param("opening_time") String openingTime,
+                               @Param("closing_time") String closingTime);
 
     @Modifying
     @Transactional
@@ -50,15 +57,13 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE building SET available_bikes = :available_bikes WHERE id = :id", nativeQuery = true)
-    public void updateAvailableBikes(@Param("id") int id, @Param("available_bikes") int availableBikes);
-
-    @Modifying
-    @Transactional
     @Query(value = "UPDATE building SET max_bikes = :max_bikes WHERE id = :id", nativeQuery = true)
     public void updateMaxBikes(@Param("id") int id, @Param("max_bikes") int maxBikes);
 
-    @Query(value = "SELECT * FROM building WHERE name = :name", nativeQuery = true)
-    public Building getBuildingByName(@Param("name") String name);
-
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE building SET opening_time = :opening_time, closing_time = :closing_time"
+            + " WHERE id = :id", nativeQuery = true)
+    public void updateOpeningHours(@Param("id") int id, @Param("opening_time") String openingTime,
+                                   @Param("closing_time") String closingTime);
 }

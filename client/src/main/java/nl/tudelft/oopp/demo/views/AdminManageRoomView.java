@@ -28,11 +28,15 @@ public class AdminManageRoomView extends Application {
         URL xmlUrl = getClass().getResource("/adminManageRoomView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
         Scene oldScene = primaryStage.getScene();
         primaryStage.setScene(oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
+
+        primaryStage.setMinWidth(1100);
+        primaryStage.setMinHeight(500);
         primaryStage.show();
     }
 

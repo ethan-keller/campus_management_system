@@ -2,10 +2,11 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-
 import nl.tudelft.oopp.demo.encodehash.CommunicationMethods;
 import nl.tudelft.oopp.demo.entities.Reservations;
 import nl.tudelft.oopp.demo.repositories.ReservationsRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,8 @@ public class ReservationController {
 
     @Autowired
     private ReservationsRepository reservationsRepo;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Puts a new reservation in the database.
@@ -42,9 +45,26 @@ public class ReservationController {
 
         try {
             reservationsRepo.insertReservation(username, room, date, startingTime, endingTime);
+            logger.info("Reservation: -create- User: " + username + " - Room ID: " + room + " - Date: "
+                    + date + " - Starting time: " + startingTime + " - Ending time: " + endingTime);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Reservation: -create- ERROR", e);
         }
+    }
+
+    /**
+     * Gets the id of the last created reservation.
+     * @return int the id of the reservation
+     */
+    @GetMapping("currentReservationId")
+    @ResponseBody
+    public int getCurrentId() {
+        try {
+            return reservationsRepo.getCurrentId();
+        } catch (Exception e) {
+            logger.error("Reservation: -getCurrentId- ERROR", e);
+        }
+        return -1;
     }
 
     /**
@@ -59,8 +79,7 @@ public class ReservationController {
      */
     @PostMapping("updateReservation")
     @ResponseBody
-    public void updateReservation(@RequestParam int id, @RequestParam String username,
-                                  @RequestParam int room, @RequestParam String date,
+    public void updateReservation(@RequestParam int id, @RequestParam int room, @RequestParam String date,
                                   @RequestParam String startingTime,
                                   @RequestParam String endingTime) throws UnsupportedEncodingException {
 
@@ -73,8 +92,12 @@ public class ReservationController {
             reservationsRepo.updateRoom(id, room);
             reservationsRepo.updateStartingTime(id, startingTime);
             reservationsRepo.updateEndingTime(id, endingTime);
+            String user = reservationsRepo.getReservation(id).getUsername();
+            logger.info("Reservation: -update- ID: " + id + " - User: " + user + " - NEW data -> Room ID: "
+                    + room + " - Date: " + date + " - Starting time: " + startingTime
+                    + " - Ending time: " + endingTime);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Reservation: -update- ERROR", e);
         }
     }
 
@@ -88,8 +111,9 @@ public class ReservationController {
     public void deleteReservation(@RequestParam int id) {
         try {
             reservationsRepo.deleteReservation(id);
+            logger.info("Reservation: -delete- ID: " + id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Reservation: -delete- ERROR", e);
         }
     }
 
@@ -105,7 +129,7 @@ public class ReservationController {
         try {
             return reservationsRepo.getReservation(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Reservation: -get- ERROR", e);
         }
         return null;
     }
@@ -121,7 +145,7 @@ public class ReservationController {
         try {
             return reservationsRepo.getAllReservations();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Reservation: -getAllReservations- ERROR", e);
         }
         return null;
     }
@@ -138,7 +162,7 @@ public class ReservationController {
         try {
             return reservationsRepo.getUserReservations(username);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Reservation: -getUserReservations- ERROR", e);
         }
         return null;
     }

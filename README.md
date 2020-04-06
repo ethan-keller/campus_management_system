@@ -1,10 +1,9 @@
-﻿# Starting template
-
-This README will need to contain a description of your project, how to run it, how to set up the development environment, and who worked on it.
-This information can be added throughout the course, except for the names of the group members.
-Add your own name (do not add the names for others!) to the section below.
+# README
 
 ## Description of project
+This is purpose built campus management software, allowing you to book a room, book food and even book a bike. 
+This software consists out of two parts, a client module and a server module. 
+The server module is build in such a way you can also develop another client-module to work with it.
 
 ## Group members
 
@@ -25,7 +24,12 @@ Add your own name (do not add the names for others!) to the section below.
 <!-- - (please make sure the photos have the same size) --> 
 
 ## How to run it
+To run it run the MainApp file for the client and the ServerApp file for the server. 
+Also make sure your database is configured in the DbConfig file, we do provide a testing database in our repository.
+To log in as an administrator use the credentials username: admin, password: admin.
 
 ## How to contribute to it
+We’re currently not open for public contributions.
 
 ## Copyright / License (opt.)
+Under TUDelft copyright license.

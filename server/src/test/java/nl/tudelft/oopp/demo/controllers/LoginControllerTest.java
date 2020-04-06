@@ -1,47 +1,96 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 
-import java.io.UnsupportedEncodingException;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest
+/**
+ * Test class that tests the login controller.
+ * It makes use of Mockito MVC which is a part of the Mockito framework.
+ */
+@WebMvcTest(LoginController.class)
 class LoginControllerTest {
 
     @Autowired
-    private LoginController loginCont;
+    private MockMvc mvc;
 
-    @Autowired
-    private UserController userCont;
+    @MockBean
+    private UserRepository userRepo;
 
+    /**
+     * Set up before each test.
+     */
+    @BeforeEach
+    void setUp() {
+
+    }
+
+    /**
+     * Test for getUser method.
+     *
+     * @throws Exception if any exception with the connection (or other) occurs
+     */
     @Test
-    void getUser() throws UnsupportedEncodingException {
-        userCont.deleteUser("logintest");
-        userCont.deleteUser("logintest2");
-        userCont.deleteUser("logintest3");
-        userCont.deleteUser("logintest4");
+    void getUserTest() throws Exception {
+        User u = new User("test", "d74ff0ee8da3b9806b18c877dbf29bbde5"
+                + "0b5bd8e4dad7a3a725000feb82e8f1", 0);
+        User u2 = new User("test", "d74ff0ee8da3b9806b18c877dbf29bbde5"
+                + "0b5bd8e4dad7a3a725000feb82e8f1", 1);
+        User u3 = new User("test", "d74ff0ee8da3b9806b18c877dbf29bbde5"
+                + "0b5bd8e4dad7a3a725000feb82e8f1", 2);
+        User u4 = new User("test", "pass", 0);
+        User u5 = new User("test", "d74ff0ee8da3b9806b18c877dbf29bbde5"
+                + "0b5bd8e4dad7a3a725000feb82e8f1", 4);
+        when(userRepo.getUser(anyString())).thenReturn(null);
+        mvc.perform(get("/login?username=test&password=pass")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("not_found")));
 
-        userCont.createUser("logintest", "login", 2);
-        assertEquals("student", loginCont.getUser("logintest", "login"));
-        userCont.createUser("logintest2", "login", 1);
-        assertEquals("teacher", loginCont.getUser("logintest2", "login"));
-        userCont.createUser("logintest3", "login", 0);
-        assertEquals("admin", loginCont.getUser("logintest3", "login"));
+        when(userRepo.getUser(anyString())).thenReturn(u4);
+        mvc.perform(get("/login?username=test&password=pass")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("wrong_password")));
 
-        assertEquals("not_found", loginCont.getUser("thisDoesNotExist", "pizza"));
-        assertEquals("wrong_password", loginCont.getUser("logintest", "wrong"));
+        when(userRepo.getUser(anyString())).thenReturn(u);
+        mvc.perform(get("/login?username=test&password=pass")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("admin")));
 
-        userCont.createUser("logintest4", "login", -2);
-        assertEquals("error", loginCont.getUser("logintest4", "login"));
+        when(userRepo.getUser(anyString())).thenReturn(u2);
+        mvc.perform(get("/login?username=test&password=pass")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("teacher")));
 
-        userCont.deleteUser("logintest");
-        userCont.deleteUser("logintest2");
-        userCont.deleteUser("logintest3");
-        userCont.deleteUser("logintest4");
+        when(userRepo.getUser(anyString())).thenReturn(u3);
+        mvc.perform(get("/login?username=test&password=pass")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("student")));
 
-
+        when(userRepo.getUser(anyString())).thenReturn(u5);
+        mvc.perform(get("/login?username=test&password=pass")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is("error")));
     }
 }

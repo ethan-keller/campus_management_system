@@ -2,6 +2,8 @@ package nl.tudelft.oopp.demo.views;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +13,8 @@ import javafx.stage.Stage;
 
 
 public class AdminManageBuildingView extends Application {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**.
      * Constructor
@@ -30,6 +34,7 @@ public class AdminManageBuildingView extends Application {
             URL xmlUrl = getClass().getResource("/adminManageBuildingView.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
             /*
              * Making sure that the page doesn't resize when we switch between scenes
@@ -38,12 +43,12 @@ public class AdminManageBuildingView extends Application {
             primaryStage.setScene(oldScene == null
                     ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                     : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
-            primaryStage.setMinHeight(400);
-            primaryStage.setMinWidth(710);
+            primaryStage.setMinHeight(500);
+            primaryStage.setMinWidth(980);
             primaryStage.show();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
