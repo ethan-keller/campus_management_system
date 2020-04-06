@@ -25,11 +25,14 @@ public class CalendarPaneView extends Application {
         URL xmlUrl = getClass().getResource("/calendarPane.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
         Scene oldScene = primaryStage.getScene();
         Scene newScene = oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight());
+        primaryStage.setMinHeight(510);
+        primaryStage.setMinWidth(840);
 
         primaryStage.setScene(newScene);
         primaryStage.show();

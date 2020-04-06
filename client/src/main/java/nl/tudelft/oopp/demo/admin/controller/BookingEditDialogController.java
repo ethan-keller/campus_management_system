@@ -29,10 +29,11 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.admin.logic.BookingEditDialogLogic;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
+
 import org.controlsfx.control.RangeSlider;
 
 
@@ -175,7 +176,7 @@ public class BookingEditDialogController {
                 timeSlotSlider.setMin(opening);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -227,8 +228,8 @@ public class BookingEditDialogController {
             // calculate and add green and red parts
             while (it.hasNext()) {
                 Reservation r = it.next();
-                double startTime = (double) converter.fromString(r.getStartingTime().get());
-                double endTime = (double) converter.fromString(r.getEndingTime().get());
+                double startTime = (double) converter.fromString(r.getReservationStartingTime().get());
+                double endTime = (double) converter.fromString(r.getReservationEndingTime().get());
                 double startPercentage = ((startTime - opening) / (closing - opening)) * 100.0;
                 double endPercentage = ((endTime - opening) / (closing - opening)) * 100.0;
 
@@ -238,7 +239,7 @@ public class BookingEditDialogController {
                 bw.write("#91ef99 " + endPercentage + "%");
 
                 // if reservation is the one that is being edited, give it a light blue color
-                if (res != null && res.getId().get() == r.getId().get()) {
+                if (res != null && res.getReservationId().get() == r.getReservationId().get()) {
                     bw.write("#91ef99 " + startPercentage + "%, ");
                     bw.write("#70e5fa " + startPercentage + "%, ");
                     bw.write("#70e5fa " + endPercentage + "%, ");
@@ -306,7 +307,7 @@ public class BookingEditDialogController {
         }
     }
 
-    /**.
+    /**
      * Creates a StringConverter that converts the selected value to an actual time (in String format).
      *
      * @return a StringConverter object
@@ -340,6 +341,10 @@ public class BookingEditDialogController {
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * >>>>>>> develop
+>>>>>>> develop
      * Set the building combobox converter.
      *
      * @param olb is passed
@@ -410,7 +415,7 @@ public class BookingEditDialogController {
                 bookingRoomComboBox.setItems(olr);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -573,7 +578,7 @@ public class BookingEditDialogController {
         for (Reservation r : roomReservations) {
             if (res != null) {
                 // if reservation equals the one we are editing, don't consider it
-                if (r.getId().get() == res.getId().get()) {
+                if (r.getReservationId().get() == res.getReservationId().get()) {
                     continue;
                 }
             }
@@ -581,8 +586,8 @@ public class BookingEditDialogController {
             // get rangeslider values + reservation values
             double currentStartValue = timeSlotSlider.getLowValue();
             double currentEndValue = timeSlotSlider.getHighValue();
-            double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
-            double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
+            double startValue = (double) timeConverter.fromString(r.getReservationStartingTime().get());
+            double endValue = (double) timeConverter.fromString(r.getReservationEndingTime().get());
 
             // check if the values overlap
             if (!((currentStartValue <= startValue && currentEndValue <= startValue)
@@ -646,11 +651,11 @@ public class BookingEditDialogController {
             @Override
             public int compare(Reservation o1, Reservation o2) {
                 // split time in hh:mm
-                String[] o1StartSplit = o1.getStartingTime().get().split(":");
+                String[] o1StartSplit = o1.getReservationStartingTime().get().split(":");
                 int o1StartHour = Integer.parseInt(o1StartSplit[0]);
                 int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
 
-                String[] o2StartSplit = o2.getStartingTime().get().split(":");
+                String[] o2StartSplit = o2.getReservationStartingTime().get().split(":");
                 int o2StartHour = Integer.parseInt(o2StartSplit[0]);
                 int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
 

@@ -1,141 +1,64 @@
 package nl.tudelft.oopp.demo.communication;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendGet;
+import static nl.tudelft.oopp.demo.communication.GeneralCommunication.sendPost;
 
 public class UserServerCommunication {
-    private static HttpClient client = HttpClient.newBuilder().build();
-
-    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
-     * This client-server method is used to get all the users from the database.
-     * @return Users (ALL)
+     * This client-server method is used to get all the users.
+     *
+     * @return all users
      */
     public static String getAllUsers() {
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getAllUsers")).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return null;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-        }
-        return response.body();
+        return sendGet("getAllUsers", "");
     }
 
     /**
-     * This client-server method is used to get a particular user and the user is identified
-     * using hos/her username.
-     * @param username - User's username
-     * @return User
-     * @throws UnsupportedEncodingException is thrown
+     * This client-server method is used to get a particular user.
+     *
+     * @param username username of the user
+     * @return User object
      */
-    public static String getUser(String username) throws UnsupportedEncodingException {
+    public static String getUser(String username) {
         String params = "username=" + username;
-        params = GeneralMethods.encodeCommunication(params);
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/getUser?" + params)).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return null;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-        }
-        return response.body();
+        return sendGet("getUser", params);
     }
 
     /**
-     * This client-server method is used to delete an user from the database.
-     * The user is identified using his/her username.
-     * @param username - User's username
-     * @return Boolean value indicating if the user is deleted.
-     * @throws UnsupportedEncodingException is thrown
+     * This client-server method is used to delete an user.
+     *
+     * @param username username of the user
+     * @return true if communication was successful, false otherwise
      */
-    public static boolean deleteUser(String username) throws UnsupportedEncodingException {
+    public static boolean deleteUser(String username) {
         String params = "username=" + username;
-        params = GeneralMethods.encodeCommunication(params);
-
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/deleteUser?" + params)).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return false;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-            return false;
-        }
-        return true;
+        return sendPost("deleteUser", params);
     }
 
     /**
-     * This client-server method is used to update the information assigned to an user.
+     * This client-server method is used to update the information assigned to a user.
+     *
      * @param username - User's username
      * @param password - User's Password
-     * @param type - Type of user (teacher, student or admin)
-     * @return Boolean value to inform the user if the users' information is updated.
-     * @throws UnsupportedEncodingException is thrown
+     * @param type     - Type of user (teacher, student or admin)
+     * @return true if communication was successful, false otherwise
      */
-    public static boolean updateUser(String username, String password, int type)
-            throws UnsupportedEncodingException {
+    public static boolean updateUser(String username, String password, int type) {
         String params = "username=" + username + "&password=" + password + "&type=" + type;
-        params = GeneralMethods.encodeCommunication(params);
-
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/updateUser?" + params)).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return false;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-            return false;
-        }
-        return true;
+        return sendPost("updateUser", params);
     }
 
     /**
-     * This client-server method is used to create a new user using the following parameters.
+     * This client-server method is used to create a new user.
+     *
      * @param username - User's username
      * @param password - User's Password
-     * @param type - Type of user (teacher, student or admin)
-     * @return Boolean value to inform the user if the users' account is created.
-     * @throws UnsupportedEncodingException is thrown
+     * @param type     - Type of user (teacher, student or admin)
+     * @return true if communication was successful, false otherwise
      */
-    public static boolean createUser(String username, String password, int type)
-            throws UnsupportedEncodingException {
+    public static boolean createUser(String username, String password, int type) {
         String params = "username=" + username + "&password=" + password + "&type=" + type;
-        params = GeneralMethods.encodeCommunication(params);
-
-
-        HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody()).uri(URI.create("http://localhost:8080/createUser?" + params)).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-            return false;
-        }
-        if (response.statusCode() != 200) {
-            logger.log(Level.SEVERE, "Server responded with status code: " + response.statusCode());
-            return false;
-        }
-        return true;
+        return sendPost("createUser", params);
     }
 }

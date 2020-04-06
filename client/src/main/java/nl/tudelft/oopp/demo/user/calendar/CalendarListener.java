@@ -1,15 +1,17 @@
-package nl.tudelft.oopp.demo.calendar;
+package nl.tudelft.oopp.demo.user.calendar;
 
 import com.mindfusion.scheduling.CalendarAdapter;
 import com.mindfusion.scheduling.ItemMouseEvent;
 import com.mindfusion.scheduling.model.Item;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import nl.tudelft.oopp.demo.admin.controller.CalendarItemDialogController;
+import nl.tudelft.oopp.demo.user.calendar.controller.CalendarItemDialogController;
 import nl.tudelft.oopp.demo.views.CalendarItemDialog;
 
 /**
@@ -17,13 +19,15 @@ import nl.tudelft.oopp.demo.views.CalendarItemDialog;
  */
 public class CalendarListener extends CalendarAdapter {
 
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     public static String header;
     public static String body;
-    private ItemMouseEvent itemMouseEvent;
 
     /**
-     * When an item in the calendar gets clicked it shows a pop up with the information.
+     * When an item in the calendar gets clicked, a pop up with its information appears.
      * This is useful when the calendar is quite full.
+     *
      * @param itemMouseEvent event that triggered this method
      */
     @Override
@@ -31,21 +35,31 @@ public class CalendarListener extends CalendarAdapter {
         try {
             // get the item that was clicked
             Item i = itemMouseEvent.getItem();
-            // gie that item to the controller
-            CalendarItemDialogController.selectedItem = i;
-            // give header and body for the pop up
-            header = i.getHeaderText();
-            body = i.getDescriptionText();
-            // open the new dialog box
+            setTexts(i);
+            // get the pop up
             CalendarItemDialog dialog = new CalendarItemDialog();
             // get current stage
             Stage stage = (Stage) Stage.getWindows().stream()
                     .filter(Window::isShowing)
                     .collect(Collectors.toList()).get(0);
+            // start the view (pop up)
             dialog.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
+    }
+
+    /**
+     * Gets the selected item and sets the class attributes.
+     *
+     * @param i the item.
+     */
+    private void setTexts(Item i) {
+        // give that item to the controller
+        CalendarItemDialogController.selectedItem = i;
+        // set header and body attributes
+        header = i.getHeaderText();
+        body = i.getDescriptionText();
     }
 
 }

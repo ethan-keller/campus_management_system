@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.entities;
 
+import com.mindfusion.common.DateTime;
+
+import java.awt.Color;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,15 +19,17 @@ import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageUserViewController;
 import nl.tudelft.oopp.demo.communication.ReservationServerCommunication;
-import nl.tudelft.oopp.demo.communication.user.CurrentUserManager;
+import nl.tudelft.oopp.demo.user.CurrentUserManager;
+import nl.tudelft.oopp.demo.user.calendar.logic.AbstractCalendarItem;
+import nl.tudelft.oopp.demo.user.calendar.logic.CalendarPaneLogic;
 
 import org.json.JSONArray;
 
 
-public class Reservation {
+public class Reservation implements AbstractCalendarItem {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
-    
+
     private IntegerProperty id;
     private StringProperty username;
     //Room means the room-id of the particular room.
@@ -64,109 +69,6 @@ public class Reservation {
         this.startingTime = new SimpleStringProperty(startingTime);
         this.endingTime = new SimpleStringProperty(endingTime);
 
-    }
-
-    /**
-     * Getter.
-     *
-     * @return int, in the form of IntegerProperty.
-     */
-    public IntegerProperty getId() {
-        return id;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param id int.
-     */
-    public void setId(int id) {
-        this.id.set(id);
-    }
-
-    /**
-     * Getter.
-     *
-     * @return String in the form of a StringProperty.
-     */
-    public StringProperty getUsername() {
-        return username;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param username String, new
-     */
-    public void setUsername(String username) {
-        this.username.set(username);
-    }
-
-    /**
-     * Getter.
-     *
-     * @return int, in the form of IntegerProperty.
-     */
-    public IntegerProperty getRoom() {
-        return room;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param room int, new
-     */
-    public void setRoom(int room) {
-        this.room.set(room);
-    }
-
-    /**
-     * Getter.
-     *
-     * @return String in the form of a StringProperty.
-     */
-    public StringProperty getDate() {
-        return date;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param date String, new.
-     */
-    public void setDate(String date) {
-        this.date.set(date);
-    }
-
-    /**
-     * Getter.
-     *
-     * @return String in the form of a StringProperty.
-     */
-    public StringProperty getStartingTime() {
-        return startingTime;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param startingTime String, new
-     */
-    public void setStartingTime(String startingTime) {
-        this.startingTime.set(startingTime);
-    }
-
-    /**
-     * Getter.
-     *
-     * @return String in the form of a StringProperty.
-     */
-    public StringProperty getEndingTime() {
-        return endingTime;
-    }
-
-    public void setEndingTime(String endingTime) {
-        this.endingTime.set(endingTime);
     }
 
     /**
@@ -273,4 +175,192 @@ public class Reservation {
         return null;
     }
 
+    /**
+     * Getter.
+     *
+     * @return int, in the form of IntegerProperty.
+     */
+    public IntegerProperty getReservationId() {
+        return id;
+    }
+
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
+    public StringProperty getUsername() {
+        return username;
+    }
+
+    /**
+     * Setter.
+     *
+     * @param username String, new
+     */
+    public void setUsername(String username) {
+        this.username.set(username);
+    }
+
+    /**
+     * Getter.
+     *
+     * @return int, in the form of IntegerProperty.
+     */
+    public IntegerProperty getRoom() {
+        return room;
+    }
+
+    /**
+     * Setter.
+     *
+     * @param room int, new
+     */
+    public void setRoom(int room) {
+        this.room.set(room);
+    }
+
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
+    public StringProperty getDate() {
+        return date;
+    }
+
+    /**
+     * Setter.
+     *
+     * @param date String, new.
+     */
+    public void setDate(String date) {
+        this.date.set(date);
+    }
+
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
+    public StringProperty getReservationStartingTime() {
+        return startingTime;
+    }
+
+    /**
+     * Setter.
+     *
+     * @param startingTime String, new
+     */
+    public void setStartingTime(String startingTime) {
+        this.startingTime.set(startingTime);
+    }
+
+    /**
+     * Getter.
+     *
+     * @return String in the form of a StringProperty.
+     */
+    public StringProperty getReservationEndingTime() {
+        return endingTime;
+    }
+
+    public void setEndingTime(String endingTime) {
+        this.endingTime.set(endingTime);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Reservation)) {
+            return false;
+        }
+        Reservation that = (Reservation) o;
+        return this.getReservationId().get() == that.getReservationId().get();
+    }
+
+    @Override
+    public String getId() {
+        return String.valueOf(this.getReservationId().get());
+    }
+
+    /**
+     * Setter.
+     *
+     * @param id int.
+     */
+    public void setId(int id) {
+        this.id.set(id);
+    }
+
+    @Override
+    public String getHeader() {
+        return "Reservation";
+    }
+
+    @Override
+    public DateTime getStartTime() {
+        DateTime dt = null;
+        // split date in [yyyy, MM, dd]
+        String[] date = this.getDate().get().split("-");
+        // split time in [hh, mm, ss]
+        String[] startTime = this.getReservationStartingTime().get().split(":");
+        dt = new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
+                Integer.parseInt(date[2]), Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1]),
+                Integer.parseInt(startTime[2]));
+        return dt;
+    }
+
+    @Override
+    public DateTime getEndTime() {
+        DateTime dt = null;
+        // split date in [yyyy, MM, dd]
+        String[] date = this.getDate().get().split("-");
+        // split time in [hh, mm, ss]
+        String[] endTime = this.getReservationEndingTime().get().split(":");
+
+        dt = new DateTime(Integer.parseInt(date[0]), Integer.parseInt(date[1]),
+                Integer.parseInt(date[2]), Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1]),
+                Integer.parseInt(endTime[2]));
+        return dt;
+    }
+
+    @Override
+    public String getDescription() {
+        String[] startTime = this.getReservationStartingTime().get().split(":");
+        String[] endTime = this.getReservationEndingTime().get().split(":");
+        Room room = CalendarPaneLogic.roomList.stream()
+                .filter(x -> x.getRoomId().get() == this.getRoom().get())
+                .collect(Collectors.toList()).get(0);
+        Building b = CalendarPaneLogic.buildingList.stream()
+                .filter(x -> x.getBuildingId().get() == room.getRoomBuilding().get())
+                .collect(Collectors.toList()).get(0);
+
+        String description = room.getRoomName().get() + "\n" + b.getBuildingName().get() + "\n"
+                + startTime[0] + ":" + startTime[1] + " - " + endTime[0] + ":" + endTime[1] + "\n";
+
+        double totalPrice = 0;
+        List<FoodReservation> frList = CalendarPaneLogic.foodReservationList.stream()
+                .filter(x -> x.getReservationId().get() == this.getReservationId().get())
+                .collect(Collectors.toList());
+
+        for (FoodReservation fr : frList) {
+            Food f = CalendarPaneLogic.foodList.stream()
+                    .filter(x -> x.getFoodId().get() == fr.getFoodId().get())
+                    .collect(Collectors.toList()).get(0);
+            description += fr.getFoodQuantity().get() + "x " + f.getFoodName().get() + "\n";
+            totalPrice += fr.getFoodQuantity().get() * f.getFoodPrice().get();
+        }
+        if (frList.size() != 0) {
+            description += "total price = " + Math.round(totalPrice * 100.0) / 100.0 + " euro(s)";
+        }
+        return description;
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.CYAN;
+    }
 }

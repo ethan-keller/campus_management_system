@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -9,34 +11,38 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Food;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminFoodBuildingView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.FoodEditDialogView;
 import nl.tudelft.oopp.demo.views.FoodNewDialogView;
+import nl.tudelft.oopp.demo.views.LoginView;
 
 
 public class AdminManageFoodViewController {
 
-    @FXML
-    private TableView<Food> foodTable;
-
-    @FXML
-    private TableColumn<Food, Number> foodIdColumn;
-
-    @FXML
-    private TableColumn<Food, String> foodNameColumn;
-
-    @FXML
-    private TableColumn<Food, Number> foodPriceColumn;
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     public static Food currentSelectedFood;
+    @FXML
+    private TableView<Food> foodTable;
+    @FXML
+    private TableColumn<Food, Number> foodIdColumn;
+    @FXML
+    private TableColumn<Food, String> foodNameColumn;
+    @FXML
+    private TableColumn<Food, Number> foodPriceColumn;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button signOutButton;
 
     public AdminManageFoodViewController() {
     }
@@ -47,6 +53,10 @@ public class AdminManageFoodViewController {
     @FXML
     private void initialize() {
         try {
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
             // Initialize the food table with the three columns.
             foodIdColumn.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getFoodId().get()));
             // To align the text in this column in a centralized manner; looks better
@@ -61,10 +71,11 @@ public class AdminManageFoodViewController {
             // To align the text in this column in a centralized manner; looks better
             foodPriceColumn.setStyle("-fx-alignment: CENTER");
 
+
             // Add observable list data to the table
             foodTable.setItems(Food.getAllFoodData());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -77,6 +88,7 @@ public class AdminManageFoodViewController {
 
     /**
      * Called when admin clicks a food.
+     *
      * @return a Food object
      */
     public Food getSelectedFood() {
@@ -85,6 +97,7 @@ public class AdminManageFoodViewController {
 
     /**
      * Gets a number representing the index of the selected food.
+     *
      * @return int
      */
     public int getSelectedIndex() {
@@ -93,6 +106,7 @@ public class AdminManageFoodViewController {
 
     /**
      * Delete a food.
+     *
      * @param event event that triggered this method
      */
     @FXML
@@ -113,14 +127,14 @@ public class AdminManageFoodViewController {
                         "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete food exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
      * Handles clicking the create new button.Opens a dialog to edit
      * details for the new food.
+     *
      * @param event is passed
      */
     @FXML
@@ -142,14 +156,14 @@ public class AdminManageFoodViewController {
             // An alert pop up when a new food created.
             GeneralMethods.alertBox("New food", "", "New Food added!", AlertType.INFORMATION);
         } catch (Exception e) {
-            System.out.println("food creation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
      * Called when the user clicks the edit button. Opens a dialog to edit
      * details for the selected food.
+     *
      * @param event is passed
      */
     @FXML
@@ -179,13 +193,13 @@ public class AdminManageFoodViewController {
                         "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("food edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
      * Show all the buildings which provide this food in a table.
+     *
      * @param event is passed.
      * @throws IOException is thrown.
      */
@@ -207,22 +221,36 @@ public class AdminManageFoodViewController {
                         "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("food edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
     /**
      * Handles clicking the back button, redirect to the admin home page.
+     *
      * @param event is passed
      * @throws IOException is thrown
      */
     @FXML
-    private void backClicked(ActionEvent event) throws IOException {
+    public void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         AdminHomePageView ahpv = new AdminHomePageView();
         ahpv.start(stage);
+    }
+
+    /**
+     * Handles clicking the sign out button, redirect to the log in view.
+     *
+     * @param event event that triggered this method
+     * @throws IOException exception that gets thrown if fails
+     */
+    @FXML
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        LoginView view = new LoginView();
+        view.start(stage);
     }
 
 }

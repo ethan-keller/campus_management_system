@@ -4,14 +4,20 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Reservation;
 
+
+
 public class RoomViewLogic {
 
+    private static Logger logger = Logger.getLogger("GlobalLogger");
+
     /**
+<<<<<<< HEAD
      * Method that checks if the chosen timeslot is free.
      *
      * @return true if the timeslot is free, false otherwise
@@ -26,6 +32,7 @@ public class RoomViewLogic {
         return true;
     }
 
+
     /**.
      * This compares the two reservations provides as parameter
      * @param o1 First reservation
@@ -33,11 +40,11 @@ public class RoomViewLogic {
      * @return Integer which determines the comparison of the two reservations
      */
     public static int compare(Reservation o1, Reservation o2) {
-        String[] o1StartSplit = o1.getStartingTime().get().split(":");
+        String[] o1StartSplit = o1.getReservationStartingTime().get().split(":");
         int o1StartHour = Integer.parseInt(o1StartSplit[0]);
         int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
 
-        String[] o2StartSplit = o2.getStartingTime().get().split(":");
+        String[] o2StartSplit = o2.getReservationStartingTime().get().split(":");
         int o2StartHour = Integer.parseInt(o2StartSplit[0]);
         int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
 
@@ -97,20 +104,6 @@ public class RoomViewLogic {
         }
     }
 
-    /**.
-     * Converts the date from a localDate type to a string using a dateFormatter
-     * @param date - The date provided in a loclaDate format
-     * @param dateFormatter - DateFormatter (yyyy-MM-dd)
-     * @return The string equivalence of the provided date
-     */
-    public static String toStringDate(LocalDate date, DateTimeFormatter dateFormatter) {
-        if (date != null) {
-            // get correctly formatted String
-            return dateFormatter.format(date);
-        } else {
-            return "";
-        }
-    }
 
     /**.
      * Converts the string into a list of food entities
@@ -138,6 +131,21 @@ public class RoomViewLogic {
             return object.getFoodName().get();
         } else {
             return null;
+        }
+    }
+
+    /**.
+     * Converts the date from a localDate type to a string using a dateFormatter
+     * @param date - The date provided in a loclaDate format
+     * @param dateFormatter - DateFormatter (yyyy-MM-dd)
+     * @return The string equivalence of the provided date
+     */
+    public static String toStringDate(LocalDate date, DateTimeFormatter dateFormatter) {
+        if (date != null) {
+            // get correctly formatted String
+            return dateFormatter.format(date);
+        } else {
+            return "";
         }
     }
 

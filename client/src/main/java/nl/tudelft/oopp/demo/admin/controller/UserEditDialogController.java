@@ -10,11 +10,14 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.UserEditDialogLogic;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+
 import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 public class UserEditDialogController {
 
+    public static boolean edit;
+    public static User user;
     @FXML
     private TextField usernameField;
     @FXML
@@ -25,12 +28,11 @@ public class UserEditDialogController {
     private RadioButton userTypeStudent;
     @FXML
     private PasswordField userPasswordField;
-
-    public static boolean edit;
-
-    public static User user;
-
     private Stage dialogStage;
+
+    private static void emptyUser() {
+        user = new User();
+    }
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -56,10 +58,6 @@ public class UserEditDialogController {
         if (user.getUserType().get() == 2) {
             userTypeStudent.setSelected(true);
         }
-    }
-
-    private static void emptyUser() {
-        user = new User();
     }
 
     /**
@@ -103,6 +101,7 @@ public class UserEditDialogController {
      * Validates the user input in the text fields.
      * This method is used to validate if the admin has entered a valid username and password during
      * creation/update.
+     *
      * @return true if the input is valid
      */
     private boolean isInputValid() {

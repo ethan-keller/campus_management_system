@@ -7,16 +7,18 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-
 import javafx.stage.Stage;
 
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
-
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 
 public class RoomEditDialogView extends Application {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -26,6 +28,7 @@ public class RoomEditDialogView extends Application {
             URL xmlUrl = getClass().getResource("/roomEditDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
@@ -35,9 +38,5 @@ public class RoomEditDialogView extends Application {
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

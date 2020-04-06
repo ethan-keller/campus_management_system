@@ -1,23 +1,19 @@
 package nl.tudelft.oopp.demo.admin.logic;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageReservationViewController;
-import nl.tudelft.oopp.demo.admin.controller.ReservationEditDialogController;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 
-import org.controlsfx.control.RangeSlider;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
+
 
 public class ReservationEditDialogLogic {
 
@@ -40,7 +36,7 @@ public class ReservationEditDialogLogic {
         if (date == null) {
             errorMessage += "No date provided!\n";
         }
-        
+
         if (!checkTimeSlotValidity(room, date, currentStartValue, currentEndvalue, temp)
                 || currentStartValue == currentEndvalue) {
             errorMessage += "No valid timeslot selected!\n";
@@ -57,7 +53,7 @@ public class ReservationEditDialogLogic {
         }
     }
 
-   
+
 
     /**
      * Constructor for the converter that converts LocalDate objects to String yyyy-MM-dd format.
@@ -127,14 +123,14 @@ public class ReservationEditDialogLogic {
             for (Reservation r : roomReservations) {
                 // if reservation equals the one we are editing, don't consider it
                 if (res != null) {
-                    if (r.getId().get() == res.getId().get()) {
+                    if (r.getReservationId().get() == res.getReservationId().get()) {
                         continue;
                     }
                 }
 
                 // get rangeslider values + reservation values
-                double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
-                double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
+                double startValue = (double) timeConverter.fromString(r.getReservationStartingTime().get());
+                double endValue = (double) timeConverter.fromString(r.getReservationEndingTime().get());
 
                 // check if the values overlap
                 if (!((currentStartValue <= startValue && currentEndValue <= startValue)

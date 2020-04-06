@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import nl.tudelft.oopp.demo.admin.controller.BuildingEditDialogController;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 public class BuildingNewDialogView extends Application {
 
@@ -25,6 +25,7 @@ public class BuildingNewDialogView extends Application {
             URL xmlUrl = getClass().getResource("/buildingEditDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();

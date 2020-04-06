@@ -16,8 +16,8 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
 import nl.tudelft.oopp.demo.views.BuildingNewDialogView;
@@ -59,6 +59,11 @@ public class AdminManageBuildingViewController {
     @FXML
     private void initialize() {
         try {
+            backButton.getStyleClass().clear();
+            backButton.getStyleClass().add("back-button");
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
+
             // Initialize the room table with the four columns.
             buildingIdColumn.setCellValueFactory(cell -> new SimpleIntegerProperty(
                     cell.getValue().getBuildingId().get()));
@@ -220,7 +225,7 @@ public class AdminManageBuildingViewController {
      * @throws IOException is thrown
      */
     @FXML
-    private void backClicked(ActionEvent event) throws IOException {
+    public void backClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // This loads up a new admin home page.
@@ -235,7 +240,7 @@ public class AdminManageBuildingViewController {
      * @throws IOException is thrown.
      */
     @FXML
-    private void signOutButtonClicked(ActionEvent event) throws IOException {
+    public void signOutButtonClicked(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         //Starts a new login page.

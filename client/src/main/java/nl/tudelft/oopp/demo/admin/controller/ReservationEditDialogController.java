@@ -23,20 +23,18 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
-import nl.tudelft.oopp.demo.admin.controller.AdminManageReservationViewController;
-import nl.tudelft.oopp.demo.admin.logic.ReservationEditDialogLogic;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
+
 import org.controlsfx.control.RangeSlider;
 
 /**
@@ -141,8 +139,10 @@ public class ReservationEditDialogController {
                 StringConverter<LocalDate> dateConverter = getDateConverter();
 
                 date.setValue(dateConverter.fromString(reservation.getDate().get()));
-                double startTimeValue = (double) sliderConverter.fromString(reservation.getStartingTime().get());
-                double endTimeValue = (double) sliderConverter.fromString(reservation.getEndingTime().get());
+                double startTimeValue = (double) sliderConverter
+                        .fromString(reservation.getReservationStartingTime().get());
+                double endTimeValue = (double) sliderConverter
+                        .fromString(reservation.getReservationEndingTime().get());
 
                 timeslotSlider.setLowValue(startTimeValue);
                 timeslotSlider.setHighValue(endTimeValue);
@@ -174,7 +174,7 @@ public class ReservationEditDialogController {
                 timeslotSlider.setMin(opening);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -277,11 +277,11 @@ public class ReservationEditDialogController {
                 @Override
                 public int compare(Reservation o1, Reservation o2) {
                     // split time in hh:mm
-                    String[] o1StartSplit = o1.getStartingTime().get().split(":");
+                    String[] o1StartSplit = o1.getReservationStartingTime().get().split(":");
                     int o1StartHour = Integer.parseInt(o1StartSplit[0]);
                     int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
 
-                    String[] o2StartSplit = o2.getStartingTime().get().split(":");
+                    String[] o2StartSplit = o2.getReservationStartingTime().get().split(":");
                     int o2StartHour = Integer.parseInt(o2StartSplit[0]);
                     int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
 
@@ -320,12 +320,12 @@ public class ReservationEditDialogController {
             // calculate and add green and red parts
             while (it.hasNext()) {
                 Reservation r = it.next();
-                double startTime = (double) converter.fromString(r.getStartingTime().get());
-                double endTime = (double) converter.fromString(r.getEndingTime().get());
+                double startTime = (double) converter.fromString(r.getReservationStartingTime().get());
+                double endTime = (double) converter.fromString(r.getReservationEndingTime().get());
                 double startPercentage = ((startTime - opening) / (closing - opening)) * 100.0;
                 double endPercentage = ((endTime - opening) / (closing - opening)) * 100.0;
                 // if reservation is the one that is being edited, give it a light blue color
-                if (res != null && res.getId().get() == r.getId().get()) {
+                if (res != null && res.getReservationId().get() == r.getReservationId().get()) {
                     bw.write("#91ef99 " + startPercentage + "%, ");
                     bw.write("#70e5fa " + startPercentage + "%, ");
                     bw.write("#70e5fa " + endPercentage + "%, ");
@@ -455,8 +455,10 @@ public class ReservationEditDialogController {
         return null;
     }
 
-    /**.
+    /**
+     * .
      * This methods converts the date from the datepicker into database readable format
+     *
      * @param formatter - DateTimeFormatter object which is used for formatting
      * @return - A string which contains the date in a proper format
      */
@@ -563,6 +565,7 @@ public class ReservationEditDialogController {
 
     /**
      * Method that cancels the current edit/creation of a reservation.
+     *
      * @param event that triggered this method
      */
     @FXML
@@ -646,7 +649,7 @@ public class ReservationEditDialogController {
             for (Reservation r : roomReservations) {
                 // if reservation equals the one we are editing, don't consider it
                 if (res != null) {
-                    if (r.getId().get() == res.getId().get()) {
+                    if (r.getReservationId().get() == res.getReservationId().get()) {
                         continue;
                     }
                 }
@@ -654,8 +657,8 @@ public class ReservationEditDialogController {
                 // get rangeslider values + reservation values
                 double currentStartValue = timeslotSlider.getLowValue();
                 double currentEndValue = timeslotSlider.getHighValue();
-                double startValue = (double) timeConverter.fromString(r.getStartingTime().get());
-                double endValue = (double) timeConverter.fromString(r.getEndingTime().get());
+                double startValue = (double) timeConverter.fromString(r.getReservationStartingTime().get());
+                double endValue = (double) timeConverter.fromString(r.getReservationEndingTime().get());
 
                 // check if the values overlap
                 if (!((currentStartValue <= startValue && currentEndValue <= startValue)

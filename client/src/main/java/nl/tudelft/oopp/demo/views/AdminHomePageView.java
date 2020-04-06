@@ -18,6 +18,7 @@ public class AdminHomePageView extends Application {
         URL xmlUrl = getClass().getResource("/AdminHomePageView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
         /*
          * Making sure that the page doesn't resize when we switch between scenes
@@ -26,8 +27,8 @@ public class AdminHomePageView extends Application {
         primaryStage.setScene(oldScene == null
                 ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                 : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
-        primaryStage.setMinHeight(400);
-        primaryStage.setMinWidth(710);
+        primaryStage.setMinHeight(610);
+        primaryStage.setMinWidth(1050);
         primaryStage.show();
     }
 

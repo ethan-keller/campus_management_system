@@ -29,6 +29,7 @@ public class AdminManageUserView extends Application {
             URL xmlUrl = getClass().getResource("/adminManageUserView.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
             /*
              * Making sure that the page doesn't resize when we switch between scenes
@@ -37,7 +38,11 @@ public class AdminManageUserView extends Application {
             primaryStage.setScene(oldScene == null
                     ? new Scene(root, primaryStage.getMinWidth(), primaryStage.getMinHeight())
                     : new Scene(root, oldScene.getWidth(), oldScene.getHeight()));
+
+            primaryStage.setMinHeight(500);
+            primaryStage.setMinWidth(980);
             primaryStage.show();
+
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());

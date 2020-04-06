@@ -26,22 +26,22 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.user.controller.CalendarPaneController;
-import nl.tudelft.oopp.demo.user.controller.RoomViewController;
+import nl.tudelft.oopp.demo.user.calendar.controller.CalendarPaneController;
 import nl.tudelft.oopp.demo.user.logic.SearchViewLogic;
 import nl.tudelft.oopp.demo.views.CalendarPaneView;
 import nl.tudelft.oopp.demo.views.LoginView;
@@ -77,16 +77,25 @@ public class SearchViewController implements Initializable {
     @FXML
     private ComboBox<String> capacityComboBox;
     @FXML
-    private Button clearFilters;
+    private ToggleGroup teacherOnly;
     @FXML
     private TextField searchBar;
     @FXML
     private ComboBox<String> bikesAvailable;
+    @FXML
+    private Button signOutButton;
+    @FXML
+    private Button rentABikeButton;
+
     private List<Building> buildings;
     private List<Room> roomList;
     private List<Room> rooms;
-    @FXML
-    private AnchorPane pane;
+
+    // This is necessary due to the format of inserting items into a comboBox.
+    private ObservableList<String> capacityList;
+    private ObservableList<String> bikeList;
+
+    private int building;
 
 
     /**
@@ -108,7 +117,10 @@ public class SearchViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            pane = new AnchorPane();
+            signOutButton.getStyleClass().clear();
+            signOutButton.getStyleClass().add("signout-button");
+            rentABikeButton.getStyleClass().clear();
+            rentABikeButton.getStyleClass().add("bike-button");
 
             // assign lists to the initialized ObservableLists
             // This is necessary due to the format of inserting items into a comboBox.
@@ -137,7 +149,7 @@ public class SearchViewController implements Initializable {
             // get all rooms and buildings from database
             roomList = Room.getRoomData();
             if (roomList != null) {
-                rooms = new ArrayList<>(roomList);
+                rooms = new ArrayList<Room>(roomList);
             }
             buildings = Building.getBuildingData();
 
@@ -152,7 +164,7 @@ public class SearchViewController implements Initializable {
             try {
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -161,7 +173,7 @@ public class SearchViewController implements Initializable {
             try {
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -170,7 +182,7 @@ public class SearchViewController implements Initializable {
             try {
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -181,7 +193,7 @@ public class SearchViewController implements Initializable {
                 noCheckBoxTeacherOnly.setSelected(false);
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -192,7 +204,7 @@ public class SearchViewController implements Initializable {
                 noCheckBoxTeacherOnly.setSelected(true);
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -202,7 +214,7 @@ public class SearchViewController implements Initializable {
                 noCheckBoxFood.setSelected(false);
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -213,7 +225,7 @@ public class SearchViewController implements Initializable {
                 noCheckBoxFood.setSelected(true);
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -223,7 +235,7 @@ public class SearchViewController implements Initializable {
             try {
                 searchbarChanges();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
 
@@ -232,7 +244,7 @@ public class SearchViewController implements Initializable {
             try {
                 loadCards();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.toString());
             }
         });
     }
@@ -513,7 +525,7 @@ public class SearchViewController implements Initializable {
      * @param event event that triggered this method
      */
     @FXML
-    private void bookingHistoryClicked(ActionEvent event) {
+    public void bookingHistoryClicked(ActionEvent event) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             CalendarPaneController.thisStage = stage;
@@ -531,7 +543,7 @@ public class SearchViewController implements Initializable {
      * @param event event that triggered this method
      */
     @FXML
-    private void signOutButtonClicked(ActionEvent event) {
+    public void signOutButtonClicked(ActionEvent event) {
         try {
             // get current stage and load log in view
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -543,8 +555,14 @@ public class SearchViewController implements Initializable {
         }
     }
 
+    /**
+     * Handles the onclick of rentABike Button.
+     * Redirects the user to the page to rent a bike.
+     *
+     * @param event event that triggered this method
+     */
     @FXML
-    private void rentABikeClicked(ActionEvent event) {
+    public void rentABikeClicked(ActionEvent event) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -552,7 +570,7 @@ public class SearchViewController implements Initializable {
             rabv.start(stage);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

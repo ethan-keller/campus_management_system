@@ -16,25 +16,25 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+
 import javax.imageio.ImageIO;
 
 import nl.tudelft.oopp.demo.admin.logic.RoomEditDialogLogic;
-import nl.tudelft.oopp.demo.communication.GeneralMethods;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 /**
  * Class that controls the dialog box for admins to create or edit rooms.
  */
 public class RoomEditDialogController {
 
+    public static Room room;
     private static Logger logger = Logger.getLogger("GlobalLogger");
-
     @FXML
     private TextField roomNameField;
     @FXML
@@ -55,11 +55,7 @@ public class RoomEditDialogController {
     private TextField roomDescriptionField;
     @FXML
     private Button uploadRoomPhoto;
-
     private BufferedImage image;
-
-    public static Room room;
-
     private Stage dialogStage;
 
     private String oldFileName;
@@ -70,6 +66,13 @@ public class RoomEditDialogController {
      * Default constructor.
      */
     public RoomEditDialogController() {
+    }
+
+    /**
+     * Initialize or empty the Room object (when admin creates new room).
+     */
+    private static void emptyRoom() {
+        room = new Room();
     }
 
     /**
@@ -150,13 +153,6 @@ public class RoomEditDialogController {
     }
 
     /**
-     * Initialize or empty the Room object (when admin creates new room).
-     */
-    private static void emptyRoom() {
-        room = new Room();
-    }
-
-    /**
      * Checks if fields are valid and image file anomalies and fills the Room object with the new information.
      * This method also deletes the old image files that are not used anymore.
      *
@@ -207,7 +203,7 @@ public class RoomEditDialogController {
                 dialogStage.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -302,7 +298,7 @@ public class RoomEditDialogController {
             // store the chosen image
             this.image = ImageIO.read(selectedFile);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

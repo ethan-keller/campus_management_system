@@ -33,11 +33,11 @@
             <Label text="Username:" />
             <Label text="Type:" GridPane.rowIndex="1" />
             <Label text="Password:" GridPane.rowIndex="2" />
-            <HBox prefHeight="15.0" prefWidth="302.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <HBox alignment="CENTER_LEFT" prefHeight="15.0" prefWidth="302.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <RadioButton fx:id="userTypeAdmin" mnemonicParsing="false" text="Admin">
                      <HBox.margin>
-                        <Insets right="10.0" top="6.0" />
+                        <Insets />
                      </HBox.margin>
                      <toggleGroup>
                         <ToggleGroup fx:id="userTypeField" />
@@ -45,12 +45,12 @@
                   </RadioButton>
                   <RadioButton fx:id="userTypeTeacher" mnemonicParsing="false" text="Teacher" toggleGroup="$userTypeField">
                      <HBox.margin>
-                        <Insets right="10.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </RadioButton>
                   <RadioButton fx:id="userTypeStudent" mnemonicParsing="false" text="Student" toggleGroup="$userTypeField">
                      <HBox.margin>
-                        <Insets top="6.0" />
+                        <Insets />
                      </HBox.margin>
                   </RadioButton>
                </children>

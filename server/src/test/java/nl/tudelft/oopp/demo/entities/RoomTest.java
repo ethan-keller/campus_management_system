@@ -107,6 +107,6 @@ class RoomTest {
         assertEquals(r2, r1);
         assertEquals(r1, r2);
         assertNotEquals(r3, r1);
-        assertNotEquals("pizza", r1);
+        assertNotEquals(r1, "pizza");
     }
 }

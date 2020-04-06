@@ -27,6 +27,7 @@ public class CalendarItemDialog extends Application {
         URL xmlUrl = getClass().getResource("/CalendarItemDialog.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
 
         // create the new dialog stage in another runnable (for JavaFX reasons)
         Platform.runLater(new Runnable() {
@@ -35,6 +36,8 @@ public class CalendarItemDialog extends Application {
                 // Create the dialog Stage.
                 Stage stage = new Stage();
                 Scene scene = new Scene(root);
+                stage.setMinWidth(270);
+                stage.setMinHeight(320);
                 stage.setScene(scene);
                 stage.setResizable(false);
 
