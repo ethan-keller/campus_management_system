@@ -173,6 +173,7 @@ public class RoomEditDialogController {
                                 "Something went wrong, please try again",
                                 dialogStage, Alert.AlertType.ERROR);
                         alert.showAndWait();
+                        logger.log(Level.SEVERE, "File could not be deleted");
                         return;
                     }
                 }
