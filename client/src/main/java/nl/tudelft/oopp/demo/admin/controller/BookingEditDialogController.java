@@ -34,8 +34,6 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
-
-import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import org.controlsfx.control.RangeSlider;
 
 
@@ -73,6 +71,39 @@ public class BookingEditDialogController {
      */
     private static void emptyReservation() {
         reservation = new Reservation();
+    }
+
+    /**
+     * sorts the reservation given.
+     *
+     * @param reservations list of reservations to be sorted.
+     */
+    public static void sortReservations(List<Reservation> reservations) {
+        reservations.sort(new Comparator<Reservation>() {
+            @Override
+            public int compare(Reservation o1, Reservation o2) {
+                // split time in hh:mm
+                String[] o1StartSplit = o1.getReservationStartingTime().get().split(":");
+                int o1StartHour = Integer.parseInt(o1StartSplit[0]);
+                int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
+
+                String[] o2StartSplit = o2.getReservationStartingTime().get().split(":");
+                int o2StartHour = Integer.parseInt(o2StartSplit[0]);
+                int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
+
+                // compare hours and minutes
+                if (o1StartHour < o2StartHour) {
+                    return -1;
+                } else if (o1StartHour > o2StartHour) {
+                    return 1;
+                }
+                if (o1StartMinute < o2StartMinute) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        });
     }
 
     /**
@@ -310,11 +341,11 @@ public class BookingEditDialogController {
     }
 
     /**
-<<<<<<< HEAD
-=======
      * <<<<<<< HEAD
      * =======
->>>>>>> develop
+     * <<<<<<< HEAD
+     * =======
+     * >>>>>>> develop
      * Creates a StringConverter that converts the selected value to an actual time (in String format).
      *
      * @return a StringConverter object
@@ -348,12 +379,12 @@ public class BookingEditDialogController {
     }
 
     /**
-<<<<<<< HEAD
+     * <<<<<<< HEAD
      * <<<<<<< HEAD
      * =======
      * >>>>>>> develop
-=======
->>>>>>> develop
+     * =======
+     * >>>>>>> develop
      * >>>>>>> develop
      * Set the building combobox converter.
      *
@@ -662,38 +693,5 @@ public class BookingEditDialogController {
             logger.log(Level.SEVERE, e.toString());
         }
         return null;
-    }
-
-    /**
-     * sorts the reservation given.
-     *
-     * @param reservations list of reservations to be sorted.
-     */
-    public static void sortReservations(List<Reservation> reservations) {
-        reservations.sort(new Comparator<Reservation>() {
-            @Override
-            public int compare(Reservation o1, Reservation o2) {
-                // split time in hh:mm
-                String[] o1StartSplit = o1.getReservationStartingTime().get().split(":");
-                int o1StartHour = Integer.parseInt(o1StartSplit[0]);
-                int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
-
-                String[] o2StartSplit = o2.getReservationStartingTime().get().split(":");
-                int o2StartHour = Integer.parseInt(o2StartSplit[0]);
-                int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
-
-                // compare hours and minutes
-                if (o1StartHour < o2StartHour) {
-                    return -1;
-                } else if (o1StartHour > o2StartHour) {
-                    return 1;
-                }
-                if (o1StartMinute < o2StartMinute) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }
-        });
     }
 }

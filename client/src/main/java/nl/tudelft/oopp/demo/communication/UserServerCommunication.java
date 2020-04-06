@@ -47,8 +47,6 @@ public class UserServerCommunication {
     public static boolean updateUser(String username, String password, int type) {
         String params = "username=" + username + "&password=" + password + "&type=" + type;
         return sendPost("updateUser", params);
-<<<<<<< HEAD
-=======
     }
 
     /**
@@ -61,7 +59,6 @@ public class UserServerCommunication {
     public static boolean updateUser(String username, int type) {
         String params = "username=" + username + "&type=" + type;
         return sendPost("updateUser2", params);
->>>>>>> develop
     }
 
 

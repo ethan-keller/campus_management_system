@@ -173,10 +173,6 @@ public class AdminManageReservationViewController {
                 GeneralMethods.alertBox("Creation failed", "",
                         "Reservation creation failed", Alert.AlertType.WARNING);
             }
-            Reservation tempReservation = ReservationEditDialogController.reservation;
-            AdminLogic.createReservationLogic(tempReservation);
-            refresh();
-
             // Displaying a message to the admin for clearer communication through an alert box.
             GeneralMethods.alertBox("New Reservation", "", "New Reservation created!",
                     Alert.AlertType.INFORMATION);

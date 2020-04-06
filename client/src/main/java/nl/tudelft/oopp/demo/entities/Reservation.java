@@ -82,18 +82,10 @@ public class Reservation implements AbstractCalendarItem {
     public static List<Reservation> getRoomReservationsOnDate(int roomId, LocalDate date,
                                                               StringConverter<LocalDate> dateConverter) {
         try {
-<<<<<<< HEAD
-            List<Reservation> list = Reservation.getReservation().stream()
-                    .filter(x -> x.getRoom().get() == roomId)
-                    .filter(x -> x.getDate().get().equals(dateConverter.toString(date)))
-                    .collect(Collectors.toList());
-            return list;
-=======
             return Reservation.getAllReservations().stream()
                     .filter(x -> x.getRoom().get() == roomId)
                     .filter(x -> x.getDate().get().equals(dateConverter.toString(date)))
                     .collect(Collectors.toList());
->>>>>>> develop
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -105,11 +97,7 @@ public class Reservation implements AbstractCalendarItem {
      *
      * @return Observable List of Reservations.
      */
-<<<<<<< HEAD
-    public static ObservableList<Reservation> getReservation() {
-=======
     public static ObservableList<Reservation> getAllReservations() {
->>>>>>> develop
         try {
             ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
             JSONArray jsonArrayReservation = new JSONArray(

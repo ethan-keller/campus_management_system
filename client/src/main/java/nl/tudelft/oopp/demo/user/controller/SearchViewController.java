@@ -27,11 +27,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-<<<<<<< HEAD
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-=======
->>>>>>> develop
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -574,7 +571,6 @@ public class SearchViewController implements Initializable {
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-<<<<<<< HEAD
         }
     }
 
@@ -635,8 +631,6 @@ public class SearchViewController implements Initializable {
             return newCard;
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-=======
->>>>>>> develop
         }
         return null;
     }

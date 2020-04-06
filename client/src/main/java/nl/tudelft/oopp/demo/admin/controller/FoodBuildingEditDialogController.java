@@ -34,10 +34,6 @@ public class FoodBuildingEditDialogController {
     }
 
 
-    private static void emptyBuilding() {
-        building = new Building();
-    }
-
     /**
      * Initializes the controller class. This method is automatically called.
      * after the fxml file has been loaded.

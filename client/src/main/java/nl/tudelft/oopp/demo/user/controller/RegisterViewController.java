@@ -13,10 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
-<<<<<<< HEAD
-=======
 import nl.tudelft.oopp.demo.general.GeneralMethods;
->>>>>>> develop
 import nl.tudelft.oopp.demo.user.logic.RegisterViewLogic;
 import nl.tudelft.oopp.demo.views.LoginView;
 

@@ -1,10 +1,5 @@
 package nl.tudelft.oopp.demo.admin.logic;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
-
-import nl.tudelft.oopp.demo.general.GeneralMethods;
-
 public class BuildingEditDialogLogic {
 
     /**
@@ -15,13 +10,6 @@ public class BuildingEditDialogLogic {
      * @param openingHoursSliderHigh The higher opening time.
      * @param openingHoursSliderLow The lower opening time.
      * @return true if the input is valid. False if not.
-=======
-     *
-     * @param buildingNameField    entered building name.
-     * @param buildingAddressField entered building address.
-     * @param maxBikesField        entered maximum bikes in that building.
-     * @return true if valid otherwise false.
->>>>>>> develop
      */
     public static String isValidInput(String buildingNameField, String buildingAddressField,
                                         double openingHoursSliderHigh, double openingHoursSliderLow) {

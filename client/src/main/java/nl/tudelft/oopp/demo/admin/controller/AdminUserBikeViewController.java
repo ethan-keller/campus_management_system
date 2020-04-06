@@ -19,7 +19,6 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
-import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
@@ -73,14 +72,13 @@ public class AdminUserBikeViewController {
             signOutButton.getStyleClass().clear();
             signOutButton.getStyleClass().add("signout-button");
 
-            ObservableList<Building> buildingList = Building.getBuildingData();
+            final ObservableList<Building> buildingList = Building.getBuildingData();
             usernameLabel.setText(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             // Initialize the bike reservation table with the five columns.
             bikeIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getBikeReservationId().get()));
             // To align the text in this column in a centralized manner; looks better
             bikeIdColumn.setStyle("-fx-alignment: CENTER");
-            ObservableList<Building> buildingList = Building.getBuildingData();
             bikeBuildingColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                     buildingList.stream().filter(x -> x.getBuildingId().get()
                             == cellData.getValue().getBikeReservationBuilding().get())

@@ -87,10 +87,7 @@ class LoginControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is("student")));
 
-<<<<<<<HEAD
-                =======
         when(userRepo.getUser(anyString())).thenReturn(u5);
->>>>>>>develop
         mvc.perform(get("/login?username=test&password=pass")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

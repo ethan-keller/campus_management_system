@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,20 +15,17 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-
 import nl.tudelft.oopp.demo.admin.logic.BuildingEditDialogLogic;
-
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
-
 import nl.tudelft.oopp.demo.user.logic.RoomViewLogic;
+
 import org.controlsfx.control.RangeSlider;
 
 public class BuildingEditDialogController {
 
-    private Logger logger = Logger.getLogger("GlobalLogger");
-
     public static Building building;
+    private Logger logger = Logger.getLogger("GlobalLogger");
     @FXML
     private GridPane grid;
     @FXML

@@ -166,10 +166,7 @@ public class CalendarItemDialogController implements Initializable {
             } else {
                 // alert user that there was an error
                 alertError.showAndWait();
-<<<<<<< HEAD:client/src/main/java/nl/tudelft/oopp/demo/user/calendar/controller/CalendarItemDialogController.java
-=======
                 logger.log(Level.SEVERE, "Booking: ID " + id + " could not be canceled");
->>>>>>> develop:client/src/main/java/nl/tudelft/oopp/demo/admin/controller/CalendarItemDialogController.java
             }
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());

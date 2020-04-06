@@ -55,10 +55,7 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.user.CurrentUserManager;
-<<<<<<< HEAD
 import nl.tudelft.oopp.demo.user.logic.RoomViewLogic;
-=======
->>>>>>> develop
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import nl.tudelft.oopp.demo.views.SearchView;

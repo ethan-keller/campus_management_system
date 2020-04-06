@@ -245,7 +245,7 @@ public class RoomEditDialogController {
         String roomDescription = roomDescriptionField.getText();
 
         String errorMessage =  RoomEditDialogLogic.isValidInput(roomName, roomBuilding, roomYes,
-                roomNo, roomCapacity, roomType, roomDescription);
+                roomNo, roomCapacity, roomType, roomDescription, oldFileName, changedImage, fileName.getText());
 
         if (errorMessage.equals("")) {
             return true;

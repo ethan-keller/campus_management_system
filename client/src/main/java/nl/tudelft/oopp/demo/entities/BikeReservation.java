@@ -3,12 +3,8 @@ package nl.tudelft.oopp.demo.entities;
 import com.mindfusion.common.DateTime;
 
 import java.awt.Color;
-<<<<<<< HEAD
 import java.time.LocalDate;
 import java.util.List;
-=======
->>>>>>> develop
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -19,10 +15,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-<<<<<<< HEAD
 import javafx.util.StringConverter;
-=======
->>>>>>> develop
 
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.user.calendar.logic.AbstractCalendarItem;
@@ -207,7 +200,7 @@ public class BikeReservation implements AbstractCalendarItem {
     }
 
     /**
-<<<<<<< HEAD
+     * <<<<<<< HEAD
      * Method that returns all bike reservations for a particular building on a particular date.
      *
      * @param buildingId    the id of the building
@@ -225,161 +218,10 @@ public class BikeReservation implements AbstractCalendarItem {
             return list;
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-=======
-     * Gets bike reservation id.
-     *
-     * @return ID
-     */
-    public IntegerProperty getBikeReservationId() {
-        return bikeReservationId;
-    }
-
-    /**
-     * Sets Bike reservation id.
-     *
-     * @param bikeReservationId new ID
-     */
-    public void setBikeReservationId(int bikeReservationId) {
-        this.bikeReservationId.set(bikeReservationId);
-    }
-
-    /**
-     * Gets bike reservation building.
-     *
-     * @return Building
-     */
-    public IntegerProperty getBikeReservationBuilding() {
-        return bikeReservationBuilding;
-    }
-
-    /**
-     * Sets bike reservation building.
-     *
-     * @param bikeReservationBuilding new Building ID
-     */
-    public void setBikeReservationBuilding(int bikeReservationBuilding) {
-        this.bikeReservationBuilding.set(bikeReservationBuilding);
-    }
-
-    /**
-     * Gets bike reservation user.
-     *
-     * @return User
-     */
-    public StringProperty getBikeReservationUser() {
-        return bikeReservationUser;
-    }
-
-    /**
-     * Sets bike reservation user.
-     *
-     * @param bikeReservationUser New username
-     */
-    public void setBikeReservationUser(String bikeReservationUser) {
-        this.bikeReservationUser.set(bikeReservationUser);
-    }
-
-    /**
-     * Gets bike reservation quantity.
-     *
-     * @return number of bikes
-     */
-    public IntegerProperty getBikeReservationQuantity() {
-        return bikeReservationQuantity;
-    }
-
-    /**
-     * Sets bike reservation quantity.
-     *
-     * @param bikeReservationQuantity quantity of bikes
-     */
-    public void setBikeReservationQuantity(int bikeReservationQuantity) {
-        this.bikeReservationQuantity.set(bikeReservationQuantity);
-    }
-
-    /**
-     * Gets bike reservation date.
-     *
-     * @return Date
-     */
-    public StringProperty getBikeReservationDate() {
-        return bikeReservationDate;
-    }
-
-    /**
-     * Sets bike reservation date.
-     *
-     * @param bikeReservationDate New date in String(yyyy-mm-dd)
-     */
-    public void setBikeReservationDate(String bikeReservationDate) {
-        this.bikeReservationDate.set(bikeReservationDate);
-    }
-
-    /**
-     * Gets bike reservation starting time.
-     *
-     * @return Starting time
-     */
-    public StringProperty getBikeReservationStartingTime() {
-        return bikeReservationStartingTime;
-    }
-
-    /**
-     * Sets bike reservation starting time.
-     *
-     * @param bikeReservationStartingTime New starting time in String(hh:m:ss)
-     */
-    public void setBikeReservationStartingTime(String bikeReservationStartingTime) {
-        this.bikeReservationStartingTime.set(bikeReservationStartingTime);
-    }
-
-    /**
-     * Gets bike reservation ending time.
-     *
-     * @return Ending time
-     */
-    public StringProperty getBikeReservationEndingTime() {
-        return bikeReservationEndingTime;
-    }
-
-    /**
-     * Sets bike reservation ending time.
-     *
-     * @param bikeReservationEndingTime New ending time in String(hh-mm-ss)
-     */
-    public void setBikeReservationEndingTime(String bikeReservationEndingTime) {
-        this.bikeReservationEndingTime.set(bikeReservationEndingTime);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
->>>>>>> develop
         }
-        if (!(o instanceof BikeReservation)) {
-            return false;
-        }
-        BikeReservation that = (BikeReservation) o;
-        return getBikeReservationId().get() == that.getBikeReservationId().get();
+        return null;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getBikeReservationId().get());
-    }
-
-    @Override
-    public String getId() {
-        return String.valueOf(this.getBikeReservationId().get());
-    }
-
-    @Override
-    public String getHeader() {
-        return "Bike reservation";
-    }
-
-<<<<<<< HEAD
     /**
      * Gets bike reservation id.
      *
@@ -443,6 +285,7 @@ public class BikeReservation implements AbstractCalendarItem {
         return bikeReservationQuantity;
     }
 
+
     /**
      * Sets bike reservation quantity.
      *
@@ -460,6 +303,7 @@ public class BikeReservation implements AbstractCalendarItem {
     public StringProperty getBikeReservationDate() {
         return bikeReservationDate;
     }
+
 
     /**
      * Sets bike reservation date.
@@ -497,6 +341,7 @@ public class BikeReservation implements AbstractCalendarItem {
         return bikeReservationEndingTime;
     }
 
+
     /**
      * Sets bike reservation ending time.
      *
@@ -519,11 +364,6 @@ public class BikeReservation implements AbstractCalendarItem {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(getBikeReservationId());
-    }
-
-    @Override
     public String getId() {
         return String.valueOf(this.getBikeReservationId().get());
     }
@@ -533,9 +373,8 @@ public class BikeReservation implements AbstractCalendarItem {
         return "Bike reservation";
     }
 
-=======
->>>>>>> develop
     @Override
+
     public DateTime getStartTime() {
         DateTime dt = null;
         // split date in [yyyy, MM, dd]

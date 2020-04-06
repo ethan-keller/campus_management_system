@@ -1,24 +1,24 @@
 package nl.tudelft.oopp.demo.admin.logic;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockserver.integration.ClientAndServer.startClientAndServer;
+import static org.mockserver.model.HttpRequest.request;
+import static org.mockserver.model.HttpResponse.response;
+
+import java.time.LocalDate;
+
 import javafx.util.StringConverter;
-import nl.tudelft.oopp.demo.entities.Reservation;
+
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 
-import nl.tudelft.oopp.demo.user.calendar.logic.CalendarEditItemDialogLogic;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.integration.ClientAndServer;
-
-import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockserver.integration.ClientAndServer.startClientAndServer;
-import static org.mockserver.model.HttpRequest.request;
-import static org.mockserver.model.HttpResponse.response;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ReservationEditDialogLogicTest {
@@ -49,10 +49,10 @@ class ReservationEditDialogLogicTest {
         mockServer.stop();
     }
 
-    @Test
     /**
      * tests the isInputValid with on null checks.
      */
+    @Test
     void isInputValidNullTest() {
         User user = null;
         Room room = null;
@@ -70,30 +70,33 @@ class ReservationEditDialogLogicTest {
         assertEquals(expected, test);
     }
 
-    @Test
     /**
      * Tests checkTimeSlotValidity on null checks.
      */
+    @Test
     void checkTimeSlotValidityNullRoomTest() {
         assertFalse(ReservationEditDialogLogic
-                .checkTimeSlotValidity(null, null, 0.1, 0.1, null));
+                .checkTimeSlotValidity(null, null,
+                        0.1, 0.1, null));
     }
 
-    @Test
     /**
      * tests the checkTimeSlotValidity.
      */
+    @Test
     void checkTimeSLotValidityTest() {
         Room room = new Room(
-                1, "", 1, false, 1, "", "", "");
+                1, "", 1,
+                false, 1, "", "", "");
         assertFalse(ReservationEditDialogLogic
-                .checkTimeSlotValidity(room, null, 1, 2, null));
+                .checkTimeSlotValidity(room, null, 1,
+                        2, null));
     }
 
-    @Test
     /**
      * test the converter of the rangeSlider.
      */
+    @Test
     void getRangeSliderConverterTest() {
         StringConverter<Number> converter = ReservationEditDialogLogic.getRangeSliderConverter();
         assertEquals(728.0, converter.fromString("12:08"));

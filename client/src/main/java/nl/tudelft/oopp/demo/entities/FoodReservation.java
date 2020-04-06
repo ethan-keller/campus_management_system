@@ -50,27 +50,11 @@ public class FoodReservation {
      * @return List of Food reservations of selected reservation
      */
     public static ObservableList<FoodReservation> getUserReservationFood(Reservation r) throws JSONException {
-<<<<<<< HEAD
-        ObservableList<FoodReservation> foodReservation = FXCollections.observableArrayList();
-        JSONArray jsonArrayFoodReservation = new JSONArray(FoodServerCommunication.getFoodReservationByReservation(
-                r.getReservationId().get()
-        ));
-
-        for (int i = 0; i < jsonArrayFoodReservation.length(); i++) {
-            FoodReservation fr = new FoodReservation();
-            fr.setFoodId(jsonArrayFoodReservation.getJSONObject(i).getJSONObject("food").getInt("id"));
-            fr.setReservationId(jsonArrayFoodReservation.getJSONObject(i).getJSONObject("reservation")
-                    .getInt("id"));
-            fr.setFoodQuantity(jsonArrayFoodReservation.getJSONObject(i).getInt("quantity"));
-            foodReservation.add(fr);
-        }
-        return foodReservation;
-=======
         try {
             ObservableList<FoodReservation> foodReservation = FXCollections.observableArrayList();
             JSONArray jsonArrayFoodReservation = new JSONArray(
                     FoodServerCommunication.getFoodReservationByReservation(r.getReservationId().get()
-            ));
+                    ));
 
             for (int i = 0; i < jsonArrayFoodReservation.length(); i++) {
                 FoodReservation fr = new FoodReservation();
@@ -85,32 +69,15 @@ public class FoodReservation {
             logger.log(Level.SEVERE, e.toString());
         }
         return null;
->>>>>>> develop
     }
 
     /**
      * Gets all the food reservations from the database.
-<<<<<<< HEAD
-=======
      *
->>>>>>> develop
      * @return Observable list of all the food reservations.
      * @throws JSONException when errors occur while parsing JSON
      */
     public static ObservableList<FoodReservation> getAllFoodReservations() throws JSONException {
-<<<<<<< HEAD
-        ObservableList<FoodReservation> allFoodReservations = FXCollections.observableArrayList();
-        JSONArray jsonArrayFoodReservation = new JSONArray(FoodServerCommunication.getAllFoodReservations());
-
-        for (int i = 0; i < jsonArrayFoodReservation.length(); i++) {
-            FoodReservation fr = new FoodReservation();
-            fr.setFoodId(jsonArrayFoodReservation.getJSONArray(i).getInt(1));
-            fr.setReservationId(jsonArrayFoodReservation.getJSONArray(i).getInt(0));
-            fr.setFoodQuantity(jsonArrayFoodReservation.getJSONArray(i).getInt(2));
-            allFoodReservations.add(fr);
-        }
-        return allFoodReservations;
-=======
         try {
             ObservableList<FoodReservation> allFoodReservations = FXCollections.observableArrayList();
             JSONArray jsonArrayFoodReservation = new JSONArray(FoodServerCommunication.getAllFoodReservations());
@@ -140,7 +107,6 @@ public class FoodReservation {
         FoodReservation that = (FoodReservation) o;
         return getReservationId().get() == that.getReservationId().get()
                 && getFoodId().get() == that.getFoodId().get();
->>>>>>> develop
     }
 
     /**
