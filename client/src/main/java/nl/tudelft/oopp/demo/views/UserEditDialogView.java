@@ -9,7 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
+import nl.tudelft.oopp.demo.admin.controller.UserEditDialogController;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 
@@ -41,6 +43,9 @@ public class UserEditDialogView extends Application {
             }
 
             GeneralMethods.view(dialogStage, primaryStage, "Edit User", root);
+
+            dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event ->
+                    UserEditDialogController.user = null);
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());

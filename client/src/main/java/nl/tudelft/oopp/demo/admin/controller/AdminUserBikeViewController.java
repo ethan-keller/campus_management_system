@@ -23,9 +23,11 @@ import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminManageUserView;
+import nl.tudelft.oopp.demo.views.AdminUserBikeView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.UserBikeEditDialogView;
 import nl.tudelft.oopp.demo.views.UserBikeNewDialogView;
+
 
 public class AdminUserBikeViewController {
 
@@ -113,8 +115,10 @@ public class AdminUserBikeViewController {
     /**
      * refresh the table when called.
      */
-    public void refresh() {
-        initialize();
+    public void refresh(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        AdminUserBikeView aubv = new AdminUserBikeView();
+        aubv.start(stage);
     }
 
     /**
@@ -152,7 +156,7 @@ public class AdminUserBikeViewController {
         try {
             if (selectedIndex >= 0) {
                 if (AdminLogic.deleteBikeLogic(selectedBikeReservation)) {
-                    refresh();
+                    refresh(event);
                     // An alert pop up when a reservation deleted successfully
                     GeneralMethods.alertBox("Delete bike reservation", "",
                             "Bike reservation deleted!", Alert.AlertType.INFORMATION);
@@ -192,7 +196,7 @@ public class AdminUserBikeViewController {
                 return;
             }
             if (AdminLogic.creatBikeLogic(tempBikeReservation)) {
-                refresh();
+                refresh(event);
                 // An alert pop up when a new reservation created.
                 GeneralMethods.alertBox("New bike reservation", "",
                         "Successfully added new bike reservation!", Alert.AlertType.INFORMATION);
@@ -229,7 +233,7 @@ public class AdminUserBikeViewController {
                     return;
                 }
                 if (AdminLogic.editBikeLogic(selectedBikeReservation, tempBikeReservation)) {
-                    refresh();
+                    refresh(event);
                     // Creates an alert box to display the message.
                     GeneralMethods.alertBox("Edit bike reservation", "",
                             "Bike Reservation edited!", Alert.AlertType.INFORMATION);
