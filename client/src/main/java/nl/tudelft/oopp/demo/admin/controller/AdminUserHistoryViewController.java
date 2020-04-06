@@ -142,6 +142,12 @@ public class AdminUserHistoryViewController {
             if (tempReservation == null) {
                 return;
             }
+            //check if the endtime is 24:00 and changes it if so(database can't handle it)
+            String temp = tempReservation.getReservationEndingTime().get();
+            if(temp.contains("24")){
+                tempReservation.setEndingTime("23:59");
+                System.out.println(tempReservation.getReservationEndingTime().get());
+            }
             if (AdminLogic.createReservationLogic(tempReservation)) {
                 refresh();
                 // An alert pop up when a new reservation created.
@@ -153,6 +159,7 @@ public class AdminUserHistoryViewController {
                         "Reservation creation failed", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             logger.log(Level.SEVERE, e.toString());
         }
     }

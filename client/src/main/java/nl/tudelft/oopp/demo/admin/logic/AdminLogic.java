@@ -216,6 +216,7 @@ public class AdminLogic {
      */
     public static boolean createReservationLogic(Reservation tempReservation) {
         try {
+
             if (ReservationServerCommunication.createReservation(tempReservation.getUsername().get(),
                     tempReservation.getRoom().get(), tempReservation.getDate().get(),
                     tempReservation.getReservationStartingTime().get(),

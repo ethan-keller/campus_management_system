@@ -500,7 +500,11 @@ public class BookingEditDialogController {
             reservation.setRoom(this.bookingRoomComboBox.getSelectionModel().getSelectedItem().getRoomId().get());
             reservation.setDate(this.bookingDate.getValue().toString());
             reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
-            reservation.setEndingTime(endTime.getText().replace("End: ", ""));
+            if(endTime.getText().equals("End: 24:00:00")){
+                reservation.setEndingTime("23:59:00");
+            }else{
+                reservation.setEndingTime(endTime.getText().replace("End: ", ""));
+            }
             // Close the dialog window
             this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             dialogStage.close();
