@@ -187,7 +187,7 @@ public class RoomEditDialogController {
                 room.setRoomCapacity(Integer.parseInt(this.roomCapacityField.getText()));
                 room.setRoomType(this.roomTypeField.getText());
                 room.setRoomDescription(this.roomDescriptionField.getText());
-                room.setRoomPhoto(fileName.getText());
+                room.setRoomPhoto(fileName.isVisible() ? fileName.getText() : oldFileName);
 
                 // if the admin creates a new room or updates an image, save the new file
                 if (oldFileName == null || changedImage) {
