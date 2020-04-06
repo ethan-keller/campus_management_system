@@ -26,10 +26,7 @@ import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservation;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
-import nl.tudelft.oopp.demo.views.AdminManageReservationView;
-import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
-import nl.tudelft.oopp.demo.views.FoodReservationEditDialogView;
-import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.*;
 
 /**
  * Class that controls the view where the admin can manage food reservations.
@@ -90,8 +87,11 @@ public class AdminManageFoodReservationViewController {
     /**
      * Used to initialize the view everytime something new is created, edited or deleted.
      */
-    public void refresh() {
-        initialize();
+    public void refresh(ActionEvent event) throws IOException {
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        AdminFoodReservationView afrv = new AdminFoodReservationView();
+        afrv.start(stage);
     }
 
     /**
@@ -142,7 +142,7 @@ public class AdminManageFoodReservationViewController {
                 if (FoodServerCommunication.deleteFoodFromReservation(
                         selectedFoodReservation.getFoodId().getValue(),
                         this.getReservation().getReservationId().get())) {
-                    refresh();
+                    refresh(event);
                     // An alert pop up when a reservation deleted successfully
                     GeneralMethods.alertBox("Delete food reservation", "",
                             "Food reservation deleted!", Alert.AlertType.INFORMATION);
@@ -193,7 +193,7 @@ public class AdminManageFoodReservationViewController {
                         this.getReservation().getReservationId().get(), tempReservation.getFoodQuantity().get());
             }
             if (newReservationCreated) {
-                refresh();
+                refresh(event);
                 // An alert pop up when a new reservation created.
                 GeneralMethods.alertBox("New food reservation", "",
                         "Added new food reservation!", Alert.AlertType.INFORMATION);

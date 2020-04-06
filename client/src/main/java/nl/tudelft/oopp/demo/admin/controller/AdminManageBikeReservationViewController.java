@@ -30,9 +30,8 @@ import nl.tudelft.oopp.demo.views.LoginView;
 
 public class AdminManageBikeReservationViewController {
 
-    private Logger logger = Logger.getLogger("GlobalLogger");
-
     public static BikeReservation currentSelectedBikeReservation;
+    private Logger logger = Logger.getLogger("GlobalLogger");
     @FXML
     private TableView<BikeReservation> bikeTable;
     @FXML
@@ -95,6 +94,7 @@ public class AdminManageBikeReservationViewController {
 
     /**
      * Reloads the whole view with new information.
+     *
      * @param event event to get stage from
      * @throws IOException if errors occur due to I/O
      */
