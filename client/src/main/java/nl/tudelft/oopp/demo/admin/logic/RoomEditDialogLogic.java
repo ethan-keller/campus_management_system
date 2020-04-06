@@ -42,6 +42,9 @@ public class RoomEditDialogLogic {
         if (!radioButtonYes.isSelected() && !radioButtonNo.isSelected()) {
             errorMessage += "No teacher only button selected!\n";
         }
+        if (roomDescriptionField.getText().length() >= 270) {
+            errorMessage += "The description of the room can't be more than 270 characters";
+        }
         // checks if there already exists an image with this name
         File imageFolder = new File("client/src/main/resources/images");
         // if admin creates new room or updates image, check if the image already exists
