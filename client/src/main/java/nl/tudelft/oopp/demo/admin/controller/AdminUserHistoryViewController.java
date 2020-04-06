@@ -18,10 +18,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
-import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
-import nl.tudelft.oopp.demo.views.AdminManageUserView;
-import nl.tudelft.oopp.demo.views.BookingEditDialogView;
-import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.*;
 
 
 public class AdminUserHistoryViewController {
@@ -81,8 +78,11 @@ public class AdminUserHistoryViewController {
      * .
      * refresh the table when called
      */
-    public void refresh() {
-        initialize();
+    public void refresh(ActionEvent event) throws IOException {
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        AdminUserHistoryView auhv = new AdminUserHistoryView();
+        auhv.start(stage);
     }
 
     /**
@@ -106,7 +106,7 @@ public class AdminUserHistoryViewController {
         try {
             if (selectedIndex >= 0) {
                 if (AdminLogic.deleteReservationLogic(selectedReservation)) {
-                    refresh();
+                    refresh(event);
                     // An alert pop up when a reservation deleted successfully
                     GeneralMethods.alertBox("Delete Reservation", "", "Reservation deleted!",
                             Alert.AlertType.INFORMATION);
@@ -148,7 +148,7 @@ public class AdminUserHistoryViewController {
                 tempReservation.setEndingTime("23:59");
             }
             if (AdminLogic.createReservationLogic(tempReservation)) {
-                refresh();
+                refresh(event);
                 // An alert pop up when a new reservation created.
                 GeneralMethods.alertBox("New Reservation", "", "New Reservation added!",
                         Alert.AlertType.INFORMATION);
