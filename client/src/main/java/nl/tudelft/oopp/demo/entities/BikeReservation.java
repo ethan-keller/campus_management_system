@@ -3,7 +3,8 @@ package nl.tudelft.oopp.demo.entities;
 import com.mindfusion.common.DateTime;
 
 import java.awt.Color;
-import java.util.Objects;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.user.calendar.logic.AbstractCalendarItem;
@@ -198,6 +200,29 @@ public class BikeReservation implements AbstractCalendarItem {
     }
 
     /**
+     * <<<<<<< HEAD
+     * Method that returns all bike reservations for a particular building on a particular date.
+     *
+     * @param buildingId    the id of the building
+     * @param date          the date to be filtered on
+     * @param dateConverter converts date value to String format hh:mm
+     * @return List of filtered reservations
+     */
+    public static List<BikeReservation> getBikeReservationsOnDate(int buildingId, LocalDate date,
+                                                                  StringConverter<LocalDate> dateConverter) {
+        try {
+            List<BikeReservation> list = BikeReservation.getBikeReservationData().stream()
+                    .filter(x -> x.getBikeReservationBuilding().get() == buildingId)
+                    .filter(x -> x.getBikeReservationDate().get().equals(dateConverter.toString(date)))
+                    .collect(Collectors.toList());
+            return list;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
+    }
+
+    /**
      * Gets bike reservation id.
      *
      * @return ID
@@ -260,6 +285,7 @@ public class BikeReservation implements AbstractCalendarItem {
         return bikeReservationQuantity;
     }
 
+
     /**
      * Sets bike reservation quantity.
      *
@@ -277,6 +303,7 @@ public class BikeReservation implements AbstractCalendarItem {
     public StringProperty getBikeReservationDate() {
         return bikeReservationDate;
     }
+
 
     /**
      * Sets bike reservation date.
@@ -314,6 +341,7 @@ public class BikeReservation implements AbstractCalendarItem {
         return bikeReservationEndingTime;
     }
 
+
     /**
      * Sets bike reservation ending time.
      *
@@ -336,11 +364,6 @@ public class BikeReservation implements AbstractCalendarItem {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(getBikeReservationId().get());
-    }
-
-    @Override
     public String getId() {
         return String.valueOf(this.getBikeReservationId().get());
     }
@@ -351,6 +374,7 @@ public class BikeReservation implements AbstractCalendarItem {
     }
 
     @Override
+
     public DateTime getStartTime() {
         DateTime dt = null;
         // split date in [yyyy, MM, dd]

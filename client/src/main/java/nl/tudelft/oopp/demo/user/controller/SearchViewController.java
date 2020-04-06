@@ -16,7 +16,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -25,6 +27,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -34,6 +38,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.entities.Building;
+import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.user.calendar.controller.CalendarPaneController;
@@ -272,7 +277,14 @@ public class SearchViewController implements Initializable {
         }
 
         if (yesCheckBoxFood.isSelected()) {
-            roomList = SearchViewLogic.filterByFood(roomList, buildings);
+            List<Integer> buildingsWithFood = new ArrayList<Integer>();
+            for (int i = 0; i != buildings.size(); i++) {
+                int buildingId = buildings.get(i).getBuildingId().getValue();
+                if (!Food.getFoodByBuildingId(buildingId).isEmpty()) {
+                    buildingsWithFood.add(buildings.get(i).getBuildingId().getValue());
+                }
+            }
+            roomList = SearchViewLogic.filterByFood(roomList, buildingsWithFood);
         }
 
         // if the combobox is selected on a value it filters for that value.
@@ -323,7 +335,7 @@ public class SearchViewController implements Initializable {
 
         // create a 'card' showing some information of the room, for every room
         for (Room r : roomList) {
-            cardHolder.getChildren().add(SearchViewLogic.createRoomCard(this, r));
+            cardHolder.getChildren().add(createRoomCard(r));
         }
     }
 
@@ -560,5 +572,66 @@ public class SearchViewController implements Initializable {
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
+    }
+
+    /**
+     * Creates a new 'card' (HBox) which contains some information about the room.
+     *
+     * @param r The Room that we have to show information from
+     * @return HBox which is the final 'card'
+     */
+    public HBox createRoomCard(Room r) {
+        try {
+            // load the 'skeleton of a new card
+            FXMLLoader loader = new FXMLLoader();
+            URL xmlUrl = getClass().getResource("/RoomCard.fxml");
+            loader.setLocation(xmlUrl);
+
+            HBox newCard = loader.load();
+
+            Image roomImage = null;
+            try {
+                // get the room image
+                roomImage = new Image("images/" + r.getRoomPhoto().get());
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, e.toString());
+                // load placeholder instead
+                roomImage = new Image("images/placeholder.png");
+            }
+
+
+            // use lookup to retrieve Nodes by their id and set their content
+            ImageView image = ((ImageView) newCard.lookup("#image"));
+            image.setImage(roomImage);
+            // set the correct width
+            image.setFitWidth(300);
+
+            Building b = buildingList.stream()
+                    .filter(x -> x.getBuildingId().get() == r.getRoomBuilding().get())
+                    .collect(Collectors.toList()).get(0);
+
+            ((Text) newCard.lookup("#idText")).setText(String.valueOf(r.getRoomId().get()));
+            ((Text) newCard.lookup("#titleText")).setText(r.getRoomName().get());
+            ((Text) newCard.lookup("#buildingText")).setText("Building: " + b.getBuildingName().get());
+            ((Text) newCard.lookup("#capacityText")).setText("Capacity: " + r.getRoomCapacity().get());
+            ((Text) newCard.lookup("#descriptionText")).setText("Description: " + r.getRoomDescription().get());
+
+            // set mouse clicked event on card (to redirect to room view)
+            newCard.setOnMouseClicked(event -> {
+                try {
+                    cardClicked(event);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+            // set space between the cards
+            VBox.setMargin(newCard, new Insets(0, 0, 70, 0));
+
+            return newCard;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 }

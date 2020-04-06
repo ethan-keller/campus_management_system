@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.user.logic;
 
 import java.util.regex.Pattern;
 
+import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
 
 public class RegisterViewLogic {
 
@@ -12,7 +13,7 @@ public class RegisterViewLogic {
      * @return A string with the invalidation or Good! if there is none.
      */
     public static String checkUsername(String usernameTxt) {
-        Pattern upperCasePattern = Pattern.compile("[A-Z]");
+
         Pattern characters = Pattern.compile("[!@#$%^&*`~<,>./?:;'{|+=_-]");
         Pattern space = Pattern.compile(" ");
 
@@ -85,4 +86,16 @@ public class RegisterViewLogic {
             return "Good!";
         }
     }
+
+    /**
+     * Method that communicates with the server to register a new user.
+     * @param username username of the user
+     * @param password password of the user
+     * @param type type of the user
+     * @return true if successful, false otherwise
+     */
+    public static boolean registerCommunication(String username, String password, int type) {
+        return RegisterServerCommunication.sendRegister(username, password, type);
+    }
+
 }

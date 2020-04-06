@@ -54,7 +54,7 @@ public class FoodReservation {
             ObservableList<FoodReservation> foodReservation = FXCollections.observableArrayList();
             JSONArray jsonArrayFoodReservation = new JSONArray(
                     FoodServerCommunication.getFoodReservationByReservation(r.getReservationId().get()
-            ));
+                    ));
 
             for (int i = 0; i < jsonArrayFoodReservation.length(); i++) {
                 FoodReservation fr = new FoodReservation();
