@@ -18,10 +18,10 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
-import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
+import nl.tudelft.oopp.demo.views.AdminBikeReservationView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
 import nl.tudelft.oopp.demo.views.BikeEditDialogView;
 import nl.tudelft.oopp.demo.views.BikeNewDialogView;
@@ -94,10 +94,14 @@ public class AdminManageBikeReservationViewController {
     }
 
     /**
-     * Used to initialize the view everytime something new is created, edited or deleted.
+     * Reloads the whole view with new information.
+     * @param event event to get stage from
+     * @throws IOException if errors occur due to I/O
      */
-    public void refresh() {
-        initialize();
+    public void refresh(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        AdminBikeReservationView abrv = new AdminBikeReservationView();
+        abrv.start(stage);
     }
 
     /**
@@ -134,7 +138,7 @@ public class AdminManageBikeReservationViewController {
         try {
             if (selectedIndex >= 0) {
                 if (AdminLogic.deleteBikeLogic(selectedBikeReservation)) {
-                    refresh();
+                    refresh(event);
                     // An alert pop up when a reservation deleted successfully
                     GeneralMethods.alertBox("Delete bike reservation", "",
                             "Bike reservation deleted!", Alert.AlertType.INFORMATION);
@@ -174,7 +178,7 @@ public class AdminManageBikeReservationViewController {
                 return;
             }
             if (AdminLogic.creatBikeLogic(tempBikeReservation)) {
-                refresh();
+                refresh(event);
                 // An alert pop up when a new reservation created.
                 GeneralMethods.alertBox("New bike reservation", "",
                         "Successfully added new bike reservation!", Alert.AlertType.INFORMATION);
@@ -211,7 +215,7 @@ public class AdminManageBikeReservationViewController {
                     return;
                 }
                 if (AdminLogic.editBikeLogic(selectedBikeReservation, tempBikeReservation)) {
-                    refresh();
+                    refresh(event);
                     // Creates an alert box to display the message.
                     GeneralMethods.alertBox("Edit bike reservation", "",
                             "Bike Reservation edited!", Alert.AlertType.INFORMATION);
