@@ -1,24 +1,18 @@
 package nl.tudelft.oopp.demo.admin.logic;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.admin.controller.AdminManageReservationViewController;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
-import nl.tudelft.oopp.demo.general.GeneralMethods;
 
-import org.controlsfx.control.RangeSlider;
 
 public class ReservationEditDialogLogic {
 
@@ -29,62 +23,27 @@ public class ReservationEditDialogLogic {
      *
      * @return true if the input is valid
      */
-    public static boolean isInputValid(ComboBox<User> username, ComboBox<Room> room, DatePicker date,
-                                       RangeSlider timeslotSlider, DateTimeFormatter formatter) {
+    public static String isInputValid(User username, Room room, LocalDate date,
+                                       double currentStartValue, double currentEndValue,
+                                       StringConverter<LocalDate> temp) {
         String errorMessage = "";
 
-        if (username.getSelectionModel().getSelectedItem() == null) {
+        if (username == null) {
             errorMessage += "No valid username provided!\n";
         }
-        if (room.getSelectionModel().getSelectedItem() == null) {
+        if (room == null) {
             errorMessage += "No valid Room provided! \n";
         }
-        if (date.getValue() == null) {
+        if (date == null) {
             errorMessage += "No date provided!\n";
         }
-        if (!checkTimeSlotValidity(room, date, formatter, timeslotSlider)
-                || timeslotSlider.getLowValue() == timeslotSlider.getHighValue()) {
+
+        if (!checkTimeSlotValidity(room, date, currentStartValue, currentEndValue, temp)
+                || currentStartValue == currentEndValue) {
             errorMessage += "No valid timeslot selected!\n";
         }
 
-        // If all the fields are valid, then true is returned.
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-            return false;
-        }
-    }
-
-    /**
-     * Constructor for the converter that converts LocalDate objects to String yyyy-MM-dd format.
-     */
-    public static StringConverter<LocalDate> getDateConverter(DateTimeFormatter formatter) {
-        try {
-            return new StringConverter<LocalDate>() {
-                @Override
-                public String toString(LocalDate dateSelected) {
-                    if (dateSelected != null) {
-                        return formatter.format(dateSelected);
-                    }
-                    return "null";
-                }
-
-                @Override
-                public LocalDate fromString(String string) {
-                    // The date is formatted in yyyy-MM-dd format from the datePicker.
-                    if (string != null && !string.trim().isEmpty()) {
-                        return LocalDate.parse(string, formatter);
-                    }
-                    return null;
-                }
-            };
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-        }
-        return null;
+        return errorMessage;
     }
 
     /**
@@ -125,18 +84,17 @@ public class ReservationEditDialogLogic {
      *
      * @return true if the timeslot is free, false otherwise
      */
-    public static boolean checkTimeSlotValidity(ComboBox<Room> room, DatePicker date, DateTimeFormatter formatter,
-                                                RangeSlider timeslotSlider) {
+    public static boolean checkTimeSlotValidity(Room room, LocalDate date, double currentStartValue,
+                                                double currentEndValue, StringConverter<LocalDate> temp) {
         try {
             // get currently selected room
-            Room selectedRoom = room.getSelectionModel().getSelectedItem();
+            Room selectedRoom = room;
             if (selectedRoom == null) {
                 return false;
             }
             // get all reservations for the current room on the chosen date
             List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(
-                    selectedRoom.getRoomId().get(),
-                    date.getValue(), getDateConverter(formatter));
+                    selectedRoom.getRoomId().get(), date, temp);
 
             // if something went wrong with the server communication return false
             if (roomReservations == null) {
@@ -162,8 +120,6 @@ public class ReservationEditDialogLogic {
                 }
 
                 // get rangeslider values + reservation values
-                double currentStartValue = timeslotSlider.getLowValue();
-                double currentEndValue = timeslotSlider.getHighValue();
                 double startValue = (double) timeConverter.fromString(r.getReservationStartingTime().get());
                 double endValue = (double) timeConverter.fromString(r.getReservationEndingTime().get());
 

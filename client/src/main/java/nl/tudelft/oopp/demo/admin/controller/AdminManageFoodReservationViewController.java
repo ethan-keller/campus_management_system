@@ -76,13 +76,22 @@ public class AdminManageFoodReservationViewController {
             // Initialize the booking table with the three columns.
             foodIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getFoodId().get()));
+            // To align the text in this column in a centralized manner; looks better
+            foodIdColumn.setStyle("-fx-alignment: CENTER");
+
             ObservableList<Food> foodObservableList = Food.getAllFoodData();
             foodNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                     foodObservableList.stream().filter(x -> x.getFoodId().get()
                             == cellData.getValue().getFoodId().get())
                             .collect(Collectors.toList()).get(0).getFoodName().get()));
+            // To align the text in this column in a centralized manner; looks better
+            foodNameColumn.setStyle("-fx-alignment: CENTER");
+
             foodQuantityColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getFoodQuantity().get()));
+            // To align the text in this column in a centralized manner; looks better
+            foodQuantityColumn.setStyle("-fx-alignment: CENTER");
+
             foodReservationTable.setItems(FoodReservation.getUserReservationFood(roomReservation));
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
@@ -188,6 +197,7 @@ public class AdminManageFoodReservationViewController {
             boolean newReservationCreated;
             if (this.getAllFoodInReservation(getReservation())
                     .contains(Food.getFoodById(tempReservation.getFoodId().get()))) {
+
                 newReservationCreated = FoodServerCommunication.updateFoodReservationQuantity(
                         tempReservation.getFoodId().get(),
                         this.getReservation().getReservationId().get(), (tempReservation.getFoodQuantity().get()

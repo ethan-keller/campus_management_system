@@ -57,9 +57,9 @@
    <center>
       <TableView fx:id="foodTable" prefHeight="500.0" prefWidth="900.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="foodIdColumn" minWidth="100.0" prefWidth="-1.0" text="ID" />
-          <TableColumn fx:id="foodNameColumn" minWidth="200.0" prefWidth="279.1999816894531" text="Name" />
-            <TableColumn fx:id="foodPriceColumn" minWidth="90.0" prefWidth="170.4000244140625" text="Price" />
+          <TableColumn fx:id="foodIdColumn" minWidth="100.0" prefWidth="-1.0" text="Food ID" />
+          <TableColumn fx:id="foodNameColumn" minWidth="200.0" prefWidth="279.1999816894531" text="Food Name" />
+            <TableColumn fx:id="foodPriceColumn" minWidth="90.0" prefWidth="170.4000244140625" text="Price per piece" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

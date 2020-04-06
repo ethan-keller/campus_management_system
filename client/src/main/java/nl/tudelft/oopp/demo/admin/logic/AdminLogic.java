@@ -22,7 +22,6 @@ import nl.tudelft.oopp.demo.entities.User;
 
 
 public class AdminLogic {
-
     private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
@@ -51,11 +50,8 @@ public class AdminLogic {
     public static boolean deleteBuildingLogic(Building selectedBuilding) {
         try {
             // Communication with the server.
-            if (BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue())) {
-                return true;
-            } else {
-                return false;
-            }
+
+            return BuildingServerCommunication.deleteBuilding(selectedBuilding.getBuildingId().getValue());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
             return false;
@@ -72,19 +68,14 @@ public class AdminLogic {
     public static boolean createBuildingLogic(Building tempBuilding) {
         try {
             // Communication with the server.
-            if (BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
+            return (BuildingServerCommunication.createBuilding(tempBuilding.getBuildingName().get(),
                     tempBuilding.getBuildingRoomCount().get(), tempBuilding.getBuildingAddress().get(),
                     tempBuilding.getBuildingMaxBikes().get(),
-                    tempBuilding.getOpeningTime().get(), tempBuilding.getClosingTime().get())) {
-                return true;
-            } else {
-                return false;
-            }
-
+                    tempBuilding.getOpeningTime().get(), tempBuilding.getClosingTime().get()));
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-            return false;
         }
+        return false;
     }
 
     /**
@@ -97,18 +88,14 @@ public class AdminLogic {
     public static boolean editBuildingLogic(Building selectedBuilding, Building tempBuilding) {
         try {
             // Communication with the server.
-            if (BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
+            return BuildingServerCommunication.updateBuilding(selectedBuilding.getBuildingId().get(),
                     tempBuilding.getBuildingName().get(), tempBuilding.getBuildingRoomCount().get(),
                     tempBuilding.getBuildingAddress().get(), tempBuilding.getBuildingMaxBikes().get(),
-                    tempBuilding.getOpeningTime().get(), tempBuilding.getClosingTime().get())) {
-                return true;
-            } else {
-                return false;
-            }
+                    tempBuilding.getOpeningTime().get(), tempBuilding.getClosingTime().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-            return false;
         }
+        return false;
     }
 
     /**
@@ -119,17 +106,13 @@ public class AdminLogic {
      */
     public static boolean deleteFoodReservationLogic(Building selectedBuilding) {
         try {
-            if (FoodServerCommunication.deleteFoodFromBuilding(
+            return FoodServerCommunication.deleteFoodFromBuilding(
                     AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),
-                    selectedBuilding.getBuildingId().getValue())) {
-                return true;
-            } else {
-                return false;
-            }
+                    selectedBuilding.getBuildingId().getValue());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-            return false;
         }
+        return false;
     }
 
     /**
@@ -141,17 +124,13 @@ public class AdminLogic {
     public static boolean addFoodReservationLogic(Building tempBuilding) {
         try {
 
-            if (FoodServerCommunication.addFoodToBuilding(
+            return FoodServerCommunication.addFoodToBuilding(
                     AdminManageFoodViewController.currentSelectedFood.getFoodId().get(),
-                    tempBuilding.getBuildingId().get())) {
-                return true;
-            } else {
-                return false;
-            }
+                    tempBuilding.getBuildingId().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-            return false;
         }
+        return false;
     }
 
     /**
@@ -196,16 +175,12 @@ public class AdminLogic {
      */
     public static boolean deleteReservationLogic(Reservation selectedReservation) {
         try {
-            if (ReservationServerCommunication.deleteReservation(
-                    selectedReservation.getReservationId().getValue())) {
-                return true;
-            } else {
-                return false;
-            }
+            return ReservationServerCommunication.deleteReservation(selectedReservation
+                    .getReservationId().getValue());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-            return false;
         }
+        return false;
     }
 
     /**
@@ -217,19 +192,14 @@ public class AdminLogic {
      */
     public static boolean createReservationLogic(Reservation tempReservation) {
         try {
-
-            if (ReservationServerCommunication.createReservation(tempReservation.getUsername().get(),
+            return (ReservationServerCommunication.createReservation(tempReservation.getUsername().get(),
                     tempReservation.getRoom().get(), tempReservation.getDate().get(),
                     tempReservation.getReservationStartingTime().get(),
-                    tempReservation.getReservationEndingTime().get())) {
-                return true;
-            } else {
-                return false;
-            }
+                    tempReservation.getReservationEndingTime().get()));
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-            return false;
         }
+        return false;
     }
 
     /**
@@ -242,18 +212,14 @@ public class AdminLogic {
      */
     public static boolean editReservationLogic(Reservation selectedReservation, Reservation tempReservation) {
         try {
-            if (ReservationServerCommunication.updateReservation(selectedReservation.getReservationId().get(),
+            return ReservationServerCommunication.updateReservation(selectedReservation.getReservationId().get(),
                     tempReservation.getRoom().get(), tempReservation.getDate().get(),
                     tempReservation.getReservationStartingTime().get(),
-                    tempReservation.getReservationEndingTime().get())) {
-                return true;
-            } else {
-                return false;
-            }
+                    tempReservation.getReservationEndingTime().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-            return false;
         }
+        return false;
     }
 
     /**
@@ -279,15 +245,11 @@ public class AdminLogic {
      */
     public static boolean deleteFoodLogic(Food selectedFood) {
         try {
-            if (FoodServerCommunication.deleteFood(selectedFood.getFoodId().getValue())) {
-                return true;
-            } else {
-                return false;
-            }
+            return FoodServerCommunication.deleteFood(selectedFood.getFoodId().getValue());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-            return false;
         }
+        return false;
     }
 
     /**
@@ -297,15 +259,11 @@ public class AdminLogic {
      */
     public static boolean addFoodLogic(Food tempFood) {
         try {
-            if (FoodServerCommunication.createFood(tempFood.getFoodName().get(), tempFood.getFoodPrice().get())) {
-                return true;
-            } else {
-                return false;
-            }
+            return FoodServerCommunication.createFood(tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-            return false;
         }
+        return false;
     }
 
     /**
@@ -316,16 +274,12 @@ public class AdminLogic {
      */
     public static boolean updateFoodLogic(Food selectedFood, Food tempFood) {
         try {
-            if (FoodServerCommunication.updateFood(selectedFood.getFoodId().get(),
-                    tempFood.getFoodName().get(), tempFood.getFoodPrice().get())) {
-                return true;
-            } else {
-                return false;
-            }
+            return FoodServerCommunication.updateFood(selectedFood.getFoodId().get(),
+                    tempFood.getFoodName().get(), tempFood.getFoodPrice().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-            return false;
         }
+        return false;
     }
 
     /**
@@ -353,15 +307,11 @@ public class AdminLogic {
      */
     public static boolean deleteRoomLogic(Room selectedRoom) {
         try {
-            if (RoomServerCommunication.deleteRoom(selectedRoom.getRoomId().getValue())) {
-                return true;
-            } else {
-                return false;
-            }
+            return RoomServerCommunication.deleteRoom(selectedRoom.getRoomId().getValue());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
-            return false;
         }
+        return false;
     }
 
     /**
@@ -373,14 +323,11 @@ public class AdminLogic {
      */
     public static boolean createRoomLogic(Room tempRoom) {
         try {
-            if (RoomServerCommunication.createRoom(tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
+            return RoomServerCommunication.createRoom(tempRoom.getRoomName().get(),
+                    tempRoom.getRoomBuilding().get(),
                     tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
                     tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
-                    tempRoom.getRoomType().get())) {
-                return true;
-            } else {
-                return false;
-            }
+                    tempRoom.getRoomType().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
             return false;
@@ -397,15 +344,11 @@ public class AdminLogic {
      */
     public static boolean editRoomLogic(Room selectedRoom, Room tempRoom) {
         try {
-            if (RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(),
+            return RoomServerCommunication.updateRoom(selectedRoom.getRoomId().get(),
                     tempRoom.getRoomName().get(), tempRoom.getRoomBuilding().get(),
                     tempRoom.getTeacherOnly().get(), tempRoom.getRoomCapacity().get(),
                     tempRoom.getRoomPhoto().get(), tempRoom.getRoomDescription().get(),
-                    tempRoom.getRoomType().get())) {
-                return true;
-            } else {
-                return false;
-            }
+                    tempRoom.getRoomType().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
             return false;
@@ -437,11 +380,7 @@ public class AdminLogic {
      */
     public static boolean deleteUserLogic(User selectedUser) {
         try {
-            if (UserServerCommunication.deleteUser(selectedUser.getUsername().getValue())) {
-                return true;
-            } else {
-                return false;
-            }
+            return UserServerCommunication.deleteUser(selectedUser.getUsername().getValue());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
             return false;
@@ -457,12 +396,9 @@ public class AdminLogic {
      */
     public static boolean createUserLogic(User tempUser) {
         try {
-            if (UserServerCommunication.createUser(tempUser.getUsername().get(), tempUser.getUserPassword().get(),
-                    tempUser.getUserType().get())) {
-                return true;
-            } else {
-                return false;
-            }
+            return UserServerCommunication.createUser(tempUser.getUsername().get(),
+                    tempUser.getUserPassword().get(),
+                    tempUser.getUserType().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
             return false;
@@ -478,12 +414,8 @@ public class AdminLogic {
      */
     public static boolean editUserLogic(User tempUser) {
         try {
-            if (UserServerCommunication.updateUser(tempUser.getUsername().get(),
-                    tempUser.getUserPassword().get(), tempUser.getUserType().get())) {
-                return true;
-            } else {
-                return false;
-            }
+            return UserServerCommunication.updateUser(tempUser.getUsername().get(),
+                    tempUser.getUserPassword().get(), tempUser.getUserType().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
             return false;
@@ -499,11 +431,7 @@ public class AdminLogic {
      */
     public static boolean editUserLogicWithoutPassword(User tempUser) {
         try {
-            if (UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserType().get())) {
-                return true;
-            } else {
-                return false;
-            }
+            return UserServerCommunication.updateUser(tempUser.getUsername().get(), tempUser.getUserType().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
             return false;
@@ -519,12 +447,8 @@ public class AdminLogic {
      */
     public static boolean deleteBikeLogic(BikeReservation selectedBikeReservation) {
         try {
-            if (BikeReservationCommunication.deleteBikeReservation(
-                    selectedBikeReservation.getBikeReservationId().get())) {
-                return true;
-            } else {
-                return false;
-            }
+            return BikeReservationCommunication.deleteBikeReservation(
+                    selectedBikeReservation.getBikeReservationId().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
             return false;
@@ -540,17 +464,13 @@ public class AdminLogic {
      */
     public static boolean creatBikeLogic(BikeReservation tempBikeReservation) {
         try {
-            if (BikeReservationCommunication.createBikeReservation(
+            return BikeReservationCommunication.createBikeReservation(
                     tempBikeReservation.getBikeReservationBuilding().get(),
                     tempBikeReservation.getBikeReservationUser().get(),
                     tempBikeReservation.getBikeReservationQuantity().get(),
                     tempBikeReservation.getBikeReservationDate().get(),
                     tempBikeReservation.getBikeReservationStartingTime().get(),
-                    tempBikeReservation.getBikeReservationEndingTime().get())) {
-                return true;
-            } else {
-                return false;
-            }
+                    tempBikeReservation.getBikeReservationEndingTime().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
             return false;
@@ -568,18 +488,14 @@ public class AdminLogic {
     public static boolean editBikeLogic(BikeReservation selectedBikeReservation,
                                         BikeReservation tempBikeReservation) {
         try {
-            if (BikeReservationCommunication.updateBikeReservation(
+            return BikeReservationCommunication.updateBikeReservation(
                     selectedBikeReservation.getBikeReservationId().get(),
                     tempBikeReservation.getBikeReservationBuilding().get(),
                     tempBikeReservation.getBikeReservationUser().get(),
                     tempBikeReservation.getBikeReservationQuantity().get(),
                     tempBikeReservation.getBikeReservationDate().get(),
                     tempBikeReservation.getBikeReservationStartingTime().get(),
-                    tempBikeReservation.getBikeReservationEndingTime().get())) {
-                return true;
-            } else {
-                return false;
-            }
+                    tempBikeReservation.getBikeReservationEndingTime().get());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
             return false;

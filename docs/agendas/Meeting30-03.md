@@ -21,3 +21,4 @@ Note taker:     Hao Wang
 
 # Closing
 *Everybody starts working*
+

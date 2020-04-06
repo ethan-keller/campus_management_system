@@ -71,12 +71,24 @@ public class AdminManageBuildingViewController {
             buildingNameColumn.setCellValueFactory(cell -> cell.getValue().getBuildingName());
             buildingRoomCountColumn.setCellValueFactory(cell ->
                     new SimpleIntegerProperty(cell.getValue().getBuildingRoomCount().get()));
+            // To align the text in this column in a centralized manner; looks better
+            buildingRoomCountColumn.setStyle("-fx-alignment: CENTER");
+
             maxBikesColumn.setCellValueFactory(cell ->
                     new SimpleStringProperty(String.valueOf(cell.getValue().getBuildingMaxBikes().get())));
+            // To align the text in this column in a centralized manner; looks better
+            maxBikesColumn.setStyle("-fx-alignment: CENTER");
+
             openingTimeColumn.setCellValueFactory(cell -> new SimpleStringProperty(
                     cell.getValue().getOpeningTime().get()));
+            // To align the text in this column in a centralized manner; looks better
+            openingTimeColumn.setStyle("-fx-alignment: CENTER");
+
             closingTimeColumn.setCellValueFactory(cell -> new SimpleStringProperty(
                     cell.getValue().getClosingTime().get()));
+            // To align the text in this column in a centralized manner; looks better
+            closingTimeColumn.setStyle("-fx-alignment: CENTER");
+
             buildingAddressColumn.setCellValueFactory(cell -> cell.getValue().getBuildingAddress());
 
             // Add observable list data to the table
@@ -103,7 +115,11 @@ public class AdminManageBuildingViewController {
      * @return a Building object
      */
     public Building getSelectedBuilding() {
-        return AdminLogic.getSelectedBuildingLogic(buildingTable);
+        if (buildingTable.getSelectionModel().getSelectedIndex() >= 0) {
+            return buildingTable.getSelectionModel().getSelectedItem();
+        } else {
+            return null;
+        }
     }
 
     /**

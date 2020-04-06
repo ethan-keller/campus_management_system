@@ -18,6 +18,8 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
+
+import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
@@ -83,9 +85,21 @@ public class AdminManageBikeReservationViewController {
             ));
             bikeQuantityColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getBikeReservationQuantity().get()));
+            // To align the text in this column in a centralized manner; looks better
+            bikeQuantityColumn.setStyle("-fx-alignment: CENTER");
+
             bikeDateColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationDate());
+            // To align the text in this column in a centralized manner; looks better
+            bikeDateColumn.setStyle("-fx-alignment: CENTER");
+
             bikeStartingTimeColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationStartingTime());
+            // To align the text in this column in a centralized manner; looks better
+            bikeStartingTimeColumn.setStyle("-fx-alignment: CENTER");
+
             bikeEndingTimeColumn.setCellValueFactory(cell -> cell.getValue().getBikeReservationEndingTime());
+            // To align the text in this column in a centralized manner; looks better
+            bikeEndingTimeColumn.setStyle("-fx-alignment: CENTER");
+
             bikeTable.setItems(BikeReservation.getBikeReservationData());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());

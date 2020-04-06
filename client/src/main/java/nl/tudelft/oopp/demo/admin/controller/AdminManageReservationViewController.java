@@ -71,12 +71,18 @@ public class AdminManageReservationViewController {
 
             id.setCellValueFactory(cellData -> new SimpleIntegerProperty(
                     cellData.getValue().getReservationId().get()));
+
             username.setCellValueFactory(cell -> cell.getValue().getUsername());
+            // To align the text in this column in a centralized manner; looks better
+            username.setStyle("-fx-alignment: CENTER");
+
             room.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(
                     cellData.getValue().getRoom().get())));
+
             date.setCellValueFactory(cell -> cell.getValue().getDate());
             startingTime.setCellValueFactory(cell -> cell.getValue().getReservationStartingTime());
             endingTime.setCellValueFactory(cell -> cell.getValue().getReservationEndingTime());
+
 
             //Adding the Observable List Data to the tableView created.
             listReservations.setItems(Reservation.getAllReservations());
@@ -155,6 +161,7 @@ public class AdminManageReservationViewController {
             //If none of the items in the dialog box is selected.
             if (ReservationEditDialogController.reservation == null) {
                 return;
+
             }
             if (AdminLogic.createReservationLogic(tempReservation)) {
                 refresh();
@@ -166,6 +173,10 @@ public class AdminManageReservationViewController {
                 GeneralMethods.alertBox("Creation failed", "",
                         "Reservation creation failed", Alert.AlertType.WARNING);
             }
+            // Displaying a message to the admin for clearer communication through an alert box.
+            GeneralMethods.alertBox("New Reservation", "", "New Reservation created!",
+                    Alert.AlertType.INFORMATION);
+
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
