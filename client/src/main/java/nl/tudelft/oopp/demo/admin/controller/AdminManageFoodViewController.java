@@ -19,7 +19,13 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
 import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
-import nl.tudelft.oopp.demo.views.*;
+import nl.tudelft.oopp.demo.views.AdminFoodBuildingView;
+import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.AdminManageFoodView;
+import nl.tudelft.oopp.demo.views.FoodEditDialogView;
+import nl.tudelft.oopp.demo.views.FoodNewDialogView;
+import nl.tudelft.oopp.demo.views.LoginView;
+
 
 
 public class AdminManageFoodViewController {

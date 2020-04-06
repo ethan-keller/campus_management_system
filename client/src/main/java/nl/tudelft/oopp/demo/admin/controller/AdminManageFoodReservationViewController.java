@@ -26,7 +26,12 @@ import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.FoodReservation;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
-import nl.tudelft.oopp.demo.views.*;
+import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
+import nl.tudelft.oopp.demo.views.AdminManageReservationView;
+import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
+import nl.tudelft.oopp.demo.views.FoodReservationEditDialogView;
+import nl.tudelft.oopp.demo.views.LoginView;
+
 
 /**
  * Class that controls the view where the admin can manage food reservations.

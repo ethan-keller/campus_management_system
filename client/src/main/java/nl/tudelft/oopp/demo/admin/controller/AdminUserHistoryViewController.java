@@ -18,8 +18,11 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
-import nl.tudelft.oopp.demo.views.*;
-
+import nl.tudelft.oopp.demo.views.AdminFoodReservationView;
+import nl.tudelft.oopp.demo.views.AdminManageUserView;
+import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
+import nl.tudelft.oopp.demo.views.BookingEditDialogView;
+import nl.tudelft.oopp.demo.views.LoginView;
 
 public class AdminUserHistoryViewController {
 

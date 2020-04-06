@@ -23,9 +23,12 @@ import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
-import nl.tudelft.oopp.demo.views.*;
+import nl.tudelft.oopp.demo.views.AdminManageUserView;
+import nl.tudelft.oopp.demo.views.AdminUserBikeView;
+import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.UserBikeEditDialogView;
+import nl.tudelft.oopp.demo.views.UserBikeNewDialogView;
 
-import javax.swing.*;
 
 public class AdminUserBikeViewController {
 

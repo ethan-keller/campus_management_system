@@ -19,7 +19,14 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
-import nl.tudelft.oopp.demo.views.*;
+import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.AdminManageUserView;
+import nl.tudelft.oopp.demo.views.AdminUserBikeView;
+import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
+import nl.tudelft.oopp.demo.views.LoginView;
+import nl.tudelft.oopp.demo.views.UserEditDialogView;
+import nl.tudelft.oopp.demo.views.UserNewDialogView;
+
 
 
 public class AdminManageUserViewController {
@@ -65,6 +72,7 @@ public class AdminManageUserViewController {
         }
     }
 
+    
     /**
      * Reloads the whole view with new information.
      * @param event event to get stage from

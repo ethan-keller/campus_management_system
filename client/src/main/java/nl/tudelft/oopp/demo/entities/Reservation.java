@@ -363,7 +363,12 @@ public class Reservation implements AbstractCalendarItem {
         return Color.CYAN;
     }
 
-    public static ObservableList<Reservation> getUserReservation(User user) {
+    /**
+     * Get all the reservations for given user.
+     * @param user passed user object
+     * @return ObservableList of reservation of the user
+     */
+    public static ObservableList<Reservation> getUserReservation2(User user) {
         try {
             ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
             JSONArray jsonArrayReservation = new JSONArray(

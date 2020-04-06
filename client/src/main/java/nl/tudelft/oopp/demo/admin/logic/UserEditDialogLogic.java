@@ -129,7 +129,7 @@ public class UserEditDialogLogic {
      * Removes all the old teacher reservations when a user gets switched from teacher to student.
      */
     public static void deleteOldTeacherReservations(User user) {
-        List<Reservation> reservationList = Reservation.getUserReservation(user);
+        List<Reservation> reservationList = Reservation.getUserReservation2(user);
 
         if (reservationList == null) {
             return;
