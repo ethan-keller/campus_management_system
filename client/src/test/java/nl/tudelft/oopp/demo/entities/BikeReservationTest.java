@@ -297,10 +297,4 @@ public class BikeReservationTest {
         assertEquals(Color.MAGENTA, bikeRes.getColor());
     }
 
-    @Test
-    void testHashCode() {
-        BikeReservation testRes = new BikeReservation(66, 1673, "ethan", 5,
-                "2020-04-03", "18:30:00", "21:00:00");
-        assertEquals(bikeRes.hashCode(), testRes.hashCode());
-    }
 }
