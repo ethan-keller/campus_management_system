@@ -8,6 +8,7 @@ import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.user.calendar.logic.CalendarEditItemDialogLogic;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.integration.ClientAndServer;
 
@@ -18,6 +19,7 @@ import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ReservationEditDialogLogicTest {
     private ClientAndServer mockServer;
 
@@ -40,6 +42,7 @@ class ReservationEditDialogLogicTest {
         expectationPost();
         expectationGet();
     }
+    
     @Test
     void isInputValidNullTest() {
         User user = null;
