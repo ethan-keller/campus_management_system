@@ -52,7 +52,6 @@ import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.RoomView;
 
-
 /**
  * Controller class for SearchView (JavaFX).
  */
