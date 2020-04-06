@@ -5,6 +5,7 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 
+import nl.tudelft.oopp.demo.user.calendar.logic.CalendarEditItemDialogLogic;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -45,7 +46,9 @@ class ReservationEditDialogLogicTest {
     }
 
     @Test
-    void getRangeSliderConverter() {
-        
+    void getRangeSliderConverterTest() {
+        StringConverter<Number> converter = ReservationEditDialogLogic.getRangeSliderConverter();
+        assertEquals(728.0, converter.fromString("12:08"));
+        assertEquals("16:45", converter.toString(1005));
     }
 }
