@@ -134,7 +134,7 @@ public class UserEditDialogLogic {
         for (Reservation r : reservationList) {
             Room room = roomList.stream().filter(x -> x.getRoomId().get() == r.getRoom().get())
                     .collect(Collectors.toList()).get(0);
-            if(!room.getTeacherOnly().get()){
+            if (!room.getTeacherOnly().get()) {
                 reservationList.remove(r);
             }
         }

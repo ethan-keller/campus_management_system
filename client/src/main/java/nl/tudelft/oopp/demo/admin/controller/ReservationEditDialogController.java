@@ -531,7 +531,7 @@ public class ReservationEditDialogController {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

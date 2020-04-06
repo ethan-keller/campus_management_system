@@ -376,7 +376,7 @@ public class BikeEditDialogController {
             // inject the RangeSlider in the JavaFX layout
             grid.add(timeslotSlider, 1, 5);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -422,7 +422,7 @@ public class BikeEditDialogController {
             timeslotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeslotSlider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -485,7 +485,7 @@ public class BikeEditDialogController {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
