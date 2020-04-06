@@ -89,8 +89,8 @@ public class UserEditDialogController {
             if (edit && AdminManageUserViewController.currentSelectedUser.getUserType().get()
                     == 1 && user.getUserType().get() == 2) {
                 Alert alert = GeneralMethods.createAlert("User type modified",
-                        "Are you sure you want to change?\n" +
-                                "All the teacher reservation will be deleted.",
+                        "Are you sure you want to change?\n"
+                                + "All the teacher reservation will be deleted.",
                         ((Node) event.getSource()).getScene().getWindow(),
                         Alert.AlertType.CONFIRMATION);
                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

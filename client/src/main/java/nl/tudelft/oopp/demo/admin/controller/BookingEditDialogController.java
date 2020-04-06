@@ -496,10 +496,10 @@ public class BookingEditDialogController {
         if (BookingEditDialogLogic.isInputValid(bookingRoomComboBox, bookingDate, timeSlotSlider, reservation)) {
             emptyReservation();
             // Set the user input to the reservation
-//            reservation.setUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
-//            reservation.setRoom(this.bookingRoomComboBox.getSelectionModel().getSelectedItem().getRoomId().get());
-//            reservation.setDate(this.bookingDate.getValue().toString());
-//            reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
+            reservation.setUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
+            reservation.setRoom(this.bookingRoomComboBox.getSelectionModel().getSelectedItem().getRoomId().get());
+            reservation.setDate(this.bookingDate.getValue().toString());
+            reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
             if (endTime.getText().equals("End: 24:00:00")) {
                 reservation.setEndingTime("23:59:00");
             } else {
