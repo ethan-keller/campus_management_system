@@ -9,12 +9,16 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
+import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 
 public class UserEditDialogLogic {
+
+    List<Reservation> reservationList = Reservation.getAllReservations();
 
     /**
      * To validate the input of the user.
@@ -124,22 +128,22 @@ public class UserEditDialogLogic {
     /**
      * Removes all the old teacher reservations when a user gets switched from teacher to student.
      */
-    public static void deleteOldTeacherReservations() {
-        List<Reservation> reservationList = Reservation.getSelectedUserReservation();
+    public static void deleteOldTeacherReservations(User user) {
+        List<Reservation> reservationList = Reservation.getUserReservation(user);
+
         if (reservationList == null) {
             return;
         }
         List<Room> roomList = Room.getRoomData();
-        assert roomList != null;
-        for (Reservation r : reservationList) {
-            Room room = roomList.stream().filter(x -> x.getRoomId().get() == r.getRoom().get())
-                    .collect(Collectors.toList()).get(0);
-            if (!room.getTeacherOnly().get()) {
-                reservationList.remove(r);
+        List<Room> rooms = roomList.stream()
+                .filter(x -> x.getTeacherOnly().get() == true)
+                .collect(Collectors.toList());
+        for (Reservation re: reservationList) {
+            for (Room ro: rooms) {
+                if (re.getRoom().get() == ro.getRoomId().get()) {
+                    AdminLogic.deleteReservationLogic(re);
+                }
             }
-        }
-        for (Reservation r : reservationList) {
-            AdminLogic.deleteReservationLogic(r);
         }
     }
 
