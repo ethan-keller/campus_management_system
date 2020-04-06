@@ -56,7 +56,7 @@
             <HBox alignment="CENTER_LEFT" spacing="40.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
                   <Button fx:id="uploadRoomPhoto" mnemonicParsing="false" onAction="#uploadImage" text="Upload" />
-                  <Text fx:id="fileName" strokeType="OUTSIDE" strokeWidth="0.0" text="filename.jpg" textAlignment="CENTER" wrappingWidth="203.38043212890625" />
+                  <Text fx:id="fileName" strokeType="OUTSIDE" strokeWidth="0.0" text="placeholder.png" textAlignment="CENTER" wrappingWidth="203.38043212890625" />
                </children>
             </HBox>
             <Label text="Add Image:" GridPane.rowIndex="6" />

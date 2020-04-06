@@ -20,11 +20,13 @@ import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
 import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import nl.tudelft.oopp.demo.views.AdminUserBikeView;
 import nl.tudelft.oopp.demo.views.AdminUserHistoryView;
 import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.UserEditDialogView;
 import nl.tudelft.oopp.demo.views.UserNewDialogView;
+
 
 
 public class AdminManageUserViewController {
@@ -70,8 +72,16 @@ public class AdminManageUserViewController {
         }
     }
 
-    public void refresh() {
-        initialize();
+    
+    /**
+     * Reloads the whole view with new information.
+     * @param event event to get stage from
+     * @throws IOException if errors occur due to I/O
+     */
+    public void refresh(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        AdminManageUserView amuv = new AdminManageUserView();
+        amuv.start(stage);
     }
 
     /**
@@ -97,7 +107,7 @@ public class AdminManageUserViewController {
         try {
             if (selectedIndex >= 0) {
                 if (AdminLogic.deleteUserLogic(selectedUser)) {
-                    refresh();
+                    refresh(event);
                     // Creates an alert box for transparent communication.
                     GeneralMethods.alertBox("Delete user", "", "User deleted!", Alert.AlertType.INFORMATION);
                 } else {
@@ -132,7 +142,7 @@ public class AdminManageUserViewController {
                 return;
             }
             if (AdminLogic.createUserLogic(tempUser)) {
-                refresh();
+                refresh(event);
                 // Informing the admin through a alert box that a new user is created successfully.
                 GeneralMethods.alertBox("New user", "", "New User created!", Alert.AlertType.INFORMATION);
             } else {
@@ -163,14 +173,16 @@ public class AdminManageUserViewController {
                 view.start(stage);
                 User tempUser = UserEditDialogController.user;
 
+
+
                 if (tempUser == null) {
                     return;
                 }
                 if (tempUser.getUserPassword().get().equals("")) {
                     if (AdminLogic.editUserLogicWithoutPassword(tempUser)) {
-                        refresh();
                         // Creates an alert box for transparent communication.
                         GeneralMethods.alertBox("Edit user", "", "User edited!", Alert.AlertType.INFORMATION);
+                        refresh(event);
                     } else {
                         // Create an alert box.
                         GeneralMethods.alertBox("Edit failed", "",
@@ -178,9 +190,9 @@ public class AdminManageUserViewController {
                     }
                 } else {
                     if (AdminLogic.editUserLogic(tempUser)) {
-                        refresh();
                         // Creates an alert box for transparent communication.
                         GeneralMethods.alertBox("Edit user", "", "User edited!", Alert.AlertType.INFORMATION);
+                        refresh(event);
                     } else {
                         // Create an alert box.
                         GeneralMethods.alertBox("Edit failed", "",
