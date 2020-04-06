@@ -22,8 +22,8 @@ public class ReservationEditDialogLogic {
      *
      * @return true if the input is valid
      */
-    public static boolean isInputValid(User username, Room room, LocalDate date,
-                                       double currentStartValue, double currentEndvalue,
+    public static String isInputValid(User username, Room room, LocalDate date,
+                                       double currentStartValue, double currentEndValue,
                                        StringConverter<LocalDate> temp) {
         String errorMessage = "";
 
@@ -37,20 +37,12 @@ public class ReservationEditDialogLogic {
             errorMessage += "No date provided!\n";
         }
 
-        if (!checkTimeSlotValidity(room, date, currentStartValue, currentEndvalue, temp)
-                || currentStartValue == currentEndvalue) {
+        if (!checkTimeSlotValidity(room, date, currentStartValue, currentEndValue, temp)
+                || currentStartValue == currentEndValue) {
             errorMessage += "No valid timeslot selected!\n";
         }
 
-        // If all the fields are valid, then true is returned.
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-            return false;
-        }
+        return errorMessage;
     }
 
 

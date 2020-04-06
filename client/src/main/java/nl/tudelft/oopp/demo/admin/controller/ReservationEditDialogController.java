@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
+import nl.tudelft.oopp.demo.admin.logic.ReservationEditDialogLogic;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -585,6 +586,30 @@ public class ReservationEditDialogController {
      * @return true if the input is valid
      */
     public boolean isInputValid() {
+
+        User user = username.getValue();
+        Room resRoom = room.getValue();
+        LocalDate resDate = date.getValue();
+        double currentStartValue = timeslotSlider.getLowValue();
+        double currentEndValue = timeslotSlider.getHighValue();
+        StringConverter<LocalDate> temp = getDateConverter();
+
+        String errorMessage =  ReservationEditDialogLogic.isInputValid(user, resRoom, resDate, currentStartValue, currentEndValue, temp);
+
+        // If all the fields are valid, then true is returned.
+        if (errorMessage.equals("")) {
+            return true;
+        } else {
+            // Show the error message.
+            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
+                    errorMessage, Alert.AlertType.ERROR);
+            return false;
+        }
+
+
+
+
+        /*
         String errorMessage = "";
 
         if (username == null) {
@@ -611,6 +636,7 @@ public class ReservationEditDialogController {
                     errorMessage, Alert.AlertType.ERROR);
             return false;
         }
+         */
     }
 
 
