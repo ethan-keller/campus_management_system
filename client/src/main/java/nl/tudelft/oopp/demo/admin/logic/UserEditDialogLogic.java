@@ -1,12 +1,16 @@
 package nl.tudelft.oopp.demo.admin.logic;
 
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
+import nl.tudelft.oopp.demo.entities.Reservation;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 
@@ -105,8 +109,6 @@ public class UserEditDialogLogic {
             }
         }
 
-
-
         // When all the criteria of creating a username and password are met, we can return true.
         if (errorMessage.equals("")) {
             return true;
@@ -118,4 +120,27 @@ public class UserEditDialogLogic {
             return false;
         }
     }
+
+    /**
+     * Removes all the old teacher reservations when a user gets switched from teacher to student.
+     */
+    public static void deleteOldTeacherReservations() {
+        List<Reservation> reservationList = Reservation.getSelectedUserReservation();
+        if (reservationList == null) {
+            return;
+        }
+        List<Room> roomList = Room.getRoomData();
+        assert roomList != null;
+        for (Reservation r : reservationList) {
+            Room room = roomList.stream().filter(x -> x.getRoomId().get() == r.getRoom().get())
+                    .collect(Collectors.toList()).get(0);
+            if(!room.getTeacherOnly().get()){
+                reservationList.remove(r);
+            }
+        }
+        for (Reservation r : reservationList) {
+            AdminLogic.deleteReservationLogic(r);
+        }
+    }
+
 }

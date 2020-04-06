@@ -96,6 +96,7 @@ public class UserEditDialogController {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == okButton) {
                     alert.close();
+                    UserEditDialogLogic.deleteOldTeacherReservations();
                     this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     dialogStage.close();
                 } else {
