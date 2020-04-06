@@ -40,8 +40,7 @@ class ReservationEditDialogLogicTest {
     void checkTimeSLotValidityTest() {
         Room room = new Room(
                 1, "", 1, false, 1, "", "", "");
-        boolean test = ReservationEditDialogLogic
-                .checkTimeSlotValidity(room, null, 1, 2, null);
-        assertTrue(test);
+        assertTrue(ReservationEditDialogLogic
+                .checkTimeSlotValidity(room, null, 1, 2, null));
     }
 }
