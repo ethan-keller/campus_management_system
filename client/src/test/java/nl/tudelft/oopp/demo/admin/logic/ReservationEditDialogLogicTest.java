@@ -6,6 +6,7 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 
 import nl.tudelft.oopp.demo.user.calendar.logic.CalendarEditItemDialogLogic;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -42,7 +43,12 @@ class ReservationEditDialogLogicTest {
         expectationPost();
         expectationGet();
     }
-    
+
+    @AfterAll
+    public void stopServer() {
+        mockServer.stop();
+    }
+
     @Test
     void isInputValidNullTest() {
         User user = null;
@@ -71,7 +77,7 @@ class ReservationEditDialogLogicTest {
     void checkTimeSLotValidityTest() {
         Room room = new Room(
                 1, "", 1, false, 1, "", "", "");
-        assertTrue(ReservationEditDialogLogic
+        assertFalse(ReservationEditDialogLogic
                 .checkTimeSlotValidity(room, null, 1, 2, null));
     }
 
