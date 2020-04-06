@@ -341,10 +341,10 @@ public class BookingEditDialogController {
     }
 
     /**
-<<<<<<< HEAD
-=======
+     * <<<<<<< HEAD
+     * =======
      * >>>>>>> develop
->>>>>>> develop
+     * >>>>>>> develop
      * Set the building combobox converter.
      *
      * @param olb is passed
@@ -568,7 +568,7 @@ public class BookingEditDialogController {
         // get converter to convert date value to String format hh:mm
         StringConverter<Number> timeConverter = getRangeSliderConverter();
 
-        if(roomReservations == null){
+        if (roomReservations == null) {
             return true;
         }
 
@@ -648,6 +648,7 @@ public class BookingEditDialogController {
 
     /**
      * sorts the reservation given.
+     *
      * @param reservations list of reservations to be sorted.
      */
     public static void sortReservations(List<Reservation> reservations) {
