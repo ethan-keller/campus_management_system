@@ -341,11 +341,6 @@ public class BookingEditDialogController {
     }
 
     /**
-     * <<<<<<< HEAD
-     * =======
-     * <<<<<<< HEAD
-     * =======
-     * >>>>>>> develop
      * Creates a StringConverter that converts the selected value to an actual time (in String format).
      *
      * @return a StringConverter object
@@ -379,13 +374,6 @@ public class BookingEditDialogController {
     }
 
     /**
-     * <<<<<<< HEAD
-     * <<<<<<< HEAD
-     * =======
-     * >>>>>>> develop
-     * =======
-     * >>>>>>> develop
-     * >>>>>>> develop
      * Set the building combobox converter.
      *
      * @param olb is passed

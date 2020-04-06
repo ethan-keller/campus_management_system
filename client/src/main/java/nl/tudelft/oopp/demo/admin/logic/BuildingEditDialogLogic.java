@@ -4,7 +4,6 @@ public class BuildingEditDialogLogic {
 
     /**
      * Checks if the input is valid.
-<<<<<<< HEAD
      * @param buildingNameField building name.
      * @param buildingAddressField Address of the building.
      * @param openingHoursSliderHigh The higher opening time.

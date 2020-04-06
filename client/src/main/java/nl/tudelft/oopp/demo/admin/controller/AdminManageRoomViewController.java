@@ -257,7 +257,6 @@ public class AdminManageRoomViewController {
                 if (tempRoom == null) {
                     return;
                 }
-                // TODO: Check that building edit was successful before displaying alert
                 if (AdminLogic.editRoomLogic(selectedRoom, tempRoom)) {
                     refresh();
                     // Creates an alert box to display the message.
