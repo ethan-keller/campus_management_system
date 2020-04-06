@@ -635,38 +635,6 @@ public class ReservationEditDialogController {
                     errorMessage, Alert.AlertType.ERROR);
             return false;
         }
-
-
-
-
-        /*
-        String errorMessage = "";
-
-        if (username == null) {
-            errorMessage += "No valid username provided!\n";
-        }
-        if (room == null) {
-            errorMessage += "No valid Room provided! \n";
-        }
-        if (date == null) {
-            errorMessage += "No date provided!\n";
-        }
-        double currentStartValue = timeslotSlider.getLowValue();
-        double currentEndValue = timeslotSlider.getHighValue();
-        if (!checkTimeSlotValidity() || currentStartValue == currentEndValue) {
-            errorMessage += "No valid timeslot selected!\n";
-        }
-
-        // If all the fields are valid, then true is returned.
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-            return false;
-        }
-         */
     }
 
 
