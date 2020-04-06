@@ -72,10 +72,11 @@ public class AdminManageUserViewController {
         }
     }
 
+    
     /**
-     * Restarts the view to update on the values.
-     * @param event an event
-     * @throws IOException exception
+     * Reloads the whole view with new information.
+     * @param event event to get stage from
+     * @throws IOException if errors occur due to I/O
      */
     public void refresh(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -18,7 +18,6 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
-import nl.tudelft.oopp.demo.communication.BikeReservationCommunication;
 import nl.tudelft.oopp.demo.entities.BikeReservation;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
@@ -31,9 +30,8 @@ import nl.tudelft.oopp.demo.views.LoginView;
 
 public class AdminManageBikeReservationViewController {
 
-    private Logger logger = Logger.getLogger("GlobalLogger");
-
     public static BikeReservation currentSelectedBikeReservation;
+    private Logger logger = Logger.getLogger("GlobalLogger");
     @FXML
     private TableView<BikeReservation> bikeTable;
     @FXML
@@ -95,12 +93,13 @@ public class AdminManageBikeReservationViewController {
     }
 
     /**
-     * Used to initialize the view everytime something new is created, edited or deleted.
+     * Reloads the whole view with new information.
+     *
+     * @param event event to get stage from
+     * @throws IOException if errors occur due to I/O
      */
     public void refresh(ActionEvent event) throws IOException {
-
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
         AdminBikeReservationView abrv = new AdminBikeReservationView();
         abrv.start(stage);
     }
