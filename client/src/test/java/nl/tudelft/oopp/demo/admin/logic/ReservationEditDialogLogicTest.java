@@ -44,4 +44,9 @@ class ReservationEditDialogLogicTest {
                 .checkTimeSlotValidity(room, null, 1, 2, null);
         assertTrue(test);
     }
+
+    @Test
+    void getRangeSliderConverter() {
+        
+    }
 }
