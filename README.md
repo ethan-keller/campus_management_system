@@ -30,6 +30,7 @@ The server application is build in such a way you can also develop another clien
 ## How to run it
 To run it run the MainApp file for the client and the DemoApplication file for the server. 
 Also make sure your database is configured in the DbConfig file, we do provide a testing database in our repository.
+To log in as an administrator use the credentials username: admin, password: admin.
 
 ## How to contribute to it
 We’re currently not open for public contributions.
