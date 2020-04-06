@@ -7,6 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserEditDialogLogicTest {
     @Test
+    /**
+     * tests if the input of a user is valid.
+     */
     void isInputValidTest(){
         String test = UserEditDialogLogic.isInputValid(
                 "username", false, false, false,
@@ -15,6 +18,9 @@ class UserEditDialogLogicTest {
         assertEquals(expected, test);
     }
     @Test
+    /**
+     * tests the response when an username is empty.
+     */
     void isUsernameValidTestEmpty(){
         String errorMessage = "";
         String test = UserEditDialogLogic
@@ -22,6 +28,9 @@ class UserEditDialogLogicTest {
         assertEquals("Username field can't be blank!\n", test);
     }
     @Test
+    /**
+     * tests if the username is valid.
+     */
     void isUsernameValidTest(){
         String errorMessage = "";
         String test = UserEditDialogLogic
@@ -32,6 +41,9 @@ class UserEditDialogLogicTest {
     }
 
     @Test
+    /**
+     * tests if the response to an empty password is correct.
+     */
     void isPasswordValidTestEmpty(){
         String errorMessage = "";
         String test = UserEditDialogLogic
@@ -44,6 +56,9 @@ class UserEditDialogLogicTest {
     }
 
     @Test
+    /**
+     * tests if the password is valid.
+     */
     void isPasswordValidTest(){
         String errorMessage = "";
         String test = UserEditDialogLogic
