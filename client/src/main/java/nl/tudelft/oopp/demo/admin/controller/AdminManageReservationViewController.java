@@ -164,15 +164,15 @@ public class AdminManageReservationViewController {
             if (ReservationEditDialogController.reservation == null) {
                 return;
                 //TODO: Checking if the reservation creating was successful before displaying the alert.
-            } else {
-                Reservation tempReservation = ReservationEditDialogController.reservation;
-                AdminLogic.createReservationLogic(tempReservation);
-                refresh();
-
-                // Displaying a message to the admin for clearer communication through an alert box.
-                GeneralMethods.alertBox("New Reservation", "", "New Reservation created!",
-                        Alert.AlertType.INFORMATION);
             }
+            Reservation tempReservation = ReservationEditDialogController.reservation;
+            AdminLogic.createReservationLogic(tempReservation);
+            refresh();
+
+            // Displaying a message to the admin for clearer communication through an alert box.
+            GeneralMethods.alertBox("New Reservation", "", "New Reservation created!",
+                    Alert.AlertType.INFORMATION);
+
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
