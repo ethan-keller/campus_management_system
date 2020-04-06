@@ -14,6 +14,7 @@ import java.util.logging.SimpleFormatter;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -79,6 +80,13 @@ public class GeneralMethods {
             // Create a new alert object (dialog box)
             Alert alert = new Alert(type);
 
+            try {
+                Image i = new Image("file:" + GeneralMethods.class.getResource("/TULogo.jpg").getPath());
+                ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             alert.getDialogPane().getStylesheets().add(GeneralMethods.class
                     .getResource("/GeneralStyle.css").toExternalForm());
 
@@ -116,6 +124,13 @@ public class GeneralMethods {
         try {
             // Create a new alert object (dialog box)
             Alert alert = new Alert(type);
+
+            try {
+                Image i = new Image("file:" + GeneralMethods.class.getResource("/TULogo.jpg").getPath());
+                ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             alert.getDialogPane().getStylesheets().add(GeneralMethods.class
                     .getResource("/GeneralStyle.css").toExternalForm());
