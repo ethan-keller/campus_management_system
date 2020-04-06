@@ -7,7 +7,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -157,7 +161,7 @@ public class SearchViewController implements Initializable, Runnable {
                 rooms = new ArrayList<Room>(roomList);
             }
 
-            roomCards =  new HashMap<Integer,HBox>();
+            roomCards = new HashMap<Integer, HBox>();
 
             // create a 'card' showing some information of the room, for every room
             for (Room r : roomList) {
@@ -167,8 +171,8 @@ public class SearchViewController implements Initializable, Runnable {
             }
 
             // create a 'card' showing some information of the room, for every room
-            while(!loaded){
-                synchronized (this){
+            while (!loaded) {
+                synchronized (this) {
                     this.wait();
                 }
             }
@@ -668,7 +672,7 @@ public class SearchViewController implements Initializable, Runnable {
         buildingComboBox.setConverter(getBuildingComboBoxConverter());
 
         loaded = true;
-        synchronized (this){
+        synchronized (this) {
             this.notifyAll();
         }
     }
