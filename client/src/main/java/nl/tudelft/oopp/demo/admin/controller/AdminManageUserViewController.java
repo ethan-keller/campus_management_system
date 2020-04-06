@@ -166,14 +166,26 @@ public class AdminManageUserViewController {
                 if (tempUser == null) {
                     return;
                 }
-                if (AdminLogic.editUserLogic(tempUser)) {
-                    refresh();
-                    // Creates an alert box for transparent communication.
-                    GeneralMethods.alertBox("Edit user", "", "User edited!", Alert.AlertType.INFORMATION);
+                if (tempUser.getUserPassword().get().equals("")) {
+                    if (AdminLogic.editUserLogicWithoutPassword(tempUser)) {
+                        refresh();
+                        // Creates an alert box for transparent communication.
+                        GeneralMethods.alertBox("Edit user", "", "User edited!", Alert.AlertType.INFORMATION);
+                    } else {
+                        // Create an alert box.
+                        GeneralMethods.alertBox("Edit failed", "",
+                                "User edit failed", Alert.AlertType.WARNING);
+                    }
                 } else {
-                    // Create an alert box.
-                    GeneralMethods.alertBox("Edit failed", "",
-                            "User edit failed", Alert.AlertType.WARNING);
+                    if (AdminLogic.editUserLogic(tempUser)) {
+                        refresh();
+                        // Creates an alert box for transparent communication.
+                        GeneralMethods.alertBox("Edit user", "", "User edited!", Alert.AlertType.INFORMATION);
+                    } else {
+                        // Create an alert box.
+                        GeneralMethods.alertBox("Edit failed", "",
+                                "User edit failed", Alert.AlertType.WARNING);
+                    }
                 }
             } else {
                 // Creates an alert box.
