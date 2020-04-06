@@ -13,7 +13,7 @@ public class RegisterViewLogic {
      * @return A string with the invalidation or Good! if there is none.
      */
     public static String checkUsername(String usernameTxt) {
-        Pattern upperCasePattern = Pattern.compile("[A-Z]");
+
         Pattern characters = Pattern.compile("[!@#$%^&*`~<,>./?:;'{|+=_-]");
         Pattern space = Pattern.compile(" ");
 

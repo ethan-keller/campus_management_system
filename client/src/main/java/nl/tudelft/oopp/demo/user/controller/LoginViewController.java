@@ -44,22 +44,35 @@ public class LoginViewController {
 
         if (isValidInput()) {
             String loginResponse = LoginServerCommunication.sendLogin(username.getText(), password.getText());
-            if (loginResponse.equals("admin")) {
-                CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 0);
-                AdminHomePageView av = new AdminHomePageView();
-                av.start(stage);
-            } else if (loginResponse.equals("student")) {
-                CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 2);
-                //currentUser.setUsername(username.getText());
-                SearchView sv = new SearchView();
-                sv.start(stage);
-            } else if (loginResponse.equals("teacher")) {
-                CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 1);
-                SearchView sv = new SearchView();
-                sv.start(stage);
-            } else {
-                // Creates an alert box to inform the user that his/her login credentials are wrong.
-                GeneralMethods.alertBox("Login attempt", "", "Wrong Credentials", Alert.AlertType.WARNING);
+            if (loginResponse == null) {
+                GeneralMethods.alertBox("Connection error", "",
+                        "Unable to connect to the server, please try again", Alert.AlertType.ERROR);
+                return;
+            }
+            switch (loginResponse) {
+                case "admin": {
+                    CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 0);
+                    AdminHomePageView av = new AdminHomePageView();
+                    av.start(stage);
+                    break;
+                }
+                case "student": {
+                    CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 2);
+                    //currentUser.setUsername(username.getText());
+                    SearchView sv = new SearchView();
+                    sv.start(stage);
+                    break;
+                }
+                case "teacher": {
+                    CurrentUserManager currentUser = new CurrentUserManager(username.getText(), 1);
+                    SearchView sv = new SearchView();
+                    sv.start(stage);
+                    break;
+                }
+                default:
+                    // Creates an alert box to inform the user that his/her login credentials are wrong.
+                    GeneralMethods.alertBox("Login attempt", "", "Wrong Credentials", Alert.AlertType.WARNING);
+                    break;
             }
         }
     }

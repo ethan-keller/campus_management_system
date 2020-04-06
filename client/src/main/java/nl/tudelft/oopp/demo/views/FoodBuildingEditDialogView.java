@@ -8,14 +8,20 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+
 import nl.tudelft.oopp.demo.admin.controller.FoodBuildingEditDialogController;
 
 public class FoodBuildingEditDialogView extends Application {
 
     private Logger logger = Logger.getLogger("GlobalLogger");
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -33,8 +39,16 @@ public class FoodBuildingEditDialogView extends Application {
             Scene scene = new Scene(root);
             dialogStage.setScene(scene);
             dialogStage.setResizable(false);
-            dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST,
-                event -> FoodBuildingEditDialogController.building = null);
+            dialogStage.getScene().getWindow().addEventFilter(
+                    WindowEvent.WINDOW_CLOSE_REQUEST, event ->
+                            FoodBuildingEditDialogController.building = null);
+
+            try {
+                Image i = new Image("file:" + getClass().getResource("/TULogo.jpg").getPath());
+                dialogStage.getIcons().add(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             // Set the dialog stage properties
             // When the dialog box pops up, the admin can't click the page that is behind the dialog box.
@@ -47,9 +61,5 @@ public class FoodBuildingEditDialogView extends Application {
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
