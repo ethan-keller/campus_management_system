@@ -44,8 +44,8 @@ public class UserEditDialogView extends Application {
 
             GeneralMethods.view(dialogStage, primaryStage, "Edit User", root);
 
-            dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST,
-                    event -> UserEditDialogController.user = null);
+            dialogStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event ->
+                    UserEditDialogController.user = null);
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());

@@ -491,7 +491,7 @@ public class BookingEditDialogController {
         // Check the validity of user input
         if (BookingEditDialogLogic.isInputValid(bookingRoomComboBox, bookingDate, timeSlotSlider, reservation)) {
             emptyReservation();
-             // Set the user input to the reservation
+            // Set the user input to the reservation
             reservation.setUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
             reservation.setRoom(this.bookingRoomComboBox.getSelectionModel().getSelectedItem().getRoomId().get());
             reservation.setDate(this.bookingDate.getValue().toString());
