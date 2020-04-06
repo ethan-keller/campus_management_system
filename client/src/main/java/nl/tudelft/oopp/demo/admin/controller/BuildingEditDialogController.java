@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,16 +15,17 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import nl.tudelft.oopp.demo.admin.logic.BuildingEditDialogLogic;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
+import nl.tudelft.oopp.demo.user.logic.RoomViewLogic;
 
 import org.controlsfx.control.RangeSlider;
 
 public class BuildingEditDialogController {
 
-    private Logger logger = Logger.getLogger("GlobalLogger");
-
     public static Building building;
+    private Logger logger = Logger.getLogger("GlobalLogger");
     @FXML
     private GridPane grid;
     @FXML
@@ -131,21 +131,12 @@ public class BuildingEditDialogController {
             return new StringConverter<Number>() {
                 @Override
                 public String toString(Number n) {
-                    // calculate hours and remaining minutes to get a correct hh:mm format
-                    long minutes = n.longValue();
-                    long hours = TimeUnit.MINUTES.toHours(minutes);
-                    long remainingMinutes = minutes - TimeUnit.HOURS.toMinutes(hours);
-                    // '%02d' means that there will be a 0 in front if its only 1 number + it's a long number
-                    return String.format("%02d", hours) + ":" + String.format("%02d", remainingMinutes);
+                    return RoomViewLogic.toStringNum(n);
                 }
 
                 @Override
                 public Number fromString(String time) {
-                    if (time != null) {
-                        String[] split = time.split(":");
-                        return Double.parseDouble(split[0]) * 60 + Double.parseDouble(split[1]);
-                    }
-                    return null;
+                    return RoomViewLogic.fromStringTime(time);
                 }
             };
         } catch (Exception e) {
@@ -210,17 +201,14 @@ public class BuildingEditDialogController {
      * @return true if the input is valid
      */
     private boolean isInputValid() {
-        String errorMessage = "";
+        String buildingName = buildingNameField.getText();
+        String buildingAddress = buildingAddressField.getText();
+        double openingHoursLow = openingHoursSlider.getLowValue();
+        double openingHoursHigh = openingHoursSlider.getHighValue();
 
-        if (buildingNameField.getText().equals("")) {
-            errorMessage += "No valid building name!\n";
-        }
-        if (buildingAddressField.getText().equals("")) {
-            errorMessage += "No valid building address!\n";
-        }
-        if (openingHoursSlider.getLowValue() == openingHoursSlider.getHighValue()) {
-            errorMessage += "No valid opening hours!\n";
-        }
+        String errorMessage = BuildingEditDialogLogic.isValidInput(buildingName, buildingAddress,
+                openingHoursHigh, openingHoursLow);
+
         if (errorMessage.equals("")) {
             return true;
         } else {
@@ -232,5 +220,4 @@ public class BuildingEditDialogController {
         }
 
     }
-
 }

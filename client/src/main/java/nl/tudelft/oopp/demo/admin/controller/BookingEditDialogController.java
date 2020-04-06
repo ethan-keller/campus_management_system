@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -33,7 +34,6 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
-import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import org.controlsfx.control.RangeSlider;
 
 
@@ -71,6 +71,39 @@ public class BookingEditDialogController {
      */
     private static void emptyReservation() {
         reservation = new Reservation();
+    }
+
+    /**
+     * sorts the reservation given.
+     *
+     * @param reservations list of reservations to be sorted.
+     */
+    public static void sortReservations(List<Reservation> reservations) {
+        reservations.sort(new Comparator<Reservation>() {
+            @Override
+            public int compare(Reservation o1, Reservation o2) {
+                // split time in hh:mm
+                String[] o1StartSplit = o1.getReservationStartingTime().get().split(":");
+                int o1StartHour = Integer.parseInt(o1StartSplit[0]);
+                int o1StartMinute = Integer.parseInt(o1StartSplit[1]);
+
+                String[] o2StartSplit = o2.getReservationStartingTime().get().split(":");
+                int o2StartHour = Integer.parseInt(o2StartSplit[0]);
+                int o2StartMinute = Integer.parseInt(o2StartSplit[1]);
+
+                // compare hours and minutes
+                if (o1StartHour < o2StartHour) {
+                    return -1;
+                } else if (o1StartHour > o2StartHour) {
+                    return 1;
+                }
+                if (o1StartMinute < o2StartMinute) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        });
     }
 
     /**
@@ -202,10 +235,10 @@ public class BookingEditDialogController {
             }
             // get reservations for this room on the selected date
             List<Reservation> reservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
-                    bookingDate.getValue(), BookingEditDialogLogic.getDatePickerConverter(bookingDate));
+                    bookingDate.getValue(), getDatePickerConverter());
 
             // sort them in ascending order
-            BookingEditDialogLogic.sortReservations(reservations);
+            sortReservations(reservations);
 
             // first part of css
             bw.write(".track {\n" + "\t-fx-background-color: linear-gradient(to right, ");
@@ -310,6 +343,9 @@ public class BookingEditDialogController {
     /**
      * <<<<<<< HEAD
      * =======
+     * <<<<<<< HEAD
+     * =======
+     * >>>>>>> develop
      * Creates a StringConverter that converts the selected value to an actual time (in String format).
      *
      * @return a StringConverter object
@@ -343,6 +379,12 @@ public class BookingEditDialogController {
     }
 
     /**
+     * <<<<<<< HEAD
+     * <<<<<<< HEAD
+     * =======
+     * >>>>>>> develop
+     * =======
+     * >>>>>>> develop
      * >>>>>>> develop
      * Set the building combobox converter.
      *
@@ -434,7 +476,7 @@ public class BookingEditDialogController {
             // set the factory
             bookingDate.setDayCellFactory(dayCellFactory);
             // converter to convert value to String and vice versa
-            StringConverter<LocalDate> converter = BookingEditDialogLogic.getDatePickerConverter(bookingDate);
+            StringConverter<LocalDate> converter = getDatePickerConverter();
             // set the converter
             bookingDate.setConverter(converter);
             // reset css when date changes
@@ -493,7 +535,7 @@ public class BookingEditDialogController {
     @FXML
     private void handleOkClicked(ActionEvent event) {
         // Check the validity of user input
-        if (BookingEditDialogLogic.isInputValid(bookingRoomComboBox, bookingDate, timeSlotSlider, reservation)) {
+        if (isInputValid()) {
             emptyReservation();
             // Set the user input to the reservation
             reservation.setUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
@@ -528,28 +570,32 @@ public class BookingEditDialogController {
      * @return true if the input is valid
      */
     private boolean isInputValid() {
-        String errorMessage = "";
+        // Checking from the logic class if the input entered by the user is valid.
+        String date = bookingDate.toString();
+        int index = bookingRoomComboBox.getSelectionModel().getSelectedIndex();
+        String answer = BookingEditDialogLogic.isInputValid(index, date);
 
-        if (bookingBuildingComboBox.getSelectionModel().getSelectedIndex() < 0) {
-            errorMessage += "No valid building selected!\n";
-        }
-        if (bookingRoomComboBox.getSelectionModel().getSelectedIndex() < 0) {
-            errorMessage += "No valid room selected!\n";
-        }
-        if (bookingDate.getValue() == null) {
-            errorMessage += "No valid date selected!\n";
-        }
-        if (!checkTimeSlotValidity() || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
-            errorMessage += "No valid timeslot selected!\n";
-        }
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-
-            return false;
+        switch (answer) {
+            case "No valid room selected!\n":
+                GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
+                        "No valid room selected!\n", Alert.AlertType.ERROR);
+                return false;
+            case "No valid date selected!\n":
+                GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
+                        "No valid date selected!\n", Alert.AlertType.ERROR);
+                return false;
+            case "Good!\n":
+                // Since checkTimeSlotValidity has a lot of other methods attached to it, it would be simpler to
+                // keep this constraint here and display the error message from the controller directly.
+                if (!checkTimeSlotValidity() || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
+                    GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
+                            "No valid time slot selected!\n", Alert.AlertType.ERROR);
+                    return false;
+                } else {
+                    return true;
+                }
+            default:
+                return false;
         }
     }
 
@@ -570,6 +616,10 @@ public class BookingEditDialogController {
 
         // get converter to convert date value to String format hh:mm
         StringConverter<Number> timeConverter = getRangeSliderConverter();
+
+        if (roomReservations == null) {
+            return true;
+        }
 
         // if there are no reservations the timeslot is valid
         if (roomReservations.size() == 0) {
@@ -644,5 +694,4 @@ public class BookingEditDialogController {
         }
         return null;
     }
-
 }

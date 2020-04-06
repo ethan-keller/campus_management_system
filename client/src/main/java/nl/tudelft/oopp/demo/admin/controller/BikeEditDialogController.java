@@ -270,6 +270,7 @@ public class BikeEditDialogController {
             return availableBikes;
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
+
         }
         return 0;
     }
@@ -308,6 +309,7 @@ public class BikeEditDialogController {
             return hour;
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
+
         }
         return 0;
     }

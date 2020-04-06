@@ -126,6 +126,7 @@ public class RegisterViewController {
             if (teacherSelected()) {
                 userType = 1;
             }
+
             if (RegisterViewLogic.registerCommunication(username.getText(), password.getText(), userType)) {
                 GeneralMethods.alertBox("register status", "",
                         "Successfully created a new account", Alert.AlertType.INFORMATION);
