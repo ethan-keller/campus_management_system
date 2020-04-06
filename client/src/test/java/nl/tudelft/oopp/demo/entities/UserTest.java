@@ -25,6 +25,9 @@ class UserTest {
 
     private ClientAndServer mockServer;
 
+    /**
+     * Sets mock server response for /getAllUsers.
+     */
     void expGetAllUsers() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getAllUsers"))
@@ -32,6 +35,9 @@ class UserTest {
                         + "\"password\":\"password\",\"type\":\"0\"}]"));
     }
 
+    /**
+     * Sets wrong mock server response for /getAllUsers.
+     */
     void expGetAllUsersError() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getAllUsers"))
@@ -39,21 +45,33 @@ class UserTest {
                         + "\"password\":\"password\",\"type\";\"0\"}"));
     }
 
+    /**
+     * Server setup before any test functions are executed.
+     */
     @BeforeAll
     public void startServer() {
         mockServer = startClientAndServer(8080);
     }
 
+    /**
+     * Server shutdown after all test functions are executed.
+     */
     @AfterAll
     public void stopServer() {
         mockServer.stop();
     }
 
+    /**
+     * Class variable setup everytime a test function is executed.
+     */
     @BeforeEach
     void setup() {
         user = new User("username", "password", 0);
     }
 
+    /**
+     * Tests the equals method.
+     */
     @Test
     void equalsTest() {
         User u = new User("username", "password", 0);
@@ -64,6 +82,9 @@ class UserTest {
         assertNotEquals(u2, "HELLO");
     }
 
+    /**
+     * Tests empty constructor.
+     */
     @Test
     void emptyConstructor() {
         user = new User();
@@ -72,39 +93,60 @@ class UserTest {
         assertEquals(-1, user.getUserType().get());
     }
 
+    /**
+     * Tests the getUsername method.
+     */
     @Test
     void getUsername() {
         assertEquals("username", user.getUsername().get());
     }
 
+    /**
+     * Tests the getUserPassword method.
+     */
     @Test
     void getUserPassword() {
         assertEquals("password", user.getUserPassword().get());
     }
 
+    /**
+     * Tests the getUserType method.
+     */
     @Test
     void getUserType() {
         assertEquals(0, user.getUserType().get());
     }
 
+    /**
+     * Tests the setUsername method.
+     */
     @Test
     void setUsername() {
         user.setUsername("newusername");
         assertEquals("newusername", user.getUsername().get());
     }
 
+    /**
+     * Tests the setUserPassword method.
+     */
     @Test
     void setUserPassword() {
         user.setUserPassword("newpassword");
         assertEquals("newpassword", user.getUserPassword().get());
     }
 
+    /**
+     * Tests the setUserType method.
+     */
     @Test
     void setUserType() {
         user.setUserType(2);
         assertEquals(2, user.getUserType().get());
     }
 
+    /**
+     * Tests the getUserData method.
+     */
     @Test
     void getUserData() {
         expGetAllUsers();

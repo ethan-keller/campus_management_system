@@ -25,6 +25,9 @@ class FoodReservationTest {
 
     private ClientAndServer mockServer;
 
+    /**
+     * Sets mock server response for /getFoodReservationByReservation.
+     */
     void expectationGetUserReservationFood() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getFoodReservationByReservation"))
@@ -34,18 +37,27 @@ class FoodReservationTest {
                         + "\"startingTime\":\"09:00:00\",\"endingTime\":\"17:00:00\"},\"quantity\":7}]"));
     }
 
+    /**
+     * Sets mock server response for /getFoodReservationByReservation.
+     */
     void expectationGetUserReservationFoodError() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getFoodReservationByReservation"))
                 .respond(response().withStatusCode(200).withBody("[[20,10,"));
     }
 
+    /**
+     * Sets mock server response for /getAllFoodReservations.
+     */
     void expectationGetAllFoodReservations() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getAllFoodReservations"))
                 .respond(response().withStatusCode(200).withBody("[[20,10,7]]"));
     }
 
+    /**
+     * Sets mock server response for /getAllFoodReservations.
+     */
     void expectationGetAllFoodReservationsError() {
         new MockServerClient("127.0.0.1", 8080)
                 .when(request().withMethod("GET").withPath("/getAllFoodReservations"))
@@ -53,21 +65,33 @@ class FoodReservationTest {
     }
 
 
+    /**
+     * Server setup before any test functions are executed.
+     */
     @BeforeAll
     public void startServer() {
         mockServer = startClientAndServer(8080);
     }
 
+    /**
+     * Server shutdown after all test functions are executed.
+     */
     @AfterAll
     public void stopServer() {
         mockServer.stop();
     }
 
+    /**
+     * Class variable setup everytime a test function is executed.
+     */
     @BeforeEach
     void setUp() {
         foodRes = new FoodReservation(20, 10, 2);
     }
 
+    /**
+     * Tests the equals method.
+     */
     @Test
     void equalsTest() {
         final FoodReservation fr1 = new FoodReservation(20, 10, 3);
@@ -81,6 +105,9 @@ class FoodReservationTest {
 
     }
 
+    /**
+     * Tests empty constructor.
+     */
     @Test
     void emptyConstructor() {
         foodRes = new FoodReservation();
@@ -89,39 +116,60 @@ class FoodReservationTest {
         assertEquals(-1, foodRes.getReservationId().get());
     }
 
+    /**
+     * Tests the getFoodId method.
+     */
     @Test
     void getFoodId() {
         assertEquals(10, foodRes.getFoodId().get());
     }
 
+    /**
+     * Tests the getReservationId method.
+     */
     @Test
     void getReservationId() {
         assertEquals(20, foodRes.getReservationId().get());
     }
 
+    /**
+     * Tests the getFoodQuantity method.
+     */
     @Test
     void getFoodQuantity() {
         assertEquals(2, foodRes.getFoodQuantity().get());
     }
 
+    /**
+     * Tests the setFoodId method.
+     */
     @Test
     void setFoodId() {
         foodRes.setFoodId(11);
         assertEquals(11, foodRes.getFoodId().get());
     }
 
+    /**
+     * Tests the setReservationId method.
+     */
     @Test
     void setReservationId() {
         foodRes.setReservationId(21);
         assertEquals(21, foodRes.getReservationId().get());
     }
 
+    /**
+     * Tests the setFoodQuantity method.
+     */
     @Test
     void setFoodQuantity() {
         foodRes.setFoodQuantity(3);
         assertEquals(3, foodRes.getFoodQuantity().get());
     }
 
+    /**
+     * Tests the getUserReservationFood method.
+     */
     @Test
     void getUserReservationFood() {
         Reservation r = new Reservation(20,
@@ -136,6 +184,9 @@ class FoodReservationTest {
         assertNull(FoodReservation.getUserReservationFood(r));
     }
 
+    /**
+     * Tests the getAllFoodReservations method.
+     */
     @Test
     void getAllFoodReservations() {
         expectationGetAllFoodReservations();
