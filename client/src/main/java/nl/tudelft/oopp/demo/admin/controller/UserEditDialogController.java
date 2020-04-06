@@ -1,8 +1,12 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -10,6 +14,7 @@ import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.admin.logic.UserEditDialogLogic;
 import nl.tudelft.oopp.demo.entities.User;
+
 
 public class UserEditDialogController {
 
@@ -25,7 +30,7 @@ public class UserEditDialogController {
     private RadioButton userTypeStudent;
     @FXML
     private PasswordField userPasswordField;
-    private Stage dialogStage;
+    private static Stage dialogStage;
 
     private static void emptyUser() {
         user = new User();
@@ -45,7 +50,6 @@ public class UserEditDialogController {
         if (edit) {
             usernameField.setDisable(true);
         }
-        //        userPasswordField.setText(user.getUserPassword().get());
         if (user.getUserType().get() == 0) {
             userTypeAdmin.setSelected(true);
         }
@@ -74,13 +78,34 @@ public class UserEditDialogController {
             if (userTypeStudent.isSelected()) {
                 user.setUserType(2);
             }
-
             if (!userPasswordField.getText().equals("")) {
                 user.setUserPassword(userPasswordField.getText());
             }
-
-            this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            dialogStage.close();
+            if (edit && userPasswordField.getText().equals("")) {
+                user.setUserPassword("");
+            }
+            if (edit && AdminManageUserViewController.currentSelectedUser.getUserType().get()
+                    == 1 && user.getUserType().get() == 2) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("User type modified");
+                alert.setContentText("Are you sure you want to change?\n"
+                        + "All the teacher reservations will be deleted.");
+                ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+                ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                alert.getButtonTypes().setAll(okButton, cancelButton);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == okButton) {
+                    alert.close();
+                    this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    dialogStage.close();
+                } else {
+                    alert.close();
+                    this.initialize();
+                }
+            } else {
+                this.dialogStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                dialogStage.close();
+            }
         }
     }
 
