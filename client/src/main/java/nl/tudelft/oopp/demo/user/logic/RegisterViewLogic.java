@@ -4,7 +4,6 @@ import java.util.regex.Pattern;
 
 import nl.tudelft.oopp.demo.communication.RegisterServerCommunication;
 
-
 public class RegisterViewLogic {
 
     /**

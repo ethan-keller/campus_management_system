@@ -59,8 +59,15 @@ public class AdminManageFoodViewController {
             signOutButton.getStyleClass().add("signout-button");
             // Initialize the food table with the three columns.
             foodIdColumn.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getFoodId().get()));
+            // To align the text in this column in a centralized manner; looks better
+            foodIdColumn.setStyle("-fx-alignment: CENTER");
+
             foodNameColumn.setCellValueFactory(cell -> cell.getValue().getFoodName());
+            // To align the text in this column in a centralized manner; looks better
+            foodNameColumn.setStyle("-fx-alignment: CENTER");
+
             foodPriceColumn.setCellValueFactory(cell -> new SimpleDoubleProperty(
+
                     (double) Math.round((cell.getValue().getFoodPrice().get()) * 100) / 100));
             // Add observable list data to the table
             foodTable.setItems(Food.getAllFoodData());

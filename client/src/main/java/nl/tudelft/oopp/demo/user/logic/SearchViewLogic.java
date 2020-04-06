@@ -1,25 +1,12 @@
 package nl.tudelft.oopp.demo.user.logic;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.user.controller.SearchViewController;
 
 public class SearchViewLogic {
 
@@ -269,9 +256,6 @@ public class SearchViewLogic {
                                 .getValue().equals("23:59:00")) {
                             ending = 24;
                         }
-                        if (ending == 0) {
-                            ending = 24;
-                        }
                         totalHoursAvailable = totalHoursAvailable + starting - ending;
                     }
                 }
@@ -282,84 +266,15 @@ public class SearchViewLogic {
         }
     }
 
-    /**
-     * Creates a new 'card' (HBox) which contains some information about the room.
-     *
-     * @param r The Room that we have to show information from
-     * @return HBox which is the final 'card'
-     */
-    public static HBox createRoomCard(SearchViewController svw, Room r) {
-        try {
-            // load the 'skeleton of a new card
-            FXMLLoader loader = new FXMLLoader();
-            URL xmlUrl = svw.getClass().getResource("/RoomCard.fxml");
-            loader.setLocation(xmlUrl);
-
-            HBox newCard = loader.load();
-
-            Image roomImage = null;
-            try {
-                // get the room image
-                roomImage = new Image("images/" + r.getRoomPhoto().get());
-            } catch (Exception e) {
-                logger.log(Level.SEVERE, e.toString());
-                // load placeholder instead
-                roomImage = new Image("images/placeholder.png");
-            }
-
-
-            // use lookup to retrieve Nodes by their id and set their content
-            ImageView image = ((ImageView) newCard.lookup("#image"));
-            image.setImage(roomImage);
-            // set the correct width
-            image.setFitWidth(300);
-
-            Building b = svw.buildingList.stream()
-                    .filter(x -> x.getBuildingId().get() == r.getRoomBuilding().get())
-                    .collect(Collectors.toList()).get(0);
-
-            ((Text) newCard.lookup("#idText")).setText(String.valueOf(r.getRoomId().get()));
-            ((Text) newCard.lookup("#titleText")).setText(r.getRoomName().get());
-            ((Text) newCard.lookup("#buildingText")).setText("Building: " + b.getBuildingName().get());
-            ((Text) newCard.lookup("#capacityText")).setText("Capacity: " + r.getRoomCapacity().get());
-            ((Text) newCard.lookup("#descriptionText"))
-                    .setText("Description: " + r.getRoomDescription().get());
-
-            // set mouse clicked event on card (to redirect to room view)
-            newCard.setOnMouseClicked(event -> {
-                try {
-                    svw.cardClicked(event);
-                } catch (Exception e) {
-                    logger.log(Level.SEVERE, e.toString());
-                }
-            });
-
-            // set space between the cards
-            VBox.setMargin(newCard, new Insets(0, 0, 70, 0));
-
-            return newCard;
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.toString());
-        }
-        return null;
-    }
-
 
     /**
      * Filters the rooms given by if they have food you can order.
      *
      * @param rooms     rooms to be filtered.
-     * @param buildings list of buildings the rooms are in.
+     * @param buildingsWithFood list of buildings where food can be ordered the rooms are in.
      * @return a list of rooms where you can order food.
      */
-    public static List<Room> filterByFood(List<Room> rooms, List<Building> buildings) {
-        List<Integer> buildingsWithFood = new ArrayList<Integer>();
-        for (int i = 0; i != buildings.size(); i++) {
-            int buildingId = buildings.get(i).getBuildingId().getValue();
-            if (!Food.getFoodByBuildingId(buildingId).isEmpty()) {
-                buildingsWithFood.add(buildings.get(i).getBuildingId().getValue());
-            }
-        }
+    public static List<Room> filterByFood(List<Room> rooms, List<Integer> buildingsWithFood) {
         for (int i = 0; i != rooms.size(); i++) {
             if (!buildingsWithFood.contains(rooms.get(i).getRoomBuilding().getValue())) {
                 rooms.remove(i);

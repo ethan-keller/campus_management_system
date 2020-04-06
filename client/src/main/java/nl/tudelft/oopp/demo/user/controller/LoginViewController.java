@@ -79,11 +79,34 @@ public class LoginViewController {
 
     /**
      * This method checks if the username field and the password field are left empty.
+<<<<<<< HEAD
+<<<<<<< HEAD
+     * @return Boolean value to indicate whether the above condition is fulfilled.
+=======
+=======
+>>>>>>> develop
      *
      * @return Boolean value to indicate whether the above condition is fullfilled.
+>>>>>>> develop
      */
     private boolean isValidInput() {
-        return LoginViewLogic.isValidInput(username, usernameLabel, password, passwordLabel);
+        String usernameInput = username.getText();
+        String answer = LoginViewLogic.isValidInput(username.getText(), password.getText());
+        switch (answer) {
+            case "The username field cannot be left empty !":
+                usernameLabel.setText("The username field cannot be left empty !");
+                usernameLabel.setStyle("-fx-text-fill: red");
+                return false;
+            case "The password field cannot be left empty !":
+                passwordLabel.setText("The password field cannot be left empty !");
+                passwordLabel.setStyle("-fx-text-fill: red");
+                return false;
+            case "Good!":
+                return true;
+            default:
+                return false;
+        }
+
     }
 
     /**

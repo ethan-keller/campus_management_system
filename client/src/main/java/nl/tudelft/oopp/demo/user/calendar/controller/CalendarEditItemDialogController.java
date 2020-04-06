@@ -131,9 +131,9 @@ public class CalendarEditItemDialogController implements Initializable {
 
             // listeners that make sure the user can only select intervals of 30 minutes
             slider.lowValueProperty().addListener((observable, oldValue, newValue) ->
-                    slider.setLowValue((newValue.intValue() / 30) * 30));
+                    slider.setLowValue((newValue.intValue() / 30.0) * 30));
             slider.highValueProperty().addListener((observable, oldValue, newValue) ->
-                    slider.setHighValue((newValue.intValue() / 30) * 30));
+                    slider.setHighValue((newValue.intValue() / 30.0) * 30));
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }

@@ -1,37 +1,24 @@
 package nl.tudelft.oopp.demo.user.logic;
 
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-
 public class LoginViewLogic {
 
     /**
-     * Verifying if the username and password field are left empty or not.
+     * Checks if the username input and password input are valid.
      *
-     * @param username      - Username entered
-     * @param usernameLabel - Label to display if username is not entered
-     * @param password      - Password Entered
-     * @param passwordLabel - Label to display if password is not entered
-     * @return - Boolean value which indicates whether the username and password fields are empty.
+     * @param usernameInput input of the username.
+     * @param passwordInput input of the password.
+     * @return a String with what is wrong or that it is good.
      */
-    public static boolean isValidInput(TextField username, Label usernameLabel, PasswordField password,
-                                       Label passwordLabel) {
-
+    public static String isValidInput(String usernameInput, String passwordInput) {
         // Checks whether the password username field is left empty or not.
-        if (username.getText().trim().isEmpty()) {
-            usernameLabel.setText("The username field cannot be left empty !");
-            usernameLabel.setStyle("-fx-text-fill: red");
-            return false;
-        } else if (password.getText().trim().isEmpty()) {
+        if (usernameInput.isEmpty()) {
+            return "The username field cannot be left empty !";
+        } else if (passwordInput.isEmpty()) {
             // Checks whether the password field is left empty.
-            passwordLabel.setText("The password field cannot be left empty !");
-            passwordLabel.setStyle("-fx-text-fill: red");
-            return false;
+            return "The password field cannot be left empty !";
         } else {
-            // This boolean value means that all the fields are filled.
-            return true;
+            // This string value means that all the fields are filled.
+            return "Good!";
         }
-
     }
 }
