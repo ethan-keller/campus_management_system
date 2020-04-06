@@ -42,7 +42,7 @@
       <TableView fx:id="foodReservationTable" prefHeight="500.0" prefWidth="900.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="foodIdColumn" maxWidth="350.0" minWidth="100.0" prefWidth="140.27841246128082" text="Food ID" />
-            <TableColumn fx:id="foodNameColumn" minWidth="90.0" prefWidth="215.72161102294922" text="Name" />
+            <TableColumn fx:id="foodNameColumn" minWidth="90.0" prefWidth="215.72161102294922" text="Food Name" />
             <TableColumn fx:id="foodQuantityColumn" minWidth="90.0" prefWidth="289.9619140625" text="Quantity" />
         </columns>
          <columnResizePolicy>

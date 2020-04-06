@@ -51,12 +51,12 @@
    <center>
       <TableView fx:id="listReservations" prefHeight="367.0" prefWidth="787.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
          <columns>
-            <TableColumn fx:id="id" maxWidth="300.0" minWidth="100.0" prefWidth="-1.0" text="ReservationId" />
+            <TableColumn fx:id="id" maxWidth="300.0" minWidth="100.0" prefWidth="-1.0" text="Reservation Id" />
             <TableColumn fx:id="username" maxWidth="300.0" minWidth="130.0" prefWidth="-1.0" text="Username" />
             <TableColumn fx:id="room" maxWidth="300.0" minWidth="100.0" prefWidth="-1.0" text="Room" />
             <TableColumn fx:id="date" maxWidth="300.0" minWidth="100.0" prefWidth="-1.0" text="Date" />
-            <TableColumn fx:id="startingTime" maxWidth="300.0" minWidth="100.0" prefWidth="-1.0" text="StartingTime" />
-            <TableColumn fx:id="endingTime" maxWidth="300.0" minWidth="100.0" prefWidth="-1.0" text="EndingTime" />
+            <TableColumn fx:id="startingTime" maxWidth="300.0" minWidth="100.0" prefWidth="-1.0" text="Starting Time" />
+            <TableColumn fx:id="endingTime" maxWidth="300.0" minWidth="100.0" prefWidth="-1.0" text="Ending Time" />
          </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

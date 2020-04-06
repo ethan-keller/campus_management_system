@@ -7,15 +7,18 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 public class BikeEditDialogView extends Application {
 
     private Logger logger = Logger.getLogger("GlobalLogger");
 
-    // Create the dialog Stage.
-    Stage dialogStage = new Stage();
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -25,15 +28,18 @@ public class BikeEditDialogView extends Application {
             URL xmlUrl = getClass().getResource("/bikeEditDialog.fxml");
             loader.setLocation(xmlUrl);
             Parent root = loader.load();
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
             root.getStylesheets().add(getClass().getResource("/GeneralStyle.css").toExternalForm());
-
+            try {
+                Image i = new Image("file:" + getClass().getResource("/TULogo.jpg").getPath());
+                dialogStage.getIcons().add(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             GeneralMethods.view(dialogStage, primaryStage, "Edit Bike Reservation", root);
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

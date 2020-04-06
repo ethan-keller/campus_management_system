@@ -230,9 +230,31 @@ public class RoomEditDialogController {
      * @return true if the input is valid, false otherwise
      */
     private boolean isInputValid() {
-        return RoomEditDialogLogic.isValidInput(roomNameField, roomBuildingComboBox, radioButtonYes,
-                radioButtonNo, roomCapacityField, roomTypeField, roomDescriptionField, oldFileName,
-                changedImage, fileName);
+        String roomName = roomNameField.getText();
+        Building roomBuilding = roomBuildingComboBox.getValue();
+        boolean roomYes = false;
+        boolean roomNo = false;
+        if (radioButtonYes.isSelected()) {
+            roomYes = true;
+        }
+        if (radioButtonNo.isSelected()) {
+            roomNo = true;
+        }
+        String roomCapacity = roomCapacityField.getText();
+        String roomType = roomTypeField.getText();
+        String roomDescription = roomDescriptionField.getText();
+
+        String errorMessage =  RoomEditDialogLogic.isValidInput(roomName, roomBuilding, roomYes,
+                roomNo, roomCapacity, roomType, roomDescription, oldFileName, changedImage, fileName.getText());
+
+        if (errorMessage.equals("")) {
+            return true;
+        } else {
+            GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
+                    errorMessage, Alert.AlertType.ERROR);
+
+            return false;
+        }
     }
 
     /**

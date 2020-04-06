@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+
 import nl.tudelft.oopp.demo.admin.logic.FoodBuildingEditDialogLogic;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Food;
@@ -24,6 +25,7 @@ public class FoodBuildingEditDialogController {
     private ComboBox<Building> foodBuildingComboBox;
     private ObservableList<Building> olb;
     private Stage dialogStage;
+
 
     public static Food selectedFood;
 
@@ -109,4 +111,28 @@ public class FoodBuildingEditDialogController {
         dialogStage.close();
     }
 
+
+    /**
+     * Validates the user input.
+     *
+     * @return true if the input is valid
+     */
+    private boolean isInputValid() {
+        String errorMessage = "";
+
+        if (foodBuildingComboBox.getSelectionModel().getSelectedIndex() < 0) {
+            errorMessage += "No valid building selected!\n";
+        }
+
+        if (errorMessage.equals("")) {
+            return true;
+        } else {
+            // Show the error message.
+            GeneralMethods.alertBox("Invalid Fields", "Please correct the invalid fields",
+                    errorMessage, Alert.AlertType.ERROR);
+
+            return false;
+        }
+
+    }
 }

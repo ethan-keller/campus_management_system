@@ -44,6 +44,7 @@ class RegisterControllerTest {
      */
     @Test
     void registerTest() throws Exception {
+
         when(userRepo.getUser(anyString())).thenReturn(new User("test", "pass", 2));
 
         mvc.perform(post("/register?username=test&password=pass&userType=0")

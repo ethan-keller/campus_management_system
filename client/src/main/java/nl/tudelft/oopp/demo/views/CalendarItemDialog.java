@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -14,6 +15,15 @@ import javafx.stage.Stage;
  * View class for the calendar item dialog box.
  */
 public class CalendarItemDialog extends Application {
+
+    /**
+     * Main method.
+     *
+     * @param args command line parameters
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     /**
      * Starts the thread to load the fxml as a view in the given stage.
@@ -44,20 +54,17 @@ public class CalendarItemDialog extends Application {
                 // Set the dialog stage properties
                 stage.initModality(Modality.WINDOW_MODAL);
                 stage.initOwner(primaryStage);
+                try {
+                    Image i = new Image("file:" + getClass().getResource("/TULogo.jpg").getPath());
+                    stage.getIcons().add(i);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 // Show the dialog and wait until the user closes it
                 stage.showAndWait();
             }
         });
 
-    }
-
-    /**
-     * Main method.
-     *
-     * @param args command line parameters
-     */
-    public static void main(String[] args) {
-        launch(args);
     }
 }

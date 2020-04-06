@@ -29,6 +29,8 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
+import nl.tudelft.oopp.demo.admin.logic.ReservationEditDialogLogic;
+
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -457,6 +459,39 @@ public class ReservationEditDialogController {
     }
 
     /**
+     * .
+     * This methods converts the date from the datepicker into database readable format
+     *
+     * @param formatter - DateTimeFormatter object which is used for formatting
+     * @return - A string which contains the date in a proper format
+     */
+    public static StringConverter<LocalDate> getDateConverter(DateTimeFormatter formatter) {
+        try {
+            return new StringConverter<LocalDate>() {
+                @Override
+                public String toString(LocalDate dateSelected) {
+                    if (dateSelected != null) {
+                        return formatter.format(dateSelected);
+                    }
+                    return "null";
+                }
+
+                @Override
+                public LocalDate fromString(String string) {
+                    // The date is formatted in yyyy-MM-dd format from the datePicker.
+                    if (string != null && !string.trim().isEmpty()) {
+                        return LocalDate.parse(string, formatter);
+                    }
+                    return null;
+                }
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * Sets the converter of the room combobox to only show the names of the rooms.
      *
      * @param ol ObservableList of rooms
@@ -561,7 +596,7 @@ public class ReservationEditDialogController {
     /**
      * Method that cancels the current edit/creation of a reservation.
      *
-     * @param event event that triggered this method
+     * @param event that triggered this method
      */
     @FXML
     private void cancelClicked(ActionEvent event) {
@@ -579,21 +614,17 @@ public class ReservationEditDialogController {
      *
      * @return true if the input is valid
      */
-    private boolean isInputValid() {
-        String errorMessage = "";
+    public boolean isInputValid() {
 
-        if (username.getSelectionModel().getSelectedItem() == null) {
-            errorMessage += "No valid username provided!\n";
-        }
-        if (room.getSelectionModel().getSelectedItem() == null) {
-            errorMessage += "No valid Room provided! \n";
-        }
-        if (date.getValue() == null) {
-            errorMessage += "No date provided!\n";
-        }
-        if (!checkTimeSlotValidity() || timeslotSlider.getLowValue() == timeslotSlider.getHighValue()) {
-            errorMessage += "No valid timeslot selected!\n";
-        }
+        User user = username.getValue();
+        Room resRoom = room.getValue();
+        LocalDate resDate = date.getValue();
+        double currentStartValue = timeslotSlider.getLowValue();
+        double currentEndValue = timeslotSlider.getHighValue();
+        StringConverter<LocalDate> temp = getDateConverter();
+
+        String errorMessage =  ReservationEditDialogLogic.isInputValid(
+                user, resRoom, resDate, currentStartValue, currentEndValue, temp);
 
         // If all the fields are valid, then true is returned.
         if (errorMessage.equals("")) {
@@ -605,6 +636,7 @@ public class ReservationEditDialogController {
             return false;
         }
     }
+
 
     /**
      * Method that checks if the chosen timeslot is free.

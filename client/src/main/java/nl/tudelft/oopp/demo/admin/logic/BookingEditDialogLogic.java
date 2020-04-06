@@ -8,16 +8,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.entities.Reservation;
-import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.general.GeneralMethods;
 
-import org.controlsfx.control.RangeSlider;
 
 public class BookingEditDialogLogic {
 
@@ -28,75 +23,22 @@ public class BookingEditDialogLogic {
      *
      * @return true if the input is valid
      */
-    public static boolean isInputValid(ComboBox<Room> bookingRoomComboBox, DatePicker bookingDate,
-                                       RangeSlider timeSlotSlider, Reservation reservation) {
-        String errorMessage = "";
+    public static String isInputValid(int index, String bookingDate) {
 
-        if (bookingRoomComboBox.getSelectionModel().getSelectedIndex() < 0) {
-            errorMessage += "No valid room selected!\n";
-        }
-        if (bookingDate.getValue() == null) {
-            errorMessage += "No valid date selected!\n";
-        }
-        if (!checkTimeSlotValidity(bookingRoomComboBox, bookingDate, reservation, timeSlotSlider)
-                || timeSlotSlider.getLowValue() == timeSlotSlider.getHighValue()) {
-            errorMessage += "No valid time slot selected!\n";
-        }
-        if (errorMessage.equals("")) {
-            return true;
-        } else {
-            // Show the error message.
-            GeneralMethods.alertBox("Invalid Fields", "Please correct invalid fields",
-                    errorMessage, Alert.AlertType.ERROR);
-
-            return false;
-        }
-    }
-
-    /**
-     * Method that checks if the chosen time slot is free.
-     *
-     * @return true if the time slot is free, false otherwise
-     */
-    public static boolean checkTimeSlotValidity(ComboBox<Room> bookingRoomComboBox, DatePicker bookingDate,
-                                                Reservation reservation, RangeSlider timeSlotSlider) {
-        // get currently selected room
-        Room selectedRoom = bookingRoomComboBox.getSelectionModel().getSelectedItem();
-        if (selectedRoom == null) {
-            return false;
-        }
-        // get all reservations for the current room on the chosen date
-        List<Reservation> roomReservations = Reservation.getRoomReservationsOnDate(selectedRoom.getRoomId().get(),
-                bookingDate.getValue(), getDatePickerConverter(bookingDate));
-
-        // get converter to convert date value to String format hh:mm
-        StringConverter<Number> timeConverter = getRangeSliderConverter();
-
-        // if there are no reservations the timeslot is valid
-        if (roomReservations.size() == 0) {
-            return true;
-        }
-
-        for (Reservation r : roomReservations) {
-            // if reservation equals the one we are editing, don't consider it
-            if (r.getReservationId().get() == reservation.getReservationId().get()) {
-                continue;
+        while (true) {
+            // Checks whether a room from the combo box is selected and the index represents if the
+            // selection of the room is valid.
+            if (index < 0) {
+                return "No valid room selected!\n";
             }
-
-            // get rangeslider values + reservation values
-            double currentStartValue = timeSlotSlider.getLowValue();
-            double currentEndValue = timeSlotSlider.getHighValue();
-            double startValue = (double) timeConverter.fromString(r.getReservationStartingTime().get());
-            double endValue = (double) timeConverter.fromString(r.getReservationEndingTime().get());
-
-            // check if the values overlap
-            if (!((currentStartValue <= startValue && currentEndValue <= startValue)
-                    || (currentStartValue >= endValue && currentEndValue >= endValue))) {
-                return false;
+            // Checks whether a date from the datePicker is selected
+            if (bookingDate.equals("")) {
+                return "No valid date selected!\n";
+            } else {
+                // This string value means that all the fields are filled.
+                return "Good!\n";
             }
-
         }
-        return true;
     }
 
     /**
@@ -209,3 +151,4 @@ public class BookingEditDialogLogic {
     }
 
 }
+
