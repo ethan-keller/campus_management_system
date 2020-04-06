@@ -33,7 +33,6 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
-import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import org.controlsfx.control.RangeSlider;
 
 
@@ -308,8 +307,6 @@ public class BookingEditDialogController {
     }
 
     /**
-     * <<<<<<< HEAD
-     * =======
      * Creates a StringConverter that converts the selected value to an actual time (in String format).
      *
      * @return a StringConverter object
@@ -343,7 +340,6 @@ public class BookingEditDialogController {
     }
 
     /**
-     * >>>>>>> develop
      * Set the building combobox converter.
      *
      * @param olb is passed
@@ -495,11 +491,11 @@ public class BookingEditDialogController {
         // Check the validity of user input
         if (BookingEditDialogLogic.isInputValid(bookingRoomComboBox, bookingDate, timeSlotSlider, reservation)) {
             emptyReservation();
-            // Set the user input to the reservation
-//            reservation.setUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
-//            reservation.setRoom(this.bookingRoomComboBox.getSelectionModel().getSelectedItem().getRoomId().get());
-//            reservation.setDate(this.bookingDate.getValue().toString());
-//            reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
+             // Set the user input to the reservation
+            reservation.setUsername(AdminManageUserViewController.currentSelectedUser.getUsername().get());
+            reservation.setRoom(this.bookingRoomComboBox.getSelectionModel().getSelectedItem().getRoomId().get());
+            reservation.setDate(this.bookingDate.getValue().toString());
+            reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
             if (endTime.getText().equals("End: 24:00:00")) {
                 reservation.setEndingTime("23:59:00");
             } else {
