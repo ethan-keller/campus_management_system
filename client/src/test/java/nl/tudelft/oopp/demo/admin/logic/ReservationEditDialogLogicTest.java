@@ -6,13 +6,40 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.User;
 
 import nl.tudelft.oopp.demo.user.calendar.logic.CalendarEditItemDialogLogic;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockserver.client.MockServerClient;
+import org.mockserver.integration.ClientAndServer;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockserver.integration.ClientAndServer.startClientAndServer;
+import static org.mockserver.model.HttpRequest.request;
+import static org.mockserver.model.HttpResponse.response;
 
 class ReservationEditDialogLogicTest {
+    private ClientAndServer mockServer;
+
+    void expectationPost() {
+        new MockServerClient("127.0.0.1", 8080)
+                .when(request().withMethod("POST"))
+                .respond(response().withStatusCode(200));
+    }
+
+    void expectationGet() {
+        new MockServerClient("127.0.0.1", 8080)
+                .when(request().withMethod("GET"))
+                .respond(response().withStatusCode(200)
+                        .withBody("Success"));
+    }
+
+    @BeforeAll
+    public void startServer() {
+        mockServer = startClientAndServer(8080);
+        expectationPost();
+        expectationGet();
+    }
     @Test
     void isInputValidNullTest() {
         User user = null;
