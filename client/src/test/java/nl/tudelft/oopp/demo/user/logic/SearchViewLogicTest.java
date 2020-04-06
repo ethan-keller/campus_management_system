@@ -270,6 +270,9 @@ class SearchViewLogicTest {
         assertEquals(expected, SearchViewLogic.filterByBike(rooms, buildings, "pizza"));
     }
     @Test
+    /**
+     * tests if  the filtering by food works.
+     */
     public void filterByFoodTest(){
         makeRooms();
         makeBuildings();
