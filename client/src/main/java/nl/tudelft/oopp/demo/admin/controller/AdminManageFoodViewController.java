@@ -21,9 +21,11 @@ import nl.tudelft.oopp.demo.entities.Food;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminFoodBuildingView;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.AdminManageFoodView;
 import nl.tudelft.oopp.demo.views.FoodEditDialogView;
 import nl.tudelft.oopp.demo.views.FoodNewDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
+
 
 
 public class AdminManageFoodViewController {
@@ -79,8 +81,11 @@ public class AdminManageFoodViewController {
     /**
      * Used to initialize the view everytime something new is created, edited or deleted.
      */
-    public void refresh() {
-        initialize();
+    public void refresh(ActionEvent event) throws IOException {
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        AdminManageFoodView amfv = new AdminManageFoodView();
+        amfv.start(stage);
     }
 
     /**
@@ -113,7 +118,7 @@ public class AdminManageFoodViewController {
         try {
             if (selectedIndex >= 0) {
                 if (AdminLogic.deleteFoodLogic(selectedFood)) {
-                    refresh();
+                    refresh(event);
                     // An alert pop up when a food deleted successfully
                     GeneralMethods.alertBox("Delete food", "",
                             "Food deleted!", AlertType.INFORMATION);
@@ -152,7 +157,7 @@ public class AdminManageFoodViewController {
                 return;
             }
             if (AdminLogic.addFoodLogic(tempFood)) {
-                refresh();
+                refresh(event);
                 // An alert pop up when a new food created.
                 GeneralMethods.alertBox("New food", "", "New Food added!", AlertType.INFORMATION);
             } else {
@@ -188,7 +193,7 @@ public class AdminManageFoodViewController {
                     return;
                 }
                 if (AdminLogic.updateFoodLogic(selectedFood, tempFood)) {
-                    refresh();
+                    refresh(event);
                     // An alert pop up when a new food created.
                     GeneralMethods.alertBox("Edit food", "", "Food edited!", AlertType.INFORMATION);
                 } else {

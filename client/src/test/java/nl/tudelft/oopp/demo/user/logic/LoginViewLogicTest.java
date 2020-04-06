@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 class LoginViewLogicTest {
 
     @Test
+    /**
+     * tests if the input is v
+     */
     void isValidInputTest() {
         String usernameInput = "";
         String passwordInput = "";

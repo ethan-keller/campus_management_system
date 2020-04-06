@@ -362,4 +362,32 @@ public class Reservation implements AbstractCalendarItem {
     public Color getColor() {
         return Color.CYAN;
     }
+
+    /**
+     * Get all the reservations for given user.
+     * @param user passed user object
+     * @return ObservableList of reservation of the user
+     */
+    public static ObservableList<Reservation> getUserReservation2(User user) {
+        try {
+            ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
+            JSONArray jsonArrayReservation = new JSONArray(
+                    ReservationServerCommunication.getUserReservations(
+                            user.getUsername().get()));
+            for (int i = 0; i < jsonArrayReservation.length(); i++) {
+                Reservation r = new Reservation();
+                r.setId(jsonArrayReservation.getJSONObject(i).getInt("id"));
+                r.setUsername(jsonArrayReservation.getJSONObject(i).getString("username"));
+                r.setDate(jsonArrayReservation.getJSONObject(i).getString("date"));
+                r.setRoom(jsonArrayReservation.getJSONObject(i).getInt("room"));
+                r.setStartingTime(jsonArrayReservation.getJSONObject(i).getString("startingTime"));
+                r.setEndingTime(jsonArrayReservation.getJSONObject(i).getString("endingTime"));
+                reservationList.add(r);
+            }
+            return reservationList;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
+    }
 }

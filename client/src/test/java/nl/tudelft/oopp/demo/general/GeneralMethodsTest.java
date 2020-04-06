@@ -27,24 +27,4 @@ class GeneralMethodsTest {
         assertEquals(res1, GeneralMethods.encodeCommunication(input1));
         assertEquals(res2, GeneralMethods.encodeCommunication(input2));
     }
-
-    @Test
-    void createAlert() {
-    }
-
-    @Test
-    void alertBox() {
-    }
-
-    @Test
-    void setSliderDefaultCss() {
-    }
-
-    @Test
-    void formatPriceString() {
-    }
-
-    @Test
-    void view() {
-    }
 }

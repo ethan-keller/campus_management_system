@@ -19,6 +19,7 @@ import nl.tudelft.oopp.demo.admin.logic.AdminLogic;
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 import nl.tudelft.oopp.demo.views.AdminHomePageView;
+import nl.tudelft.oopp.demo.views.AdminManageBuildingView;
 import nl.tudelft.oopp.demo.views.BuildingEditDialogView;
 import nl.tudelft.oopp.demo.views.BuildingNewDialogView;
 import nl.tudelft.oopp.demo.views.LoginView;
@@ -98,10 +99,14 @@ public class AdminManageBuildingViewController {
     }
 
     /**
-     * Refreshes the buildings on the page.
+     * Reloads the whole view with new information.
+     * @param event event to get stage from
+     * @throws IOException if errors occur due to I/O
      */
-    public void refresh() {
-        initialize();
+    public void refresh(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        AdminManageBuildingView ambv = new AdminManageBuildingView();
+        ambv.start(stage);
     }
 
     /**
@@ -137,7 +142,7 @@ public class AdminManageBuildingViewController {
         try {
             if (selectedIndex >= 0) {
                 if (AdminLogic.deleteBuildingLogic(selectedBuilding)) {
-                    refresh();
+                    refresh(event);
                     // Create an alert box.
                     GeneralMethods.alertBox("Delete Building", "", "Building deleted!",
                             AlertType.INFORMATION);
@@ -172,7 +177,7 @@ public class AdminManageBuildingViewController {
                 return;
             }
             if (AdminLogic.createBuildingLogic(tempBuilding)) {
-                refresh();
+                refresh(event);
                 // Create an alert box.
                 GeneralMethods.alertBox("New Building", "", "Added new building!",
                         AlertType.INFORMATION);
@@ -207,7 +212,7 @@ public class AdminManageBuildingViewController {
                     return;
                 }
                 if (AdminLogic.editBuildingLogic(selectedBuilding, tempBuilding)) {
-                    refresh();
+                    refresh(event);
                     // Create an alert box.
                     GeneralMethods.alertBox("Edit Building", "", "Edited building!",
                             AlertType.INFORMATION);
