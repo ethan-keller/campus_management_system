@@ -310,10 +310,10 @@ class ReservationTest {
         assertEquals("10", reservation.getId());
     }
 
-    @Test
     /**
      * Tests the getHeader method.
      */
+    @Test
     void getHeader() {
         assertEquals("Reservation", reservation.getHeader());
     }
@@ -365,7 +365,7 @@ class ReservationTest {
 
     /**
      * Gets a Date string converter for the getRoomReservationsOnDate test function.
-     * @return Returns a StringConverter<LocalDate> object
+     * @return Returns a StringConverter object
      */
     private StringConverter<LocalDate> getConverter() {
         try {
