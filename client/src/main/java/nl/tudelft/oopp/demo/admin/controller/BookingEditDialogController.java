@@ -407,7 +407,7 @@ public class BookingEditDialogController {
                 List<Room> filteredRooms = olr.stream().filter(x -> x.getRoomBuilding().get()
                         == newBuilding.getBuildingId().get()).collect(Collectors.toList());
                 if (AdminManageUserViewController.currentSelectedUser.getUserType().get() == 2) {
-                    filteredRooms  = filteredRooms.stream().filter(x -> !x.getTeacherOnly().get())
+                    filteredRooms = filteredRooms.stream().filter(x -> !x.getTeacherOnly().get())
                             .collect(Collectors.toList());
                 }
                 olr.clear();
@@ -500,9 +500,9 @@ public class BookingEditDialogController {
             reservation.setRoom(this.bookingRoomComboBox.getSelectionModel().getSelectedItem().getRoomId().get());
             reservation.setDate(this.bookingDate.getValue().toString());
             reservation.setStartingTime(startTime.getText().replace("Start: ", ""));
-            if(endTime.getText().equals("End: 24:00:00")){
+            if (endTime.getText().equals("End: 24:00:00")) {
                 reservation.setEndingTime("23:59:00");
-            }else{
+            } else {
                 reservation.setEndingTime(endTime.getText().replace("End: ", ""));
             }
             // Close the dialog window

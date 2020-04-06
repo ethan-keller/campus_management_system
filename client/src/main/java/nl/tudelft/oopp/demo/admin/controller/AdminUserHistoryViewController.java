@@ -144,7 +144,7 @@ public class AdminUserHistoryViewController {
             }
             //check if the endtime is 24:00 and changes it if so(database can't handle it)
             String temp = tempReservation.getReservationEndingTime().get();
-            if(temp.contains("24")){
+            if (temp.contains("24")) {
                 tempReservation.setEndingTime("23:59");
                 System.out.println(tempReservation.getReservationEndingTime().get());
             }
