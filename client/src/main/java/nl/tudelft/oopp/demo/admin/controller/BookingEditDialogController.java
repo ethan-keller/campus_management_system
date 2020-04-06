@@ -568,6 +568,10 @@ public class BookingEditDialogController {
         // get converter to convert date value to String format hh:mm
         StringConverter<Number> timeConverter = getRangeSliderConverter();
 
+        if(roomReservations == null){
+            return true;
+        }
+
         // if there are no reservations the timeslot is valid
         if (roomReservations.size() == 0) {
             return true;
