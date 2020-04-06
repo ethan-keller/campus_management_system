@@ -7,13 +7,19 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 
 public class ReservationEditDialogView extends Application {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -28,14 +34,17 @@ public class ReservationEditDialogView extends Application {
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
 
+            try {
+                Image i = new Image("file:" + getClass().getResource("/TULogo.jpg").getPath());
+                dialogStage.getIcons().add(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             GeneralMethods.view(dialogStage, primaryStage, "Edit Reservation", root);
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
