@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -23,6 +25,8 @@ import nl.tudelft.oopp.demo.views.ReservationConfirmationView;
 import org.controlsfx.control.RangeSlider;
 
 public class RoomViewLogic {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     /**
      * confirms the booking of a room.
@@ -53,7 +57,7 @@ public class RoomViewLogic {
             // return true if confirmed, false otherwise
             return ReservationConfirmationViewController.confirmed;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return false;
     }
@@ -115,7 +119,7 @@ public class RoomViewLogic {
             // return true if no errors where triggered
             return !errors;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return false;
     }
@@ -194,7 +198,7 @@ public class RoomViewLogic {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -250,7 +254,7 @@ public class RoomViewLogic {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }

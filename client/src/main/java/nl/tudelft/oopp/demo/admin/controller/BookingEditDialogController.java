@@ -33,6 +33,7 @@ import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.general.GeneralMethods;
 
+import nl.tudelft.oopp.demo.views.AdminManageUserView;
 import org.controlsfx.control.RangeSlider;
 
 
@@ -175,7 +176,7 @@ public class BookingEditDialogController {
                 timeSlotSlider.setMin(opening);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -395,7 +396,7 @@ public class BookingEditDialogController {
     /**
      * .
      * Called when a building is selected
-     * The room combobox only shows the rooms of the selected building
+     * The room combobox only shows the available rooms of the selected building according to the user type
      */
     public void buildingSelected(Building newBuilding) {
         try {
@@ -405,6 +406,10 @@ public class BookingEditDialogController {
                 //Create a list of rooms only belongs to the selected building
                 List<Room> filteredRooms = olr.stream().filter(x -> x.getRoomBuilding().get()
                         == newBuilding.getBuildingId().get()).collect(Collectors.toList());
+                if (AdminManageUserViewController.currentSelectedUser.getUserType().get() == 2) {
+                    filteredRooms  = filteredRooms.stream().filter(x -> !x.getTeacherOnly().get())
+                            .collect(Collectors.toList());
+                }
                 olr.clear();
                 //Add the filtered rooms to the observable list
                 for (Room r : filteredRooms) {
@@ -413,7 +418,7 @@ public class BookingEditDialogController {
                 bookingRoomComboBox.setItems(olr);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

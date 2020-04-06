@@ -12,6 +12,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
@@ -51,6 +53,8 @@ public class RentABikeController implements Initializable {
     private static int currentBuilding = 0;
     public ObservableList<Building> buildingList = Building.getBuildingData();
     public ObservableList<BikeReservation> bikeReservationsList = BikeReservation.getBikeReservationData();
+    private Logger logger = Logger.getLogger("GlobalLogger");
+
     @FXML
     private DatePicker datePicker;
     @FXML
@@ -90,7 +94,7 @@ public class RentABikeController implements Initializable {
             SearchView sv = new SearchView();
             sv.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -199,7 +203,7 @@ public class RentABikeController implements Initializable {
                 setTimeSlotSlider(b);
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -293,7 +297,7 @@ public class RentABikeController implements Initializable {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -316,7 +320,7 @@ public class RentABikeController implements Initializable {
             RentABikeView rbv = new RentABikeView();
             rbv.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -350,7 +354,7 @@ public class RentABikeController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -370,7 +374,7 @@ public class RentABikeController implements Initializable {
             // set the converter
             datePicker.setConverter(converter);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -412,7 +416,7 @@ public class RentABikeController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -438,7 +442,7 @@ public class RentABikeController implements Initializable {
             return buildingNumber;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return 0;
     }
@@ -471,7 +475,7 @@ public class RentABikeController implements Initializable {
                 }
             };
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -497,7 +501,7 @@ public class RentABikeController implements Initializable {
             timeSlotSlider.highValueProperty().addListener((observable, oldValue, newValue) ->
                     timeSlotSlider.setHighValue((newValue.intValue() / 30) * 30));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -532,7 +536,7 @@ public class RentABikeController implements Initializable {
             // inject the RangeSlider in the JavaFX layout
             reservationVbox.getChildren().add(4, timeSlotSlider);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -556,7 +560,7 @@ public class RentABikeController implements Initializable {
             return result;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -572,7 +576,7 @@ public class RentABikeController implements Initializable {
             image.setFitWidth((newWidth.doubleValue() - 188) / 1.41550696);
             reservationVbox.setPrefWidth((newWidth.doubleValue() - 188) / 3.3969);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -611,7 +615,7 @@ public class RentABikeController implements Initializable {
 
             return hour;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return 0;
     }
@@ -649,7 +653,7 @@ public class RentABikeController implements Initializable {
             return remainder;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return 0;
     }
@@ -679,7 +683,7 @@ public class RentABikeController implements Initializable {
                 timeSlotSlider.setMin(opening);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 }

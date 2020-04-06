@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.admin.controller;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -25,6 +27,8 @@ import nl.tudelft.oopp.demo.views.LoginView;
 
 
 public class AdminManageFoodViewController {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     public static Food currentSelectedFood;
     @FXML
@@ -61,7 +65,7 @@ public class AdminManageFoodViewController {
             // Add observable list data to the table
             foodTable.setItems(Food.getAllFoodData());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -101,20 +105,23 @@ public class AdminManageFoodViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-                // TODO: Check that food deletion was successful before displaying alert
-                AdminLogic.deleteFoodLogic(selectedFood);
-                refresh();
-                // An alert pop up when a food deleted successfully
-                GeneralMethods.alertBox("Delete food", "",
-                        "Food deleted!", AlertType.INFORMATION);
+                if (AdminLogic.deleteFoodLogic(selectedFood)) {
+                    refresh();
+                    // An alert pop up when a food deleted successfully
+                    GeneralMethods.alertBox("Delete food", "",
+                            "Food deleted!", AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Deletion failed", "",
+                            "Food deletion failed", AlertType.WARNING);
+                }
             } else {
                 // An alert pop up when no food selected
                 GeneralMethods.alertBox("No Selection", "No Food Selected",
                         "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("delete food exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -137,14 +144,17 @@ public class AdminManageFoodViewController {
             if (tempFood == null) {
                 return;
             }
-            // TODO: Check that building creation was successful before displaying alert
-            AdminLogic.addFoodLogic(tempFood);
-            refresh();
-            // An alert pop up when a new food created.
-            GeneralMethods.alertBox("New food", "", "New Food added!", AlertType.INFORMATION);
+            if (AdminLogic.addFoodLogic(tempFood)) {
+                refresh();
+                // An alert pop up when a new food created.
+                GeneralMethods.alertBox("New food", "", "New Food added!", AlertType.INFORMATION);
+            } else {
+                // Create an alert box.
+                GeneralMethods.alertBox("Creation failed", "",
+                        "Food creation failed", AlertType.WARNING);
+            }
         } catch (Exception e) {
-            System.out.println("food creation exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -170,19 +180,22 @@ public class AdminManageFoodViewController {
                 if (tempFood == null) {
                     return;
                 }
-                // TODO: Check that building edit was successful before displaying alert
-                AdminLogic.updateFoodLogic(selectedFood, tempFood);
-                refresh();
-                // An alert pop up when a new food created.
-                GeneralMethods.alertBox("Edit food", "", "Food edited!", AlertType.INFORMATION);
+                if (AdminLogic.updateFoodLogic(selectedFood, tempFood)) {
+                    refresh();
+                    // An alert pop up when a new food created.
+                    GeneralMethods.alertBox("Edit food", "", "Food edited!", AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Edit failed", "",
+                            "Food edit failed", AlertType.WARNING);
+                }
             } else {
                 // An alert pop up when no food selected
                 GeneralMethods.alertBox("No Selection", "No Food Selected",
                         "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("food edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -210,8 +223,7 @@ public class AdminManageFoodViewController {
                         "Please select a food in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
-            System.out.println("food edit exception");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

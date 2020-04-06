@@ -5,6 +5,8 @@ import com.mindfusion.scheduling.model.Item;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,6 +26,8 @@ import nl.tudelft.oopp.demo.user.calendar.logic.CalendarItemDialogLogic;
  * Class that controls the dialog when a user clicks an item in his calendar.
  */
 public class CalendarItemDialogController implements Initializable {
+
+    private Logger logger = Logger.getLogger("GlobalLogger");
 
     public static Item selectedItem;
     // private fields that are used to determine the type of an item
@@ -114,7 +118,7 @@ public class CalendarItemDialogController implements Initializable {
                 alert.showAndWait();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -163,7 +167,7 @@ public class CalendarItemDialogController implements Initializable {
                 alertError.showAndWait();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 

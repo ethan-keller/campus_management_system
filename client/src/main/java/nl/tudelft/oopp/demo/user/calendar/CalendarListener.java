@@ -4,6 +4,8 @@ import com.mindfusion.scheduling.CalendarAdapter;
 import com.mindfusion.scheduling.ItemMouseEvent;
 import com.mindfusion.scheduling.model.Item;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.stage.Stage;
@@ -16,6 +18,8 @@ import nl.tudelft.oopp.demo.views.CalendarItemDialog;
  * Class that overrides calendar listener methods.
  */
 public class CalendarListener extends CalendarAdapter {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     public static String header;
     public static String body;
@@ -41,7 +45,7 @@ public class CalendarListener extends CalendarAdapter {
             // start the view (pop up)
             dialog.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
