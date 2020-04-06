@@ -18,6 +18,18 @@ import org.json.JSONException;
 
 public class User {
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User user = (User) o;
+        return getUsername().get().equals(user.getUsername().get());
+    }
+
     private static Logger logger = Logger.getLogger("GlobalLogger");
 
     private StringProperty username;

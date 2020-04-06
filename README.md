@@ -5,6 +5,9 @@ This information can be added throughout the course, except for the names of the
 Add your own name (do not add the names for others!) to the section below.
 
 ## Description of project
+This is purpose built campus management software, allowing you to book a room, book food and even book a bike. 
+This software consists out of two parts, a client application and a server application. 
+The server application is build in such a way you can also develop another client-application to work with it.
 
 ## Group members
 
@@ -25,7 +28,10 @@ Add your own name (do not add the names for others!) to the section below.
 <!-- - (please make sure the photos have the same size) --> 
 
 ## How to run it
+To run it run the MainApp file for the client and the DemoApplication file for the server. 
+Also make sure your database is configured in the DbConfig file, we do provide a testing database in our repository.
 
 ## How to contribute to it
+We’re currently not open for public contributions.
 
 ## Copyright / License (opt.)

@@ -176,11 +176,15 @@ public class AdminManageRoomViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-                // TODO: Check that room deletion was successful before displaying alert
-                AdminLogic.deleteRoomLogic(selectedRoom);
-                refresh();
-                // Creates an alert box to display the message.
-                GeneralMethods.alertBox("Delete room", "", "Room deleted!", AlertType.INFORMATION);
+                if (AdminLogic.deleteRoomLogic(selectedRoom)) {
+                    refresh();
+                    // Creates an alert box to display the message.
+                    GeneralMethods.alertBox("Delete room", "", "Room deleted!", AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Deletion failed", "",
+                            "Room deletion failed", AlertType.WARNING);
+                }
             } else {
                 // Creates an alert box.
                 GeneralMethods.alertBox("No Selection", "No Room Selected",
@@ -208,7 +212,6 @@ public class AdminManageRoomViewController {
             if (tempRoom == null) {
                 return;
             }
-            // TODO: Check that room creation was successful before displaying alert
             if (AdminLogic.createRoomLogic(tempRoom)) {
                 refresh();
                 // Creates an alert box to display the message.

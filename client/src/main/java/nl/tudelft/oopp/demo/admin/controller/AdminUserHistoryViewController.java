@@ -105,12 +105,16 @@ public class AdminUserHistoryViewController {
         int selectedIndex = getSelectedIndex();
         try {
             if (selectedIndex >= 0) {
-                // TODO: Check that reservation deletion was successful before displaying alert
-                AdminLogic.deleteReservationLogic(selectedReservation);
-                refresh();
-                // An alert pop up when a reservation deleted successfully
-                GeneralMethods.alertBox("Delete Reservation", "", "Reservation deleted!",
-                        Alert.AlertType.INFORMATION);
+                if (AdminLogic.deleteReservationLogic(selectedReservation)) {
+                    refresh();
+                    // An alert pop up when a reservation deleted successfully
+                    GeneralMethods.alertBox("Delete Reservation", "", "Reservation deleted!",
+                            Alert.AlertType.INFORMATION);
+                } else {
+                    // Create an alert box.
+                    GeneralMethods.alertBox("Deletion failed", "",
+                            "Reservation deletion failed", Alert.AlertType.WARNING);
+                }
             } else {
                 // An alert pop up when no reservation selected
                 GeneralMethods.alertBox("No Selection", "No reservation Selected",
@@ -138,13 +142,24 @@ public class AdminUserHistoryViewController {
             if (tempReservation == null) {
                 return;
             }
-            // TODO: Check that reservation creation was successful before displaying alert
-            AdminLogic.createReservationLogic(tempReservation);
-            refresh();
-            // An alert pop up when a new reservation created.
-            GeneralMethods.alertBox("New Reservation", "", "New Reservation added!",
-                    Alert.AlertType.INFORMATION);
+            //check if the endtime is 24:00 and changes it if so(database can't handle it)
+            String temp = tempReservation.getReservationEndingTime().get();
+            if (temp.contains("24")) {
+                tempReservation.setEndingTime("23:59");
+                System.out.println(tempReservation.getReservationEndingTime().get());
+            }
+            if (AdminLogic.createReservationLogic(tempReservation)) {
+                refresh();
+                // An alert pop up when a new reservation created.
+                GeneralMethods.alertBox("New Reservation", "", "New Reservation added!",
+                        Alert.AlertType.INFORMATION);
+            } else {
+                // Create an alert box.
+                GeneralMethods.alertBox("Creation failed", "",
+                        "Reservation creation failed", Alert.AlertType.WARNING);
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             logger.log(Level.SEVERE, e.toString());
         }
     }
@@ -166,11 +181,8 @@ public class AdminUserHistoryViewController {
                 AdminFoodReservationView afrv = new AdminFoodReservationView();
                 afrv.start(stage);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No Selection");
-                alert.setHeaderText("No Reservation Selected");
-                alert.setContentText("Please select a reservation in the table.");
-                alert.showAndWait();
+                GeneralMethods.alertBox("No Selection", "No Reservation Selected",
+                        "Please select a reservation in the table.", Alert.AlertType.WARNING);
             }
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
