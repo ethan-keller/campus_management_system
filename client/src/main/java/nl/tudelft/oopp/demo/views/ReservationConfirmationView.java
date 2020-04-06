@@ -8,6 +8,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -18,6 +19,15 @@ import javafx.stage.Stage;
 public class ReservationConfirmationView extends Application {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
+
+    /**
+     * Main method.
+     *
+     * @param args command line parameters
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     /**
      * Starts the thread to load the fxml as a view in the given stage.
@@ -42,6 +52,13 @@ public class ReservationConfirmationView extends Application {
             stage.setScene(scene);
             stage.setResizable(false);
 
+            try {
+                Image i = new Image("file:" + getClass().getResource("/TULogo.jpg").getPath());
+                stage.getIcons().add(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             // Set the dialog stage properties
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(primaryStage);
@@ -52,14 +69,5 @@ public class ReservationConfirmationView extends Application {
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
-    }
-
-    /**
-     * Main method.
-     *
-     * @param args command line parameters
-     */
-    public static void main(String[] args) {
-        launch(args);
     }
 }
