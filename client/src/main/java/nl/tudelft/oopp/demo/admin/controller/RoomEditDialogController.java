@@ -164,7 +164,7 @@ public class RoomEditDialogController {
             // if all fields are valid, fill Room object with the corresponding information given by the admin
             if (isInputValid()) {
                 // if the image has been updated delete the old one
-                if (changedImage && !oldFileName.equals("placeholder.png")) {
+                if (changedImage && oldFileName != null && !oldFileName.equals("placeholder.png")) {
                     // get the image file that is not used anymore
                     File fileToDelete = new File("client/src/main/resources/images/" + oldFileName);
                     // if not deleted properly, show alert
@@ -173,6 +173,7 @@ public class RoomEditDialogController {
                                 "Something went wrong, please try again",
                                 dialogStage, Alert.AlertType.ERROR);
                         alert.showAndWait();
+                        logger.log(Level.SEVERE, "File could not be deleted");
                         return;
                     }
                 }
@@ -189,7 +190,7 @@ public class RoomEditDialogController {
                 room.setRoomPhoto(fileName.getText());
 
                 // if the admin creates a new room or updates an image, save the new file
-                if (fileName == null || changedImage) {
+                if (oldFileName == null || changedImage) {
                     // split on '.' (dot) to later get the extension of the file (fileName.jpg -> [fileName, jpg])
                     String[] splitFileDot = fileName.getText().split("\\.");
                     // create destination file
@@ -244,7 +245,7 @@ public class RoomEditDialogController {
         String roomDescription = roomDescriptionField.getText();
 
         String errorMessage =  RoomEditDialogLogic.isValidInput(roomName, roomBuilding, roomYes,
-                roomNo, roomCapacity, roomType, roomDescription);
+                roomNo, roomCapacity, roomType, roomDescription, oldFileName, changedImage, fileName.getText());
 
         if (errorMessage.equals("")) {
             return true;
@@ -254,7 +255,6 @@ public class RoomEditDialogController {
 
             return false;
         }
-
     }
 
     /**

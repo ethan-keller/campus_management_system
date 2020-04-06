@@ -42,7 +42,6 @@ public class DbConfig {
             return dataSource;
         } catch (Exception e) {
             logger.error("Database: error while configuring credentials", e);
-            e.printStackTrace();
         }
         return null;
     }

@@ -1,12 +1,8 @@
 package nl.tudelft.oopp.demo.admin.logic;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import java.io.File;
 
 import nl.tudelft.oopp.demo.entities.Building;
-import nl.tudelft.oopp.demo.general.GeneralMethods;
 
 public class RoomEditDialogLogic {
 
@@ -26,7 +22,8 @@ public class RoomEditDialogLogic {
     public static String isValidInput(String roomNameField, Building roomBuildingComboBox,
                                       boolean radioButtonYes, boolean radioButtonNo,
                                       String roomCapacityField, String roomTypeField,
-                                      String roomDescriptionField) {
+                                      String roomDescriptionField, String oldFileName,
+                                      boolean changedImage, String fileName) {
         String errorMessage = "";
 
         if (roomNameField.equals("")) {
@@ -40,6 +37,20 @@ public class RoomEditDialogLogic {
         }
         if (roomCapacityField.equals("")) {
             errorMessage += "No valid capacity!\n";
+        }
+        if (roomDescriptionField.length() >= 270) {
+            errorMessage += "The description of the room can't be more than 270 characters";
+        }
+        // checks if there already exists an image with this name
+        File imageFolder = new File("client/src/main/resources/images");
+        // if admin creates new room or updates image, check if the image already exists
+        if (oldFileName == null || changedImage) {
+            for (File f : imageFolder.getAbsoluteFile().listFiles()) {
+                if (f.getName().equals(fileName)) {
+                    errorMessage += "This file name is already used, please choose another one!\n";
+                    break;
+                }
+            }
         }
         if (roomTypeField.equals("")) {
             errorMessage += "No valid room type!\n";

@@ -320,7 +320,7 @@ public class SearchViewController implements Initializable, Runnable {
         // if a date is selected it filters out the rooms that are fully booked for that day.
         if (datePicker.getValue() != null) {
             String date = datePicker.getValue().toString();
-            ObservableList<Reservation> reservations = Reservation.getReservation();
+            ObservableList<Reservation> reservations = Reservation.getAllReservations();
             SearchViewLogic.filterRoomsByDate(roomList, date, reservations, buildings);
         }
 

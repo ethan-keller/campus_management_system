@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.general.GeneralMethods;
@@ -32,6 +33,12 @@ public class RoomEditDialogView extends Application {
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
+            try {
+                Image i = new Image("file:" + getClass().getResource("/TULogo.jpg").getPath());
+                dialogStage.getIcons().add(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             GeneralMethods.view(dialogStage, primaryStage, "Edit Room", root);
 

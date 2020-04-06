@@ -1,14 +1,10 @@
 package nl.tudelft.oopp.demo.admin.logic;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
-
-import nl.tudelft.oopp.demo.general.GeneralMethods;
-
 public class BuildingEditDialogLogic {
 
     /**
      * Checks if the input is valid.
+<<<<<<< HEAD
      * @param buildingNameField building name.
      * @param buildingAddressField Address of the building.
      * @param openingHoursSliderHigh The higher opening time.

@@ -23,3 +23,4 @@ Note taker:     Ethan Keller
 
 # Closing
 *Everybody starts working*
+
