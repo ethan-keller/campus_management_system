@@ -100,12 +100,12 @@ public class BuildingController {
         try {
             buildingRepo.updateAddress(id, address);
             buildingRepo.updateName(id, name);
-            buildingRepo.updateRoomCount(id, roomCount);
             buildingRepo.updateMaxBikes(id, maxBikes);
             buildingRepo.updateOpeningHours(id, openingTime, closingTime);
+            int count = roomRepo.getRoomByBuilding(id).size();
+            buildingRepo.updateRoomCount(id, count);
             logger.info("Building: -update- Building ID: " + id + " - NEW data -> Name: "
-                    + name + " - Room count: " + roomCount + " - Address: "
-                    + address + " - Max bikes: " + maxBikes + " - Opening hours: "
+                    + name + " - Address: " + address + " - Max bikes: " + maxBikes + " - Opening hours: "
                     + openingTime + " - " + closingTime);
         } catch (Exception e) {
             logger.error("Building: -update- ERROR", e);

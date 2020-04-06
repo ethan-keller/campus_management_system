@@ -13,6 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
+<<<<<<< HEAD
+=======
+import nl.tudelft.oopp.demo.general.GeneralMethods;
+>>>>>>> develop
 import nl.tudelft.oopp.demo.user.logic.RegisterViewLogic;
 import nl.tudelft.oopp.demo.views.LoginView;
 
@@ -93,10 +97,6 @@ public class RegisterViewController {
      * @throws IOException is thrown
      */
     public void registerClicked(ActionEvent event) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Register Status");
-        alert.setHeaderText(null);
-
         String usernameTxt = username.getText();
         String passwordTxt = password.getText();
         String rePasswordTxt = rePassword.getText();
@@ -129,8 +129,15 @@ public class RegisterViewController {
             if (teacherSelected()) {
                 userType = 1;
             }
-            //alert.setContentText(RegisterServerCommunication.sendRegister(usernameTxt, passwordTxt, userType));
-            alert.showAndWait();
+
+            if (RegisterViewLogic.registerCommunication(username.getText(), password.getText(), userType)) {
+                GeneralMethods.alertBox("register status", "",
+                        "Successfully created a new account", Alert.AlertType.INFORMATION);
+            } else {
+                GeneralMethods.alertBox("register status", "",
+                        "An error occured while creating a new account. Please try again",
+                        Alert.AlertType.INFORMATION);
+            }
             backClicked(event);
         }
     }

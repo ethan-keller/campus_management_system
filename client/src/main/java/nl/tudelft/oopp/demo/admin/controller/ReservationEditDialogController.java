@@ -30,6 +30,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import nl.tudelft.oopp.demo.admin.logic.ReservationEditDialogLogic;
+
 import nl.tudelft.oopp.demo.entities.Building;
 import nl.tudelft.oopp.demo.entities.Reservation;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -99,9 +100,10 @@ public class ReservationEditDialogController {
             //Initializing the observable list for the users available
             username.setItems(userObservableList);
             this.setUserComboBoxConverter(userObservableList);
+            username.valueProperty().addListener(((observable, oldValue, newValue) -> {
+                usernameSelected(newValue);
+            }));
 
-            //Initializing the observable list for the rooms available
-            room.setItems(roomObservableList);
             this.setRoomComboBoxConverter(roomObservableList);
 
             //This method sets up the slider which determines the time of reservation in the dialog view.
@@ -539,6 +541,33 @@ public class ReservationEditDialogController {
             }
         };
         username.setConverter(converter);
+    }
+
+    /**
+     * .
+     * Called when a  user is selected
+     * The room combobox only shows the available rooms according to the user type
+     * @param newUser is selected
+     */
+    public void usernameSelected(User newUser) {
+        try {
+            if (username.getValue() != null) {
+                final ObservableList<Room> roomObservableList = Room.getRoomData();
+                boolean isStudent = (this.username.getSelectionModel().getSelectedItem().getUserType().get() == 2);
+                if (isStudent) {
+                    List<Room> filteredRooms = roomObservableList.stream().filter(x -> !x.getTeacherOnly().get())
+                            .collect(Collectors.toList());
+                    roomObservableList.clear();
+                    for (Room r : filteredRooms) {
+                        roomObservableList.add(r);
+                    }
+                }
+                room.setItems(roomObservableList);
+            }
+
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
     }
 
     /**

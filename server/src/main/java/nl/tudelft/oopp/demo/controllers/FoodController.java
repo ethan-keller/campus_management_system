@@ -248,7 +248,7 @@ public class FoodController {
      * @param obj The query result
      * @return Returns a list of FoodReservations
      */
-    public List<FoodReservations> mapFoodReservation(List<Object[]> obj) {
+    private List<FoodReservations> mapFoodReservation(List<Object[]> obj) {
         List<FoodReservations> result = new ArrayList<>();
         for (int x = 0; x < obj.size(); x++) {
             Reservations reservation = reservationRepo.getReservation((Integer) obj.get(x)[0]);

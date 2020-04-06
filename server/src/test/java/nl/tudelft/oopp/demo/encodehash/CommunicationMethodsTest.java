@@ -13,6 +13,7 @@ class CommunicationMethodsTest {
      */
     @Test
     void decodeCommunicationTest() throws UnsupportedEncodingException {
+        new CommunicationMethods();
         String encoded = "drebbelweg+aan+zee%21";
         String expected = "drebbelweg aan zee!";
         assertEquals(expected, CommunicationMethods.decodeCommunication(encoded));

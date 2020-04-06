@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.entities;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -11,6 +14,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class FoodReservation {
+
+    private static Logger logger = Logger.getLogger("GlobalLogger");
 
     private IntegerProperty reservationId;
     private IntegerProperty foodId;
@@ -45,6 +50,7 @@ public class FoodReservation {
      * @return List of Food reservations of selected reservation
      */
     public static ObservableList<FoodReservation> getUserReservationFood(Reservation r) throws JSONException {
+<<<<<<< HEAD
         ObservableList<FoodReservation> foodReservation = FXCollections.observableArrayList();
         JSONArray jsonArrayFoodReservation = new JSONArray(FoodServerCommunication.getFoodReservationByReservation(
                 r.getReservationId().get()
@@ -59,14 +65,40 @@ public class FoodReservation {
             foodReservation.add(fr);
         }
         return foodReservation;
+=======
+        try {
+            ObservableList<FoodReservation> foodReservation = FXCollections.observableArrayList();
+            JSONArray jsonArrayFoodReservation = new JSONArray(
+                    FoodServerCommunication.getFoodReservationByReservation(r.getReservationId().get()
+            ));
+
+            for (int i = 0; i < jsonArrayFoodReservation.length(); i++) {
+                FoodReservation fr = new FoodReservation();
+                fr.setFoodId(jsonArrayFoodReservation.getJSONObject(i).getJSONObject("food").getInt("id"));
+                fr.setReservationId(jsonArrayFoodReservation.getJSONObject(i).getJSONObject("reservation")
+                        .getInt("id"));
+                fr.setFoodQuantity(jsonArrayFoodReservation.getJSONObject(i).getInt("quantity"));
+                foodReservation.add(fr);
+            }
+            return foodReservation;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
+>>>>>>> develop
     }
 
     /**
      * Gets all the food reservations from the database.
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> develop
      * @return Observable list of all the food reservations.
      * @throws JSONException when errors occur while parsing JSON
      */
     public static ObservableList<FoodReservation> getAllFoodReservations() throws JSONException {
+<<<<<<< HEAD
         ObservableList<FoodReservation> allFoodReservations = FXCollections.observableArrayList();
         JSONArray jsonArrayFoodReservation = new JSONArray(FoodServerCommunication.getAllFoodReservations());
 
@@ -78,6 +110,37 @@ public class FoodReservation {
             allFoodReservations.add(fr);
         }
         return allFoodReservations;
+=======
+        try {
+            ObservableList<FoodReservation> allFoodReservations = FXCollections.observableArrayList();
+            JSONArray jsonArrayFoodReservation = new JSONArray(FoodServerCommunication.getAllFoodReservations());
+
+            for (int i = 0; i < jsonArrayFoodReservation.length(); i++) {
+                FoodReservation fr = new FoodReservation();
+                fr.setFoodId(jsonArrayFoodReservation.getJSONArray(i).getInt(1));
+                fr.setReservationId(jsonArrayFoodReservation.getJSONArray(i).getInt(0));
+                fr.setFoodQuantity(jsonArrayFoodReservation.getJSONArray(i).getInt(2));
+                allFoodReservations.add(fr);
+            }
+            return allFoodReservations;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof FoodReservation)) {
+            return false;
+        }
+        FoodReservation that = (FoodReservation) o;
+        return getReservationId().get() == that.getReservationId().get()
+                && getFoodId().get() == that.getFoodId().get();
+>>>>>>> develop
     }
 
     /**
