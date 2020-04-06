@@ -22,9 +22,6 @@ public class BikeReservationController {
     @Autowired
     private BikeReservationRepository bikeResRepo;
 
-    @Autowired
-    private BuildingController buildingControl;
-
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
