@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.user.logic;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -11,6 +12,8 @@ import nl.tudelft.oopp.demo.entities.Room;
 public class SearchViewLogic {
 
     private static Logger logger = Logger.getLogger("GlobalLogger");
+
+    SimpleDateFormat sdf = new SimpleDateFormat("ss.SSS");
 
     /**
      * filters rooms by the id of the building.

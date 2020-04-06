@@ -2,11 +2,15 @@ package nl.tudelft.oopp.demo.user.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,11 +52,10 @@ import nl.tudelft.oopp.demo.views.LoginView;
 import nl.tudelft.oopp.demo.views.RentABikeView;
 import nl.tudelft.oopp.demo.views.RoomView;
 
-
 /**
  * Controller class for SearchView (JavaFX).
  */
-public class SearchViewController implements Initializable {
+public class SearchViewController implements Initializable, Runnable {
 
     public static Stage thisStage;
     public static ObservableList<Building> buildingList;
@@ -94,8 +97,14 @@ public class SearchViewController implements Initializable {
     // This is necessary due to the format of inserting items into a comboBox.
     private ObservableList<String> capacityList;
     private ObservableList<String> bikeList;
+    private List<Integer> buildingsWithFood;
 
-    private int building;
+    private Map<Integer, HBox> roomCards;
+
+    private boolean loaded;
+
+
+    SimpleDateFormat sdf = new SimpleDateFormat("ss.SSS");
 
 
     /**
@@ -117,6 +126,9 @@ public class SearchViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            loaded = false;
+            Thread t1 = new Thread(this);
+            t1.start();
             signOutButton.getStyleClass().clear();
             signOutButton.getStyleClass().add("signout-button");
             rentABikeButton.getStyleClass().clear();
@@ -125,7 +137,6 @@ public class SearchViewController implements Initializable {
             // assign lists to the initialized ObservableLists
             // This is necessary due to the format of inserting items into a comboBox.
             final ObservableList<String> capacityList = FXCollections.observableArrayList();
-            buildingList = Building.getBuildingData();
             final ObservableList<String> bikeList = FXCollections.observableArrayList();
 
             // the comboBox only shows 6 rows (more => scroll)
@@ -137,24 +148,35 @@ public class SearchViewController implements Initializable {
 
             // assign values to the observable lists
             capacityList.addAll("1-5", "5-10", "10-20", "20+");
-            buildingComboBox.setItems(buildingList);
-            buildingComboBox.setConverter(getBuildingComboBoxConverter());
             bikeList.addAll("1+", "5+", "10+", "20+");
 
             // populating the choicebox
             capacityComboBox.setItems(capacityList);
-            buildingComboBox.setItems(buildingList);
             bikesAvailable.setItems(bikeList);
 
-            // get all rooms and buildings from database
+            // get all rooms from database
             roomList = Room.getRoomData();
             if (roomList != null) {
                 rooms = new ArrayList<Room>(roomList);
             }
-            buildings = Building.getBuildingData();
+
+            roomCards = new HashMap<Integer, HBox>();
 
             // create a 'card' showing some information of the room, for every room
+            for (Room r : roomList) {
+                HBox roomCard = createRoomCard(r);
+                roomCards.put(r.getRoomId().get(), roomCard);
+                cardHolder.getChildren().add(roomCard);
+            }
+
+            // create a 'card' showing some information of the room, for every room
+            while (!loaded) {
+                synchronized (this) {
+                    this.wait();
+                }
+            }
             getCardsShown(roomList);
+
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -213,6 +235,7 @@ public class SearchViewController implements Initializable {
                 yesCheckBoxFood.setSelected(true);
                 noCheckBoxFood.setSelected(false);
                 loadCards();
+
             } catch (Exception e) {
                 logger.log(Level.SEVERE, e.toString());
             }
@@ -275,15 +298,7 @@ public class SearchViewController implements Initializable {
         if (noCheckBoxTeacherOnly.isSelected()) {
             roomList = SearchViewLogic.filterRoomByTeacherOnly(roomList, false);
         }
-
         if (yesCheckBoxFood.isSelected()) {
-            List<Integer> buildingsWithFood = new ArrayList<Integer>();
-            for (int i = 0; i != buildings.size(); i++) {
-                int buildingId = buildings.get(i).getBuildingId().getValue();
-                if (!Food.getFoodByBuildingId(buildingId).isEmpty()) {
-                    buildingsWithFood.add(buildings.get(i).getBuildingId().getValue());
-                }
-            }
             roomList = SearchViewLogic.filterByFood(roomList, buildingsWithFood);
         }
 
@@ -333,10 +348,12 @@ public class SearchViewController implements Initializable {
         //Removes cards that are now in the view
         cardHolder.getChildren().clear();
 
-        // create a 'card' showing some information of the room, for every room
         for (Room r : roomList) {
-            cardHolder.getChildren().add(createRoomCard(r));
+            HBox roomCard = roomCards.get(r.getRoomId().get());
+            cardHolder.getChildren().add(roomCard);
         }
+
+
     }
 
     /**
@@ -633,5 +650,29 @@ public class SearchViewController implements Initializable {
             logger.log(Level.SEVERE, e.toString());
         }
         return null;
+    }
+
+    @Override
+    public void run() {
+        //loads all the building from the database.
+        buildings = Building.getBuildingData();
+        buildingList = (ObservableList<Building>) buildings;
+
+        //gets all the buildings that have food that you can order.
+        buildingsWithFood = new ArrayList<Integer>();
+        for (int i = 0; i != buildings.size(); i++) {
+            int buildingId = buildings.get(i).getBuildingId().getValue();
+            if (!Food.getFoodByBuildingId(buildingId).isEmpty()) {
+                buildingsWithFood.add(buildings.get(i).getBuildingId().getValue());
+            }
+        }
+        //sets the values for the combobox.
+        buildingComboBox.setItems(buildingList);
+        buildingComboBox.setConverter(getBuildingComboBoxConverter());
+
+        loaded = true;
+        synchronized (this) {
+            this.notifyAll();
+        }
     }
 }
