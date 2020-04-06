@@ -281,6 +281,9 @@ class SearchViewLogicTest {
     }
 
     @Test
+    /**
+     * tests if  the filtering by food works.
+     */
     public void filterByFoodTest() {
         makeRooms();
         makeBuildings();

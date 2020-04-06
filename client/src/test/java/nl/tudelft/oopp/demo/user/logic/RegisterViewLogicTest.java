@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 class RegisterViewLogicTest {
 
     @Test
+    /**
+     * tests if the username is valid.
+     */
     void checkUsername() {
         String username = "";
         assertEquals("This field cannot be left empty !",
@@ -26,6 +29,9 @@ class RegisterViewLogicTest {
     }
 
     @Test
+    /**
+     * tests if the password is valid.
+     */
     void checkPassword() {
         String password = "";
         assertEquals("This field cannot be left empty !",
@@ -58,6 +64,9 @@ class RegisterViewLogicTest {
     }
 
     @Test
+    /**
+     * tests if the password is the same as the second password.
+     */
     void checkRePassword() {
         String password = "Password01";
         String rePassword = "Password02";

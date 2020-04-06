@@ -18,6 +18,9 @@ import org.junit.jupiter.api.Test;
 class RoomViewLogicTest {
 
     @Test
+    /**
+     * tests if the time slot is valid.
+     */
     void checkTimeSlotValidity() {
         double currentStartValue = 15;
         double currentEndValue = 0;
@@ -34,6 +37,11 @@ class RoomViewLogicTest {
                 currentEndValue, startValue, endValue));
     }
 
+    /**
+     * tests which reservation is earlier.
+     * -1 for the first one.
+     * 1 for the second one.
+     */
     @Test
     void compare() {
         Reservation o1 = new Reservation(1, "jim", 1,
@@ -53,12 +61,18 @@ class RoomViewLogicTest {
         assertEquals(1, RoomViewLogic.compare(o1, o2));
     }
 
+    /**
+     * tests if the toString from a number works.
+     */
     @Test
     void testToString() {
         int time = 150;
         assertEquals("02:30", RoomViewLogic.toStringNum(time));
     }
 
+    /**
+     * tests if the fromString to a number works.
+     */
     @Test
     void fromString() {
         String time = "03:30";
@@ -68,6 +82,9 @@ class RoomViewLogicTest {
     }
 
     @Test
+    /**
+     * tests if the fromString for a date works.
+     */
     void testFromString() {
         String pattern = "yyyy-MM-dd";
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
@@ -81,6 +98,9 @@ class RoomViewLogicTest {
         assertEquals(expected, RoomViewLogic.fromStringDate(date, dateFormatter));
     }
 
+    /**
+     * tests if the toString for a date works.
+     */
     @Test
     void testToString1() {
         String pattern = "yyyy-MM-dd";
@@ -95,6 +115,9 @@ class RoomViewLogicTest {
         assertEquals("", RoomViewLogic.toStringDate(given, dateFormatter));
     }
 
+    /**
+     * tests if the fromString for food works.
+     */
     @Test
     void testFromString1() {
         Food f1 = new Food(1, "Hamburger", 14.50);
@@ -110,6 +133,9 @@ class RoomViewLogicTest {
         assertNull(RoomViewLogic.fromStringFood(null, foodList));
     }
 
+    /**
+     * tests if the toString for food works.
+     */
     @Test
     void testToString2() {
         Food f1 = new Food(1, "Hamburger", 14.50);
